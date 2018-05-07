@@ -1,6 +1,15 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^CODE_OF_CONDUCT\.md$
-^README\.Rmd$
 ^\.travis\.yml$
+^README.*$
+^NOTES.*$
+^notes.*$
+^CONDUCT\.md$
+^cran-comments\.md$
+^docs$
+^README\.Rmd$
 ^codecov\.yml$
+^_pkgdown\.yml$
+^CODE_OF_CONDUCT.*$
+^CONTRIBUTING.*$
+^LICENSE.*$

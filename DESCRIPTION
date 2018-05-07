@@ -2,12 +2,24 @@ Package: landscapemetrics
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Authors@R: c(person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
+                     role = c("aut", "cre"), comment = c(ORCID = '0000-0002-3042-5435')), 
+                     person("Maximillian", "Hesselbarth", role = "aut"), 
+                     person("Jakub", "Nowosad", role = "aut"),
+                     person("Laura", "Graham", role = "aut"),
+                     person("Jeffrey", "Hollister", role = "aut"))
+Maintainer: Marco Sciaini <sciaini.marco@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    covr
+    covr,
+    NLMR,
+    testthat
+Imports: 
+    checkmate,
+    dplyr,
+    raster
+RoxygenNote: 6.0.1
