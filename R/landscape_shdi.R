@@ -10,10 +10,10 @@
 #' library(NLMR)
 #' landscape <- nlm_randomcluster(ncol = 30, nrow = 30,
 #'                                p = 0.4, ai = c(0.25, 0.25, 0.5))
-#' metric_shdi(landscape)
+#' landscape_shdi(landscape)
 #'
-#' @aliases metric_shdi
-#' @rdname metric_shdi
+#' @aliases landscape_shdi
+#' @rdname landscape_shdi
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -21,8 +21,7 @@
 #'  PNW-351.
 #' @export
 
-
-metric_shdi <- function(landscape) {
+landscape_shdi <- function(landscape) {
 
     x <- raster::as.matrix(landscape)/(total <- sum(raster::as.matrix(landscape)))
     x <- -x * log(x, exp(1))
