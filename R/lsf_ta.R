@@ -45,6 +45,13 @@ lsf_ta <- function(landscape, scale = 'class') {
         }
     }
 
-    return(percentage)
+    else if(scale == 'landscape'){
+        if (raster::nlayers(landscape) == 1){total_area <- area}
+        else {
+            total_area <- purrr::map_dfr(1:raster::nlayers(landscape), function(x) tibble::as.tibble(area))
+        }
+    }
+
+    return(total_area)
 
 }
