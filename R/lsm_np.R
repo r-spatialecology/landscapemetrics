@@ -7,10 +7,7 @@
 #' @return tibble
 #'
 #' @examples
-#' library(NLMR)
-#' landscape <- nlm_randomcluster(ncol = 30, nrow = 30,
-#'                                p = 0.4, ai = c(0.25, 0.25, 0.5))
-#' lsm_pland(landscape)
+#' lsm_np(landscape)
 #'
 #' @aliases lsm_np
 #' @rdname lsm_np
@@ -20,9 +17,6 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-
-# Not running
-
 lsm_np <- function(landscape, scale = 'class') {
 
     if(scale == 'class'){

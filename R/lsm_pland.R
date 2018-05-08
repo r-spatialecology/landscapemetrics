@@ -7,9 +7,6 @@
 #' @return tibble
 #'
 #' @examples
-#' library(NLMR)
-#' landscape <- nlm_randomcluster(ncol = 30, nrow = 30,
-#'                                p = 0.4, ai = c(0.25, 0.25, 0.5))
 #' lsm_pland(landscape)
 #'
 #' @aliases lsm_pland
@@ -20,8 +17,6 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-
-
 lsm_pland <- function(landscape, scale = 'class') {
 
     area <- raster::ncell(landscape) * prod(raster::res(landscape))
