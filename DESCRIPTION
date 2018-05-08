@@ -21,12 +21,13 @@ Suggests:
     covr,
     NLMR,
     testthat
-Imports:
+Imports: 
     checkmate,
     dplyr,
     purrr,
     tibble,
-    raster
+    raster,
+    magrittr
 RoxygenNote: 6.0.1
 URL: https://github.com/marcosci/landscapemetrics
 BugReports: https://github.com/marcosci/landscapemetrics/issues
