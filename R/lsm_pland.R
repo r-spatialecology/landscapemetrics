@@ -1,6 +1,6 @@
-#' Total class area (class level)
+#' Percentage of landscape (class level)
 #'
-#' @description Total area of class (class level)
+#' @description Percentage of landscape (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -10,10 +10,10 @@
 #' library(NLMR)
 #' landscape <- nlm_randomcluster(ncol = 30, nrow = 30,
 #'                                p = 0.4, ai = c(0.25, 0.25, 0.5))
-#' landscape_pr(landscape)
+#' lsm_pland(landscape)
 #'
-#' @aliases landscape_pr
-#' @rdname landscape_pr
+#' @aliases lsm_pland
+#' @rdname lsm_pland
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -22,7 +22,7 @@
 #' @export
 
 
-lsf_ta <- function(landscape, scale = 'class') {
+lsm_pland <- function(landscape, scale = 'class') {
 
     number_cells <- raster::ncell(landscape)
     resolution <- prod(raster::res(landscape))
@@ -30,28 +30,21 @@ lsf_ta <- function(landscape, scale = 'class') {
 
     if(scale == 'class'){
         if (raster::nlayers(landscape) == 1) {
-            total_area <- landscape %>%
+            percentage <- landscape %>%
                 raster::values() %>%
                 table() %>%
-                purrr::map_dfc(function(x) {x * resolution})
+                purrr::map_dfc(function(x) {((x * resolution) / area) * 100})
 
         }
 
         else {
-            total_area <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
+            percentage <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
                 raster::values(landscape[[x]]) %>%
                     table() %>%
-                    purrr::map_dfc(function(x) {x * resolution})})
+                    purrr::map_dfc(function(x) {((x * resolution) / area) * 100})})
         }
     }
 
-    else if(scale == 'landscape'){
-        if (raster::nlayers(landscape) == 1){total_area <- area}
-        else {
-            total_area <- purrr::map_dfr(1:raster::nlayers(landscape), function(x) tibble::as.tibble(area))
-        }
-    }
-
-    return(total_area)
+    return(percentage)
 
 }

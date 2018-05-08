@@ -8,10 +8,10 @@
 #' @return Value >= 1
 #'
 #' @examples
-#' lsf_pr(landscape)
+#' lsm_pr(landscape)
 #'
-#' @aliases landscape_pr
-#' @rdname landscape_pr
+#' @aliases lsm_pr
+#' @rdname lsm_pr
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -19,7 +19,7 @@
 #'  PNW-351.
 #' @export
 
-lsf_pr <- function(landscape,
+lsm_pr <- function(landscape,
                    scale = "landscape") {
 
    if (scale == "landscape") {
