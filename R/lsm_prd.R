@@ -31,10 +31,10 @@ lsm_prd <- function(landscape,
             richness_density <- (richness / total_area) * 100
         } else {
             # map over each layer of the rasterstack/brick
-            richness_density <- purrr::map_dfr(1:raster::nlayers(landscape_stack), function(x){
+            richness_density <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
                 tibble::tibble(
                     Layer = paste0('Layer_', x),
-                    prd = length(raster::unique(landscape_stack[[x]])) / total_area * 100)
+                    prd = length(raster::unique(landscape[[x]])) / total_area * 100)
                 })
         }
 
