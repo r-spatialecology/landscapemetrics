@@ -24,9 +24,7 @@
 
 lsm_pland <- function(landscape, scale = 'class') {
 
-    number_cells <- raster::ncell(landscape)
-    resolution <- prod(raster::res(landscape))
-    area <- number_cells * resolution
+    area <- raster::ncell(landscape) * prod(raster::res(landscape))
 
     if(scale == 'class'){
         if (raster::nlayers(landscape) == 1) {
