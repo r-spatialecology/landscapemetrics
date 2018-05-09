@@ -13,8 +13,11 @@
 #' @return RasterLayer/RasterStack
 #'
 #' @examples
-#' cclabel(landscape, 0.5)
+#' cclabeled_raster <-  cclabel(landscape, 0.5)
+#' plot(cclabeled_raster)
 #'
+#' # count patches
+#' length(unique(cclabeled_raster))
 #' @aliases cclabel
 #' @rdname cclabel
 #'
