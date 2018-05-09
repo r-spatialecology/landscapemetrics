@@ -25,7 +25,7 @@ lsm_l_ta <- function(landscape){
             layer = as.numeric(1),
             level = 'landcape',
             id = as.numeric(NA),
-            metric = 'TA',
+            metric = 'total area',
             value = raster::ncell(landscape) * prod(raster::res(landscape))
         )
     }
@@ -35,7 +35,7 @@ lsm_l_ta <- function(landscape){
             tibble::tibble(
                 level = 'landscape',
                 id = as.numeric(NA),
-                metric = 'TA',
+                metric = 'total area',
                 value = raster::ncell(landscape[[x]]) * prod(raster::res(landscape[[x]]))
                            )
             }, .id = 'layer') %>%

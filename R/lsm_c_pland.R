@@ -30,7 +30,7 @@ lsm_c_pland <- function(landscape) {
                     layer = as.numeric(1),
                     level = 'class',
                     id = as.numeric(y),
-                    metric = 'PLAND',
+                    metric = 'percentage of landscape',
                     value = x * prod(raster::res(landscape)) / area * 100
                 )
             })
@@ -44,7 +44,7 @@ lsm_c_pland <- function(landscape) {
                     tibble::tibble(
                         level = 'class',
                         id = as.numeric(y),
-                        metric = 'PLAND',
+                        metric = 'percentage of landscape',
                         value = x * prod(raster::res(landscape)) / area * 100
                     )
                 })

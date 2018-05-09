@@ -32,7 +32,7 @@ lsm_c_ta <- function(landscape) {
                     layer = as.numeric(1),
                     level = 'class',
                     id = as.numeric(y),
-                    metric = 'TA',
+                    metric = 'total area',
                     value = x * prod(raster::res(landscape))
                 )
             })
@@ -46,7 +46,7 @@ lsm_c_ta <- function(landscape) {
                     tibble::tibble(
                         level = 'class',
                         id = as.numeric(y),
-                        metric = 'TA',
+                        metric = 'total area',
                         value = x * prod(raster::res(landscape))
                     )
                 })

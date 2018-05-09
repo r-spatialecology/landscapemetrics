@@ -30,7 +30,7 @@ lsm_l_prd <- function(landscape) {
             layer = as.numeric(1),
             level = 'landscape',
             id = as.numeric(NA),
-            metric = 'PRD',
+            metric = 'patch richness density',
             value = richness / total_area * 100
             )
 
@@ -40,7 +40,7 @@ lsm_l_prd <- function(landscape) {
             tibble::tibble(
                 level = 'landscape',
                 id = as.numeric(NA),
-                metric = 'PRD',
+                metric = 'patch richness density',
                 value = length(raster::unique(landscape[[x]])) / total_area * 100
                 )
             }, .id = 'layer')

@@ -28,7 +28,7 @@ lsm_l_rpr <- function(landscape, classes_max = NULL) {
             layer = as.numeric(1),
             level = 'landscape',
             id = as.numeric(NA),
-            metric = 'RPR',
+            metric = 'relative patch richness',
             value = length(raster::unique(landscape)) / classes_max * 100
             )
     }
@@ -40,7 +40,7 @@ lsm_l_rpr <- function(landscape, classes_max = NULL) {
             richness_relative <- tibble::tibble(
                 level = 'landscape',
                 id = as.numeric(NA),
-                metric = 'RPR',
+                metric = 'relative patch richness',
                 value = length(raster::unique(landscape[[x]])) / classes_max * 100
                 )
         }, .id = 'layer') %>%
