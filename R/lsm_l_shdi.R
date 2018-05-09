@@ -9,8 +9,8 @@
 #' @examples
 #' lsm_shdi(landscape)
 #'
-#' @aliases lsm_shdi
-#' @rdname lsm_shdi
+#' @aliases lsm_l_shdi
+#' @rdname lsm_l_shdi
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -18,8 +18,7 @@
 #'  PNW-351.
 #' @export
 
-lsm_shdi <- function(landscape,
-                     scale = "landscape") {
+lsm_l_shdi <- function(landscape) {
 
     x <- raster::as.matrix(landscape)/(total <- sum(raster::as.matrix(landscape)))
     x <- -x * log(x, exp(1))

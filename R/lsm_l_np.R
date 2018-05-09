@@ -9,31 +9,29 @@
 #' @examples
 #' lsm_np(landscape)
 #'
-#' @aliases lsm_np
-#' @rdname lsm_np
+#' @aliases lsm_l_np
+#' @rdname lsm_l_np
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
-#' @export
-lsm_np <- function(landscape, scale = 'class') {
 
-    if(scale == 'class'){
-        if (raster::nlayers(landscape) == 1) {
-            number_patches <- landscape %>%
-                spex::polygonize() %>%
-                dplyr::group_by_(value_name) %>%
-                dplyr::summarise() %>%
-                purrr::map(.$geometry, function(x) x)
+# Not running at the moment
 
+lsm_l_np <- function(landscape) {
+
+    if (raster::nlayers(landscape) == 1) {
+        number_patches <- landscape %>%
+            spex::polygonize() %>%
+            dplyr::group_by_(value_name) %>%
+            dplyr::summarise() %>%
+            purrr::map(.$geometry, function(x) x)
         }
 
-        else {
-
-        }
+    else {
+        # raster stack
     }
 
     return(number_patches)
-
 }
