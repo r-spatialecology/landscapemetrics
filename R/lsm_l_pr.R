@@ -3,12 +3,11 @@
 #' @description Number of patch types (classes) in the landscape
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param scale xxx
 #'
 #' @return Value >= 1
 #'
 #' @examples
-#' lsm_pr(landscape)
+#' lsm_l_pr(landscape)
 #'
 #' @aliases lsm_l_pr
 #' @rdname lsm_l_pr

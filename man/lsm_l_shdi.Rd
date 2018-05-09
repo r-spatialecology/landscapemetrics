@@ -8,8 +8,6 @@ lsm_l_shdi(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{scale}{xxx}
 }
 \value{
 Value >= 0
@@ -18,7 +16,7 @@ Value >= 0
 Number of patch types (classes) in the landscape
 }
 \examples{
-lsm_shdi(landscape)
+lsm_l_shdi(landscape)
 
 }
 \references{

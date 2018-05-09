@@ -7,7 +7,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_np(landscape)
+#' lsm_l_np(landscape)
 #'
 #' @aliases lsm_l_np
 #' @rdname lsm_l_np
@@ -19,19 +19,19 @@
 
 # Not running at the moment
 
-lsm_l_np <- function(landscape) {
-
-    if (raster::nlayers(landscape) == 1) {
-        number_patches <- landscape %>%
-            spex::polygonize() %>%
-            dplyr::group_by_(value_name) %>%
-            dplyr::summarise() %>%
-            purrr::map(.$geometry, function(x) x)
-        }
-
-    else {
-        # raster stack
-    }
-
-    return(number_patches)
-}
+# lsm_l_np <- function(landscape) {
+#
+#     if (raster::nlayers(landscape) == 1) {
+#         number_patches <- landscape %>%
+#             spex::polygonize() %>%
+#             dplyr::group_by_(value_name) %>%
+#             dplyr::summarise() %>%
+#             purrr::map(.$geometry, function(x) x)
+#         }
+#
+#     else {
+#         # raster stack
+#     }
+#
+#     return(number_patches)
+# }

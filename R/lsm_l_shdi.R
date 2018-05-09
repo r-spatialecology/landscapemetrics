@@ -3,11 +3,10 @@
 #' @description Number of patch types (classes) in the landscape
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param scale xxx
 #' @return Value >= 0
 #'
 #' @examples
-#' lsm_shdi(landscape)
+#' lsm_l_shdi(landscape)
 #'
 #' @aliases lsm_l_shdi
 #' @rdname lsm_l_shdi

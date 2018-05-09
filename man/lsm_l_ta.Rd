@@ -16,7 +16,7 @@ tibble
 Total area (landscape level)
 }
 \examples{
-lsm_ta(landscape)
+lsm_l_ta(landscape)
 
 }
 \references{

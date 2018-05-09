@@ -4,12 +4,11 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param classes_max Maximum number of classes
-#' @param scale xxx
 #'
 #' @return Value >= 1
 #'
 #' @examples
-#' lsm_rpr(landscape)
+#' lsm_l_rpr(landscape)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr
@@ -23,7 +22,7 @@
 lsm_l_rpr <- function(landscape, classes_max = NULL) {
 
     if (raster::nlayers(landscape) == 1) {
-        if(is.null(classes_max)){classes_max <- richness}
+        if(is.null(classes_max)){classes_max <- length(raster::unique(landscape))}
         richness_relative <- tibble::tibble(
             layer = as.numeric(1),
             level = 'landscape',

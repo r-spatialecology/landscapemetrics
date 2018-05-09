@@ -4,15 +4,14 @@
 #' landscape area
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param scale xxx
 #'
 #' @return Value >= 1
 #'
 #' @examples
-#' lsm_prd(landscape)
+#' lsm_l_prd(landscape)
 #'
-#' @aliases lsm_prd
-#' @rdname lsm_prd
+#' @aliases lsm_l_prd
+#' @rdname lsm_l_prd
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis

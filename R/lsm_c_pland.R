@@ -7,10 +7,10 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_pland(landscape)
+#' lsm_c_pland(landscape)
 #'
-#' @aliases lsm_pland
-#' @rdname lsm_pland
+#' @aliases lsm_c_pland
+#' @rdname lsm_c_pland
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis

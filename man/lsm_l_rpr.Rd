@@ -10,8 +10,6 @@ lsm_l_rpr(landscape, classes_max = NULL)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{classes_max}{Maximum number of classes}
-
-\item{scale}{xxx}
 }
 \value{
 Value >= 1
@@ -20,7 +18,7 @@ Value >= 1
 Number of different classes divided by (potential) maximum number of classes
 }
 \examples{
-lsm_rpr(landscape)
+lsm_l_rpr(landscape)
 
 }
 \references{

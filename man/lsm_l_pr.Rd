@@ -8,8 +8,6 @@ lsm_l_pr(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{scale}{xxx}
 }
 \value{
 Value >= 1
@@ -18,7 +16,7 @@ Value >= 1
 Number of patch types (classes) in the landscape
 }
 \examples{
-lsm_pr(landscape)
+lsm_l_pr(landscape)
 
 }
 \references{
