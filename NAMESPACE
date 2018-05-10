@@ -3,6 +3,7 @@
 export("%>%")
 export(ccl_borders)
 export(ccl_labels)
+export(cclabel)
 export(lsm_c_pland)
 export(lsm_c_ta)
 export(lsm_l_pr)

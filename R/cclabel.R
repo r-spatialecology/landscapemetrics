@@ -14,10 +14,10 @@
 #'
 #' @examples
 #' cclabeled_raster <-  cclabel(landscape, 0.5)
-#' plot(cclabeled_raster)
+#' raster::plot(cclabeled_raster)
 #'
 #' # count patches
-#' length(unique(cclabeled_raster))
+#' length(raster::unique(cclabeled_raster))
 #' @aliases cclabel
 #' @rdname cclabel
 #'
@@ -29,7 +29,7 @@ cclabel <- function(landscape,
 
     if(what != "all") {
     # coerce to matrix for connected labeling algorithm
-    landscape_matrix <- as.matrix(landscape)
+    landscape_matrix <- raster::as.matrix(landscape)
     # ccl algorithm
     cclabel_matrix <- ccl_labels(as.matrix(landscape_matrix))[[1]]
 
@@ -40,7 +40,7 @@ cclabel <- function(landscape,
 
     filtered_cclabel <- ifelse(landscape_matrix, cclabel_matrix, NA)
 
-    cclabel_landscape <- raster(filtered_cclabel)
+    cclabel_landscape <- raster::raster(filtered_cclabel)
 
     } else {
         #####
