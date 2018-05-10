@@ -27,9 +27,9 @@ lsm_c_pland <- function(landscape) {
             table() %>%
             purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y) {
                 tibble::tibble(
-                    layer = as.numeric(1),
+                    layer = as.integer(1),
                     level = 'class',
-                    id = as.numeric(y),
+                    id = as.integer(y),
                     metric = 'percentage of landscape',
                     value = x * prod(raster::res(landscape)) / area * 100
                 )
@@ -37,13 +37,13 @@ lsm_c_pland <- function(landscape) {
         }
 
     else {
-        percentage <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
+        percentage <- purrr::map_dfr(seq_len(raster::nlayers(landscape)), function(x){
             raster::values(landscape[[x]]) %>%
                 table() %>%
                 purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y) {
                     tibble::tibble(
                         level = 'class',
-                        id = as.numeric(y),
+                        id = as.integer(y),
                         metric = 'percentage of landscape',
                         value = x * prod(raster::res(landscape)) / area * 100
                     )
