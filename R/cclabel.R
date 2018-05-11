@@ -26,7 +26,7 @@
 #' raster::plot(cclabeled_raster)
 #'
 #' #label a rasterstack
-#' cclabeled_rasterstack <-  cclabel(landscape_stack)
+#' cclabeled_rasterstack <-  cclabel(landscape_stack, 1)
 #' raster::plot(cclabeled_rasterstack)
 #'
 #' @aliases cclabel
@@ -124,7 +124,7 @@ cclabel <- function(landscape,
         if (what != "all") {
             # coerce to matrix for connected labeling algorithm
             landscape_matrix_list <-
-                purrr::map(seq(1, nlayers(landscape)),
+                purrr::map(seq(1, raster::nlayers(landscape)),
                            function(x)
                                raster::as.matrix(landscape[[x]]))
 
@@ -178,7 +178,7 @@ cclabel <- function(landscape,
 
         } else {
             cclabel_landscape <-
-                purrr::map(seq(1, nlayers(landscape)),
+                purrr::map(seq(1, raster::nlayers(landscape)),
                            function(x) {
                                cclabel_list <-
                                    purrr::map(raster::unique(landscape[[x]]),

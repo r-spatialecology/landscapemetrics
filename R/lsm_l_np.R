@@ -24,7 +24,7 @@ lsm_l_np <- function(landscape) {
         n_patches <- sum(patches@data@max)
     } else {
         # raster stack
-        patches <-  cclabel(landscape_stack)
+        patches <-  cclabel(landscape)
         n_patches <- purrr::map_dbl(seq_along(patches),
                                     function(x){
                                         sum(patches[[x]]@data@max)
