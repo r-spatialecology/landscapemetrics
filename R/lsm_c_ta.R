@@ -39,10 +39,10 @@ lsm_c_ta <- function(landscape) {
         }
 
     else {
-        total_area <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
+        total_area <- purrr::map_dfr(seq_len(raster::nlayers(landscape)), function(x){
             raster::values(landscape[[x]]) %>%
                 table() %>%
-                purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y) {
+                purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y) {
                     tibble::tibble(
                         level = 'class',
                         id = as.integer(y),
@@ -51,7 +51,7 @@ lsm_c_ta <- function(landscape) {
                     )
                 })
             },  .id = 'layer') %>%
-            dplyr::mutate(layer = as.numeric(layer))
+            dplyr::mutate(layer = as.integer(layer))
         }
 
     return(total_area)

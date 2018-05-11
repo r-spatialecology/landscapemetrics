@@ -49,7 +49,7 @@ lsm_c_pland <- function(landscape) {
                     )
                 })
             },  .id = 'layer') %>%
-            dplyr::mutate(layer = as.numeric(layer))
+            dplyr::mutate(layer = as.integer(layer))
         }
 
     return(percentage)
