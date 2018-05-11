@@ -23,7 +23,7 @@ lsm_l_ta <- function(landscape){
     if (raster::nlayers(landscape) == 1){
         total_area <- tibble::tibble(
             layer = as.numeric(1),
-            level = 'landcape',
+            level = 'landscape',
             id = as.numeric(NA),
             metric = 'total area',
             value = raster::ncell(landscape) * prod(raster::res(landscape))
