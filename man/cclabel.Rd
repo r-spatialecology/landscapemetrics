@@ -4,12 +4,13 @@
 \alias{cclabel}
 \title{Connected compoment labeling for classes in a raster}
 \usage{
-cclabel(landscape, what)
+cclabel(landscape, what = "all")
 }
 \arguments{
 \item{landscape}{xxx}
 
-\item{what}{Either "all" for every class in the raster, or specify class value. See Details.}
+\item{what}{Either "all" (default) for every class in the raster, or specify
+class value. See Details.}
 }
 \value{
 RasterLayer/RasterStack
@@ -18,13 +19,23 @@ RasterLayer/RasterStack
 xxx
 }
 \details{
-\code{what} returns a RasterStack if the argument \code{"all"} is used. Each layer
+\code{what} returns a RasterBrick if the argument \code{"all"} is used. Each layer
 represents a unique class found in the raster and contains the labelled patches.
 }
 \examples{
-cclabeled_raster <-  cclabel(landscape, 0.5)
+# check for patches of class 1
+cclabeled_raster <-  cclabel(landscape, 1)
 raster::plot(cclabeled_raster)
 
 # count patches
 length(raster::unique(cclabeled_raster))
+
+# check for patches of every class
+cclabeled_raster <-  cclabel(landscape)
+raster::plot(cclabeled_raster)
+
+#label a rasterstack
+cclabeled_rasterstack <-  cclabel(landscape_stack)
+raster::plot(cclabeled_rasterstack)
+
 }

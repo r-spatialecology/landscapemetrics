@@ -1,6 +1,6 @@
-#' Number of patches (class level)
+#' Number of patches
 #'
-#' @description Number of patches (class level)
+#' @description Number of patches
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -17,21 +17,28 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 
-# Not running at the moment
+lsm_l_np <- function(landscape) {
 
-# lsm_l_np <- function(landscape) {
-#
-#     if (raster::nlayers(landscape) == 1) {
-#         number_patches <- landscape %>%
-#             spex::polygonize() %>%
-#             dplyr::group_by_(value_name) %>%
-#             dplyr::summarise() %>%
-#             purrr::map(.$geometry, function(x) x)
-#         }
-#
-#     else {
-#         # raster stack
-#     }
-#
-#     return(number_patches)
-# }
+    if (raster::nlayers(landscape) == 1) {
+        patches <-  cclabel(landscape)
+        n_patches <- sum(patches@data@max)
+    } else {
+        # raster stack
+        patches <-  cclabel(landscape_stack)
+        n_patches <- purrr::map_dbl(seq_along(patches),
+                                    function(x){
+                                        sum(patches[[x]]@data@max)
+                                    })
+
+
+        n_patches <- tibble::tibble(
+            layer = seq(1, raster::nlayers(landscape)),
+            level = 'landscape',
+            id = as.numeric(NA),
+            metric = 'number of patches',
+            value = n_patches
+        )
+    }
+
+    return(n_patches)
+}
