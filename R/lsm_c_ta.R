@@ -29,9 +29,9 @@ lsm_c_ta <- function(landscape) {
             table() %>%
             purrr::map2_dfr(.x = ., .y = 1:length(.), function(x, y) {
                 tibble::tibble(
-                    layer = as.numeric(1),
+                    layer = as.integer(1),
                     level = 'class',
-                    id = as.numeric(y),
+                    id = as.integer(y),
                     metric = 'total area',
                     value = x * prod(raster::res(landscape))
                 )
@@ -45,7 +45,7 @@ lsm_c_ta <- function(landscape) {
                 purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y) {
                     tibble::tibble(
                         level = 'class',
-                        id = as.numeric(y),
+                        id = as.integer(y),
                         metric = 'total area',
                         value = x * prod(raster::res(landscape))
                     )
