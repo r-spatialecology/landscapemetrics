@@ -13,7 +13,7 @@
 #' @return RasterLayer/RasterStack
 #'
 #' @examples
-#' cclabeled_raster <-  cclabel(landscape, 0.5)
+#' cclabeled_raster <-  cclabel(landscape, 1)
 #' raster::plot(cclabeled_raster)
 #'
 #' # count patches
@@ -35,12 +35,24 @@ cclabel <- function(landscape,
 
     # create filter matrix to only select connected regions that are
     #
-    landscape_matrix[landscape_matrix != what] <- FALSE
-    landscape_matrix[landscape_matrix == what] <- TRUE
+    filter_mat <- matrix(FALSE, nrow = raster::nrow(landscape), ncol = raster::ncol(landscape))
+    filter_mat[landscape_matrix == what] <- TRUE
 
-    filtered_cclabel <- ifelse(landscape_matrix, cclabel_matrix, NA)
+
+    filtered_cclabel <- ifelse(filter_mat, cclabel_matrix, NA)
 
     cclabel_landscape <- raster::raster(filtered_cclabel)
+
+    rcl <-  cbind(raster::unique(cclabel_landscape),
+                  raster::unique(cclabel_landscape),
+                  seq(1, length(raster::unique(cclabel_landscape))))
+
+
+
+    cclabel_landscape <-  raster::reclassify(cclabel_landscape,
+                                     rcl = rcl,
+                                     right = NA)
+
 
     } else {
         #####
