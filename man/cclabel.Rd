@@ -35,7 +35,7 @@ cclabeled_raster <-  cclabel(landscape)
 raster::plot(cclabeled_raster)
 
 #label a rasterstack
-cclabeled_rasterstack <-  cclabel(landscape_stack)
+cclabeled_rasterstack <-  cclabel(landscape_stack, 1)
 raster::plot(cclabeled_rasterstack)
 
 }

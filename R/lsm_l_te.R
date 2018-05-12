@@ -31,7 +31,7 @@ lsm_l_te <- function(landscape){
         cclabeled_raster[is.na(cclabeled_raster)] <- -999
 
         # compute neighborhood matrix
-        adjacent_cells <- raster::djacent(cclabeled_raster,
+        adjacent_cells <- raster::adjacent(cclabeled_raster,
                                    1:raster::ncell(cclabeled_raster),
                                    4,
                                    pairs=TRUE)
