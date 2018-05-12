@@ -1,24 +1,20 @@
-# Example maps from NLMR -------
-set.seed(5)
-landscape <- NLMR::nlm_randomcluster(
-    ncol = 30,
-    nrow = 30,
-    p = 0.4,
-    ai = c(0.25, 0.25, 0.5)
-)
+# Create example datasets -------------------------------------------------
+set.seed(2018-05-12)
+single_landscape_create = function(x) {
+    NLMR::nlm_randomcluster(
+        ncol = 30,
+        nrow = 30,
+        p = 0.4,
+        ai = c(0.25, 0.25, 0.5),
+        rescale = FALSE
+    )
+}
+
+# Example maps from NLMR --------------------------------------------------
+landscape <- single_landscape_create()
 devtools::use_data(landscape, overwrite = TRUE)
 
-
-
 # Example maps raster stack from NLMR -------
-landscape_stack <- 1:5 %>%
-    purrr::map(function(x) {
-        NLMR::nlm_randomcluster(
-            ncol = 30,
-            nrow = 30,
-            p = 0.4,
-            ai = c(0.25, 0.25, 0.5)
-        )
-    }) %>%
+landscape_stack <- rerun(5, single_landscape_create()) %>%
     raster::stack()
 devtools::use_data(landscape_stack, overwrite = TRUE)
