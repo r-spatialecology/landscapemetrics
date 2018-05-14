@@ -15,15 +15,13 @@
 #'
 #' @examples
 #' # check for patches of class 1
-#'   <-  cclabel(landscape, 1)
-#' raster::plot(cclabeled_raster)
+#' cclabeled_raster  <-  cclabel(landscape, 1)
 #'
 #' # count patches
-#' length(raster::unique(cclabeled_raster))
+#' length(raster::unique(cclabeled_raster[[1]]))
 #'
 #' # check for patches of every class
 #' cclabeled_raster <-  cclabel(landscape)
-#' raster::plot(cclabeled_raster)
 #'
 #' #label a rasterstack
 #' cclabeled_rasterstack <-  cclabel(landscape_stack)

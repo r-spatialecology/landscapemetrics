@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_l_np.R
 \name{lsm_l_np}
 \alias{lsm_l_np}
+\alias{lsm_l_np}
+\alias{lsm_l_np.RasterLayer}
+\alias{lsm_l_np}
+\alias{lsm_l_np.RasterStack}
+\alias{lsm_l_np}
+\alias{lsm_l_np.RasterBrick}
+\alias{lsm_l_np}
+\alias{lsm_l_np.list}
 \title{Number of patches}
 \usage{
-lsm_l_np(landscape)
+lsm_l_np(landscape, class)
+
+\method{lsm_l_np}{RasterLayer}(landscape)
+
+\method{lsm_l_np}{RasterStack}(landscape, class)
+
+\method{lsm_l_np}{RasterBrick}(landscape, class)
+
+\method{lsm_l_np}{list}(landscape, class)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

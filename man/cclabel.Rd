@@ -2,9 +2,25 @@
 % Please edit documentation in R/cclabel.R
 \name{cclabel}
 \alias{cclabel}
+\alias{cclabel}
+\alias{cclabel.RasterLayer}
+\alias{cclabel}
+\alias{cclabel.RasterStack}
+\alias{cclabel}
+\alias{cclabel.RasterBrick}
+\alias{cclabel}
+\alias{cclabel.list}
 \title{Connected compoment labeling for classes in a raster}
 \usage{
 cclabel(landscape, what = "all")
+
+\method{cclabel}{RasterLayer}(landscape, what = "all")
+
+\method{cclabel}{RasterStack}(landscape, what = "all")
+
+\method{cclabel}{RasterBrick}(landscape, what = "all")
+
+\method{cclabel}{list}(landscape, what = "all")
 }
 \arguments{
 \item{landscape}{xxx}
@@ -13,7 +29,7 @@ cclabel(landscape, what = "all")
 class value. See Details.}
 }
 \value{
-RasterLayer/RasterStack
+List with RasterLayer/RasterBrick
 }
 \description{
 xxx
@@ -24,18 +40,15 @@ represents a unique class found in the raster and contains the labelled patches.
 }
 \examples{
 # check for patches of class 1
-cclabeled_raster <-  cclabel(landscape, 1)
-raster::plot(cclabeled_raster)
+cclabeled_raster  <-  cclabel(landscape, 1)
 
 # count patches
-length(raster::unique(cclabeled_raster))
+length(raster::unique(cclabeled_raster[[1]]))
 
 # check for patches of every class
 cclabeled_raster <-  cclabel(landscape)
-raster::plot(cclabeled_raster)
 
 #label a rasterstack
-cclabeled_rasterstack <-  cclabel(landscape_stack, 1)
-raster::plot(cclabeled_rasterstack)
+cclabeled_rasterstack <-  cclabel(landscape_stack)
 
 }

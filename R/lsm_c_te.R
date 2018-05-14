@@ -8,7 +8,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_te(landscape, 0.5)
+#' lsm_c_te(landscape, 2)
 #'
 #' @aliases lsm_c_te
 #' @rdname lsm_c_te
@@ -18,46 +18,78 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #'
-#'
-#'
-lsm_c_te <- function(landscape,
-                     class){
+#' @export
+lsm_c_te <- function(landscape, class) UseMethod("lsm_c_te")
 
-    if (raster::nlayers(landscape) == 1) {
-        # calculate total edge length by mapping over every class
+#' @name lsm_c_te
+#' @export
+lsm_c_te.RasterLayer <- function(landscape, class) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   class = class,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-        # cclabel class
-        cclabeled_raster <- cclabel(landscape, class)
+#' @name lsm_c_te
+#' @export
+lsm_c_te.RasterStack <- function(landscape, class) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   class = class,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-        # set background to calculate number of neighbors next to cells with
-        # values of -999
-        cclabeled_raster[is.na(cclabeled_raster)] <- -999
+}
 
-        # compute neighborhood matrix
-        adjacent_cells <- raster::adjacent(cclabeled_raster,
-                                           1:raster::ncell(cclabeled_raster),
-                                           4,
-                                           pairs=TRUE)
-        # count whos neighbor of who
-        tb <- table(cclabeled_raster[adjacent_cells[,1]],
-                    cclabeled_raster[adjacent_cells[,2]])
+#' @name lsm_c_te
+#' @export
+lsm_c_te.RasterBrick <- function(landscape, class) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   class = class,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
+}
 
-        # return first row with counts of adjents sites between patches and
-        # cells with -999
+#' @name lsm_c_te
+#' @export
+lsm_c_te.list <- function(landscape, class) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   class = class,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
+}
 
-        total_edge <- tibble::tibble(
-            layer = as.numeric(1),
-            level = 'landscape',
-            id = as.numeric(NA),
-            metric = 'total edge',
-            value = (sum(tb[2:ncol(tb),1])/2) * prod(raster::res(landscape))
-        )
-    } else {
-        ### stack
-    }
+lsm_c_te_calc <- function(landscape,
+                     class) {
+    # cclabel class
+    cclabeled_raster <- cclabel(landscape, class)[[1]]
 
+    # set background to calculate number of neighbors next to cells with
+    # values of -999
+    cclabeled_raster[is.na(cclabeled_raster)] <- -999
+
+    # compute neighborhood matrix
+    adjacent_cells <- raster::adjacent(cclabeled_raster,
+                                       seq_len(raster::ncell(cclabeled_raster)),
+                                       4,
+                                       pairs=TRUE)
+    # count whos neighbor of who
+    tb <- table(cclabeled_raster[adjacent_cells[,1]],
+                cclabeled_raster[adjacent_cells[,2]])
+
+    # return first row with counts of adjents sites between patches and
+    # cells with -999
+    total_edge <- tibble::tibble(
+        level = 'landscape',
+        id = as.numeric(NA),
+        metric = 'total edge',
+        value = (sum(tb[2:ncol(tb),1])/2) * prod(raster::res(landscape))
+    )
 
     return(total_edge)
 
