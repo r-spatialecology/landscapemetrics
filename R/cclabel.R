@@ -43,7 +43,8 @@ cclabel.RasterLayer <- function(landscape, what = "all") {
 #' @name cclabel
 #' @export
 cclabel.RasterStack <- function(landscape, what = "all") {
-    purrr::map(raster::as.list(landscape), .f = cclabel_int, what = what)
+    purrr::map(raster::as.list(landscape_stack), .f = cclabel_int, what = what)
+
 }
 
 #' @name cclabel
@@ -103,7 +104,7 @@ cclabel_int <- function(landscape, what = "all") {
                                right = NA)
 
     } else {
-        cclabel_list <- purrr::map(raster::unique(landscape), function(x) {
+        cclabel_landscape <- purrr::map(raster::unique(landscape), function(x) {
             # coerce to matrix for connected labeling algorithm
             landscape_matrix <- raster::as.matrix(landscape)
             # ccl algorithm
@@ -147,15 +148,17 @@ cclabel_int <- function(landscape, what = "all") {
                                    right = NA)
         })
 
-        names(cclabel_list) <-
+        names(cclabel_landscape) <-
             purrr::map_chr(raster::unique(landscape),
                            function(x) {
                                paste("Class", x)
                            })
 
+
+        cclabel_landscape
         # return rasterstack for each class
-        cclabel_landscape <-
-            raster::brick(unlist(cclabel_list))
+        # cclabel_landscape <-
+        #     raster::brick(unlist(cclabel_list))
 
 
     }
