@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_c_ta.R
 \name{lsm_c_ta}
 \alias{lsm_c_ta}
+\alias{lsm_c_ta}
+\alias{lsm_c_ta.RasterLayer}
+\alias{lsm_c_ta}
+\alias{lsm_c_ta.RasterStack}
+\alias{lsm_c_ta}
+\alias{lsm_c_ta.RasterBrick}
+\alias{lsm_c_ta}
+\alias{lsm_c_ta.list}
 \title{Total class area (class level)}
 \usage{
 lsm_c_ta(landscape)
+
+\method{lsm_c_ta}{RasterLayer}(landscape)
+
+\method{lsm_c_ta}{RasterStack}(landscape)
+
+\method{lsm_c_ta}{RasterBrick}(landscape)
+
+\method{lsm_c_ta}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

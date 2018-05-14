@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_c_pland.R
 \name{lsm_c_pland}
 \alias{lsm_c_pland}
+\alias{lsm_c_pland}
+\alias{lsm_c_pland.RasterLayer}
+\alias{lsm_c_pland}
+\alias{lsm_c_pland.RasterStack}
+\alias{lsm_c_pland}
+\alias{lsm_c_pland.RasterBrick}
+\alias{lsm_c_pland}
+\alias{lsm_c_pland.list}
 \title{Percentage of landscape (class level)}
 \usage{
 lsm_c_pland(landscape)
+
+\method{lsm_c_pland}{RasterLayer}(landscape)
+
+\method{lsm_c_pland}{RasterStack}(landscape)
+
+\method{lsm_c_pland}{RasterBrick}(landscape)
+
+\method{lsm_c_pland}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

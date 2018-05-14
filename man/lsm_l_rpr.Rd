@@ -2,9 +2,21 @@
 % Please edit documentation in R/lsm_l_rpr.R
 \name{lsm_l_rpr}
 \alias{lsm_l_rpr}
+\alias{lsm_l_rpr}
+\alias{lsm_l_rpr.RasterLayer}
+\alias{lsm_l_rpr}
+\alias{lsm_l_rpr.RasterStack}
+\alias{lsm_l_rpr}
+\alias{lsm_l_rpr.RasterBrick}
 \title{Relative patch ritchness}
 \usage{
 lsm_l_rpr(landscape, classes_max = NULL)
+
+\method{lsm_l_rpr}{RasterLayer}(landscape, classes_max)
+
+\method{lsm_l_rpr}{RasterStack}(landscape, classes_max)
+
+\method{lsm_l_rpr}{RasterBrick}(landscape, classes_max)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

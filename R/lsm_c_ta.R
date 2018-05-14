@@ -17,42 +17,46 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
+lsm_c_ta <- function(landscape) UseMethod("lsm_c_ta")
 
+#' @name lsm_c_ta
+#' @export
+lsm_c_ta.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-lsm_c_ta <- function(landscape) {
+#' @name lsm_c_ta
+#' @export
+lsm_c_ta.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-    area <- raster::ncell(landscape) * prod(raster::res(landscape))
+#' @name lsm_c_ta
+#' @export
+lsm_c_ta.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-    if (raster::nlayers(landscape) == 1) {
-        total_area <- landscape %>%
-            raster::values() %>%
-            table() %>%
-            purrr::map2_dfr(.x = ., .y = 1:length(.), function(x, y) {
-                tibble::tibble(
-                    layer = as.integer(1),
-                    level = 'class',
-                    id = as.integer(y),
-                    metric = 'total area',
-                    value = x * prod(raster::res(landscape))
+#' @name lsm_c_ta
+#' @export
+lsm_c_ta.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_c_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_c_ta_calc <- function(landscape) {
+    landscape %>%
+        raster::values() %>%
+        table() %>%
+        purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y) {
+            tibble::tibble(
+                level = "class",
+                id = as.integer(y),
+                metric = "total area",
+                value = x * prod(raster::res(landscape))
                 )
             })
-        }
-
-    else {
-        total_area <- purrr::map_dfr(seq_len(raster::nlayers(landscape)), function(x){
-            raster::values(landscape[[x]]) %>%
-                table() %>%
-                purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y) {
-                    tibble::tibble(
-                        level = 'class',
-                        id = as.integer(y),
-                        metric = 'total area',
-                        value = x * prod(raster::res(landscape))
-                    )
-                })
-            },  .id = 'layer') %>%
-            dplyr::mutate(layer = as.integer(layer))
-        }
-
-    return(total_area)
 }

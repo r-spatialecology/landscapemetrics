@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_l_prd.R
 \name{lsm_l_prd}
 \alias{lsm_l_prd}
+\alias{lsm_l_prd}
+\alias{lsm_l_prd.RasterLayer}
+\alias{lsm_l_prd}
+\alias{lsm_l_prd.RasterStack}
+\alias{lsm_l_prd}
+\alias{lsm_l_prd.RasterBrick}
+\alias{lsm_l_prd}
+\alias{lsm_l_prd.list}
 \title{Patch richness density}
 \usage{
 lsm_l_prd(landscape)
+
+\method{lsm_l_prd}{RasterLayer}(landscape)
+
+\method{lsm_l_prd}{RasterStack}(landscape)
+
+\method{lsm_l_prd}{RasterBrick}(landscape)
+
+\method{lsm_l_prd}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

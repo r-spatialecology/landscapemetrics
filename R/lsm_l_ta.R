@@ -17,30 +17,45 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
+lsm_l_ta <- function(landscape) UseMethod("lsm_l_ta")
 
-lsm_l_ta <- function(landscape){
 
-    if (raster::nlayers(landscape) == 1){
-        total_area <- tibble::tibble(
-            layer = as.numeric(1),
-            level = 'landscape',
-            id = as.numeric(NA),
-            metric = 'total area',
-            value = raster::ncell(landscape) * prod(raster::res(landscape))
-        )
-    }
+#' @name lsm_l_ta
+#' @export
+lsm_l_ta.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-    else {
-        total_area <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
-            tibble::tibble(
-                level = 'landscape',
-                id = as.numeric(NA),
-                metric = 'total area',
-                value = raster::ncell(landscape[[x]]) * prod(raster::res(landscape[[x]]))
-                           )
-            }, .id = 'layer') %>%
-            dplyr::mutate(layer = as.numeric(layer))
-    }
+#' @name lsm_l_ta
+#' @export
+lsm_l_ta.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    return(total_area)
+}
+
+#' @name lsm_l_ta
+#' @export
+lsm_l_ta.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_ta
+#' @export
+lsm_l_ta.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_l_ta_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_ta_calc <- function(landscape) {
+    tibble::tibble(
+        level = "landscape",
+        id = as.numeric(NA),
+        metric = "total area",
+        value = raster::ncell(landscape) * prod(raster::res(landscape))
+    )
 }

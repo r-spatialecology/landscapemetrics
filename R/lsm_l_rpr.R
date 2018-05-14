@@ -18,35 +18,59 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
+lsm_l_rpr <- function(landscape, classes_max = NULL) UseMethod("lsm_l_rpr")
 
-lsm_l_rpr <- function(landscape, classes_max = NULL) {
 
-    if (raster::nlayers(landscape) == 1) {
-        if(is.null(classes_max)){classes_max <- length(raster::unique(landscape))}
-        richness_relative <- tibble::tibble(
-            layer = as.numeric(1),
-            level = 'landscape',
+#' @name lsm_l_rpr
+#' @export
+lsm_l_rpr.RasterLayer <- function(landscape, classes_max) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
+                   classes_max = classes_max, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_rpr
+#' @export
+lsm_l_rpr.RasterStack <- function(landscape, classes_max) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
+                   classes_max = classes_max, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_rpr
+#' @export
+lsm_l_rpr.RasterBrick <- function(landscape, classes_max) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
+                   classes_max = classes_max, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#" @name lsm_l_rpr
+#" @export
+lsm_l_rpr.list <- function(landscape, classes_max) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
+                   classes_max = classes_max, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_l_rpr_calc <- function(landcape, classes_max) {
+
+    if(is.null(classes_max)) {
+        warning("classes_max is NULL - returning NA")
+        tibble::tibble(
+            level = "landscape",
             id = as.numeric(NA),
-            metric = 'relative patch richness',
-            value = length(raster::unique(landscape)) / classes_max * 100
-            )
+            metric = "relative patch richness",
+            value = 0
+        )
     }
 
     else {
-        # map over each layer of the rasterstack/brick
-        richness_relative <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
-            if(is.null(classes_max)){classes_max <- length(raster::unique(landscape[[x]]))}
-            richness_relative <- tibble::tibble(
-                level = 'landscape',
-                id = as.numeric(NA),
-                metric = 'relative patch richness',
-                value = length(raster::unique(landscape[[x]])) / classes_max * 100
-                )
-        }, .id = 'layer') %>%
-        dplyr::mutate(layer = as.numeric(layer))
+        tibble::tibble(
+        level = "landscape",
+        id = as.numeric(NA),
+        metric = "relative patch richness",
+        value = length(raster::unique(landscape)) / classes_max * 100
+        )
     }
-
-    return(richness_relative)
 }
-
-

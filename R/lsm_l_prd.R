@@ -18,32 +18,44 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
+lsm_l_prd <- function(landscape) UseMethod("lsm_l_prd")
 
-lsm_l_prd <- function(landscape) {
+#' @name lsm_l_prd
+#' @export
+lsm_l_prd.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
+#' @name lsm_l_prd
+#' @export
+lsm_l_prd.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_prd
+#' @export
+lsm_l_prd.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_prd
+#' @export
+lsm_l_prd.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_l_prd_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_l_prd_calc <- function(landscape) {
     total_area <- raster::ncell(landscape) * prod(raster::res(landscape))
 
-    if (raster::nlayers(landscape) == 1) {
-        richness <- length(raster::unique(landscape))
-        richness_density <- tibble::tibble(
-            layer = as.numeric(1),
-            level = 'landscape',
-            id = as.numeric(NA),
-            metric = 'patch richness density',
-            value = richness / total_area * 100
-            )
+    tibble::tibble(
+        level = "landscape",
+        id = as.numeric(NA),
+        metric = "patch richness density",
+        value = length(raster::unique(landscape)) / total_area * 100
+    )
 
-    } else {
-        # map over each layer of the rasterstack/brick
-        richness_density <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
-            tibble::tibble(
-                level = 'landscape',
-                id = as.numeric(NA),
-                metric = 'patch richness density',
-                value = length(raster::unique(landscape[[x]])) / total_area * 100
-                )
-            }, .id = 'layer')
-    }
-
-    return(richness_density)
 }
