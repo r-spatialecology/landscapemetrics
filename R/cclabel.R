@@ -38,29 +38,29 @@ cclabel <- function(landscape, what = "all")  UseMethod("cclabel")
 #' @name cclabel
 #' @export
 cclabel.RasterLayer <- function(landscape, what = "all") {
-    cclabel_calc(landscape, what) %>%
+    cclabel_int(landscape, what) %>%
         raster::as.list()
 }
 
 #' @name cclabel
 #' @export
 cclabel.RasterStack <- function(landscape, what = "all") {
-    purrr::map(raster::as.list(landscape), .f = cclabel_calc, what = what)
+    purrr::map(raster::as.list(landscape), .f = cclabel_int, what = what)
 }
 
 #' @name cclabel
 #' @export
 cclabel.RasterBrick <- function(landscape, what = "all") {
-    purrr::map(raster::as.list(landscape), .f = cclabel_calc, what = what)
+    purrr::map(raster::as.list(landscape), .f = cclabel_int, what = what)
 }
 
 #' @name cclabel
 #' @export
 cclabel.list <- function(landscape, what = "all") {
-    purrr::map(landscape, .f = cclabel_calc, what = what)
+    purrr::map(landscape, .f = cclabel_int, what = what)
 }
 
-cclabel_calc <- function(landscape, what = "all") {
+cclabel_int <- function(landscape, what = "all") {
 
     if (what != "all") {
         # coerce to matrix for connected labeling algorithm
