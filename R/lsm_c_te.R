@@ -3,7 +3,6 @@
 #' @description Total Edge
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param class Which class
 #'
 #' @return tibble
 #'
@@ -19,35 +18,22 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_te <- function(landscape, class) UseMethod("lsm_c_te")
+lsm_c_te <- function(landscape) UseMethod("lsm_c_te")
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterLayer <- function(landscape, class) {
+lsm_c_te.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   class = class,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterStack <- function(landscape, class) {
+lsm_c_te.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   class = class,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterBrick <- function(landscape, class) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   class = class,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -55,42 +41,54 @@ lsm_c_te.RasterBrick <- function(landscape, class) {
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.list <- function(landscape, class) {
+lsm_c_te.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   class = class,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_te_calc <- function(landscape,
-                     class) {
+#' @name lsm_c_te
+#' @export
+lsm_c_te.list <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_c_te_calc <- function(landscape) {
     # cclabel class
-    cclabeled_raster <- cclabel(landscape, class)[[1]]
+    cclabeled_raster <- cclabel(landscape)
 
     # set background to calculate number of neighbors next to cells with
     # values of -999
-    cclabeled_raster[is.na(cclabeled_raster)] <- -999
+    te <- purrr::map_dbl(seq_along(cclabeled_raster),
+                   function(x){
+                       cclabeled_raster[[x]][is.na(cclabeled_raster[[x]])] <- -999
 
-    # compute neighborhood matrix
-    adjacent_cells <- raster::adjacent(cclabeled_raster,
-                                       seq_len(raster::ncell(cclabeled_raster)),
-                                       4,
-                                       pairs=TRUE)
-    # count whos neighbor of who
-    tb <- table(cclabeled_raster[adjacent_cells[,1]],
-                cclabeled_raster[adjacent_cells[,2]])
+                       # compute neighborhood matrix
+                       adjacent_cells <- raster::adjacent(cclabeled_raster[[x]],
+                                                          seq_len(raster::ncell(cclabeled_raster[[x]])),
+                                                          4,
+                                                          pairs=TRUE)
+                       # count whos neighbor of who
+                       tb <- table(cclabeled_raster[[x]][adjacent_cells[,1]],
+                                   cclabeled_raster[[x]][adjacent_cells[,2]])
+                       te <- (sum(tb[2:ncol(tb),1])/2) * prod(raster::res(landscape))
+                   })
+
+
+
 
     # return first row with counts of adjents sites between patches and
     # cells with -999
-    total_edge <- tibble::tibble(
-        level = 'landscape',
-        id = as.numeric(NA),
-        metric = 'total edge',
-        value = (sum(tb[2:ncol(tb),1])/2) * prod(raster::res(landscape))
+    tibble::tibble(
+        level = "class",
+        id = raster::unique(landscape),
+        metric = "percentage of landscape",
+        value = te
     )
-
-    return(total_edge)
-
 }
