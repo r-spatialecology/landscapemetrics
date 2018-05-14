@@ -12,5 +12,7 @@
 globalVariables(c(".",
                   "layer",
                   "value_name",
-                  "richness"))
+                  "richness",
+                  "landscape",
+                  "landscape_stack"))
 # nocov end

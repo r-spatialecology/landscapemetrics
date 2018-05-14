@@ -59,7 +59,7 @@ lsm_c_area_sd_calc <- function(landscape){
             area_sd <- raster::values(x) %>%
                 table(useNA = "no") %>%
                 magrittr::multiply_by(prod(raster::res(landscape))) %>%
-                sd()
+                stats::sd()
 
             tibble::tibble(
                 level = "class",

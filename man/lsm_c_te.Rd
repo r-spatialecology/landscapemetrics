@@ -12,20 +12,18 @@
 \alias{lsm_c_te.list}
 \title{Total Edge  (TE, class scale)}
 \usage{
-lsm_c_te(landscape, class)
+lsm_c_te(landscape)
 
-\method{lsm_c_te}{RasterLayer}(landscape, class)
+\method{lsm_c_te}{RasterLayer}(landscape)
 
-\method{lsm_c_te}{RasterStack}(landscape, class)
+\method{lsm_c_te}{RasterStack}(landscape)
 
-\method{lsm_c_te}{RasterBrick}(landscape, class)
+\method{lsm_c_te}{RasterBrick}(landscape)
 
-\method{lsm_c_te}{list}(landscape, class)
+\method{lsm_c_te}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{class}{Which class}
 }
 \value{
 tibble
@@ -34,7 +32,8 @@ tibble
 Total Edge
 }
 \examples{
-lsm_c_te(landscape, 2)
+lsm_c_te(landscape)
+lsm_c_te(landscape_stack)
 
 }
 \references{

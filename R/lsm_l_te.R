@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_l_te(landscape)
+#' lsm_l_te(landscape_stack)
 #'
 #' @aliases lsm_l_te
 #' @rdname lsm_l_te
@@ -16,15 +17,56 @@
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
+#'
+#' @export
+lsm_l_te <- function(landscape) UseMethod("lsm_l_te")
 
-lsm_l_te <- function(landscape){
+#' @name lsm_l_te
+#' @export
+lsm_l_te.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_te_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-    if (raster::nlayers(landscape) == 1) {
+#' @name lsm_l_te
+#' @export
+lsm_l_te.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_te_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_te
+#' @export
+lsm_l_te.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_te_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_te
+#' @export
+lsm_l_te.list <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_te_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_te_calc <- function(landscape){
+
     # calculate total edge length by mapping over every class
     total_edge <- purrr::map(raster::unique(landscape), function(x) {
 
         # cclabel class
-        cclabeled_raster <- cclabel(landscape, x)
+        cclabeled_raster <- cclabel(landscape, x)[[1]]
 
         # set background to calculate number of neighbors next to cells with
         # values of -999
@@ -32,7 +74,7 @@ lsm_l_te <- function(landscape){
 
         # compute neighborhood matrix
         adjacent_cells <- raster::adjacent(cclabeled_raster,
-                                   1:raster::ncell(cclabeled_raster),
+                                   seq_len(raster::ncell(cclabeled_raster)),
                                    4,
                                    pairs=TRUE)
         # count whos neighbor of who
@@ -47,16 +89,11 @@ lsm_l_te <- function(landscape){
     })
 
     total_edge <- tibble::tibble(
-        layer = as.numeric(1),
         level = 'landscape',
-        id = as.numeric(NA),
+        id = as.integer(NA),
         metric = 'total edge',
         value = (sum(unlist(total_edge))/2) * prod(raster::res(landscape))
     )
-    } else {
-        ### stack
-    }
-
 
     return(total_edge)
 

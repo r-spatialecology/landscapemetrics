@@ -30,7 +30,7 @@ Value >= 1
 Number of different classes divided by (potential) maximum number of classes
 }
 \examples{
-lsm_l_rpr(landscape)
+lsm_l_rpr(landscape, 4)
 
 }
 \references{

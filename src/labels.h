@@ -1,7 +1,7 @@
 #pragma once
 
-#include "borders.hpp"
-#include "rem-union-merge.hpp"
+#include "borders.h"
+#include "rem-union-merge.h"
 
 namespace landscapemetrics {
 

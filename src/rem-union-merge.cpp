@@ -1,4 +1,4 @@
-#include "rem-union-merge.hpp"
+#include "rem-union-merge.h"
 
 namespace landscapemetrics {
 

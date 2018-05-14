@@ -12,15 +12,15 @@
 \alias{lsm_l_np.list}
 \title{Number of patches}
 \usage{
-lsm_l_np(landscape, class)
+lsm_l_np(landscape)
 
 \method{lsm_l_np}{RasterLayer}(landscape)
 
-\method{lsm_l_np}{RasterStack}(landscape, class)
+\method{lsm_l_np}{RasterStack}(landscape)
 
-\method{lsm_l_np}{RasterBrick}(landscape, class)
+\method{lsm_l_np}{RasterBrick}(landscape)
 
-\method{lsm_l_np}{list}(landscape, class)
+\method{lsm_l_np}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -33,6 +33,7 @@ Number of patches
 }
 \examples{
 lsm_l_np(landscape)
+lsm_l_np(landscape_stack)
 
 }
 \references{

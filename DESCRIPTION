@@ -33,6 +33,7 @@ Imports:
     raster,
     Rcpp (>= 0.12.1),
     spex,
+    stats,
     tibble
 RoxygenNote: 6.0.1
 URL: https://github.com/marcosci/landscapemetrics

@@ -8,7 +8,7 @@
 #' @return Value >= 1
 #'
 #' @examples
-#' lsm_l_rpr(landscape)
+#' lsm_l_rpr(landscape, 4)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr

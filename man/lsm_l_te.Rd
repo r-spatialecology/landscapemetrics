@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_l_te.R
 \name{lsm_l_te}
 \alias{lsm_l_te}
+\alias{lsm_l_te}
+\alias{lsm_l_te.RasterLayer}
+\alias{lsm_l_te}
+\alias{lsm_l_te.RasterStack}
+\alias{lsm_l_te}
+\alias{lsm_l_te.RasterBrick}
+\alias{lsm_l_te}
+\alias{lsm_l_te.list}
 \title{Total Edge (TE, landscape scale)}
 \usage{
 lsm_l_te(landscape)
+
+\method{lsm_l_te}{RasterLayer}(landscape)
+
+\method{lsm_l_te}{RasterStack}(landscape)
+
+\method{lsm_l_te}{RasterBrick}(landscape)
+
+\method{lsm_l_te}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -17,6 +33,7 @@ Total Edge
 }
 \examples{
 lsm_l_te(landscape)
+lsm_l_te(landscape_stack)
 
 }
 \references{

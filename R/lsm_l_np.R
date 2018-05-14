@@ -75,7 +75,7 @@ lsm_l_np_calc <- function(landscape) {
 
     n_patches <- tibble::tibble(
         level = 'landscape',
-        id = as.numeric(NA),
+        id = as.integer(NA),
         metric = 'number of patches',
         value = n_patches
     )

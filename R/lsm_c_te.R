@@ -7,7 +7,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_te(landscape, 2)
+#' lsm_c_te(landscape)
+#' lsm_c_te(landscape_stack)
 #'
 #' @aliases lsm_c_te
 #' @rdname lsm_c_te

@@ -59,7 +59,7 @@ lsm_c_area_cv_calc <- function(landscape){
             area_cv <- raster::values(x) %>%
                 table(useNA = "no") %>%
                 magrittr::multiply_by(prod(raster::res(landscape))) %>%
-                cv()
+                raster::cv()
 
             tibble::tibble(
                 level = "class",
