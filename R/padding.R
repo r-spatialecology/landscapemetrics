@@ -3,6 +3,8 @@
 #' @description Adding padding to raster
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param padding_value value of cells added
+#' @param padding_cells Number of rows and columns added
 #'
 #' @return raster
 #'
