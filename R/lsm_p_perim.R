@@ -62,7 +62,7 @@ lsm_p_perim_calc <- function(landscape){
 
             patches_class <- x %>%
                 raster::values() %>%
-                na.omit() %>%
+                stats::na.omit() %>%
                 unique()
 
             purrr::map_dfr(seq_along(patches_class), function(x) {

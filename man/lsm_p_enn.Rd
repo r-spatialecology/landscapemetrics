@@ -4,7 +4,7 @@
 \alias{lsm_p_enn}
 \alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterLayer}
-\title{Euclidean Nearest Neighbor Distance Distribution (ENN_MN)}
+\title{Euclidean Nearest Neighbor Distance Distribution (ENN)}
 \usage{
 lsm_p_enn(landscape)
 
@@ -17,7 +17,7 @@ lsm_p_enn(landscape)
 tibble
 }
 \description{
-Euclidean Nearest Neighbor Distance Distribution (class level)
+Euclidean Nearest Neighbor Distance Distribution (patch level)
 }
 \examples{
 lsm_p_enn(landscape)

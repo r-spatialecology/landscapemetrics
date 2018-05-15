@@ -1,6 +1,6 @@
-#' Euclidean Nearest Neighbor Distance Distribution (ENN_MN)
+#' Euclidean Nearest Neighbor Distance Distribution (ENN)
 #'
-#' @description Euclidean Nearest Neighbor Distance Distribution (class level)
+#' @description Euclidean Nearest Neighbor Distance Distribution (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'

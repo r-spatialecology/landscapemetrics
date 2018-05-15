@@ -10,9 +10,11 @@
 "_PACKAGE"
 
 globalVariables(c(".",
+                  "area",
                   "layer",
                   "value_name",
                   "richness",
                   "landscape",
-                  "landscape_stack"))
+                  "landscape_stack",
+                  "value"))
 # nocov end

@@ -57,7 +57,7 @@ lsm_l_area_mn_calc <- function(landscape){
     area_mean <- landscape %>%
         cclabel() %>%
         purrr::map_dfr(function(x){
-           tibble(
+           tibble::tibble(
             area = raster::values(x) %>%
                 table(useNA = "no")  %>%
                 magrittr::multiply_by(prod(raster::res(landscape)))
