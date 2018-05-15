@@ -1,16 +1,14 @@
 
-[![Travis build
-status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](https://travis-ci.org/marcosci/landscapemetrics)
-[![Coverage
-status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
+[![Travis build status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](https://travis-ci.org/marcosci/landscapemetrics) [![Coverage status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+landscapemetrics
+================
 
-# landscapemetrics
+The goal of landscapemetrics is to ...
 
-The goal of landscapemetrics is to …
-
-## Installation
+Installation
+------------
 
 You can install landscapemetrics from GitHub with:
 
@@ -19,9 +17,10 @@ You can install landscapemetrics from GitHub with:
 devtools::install_github("marcosci/landscapemetrics")
 ```
 
-## Example
+Example
+-------
 
-## Code of conduct
+Code of conduct
+---------------
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md).
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
