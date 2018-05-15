@@ -69,7 +69,7 @@ lsm_p_area_calc <- function(landscape){
         level = "patch",
         id = seq_along(area),
         metric = "patch area (mean)",
-        value = area_mean
+        value = area
     )
 }
 
