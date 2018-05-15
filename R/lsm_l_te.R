@@ -74,9 +74,9 @@ lsm_l_te_calc <- function(landscape){
 
         # compute neighborhood matrix
         adjacent_cells <- raster::adjacent(cclabeled_raster,
-                                   seq_len(raster::ncell(cclabeled_raster)),
-                                   4,
-                                   pairs=TRUE)
+                                           seq_len(raster::ncell(cclabeled_raster)),
+                                           4,
+                                           pairs=TRUE)
         # count whos neighbor of who
         tb <- table(cclabeled_raster[adjacent_cells[,1]],
                     cclabeled_raster[adjacent_cells[,2]])

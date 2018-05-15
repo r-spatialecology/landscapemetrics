@@ -20,25 +20,25 @@
 
 lsm_l_pr <- function(landscape) {
 
-     if (raster::nlayers(landscape) == 1) {
-        richness <- length(raster::unique(landscape))
-     } else {
-        # map over each layer of the rasterstack/brick
-        richness_vector <-
-           purrr::map_dbl(1:raster::nlayers(landscape),
-                          function(x)
-                             length(raster::unique(landscape[[x]])))
+        if (raster::nlayers(landscape) == 1) {
+                richness <- length(raster::unique(landscape))
+        } else {
+                # map over each layer of the rasterstack/brick
+                richness_vector <-
+                        purrr::map_dbl(1:raster::nlayers(landscape),
+                                       function(x)
+                                               length(raster::unique(landscape[[x]])))
 
-        # convert to tibble
-        richness <-
-        tibble::tibble(
-              Layer = purrr::map_chr(seq_along(richness_vector),
-                                     function(x)
-                                        paste("Layer_", x)),
-              Richness = richness_vector
-        )
-     }
+                # convert to tibble
+                richness <-
+                        tibble::tibble(
+                                Layer = purrr::map_chr(seq_along(richness_vector),
+                                                       function(x)
+                                                               paste("Layer_", x)),
+                                Richness = richness_vector
+                        )
+        }
 
-   return(richness)
+        return(richness)
 
 }
