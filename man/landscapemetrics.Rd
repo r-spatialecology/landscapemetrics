@@ -17,3 +17,16 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
+
+Authors:
+\itemize{
+  \item Maximillian Hesselbarth
+  \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
+  \item Laura Graham
+  \item Jeffrey Hollister
+  \item Kimberly A, With \email{kwith@ksu.edu} (0000-0001-5570-1515)
+}
+
+}
