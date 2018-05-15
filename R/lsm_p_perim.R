@@ -54,10 +54,6 @@ lsm_p_perim.list <- function(landscape) {
 
 lsm_p_perim_calc <- function(landscape){
 
-    patches_total <- landscape %>%
-        lsm_l_np() %>%
-        dplyr::pull(value)
-
     landscape %>%
         cclabel() %>%
         purrr::map_dfr(function(x) {
@@ -79,12 +75,14 @@ lsm_p_perim_calc <- function(landscape){
                 neighbour_matrix <- table(landscape_patch[adjacent_cells[,1]],
                             landscape_patch[adjacent_cells[,2]])
 
+                perimeter <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
+                    prod(raster::res(landscape_patch))
+
                  tibble::tibble(
                      level = "patch",
                      id = NA,
                      metric = "perimeter",
-                     value = neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                         prod(raster::res(landscape_patch))
+                     value = perimeter
                 )
 
             })
