@@ -18,16 +18,16 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_enn_mn <- function(landscape) UseMethod("lsm_c_area_mn")
+lsm_c_enn_mn <- function(landscape) UseMethod("lsm_c_enn_mn")
 
-#' @name lsm_c_area_mn
+#' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_enn_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_c_area_mn
+#' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_enn_mn_calc, .id = "layer") %>%
@@ -35,7 +35,7 @@ lsm_c_enn_mn.RasterStack <- function(landscape) {
 
 }
 
-#' @name lsm_c_area_mn
+#' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_enn_mn_calc, .id = "layer") %>%
@@ -43,7 +43,7 @@ lsm_c_enn_mn.RasterBrick <- function(landscape) {
 
 }
 
-#' @name lsm_c_area_mn
+#' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_enn_mn_calc, .id = "layer") %>%
@@ -73,7 +73,7 @@ lsm_c_enn_mn_calc <- function(landscape) {
                                       function(x) {
                                           purrr::map_dfr(seq_along(cclabel_points[[x]]), function(y) {
                                               purrr::map_dfr(seq_along(cclabel_points[[x]]), function(z) {
-                                                  tibble(
+                                                  tibble::tibble(
                                                       x = raster::pointDistance(
                                                           cclabel_points[[x]][[y]][, 1:2],
                                                           cclabel_points[[x]][[z]][, 1:2],

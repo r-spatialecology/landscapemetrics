@@ -2,9 +2,25 @@
 % Please edit documentation in R/lsm_c_enn_mn.R
 \name{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn}
+\alias{lsm_c_enn_mn}
+\alias{lsm_c_enn_mn.RasterLayer}
+\alias{lsm_c_enn_mn}
+\alias{lsm_c_enn_mn.RasterStack}
+\alias{lsm_c_enn_mn}
+\alias{lsm_c_enn_mn.RasterBrick}
+\alias{lsm_c_enn_mn}
+\alias{lsm_c_enn_mn.list}
 \title{Euclidean Nearest Neighbor Distance Distribution (ENN_MN)}
 \usage{
 lsm_c_enn_mn(landscape)
+
+\method{lsm_c_enn_mn}{RasterLayer}(landscape)
+
+\method{lsm_c_enn_mn}{RasterStack}(landscape)
+
+\method{lsm_c_enn_mn}{RasterBrick}(landscape)
+
+\method{lsm_c_enn_mn}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
