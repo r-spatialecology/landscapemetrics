@@ -58,7 +58,7 @@ lsm_p_perim_calc <- function(landscape){
         cclabel() %>%
         purrr::map_dfr(function(x) {
 
-            landscape_patch <- x
+            landscape_patch <- padding(x)
 
             patches_class <- x %>%
                 raster::values() %>%

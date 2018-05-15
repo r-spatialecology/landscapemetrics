@@ -64,6 +64,13 @@ padding_internal <- function(landscape, padding_value, padding_cells){
 
     landscape_padded <- raster::raster(landscape_matrix)
 
+    raster::extent(landscape_padded) <- c(
+        raster::xmin(landscape),
+        (raster::xmax(landscape) + 2 * padding_cells) * raster::res(landscape)[1],
+        raster::xmin(landscape),
+        (raster::xmax(landscape) + 2 * padding_cells) * raster::res(landscape)[2]
+    )
+
     return(landscape_padded)
 
 }
