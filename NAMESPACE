@@ -18,10 +18,13 @@ S3method(lsm_c_area_sd,RasterStack)
 S3method(lsm_c_area_sd,list)
 S3method(lsm_c_ed,RasterLayer)
 S3method(lsm_c_ed,RasterStack)
+<<<<<<< HEAD
 S3method(lsm_c_enn_mn,RasterBrick)
 S3method(lsm_c_enn_mn,RasterLayer)
 S3method(lsm_c_enn_mn,RasterStack)
 S3method(lsm_c_enn_mn,list)
+=======
+>>>>>>> 53bfb0efccac7a0092357bd4a7d102674eaf5a09
 S3method(lsm_c_lpi,RasterBrick)
 S3method(lsm_c_lpi,RasterLayer)
 S3method(lsm_c_lpi,RasterStack)
@@ -81,6 +84,13 @@ S3method(lsm_p_area,RasterBrick)
 S3method(lsm_p_area,RasterLayer)
 S3method(lsm_p_area,RasterStack)
 S3method(lsm_p_area,list)
+<<<<<<< HEAD
+=======
+S3method(lsm_p_perim,RasterBrick)
+S3method(lsm_p_perim,RasterLayer)
+S3method(lsm_p_perim,RasterStack)
+S3method(lsm_p_perim,list)
+>>>>>>> 53bfb0efccac7a0092357bd4a7d102674eaf5a09
 export("%>%")
 export(ccl_borders)
 export(ccl_labels)
@@ -89,7 +99,10 @@ export(lsm_c_area_cv)
 export(lsm_c_area_mn)
 export(lsm_c_area_sd)
 export(lsm_c_ed)
+<<<<<<< HEAD
 export(lsm_c_enn_mn)
+=======
+>>>>>>> 53bfb0efccac7a0092357bd4a7d102674eaf5a09
 export(lsm_c_lpi)
 export(lsm_c_np)
 export(lsm_c_pland)
@@ -108,6 +121,10 @@ export(lsm_l_shei)
 export(lsm_l_ta)
 export(lsm_l_te)
 export(lsm_p_area)
+<<<<<<< HEAD
+=======
+export(lsm_p_perim)
+>>>>>>> 53bfb0efccac7a0092357bd4a7d102674eaf5a09
 importFrom(Rcpp,sourceCpp)
 importFrom(magrittr,"%>%")
 useDynLib(landscapemetrics)
