@@ -19,37 +19,48 @@
 #'  PNW-351.
 #'
 #' @export
-padding <- function(landscape, padding_value) UseMethod("padding")
+padding <- function(landscape, padding_value, padding_cells) UseMethod("padding")
 
 #' @name padding
 #' @export
-padding.RasterLayer <- function(landscape, padding_value = NA) {
-    padding_internal(landscape, padding_value)
+padding.RasterLayer <- function(landscape, padding_value = -999, padding_cells = 1) {
+    padding_internal(landscape, padding_value, padding_cells)
 }
 
 #' @name padding
 #' @export
-padding.RasterStack <- function(landscape) {
-    purrr::map(raster::as.list(landscape), padding_internal, padding_value = padding_value)
+padding.RasterStack <- function(landscape, padding_value = -999, padding_cells = 1) {
+    purrr::map(raster::as.list(landscape), padding_internal,
+               padding_value = padding_value, padding_cells = padding_cells)
 }
 
 #' @name padding
 #' @export
-padding.RasterBrick <- function(landscape) {
-    purrr::map(raster::as.list(landscape), padding_internal, padding_value = padding_value)
+padding.RasterBrick <- function(landscape, padding_value = -999, padding_cells = 1) {
+    purrr::map(raster::as.list(landscape), padding_internal,
+               padding_value = padding_value, padding_cells = padding_cells)
 }
 
 #' @name padding
 #' @export
-padding.list <- function(landscape) {
-    purrr::map(landscape, padding_internal, padding_value = padding_value)
+padding.list <- function(landscape, padding_value = -999, padding_cells = 1) {
+    purrr::map(landscape, padding_internal,
+               padding_value = padding_value, padding_cells = padding_cells)
 }
 
-padding_internal <- function(landscape, padding_value){
+padding_internal <- function(landscape, padding_value, padding_cells){
     landscape_matrix <- raster::as.matrix(landscape)
 
-    landscape_matrix <- rbind(padding_value, landscape_matrix, padding_value, deparse.level = 0)
-    landscape_matrix <- cbind(padding_value, landscape_matrix, padding_value, deparse.level = 0)
+    for(i in seq_len(padding_cells)){
+        landscape_matrix <- rbind(padding_value,
+                                  landscape_matrix,
+                                  padding_value,
+                                  deparse.level = 0)
+        landscape_matrix <- cbind(padding_value,
+                                  landscape_matrix,
+                                  padding_value,
+                                  deparse.level = 0)
+    }
 
     landscape_padded <- raster::raster(landscape_matrix)
 
