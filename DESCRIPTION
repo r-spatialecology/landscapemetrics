@@ -9,10 +9,10 @@ Authors@R: c(person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
                      email = "nowosad.jakub@gmail.com", 
                      comment = c(ORCID = "0000-0002-1057-3721")),
                      person("Laura", "Graham", role = "aut"),
-                     person("Jeffrey", "Hollister", role = "aut")),
+                     person("Jeffrey", "Hollister", role = "aut"),
                      person("Kimberly A,", "With", role = "aut",
                      email = "kwith@ksu.edu", 
-                     comment = c(ORCID = "0000-0001-5570-1515"))
+                     comment = c(ORCID = "0000-0001-5570-1515")))
 Maintainer: Marco Sciaini <sciaini.marco@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
