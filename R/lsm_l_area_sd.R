@@ -57,14 +57,14 @@ lsm_l_area_sd_calc <- function(landscape){
     area_sd <- landscape %>%
         cclabel() %>%
         purrr::map_dfr(function(x){
-            tibble(
+            tibble::tibble(
                 area = raster::values(x) %>%
                     table(useNA = "no")  %>%
                     magrittr::multiply_by(prod(raster::res(landscape)))
             )
         }) %>%
         dplyr::pull(area) %>%
-        sd()
+        stats::sd()
 
     tibble::tibble(
         level = "landscape",
