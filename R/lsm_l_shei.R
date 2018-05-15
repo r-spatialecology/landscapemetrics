@@ -7,6 +7,8 @@
 #'
 #' @examples
 #' lsm_l_shei(landscape)
+#' lsm_l_shei(landscape_stack)
+#' lsm_l_shei(as.list(landscape_stack))
 #'
 #' @aliases lsm_l_shei
 #' @rdname lsm_l_shei

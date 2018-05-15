@@ -17,6 +17,8 @@ Evenness of patch types (classes) in the landscape
 }
 \examples{
 lsm_l_shei(landscape)
+lsm_l_shei(landscape_stack)
+lsm_l_shei(as.list(landscape_stack))
 
 }
 \references{
