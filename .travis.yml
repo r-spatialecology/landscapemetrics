@@ -1,8 +1,25 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
-sudo: false
+language: r
+sudo: true
+dist: trusty
 cache: packages
+latex: false
+warnings_are_errors: false
+
+matrix:
+  include:
+    - os: linux
+    - os: osx
+      osx_image: xcode9.2
+      before_install:
+        - brew install curl
+        - brew link --force curl
 
 after_success:
-    - Rscript -e 'covr::codecov()'
+  - Rscript -e 'covr::codecov()'
+
+notifications:
+  email:
+  on_success: change
+on_failure: change

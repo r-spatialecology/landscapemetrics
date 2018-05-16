@@ -7,7 +7,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_enn_mn(landscape)
+#' lsm__lenn_mn(landscape)
 #'
 #' @aliases lsm_l_enn_mn
 #' @rdname lsm_l_enn_mn
