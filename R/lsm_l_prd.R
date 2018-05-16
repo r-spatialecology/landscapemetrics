@@ -9,6 +9,7 @@
 #'
 #' @examples
 #' lsm_l_prd(landscape)
+#' lsm_l_prd(landscape_stack)
 #'
 #' @aliases lsm_l_prd
 #' @rdname lsm_l_prd
@@ -49,13 +50,18 @@ lsm_l_prd.list <- function(landscape) {
 }
 
 lsm_l_prd_calc <- function(landscape) {
-    total_area <- raster::ncell(landscape) * prod(raster::res(landscape))
+
+    total_area <- landscape %>%
+        lsm_l_ta()
+
+    patch_richness <- landscape %>%
+        lsm_l_pr()
 
     tibble::tibble(
         level = "landscape",
-        id = as.numeric(NA),
+        class = as.integer(NA),
+        id = as.integer(NA),
         metric = "patch richness density",
-        value = length(raster::unique(landscape)) / total_area * 100
+        value = patch_richness$value / total_area$value * 100
     )
-
 }

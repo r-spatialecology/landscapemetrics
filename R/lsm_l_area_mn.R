@@ -55,23 +55,16 @@ lsm_l_area_mn.list <- function(landscape) {
 # Not working yet!
 lsm_l_area_mn_calc <- function(landscape){
     area_mean <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(x){
-           tibble::tibble(
-            area = raster::values(x) %>%
-                table(useNA = "no")  %>%
-                magrittr::multiply_by(prod(raster::res(landscape)))
-               )
-            }) %>%
-        dplyr::pull(area) %>%
-        mean()
+        lsm_p_area() %>%
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
         metric = "patch area (mean)",
-        value = area_mean
-        )
+        value = area_mean$value
+    )
 }
 
 

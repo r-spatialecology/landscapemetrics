@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_c_ta(landscape)
+#' lsm_c_ta(landscape_stack)
 #'
 #' @aliases lsm_c_ta
 #' @rdname lsm_c_ta
@@ -48,15 +49,16 @@ lsm_c_ta.list <- function(landscape) {
 }
 
 lsm_c_ta_calc <- function(landscape) {
-    landscape %>%
-        raster::values() %>%
-        table() %>%
-        purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y) {
-            tibble::tibble(
-                level = "class",
-                id = as.integer(y),
-                metric = "total area",
-                value = x * prod(raster::res(landscape))
-                )
-            })
+    total_area <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::group_by(class) %>%
+        dplyr::summarise(value = sum(value))
+
+    tibble::tibble(
+        level = "class",
+        class = total_area$class,
+        id = as.integer(NA),
+        metric = "total area",
+        value = total_area$value
+    )
 }

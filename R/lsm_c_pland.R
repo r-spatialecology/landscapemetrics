@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_c_pland(landscape)
+#' lsm_c_pland(landscape_stack)
 #'
 #' @aliases lsm_c_pland
 #' @rdname lsm_c_pland
@@ -52,18 +53,19 @@ lsm_c_pland.list <- function(landscape) {
 }
 
 lsm_c_pland_calc <- function(landscape){
-    area <- raster::ncell(landscape) * prod(raster::res(landscape))
 
-    landscape %>%
-        raster::values() %>%
-        table() %>%
-        purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y) {
-            tibble::tibble(
-                level = "class",
-                id = y,
-                metric = "percentage of landscape",
-                value = x * prod(raster::res(landscape)) / area * 100
-            )
-        })
+    pland <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::group_by(class) %>%
+        dplyr::summarise(value = sum(value)) %>%
+        dplyr::mutate(value = value / sum(value) * 100)
+
+    tibble::tibble(
+        level = "class",
+        class = pland$class,
+        id = as.integer(NA),
+        metric = "percentage of landscape",
+        value = pland$value
+    )
 }
 

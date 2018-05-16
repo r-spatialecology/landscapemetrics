@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_c_area_mn(landscape)
+#' lsm_c_area_mn(landscape_stack)
 #'
 #' @aliases lsm_c_area_mn
 #' @rdname lsm_c_area_mn
@@ -52,20 +53,17 @@ lsm_c_area_mn.list <- function(landscape) {
 }
 
 lsm_c_area_mn_calc <- function(landscape){
-    landscape %>%
-        cclabel() %>%
-        purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y){
 
-            area_mean <- raster::values(x) %>%
-                table(useNA = "no") %>%
-                magrittr::multiply_by(prod(raster::res(landscape))) %>%
-                mean()
+    area_mean <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::group_by(class) %>%
+        dplyr::summarise(value = mean(value))
 
-            tibble::tibble(
-                level = "class",
-                id = as.integer(y),
-                metric = "patch area (mean)",
-                value = area_mean
-            )
-        })
+    tibble::tibble(
+        level = "class",
+        class = area_mean$class,
+        id = as.integer(NA),
+        metric = "patch area (mean)",
+        value = area_mean$value
+    )
 }

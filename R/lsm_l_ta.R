@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_l_ta(landscape)
+#' lsm_l_ta(landscape_stack)
 #'
 #' @aliases lsm_l_ta
 #' @rdname lsm_l_ta
@@ -52,10 +53,16 @@ lsm_l_ta.list <- function(landscape) {
 }
 
 lsm_l_ta_calc <- function(landscape) {
+
+    total_area <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::summarise(value = sum(value))
+
     tibble::tibble(
         level = "landscape",
-        id = as.numeric(NA),
+        class = as.integer(NA),
+        id = as.integer(NA),
         metric = "total area",
-        value = raster::ncell(landscape) * prod(raster::res(landscape))
+        value = total_area$value
     )
 }

@@ -57,12 +57,11 @@ lsm_p_para_calc <- function(landscape){
     perimeter <- lsm_p_perim(landscape)
     area <- lsm_p_area(landscape)
 
-    para <- perimeter$value / area$value
-
     tibble::tibble(
         level = "patch",
-        id = seq_along(para),
+        class = perimeter$class,
+        id = perimeter$id,
         metric = "perimeter-area-ratio",
-        value = para
+        value = perimeter$value / area$value
     )
 }

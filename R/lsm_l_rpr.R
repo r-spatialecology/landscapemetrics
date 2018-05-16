@@ -9,6 +9,7 @@
 #'
 #' @examples
 #' lsm_l_rpr(landscape, 4)
+#' lsm_l_rpr(landscape_stack, 4)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr
@@ -66,11 +67,15 @@ lsm_l_rpr_calc <- function(landcape, classes_max) {
     }
 
     else {
+        patch_richness <- landscape %>%
+            lsm_l_pr()
+
         tibble::tibble(
-        level = "landscape",
-        id = as.numeric(NA),
-        metric = "relative patch richness",
-        value = length(raster::unique(landscape)) / classes_max * 100
+            level = "landscape",
+            class = as.integer(NA),
+            id = as.integer(NA),
+            metric = "relative patch richness",
+            value = patch_richness$value / classes_max * 100
         )
     }
 }

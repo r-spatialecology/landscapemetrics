@@ -55,22 +55,15 @@ lsm_l_area_cv.list <- function(landscape) {
 # Not working yet!
 lsm_l_area_cv_calc <- function(landscape){
     area_cv <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(x){
-            tibble::tibble(
-                area = raster::values(x) %>%
-                    table(useNA = "no")  %>%
-                    magrittr::multiply_by(prod(raster::res(landscape)))
-            )
-        }) %>%
-        dplyr::pull(area) %>%
-        raster::cv()
+        lsm_p_area() %>%
+        dplyr::summarise(value = cv(value))
 
     tibble::tibble(
         level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
         metric = "patch area (cv)",
-        value = area_cv
+        value = area_cv$value
     )
 }
 

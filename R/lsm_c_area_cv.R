@@ -8,6 +8,7 @@
 #'
 #' @examples
 #' lsm_c_area_cv(landscape)
+#' lsm_c_area_cv(landscape_stack)
 #'
 #' @aliases lsm_c_area_cv
 #' @rdname lsm_c_area_cv
@@ -52,20 +53,16 @@ lsm_c_area_cv.list <- function(landscape) {
 }
 
 lsm_c_area_cv_calc <- function(landscape){
-    landscape %>%
-        cclabel() %>%
-        purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y){
+    area_cv <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::group_by(class) %>%
+        dplyr::summarise(value = cv(value))
 
-            area_cv <- raster::values(x) %>%
-                table(useNA = "no") %>%
-                magrittr::multiply_by(prod(raster::res(landscape))) %>%
-                raster::cv()
-
-            tibble::tibble(
-                level = "class",
-                id = as.integer(y),
-                metric = "patch area (cv)",
-                value = area_cv
-            )
-        })
+    tibble::tibble(
+        level = "class",
+        class = area_cv$class,
+        id = as.integer(NA),
+        metric = "patch area (cv)",
+        value = area_cv$value
+    )
 }

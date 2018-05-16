@@ -50,26 +50,17 @@ lsm_l_lpi.list <- function(landscape) {
 
 lsm_l_lpi_calc <- function(landscape) {
 
-    total_area <- raster::ncell(landscape) * prod(raster::res(landscape))
+    lpi <- landscape %>%
+        lsm_p_area() %>%
+        dplyr::mutate(total_area = sum(value),
+                      lpi = value / total_area * 100) %>%
+        dplyr::summarise(value = max(lpi))
 
-    landscape %>%
-        cclabel() %>%
-        purrr::map2_dfr(.x = ., .y = seq_along(.), .f = function(x, y){
-
-            lpi <- raster::values(x) %>%
-                table(useNA = "no") %>%
-                magrittr::multiply_by(prod(raster::res(landscape))) %>%
-                max() %>%
-                magrittr::divide_by(total_area) %>%
-                magrittr::multiply_by(100)
-
-            tibble::tibble(
-                level = "class",
-                id = as.integer(y),
-                metric = "largest patch index",
-                value = lpi
-            )
-        }) %>%
-        dplyr::filter(value == max(value)) %>%
-        dplyr::mutate(id = NA)
+    tibble::tibble(
+        level = "landscape",
+        class = as.integer(NA),
+        id = as.integer(NA),
+        metric = "largest patch index",
+        value = lpi$value
+    )
 }

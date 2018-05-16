@@ -53,22 +53,27 @@ lsm_p_area.list <- function(landscape) {
 }
 
 lsm_p_area_calc <- function(landscape){
-    area <- landscape %>%
-        cclabel() %>%
+    labeled_landscape <- landscape %>%
+        cclabel()
+
+    area <- labeled_landscape %>%
+        seq_along() %>%
         purrr::map_dfr(function(x){
             tibble::tibble(
-                area = raster::values(x) %>%
-                    table(useNA = "no")  %>%
+                value = labeled_landscape[[x]] %>%
+                    raster::values() %>%
+                    table(useNA = "no") %>%
                     magrittr::multiply_by(prod(raster::res(landscape)))
-            )
-        }) %>%
-        dplyr::pull(area)
+            ) %>%
+                dplyr::mutate(id = seq_len(nrow(.)))
+        }, .id = "class")
 
     tibble::tibble(
         level = "patch",
-        id = seq_along(area),
+        class = as.integer(area$class),
+        id = area$id,
         metric = "patch area (mean)",
-        value = area
+        value = area$value
     )
 }
 
