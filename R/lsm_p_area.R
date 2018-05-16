@@ -52,7 +52,6 @@ lsm_p_area.list <- function(landscape) {
 
 }
 
-# Not working yet!
 lsm_p_area_calc <- function(landscape){
     area <- landscape %>%
         cclabel() %>%
