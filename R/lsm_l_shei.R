@@ -18,43 +18,48 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
+lsm_l_shei <- function(landscape) UseMethod("lsm_l_shei")
 
-lsm_l_shei <- function(landscape) {
-
-    area <- raster::ncell(landscape)
-
-    if (raster::nlayers(landscape) == 1){
-        p <- landscape %>%
-            raster::values() %>%
-            table() / area
-
-        E <- tibble::tibble(
-            layer = as.numeric(1),
-            level = 'landscape',
-            id = as.numeric(NA),
-            metric = 'Shannon evenness',
-            value = sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1))
-        )
-    }
-
-    else {
-        E <- purrr::map_dfr(1:raster::nlayers(landscape), function(x){
-            p <- landscape[[x]] %>%
-                raster::values() %>%
-                table() / area
-
-            tibble::tibble(
-                level = 'landscape',
-                id = as.numeric(NA),
-                metric = 'Shannon evenness',
-                value = sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1))
-            )
-        }, .id = 'layer') %>%
-            dplyr::mutate(layer = as.numeric(layer))
-    }
-
-
-    return(E)
-
+#' @name lsm_l_shei
+#' @export
+lsm_l_shei.RasterLayer = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 }
 
+#' @name lsm_l_shei
+#' @export
+lsm_l_shei.RasterStack = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_shei
+#' @export
+lsm_l_shei.RasterBrick = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_shei
+#' @export
+lsm_l_shei.list = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_l_shei_calc = function(landscape){
+    area <- raster::ncell(landscape)
+
+    p <- landscape %>%
+        raster::values() %>%
+        table() / area
+
+    E <- tibble::tibble(
+        level = "landscape",
+        id = as.integer(NA),
+        metric = "Shannon evenness",
+        value = sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1))
+    )
+    E
+}

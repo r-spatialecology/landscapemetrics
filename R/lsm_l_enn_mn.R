@@ -54,11 +54,15 @@ lsm_l_enn_mn.list <- function(landscape) {
 
 lsm_l_enn_mn_calc <- function(landscape) {
 
+    enn_mn  <- lsm_p_enn_calc(landscape) %>%
+        dplyr::summarize(value = mean(value, na.rm = TRUE))
+
     tibble::tibble(
-        level = "class",
+        level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
         metric = "euclidean nearest neighbor distance distribution (mean)",
-        value = mean(lsm_c_enn_mn_calc(landscape)$value)
+        value = enn_mn$value
     )
 
 }

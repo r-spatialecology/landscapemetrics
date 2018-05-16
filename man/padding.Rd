@@ -27,6 +27,10 @@ padding(landscape, padding_value, padding_cells)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{padding_value}{value of cells added}
+
+\item{padding_cells}{Number of rows and columns added}
 }
 \value{
 raster

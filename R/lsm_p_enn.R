@@ -100,7 +100,10 @@ lsm_p_enn_calc <- function(landscape) {
         })
 
     tibble::tibble(
-        level = "class",
+        level = "patch",
+        class = unlist(purrr::map(seq_along(dist_mat_list_mean), function(x){
+            rep(x, length(dist_mat_list_mean[[x]]))
+        })),
         id = seq_len(length(unlist(dist_mat_list_mean))),
         metric = "euclidean nearest neighbor distance distribution (mean)",
         value = unlist(dist_mat_list_mean)
