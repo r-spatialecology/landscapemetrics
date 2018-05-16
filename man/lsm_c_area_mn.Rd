@@ -33,6 +33,7 @@ Mean patch size (class level)
 }
 \examples{
 lsm_c_area_mn(landscape)
+lsm_c_area_mn(landscape_stack)
 
 }
 \references{

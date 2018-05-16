@@ -33,6 +33,7 @@ Coefficient of variation (class level)
 }
 \examples{
 lsm_c_area_cv(landscape)
+lsm_c_area_cv(landscape_stack)
 
 }
 \references{

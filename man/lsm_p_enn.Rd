@@ -4,7 +4,7 @@
 \alias{lsm_p_enn}
 \alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterLayer}
-\title{Euclidean Nearest Neighbor Distance Distribution (ENN)}
+\title{Euclidean Nearest Neighbor Distance (ENN)}
 \usage{
 lsm_p_enn(landscape)
 

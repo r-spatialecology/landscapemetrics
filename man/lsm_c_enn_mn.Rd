@@ -10,7 +10,7 @@
 \alias{lsm_c_enn_mn.RasterBrick}
 \alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.list}
-\title{Euclidean Nearest Neighbor Distance Distribution (ENN_MN)}
+\title{Euclidean Nearest Neighbor Distance (ENN_MN)}
 \usage{
 lsm_c_enn_mn(landscape)
 

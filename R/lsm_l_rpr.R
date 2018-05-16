@@ -19,12 +19,12 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_rpr <- function(landscape, classes_max = NULL) UseMethod("lsm_l_rpr")
+lsm_l_rpr <- function(landscape, classes_max) UseMethod("lsm_l_rpr")
 
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterLayer <- function(landscape, classes_max) {
+lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
                    classes_max = classes_max, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -32,7 +32,7 @@ lsm_l_rpr.RasterLayer <- function(landscape, classes_max) {
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterStack <- function(landscape, classes_max) {
+lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
                    classes_max = classes_max, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -40,7 +40,7 @@ lsm_l_rpr.RasterStack <- function(landscape, classes_max) {
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterBrick <- function(landscape, classes_max) {
+lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
                    classes_max = classes_max, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -48,7 +48,7 @@ lsm_l_rpr.RasterBrick <- function(landscape, classes_max) {
 
 #" @name lsm_l_rpr
 #" @export
-lsm_l_rpr.list <- function(landscape, classes_max) {
+lsm_l_rpr.list <- function(landscape, classes_max = NULL) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
                    classes_max = classes_max, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -62,7 +62,7 @@ lsm_l_rpr_calc <- function(landcape, classes_max) {
             level = "landscape",
             id = as.numeric(NA),
             metric = "relative patch richness",
-            value = 0
+            value = NA
         )
     }
 

@@ -10,13 +10,13 @@
 \alias{lsm_l_rpr.RasterBrick}
 \title{Relative patch ritchness}
 \usage{
-lsm_l_rpr(landscape, classes_max = NULL)
+lsm_l_rpr(landscape, classes_max)
 
-\method{lsm_l_rpr}{RasterLayer}(landscape, classes_max)
+\method{lsm_l_rpr}{RasterLayer}(landscape, classes_max = NULL)
 
-\method{lsm_l_rpr}{RasterStack}(landscape, classes_max)
+\method{lsm_l_rpr}{RasterStack}(landscape, classes_max = NULL)
 
-\method{lsm_l_rpr}{RasterBrick}(landscape, classes_max)
+\method{lsm_l_rpr}{RasterBrick}(landscape, classes_max = NULL)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -31,6 +31,7 @@ Number of different classes divided by (potential) maximum number of classes
 }
 \examples{
 lsm_l_rpr(landscape, 4)
+lsm_l_rpr(landscape_stack, 4)
 
 }
 \references{
