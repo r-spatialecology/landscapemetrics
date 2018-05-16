@@ -10,7 +10,7 @@
 \alias{lsm_l_enn_mn.RasterBrick}
 \alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.list}
-\title{Euclidean Nearest Neighbor Distance Distribution (ENN_MN)}
+\title{Euclidean Nearest Neighbor Distance (ENN_MN)}
 \usage{
 lsm_l_enn_mn(landscape)
 
@@ -32,7 +32,7 @@ tibble
 Euclidean Nearest Neighbor Distance Distribution (class level)
 }
 \examples{
-lsm_l_enn_mn(landscape)
+lsm__lenn_mn(landscape)
 
 }
 \references{

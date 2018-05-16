@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Patch area distribution (class level) — lsm_c_area_mn • landscapemetrics</title>
+<title>Plot connected labeld — show_patches • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Patch area distribution (class level) — lsm_c_area_mn" />
+<meta property="og:title" content="Plot connected labeld — show_patches" />
 
-<meta property="og:description" content="Mean patch size (class level)" />
+<meta property="og:description" content="xxx" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,58 +97,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Patch area distribution (class level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_area_mn.R'><code>R/lsm_c_area_mn.R</code></a></small>
-    <div class="hidden name"><code>lsm_c_area_mn.Rd</code></div>
+    <h1>Plot connected labeld</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/show_patches.R'><code>R/show_patches.R</code></a></small>
+    <div class="hidden name"><code>show_patches.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean patch size (class level)</p>
+    <p>xxx</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>show_patches</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>show_patches</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>show_patches</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>show_patches</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>show_patches</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+      <td><p>*Raster object</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble</p>
+    <p>List with RasterLayer/RasterBrick</p>
     
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>xxx</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   layer level    id metric            value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
-#&gt; 1     1 class     1 patch area (mean)  19.9
-#&gt; 2     1 class     2 patch area (mean)  17.3
-#&gt; 3     1 class     3 patch area (mean) 120. </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>show_patches</span>(<span class='no'>landscape</span>)</div><div class='img'><img src='show_patches-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_patches</span>(<span class='no'>landscape_stack</span>)</div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='show_patches-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; [[2]]</div><div class='img'><img src='show_patches-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; [[3]]</div><div class='img'><img src='show_patches-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; [[4]]</div><div class='img'><img src='show_patches-5.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+#&gt; [[5]]</div><div class='img'><img src='show_patches-6.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -158,7 +155,7 @@ PNW-351.</p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#references">References</a></li>
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

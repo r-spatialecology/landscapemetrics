@@ -45,7 +45,51 @@ lsm_l_enn_mn.RasterBrick <- function(landscape) {
 
 #' @name lsm_l_enn_mn
 #' @export
-lsm_l_enn_mn.list <- function(landscape) {
+lsm_l_enn_mn.list <- function(landscape) {#' Euclidean Nearest Neighbor Distance (ENN_MN)
+    #'
+    #' @description Euclidean Nearest Neighbor Distance Distribution (class level)
+    #'
+    #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+    #'
+    #' @return tibble
+    #'
+    #' @examples
+    #' lsm__lenn_mn(landscape)
+    #'
+    #' @aliases lsm_l_enn_mn
+    #' @rdname lsm_l_enn_mn
+    #'
+    #' @references
+    #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
+    #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
+    #'  PNW-351.
+    #'
+    #' @export
+    lsm_l_enn_mn <- function(landscape) UseMethod("lsm_l_enn_mn")
+
+    #' @name lsm_l_enn_mn
+    #' @export
+    lsm_l_enn_mn.RasterLayer <- function(landscape) {
+        purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_mn_calc, .id = "layer") %>%
+            dplyr::mutate(layer = as.integer(layer))
+    }
+
+    #' @name lsm_l_enn_mn
+    #' @export
+    lsm_l_enn_mn.RasterStack <- function(landscape) {
+        purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_mn_calc, .id = "layer") %>%
+            dplyr::mutate(layer = as.integer(layer))
+
+    }
+
+    #' @name lsm_l_enn_mn
+    #' @export
+    lsm_l_enn_mn.RasterBrick <- function(landscape) {
+        purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_mn_calc, .id = "layer") %>%
+            dplyr::mutate(layer = as.integer(layer))
+
+    }
+
     purrr::map_dfr(landscape, lsm_l_enn_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 

@@ -1,4 +1,4 @@
-#' Euclidean Nearest Neighbor Distance Distribution (ENN)
+#' Euclidean Nearest Neighbor Distance (ENN)
 #'
 #' @description Euclidean Nearest Neighbor Distance Distribution (patch level)
 #'

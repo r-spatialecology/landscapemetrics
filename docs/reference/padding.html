@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Patch area distribution (class level) — lsm_c_area_mn • landscapemetrics</title>
+<title>Padding — padding • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Patch area distribution (class level) — lsm_c_area_mn" />
+<meta property="og:title" content="Padding — padding" />
 
-<meta property="og:description" content="Mean patch size (class level)" />
+<meta property="og:description" content="Adding padding to raster" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,30 +97,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Patch area distribution (class level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_area_mn.R'><code>R/lsm_c_area_mn.R</code></a></small>
-    <div class="hidden name"><code>lsm_c_area_mn.Rd</code></div>
+    <h1>Padding</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/padding.R'><code>R/padding.R</code></a></small>
+    <div class="hidden name"><code>padding.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean patch size (class level)</p>
+    <p>Adding padding to raster</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>padding</span>(<span class='no'>landscape</span>, <span class='no'>padding_value</span>, <span class='no'>padding_cells</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>padding</span>(<span class='no'>landscape</span>, <span class='kw'>padding_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
+  <span class='kw'>padding_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>padding</span>(<span class='no'>landscape</span>, <span class='kw'>padding_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
+  <span class='kw'>padding_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>padding</span>(<span class='no'>landscape</span>, <span class='kw'>padding_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
+  <span class='kw'>padding_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>padding</span>(<span class='no'>landscape</span>, <span class='kw'>padding_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>, <span class='kw'>padding_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,11 +132,19 @@
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
     </tr>
+    <tr>
+      <th>padding_value</th>
+      <td><p>value of cells added</p></td>
+    </tr>
+    <tr>
+      <th>padding_cells</th>
+      <td><p>Number of rows and columns added</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble</p>
+    <p>raster</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -143,12 +154,69 @@ PNW-351.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_area_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   layer level    id metric            value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
-#&gt; 1     1 class     1 patch area (mean)  19.9
-#&gt; 2     1 class     2 patch area (mean)  17.3
-#&gt; 3     1 class     3 patch area (mean) 120. </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>padding</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; </div><div class='input'><span class='fu'>padding</span>(<span class='no'>landscape_stack</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; 
+#&gt; 
+#&gt; [[2]]
+#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; 
+#&gt; 
+#&gt; [[3]]
+#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; 
+#&gt; 
+#&gt; [[4]]
+#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; 
+#&gt; 
+#&gt; [[5]]
+#&gt; class       : RasterLayer 
+#&gt; dimensions  : 32, 32, 1024  (nrow, ncol, ncell)
+#&gt; resolution  : 1, 1  (x, y)
+#&gt; extent      : 0, 32, 0, 32  (xmin, xmax, ymin, ymax)
+#&gt; coord. ref. : NA 
+#&gt; data source : in memory
+#&gt; names       : layer 
+#&gt; values      : -999, 3  (min, max)
+#&gt; 
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

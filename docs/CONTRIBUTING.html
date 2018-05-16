@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total class area (landcape level) — lsm_l_ta • landscapemetrics</title>
+<title>CONTRIBUTING • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -22,16 +22,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script>
+<script src="pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Total class area (landcape level) — lsm_l_ta" />
-
-<meta property="og:description" content="Total area (landscape level)" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="CONTRIBUTING" />
 
 
 <!-- mathjax -->
@@ -46,7 +43,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -57,7 +54,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="index.html">landscapemetrics</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -65,16 +62,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -95,74 +92,56 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Total class area (landcape level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_ta.R'><code>R/lsm_l_ta.R</code></a></small>
-    <div class="hidden name"><code>lsm_l_ta.Rd</code></div>
+      <h1>CONTRIBUTING</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>Total area (landscape level)</p>
-    
-    </div>
+<div id="contributing" class="section level1">
 
-    <pre class="usage"><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>tibble</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   layer level        id metric     value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
-#&gt; 1     1 landscape    NA total area   900</div><div class='input'>
-</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-  </div>
+<div id="please-contribute" class="section level3">
+<h3 class="hasAnchor">
+<a href="#please-contribute" class="anchor"></a>Please contribute!</h3>
+<p>We love collaboration.</p>
 </div>
+<div id="bugs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugs" class="anchor"></a>Bugs?</h3>
+<ul>
+<li>Submit an issue on the Issues page <a href="https://github.com/marcosci/landscapemetrics/issues">here</a>
+</li>
+</ul>
+</div>
+<div id="code-contributions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#code-contributions" class="anchor"></a>Code contributions</h3>
+<ul>
+<li>Fork this repo to your Github account</li>
+<li>Clone your version on your account down to your machine from your account, e.g,. <code>git clone https://github.com/&lt;yourgithubusername&gt;/scrubr.git</code>
+</li>
+<li>Make sure to track progress upstream (i.e., on our version of <code>scrubr</code> at <code>ropensci/scrubr</code>) by doing <code>git remote add upstream https://github.com/ropensci/scrubr.git</code>. Before making changes make sure to pull changes in from upstream by doing either <code>git fetch upstream</code> then merge later or <code>git pull upstream</code> to fetch and merge in one step</li>
+<li>Make your changes (bonus points for making changes on a new branch)</li>
+<li>If you alter package functionality at all (e.g., the code itself, not just documentation) please do write some tests to cover the new functionality.</li>
+<li>Push up to your account</li>
+<li>Submit a pull request to home base at <code>ropensci/scrubr</code>
+</li>
+</ul>
+</div>
+<div id="questions-get-in-touch-sciaini-marcogmail-com" class="section level3">
+<h3 class="hasAnchor">
+<a href="#questions-get-in-touch-sciaini-marcogmail-com" class="anchor"></a>Questions? Get in touch: <a href="mailto:sciaini.marco@gmail.com">sciaini.marco@gmail.com</a>
+</h3>
+</div>
+<div id="thanks-for-contributing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#thanks-for-contributing" class="anchor"></a>Thanks for contributing!</h3>
+</div>
+</div>
+
+  </div>
+
+</div>
+
 
       <footer>
       <div class="copyright">

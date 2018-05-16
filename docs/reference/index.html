@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,12 +53,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">landscapemetrics</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -61,7 +71,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -73,6 +83,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -80,202 +91,222 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.1.0</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="cclabel.html">cclabel</a></code> </p>
-          </td>
-          <td><p>Connected compoment labeling for classes in a raster</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="landscape_stack.html">landscape_stack</a></code> </p>
-          </td>
-          <td><p>Example maps as raster stack  (random cluster neutral landscape model).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="landscape.html">landscape</a></code> </p>
-          </td>
-          <td><p>Example map (random cluster neutral landscape model).</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p></p>
-          </td>
-          <td><p>landscapemetrics</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_area_cv.html">lsm_c_area_cv</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_area_mn.html">lsm_c_area_mn</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_area_sd.html">lsm_c_area_sd</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_enn_mn.html">lsm_c_enn_mn</a></code> </p>
-          </td>
-          <td><p>Euclidean Nearest Neighbor Distance Distribution (ENN_MN)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_lpi.html">lsm_c_lpi</a></code> </p>
-          </td>
-          <td><p>Largest patch index (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_np.html">lsm_c_np</a></code> </p>
-          </td>
-          <td><p>Number of patches (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_pland.html">lsm_c_pland</a></code> </p>
-          </td>
-          <td><p>Percentage of landscape (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_ta.html">lsm_c_ta</a></code> </p>
-          </td>
-          <td><p>Total class area (class level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_c_te.html">lsm_c_te</a></code> </p>
-          </td>
-          <td><p>Total Edge  (TE, class scale)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_area_cv.html">lsm_l_area_cv</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (landscape level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_area_mn.html">lsm_l_area_mn</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (landscape level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_area_sd.html">lsm_l_area_sd</a></code> </p>
-          </td>
-          <td><p>Patch area distribution (landscape level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_lpi.html">lsm_l_lpi</a></code> </p>
-          </td>
-          <td><p>Largest patch index (landscape level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_np.html">lsm_l_np</a></code> </p>
-          </td>
-          <td><p>Number of patches</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_pr.html">lsm_l_pr</a></code> </p>
-          </td>
-          <td><p>Patch richness</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_prd.html">lsm_l_prd</a></code> </p>
-          </td>
-          <td><p>Patch richness density</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_rpr.html">lsm_l_rpr</a></code> </p>
-          </td>
-          <td><p>Relative patch ritchness</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_shdi.html">lsm_l_shdi</a></code> </p>
-          </td>
-          <td><p>Shannon's Diversity Index</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_shei.html">lsm_l_shei</a></code> </p>
-          </td>
-          <td><p>Shannon's Evenness Index</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_ta.html">lsm_l_ta</a></code> </p>
-          </td>
-          <td><p>Total class area (landcape level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_l_te.html">lsm_l_te</a></code> </p>
-          </td>
-          <td><p>Total Edge (TE, landscape scale)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_p_area.html">lsm_p_area</a></code> </p>
-          </td>
-          <td><p>Patch area  (patch level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_p_para.html">lsm_p_para</a></code> </p>
-          </td>
-          <td><p>Perimeter area ratio  (patch level)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="lsm_p_perim.html">lsm_p_perim</a></code> </p>
-          </td>
-          <td><p>Perimeter  (patch level)</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="cclabel.html">cclabel()</a></code> </p>
+        </td>
+        <td><p>Connected compoment labeling for classes in a raster</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="landscape.html">landscape</a></code> </p>
+        </td>
+        <td><p>Example map (random cluster neutral landscape model).</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="landscape_stack.html">landscape_stack</a></code> </p>
+        </td>
+        <td><p>Example maps as raster stack  (random cluster neutral landscape model).</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="landscapemetrics.html">landscapemetrics</a></code> </p>
+        </td>
+        <td><p>landscapemetrics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_area_cv.html">lsm_c_area_cv()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_area_mn.html">lsm_c_area_mn()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_area_sd.html">lsm_c_area_sd()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_enn_mn.html">lsm_c_enn_mn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (ENN_MN)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_lpi.html">lsm_c_lpi()</a></code> </p>
+        </td>
+        <td><p>Largest patch index (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_np.html">lsm_c_np()</a></code> </p>
+        </td>
+        <td><p>Number of patches (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_pland.html">lsm_c_pland()</a></code> </p>
+        </td>
+        <td><p>Percentage of landscape (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_ta.html">lsm_c_ta()</a></code> </p>
+        </td>
+        <td><p>Total class area (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_te.html">lsm_c_te()</a></code> </p>
+        </td>
+        <td><p>Total Edge  (TE, class scale)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_area_cv.html">lsm_l_area_cv()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_area_mn.html">lsm_l_area_mn()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_area_sd.html">lsm_l_area_sd()</a></code> </p>
+        </td>
+        <td><p>Patch area distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_enn_mn.html">lsm_l_enn_mn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance (ENN_MN)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_lpi.html">lsm_l_lpi()</a></code> </p>
+        </td>
+        <td><p>Largest patch index (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_np.html">lsm_l_np()</a></code> </p>
+        </td>
+        <td><p>Number of patches</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_pr.html">lsm_l_pr()</a></code> </p>
+        </td>
+        <td><p>Patch richness</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_prd.html">lsm_l_prd()</a></code> </p>
+        </td>
+        <td><p>Patch richness density</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_rpr.html">lsm_l_rpr()</a></code> </p>
+        </td>
+        <td><p>Relative patch ritchness</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_shdi.html">lsm_l_shdi()</a></code> </p>
+        </td>
+        <td><p>Shannon's Diversity Index</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_shei.html">lsm_l_shei()</a></code> </p>
+        </td>
+        <td><p>Shannon's Evenness Index</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_ta.html">lsm_l_ta()</a></code> </p>
+        </td>
+        <td><p>Total class area (landcape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_te.html">lsm_l_te()</a></code> </p>
+        </td>
+        <td><p>Total Edge (TE, landscape scale)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_area.html">lsm_p_area()</a></code> </p>
+        </td>
+        <td><p>Patch area  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_enn.html">lsm_p_enn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (ENN)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_para.html">lsm_p_para()</a></code> </p>
+        </td>
+        <td><p>Perimeter area ratio  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_perim.html">lsm_p_perim()</a></code> </p>
+        </td>
+        <td><p>Perimeter  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="padding.html">padding()</a></code> </p>
+        </td>
+        <td><p>Padding</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="show_patches.html">show_patches()</a></code> </p>
+        </td>
+        <td><p>Plot connected labeld</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -292,11 +323,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
