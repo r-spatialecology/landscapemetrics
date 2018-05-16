@@ -8,7 +8,7 @@
 #' @examples
 #' lsm_l_shei(landscape)
 #' lsm_l_shei(landscape_stack)
-#' lsm_l_shei(as.list(landscape_stack))
+#' lsm_l_shei(raster::as.list(landscape_stack))
 #'
 #' @aliases lsm_l_shei
 #' @rdname lsm_l_shei
@@ -44,7 +44,7 @@ lsm_l_shei.RasterBrick = function(landscape){
 #' @name lsm_l_shei
 #' @export
 lsm_l_shei.list = function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+    purrr::map_dfr(landscape, lsm_l_shei_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

@@ -62,7 +62,6 @@ lsm_l_te.list <- function(landscape) {
 
 lsm_l_te_calc <- function(landscape){
 
-    # calculate total edge length by mapping over every class
     total_edge <- lsm_c_te_calc(landscape)
 
     tibble::tibble(

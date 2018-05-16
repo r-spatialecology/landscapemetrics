@@ -58,7 +58,8 @@ lsm_c_np_calc <- function(landscape){
         purrr::map2_dfr(.x = ., .y = 1:length(.), .f = function(x, y){
             tibble::tibble(
                 level = "class",
-                id = y,
+                class = y,
+                id = as.integer(NA),
                 metric = "number of patches",
                 value = length(unique(raster::values(x)[!is.na(raster::values(x))]))
             )

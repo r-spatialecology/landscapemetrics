@@ -67,18 +67,15 @@ lsm_l_np.list <- function(landscape) {
 }
 
 lsm_l_np_calc <- function(landscape) {
-    patches <-  cclabel(landscape)
-    n_patches <- sum(purrr::map_dbl(seq_along(patches),
-                                    function(x) {
-                                        patches[[x]]@data@max
-                                    }))
 
-    n_patches <- tibble::tibble(
-        level = 'landscape',
+    n_patches <- lsm_c_np_calc(landscape)
+
+    tibble::tibble(
+        level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
-        metric = 'number of patches',
-        value = n_patches
+        metric = "euclidean nearest neighbor distance distribution (mean)",
+        value = sum(n_patches$value)
     )
 
-    return(n_patches)
 }

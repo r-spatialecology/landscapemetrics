@@ -1,4 +1,4 @@
-#' Euclidean Nearest Neighbor Distance Distribution (ENN_MN)
+#' Euclidean Nearest Neighbor Distance (ENN_MN)
 #'
 #' @description Euclidean Nearest Neighbor Distance Distribution (class level)
 #'
