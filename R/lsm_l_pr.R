@@ -18,27 +18,44 @@
 #'  PNW-351.
 #' @export
 
-lsm_l_pr <- function(landscape) {
+lsm_l_pr <- function(landscape) UseMethod("lsm_l_pr")
 
-        if (raster::nlayers(landscape) == 1) {
-                richness <- length(raster::unique(landscape))
-        } else {
-                # map over each layer of the rasterstack/brick
-                richness_vector <-
-                        purrr::map_dbl(1:raster::nlayers(landscape),
-                                       function(x)
-                                               length(raster::unique(landscape[[x]])))
+#' @name lsm_l_pr
+#' @export
+lsm_l_pr.RasterLayer = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-                # convert to tibble
-                richness <-
-                        tibble::tibble(
-                                Layer = purrr::map_chr(seq_along(richness_vector),
-                                                       function(x)
-                                                               paste("Layer_", x)),
-                                Richness = richness_vector
-                        )
-        }
+#' @name lsm_l_pr
+#' @export
+lsm_l_pr.RasterStack = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
 
-        return(richness)
+#' @name lsm_l_pr
+#' @export
+lsm_l_pr.RasterBrick = function(landscape){
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_pr
+#' @export
+lsm_l_pr.list = function(landscape){
+    purrr::map_dfr(landscape, lsm_l_pr_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_l_pr_calc = function(landscape){
+    richness <- length(raster::unique(landscape))
+
+    tibble::tibble(
+        level = 'landscape',
+        class = as.integer(NA),
+        id = as.integer(NA),
+        metric = 'patch richness',
+        value = richness)
 
 }

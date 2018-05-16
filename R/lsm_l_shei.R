@@ -57,6 +57,7 @@ lsm_l_shei_calc = function(landscape){
 
     E <- tibble::tibble(
         level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
         metric = "Shannon evenness",
         value = sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1))
