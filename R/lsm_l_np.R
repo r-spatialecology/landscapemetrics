@@ -74,7 +74,7 @@ lsm_l_np_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "euclidean nearest neighbor distance distribution (mean)",
+        metric = "number of patches",
         value = sum(n_patches$value)
     )
 
