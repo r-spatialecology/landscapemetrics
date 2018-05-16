@@ -63,38 +63,14 @@ lsm_l_te.list <- function(landscape) {
 lsm_l_te_calc <- function(landscape){
 
     # calculate total edge length by mapping over every class
-    total_edge <- purrr::map(raster::unique(landscape), function(x) {
+    total_edge <- lsm_c_te_calc(landscape)
 
-        # cclabel class
-        cclabeled_raster <- cclabel(landscape, x)[[1]]
-
-        # set background to calculate number of neighbors next to cells with
-        # values of -999
-        cclabeled_raster[is.na(cclabeled_raster)] <- -999
-
-        # compute neighborhood matrix
-        adjacent_cells <- raster::adjacent(cclabeled_raster,
-                                           seq_len(raster::ncell(cclabeled_raster)),
-                                           4,
-                                           pairs=TRUE)
-        # count whos neighbor of who
-        tb <- table(cclabeled_raster[adjacent_cells[,1]],
-                    cclabeled_raster[adjacent_cells[,2]])
-
-
-        # return first row with counts of adjents sites between patches and
-        # cells with -999
-        tb[2:ncol(tb),1]
-
-    })
-
-    total_edge <- tibble::tibble(
-        level = 'landscape',
+    tibble::tibble(
+        level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
-        metric = 'total edge',
-        value = (sum(unlist(total_edge))/2) * prod(raster::res(landscape))
+        metric = "euclidean nearest neighbor distance distribution (mean)",
+        value = sum(total_edge$value)
     )
-
-    return(total_edge)
 
 }

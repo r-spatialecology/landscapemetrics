@@ -9,6 +9,7 @@
 #' @examples
 #' lsm_c_te(landscape)
 #' lsm_c_te(landscape_stack)
+#' lsm_c_te(raster::as.list(landscape_stack))
 #'
 #' @aliases lsm_c_te
 #' @rdname lsm_c_te
@@ -81,14 +82,12 @@ lsm_c_te_calc <- function(landscape) {
                        te <- (sum(tb[2:ncol(tb),1])/2) * prod(raster::res(landscape))
                    })
 
-
-
-
     # return first row with counts of adjents sites between patches and
     # cells with -999
     tibble::tibble(
         level = "class",
-        id = raster::unique(landscape),
+        class = raster::unique(landscape),
+        id = as.integer(NA),
         metric = "percentage of landscape",
         value = te
     )
