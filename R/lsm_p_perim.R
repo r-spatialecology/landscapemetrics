@@ -53,15 +53,12 @@ lsm_p_perim.list <- function(landscape) {
 }
 
 lsm_p_perim_calc <- function(landscape){
-    labeled_landscape <- landscape %>%
-        cclabel()
 
     perimeter_class <- landscape %>%
+        padding(padding_value = NA) %>%
         cclabel() %>%
         unname() %>%
         purrr::map_dfr(function(x) {
-
-            landscape_padded <- padding(x)
 
             x %>%
                 raster::values() %>%
@@ -69,18 +66,18 @@ lsm_p_perim_calc <- function(landscape){
                 unique() %>%
                 sort() %>%
                 purrr::map_dfr(function(y) {
-                    landscape_padded[landscape_padded != y | is.na(landscape_padded)] <- -999
+                    x[x != y | is.na(x)] <- -999
 
-                    adjacent_cells <- raster::adjacent(x = landscape_padded,
-                                                       cells = seq_len(raster::ncell(landscape_padded)),
+                    adjacent_cells <- raster::adjacent(x = x,
+                                                       cells = seq_len(raster::ncell(x)),
                                                        directions = 4,
                                                        pairs = TRUE)
 
-                    neighbour_matrix <- table(landscape_padded[adjacent_cells[,1]],
-                                              landscape_padded[adjacent_cells[,2]])
+                    neighbour_matrix <- table(x[adjacent_cells[,1]],
+                                              x[adjacent_cells[,2]])
 
                     perimeter_patch_n <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                        prod(raster::res(landscape_padded))
+                        prod(raster::res(x))
 
                     tibble::tibble(
                         id = NA,
