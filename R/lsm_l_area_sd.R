@@ -56,7 +56,7 @@ lsm_l_area_sd.list <- function(landscape) {
 lsm_l_area_sd_calc <- function(landscape){
     area_sd <- landscape %>%
         lsm_p_area() %>%
-        dplyr::summarise(value = sd(value))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "landscape",

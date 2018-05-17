@@ -33,7 +33,6 @@ Area of corea area
 }
 \examples{
 lsm_p_core(landscape)
-lsm_p_core(landscape_stack)
 
 }
 \references{

@@ -4,11 +4,23 @@
 \alias{lsm_p_enn}
 \alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterLayer}
+\alias{lsm_p_enn}
+\alias{lsm_p_enn.RasterStack}
+\alias{lsm_p_enn}
+\alias{lsm_p_enn.RasterBrick}
+\alias{lsm_p_enn}
+\alias{lsm_p_enn.list}
 \title{Euclidean Nearest Neighbor Distance (ENN)}
 \usage{
 lsm_p_enn(landscape)
 
 \method{lsm_p_enn}{RasterLayer}(landscape)
+
+\method{lsm_p_enn}{RasterStack}(landscape)
+
+\method{lsm_p_enn}{RasterBrick}(landscape)
+
+\method{lsm_p_enn}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

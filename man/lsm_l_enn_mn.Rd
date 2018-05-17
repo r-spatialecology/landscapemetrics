@@ -20,34 +20,22 @@ lsm_l_enn_mn(landscape)
 
 \method{lsm_l_enn_mn}{RasterBrick}(landscape)
 
-lsm_l_enn_mn.list(landscape)
+\method{lsm_l_enn_mn}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
 tibble
-
-tibble
 }
 \description{
 Euclidean Nearest Neighbor Distance Distribution (class level)
-
-Euclidean Nearest Neighbor Distance Distribution (class level)
 }
 \examples{
-lsm__lenn_mn(landscape)
-
-lsm__lenn_mn(landscape)
+lsm_l_enn_mn(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
-
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.

@@ -56,7 +56,7 @@ lsm_c_area_sd_calc <- function(landscape){
     area_sd <- landscape %>%
         lsm_p_area() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sd(value))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

@@ -52,8 +52,8 @@ lsm_c_lpi_calc <- function(landscape) {
 
     lpi <- landscape %>%
         lsm_p_area() %>%
-        dplyr::mutate(ta = sum(value),
-                      value = value / ta * 100) %>%
+        dplyr::mutate(total_area = sum(value),
+                      value = value / total_area * 100) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = max(value))
 

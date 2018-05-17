@@ -27,7 +27,7 @@ lsm_p_enn.RasterLayer <- function(landscape) {
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_p_enn_mn
+#' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc, .id = "layer") %>%
@@ -35,7 +35,7 @@ lsm_p_enn.RasterStack <- function(landscape) {
 
 }
 
-#' @name lsm_p_enn_mn
+#' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc, .id = "layer") %>%
@@ -43,14 +43,13 @@ lsm_p_enn.RasterBrick <- function(landscape) {
 
 }
 
-#' @name lsm_p_enn_mn
+#' @name lsm_p_enn
 #' @export
 lsm_p_enn.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_p_enn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
-
 
 lsm_p_enn_calc <- function(landscape) {
     cclabeled_raster <- cclabel(landscape)

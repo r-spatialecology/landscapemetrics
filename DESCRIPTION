@@ -29,7 +29,6 @@ Imports:
     raster,
     Rcpp (>= 0.12.1),
     spex,
-    stats,
     tibble
 Suggests: 
     covr,
