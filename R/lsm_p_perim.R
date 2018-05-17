@@ -56,47 +56,44 @@ lsm_p_perim_calc <- function(landscape){
     labeled_landscape <- landscape %>%
         cclabel()
 
-    perimeter <- labeled_landscape %>%
-        seq_along() %>%
+    perimeter_class <- landscape %>%
+        cclabel() %>%
+        unname() %>%
         purrr::map_dfr(function(x) {
 
-            landscape_patch <- padding(labeled_landscape[[x]])
+            landscape_padded <- padding(x)
 
-            patches_class <- labeled_landscape[[x]] %>%
+            x %>%
                 raster::values() %>%
                 stats::na.omit() %>%
-                unique()
+                unique() %>%
+                sort() %>%
+                purrr::map_dfr(function(y) {
+                    landscape_padded[landscape_padded != y | is.na(landscape_padded)] <- -999
 
-            class_id <- x
+                    adjacent_cells <- raster::adjacent(x = landscape_padded,
+                                                       cells = seq_len(raster::ncell(landscape_padded)),
+                                                       directions = 4,
+                                                       pairs = TRUE)
 
-            patches_class %>%
-                seq_along() %>%
-                purrr::map_dfr(function(x) {
-                    landscape_patch[landscape_patch != x | is.na(landscape_patch)] <- -999
-                    adjacent_cells <- raster::adjacent(landscape_patch,
-                                                       seq_len(raster::ncell(landscape_patch)),
-                                                       4,
-                                                       pairs=TRUE)
+                    neighbour_matrix <- table(landscape_padded[adjacent_cells[,1]],
+                                              landscape_padded[adjacent_cells[,2]])
 
-                    neighbour_matrix <- table(landscape_patch[adjacent_cells[,1]],
-                                              landscape_patch[adjacent_cells[,2]])
-
-                    perimeter <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                        prod(raster::res(landscape_patch))
+                    perimeter_patch_n <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
+                        prod(raster::res(landscape_padded))
 
                     tibble::tibble(
-                        class = class_id,
-                        id = x,
-                        value = perimeter
+                        id = NA,
+                        value = perimeter_patch_n
                     )
                 })
-        })
+        }, .id = "class")
 
     tibble::tibble(
         level = "patch",
-        class = perimeter$class,
-        id = perimeter$id,
+        class = as.integer(perimeter_class$class),
+        id = seq_len(nrow(perimeter_class)),
         metric = "perimeter",
-        value = perimeter$value
+        value = perimeter_class$value
     )
 }

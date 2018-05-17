@@ -12,15 +12,15 @@
 \alias{calculate_metrics.list}
 \title{Calculate metrics}
 \usage{
-calculate_metrics(landscape, what)
+calculate_metrics(landscape, what, ...)
 
-\method{calculate_metrics}{RasterLayer}(landscape, what = "all")
+\method{calculate_metrics}{RasterLayer}(landscape, what = "all", ...)
 
-\method{calculate_metrics}{RasterStack}(landscape, what = "all")
+\method{calculate_metrics}{RasterStack}(landscape, what = "all", ...)
 
-\method{calculate_metrics}{RasterBrick}(landscape, what = "all")
+\method{calculate_metrics}{RasterBrick}(landscape, what = "all", ...)
 
-\method{calculate_metrics}{list}(landscape, what = "all")
+\method{calculate_metrics}{list}(landscape, what = "all", ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
