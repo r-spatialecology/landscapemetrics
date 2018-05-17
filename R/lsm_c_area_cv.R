@@ -56,7 +56,7 @@ lsm_c_area_cv_calc <- function(landscape){
     area_cv <- landscape %>%
         lsm_p_area() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = cv(value))
+        dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",
