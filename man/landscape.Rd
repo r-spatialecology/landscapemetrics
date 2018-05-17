@@ -6,13 +6,13 @@
 \title{Example map (random cluster neutral landscape model).}
 \format{A raster layer object.}
 \source{
-Simulated neutral landscape model with R. \url{https://github.com/ropensci/NLMR/}
+Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
 }
 \usage{
 landscape
 }
 \description{
 An example map to show landscapetools functionality
-generated with the nlm_randomcluster() algorithm.
+generated with the \code{nlm_randomcluster()} algorithm.
 }
 \keyword{datasets}

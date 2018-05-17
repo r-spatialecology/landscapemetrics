@@ -3,16 +3,16 @@
 \docType{data}
 \name{landscape_stack}
 \alias{landscape_stack}
-\title{Example maps as raster stack  (random cluster neutral landscape model).}
+\title{Example maps as raster stack (random cluster neutral landscape model).}
 \format{A raster stack object.}
 \source{
-Simulated neutral landscape model with R. \url{https://github.com/ropensci/NLMR/}
+Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
 }
 \usage{
 landscape_stack
 }
 \description{
-An example map rasterstack to show landscapetools functionality
-generated with the nlm_randomcluster() algorithm.
+An example rasterstack to show landscapetools functionality
+generated with \code{nlm_mpd()} and \code{nlm_random()}.
 }
 \keyword{datasets}
