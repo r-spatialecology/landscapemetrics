@@ -16,5 +16,8 @@ globalVariables(c(".",
                   "richness",
                   "landscape",
                   "landscape_stack",
-                  "value"))
+                  "value",
+                  "x",
+                  "y",
+                  "total_area",))
 # nocov end

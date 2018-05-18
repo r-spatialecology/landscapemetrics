@@ -3,6 +3,7 @@
 #' @description Calculate all metrics of level
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @return tibble
 #'

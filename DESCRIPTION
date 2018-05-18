@@ -24,11 +24,11 @@ Depends:
 Imports: 
     checkmate,
     dplyr,
+    ggplot2,
     magrittr,
     purrr,
     raster,
     Rcpp (>= 0.12.1),
-    spex,
     tibble
 Suggests: 
     covr,
