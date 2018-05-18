@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_cai(landscape)
-#' lsm_p_cai(landscape_stack)
 #'
 #' @aliases lsm_p_cai
 #' @rdname lsm_p_cai
@@ -66,5 +65,3 @@ lsm_p_cai_calc <- function(landscape){
             value = cai
     )
 }
-
-

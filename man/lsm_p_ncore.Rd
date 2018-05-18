@@ -12,15 +12,15 @@
 \alias{lsm_p_ncore.list}
 \title{Number of core areas  (patch level)}
 \usage{
-lsm_p_ncore(landscape)
+lsm_p_ncore(landscape, directions)
 
-\method{lsm_p_ncore}{RasterLayer}(landscape)
+\method{lsm_p_ncore}{RasterLayer}(landscape, directions = 4)
 
-\method{lsm_p_ncore}{RasterStack}(landscape)
+\method{lsm_p_ncore}{RasterStack}(landscape, directions = 4)
 
-\method{lsm_p_ncore}{RasterBrick}(landscape)
+\method{lsm_p_ncore}{RasterBrick}(landscape, directions = 4)
 
-\method{lsm_p_ncore}{list}(landscape)
+\method{lsm_p_ncore}{list}(landscape, directions = 4)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
