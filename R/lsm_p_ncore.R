@@ -18,66 +18,73 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_ncore <- function(landscape) UseMethod("lsm_p_ncore")
+lsm_p_ncore <- function(landscape, directions) UseMethod("lsm_p_ncore")
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc, .id = "layer") %>%
+lsm_p_ncore.RasterLayer <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_ncore
-#' @export
-lsm_p_ncore.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc, .id = "layer") %>%
+lsm_p_ncore.RasterStack <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_ncore_calc, .id = "layer") %>%
+lsm_p_ncore.RasterBrick <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_ncore_calc <- function(landscape){
+#' @name lsm_p_ncore
+#' @export
+lsm_p_ncore.list <- function(landscape, directions = 4) {
+    purrr::map_dfr(landscape, lsm_p_ncore_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
+}
+
+lsm_p_ncore_calc <- function(landscape, directions){
 
     core_class <- landscape %>%
-        # padding(padding_value = NA) %>% Nedded ?
         cclabel() %>%
         unname() %>%
         purrr::map_dfr(function(x) {
-
             x %>%
                 raster::values() %>%
                 stats::na.omit() %>%
                 unique() %>%
                 sort() %>%
                 purrr::map_dfr(function(y) {
-                    x[x != y | is.na(x)] <- -999
+                    landscape_patch <- x
+                    landscape_patch[landscape_patch != y | is.na(landscape_patch)] <- -999
 
-                    core_patch_n <- raster::Which(x == y, cells = T) %>%
+                    core_cells <- raster::Which(landscape_patch == y, cells = T) %>%
                         purrr::map_dbl(function(z) {
-                        adjacent_cells <- raster::adjacent(x,
+                        adjacent_cells <- raster::adjacent(landscape_patch,
                                                            cells = z,
-                                                           directions = 4, # Use matrix for direction
+                                                           directions = directions, # Use matrix for direction
                                                            pairs = FALSE)
-
-                        all(x[adjacent_cells] == y)
+                        ifelse(all(landscape_patch[adjacent_cells] == y), z, NA)
                         }) %>%
-                        sum()
+                        na.omit()
+
+                    landscape_patch[!1:ncell(landscape_patch) %in% core_cells] <- NA
+
+                    core_patch_n <- landscape_patch %>% # PROBLEM IF ALL NA
+                        lsm_l_np() %>%
+                        dplyr::pull(value)
 
                     tibble::tibble(
                         id = NA,
