@@ -19,5 +19,5 @@ globalVariables(c(".",
                   "value",
                   "x",
                   "y",
-                  "total_area",))
+                  "total_area"))
 # nocov end

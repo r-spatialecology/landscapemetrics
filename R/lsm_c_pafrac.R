@@ -1,4 +1,4 @@
-#'  Perimeter-area fractal dimension  (landscape level)
+#' Perimeter-area fractal dimension  (landscape level)
 #'
 #' @description 2 divided by the beta coeffient of the regression log(area) ~ log(perimeter)
 #'
