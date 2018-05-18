@@ -68,7 +68,7 @@ lsm_c_ed_calc <- function(landscape) {
         dplyr::group_by(class) %>%
         dplyr::summarize(value = sum(value, na.rm = TRUE))
 
-    landscape_area <- ncell(landscape)
+    landscape_area <- raster::ncell(landscape)
 
     ed <- (total_edge_length / landscape_area) * 10000
 
