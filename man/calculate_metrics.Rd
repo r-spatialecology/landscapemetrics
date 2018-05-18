@@ -25,13 +25,15 @@ calculate_metrics(landscape, what, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
+\item{what}{Selected level of metrics: either "all", "patch", "class", "landscape". The default is "all".}
+
 \item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble
 }
 \description{
-Calculate all metrics of level
+Calculate a selected group of metrics
 }
 \examples{
 calculate_metrics(landscape)

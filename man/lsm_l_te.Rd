@@ -33,7 +33,6 @@ Total Edge
 }
 \examples{
 lsm_l_te(landscape)
-lsm_l_te(landscape_stack)
 
 }
 \references{

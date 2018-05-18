@@ -33,8 +33,6 @@ Percentage of Like Adjacencies
 }
 \examples{
 lsm_c_pladj(landscape)
-lsm_c_pladj(landscape_stack)
-lsm_c_pladj(raster::as.list(landscape_stack))
 
 }
 \references{

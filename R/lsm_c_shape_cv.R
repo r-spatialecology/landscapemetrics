@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_shape_cv(landscape)
-#' lsm_c_shape_cv(landscape_stack)
 #'
 #' @aliases lsm_c_shape_cv
 #' @rdname lsm_c_shape_cv

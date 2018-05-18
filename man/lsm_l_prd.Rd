@@ -34,7 +34,6 @@ landscape area
 }
 \examples{
 lsm_l_prd(landscape)
-lsm_l_prd(landscape_stack)
 
 }
 \references{

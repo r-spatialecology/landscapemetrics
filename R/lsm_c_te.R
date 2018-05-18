@@ -8,8 +8,6 @@
 #'
 #' @examples
 #' lsm_c_te(landscape)
-#' lsm_c_te(landscape_stack)
-#' lsm_c_te(raster::as.list(landscape_stack))
 #'
 #' @aliases lsm_c_te
 #' @rdname lsm_c_te

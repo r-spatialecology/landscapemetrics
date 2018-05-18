@@ -31,7 +31,6 @@ Number of different classes divided by (potential) maximum number of classes
 }
 \examples{
 lsm_l_rpr(landscape, 4)
-lsm_l_rpr(landscape_stack, 4)
 
 }
 \references{

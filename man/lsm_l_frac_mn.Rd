@@ -33,7 +33,6 @@ Ratio of patch perimeter and area
 }
 \examples{
 lsm_l_frac_mn(landscape)
-lsm_l_frac_mn(landscape_stack)
 
 }
 \references{

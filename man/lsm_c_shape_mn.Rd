@@ -33,7 +33,6 @@ Perimeter divided by squareroot of area
 }
 \examples{
 lsm_c_shape_mn(landscape)
-lsm_c_shape_mn(landscape_stack)
 
 }
 \references{

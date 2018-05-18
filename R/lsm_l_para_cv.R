@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_l_para_cv(landscape)
-#' lsm_l_para_cv(landscape_stack)
 #'
 #' @aliases lsm_l_para_cv
 #' @rdname lsm_l_para_cv

@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_lpi(landscape)
-#' lsm_c_lpi(landscape_stack)
 #'
 #' @aliases lsm_c_lpi
 #' @rdname lsm_c_lpi

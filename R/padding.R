@@ -10,7 +10,6 @@
 #'
 #' @examples
 #' padding(landscape)
-#' padding(landscape_stack)
 #'
 #' @aliases padding
 #' @rdname padding

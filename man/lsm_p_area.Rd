@@ -33,7 +33,6 @@ Patch size (patch level)
 }
 \examples{
 lsm_p_area(landscape)
-lsm_p_area(landscape_stack)
 
 }
 \references{

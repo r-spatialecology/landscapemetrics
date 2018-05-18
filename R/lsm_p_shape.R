@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_shape(landscape)
-#' lsm_p_shape(landscape_stack)
 #'
 #' @aliases lsm_p_shape
 #' @rdname lsm_p_shape

@@ -33,7 +33,6 @@ Perimeter of patch
 }
 \examples{
 lsm_p_perim(landscape)
-lsm_p_perim(landscape_stack)
 
 }
 \references{

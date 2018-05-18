@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_area_sd(landscape)
-#' lsm_c_area_sd(landscape_stack)
 #'
 #' @aliases lsm_c_area_sd
 #' @rdname lsm_c_area_sd

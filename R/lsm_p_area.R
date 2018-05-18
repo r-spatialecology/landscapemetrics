@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_area(landscape)
-#' lsm_p_area(landscape_stack)
 #'
 #' @aliases lsm_p_area
 #' @rdname lsm_p_area

@@ -10,7 +10,6 @@
 #'
 #' @examples
 #' show_patches(landscape)
-#' show_patches(landscape_stack)
 #'
 #' @aliases show_patches
 #' @rdname show_patches

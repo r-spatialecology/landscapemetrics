@@ -33,7 +33,6 @@ Number of core cells
 }
 \examples{
 lsm_p_ncore(landscape)
-lsm_p_ncore(landscape_stack)
 
 }
 \references{

@@ -33,7 +33,6 @@ Number of patches
 }
 \examples{
 lsm_l_np(landscape)
-lsm_l_np(landscape_stack)
 
 }
 \references{

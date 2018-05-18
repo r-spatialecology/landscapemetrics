@@ -8,8 +8,6 @@
 #'
 #' @examples
 #' lsm_c_pladj(landscape)
-#' lsm_c_pladj(landscape_stack)
-#' lsm_c_pladj(raster::as.list(landscape_stack))
 #'
 #' @aliases lsm_c_pladj
 #' @rdname lsm_c_pladj

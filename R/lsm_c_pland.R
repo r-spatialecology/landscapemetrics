@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_pland(landscape)
-#' lsm_c_pland(landscape_stack)
 #'
 #' @aliases lsm_c_pland
 #' @rdname lsm_c_pland

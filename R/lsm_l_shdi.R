@@ -7,8 +7,6 @@
 #'
 #' @examples
 #' lsm_l_shdi(landscape)
-#' lsm_l_shdi(landscape_stack)
-#' lsm_l_shdi(raster::as.list(landscape_stack))
 #'
 #' @aliases lsm_l_shdi
 #' @rdname lsm_l_shdi

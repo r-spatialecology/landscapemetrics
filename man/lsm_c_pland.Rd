@@ -33,7 +33,6 @@ Percentage of landscape (class level)
 }
 \examples{
 lsm_c_pland(landscape)
-lsm_c_pland(landscape_stack)
 
 }
 \references{

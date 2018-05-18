@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_l_frac_mn(landscape)
-#' lsm_l_frac_mn(landscape_stack)
 #'
 #' @aliases lsm_l_frac_mn
 #' @rdname lsm_l_frac_mn

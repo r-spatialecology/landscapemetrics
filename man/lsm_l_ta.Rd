@@ -33,7 +33,6 @@ Total area (landscape level)
 }
 \examples{
 lsm_l_ta(landscape)
-lsm_l_ta(landscape_stack)
 
 }
 \references{

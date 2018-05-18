@@ -40,7 +40,6 @@ Adding padding to raster
 }
 \examples{
 padding(landscape)
-padding(landscape_stack)
 
 }
 \references{

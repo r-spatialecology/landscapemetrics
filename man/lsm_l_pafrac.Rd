@@ -33,7 +33,6 @@ tibble
 }
 \examples{
 lsm_l_pafrac(landscape)
-lsm_l_pafrac(landscape_stack)
 
 }
 \references{

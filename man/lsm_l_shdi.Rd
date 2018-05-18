@@ -33,8 +33,6 @@ Diversity of patch types (classes) in the landscape
 }
 \examples{
 lsm_l_shdi(landscape)
-lsm_l_shdi(landscape_stack)
-lsm_l_shdi(raster::as.list(landscape_stack))
 
 }
 \references{

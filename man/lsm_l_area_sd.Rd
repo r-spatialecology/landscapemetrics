@@ -33,7 +33,6 @@ Standard deviation patch size (landscape level)
 }
 \examples{
 lsm_l_area_sd(landscape)
-lsm_l_area_sd(landscape_stack)
 
 }
 \references{

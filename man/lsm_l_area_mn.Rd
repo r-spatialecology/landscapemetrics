@@ -33,7 +33,6 @@ Mean patch size (landscape level)
 }
 \examples{
 lsm_l_area_mn(landscape)
-lsm_l_area_mn(landscape_stack)
 
 }
 \references{

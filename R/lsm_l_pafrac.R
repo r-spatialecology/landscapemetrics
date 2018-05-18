@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_l_pafrac(landscape)
-#' lsm_l_pafrac(landscape_stack)
 #'
 #' @aliases lsm_l_pafrac
 #' @rdname lsm_l_pafrac

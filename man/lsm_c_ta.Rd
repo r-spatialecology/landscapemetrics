@@ -33,7 +33,6 @@ Total area of class (class level)
 }
 \examples{
 lsm_c_ta(landscape)
-lsm_c_ta(landscape_stack)
 
 }
 \references{

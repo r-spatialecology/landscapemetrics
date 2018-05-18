@@ -33,7 +33,6 @@ Area of the larges patch divided by the total area (class level)
 }
 \examples{
 lsm_c_lpi(landscape)
-lsm_c_lpi(landscape_stack)
 
 }
 \references{

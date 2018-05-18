@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_shape_sd(landscape)
-#' lsm_c_shape_sd(landscape_stack)
 #'
 #' @aliases lsm_c_shape_sd
 #' @rdname lsm_c_shape_sd

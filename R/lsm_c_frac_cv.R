@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_c_frac_cv(landscape)
-#' lsm_c_frac_cv(landscape_stack)
 #'
 #' @aliases lsm_c_frac_cv
 #' @rdname lsm_c_frac_cv

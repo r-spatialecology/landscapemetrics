@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_perim(landscape)
-#' lsm_p_perim(landscape_stack)
 #'
 #' @aliases lsm_p_perim
 #' @rdname lsm_p_perim

@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_ncore(landscape)
-#' lsm_p_ncore(landscape_stack)
 #'
 #' @aliases lsm_p_ncore
 #' @rdname lsm_p_ncore

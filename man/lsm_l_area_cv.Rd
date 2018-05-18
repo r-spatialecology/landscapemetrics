@@ -33,7 +33,6 @@ Coefficient of variation patch size (landscape level)
 }
 \examples{
 lsm_l_area_cv(landscape)
-lsm_l_area_cv(landscape_stack)
 
 }
 \references{

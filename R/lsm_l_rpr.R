@@ -9,7 +9,6 @@
 #'
 #' @examples
 #' lsm_l_rpr(landscape, 4)
-#' lsm_l_rpr(landscape_stack, 4)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr

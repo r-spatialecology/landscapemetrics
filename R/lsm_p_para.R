@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' lsm_p_para(landscape)
-#' lsm_p_para(landscape_stack)
 #'
 #' @aliases lsm_p_para
 #' @rdname lsm_p_para
