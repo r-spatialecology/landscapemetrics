@@ -1,6 +1,6 @@
-#' Patch area distribution (class level)
+#' Distribution number of core areas (landscape level)
 #'
-#' @description Mean patch size (class level)
+#' @description Coeffiecent of variation (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -61,7 +61,7 @@ lsm_l_ncore_cv_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area (cv)",
+        metric = "number of core areas (cv)",
         value = ncore_cv$value
     )
 }

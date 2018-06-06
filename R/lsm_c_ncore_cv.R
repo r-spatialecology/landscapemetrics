@@ -1,6 +1,6 @@
-#' Disjunct core area density (class level)
+#' Distrubution number of core areas (class level)
 #'
-#' @description Disjunct core area density (class level)
+#' @description Coeffiecent of variation (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -52,16 +52,16 @@ lsm_c_ncore_cv.list <- function(landscape) {
 }
 
 lsm_c_ncore_cv_calc <- function(landscape){
-    ndca_sd <- landscape %>%
+    ncore_sd <- landscape %>%
         lsm_p_ncore() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
-        level = "patch",
-        class = ndca_sd$class,
+        level = "class",
+        class = ncore_sd$class,
         id = as.integer(NA),
-        metric = "number of disjunct core areas (cv)",
-        value = ndca_sd$value
+        metric = "number of core areas (cv)",
+        value = ncore_sd$value
     )
 }

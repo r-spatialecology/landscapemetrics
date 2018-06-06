@@ -1,6 +1,6 @@
-#' Disjunct core area density (class level)
+#' Distrubution number of core areas (class level)
 #'
-#' @description Disjunct core area density (class level)
+#' @description Mean (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -52,16 +52,16 @@ lsm_c_ncore_mn.list <- function(landscape) {
 }
 
 lsm_c_ncore_mn_calc <- function(landscape){
-    ndca_mean <- landscape %>%
+    ncore_mean <- landscape %>%
         lsm_p_ncore() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value))
 
     tibble::tibble(
-        level = "patch",
-        class = ndca_mean$class,
+        level = "class",
+        class = ncore_mean$class,
         id = as.integer(NA),
-        metric = "number of disjunct core areas (mean)",
-        value = ndca_mean$value
+        metric = "number of core areas (mean)",
+        value = ncore_mean$value
     )
 }

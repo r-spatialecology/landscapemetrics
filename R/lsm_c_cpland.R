@@ -1,6 +1,6 @@
-#'  Total area of core areas  (class level)
+#'  Core area percentage of landscape (class level)
 #'
-#' @description Area of corea area
+#' @description Core area of class divided by landscape area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -67,7 +67,7 @@ lsm_c_cpland_calc <- function(landscape, directions){
         level = "class",
         class = cpland$class,
         id = as.integer(NA),
-        metric = "total core area",
+        metric = "core area percentage of landscape",
         value = cpland$value
     )
 }

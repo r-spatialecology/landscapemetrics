@@ -1,6 +1,6 @@
-#' Disjunct core area density (class level)
+#' Disjunct core area density (landscape level)
 #'
-#' @description Disjunct core area density (class level)
+#' @description Core area divided by landscape area (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -55,14 +55,14 @@ lsm_l_dcad_calc <- function(landscape){
 
     total_area <- lsm_l_ta(landscape)
 
-    dcad <- lsm_l_ndca(landscape) %>%
+    dcad <- lsm_l_ncore(landscape) %>%
         dplyr::mutate(value = value / total_area$value  * 100  * 10000) # Correct unit?
 
     tibble::tibble(
         level = "class",
         class = dcad$class,
         id = as.integer(NA),
-        metric = "core area index",
+        metric = "disjunct core area density",
         value = dcad$value
     )
 }

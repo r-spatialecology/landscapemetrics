@@ -1,6 +1,6 @@
-#' Disjunct core area density (class level)
+#' Number of core areas (class level)
 #'
-#' @description Disjunct core area density (class level)
+#' @description Called number of disjunct core areas in FRAGSTATS (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -52,16 +52,16 @@ lsm_c_ncore.list <- function(landscape) {
 }
 
 lsm_c_ncore_calc <- function(landscape){
-    ndca <- landscape %>%
+    ncore <- landscape %>%
         lsm_p_ncore() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value))
 
     tibble::tibble(
-        level = "patch",
-        class = ndca$class,
+        level = "class",
+        class = ncore$class,
         id = as.integer(NA),
-        metric = "number of disjunct core areas",
-        value = ndca$value
+        metric = "number of core areas",
+        value = ncore$value
     )
 }

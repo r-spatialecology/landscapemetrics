@@ -1,6 +1,6 @@
-#' Disjunct core area density (class level)
+#' Core area index distribution (class level)
 #'
-#' @description Disjunct core area density (class level)
+#' @description Mean (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -58,7 +58,7 @@ lsm_c_cai_mn_calc <- function(landscape){
         dplyr::summarise(value = mean(value))
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = ndca_sd$class,
         id = as.integer(NA),
         metric = "core area index (mean)",

@@ -1,6 +1,6 @@
-#' Patch area distribution (class level)
+#' Core area distribution (class level)
 #'
-#' @description Mean patch size (class level)
+#' @description Standard deviation (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'

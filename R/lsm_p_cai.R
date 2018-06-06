@@ -1,6 +1,6 @@
-#' Core area index  (class level)
+#' Core area index  (patch level)
 #'
-#' @description Core area divided by pathch area (class level)
+#' @description Core area divided by pathch area (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'

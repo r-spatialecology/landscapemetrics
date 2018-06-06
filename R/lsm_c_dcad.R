@@ -62,7 +62,7 @@ lsm_c_dcad_calc <- function(landscape){
         level = "class",
         class = dcad$class,
         id = as.integer(NA),
-        metric = "core area index",
+        metric = "disjunct core area density",
         value = dcad$value
     )
 }
