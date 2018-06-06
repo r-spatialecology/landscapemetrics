@@ -18,43 +18,80 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_core <- function(landscape) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
+lsm_p_core.RasterLayer <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_core
-#' @export
-lsm_p_core.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
+lsm_p_core.RasterStack <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_core_calc, .id = "layer") %>%
+lsm_p_core.RasterBrick <- function(landscape, directions = 4) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_core_calc <- function(landscape){
+#' @name lsm_p_core
+#' @export
+lsm_p_core.list <- function(landscape, directions = 4) {
+    purrr::map_dfr(landscape, lsm_p_core_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    lsm_p_ncore(landscape) %>%
-        dplyr::mutate(metric = "core area",
-                      value = value * prod(raster::res(landscape))) %>%
-        dplyr::select(-layer)
+}
+
+lsm_p_core_calc <- function(landscape, directions){
+
+    core_area <- landscape %>%
+        cclabel() %>%
+        unname() %>%
+        purrr::map_dfr(function(landscape_patch) {
+            landscape_patch %>%
+                raster::values() %>%
+                stats::na.omit() %>%
+                unique() %>%
+                sort() %>%
+                purrr::map_dfr(function(patch_id) {
+                    landscape_patch[landscape_patch != patch_id |
+                                        is.na(landscape_patch)] <- -999
+                    core_cells <- raster::Which(landscape_patch == patch_id, cells = T) %>%
+                        purrr::map_dbl(function(cell_id) {
+                            adjacent_cells <- raster::adjacent(landscape_patch,
+                                                               cells = cell_id,
+                                                               directions = directions,
+                                                               pairs = FALSE)
+                            ifelse(all(landscape_patch[adjacent_cells] == patch_id), cell_id, NA)
+                        }) %>%
+                        na.omit() %>%
+                        length()
+
+                    tibble::tibble(
+                        id = NA,
+                        value = core_cells
+                    )
+                })
+        }, .id = "class")
+
+    tibble::tibble(
+        level = "patch",
+        class = as.integer(core_area$class),
+        id = seq_len(nrow(core_area)),
+        metric = "core area",
+        value = core_area$value * prod(raster::res(landscape))
+    )
 }
