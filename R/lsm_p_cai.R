@@ -1,6 +1,6 @@
-#' Core area index  (patch level)
+#' Core area index  (class level)
 #'
-#' @description Core area divided by pathch area (patch level)
+#' @description Core area divided by pathch area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -52,16 +52,18 @@ lsm_p_cai.list <- function(landscape) {
 }
 
 lsm_p_cai_calc <- function(landscape){
-    core_area <- lsm_p_core(landscape)
+
     area <- lsm_p_area(landscape)
 
-    cai <- core_area$value / area$value * 100
+    cai <- landscape %>%
+        lsm_p_core() %>%
+        dplyr::mutate(value = value / area$value * 100)
 
-        tibble::tibble(
-            level = "patch",
-            class = core_area$class,
-            id = core_area$id,
-            metric = "core area index",
-            value = cai
+    tibble::tibble(
+        level = "patch",
+        class = cai$class,
+        id = cai$id,
+        metric = "core area index",
+        value = cai$value
     )
 }

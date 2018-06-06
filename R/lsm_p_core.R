@@ -82,7 +82,7 @@ lsm_p_core_calc <- function(landscape, directions){
 
                     tibble::tibble(
                         id = NA,
-                        value = core_cells
+                        value = core_cells * prod(raster::res(landscape))
                     )
                 })
         }, .id = "class")
@@ -92,6 +92,6 @@ lsm_p_core_calc <- function(landscape, directions){
         class = as.integer(core_area$class),
         id = seq_len(nrow(core_area)),
         metric = "core area",
-        value = core_area$value * prod(raster::res(landscape))
+        value = core_area$value
     )
 }
