@@ -57,11 +57,11 @@ lsm_p_area_calc <- function(landscape){
 
     area_class <- labeled_landscape %>%
         unname() %>%
-        purrr::map_dfr(function(x){
-            area_patch <- x %>%
+        purrr::map_dfr(function(patches_class){
+            area_patch <- patches_class %>%
                 raster::values() %>%
                 table(useNA = "no") %>%
-                magrittr::multiply_by(prod(raster::res(x)))
+                magrittr::multiply_by(prod(raster::res(patches_class)))
 
             tibble::tibble(
                 id = NA,
