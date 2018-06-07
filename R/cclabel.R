@@ -87,9 +87,9 @@ cclabel_int <- function(landscape, what = "all") {
         # specify resolution ----
         raster::extent(cclabel_landscape) <- c(
             raster::xmin(landscape),
-            raster::xmax(landscape) * raster::res(landscape)[1],
+            raster::xmax(landscape),
             raster::xmin(landscape),
-            raster::xmax(landscape) * raster::res(landscape)[2]
+            raster::xmax(landscape)
         )
 
         rcl <-  cbind(
@@ -131,9 +131,9 @@ cclabel_int <- function(landscape, what = "all") {
             # specify resolution ----
             raster::extent(cclabel_landscape) <- c(
                 raster::xmin(landscape),
-                raster::xmax(landscape) * raster::res(landscape)[1],
+                raster::xmax(landscape),
                 raster::xmin(landscape),
-                raster::xmax(landscape) * raster::res(landscape)[2]
+                raster::xmax(landscape)
             )
 
             rcl <-  cbind(
