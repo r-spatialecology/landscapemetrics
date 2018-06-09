@@ -59,7 +59,7 @@ lsm_l_shdi_calc = function(landscape) {
         level = 'landscape',
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = 'Shannon evenness',
+        metric = 'Shannon diversity index',
         value = sum(-p * log(p, exp(1)), na.rm = TRUE)
     )
     H
