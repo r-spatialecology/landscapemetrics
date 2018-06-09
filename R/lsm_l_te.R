@@ -1,4 +1,4 @@
-#'  Total Edge (TE, landscape scale)
+#' Total Edge (TE, landscape scale)
 #'
 #' @description  Total Edge
 #'
@@ -67,7 +67,7 @@ lsm_l_te_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "euclidean nearest neighbor distance distribution (mean)",
+        metric = "total edge",
         value = sum(total_edge$value)
     )
 
