@@ -9,52 +9,52 @@
 #' @return tibble
 #'
 #' @examples
-#' calculate_metrics(landscape)
-#' calculate_metrics(landscape_stack, what = "patch")
+#' lsm_calculate(landscape)
+#' lsm_calculate(landscape_stack, what = "patch")
 #'
-#' @aliases calculate_metrics
-#' @rdname calculate_metrics
+#' @aliases lsm_calculate
+#' @rdname lsm_calculate
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-calculate_metrics <- function(landscape, what, ...) UseMethod("calculate_metrics")
+lsm_calculate <- function(landscape, what, ...) UseMethod("lsm_calculate")
 
-#' @name calculate_metrics
+#' @name lsm_calculate
 #' @export
-calculate_metrics.RasterLayer <- function(landscape, what = "all", ...) {
+lsm_calculate.RasterLayer <- function(landscape, what = "all", ...) {
 
-    calculate_metrics_internal(landscape, what = what, ...)
+    lsm_calculate_internal(landscape, what = what, ...)
 
 }
 
-#' @name calculate_metrics
+#' @name lsm_calculate
 #' @export
-calculate_metrics.RasterStack <- function(landscape, what = "all", ...) {
-    purrr::map_dfr(raster::as.list(landscape), calculate_metrics_internal,
+lsm_calculate.RasterStack <- function(landscape, what = "all", ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_calculate_internal,
                    what = what) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name calculate_metrics
+#' @name lsm_calculate
 #' @export
-calculate_metrics.RasterBrick <- function(landscape, what = "all", ...) {
-    purrr::map_dfr(raster::as.list(landscape), calculate_metrics_internal,
+lsm_calculate.RasterBrick <- function(landscape, what = "all", ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_calculate_internal,
                    what = what) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name calculate_metrics
+#' @name lsm_calculate
 #' @export
-calculate_metrics.list <- function(landscape, what = "all", ...) {
-    purrr::map_dfr(landscape, calculate_metrics_internal,
+lsm_calculate.list <- function(landscape, what = "all", ...) {
+    purrr::map_dfr(landscape, lsm_calculate_internal,
                    what = what) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-calculate_metrics_internal <- function(landscape, what = "all", ...) {
+lsm_calculate_internal <- function(landscape, what = "all", ...) {
     # level <- "lsm"
     # lsf.str("package:landscapemetrics") %>%
     #     grep(pattern = level, x = ., value = TRUE) %>%
