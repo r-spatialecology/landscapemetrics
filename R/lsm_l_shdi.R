@@ -16,7 +16,6 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-
 lsm_l_shdi <- function(landscape)
     UseMethod("lsm_l_shdi")
 
@@ -59,7 +58,7 @@ lsm_l_shdi_calc = function(landscape) {
         level = 'landscape',
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = 'Shannon diversity index',
+        metric = "Shannon's diversity index",
         value = sum(-p * log(p, exp(1)), na.rm = TRUE)
     )
     H

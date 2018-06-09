@@ -24,6 +24,8 @@ lsm_p_ncore(landscape, directions)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{...}
 }
 \value{
 tibble

@@ -33,7 +33,6 @@ Core area divided by pathch area (patch level)
 }
 \examples{
 lsm_p_cai(landscape)
-lsm_p_cai(landscape_stack)
 
 }
 \references{

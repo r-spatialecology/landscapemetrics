@@ -55,7 +55,7 @@ lsm_c_dcad_calc <- function(landscape){
 
     total_area <- lsm_l_ta(landscape)
 
-    dcad <- lsm_c_ndca(landscape) %>%
+    dcad <- lsm_c_ncore(landscape) %>%
         dplyr::mutate(value = value / total_area$value  * 100  * 10000) # Correct unit?
 
     tibble::tibble(

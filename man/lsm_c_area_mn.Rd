@@ -29,7 +29,7 @@ lsm_c_area_mn(landscape)
 tibble
 }
 \description{
-Mean patch size (class level)
+Mean (class level)
 }
 \examples{
 lsm_c_area_mn(landscape)

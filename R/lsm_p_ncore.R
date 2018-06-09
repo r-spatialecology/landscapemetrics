@@ -3,8 +3,12 @@
 #' @description Number of core cells
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions ...
 #'
 #' @return tibble
+#'
+#' @importFrom stats na.omit
+#' @importFrom raster ncell
 #'
 #' @examples
 #' lsm_p_ncore(landscape)

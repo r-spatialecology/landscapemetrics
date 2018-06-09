@@ -3,6 +3,7 @@
 #' @description Core area of class divided by landscape area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions ...
 #'
 #' @return tibble
 #'
@@ -60,7 +61,7 @@ lsm_c_cpland_calc <- function(landscape, directions){
     total_area <- lsm_l_ta(landscape)
 
     cpland <- landscape %>%
-        lsm_c_tca(directions = directions) %>%
+        lsm_c_core(directions = directions) %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(

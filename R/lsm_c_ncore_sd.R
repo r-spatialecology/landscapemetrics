@@ -6,6 +6,8 @@
 #'
 #' @return tibble
 #'
+#' @importFrom stats sd
+#'
 #' @examples
 #' lsm_c_ncore_sd(landscape)
 #'

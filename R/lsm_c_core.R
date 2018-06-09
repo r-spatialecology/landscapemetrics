@@ -3,6 +3,7 @@
 #' @description Area of corea area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions ...
 #'
 #' @return tibble
 #'

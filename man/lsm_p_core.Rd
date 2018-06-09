@@ -12,18 +12,20 @@
 \alias{lsm_p_core.list}
 \title{Area of core areas  (patch level)}
 \usage{
-lsm_p_core(landscape)
+lsm_p_core(landscape, directions)
 
-\method{lsm_p_core}{RasterLayer}(landscape)
+\method{lsm_p_core}{RasterLayer}(landscape, directions = 4)
 
-\method{lsm_p_core}{RasterStack}(landscape)
+\method{lsm_p_core}{RasterStack}(landscape, directions = 4)
 
-\method{lsm_p_core}{RasterBrick}(landscape)
+\method{lsm_p_core}{RasterBrick}(landscape, directions = 4)
 
-\method{lsm_p_core}{list}(landscape)
+\method{lsm_p_core}{list}(landscape, directions = 4)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{...}
 }
 \value{
 tibble

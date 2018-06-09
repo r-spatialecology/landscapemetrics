@@ -3,8 +3,11 @@
 #' @description Area of corea area
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions ...
 #'
 #' @return tibble
+#'
+#' @importFrom stats na.omit
 #'
 #' @examples
 #' lsm_p_core(landscape)

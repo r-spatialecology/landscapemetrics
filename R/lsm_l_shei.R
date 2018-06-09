@@ -57,7 +57,7 @@ lsm_l_shei_calc = function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "Shannon evenness",
+        metric = "Shannon's evenness index",
         value = sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1))
     )
     E
