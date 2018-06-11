@@ -1,8 +1,16 @@
-#'  Perimeter area ratio  (patch level)
+#'  Perimeter-area ratio  (patch level)
 #'
-#' @description Ratio of patch perimeter and area
+#' @description Ratio of patch perimeter and area (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @param details
+#' The perimeter-area ratio equals patch perimeter
+#' divided by patch area (no unit) and is a simple measure of complexity
+#' \deqn{PARA = perimeter[patch] / area[patch]}
+#' \subsection{Units}{None}
+#' \subsection{Range}{PARA = 1 for a square and
+#' increases as the patch becomes more irregular}
 #'
 #' @return tibble
 #'

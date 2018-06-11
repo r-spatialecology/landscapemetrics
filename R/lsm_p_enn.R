@@ -1,8 +1,14 @@
-#' Euclidean Nearest Neighbor Distance (ENN)
+#' Euclidean Nearest-Neighbor Distance (ENN)
 #'
-#' @description Euclidean Nearest Neighbor Distance Distribution (patch level)
+#' @description Euclidean Nearest-Neighbor Distance of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the distance the the nearest neigbouring patch of the same patch type (shortest
+#' edge-to-edge distance)
+#' \subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{ENN > 0}
 #'
 #' @return tibble
 #'

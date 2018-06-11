@@ -29,7 +29,14 @@ lsm_p_cai(landscape)
 tibble
 }
 \description{
-Core area divided by pathch area (patch level)
+Core area index of patch (patch level)
+}
+\details{
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI = (core[patch] / area[patch]) * 100}
+\subsection{Units}{Percentage}
+\subsection{Range}{0 <= CAI <= 100 \cr CAI = 0 when the patch has no core area and
+approaches CAI = 100 with increasing percentage of core area within a patch}
 }
 \examples{
 lsm_p_cai(landscape)

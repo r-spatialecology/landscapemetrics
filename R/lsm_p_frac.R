@@ -1,8 +1,16 @@
-#'  Perimeter area ratio  (patch level)
+#'  Fractal dimension index  (patch level)
 #'
-#' @description Ratio of patch perimeter and area
+#' @description Fractacl dimension index of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' The fractal dimension index equals two times the natural logarithm of a
+#' quarter of the patch area divided by the natural logarithm of the patch area
+#' \deqn{FRAC = 2 * ln(0.25 * perimeter[patch]) / ln(area[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{1 <= FRAC <= 2 \cr The fractal dimension index approaches FRAC = 1 for
+#' simple patches and FRAC = 2 for irregular patches}
 #'
 #' @return tibble
 #'

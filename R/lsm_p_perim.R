@@ -1,8 +1,13 @@
 #'  Perimeter  (patch level)
 #'
-#' @description Perimeter of patch
+#' @description Perimeter of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the perimeter of the patch.
+#' \subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{PERIm > 0 and increases without limit as the patch size increases}
 #'
 #' @return tibble
 #'

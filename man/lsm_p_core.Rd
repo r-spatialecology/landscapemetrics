@@ -10,7 +10,7 @@
 \alias{lsm_p_core.RasterBrick}
 \alias{lsm_p_core}
 \alias{lsm_p_core.list}
-\title{Area of core areas  (patch level)}
+\title{Core area   (patch level)}
 \usage{
 lsm_p_core(landscape, directions)
 
@@ -31,7 +31,13 @@ lsm_p_core(landscape, directions)
 tibble
 }
 \description{
-Area of corea area
+Area of core area of patch (patch level)
+}
+\details{
+Equals the area within a patch that is not on the edge of the patch. In other words,
+the area of a patch that has only neighbouring cells of the same type
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{CORE >= 0 and may increase without limit as the patch size increases}
 }
 \examples{
 lsm_p_core(landscape)

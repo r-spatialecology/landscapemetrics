@@ -1,8 +1,16 @@
 #'  Shape index  (patch level)
 #'
-#' @description Perimeter divided by squareroot of area
+#' @description Shape index of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' The shape index equals a quater of the patch perimeter divided by the square root
+#' of the patch area
+#' \deqn{SHAPE = 0.25 * perimeter[patch] / sqrt(area[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{SHAPE = 1 for a square and
+#' increases as the patch becomes more irregular}
 #'
 #' @return tibble
 #'

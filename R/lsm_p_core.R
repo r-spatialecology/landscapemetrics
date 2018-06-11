@@ -1,9 +1,15 @@
-#'  Area of core areas  (patch level)
+#'  Core area   (patch level)
 #'
-#' @description Area of corea area
+#' @description Area of core area of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions ...
+#'
+#' @details
+#' Equals the area within a patch that is not on the edge of the patch. In other words,
+#' the area of a patch that has only neighbouring cells of the same type
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{CORE >= 0 and may increase without limit as the patch size increases}
 #'
 #' @return tibble
 #'

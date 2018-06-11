@@ -25,13 +25,20 @@ lsm_p_ncore(landscape, directions)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{...}
+\item{directions}{...
+
+#' @details
+Equals the number of disjunct core areas. A core area is a 'patch within the patch' without
+any edge cells. In other words, the number of patches within the patch that only have
+neighbouring cells of the same type
+\subsection{Units}{None}
+\subsection{Range}{NCORE >= 0 and may increase without limit as the patch size increases}}
 }
 \value{
 tibble
 }
 \description{
-Number of core cells
+Number of disjunct core areas (patch level)
 }
 \examples{
 lsm_p_ncore(landscape)

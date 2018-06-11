@@ -10,7 +10,7 @@
 \alias{lsm_p_enn.RasterBrick}
 \alias{lsm_p_enn}
 \alias{lsm_p_enn.list}
-\title{Euclidean Nearest Neighbor Distance (ENN)}
+\title{Euclidean Nearest-Neighbor Distance (ENN)}
 \usage{
 lsm_p_enn(landscape)
 
@@ -29,7 +29,13 @@ lsm_p_enn(landscape)
 tibble
 }
 \description{
-Euclidean Nearest Neighbor Distance Distribution (patch level)
+Euclidean Nearest-Neighbor Distance of patch (patch level)
+}
+\details{
+Equals the distance the the nearest neigbouring patch of the same patch type (shortest
+edge-to-edge distance)
+\subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{ENN > 0}
 }
 \examples{
 lsm_p_enn(landscape)

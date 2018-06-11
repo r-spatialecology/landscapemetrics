@@ -10,7 +10,7 @@
 \alias{lsm_p_para.RasterBrick}
 \alias{lsm_p_para}
 \alias{lsm_p_para.list}
-\title{Perimeter area ratio  (patch level)}
+\title{Perimeter-area ratio  (patch level)}
 \usage{
 lsm_p_para(landscape)
 
@@ -24,12 +24,19 @@ lsm_p_para(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{details}{The perimeter-area ratio equals patch perimeter
+divided by patch area (no unit) and is a simple measure of complexity
+\deqn{PARA = perimeter[patch] / area[patch]}
+\subsection{Units}{None}
+\subsection{Range}{PARA = 1 for a square and
+increases as the patch becomes more irregular}}
 }
 \value{
 tibble
 }
 \description{
-Ratio of patch perimeter and area
+Ratio of patch perimeter and area (patch level)
 }
 \examples{
 lsm_p_para(landscape)

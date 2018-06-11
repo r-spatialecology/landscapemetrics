@@ -1,8 +1,13 @@
-#' Patch area  (patch level)
+#' Area  (patch level)
 #'
-#' @description Patch size (patch level)
+#' @description Area of a patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the area of the patch
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{AREA > 0 and increases without limit as the patch size increases}
 #'
 #' @return tibble
 #'
@@ -73,7 +78,7 @@ lsm_p_area_calc <- function(landscape){
         level = "patch",
         class = as.integer(area_class$class),
         id = seq_len(nrow(area_class)),
-        metric = "patch area",
+        metric = "area",
         value = area_class$value
     )
 }

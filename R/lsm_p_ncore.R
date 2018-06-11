@@ -1,9 +1,16 @@
 #'  Number of core areas  (patch level)
 #'
-#' @description Number of core cells
+#' @description Number of disjunct core areas (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions ...
+#'
+#' #' @details
+#' Equals the number of disjunct core areas. A core area is a 'patch within the patch' without
+#' any edge cells. In other words, the number of patches within the patch that only have
+#' neighbouring cells of the same type
+#' \subsection{Units}{None}
+#' \subsection{Range}{NCORE >= 0 and may increase without limit as the patch size increases}
 #'
 #' @return tibble
 #'

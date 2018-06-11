@@ -29,7 +29,12 @@ lsm_p_perim(landscape)
 tibble
 }
 \description{
-Perimeter of patch
+Perimeter of patch (patch level)
+}
+\details{
+Equals the perimeter of the patch.
+\subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{PERIm > 0 and increases without limit as the patch size increases}
 }
 \examples{
 lsm_p_perim(landscape)
