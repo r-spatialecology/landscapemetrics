@@ -29,7 +29,13 @@ lsm_c_shape_mn(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Mean of shape index (class level)
+}
+\details{
+Equals the mean shape index of class i
+\deqn{SHAPE_MN = mean(SHAPE[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_shape_mn(landscape)

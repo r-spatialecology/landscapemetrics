@@ -10,7 +10,7 @@
 \alias{lsm_c_mesh.RasterBrick}
 \alias{lsm_c_mesh}
 \alias{lsm_c_mesh.list}
-\title{Effective mesh size (class level)}
+\title{Effective Mesh Size (class level)}
 \usage{
 lsm_c_mesh(landscape)
 
@@ -26,10 +26,19 @@ lsm_c_mesh(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
-Effective mesh size (class level)
+Effective Mesh Size (class level)
+}
+\details{
+The effective mesh size equals the sum of patch areas of class i squared
+divided by the total area divided by 10 000 to convert to hectares (???)
+\deqn{MESH = (sum(area[patch_i]) ^ 2 / total area) * (1 / 10 000)}
+\subsection{Units}{Hectares}
+\subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area \cr
+Effective mesh size equals the lower limit when every cell is a patch and
+increases when only one patch is present}
 }
 \examples{
 lsm_c_mesh(landscape)

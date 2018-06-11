@@ -1,8 +1,14 @@
 #' Core area distribution (class level)
 #'
-#' @description Mean (class level)
+#' @description Mean of patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the mean of the patch core area of class i
+#' \deqn{CORE_MN = mean(core[patch_i])}
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{???}
 #'
 #' @return tibble
 #'

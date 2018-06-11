@@ -4,7 +4,17 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' Patch density equals the number of patches of class i divided by the total
+#' area multiplied by 100 and 10 000 (???) to scale to number per 100 hectares.
+#' Patch density is a relative measure and compareable among landscapes with
+#' different total areas
+#' \deqn{PD = (number of patches / total area) * 100 * 10 000}
+#' \subsection{Units}{Number per 100 hectares}
+#' \subsection{Ranges}{PD > 0 \cr
+#' Increases as the landscape gets more patchy}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_c_pd(landscape)

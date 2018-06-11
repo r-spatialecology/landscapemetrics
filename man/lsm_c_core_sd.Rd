@@ -29,7 +29,13 @@ lsm_c_core_sd(landscape)
 tibble
 }
 \description{
-Standard deviation (class level)
+Standard deviation of patch core area (class level)
+}
+\details{
+Equals the standard deviation of the patch core area of class i
+\deqn{CORE_SD = sd(core[patch_i])}
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_core_sd(landscape)

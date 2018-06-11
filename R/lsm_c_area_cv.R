@@ -1,8 +1,14 @@
 #' Patch area distribution (class level)
 #'
-#' @description Coefficient of variation (class level)
+#' @description Coeffiecent of variation of patch area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the Coeffiecent of variation of the patch area of class i
+#' \deqn{AREA_CV = cv(area[patch_i])}
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{???}
 #'
 #' @return tibble
 #'

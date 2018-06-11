@@ -1,4 +1,4 @@
-#'  Core area   (patch level)
+#'  Core area (patch level)
 #'
 #' @description Area of core area of patch (patch level)
 #'
@@ -9,7 +9,8 @@
 #' Equals the area within a patch that is not on the edge of the patch. In other words,
 #' the area of a patch that has only neighbouring cells of the same type
 #' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{CORE >= 0 and may increase without limit as the patch size increases}
+#' \subsection{Range}{CORE >= 0 and increases without limit as patch area increases
+#' and patch shape simplifies. CORE = 0 when every cell in the patch is an edge}
 #'
 #' @return tibble
 #'

@@ -1,4 +1,4 @@
-#'  Shape index  (patch level)
+#' Shape index  (patch level)
 #'
 #' @description Shape index of patch (patch level)
 #'

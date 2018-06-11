@@ -1,10 +1,19 @@
-#' Division index (class level)
+#' Landscape division index (class level)
 #'
-#' @description Division index (class level)
+#' @description Landscpae division index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The landscape division index equals 1 minus the sum of patch areas of
+#' class i divided by the total area squared
+#' \deqn{DIVISON = 1 - sum((area[patch_i] / total area) ^ 2)}
+#' \subsection{Units}{Proportion (???)}
+#' \subsection{Ranges}{0 <= Division < 1 \cr
+#' Division equals DIVISION = 1 when only one class and patch is present. Approaches
+#' DIVISON = 1 when all patches of class i are single cells}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_c_division(landscape)

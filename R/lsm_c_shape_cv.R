@@ -1,8 +1,14 @@
-#'  Shape index  (class level)
+#' Shape index  (class level)
 #'
-#' @description Perimeter divided by squareroot of area
+#' @description Coeffiecent of variation of shape index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the coeffiecent of variation shape index of class i
+#' \deqn{SHAPE_MN = cv(SHAPE[patch_i])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
 #'
 #' @return tibble
 #'

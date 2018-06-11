@@ -10,7 +10,7 @@
 \alias{lsm_c_pladj.RasterBrick}
 \alias{lsm_c_pladj}
 \alias{lsm_c_pladj.list}
-\title{Percentage of Like Adjacencies}
+\title{Percentage of Like Adjacencies (class level)}
 \usage{
 lsm_c_pladj(landscape)
 
@@ -29,7 +29,20 @@ lsm_c_pladj(landscape)
 tibble
 }
 \description{
-Percentage of Like Adjacencies
+Percentage of Like Adjacencies (class level)
+}
+\details{
+Percentage of like adjacencies equals the number of like adjacencies of
+class i divided by the total number of like adjacencies. In other other words,
+PLADJ equals the percentage of like adjacencies of class i of all like
+adjacencies. It is a measure of class aggregation.
+
+\deqn{PLADJ = Number of like adjacencies / sum(Number of like adjacencies)}
+\subsection{Units}{Percentage}
+\subsection{Ranges}{0 <= PLADJ <= 100 \cr
+PLADJ equals PLADJ = 0 when class i is maximally dissagregated, i.e. every
+cell is a different patch. PLADJ = 100 when the only one class and patch
+is present}
 }
 \examples{
 lsm_c_pladj(landscape)

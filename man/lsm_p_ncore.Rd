@@ -10,7 +10,7 @@
 \alias{lsm_p_ncore.RasterBrick}
 \alias{lsm_p_ncore}
 \alias{lsm_p_ncore.list}
-\title{Number of core areas  (patch level)}
+\title{Number of core areas (patch level)}
 \usage{
 lsm_p_ncore(landscape, directions)
 
@@ -32,7 +32,10 @@ Equals the number of disjunct core areas. A core area is a 'patch within the pat
 any edge cells. In other words, the number of patches within the patch that only have
 neighbouring cells of the same type
 \subsection{Units}{None}
-\subsection{Range}{NCORE >= 0 and may increase without limit as the patch size increases}}
+\subsection{Range}{NCORE >= 0 \cr
+NCORE = 0 when TCA = 0, i.e. every cell in patches of class i is an edge.
+NCORE increases without limit as core areas become more present,
+i.e. patches becoming larger and less complex}}
 }
 \value{
 tibble

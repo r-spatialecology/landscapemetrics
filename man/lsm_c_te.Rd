@@ -10,7 +10,7 @@
 \alias{lsm_c_te.RasterBrick}
 \alias{lsm_c_te}
 \alias{lsm_c_te.list}
-\title{Total Edge  (TE, class scale)}
+\title{Total Edge  (class level)}
 \usage{
 lsm_c_te(landscape)
 
@@ -29,7 +29,15 @@ lsm_c_te(landscape)
 tibble
 }
 \description{
-Total Edge
+Total edge of class (class level)
+}
+\details{
+Total edge equals the sum of the length of all edges of class i. Total edge is an
+absolute measure making comparisons among landscapes with different total areas difficult.
+??? Landscape border included or not ???
+\deqn{TE = sum(edges[class_i])}
+\subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{TE >= 0 and increases without limit as landscape becomes more patchy}
 }
 \examples{
 lsm_c_te(landscape)

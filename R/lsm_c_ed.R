@@ -1,8 +1,16 @@
-#' Edge Density
+#' Edge Density (class level)
 #'
-#' @description Edge Density
+#' @description Edge Density (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Edge density equals the sum of the length of all edges of class i divided by the total
+#' area multiplied 10 000. Because edge density is relative, comparison among landcapes with different total areas
+#' are possible
+#' \deqn{ED = (sum(edges[class_i]) / total area) * 10 000}
+#' \subsection{Units}{Meters per hectare (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{ED >= 0 and increases as the landcapes becomes more patchy}
 #'
 #' @return tibble
 #'

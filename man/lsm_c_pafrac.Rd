@@ -10,7 +10,7 @@
 \alias{lsm_c_pafrac.RasterBrick}
 \alias{lsm_c_pafrac}
 \alias{lsm_c_pafrac.list}
-\title{Perimeter-area fractal dimension  (landscape level)}
+\title{Perimeter-Area Fractal Dimension  (class level)}
 \usage{
 lsm_c_pafrac(landscape)
 
@@ -29,7 +29,19 @@ lsm_c_pafrac(landscape)
 tibble
 }
 \description{
-2 divided by the beta coeffient of the regression log(area) ~ log(perimeter)
+Perimeter-Area Fractal Dimension (class level)
+}
+\details{
+The perimeter-area fractal dimension equals two divided by the slope of
+the regression line of the natural logrithm of patch area against the
+natural logrithm of the patch perimeter of class i. The regression has equation
+ln(area) = beta * ln(perimeter) + intercept. It is only meaningful
+if the relationship between the area and perimeter is linear on a logarithmic scale.
+\deqn{PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))}
+\subsection{Units}{None}
+\subsection{Range}{1 <= PAFRAC <= 2 \cr If only a few patches are present the value
+can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
+PAFRAC = 2 for irregular shapes}
 }
 \examples{
 lsm_c_pafrac(landscape)

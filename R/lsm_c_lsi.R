@@ -4,6 +4,15 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#' @details
+#' The landscape shape index equals a quarter of the sum of all edges of class i
+#' divided by the square root of the total area.
+#' \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
+#' \subsection{Units}{none}
+#' \subsection{Ranges}{LSI >= 1 \cr
+#' LSI equals LSI = 1 when only one class and patch is present and increases when
+#' the length of edges increases, i.e. the patches of class i become more complex}
+#'
 #' @return Value >= 1
 #'
 #' @examples

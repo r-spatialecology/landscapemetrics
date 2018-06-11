@@ -29,7 +29,13 @@ lsm_c_shape_cv(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Coeffiecent of variation of shape index (class level)
+}
+\details{
+Equals the coeffiecent of variation shape index of class i
+\deqn{SHAPE_MN = cv(SHAPE[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_shape_cv(landscape)

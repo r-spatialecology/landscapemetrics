@@ -26,10 +26,20 @@ lsm_c_pd(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Patch density (class level)
+}
+\details{
+Patch density equals the number of patches of class i divided by the total
+area multiplied by 100 and 10 000 (???) to scale to number per 100 hectares.
+Patch density is a relative measure and compareable among landscapes with
+different total areas
+\deqn{PD = (number of patches / total area) * 100 * 10 000}
+\subsection{Units}{Number per 100 hectares}
+\subsection{Ranges}{PD > 0 \cr
+Increases as the landscape gets more patchy}
 }
 \examples{
 lsm_c_pd(landscape)

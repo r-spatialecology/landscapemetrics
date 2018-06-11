@@ -29,7 +29,17 @@ lsm_c_pland(landscape)
 tibble
 }
 \description{
-Percentage of landscape (class level)
+Percentage of landscape of class (class level)
+}
+\details{
+Percentage of landscape equals the sum of the patch area of class i divided
+by the total area. In other words, PLAND is the percentage of the landscape
+belonging to class i. It is a measure of compostion and because of the relative
+character directly comparable among landscapes with different total areas
+\deqn{PLAND = (sum(area[patch_i]) / total area) * 100}
+\subsection{Units}{Percentage}
+\subsection{Range}{0 < PLAND <= 100 \cr PLAND approaches PLAND = 0 when the class area
+is decreasing. PLAND = 100 when only one class is present}
 }
 \examples{
 lsm_c_pland(landscape)

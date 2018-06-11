@@ -4,6 +4,13 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#' @details
+#' Number of patches equals the number of patches of class i
+#' \subsection{Units}{None}
+#' \subsection{Ranges}{NP >= 1 \cr
+#' NP equals NP = 1 when only one class and landscape is present and increases
+#' without limit as the number of patches increases}
+#'
 #' @return tibble
 #'
 #' @examples

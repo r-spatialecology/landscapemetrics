@@ -29,7 +29,14 @@ lsm_c_ncore(landscape)
 tibble
 }
 \description{
-Called number of disjunct core areas in FRAGSTATS (class level)
+Number of core areas (class level)
+}
+\details{
+Number of core areas equals the sum of number of core areas of class i.
+Called number of disjunct core areas in FRAGSTATS
+\deqn{NDCA = sum(ncore[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{NDCA >= 0 \cr }
 }
 \examples{
 lsm_c_ncore(landscape)

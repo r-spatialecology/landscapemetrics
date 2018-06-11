@@ -29,7 +29,13 @@ lsm_c_core_mn(landscape)
 tibble
 }
 \description{
-Mean (class level)
+Mean of patch core area (class level)
+}
+\details{
+Equals the mean of the patch core area of class i
+\deqn{CORE_MN = mean(core[patch_i])}
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_core_mn(landscape)

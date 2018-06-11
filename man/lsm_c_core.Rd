@@ -10,7 +10,7 @@
 \alias{lsm_c_core.RasterBrick}
 \alias{lsm_c_core}
 \alias{lsm_c_core.list}
-\title{Total area of core areas  (class level)}
+\title{Total core area (class level)}
 \usage{
 lsm_c_core(landscape, directions)
 
@@ -25,13 +25,22 @@ lsm_c_core(landscape, directions)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{...}
+\item{directions}{???}
 }
 \value{
 tibble
 }
 \description{
-Area of corea area (class level)
+Total core area (class level)
+}
+\details{
+Equals the area within a patch that is not on the edge of the patch of class i.
+In other words, the area of a patch that has only neighbouring cells of the same type
+of class i
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{TCA >= 0 and increases without limit as patch areas increase
+and patch shapes simplify. TCA = 0 when every cell in every patch of class i
+is an edge}
 }
 \examples{
 lsm_c_core(landscape)

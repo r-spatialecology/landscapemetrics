@@ -29,7 +29,13 @@ lsm_c_shape_sd(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Standard deviation of shape index (class level)
+}
+\details{
+Equals the standard deviation of shape index of class i
+\deqn{SHAPE_MN = sd(SHAPE[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_shape_sd(landscape)

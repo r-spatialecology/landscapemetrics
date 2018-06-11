@@ -10,7 +10,7 @@
 \alias{lsm_c_ed.RasterBrick}
 \alias{lsm_c_ed}
 \alias{lsm_c_ed.list}
-\title{Edge Density}
+\title{Edge Density (class level)}
 \usage{
 lsm_c_ed(landscape)
 
@@ -29,7 +29,15 @@ lsm_c_ed(landscape)
 tibble
 }
 \description{
-Edge Density
+Edge Density (class level)
+}
+\details{
+Edge density equals the sum of the length of all edges of class i divided by the total
+area multiplied 10 000. Because edge density is relative, comparison among landcapes with different total areas
+are possible
+\deqn{ED = (sum(edges[class_i]) / total area) * 10 000}
+\subsection{Units}{Meters per hectare (assuming that the input cellsize is in meter)}
+\subsection{Range}{ED >= 0 and increases as the landcapes becomes more patchy}
 }
 \examples{
 lsm_c_ed(landscape)

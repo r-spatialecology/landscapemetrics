@@ -1,10 +1,19 @@
-#' Effective mesh size (class level)
+#' Effective Mesh Size (class level)
 #'
-#' @description Effective mesh size (class level)
+#' @description Effective Mesh Size (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The effective mesh size equals the sum of patch areas of class i squared
+#' divided by the total area divided by 10 000 to convert to hectares (???)
+#' \deqn{MESH = (sum(area[patch_i]) ^ 2 / total area) * (1 / 10 000)}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area \cr
+#' Effective mesh size equals the lower limit when every cell is a patch and
+#' increases when only one patch is present}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_c_mesh(landscape)

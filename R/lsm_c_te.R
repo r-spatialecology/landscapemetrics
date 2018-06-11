@@ -1,8 +1,16 @@
-#' Total Edge  (TE, class scale)
+#' Total Edge  (class level)
 #'
-#' @description Total Edge
+#' @description Total edge of class (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Total edge equals the sum of the length of all edges of class i. Total edge is an
+#' absolute measure making comparisons among landscapes with different total areas difficult.
+#' ??? Landscape border included or not ???
+#' \deqn{TE = sum(edges[class_i])}
+#' \subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{TE >= 0 and increases without limit as landscape becomes more patchy}
 #'
 #' @return tibble
 #'

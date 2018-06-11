@@ -1,9 +1,18 @@
-#'  Total area of core areas  (class level)
+#' Total core area (class level)
 #'
-#' @description Area of corea area (class level)
+#' @description Total core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ...
+#' @param directions ???
+#'
+#' @details
+#' Equals the area within a patch that is not on the edge of the patch of class i.
+#' In other words, the area of a patch that has only neighbouring cells of the same type
+#' of class i
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{TCA >= 0 and increases without limit as patch areas increase
+#' and patch shapes simplify. TCA = 0 when every cell in every patch of class i
+#' is an edge}
 #'
 #' @return tibble
 #'
@@ -66,7 +75,7 @@ lsm_c_core_calc <- function(landscape, directions){
         level = "class",
         class = core_area$class,
         id = as.integer(NA),
-        metric = "total core area",
+        metric = "core area",
         value = core_area$value
     )
 }

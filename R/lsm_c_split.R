@@ -4,7 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The splitting index equals the squared total area divided by the sum of patch
+#' areas of class i
+#' \deqn{SPLIT = total area ^ 2 / sum(area[patch_i])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{1 <= SPLIT <= Number of cells squared \cr
+#' Split equals SPLIT = 1 when only one class and patch is present. SPLIt increases
+#' as the number of patches of class i increases}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_c_split(landscape)

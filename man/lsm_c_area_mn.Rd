@@ -29,7 +29,14 @@ lsm_c_area_mn(landscape)
 tibble
 }
 \description{
-Mean (class level)
+Mean patch area (class level)
+}
+\details{
+Equals the mean patch area of class i.
+\deqn{AREA_MN = mean(area[patch_i])}
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{AREA_MN > 0 and increases without limit as the amount of the
+class increases. AREA_MN = TA if only one class is present}
 }
 \examples{
 lsm_c_area_mn(landscape)

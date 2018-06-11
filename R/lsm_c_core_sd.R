@@ -1,8 +1,14 @@
 #' Core area distribution (class level)
 #'
-#' @description Standard deviation (class level)
+#' @description Standard deviation of patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the standard deviation of the patch core area of class i
+#' \deqn{CORE_SD = sd(core[patch_i])}
+#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{???}
 #'
 #' @return tibble
 #'

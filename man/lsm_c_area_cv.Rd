@@ -29,7 +29,13 @@ lsm_c_area_cv(landscape)
 tibble
 }
 \description{
-Coefficient of variation (class level)
+Coeffiecent of variation of patch area (class level)
+}
+\details{
+Equals the Coeffiecent of variation of the patch area of class i
+\deqn{AREA_CV = cv(area[patch_i])}
+\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Range}{???}
 }
 \examples{
 lsm_c_area_cv(landscape)
