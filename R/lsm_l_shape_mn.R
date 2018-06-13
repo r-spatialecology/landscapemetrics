@@ -59,7 +59,7 @@ lsm_l_shape_mn_calc <- function(landscape){
         dplyr::summarise(value = mean(value))
 
     tibble::tibble(
-        level = "patch",
+        level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shape index (mean)",
