@@ -10,7 +10,7 @@
 \alias{lsm_l_ncore_cv.RasterBrick}
 \alias{lsm_l_ncore_cv}
 \alias{lsm_l_ncore_cv.list}
-\title{Distribution number of core areas (landscape level)}
+\title{Number of core areas distribution (landscape level)}
 \usage{
 lsm_l_ncore_cv(landscape)
 
@@ -29,7 +29,16 @@ lsm_l_ncore_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation (landscape level)
+Coeffiecent of variation of number of core areas (landscape level)
+}
+\details{
+Equals the coeffiecent of variation of number of core area of all patches in the landscape.
+A core area is a 'patch within the patch' without any edge cells. In other words,
+the number of patches within the patch that only have neighbouring cells of the same type
+\deqn{NCORE_CV = cv(NCORE[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_ncore_cv(landscape)

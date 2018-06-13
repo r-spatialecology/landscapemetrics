@@ -1,9 +1,15 @@
-#' Number of patches
+#' Number of patches (landscape level)
 #'
-#' @description Number of patches
+#' @description Number of patches (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#' @details
+#' Number of patches equals the number of patches in the landscape
+#' \subsection{Units}{None}
+#' \subsection{Ranges}{NP >= 1}
+#' \subsection{Behaviour}{NP = 1 when only one class and patch is present and
+#' increases without limit as the number of patches increases}
 #' @return tibble
 #'
 #' @examples
@@ -67,14 +73,17 @@ lsm_l_np.list <- function(landscape) {
 
 lsm_l_np_calc <- function(landscape) {
 
-    n_patches <- lsm_c_np_calc(landscape)
+    n_patches <- landscape %>%
+        lsm_c_np() %>%
+        dplyr::summarise(value = sum(value))
+
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "number of patches",
-        value = sum(n_patches$value)
+        value = n_patches$value
     )
 
 }

@@ -23,13 +23,22 @@ lsm_l_area_sd(landscape)
 \method{lsm_l_area_sd}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+
+#' @details
+Equals the standard deviation of patch area of all patches in the landscape
+\deqn{AREA_SD = sd(AREA[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble
+
+tibble
 }
 \description{
-Standard deviation patch size (landscape level)
+Mean patch size (landscape level)
 }
 \examples{
 lsm_l_area_sd(landscape)

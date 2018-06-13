@@ -1,8 +1,16 @@
-#' Distribution core area index (landscape level)
+#' Core area index distribution (landscape level)
 #'
-#' @description Mean (landscape level)
+#' @description Mean of core area index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the mean of the core area index of all patches in the landscape.
+#' The core area index equals the percentage of a patch that is core area
+#' \deqn{CAI_MN = mean(CAI[patch]}
+#' \subsection{Units}{???}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

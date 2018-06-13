@@ -1,8 +1,17 @@
-#' Distribution number of core areas (landscape level)
+#' Number of core areas distribution (landscape level)
 #'
-#' @description Coeffiecent of variation (landscape level)
+#' @description Coeffiecent of variation of number of core areas (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the coeffiecent of variation of number of core area of all patches in the landscape.
+#' A core area is a 'patch within the patch' without any edge cells. In other words,
+#' the number of patches within the patch that only have neighbouring cells of the same type
+#' \deqn{NCORE_CV = cv(NCORE[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

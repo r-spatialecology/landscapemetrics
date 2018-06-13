@@ -10,7 +10,7 @@
 \alias{lsm_l_circle_cv.RasterBrick}
 \alias{lsm_l_circle_cv}
 \alias{lsm_l_circle_cv.list}
-\title{Related Circumscribing Circle (CIRCLE)}
+\title{Related Circumscribing Circle distribution (landscape level)}
 \usage{
 lsm_l_circle_cv(landscape)
 
@@ -29,12 +29,16 @@ lsm_l_circle_cv(landscape)
 tibble
 }
 \description{
-Related Circumscribing Circle (landscape)
+Coeffiecient of variation of related circumscribing circle (landscape level)
 }
 \details{
-Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest circumscribing circle.
+Equals the coeffiecent of variation of the related circumscribing circle of all patches
+in the landscape. Equals the 1 - the patch area (m^2) divided by the area (m^2)
+of the smallest circumscribing circle.
+\deqn{CIRCLE_CV = cv(CIRCLE[patch])}
 \subsection{Units}{None}
-\subsection{Range}{0 <= CIRCLE < 1}
+\subsection{Range}{???}
+\subsection{Behaviour}{????}
 }
 \examples{
 lsm_l_circle_cv(landscape)

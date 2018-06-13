@@ -26,10 +26,19 @@ lsm_l_msidi(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Modified Simpson's diversity index (landscape level)
+}
+\details{
+The modified Simpson's diversity index equals the negative natural logarithm of
+the sum of the squared proportions of all patches in the landscape grouped by class
+\deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2))}
+\subsection{Units}{None}
+\subsection{Range}{MSIDI >= 1}
+\subsection{Behaviour}{MSIDI = 0 when only one class and patch is present and increases
+without limit as the amount of patches with equally distributed landscape proportions increases}
 }
 \examples{
 lsm_l_msidi(landscape)

@@ -10,7 +10,7 @@
 \alias{lsm_l_frac_sd.RasterBrick}
 \alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.list}
-\title{Perimeter area ratio  (patch level)}
+\title{Fractal dimension index distribution (landscape level)}
 \usage{
 lsm_l_frac_sd(landscape)
 
@@ -29,7 +29,16 @@ lsm_l_frac_sd(landscape)
 tibble
 }
 \description{
-Ratio of patch perimeter and area
+Standard deviation fractal dimension index (landscape level)
+}
+\details{
+Standard deviation of the fractal dimension index of all patches in the landscape.
+FRAC equals two times the natural logarithm of a quarter of the patch area divided by the
+natural logarithm of the patch area
+\deqn{FRAC_SD = sd(FRAC[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_frac_sd(landscape)

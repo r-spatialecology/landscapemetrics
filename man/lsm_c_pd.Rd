@@ -33,8 +33,7 @@ Patch density (class level)
 }
 \details{
 Patch density equals the number of patches of class i divided by the total
-area multiplied by 100 and 10 000 (???) to scale to number per 100 hectares.
-Patch density is a relative measure and compareable among landscapes with
+area. Patch density is a relative measure and compareable among landscapes with
 different total areas
 \deqn{PD = number of patches / total area}
 \subsection{Units}{Number per hectares (Number per 100 ha in FRAGSTATS???)}

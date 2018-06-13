@@ -25,7 +25,7 @@ lsm_c_para_mn(landscape)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{details}{Mean of the perimeter-area ratio. PARA equals the ration of
+\item{details}{Mean of the perimeter-area ratio of all patches of class i. PARA equals the ration of
 patch perimeter and patch area. It is a simple measure of complexity
 \deqn{PARA_MN = mean(PARA[patch_i]}
 \subsection{Units}{None}

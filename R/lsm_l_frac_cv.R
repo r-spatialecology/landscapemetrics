@@ -1,8 +1,17 @@
-#'  Perimeter area ratio  (patch level)
+#' Fractal dimension index distribution (landscape level)
 #'
-#' @description Ratio of patch perimeter and area
+#' @description Coeffiecent of variation fractal dimension index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Coeffiecent of variation of the fractal dimension index of all patches in the landscape.
+#' FRAC equals two times the natural logarithm of a quarter of the patch area divided by the
+#' natural logarithm of the patch area
+#' \deqn{FRAC_CV = cv(FRAC[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

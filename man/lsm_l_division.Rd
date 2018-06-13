@@ -10,7 +10,7 @@
 \alias{lsm_l_division.RasterBrick}
 \alias{lsm_l_division}
 \alias{lsm_l_division.list}
-\title{Division index (class level)}
+\title{Landscape division index (landscape level)}
 \usage{
 lsm_l_division(landscape)
 
@@ -26,10 +26,19 @@ lsm_l_division(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
-Division index (class level)
+Landscpae division index (landscape level)
+}
+\details{
+The landscape division index equals 1 minus the sum of all patch areas
+divided by the total area squared
+\deqn{DIVISON = 1 - sum((area[patch] / total area) ^ 2)}
+\subsection{Units}{Proportion (???)}
+\subsection{Ranges}{0 <= Division < 1}
+\subsection{Behaviour}{DIVISION = 1 when only one class and patch is present. Approaches
+DIVISON = 1 when all patches of class i are single cells}
 }
 \examples{
 lsm_l_division(landscape)

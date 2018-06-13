@@ -4,7 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The modified Simpson's diversity index equals the negative natural logarithm of
+#' the sum of the squared proportions of all patches in the landscape grouped by class
+#' \deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2))}
+#' \subsection{Units}{None}
+#' \subsection{Range}{MSIDI >= 1}
+#' \subsection{Behaviour}{MSIDI = 0 when only one class and patch is present and increases
+#' without limit as the amount of patches with equally distributed landscape proportions increases}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_msidi(landscape)
@@ -52,16 +61,14 @@ lsm_l_msidi_calc <- function(landscape) {
     msidi <- landscape %>%
         lsm_c_pland() %>%
         dplyr::mutate(value = (value / 100) ^ 2) %>%
-        dplyr::pull(value) %>%
-        sum() %>%
-        log() %>%
-        magrittr::multiply_by(-1)
+        dplyr::summarise(value = sum(value)) %>%
+        dplyr::mutate(value = -log(value))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "modified Simpson's diversity index",
-        value = msidi
+        value = msidi$value
     )
 }

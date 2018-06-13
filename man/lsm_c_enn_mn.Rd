@@ -10,7 +10,7 @@
 \alias{lsm_c_enn_mn.RasterBrick}
 \alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.list}
-\title{Euclidean Nearest Neighbor Distance (ENN_MN)}
+\title{Euclidean Nearest Neighbor Distance Distribution (class level)}
 \usage{
 lsm_c_enn_mn(landscape)
 
@@ -35,7 +35,7 @@ Mean Euclidean Nearest Neighbor Distance (class level)
 Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
 the distance the the nearest neigbouring patch of the same patch type
 (shortest edge-to-edge distance)
-\deqn{ENN_MN = mean(ENN[class_i])}
+\deqn{ENN_MN = mean(ENN[patch_i])}
 \subsection{Units}{Meters}
 \subsection{Range}{???}
 \subsection{Behaviour}{???}

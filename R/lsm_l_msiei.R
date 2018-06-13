@@ -4,7 +4,17 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The modified Simpson's evenness index equals the negative natural logarithm of
+#' the sum of the squared proportions of all patches in the landscape grouped by class divided
+#' by the natural logarithm of patch richness
+#' \deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2)) / ln(patch richness)}
+#' \subsection{Units}{None}
+#' \subsection{Range}{0 <= MSIEI < 1}
+#' \subsection{Behaviour}{MSIEI = 0 when only one class and patch is present and approaches
+#' MSIEI = 1 as the proportional distribution of patches becomes more even}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_msiei(landscape)

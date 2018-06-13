@@ -29,7 +29,19 @@ lsm_l_dcad(landscape)
 tibble
 }
 \description{
-Core area divided by landscape area (landscape level)
+Disjunct core area density (landscape level)
+}
+\details{
+Disjunct core area density equals the sum of number of core areas of the
+landscape divided by the total area. In other words, it is the number of core areas
+relative to the total area. The measure is relative and therefore comparable among
+landscapes with different total areas
+\deqn{DCAD = sum(ncore[patch]) / total area}
+\subsection{Units}{Number per hectares (FRAGSTATS has per 100 ha)}
+\subsection{Range}{DCAD >= 0}
+\subsection{Behaviour}{DCAD = 0 when CORE = 0, i.e. every cell in patches
+of class i is an edge. DCAD increases without limit as core areas become more
+present, i.e. patches becoming larger and less complex}
 }
 \examples{
 lsm_l_dcad(landscape)

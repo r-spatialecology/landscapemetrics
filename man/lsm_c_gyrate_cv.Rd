@@ -10,7 +10,7 @@
 \alias{lsm_c_gyrate_cv.RasterBrick}
 \alias{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv.list}
-\title{Radius of Gyration (GYRATE)}
+\title{Radius of Gyration Distribution (class level)}
 \usage{
 lsm_c_gyrate_cv(landscape)
 
@@ -29,13 +29,15 @@ lsm_c_gyrate_cv(landscape)
 tibble
 }
 \description{
-Radius of Gyration (class)
+Coeffiecent of variation of Radius of Gyration (class level)
 }
 \details{
-Equals the mean distance of each cell centroid in a patch to the centroid of the whole patch (mean location of all cell centroids).
+Equals the coeffiecent of variation of mean distance of each cell centroid
+in a patch to the centroid of the whole patch (mean location of all cell centroids) of class i
+\deqn{GYRATE_CV = cv(GYRATE[patch_i]}
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE >= 0, without limit}
-\subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape.}
+\subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
 }
 \examples{
 lsm_c_gyrate_cv(landscape)

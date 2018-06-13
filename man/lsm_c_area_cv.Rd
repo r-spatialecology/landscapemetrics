@@ -32,7 +32,7 @@ tibble
 Coeffiecent of variation of patch area (class level)
 }
 \details{
-Equals the Coeffiecent of variation of the patch area of class i
+Equals the coeffiecent of variation of the patch area of class i
 \deqn{AREA_CV = cv(AREA[patch_i])}
 \subsection{Units}{Hectares}
 \subsection{Range}{???}

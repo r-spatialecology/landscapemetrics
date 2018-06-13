@@ -10,7 +10,7 @@
 \alias{lsm_l_pr.RasterBrick}
 \alias{lsm_l_pr}
 \alias{lsm_l_pr.list}
-\title{Patch richness}
+\title{Patch richness (lanscape level)}
 \usage{
 lsm_l_pr(landscape)
 
@@ -26,10 +26,17 @@ lsm_l_pr(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
-Number of patch types (classes) in the landscape
+Patch richness (lanscape level)
+}
+\details{
+Number of classes in the landscape. This is a very simple measure of composition.
+\subsection{Units}{None}
+\subsection{Range}{PR >= 1}
+\subsection{Behaviour}{PR = 1 when only 1 class is present and increases without
+limit as the number of classes increases}
 }
 \examples{
 lsm_l_pr(landscape)

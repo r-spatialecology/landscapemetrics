@@ -4,7 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The landscape shape index equals a quarter of the sum of all edges in the landscape
+#' divided by the square root of the total area.
+#' \deqn{LSI = (0.25 * sum(edges[patch])) / sqrt(total area)}
+#' \subsection{Units}{none}
+#' \subsection{Ranges}{LSI >= 1}
+#' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
+#' increases when the length of edges increases, i.e. the patches of class i become more complex}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_lsi(landscape)
@@ -28,31 +37,32 @@ lsm_l_lsi.RasterLayer <- function(landscape) {
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterStack <- function(landscape) {
+lsm_l_lsi.RasterStack <- function(landscape,count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterBrick <- function(landscape) {
+lsm_l_lsi.RasterBrick <- function(landscape,count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.list <- function(landscape) {
+lsm_l_lsi.list <- function(landscape,count_boundary = FALSE) {
     purrr::map_dfr(landscape, lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 lsm_l_lsi_calc <- function(landscape) {
 
-    edges <- lsm_l_te(landscape) # Needs to include also edge to background
-    area <- lsm_l_ta(landscape)
+    edges_landscape <- lsm_l_te(landscape, count_boundary = TRUE) # Needs to include also edge to background
+    area_landscape <- lsm_l_ta(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
-    lsi <- (0.25 * edges$value) / sqrt(area$value)
+    lsi <- (0.25 * edges_landscape$value) / sqrt(area_landscape$value)
 
     tibble::tibble(
         level = "landscape",

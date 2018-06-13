@@ -1,10 +1,19 @@
-#' Effective mesh size (landscape level)
+#' Effective Mesh Size (landscape level)
 #'
-#' @description Effective mesh size (landscape level)
+#' @description Effective Mesh Size (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The effective mesh size equals the sum of patch areas of all patches in the landscape
+#' squared divided by the total area
+#' \deqn{MESH = (sum(area[patch]) ^ 2) / total area}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area}
+#' \subsection{Behaviour}{MESH equals the lower limit when every cell is a patch and
+#' increases when only one patch is present}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_mesh(landscape)
@@ -55,7 +64,7 @@ lsm_l_mesh_calc <- function(landscape) {
         lsm_p_area() %>%
         dplyr::mutate(value = value ^ 2) %>%
         dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (value / total_area$value) * (1 / 10000))
+        dplyr::mutate(value = (value / total_area$value))
 
     tibble::tibble(
         level = "landscape",

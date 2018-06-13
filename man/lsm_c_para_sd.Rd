@@ -25,8 +25,8 @@ lsm_c_para_sd(landscape)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{details}{Standard deviation of the perimeter-area ratio. PARA equals the ration of
-patch perimeter and patch area. It is a simple measure of complexity
+\item{details}{Standard deviation of the perimeter-area ratio of all patches of class i.
+PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
 \deqn{PARA_SD = sd(PARA[patch_i]}
 \subsection{Units}{None}
 \subsection{Range}{???}

@@ -36,7 +36,9 @@ The perimeter-area fractal dimension equals two divided by the slope of
 the regression line of the natural logrithm of patch area against the
 natural logrithm of the patch perimeter of class i. The regression has equation
 ln(area) = beta * ln(perimeter) + intercept. It is only meaningful
-if the relationship between the area and perimeter is linear on a logarithmic scale.
+if the relationship between the area and perimeter is linear on a logarithmic scale
+If there are less than 10 patches, the functions returns NA because of the small-
+sample issue
 \deqn{PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))}
 \subsection{Units}{None}
 \subsection{Range}{1 <= PAFRAC <= 2}

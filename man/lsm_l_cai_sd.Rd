@@ -10,7 +10,7 @@
 \alias{lsm_l_cai_sd.RasterBrick}
 \alias{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd.list}
-\title{Distribution core area index (landscape level)}
+\title{Core area index distribution (landscape level)}
 \usage{
 lsm_l_cai_sd(landscape)
 
@@ -29,7 +29,15 @@ lsm_l_cai_sd(landscape)
 tibble
 }
 \description{
-Standard deviation (landscape level)
+Standard deviation of core area index (landscape level)
+}
+\details{
+Equals the standard deviation of the core area index of all patches in the landscape.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_SD = sd(CAI[patch]}
+\subsection{Units}{???}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_cai_sd(landscape)

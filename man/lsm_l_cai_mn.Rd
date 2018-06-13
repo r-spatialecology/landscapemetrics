@@ -10,7 +10,7 @@
 \alias{lsm_l_cai_mn.RasterBrick}
 \alias{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn.list}
-\title{Distribution core area index (landscape level)}
+\title{Core area index distribution (landscape level)}
 \usage{
 lsm_l_cai_mn(landscape)
 
@@ -29,7 +29,15 @@ lsm_l_cai_mn(landscape)
 tibble
 }
 \description{
-Mean (landscape level)
+Mean of core area index (landscape level)
+}
+\details{
+Equals the mean of the core area index of all patches in the landscape.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_MN = mean(CAI[patch]}
+\subsection{Units}{???}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_cai_mn(landscape)

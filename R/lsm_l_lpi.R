@@ -1,8 +1,17 @@
 #' Largest patch index (landscape level)
 #'
-#' @description Area of the larges patch divided by the total area (landscape level)
+#' @description Largest patch index of the whole landscape (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' The largest patch index equals the area of the larges patch of the whole landscape
+#' divided by the total area. It is a simple measure of dominance
+#' \deqn{LPI = (max(area[patch]) / total area) * 100}
+#' \subsection{Units}{Percentage}
+#' \subsection{Range}{0 < LPI <= 100}
+#' \subsection{Behaviour}{LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
+#' and equals LPI = 100 when only one class and patch is present}
 #'
 #' @return tibble
 #'
@@ -49,10 +58,11 @@ lsm_l_lpi.list <- function(landscape) {
 
 lsm_l_lpi_calc <- function(landscape) {
 
+    area_landscape <- lsm_l_ta(landscape)
+
     lpi <- landscape %>%
         lsm_p_area() %>%
-        dplyr::mutate(total_area = sum(value),
-                      lpi = value / total_area * 100) %>%
+        dplyr::mutate(lpi = value / area_landscape$value * 100) %>%
         dplyr::summarise(value = max(lpi))
 
     tibble::tibble(

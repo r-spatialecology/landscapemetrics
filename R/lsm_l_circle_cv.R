@@ -1,13 +1,17 @@
-#' Related Circumscribing Circle (CIRCLE)
+#' Related Circumscribing Circle distribution (landscape level)
 #'
-#' @description Related Circumscribing Circle (landscape)
+#' @description Coeffiecient of variation of related circumscribing circle (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest circumscribing circle.
+#' Equals the coeffiecent of variation of the related circumscribing circle of all patches
+#' in the landscape. Equals the 1 - the patch area (m^2) divided by the area (m^2)
+#' of the smallest circumscribing circle.
+#' \deqn{CIRCLE_CV = cv(CIRCLE[patch])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{0 <= CIRCLE < 1}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{????}
 #'
 #' @return tibble
 #'

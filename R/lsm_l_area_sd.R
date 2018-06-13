@@ -1,8 +1,16 @@
 #' Patch area distribution (landscape level)
 #'
-#' @description Standard deviation patch size (landscape level)
+#' @description Mean patch size (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#'#' @details
+#' Equals the standard deviation of patch area of all patches in the landscape
+#' \deqn{AREA_SD = sd(AREA[patch])}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
+#' @return tibble
 #'
 #' @return tibble
 #'

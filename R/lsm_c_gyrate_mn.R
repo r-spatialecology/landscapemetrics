@@ -1,14 +1,16 @@
-#' Radius of Gyration (GYRATE)
+#' Radius of Gyration Distribution (class level)
 #'
-#' @description Radius of Gyration (class)
+#' @description Mean of Radius of Gyration (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the mean distance of each cell centroid in a patch to the centroid of the whole patch (mean location of all cell centroids).
+#' Equals the mean of mean distance of each cell centroid
+#' in a patch to the centroid of the whole patch (mean location of all cell centroids) of class i
+#' \deqn{GYRATE_MN = mean(GYRATE[patch_i]}
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE >= 0, without limit}
-#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape.}
+#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
 #'
 #' @return tibble
 #'

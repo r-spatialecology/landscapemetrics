@@ -4,6 +4,13 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#'#' @details
+#' Equals the coeffiecent of variation of the area of all patches in the landscape
+#' \deqn{AREA_CV = cv(AREA[patch])}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
+#'
 #' @return tibble
 #'
 #' @examples

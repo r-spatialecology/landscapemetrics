@@ -26,7 +26,7 @@ lsm_c_lsi(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Landscape shape index (class level)

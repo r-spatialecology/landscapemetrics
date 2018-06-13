@@ -23,7 +23,14 @@ lsm_l_area_cv(landscape)
 \method{lsm_l_area_cv}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+
+#' @details
+Equals the coeffiecent of variation of the area of all patches in the landscape
+\deqn{AREA_CV = cv(AREA[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble

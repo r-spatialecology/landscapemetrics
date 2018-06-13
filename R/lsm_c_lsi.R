@@ -13,7 +13,7 @@
 #' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
 #' increases when the length of edges increases, i.e. the patches of class i become more complex}
 #'
-#' @return Value >= 1
+#' @return tibble
 #'
 #' @examples
 #' lsm_c_lsi(landscape)

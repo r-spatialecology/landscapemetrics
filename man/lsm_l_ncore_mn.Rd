@@ -10,7 +10,7 @@
 \alias{lsm_l_ncore_mn.RasterBrick}
 \alias{lsm_l_ncore_mn}
 \alias{lsm_l_ncore_mn.list}
-\title{Distribution number of core areas (landscape level)}
+\title{Number of core areas distribution (landscape level)}
 \usage{
 lsm_l_ncore_mn(landscape)
 
@@ -29,7 +29,16 @@ lsm_l_ncore_mn(landscape)
 tibble
 }
 \description{
-Mean (landscape level)
+Mean of number of core areas (landscape level)
+}
+\details{
+Equals the mean of number of core area of all patches in the landscape.
+A core area is a 'patch within the patch' without any edge cells. In other words,
+the number of patches within the patch that only have neighbouring cells of the same type
+\deqn{NCORE_MN = mean(NCORE[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_ncore_mn(landscape)

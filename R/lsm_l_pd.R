@@ -4,7 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' Patch density equals the number of all patches in the landscape divided by the total
+#' area. Patch density is a relative measure and compareable among landscapes with
+#' different total areas
+#' \deqn{PD = number of patches / total area}
+#' \subsection{Units}{Number per hectares (Number per 100 ha in FRAGSTATS???)}
+#' \subsection{Ranges}{PD > 0}
+#' \subsection{Behaviour}{Increases as the landscape gets more patchy}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_pd(landscape)
@@ -49,11 +58,11 @@ lsm_l_pd.list <- function(landscape) {
 
 lsm_l_pd_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta(landscape)
 
     patch_density <- landscape %>%
         lsm_l_np() %>%
-        dplyr::mutate(value = (value / total_area$value) * 10000 * 100)
+        dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(
         level = "landscape",

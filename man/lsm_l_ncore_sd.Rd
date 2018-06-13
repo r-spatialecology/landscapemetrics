@@ -10,7 +10,7 @@
 \alias{lsm_l_ncore_sd.RasterBrick}
 \alias{lsm_l_ncore_sd}
 \alias{lsm_l_ncore_sd.list}
-\title{Distribution number of core areas (landscape level)}
+\title{Number of core areas distribution (landscape level)}
 \usage{
 lsm_l_ncore_sd(landscape)
 
@@ -29,7 +29,16 @@ lsm_l_ncore_sd(landscape)
 tibble
 }
 \description{
-Standard deviation (landscape level)
+Standart deviation of number of core areas (landscape level)
+}
+\details{
+Equals the standard deviation of number of core area of all patches in the landscape.
+A core area is a 'patch within the patch' without any edge cells. In other words,
+the number of patches within the patch that only have neighbouring cells of the same type
+\deqn{NCORE_SD = sd(NCORE[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_ncore_sd(landscape)

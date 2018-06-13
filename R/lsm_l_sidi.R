@@ -52,15 +52,13 @@ lsm_l_sidi_calc <- function(landscape) {
     sidi <- landscape %>%
         lsm_c_pland() %>%
         dplyr::mutate(value = (value / 100) ^ 2) %>%
-        dplyr::pull(value) %>%
-        sum() %>%
-        magrittr::subtract(1, .)
+        dplyr::summarise(value = 1 - sum(value))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "Simpson's diversity index",
-        value = sidi
+        value = sidi$value
     )
 }

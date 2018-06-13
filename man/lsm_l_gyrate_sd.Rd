@@ -10,7 +10,7 @@
 \alias{lsm_l_gyrate_sd.RasterBrick}
 \alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.list}
-\title{Radius of Gyration (GYRATE)}
+\title{Radius of Gyration Distribution (landcape level)}
 \usage{
 lsm_l_gyrate_sd(landscape)
 
@@ -29,13 +29,16 @@ lsm_l_gyrate_sd(landscape)
 tibble
 }
 \description{
-Radius of Gyration (landscape)
+Standard deviation of Radius of Gyration (landscape level)
 }
 \details{
-Equals the mean distance of each cell centroid in a patch to the centroid of the whole patch (mean location of all cell centroids).
+Equals coeffiecent of variation of mean distance of each cell centroid in a patch to
+the centroid of the whole patch (mean location of all cell centroids) of all patches
+in the landscape
+\deqn{GYRATE_SD = sd(GYRATE[patch])}
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE >= 0, without limit}
-\subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape.}
+\subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
 }
 \examples{
 lsm_l_gyrate_sd(landscape)

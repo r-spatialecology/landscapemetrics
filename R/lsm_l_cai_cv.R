@@ -1,8 +1,16 @@
-#' Distribution core area index (landscape level)
+#' Core area index distribution (landscape level)
 #'
-#' @description Coeffiecent of variation (landscape level)
+#' @description Coefficient of variation of core area index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the coeffiecent of variation of the core area index of all patches in the landscape.
+#' The core area index equals the percentage of a patch that is core area
+#' \deqn{CAI_CV = cv(CAI[patch]}
+#' \subsection{Units}{???}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

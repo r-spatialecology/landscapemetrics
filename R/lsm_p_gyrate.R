@@ -1,14 +1,16 @@
-#' Radius of Gyration (GYRATE)
+#' Radius of Gyration (patch level)
 #'
-#' @description Radius of Gyration (patch)
+#' @description Radius of Gyration (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the mean distance of each cell centroid in a patch to the centroid of the whole patch (mean location of all cell centroids).
+#' Equals the mean distance of each cell centroid in a patch to the centroid
+#' of the whole patch (mean location of all cell centroids)
+#' \deqn{GYRATE = distance to patch centroid[cell_i] / number of cells in patch}
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE >= 0, without limit}
-#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape.}
+#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
 #'
 #' @return tibble
 #'

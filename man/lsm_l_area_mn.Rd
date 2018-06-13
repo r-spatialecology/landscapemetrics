@@ -23,7 +23,14 @@ lsm_l_area_mn(landscape)
 \method{lsm_l_area_mn}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+
+#' @details
+Equals the mean patch area of all patches in the landscape
+\deqn{AREA_MN = mean(AREA[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble

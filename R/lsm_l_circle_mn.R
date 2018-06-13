@@ -1,13 +1,17 @@
-#' Related Circumscribing Circle (CIRCLE)
+#' Related Circumscribing Circle distribution (landscape level)
 #'
-#' @description Related Circumscribing Circle (landscape)
+#' @description Mean of related circumscribing circle (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest circumscribing circle.
+#' Equals the mean of the related circumscribing circle of all patches
+#' in the landscape. Equals the 1 - the patch area (m^2) divided by the area (m^2)
+#' of the smallest circumscribing circle.
+#' \deqn{CIRCLE_MN = mean(CIRCLE[patch])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{0 <= CIRCLE < 1}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{????}
 #'
 #' @return tibble
 #'

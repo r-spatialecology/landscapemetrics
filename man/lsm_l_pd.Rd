@@ -26,10 +26,19 @@ lsm_l_pd(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Patch density (landscape level)
+}
+\details{
+Patch density equals the number of all patches in the landscape divided by the total
+area. Patch density is a relative measure and compareable among landscapes with
+different total areas
+\deqn{PD = number of patches / total area}
+\subsection{Units}{Number per hectares (Number per 100 ha in FRAGSTATS???)}
+\subsection{Ranges}{PD > 0}
+\subsection{Behaviour}{Increases as the landscape gets more patchy}
 }
 \examples{
 lsm_l_pd(landscape)

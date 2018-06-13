@@ -4,6 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#' @details
+#' Equals the area within a patch that is not on the edge of all patches in the landscape.
+#' In other words, the area of a patch that has only neighbouring cells of the same type
+#' of class i
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{CORE >= 0}
+#' \subsection{Behaviour}{CORE increases without limit as patch areas increase
+#' and patch shapes simplify. CORE = 0 when every cell in every patch of class i
+#' is an edge}
+#'
 #' @return tibble
 #'
 #' @examples

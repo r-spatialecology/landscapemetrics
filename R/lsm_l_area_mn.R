@@ -4,6 +4,12 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#'#' @details
+#' Equals the mean patch area of all patches in the landscape
+#' \deqn{AREA_MN = mean(AREA[patch])}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #' @return tibble
 #'
 #' @examples

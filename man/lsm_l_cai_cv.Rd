@@ -10,7 +10,7 @@
 \alias{lsm_l_cai_cv.RasterBrick}
 \alias{lsm_l_cai_cv}
 \alias{lsm_l_cai_cv.list}
-\title{Distribution core area index (landscape level)}
+\title{Core area index distribution (landscape level)}
 \usage{
 lsm_l_cai_cv(landscape)
 
@@ -29,7 +29,15 @@ lsm_l_cai_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation (landscape level)
+Coefficient of variation of core area index (landscape level)
+}
+\details{
+Equals the coeffiecent of variation of the core area index of all patches in the landscape.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_CV = cv(CAI[patch]}
+\subsection{Units}{???}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_cai_cv(landscape)

@@ -10,7 +10,7 @@
 \alias{lsm_l_core_mn.RasterBrick}
 \alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.list}
-\title{Distribution total area of core areas (landscape level)}
+\title{Core area distribution (landscape level)}
 \usage{
 lsm_l_core_mn(landscape)
 
@@ -29,7 +29,17 @@ lsm_l_core_mn(landscape)
 tibble
 }
 \description{
-Mean (landscape level)
+Mean of patch core area (landscape level)
+}
+\details{
+Equals the mean of the patch core area of all patches in the landscape.
+The core area is the area within a patch that is not on the edge of the patch of class i.
+In other words, the area of a patch that has only neighbouring cells of the same type
+of class i
+\deqn{CORE_MN = mean(core[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_core_mn(landscape)

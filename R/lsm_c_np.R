@@ -8,7 +8,7 @@
 #' Number of patches equals the number of patches of class i
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{NP >= 1}
-#' \subsection{Behaviour}{NP = 1 when only one class and landscape is present and
+#' \subsection{Behaviour}{NP = 1 when only one class and patch is present and
 #' increases without limit as the number of patches increases}
 #'
 #' @return tibble

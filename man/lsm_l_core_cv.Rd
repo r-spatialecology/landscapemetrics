@@ -10,7 +10,7 @@
 \alias{lsm_l_core_cv.RasterBrick}
 \alias{lsm_l_core_cv}
 \alias{lsm_l_core_cv.list}
-\title{Distribution total area of core areas (landscape level)}
+\title{Core area distribution (landscape level)}
 \usage{
 lsm_l_core_cv(landscape)
 
@@ -29,7 +29,17 @@ lsm_l_core_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation (landscape level)
+Coeffiecent of variation of patch core area (landscape level)
+}
+\details{
+Equals the coeffiecent of variation of the patch core area of all patches in the landscape.
+The core area is the area within a patch that is not on the edge of the patch of class i.
+In other words, the area of a patch that has only neighbouring cells of the same type
+of class i
+\deqn{CORE_CV = cv(core[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_core_cv(landscape)

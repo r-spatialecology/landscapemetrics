@@ -1,10 +1,17 @@
-#' Patch richness
+#' Patch richness (lanscape level)
 #'
-#' @description Number of patch types (classes) in the landscape
+#' @description Patch richness (lanscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' Number of classes in the landscape. This is a very simple measure of composition.
+#' \subsection{Units}{None}
+#' \subsection{Range}{PR >= 1}
+#' \subsection{Behaviour}{PR = 1 when only 1 class is present and increases without
+#' limit as the number of classes increases}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_pr(landscape)

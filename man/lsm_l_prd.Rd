@@ -10,7 +10,7 @@
 \alias{lsm_l_prd.RasterBrick}
 \alias{lsm_l_prd}
 \alias{lsm_l_prd.list}
-\title{Patch richness density}
+\title{Patch richness density (lanscape level)}
 \usage{
 lsm_l_prd(landscape)
 
@@ -26,11 +26,21 @@ lsm_l_prd(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
-Number of patch types (classes) in the landscape divided by the total
-landscape area
+Patch richness density (lanscape level)
+}
+\details{
+Number of classes in the landscape divided by the total area.
+This is a very simple measure of composition and comparable among landscapes
+with different total area
+\deqn{PRD = number of classes / total area}
+\subsection{Units}{Number per hectare}
+\subsection{Range}{PRD > 0}
+\subsection{Behaviour}{PRD approaches PRD = 0 when only one class is present and
+the landscape area increases. PRD increases as the number of classes increases and
+the total area decreases}
 }
 \examples{
 lsm_l_prd(landscape)

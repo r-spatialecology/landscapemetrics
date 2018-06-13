@@ -34,7 +34,7 @@ Effective Mesh Size (class level)
 \details{
 The effective mesh size equals the sum of patch areas of class i squared
 divided by the total area divided by 10 000 to convert to hectares (???)
-\deqn{MESH = (sum(area[patch_i]) ^ 2 / total area) * (1 / 10 000)}
+\deqn{MESH = (sum(area[patch_i]) ^ 2) / total area}
 \subsection{Units}{Hectares}
 \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area}
 \subsection{Behaviour}{MESH equals the lower limit when every cell is a patch and

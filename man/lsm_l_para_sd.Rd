@@ -10,7 +10,7 @@
 \alias{lsm_l_para_sd.RasterBrick}
 \alias{lsm_l_para_sd}
 \alias{lsm_l_para_sd.list}
-\title{Perimeter area ratio  (patch level)}
+\title{Perimeter-area ratio distribution (landscape level)}
 \usage{
 lsm_l_para_sd(landscape)
 
@@ -24,12 +24,19 @@ lsm_l_para_sd(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{details}{Standard deviation of the perimeter-area ratio of all patches in the landscape.
+PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
+\deqn{PARA_SD = sd(PARA[patch]}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
-Ratio of patch perimeter and area
+Standart deviation of perimeter-area ratio (landscape level)
 }
 \examples{
 lsm_l_para_sd(landscape)

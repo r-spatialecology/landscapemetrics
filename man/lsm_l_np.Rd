@@ -10,7 +10,7 @@
 \alias{lsm_l_np.RasterBrick}
 \alias{lsm_l_np}
 \alias{lsm_l_np.list}
-\title{Number of patches}
+\title{Number of patches (landscape level)}
 \usage{
 lsm_l_np(landscape)
 
@@ -29,7 +29,14 @@ lsm_l_np(landscape)
 tibble
 }
 \description{
-Number of patches
+Number of patches (landscape level)
+}
+\details{
+Number of patches equals the number of patches in the landscape
+\subsection{Units}{None}
+\subsection{Ranges}{NP >= 1}
+\subsection{Behaviour}{NP = 1 when only one class and patch is present and
+increases without limit as the number of patches increases}
 }
 \examples{
 lsm_l_np(landscape)

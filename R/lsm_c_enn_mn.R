@@ -1,4 +1,4 @@
-#' Euclidean Nearest Neighbor Distance (ENN_MN)
+#' Euclidean Nearest Neighbor Distance Distribution (class level)
 #'
 #' @description Mean Euclidean Nearest Neighbor Distance (class level)
 #'
@@ -8,7 +8,7 @@
 #' Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
 #' the distance the the nearest neigbouring patch of the same patch type
 #' (shortest edge-to-edge distance)
-#' \deqn{ENN_MN = mean(ENN[class_i])}
+#' \deqn{ENN_MN = mean(ENN[patch_i])}
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{???}
 #' \subsection{Behaviour}{???}
