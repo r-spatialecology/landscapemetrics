@@ -9,8 +9,8 @@
 #' class i divided by the total area squared
 #' \deqn{DIVISON = 1 - sum((area[patch_i] / total area) ^ 2)}
 #' \subsection{Units}{Proportion (???)}
-#' \subsection{Ranges}{0 <= Division < 1 \cr
-#' Division equals DIVISION = 1 when only one class and patch is present. Approaches
+#' \subsection{Ranges}{0 <= Division < 1}
+#' \subsection{Behaviour}{DIVISION = 1 when only one class and patch is present. Approaches
 #' DIVISON = 1 when all patches of class i are single cells}
 #'
 #' @return tibble

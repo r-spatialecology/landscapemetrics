@@ -1,8 +1,16 @@
-#'  Perimeter area ratio  (patch level)
+#' Perimeter-area ratio distribution (class level)
 #'
-#' @description Ratio of patch perimeter and area
+#' @description Mean of perimeter-area ratio (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @param details
+#' Mean of the perimeter-area ratio. PARA equals the ration of
+#' patch perimeter and patch area. It is a simple measure of complexity
+#' \deqn{PARA_MN = mean(PARA[patch_i]}
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

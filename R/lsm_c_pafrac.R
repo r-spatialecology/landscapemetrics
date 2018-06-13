@@ -12,7 +12,8 @@
 #' if the relationship between the area and perimeter is linear on a logarithmic scale.
 #' \deqn{PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))}
 #' \subsection{Units}{None}
-#' \subsection{Range}{1 <= PAFRAC <= 2 \cr If only a few patches are present the value
+#' \subsection{Range}{1 <= PAFRAC <= 2}
+#' \subsection{Behaviour}{If only a few patches are present the value
 #' can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
 #' PAFRAC = 2 for irregular shapes}
 #'
@@ -65,28 +66,40 @@ lsm_c_pafrac.list <- function(landscape) {
 
 lsm_c_pafrac_calc <- function(landscape){
 
-    area <- lsm_p_area(landscape)
-    perimeter <- lsm_p_perim(landscape)
+    area_patch <- lsm_p_area(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
-    patch_richness <- lsm_l_pr(landscape)
+    perimeter_patch <- lsm_p_perim(landscape)
 
-    patch_richness$value %>%
+    patches_class <- lsm_c_np(landscape)
+
+    if(any(patches_class$value < 10)){warning("PAFRAC = NA for classes NP < 10")}
+
+    patches_class %>%
+        nrow() %>%
         seq_len() %>%
-        purrr::map_dfr(function(x) {
+        purrr::map_dfr(function(current_class) {
 
-            area_class <- area %>%
-                dplyr::filter(class == x)
+            if(patches_class$value[patches_class$class == current_class] < 10){
+                pafrac = NA
+            }
 
-            perimeter_class <- perimeter %>%
-                dplyr::filter(class == x)
+            else{
+                area_class <- area_patch %>%
+                    dplyr::filter(class == current_class)
 
-            regression_model_class <- stats::lm(log(area_class$value) ~ log(perimeter_class$value))
+                perimeter_class <- perimeter_patch %>%
+                    dplyr::filter(class == current_class)
 
-            pafrac = 2 / regression_model_class$coefficients[[2]]
+                regression_model_class <- stats::lm(log(area_class$value) ~
+                                                        log(perimeter_class$value))
+
+                pafrac = 2 / regression_model_class$coefficients[[2]]
+            }
 
             tibble::tibble(
                 level = "class",
-                class = x,
+                class = current_class,
                 id = as.integer(NA),
                 metric = "perimeter-area fractal dimension",
                 value = pafrac

@@ -32,10 +32,14 @@ tibble
 Coeffiecent of variation of patch core area (class level)
 }
 \details{
-Equals the coeffiecent of variation of the patch core area of class i
+Equals the coeffiecent of variation of the patch core area of class i. The core area is
+the area within a patch that is not on the edge of the patch of class i.
+In other words, the area of a patch that has only neighbouring cells of the same type
+of class i
 \deqn{CORE_CV = cv(core[patch_i])}
 \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
 \subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_core_cv(landscape)

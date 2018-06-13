@@ -12,7 +12,8 @@
 #' a relative measure, it is comparable among landscapes with different total areas
 #' \deqn{CPLAND = (sum(core[patch_i]) / total area) * 100}
 #' \subsection{Units}{Percentage}
-#' \subsection{Range}{0 <= CPLAND < 100 \cr CPLAND approaches CPLAND =  0 when patches
+#' \subsection{Range}{0 <= CPLAND < 100}
+#' \subsection{Behaviour}{CPLAND approaches CPLAND =  0 when patches
 #' do not contain large core areas, i.e. are small and complex. Approaches CPLAND = 100
 #' when only one class and patch is present}
 #'

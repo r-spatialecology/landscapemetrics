@@ -23,13 +23,20 @@ lsm_c_cai_sd(landscape)
 \method{lsm_c_cai_sd}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+
+Equals the standard deviation of the core area index of class i.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_SD = sd(CAI[patch_i]}
+\subsection{Units}{???}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
-Standard deviation (class level)
+Standard deviation of core area index (class level)
 }
 \examples{
 lsm_c_cai_sd(landscape)

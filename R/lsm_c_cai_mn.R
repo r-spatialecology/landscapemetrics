@@ -1,8 +1,15 @@
 #' Core area index distribution (class level)
 #'
-#' @description Mean (class level)
+#' @description Mean of core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#'#' Equals the mean of the core area index of class i.
+#' The core area index equals the percentage of a patch that is core area
+#' \deqn{CAI_MN = mean(CAI[patch_i]}
+#' \subsection{Units}{Percentage}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'
@@ -52,16 +59,16 @@ lsm_c_cai_mn.list <- function(landscape) {
 }
 
 lsm_c_cai_mn_calc <- function(landscape){
-    ndca_sd <- landscape %>%
+    cai_mean <- landscape %>%
         lsm_p_cai() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "class",
-        class = ndca_sd$class,
+        class = cai_mean$class,
         id = as.integer(NA),
         metric = "core area index (mean)",
-        value = ndca_sd$value
+        value = cai_mean$value
     )
 }

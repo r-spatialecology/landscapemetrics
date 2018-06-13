@@ -10,7 +10,7 @@
 \alias{lsm_c_frac_sd.RasterBrick}
 \alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.list}
-\title{Perimeter area ratio  (patch level)}
+\title{Fractal dimension index distribution  (class level)}
 \usage{
 lsm_c_frac_sd(landscape)
 
@@ -29,7 +29,7 @@ lsm_c_frac_sd(landscape)
 tibble
 }
 \description{
-Ratio of patch perimeter and area
+Standard deviation fractal dimension index (class level)
 }
 \examples{
 lsm_c_frac_sd(landscape)

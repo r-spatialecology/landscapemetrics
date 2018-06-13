@@ -9,8 +9,8 @@
 #' divided by the total area divided by 10 000 to convert to hectares (???)
 #' \deqn{MESH = (sum(area[patch_i]) ^ 2 / total area) * (1 / 10 000)}
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area \cr
-#' Effective mesh size equals the lower limit when every cell is a patch and
+#' \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area}
+#' \subsection{Behaviour}{MESH equals the lower limit when every cell is a patch and
 #' increases when only one patch is present}
 #'
 #' @return tibble
@@ -58,11 +58,12 @@ lsm_c_mesh.list <- function(landscape) {
 
 lsm_c_mesh_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    total_area <- lsm_l_ta(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
     mesh <- landscape %>%
         lsm_p_area() %>%
-        dplyr::mutate(value = value ^ 2) %>%
+        dplyr::mutate(value = (value * 10000) ^ 2) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = (value / total_area$value) * (1 / 10000))

@@ -34,8 +34,9 @@ Standard deviation of patch area (class level)
 \details{
 Equals the standard deviation of the patch area of class i
 \deqn{AREA_SD = sd(area[patch_i])}
-\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Units}{Hectares}
 \subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_area_sd(landscape)

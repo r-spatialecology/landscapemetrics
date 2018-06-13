@@ -9,9 +9,9 @@
 #' divided by the square root of the total area.
 #' \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
 #' \subsection{Units}{none}
-#' \subsection{Ranges}{LSI >= 1 \cr
-#' LSI equals LSI = 1 when only one class and patch is present and increases when
-#' the length of edges increases, i.e. the patches of class i become more complex}
+#' \subsection{Ranges}{LSI >= 1}
+#' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
+#' increases when the length of edges increases, i.e. the patches of class i become more complex}
 #'
 #' @return Value >= 1
 #'
@@ -58,14 +58,15 @@ lsm_c_lsi.list <- function(landscape) {
 
 lsm_c_lsi_calc <- function(landscape) {
 
-    edges <- lsm_c_te(landscape) # Needs to include also edge to background
-    area <- lsm_c_ta(landscape)
+    edges_class <- lsm_c_te(landscape) # Needs to include also edge to background
+    area_landscape <- lsm_l_ta(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
-    lsi <- (0.25 * edges$value) / sqrt(area$value)
+    lsi <- (0.25 * edges_class$value) / sqrt(area_landscape$value)
 
     tibble::tibble(
         level = "class",
-        class = edges$class,
+        class = edges_class$class,
         id = as.integer(NA),
         metric = "landscape shape index",
         value = lsi

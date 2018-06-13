@@ -23,13 +23,20 @@ lsm_c_cai_mn(landscape)
 \method{lsm_c_cai_mn}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+
+#' Equals the mean of the core area index of class i.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_MN = mean(CAI[patch_i]}
+\subsection{Units}{Percentage}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
-Mean (class level)
+Mean of core area index (class level)
 }
 \examples{
 lsm_c_cai_mn(landscape)

@@ -1,8 +1,15 @@
 #' Core area index distribution (class level)
 #'
-#' @description Standard deviation (class level)
+#' @description Standard deviation of core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' Equals the standard deviation of the core area index of class i.
+#' The core area index equals the percentage of a patch that is core area
+#' \deqn{CAI_SD = sd(CAI[patch_i]}
+#' \subsection{Units}{???}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'
@@ -52,16 +59,16 @@ lsm_c_cai_sd.list <- function(landscape) {
 }
 
 lsm_c_cai_sd_calc <- function(landscape){
-    ndca_sd <- landscape %>%
+    cai_sd <- landscape %>%
         lsm_p_cai() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",
-        class = ndca_sd$class,
+        class = cai_sd$class,
         id = as.integer(NA),
         metric = "core area index (sd)",
-        value = ndca_sd$value
+        value = cai_sd$value
     )
 }

@@ -9,9 +9,10 @@
 #' Equals the area within a patch that is not on the edge of the patch of class i.
 #' In other words, the area of a patch that has only neighbouring cells of the same type
 #' of class i
-#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{TCA >= 0 and increases without limit as patch areas increase
-#' and patch shapes simplify. TCA = 0 when every cell in every patch of class i
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{CORE >= 0}
+#' \subsection{Behaviour}{CORE increases without limit as patch areas increase
+#' and patch shapes simplify. CORE = 0 when every cell in every patch of class i
 #' is an edge}
 #'
 #' @return tibble

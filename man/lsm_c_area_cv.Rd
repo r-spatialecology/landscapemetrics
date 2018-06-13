@@ -34,8 +34,9 @@ Coeffiecent of variation of patch area (class level)
 \details{
 Equals the Coeffiecent of variation of the patch area of class i
 \deqn{AREA_CV = cv(area[patch_i])}
-\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+\subsection{Units}{Hectares}
 \subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_area_cv(landscape)

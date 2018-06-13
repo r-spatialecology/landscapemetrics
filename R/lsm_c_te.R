@@ -9,8 +9,9 @@
 #' absolute measure making comparisons among landscapes with different total areas difficult.
 #' ??? Landscape border included or not ???
 #' \deqn{TE = sum(edges[class_i])}
-#' \subsection{Units}{Meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{TE >= 0 and increases without limit as landscape becomes more patchy}
+#' \subsection{Units}{Meters}
+#' \subsection{Range}{TE >= 0}
+#' \subsection{Behaviour}{TE increases without limit as landscape becomes more patchy}
 #'
 #' @return tibble
 #'

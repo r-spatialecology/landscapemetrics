@@ -29,7 +29,16 @@ lsm_c_enn_mn(landscape)
 tibble
 }
 \description{
-Euclidean Nearest Neighbor Distance Distribution (class level)
+Mean Euclidean Nearest Neighbor Distance (class level)
+}
+\details{
+Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
+the distance the the nearest neigbouring patch of the same patch type
+(shortest edge-to-edge distance)
+\deqn{ENN_MN = mean(ENN[class_i])}
+\subsection{Units}{Meters}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_enn_mn(landscape)

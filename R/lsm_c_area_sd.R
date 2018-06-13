@@ -6,9 +6,10 @@
 #'
 #' @details
 #' Equals the standard deviation of the patch area of class i
-#' \deqn{AREA_SD = sd(area[patch_i])}
-#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \deqn{AREA_SD = sd(AREA[patch_i])}
+#' \subsection{Units}{Hectares}
 #' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

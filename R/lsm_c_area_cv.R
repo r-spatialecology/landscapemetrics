@@ -6,9 +6,10 @@
 #'
 #' @details
 #' Equals the Coeffiecent of variation of the patch area of class i
-#' \deqn{AREA_CV = cv(area[patch_i])}
-#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
+#' \deqn{AREA_CV = cv(AREA[patch_i])}
+#' \subsection{Units}{Hectares}
 #' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

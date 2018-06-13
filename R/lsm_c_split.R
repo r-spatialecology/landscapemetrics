@@ -9,9 +9,9 @@
 #' areas of class i
 #' \deqn{SPLIT = total area ^ 2 / sum(area[patch_i])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{1 <= SPLIT <= Number of cells squared \cr
-#' Split equals SPLIT = 1 when only one class and patch is present. SPLIt increases
-#' as the number of patches of class i increases}
+#' \subsection{Range}{1 <= SPLIT <= Number of cells squared}
+#' \subsection{Behaviour}{SPLIT = 1 when only one class and patch is present.
+#' SPLIt increases as the number of patches of class i increases}
 #'
 #' @return tibble
 #'
@@ -58,14 +58,14 @@ lsm_c_split.list <- function(landscape) {
 
 lsm_c_split_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta(landscape)
 
     split <- landscape %>%
         lsm_p_area() %>%
         dplyr::mutate(value = value ^ 2) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (total_area$value ^ 2) / value)
+        dplyr::mutate(value = (area_landscape$value ^ 2) / value)
 
     tibble::tibble(
         level = "class",

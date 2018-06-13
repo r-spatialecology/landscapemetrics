@@ -1,9 +1,17 @@
-#'  Perimeter area ratio  (patch level)
+#'  Fractal dimension index distribution  (class level)
 #'
-#' @description Ratio of patch perimeter and area
+#' @description Mean fractal dimension index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
+#' @details
+#' Mean of the fractal dimension index of class i. FRAC equals
+#' two times the natural logarithm of a quarter of the patch area divided by the
+#' natural logarithm of the patch area
+#' \deqn{FRAC_MN = mean(FRAC[patch_i])
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #' @return tibble
 #'
 #' @examples

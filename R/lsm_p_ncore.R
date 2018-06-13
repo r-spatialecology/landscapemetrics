@@ -11,7 +11,7 @@
 #' neighbouring cells of the same type
 #' \subsection{Units}{None}
 #' \subsection{Range}{NCORE >= 0}
-#' \subsection{Behaviour}{ NCORE = 0 when TCA = 0, i.e. every cell in patches of class i is
+#' \subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patches of class i is
 #' an edge. NCORE increases without limit as core areas become more present, i.e. patches
 #' becoming larger and less complex}
 #'

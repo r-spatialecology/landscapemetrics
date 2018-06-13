@@ -36,13 +36,12 @@ Edge density equals the sum of the length of all edges of class i divided by the
 area multiplied 10 000. Because edge density is relative, comparison among landcapes with different total areas
 are possible
 \deqn{ED = (sum(edges[class_i]) / total area) * 10 000}
-\subsection{Units}{Meters per hectare (assuming that the input cellsize is in meter)}
-\subsection{Range}{ED >= 0 and increases as the landcapes becomes more patchy}
+\subsection{Units}{Meters per hectare}
+\subsection{Range}{ED >= 0}
+\subsection{Behaviour}{ED increases as the landcapes becomes more patchy}
 }
 \examples{
 lsm_c_ed(landscape)
-lsm_c_ed(landscape_stack)
-lsm_c_ed(raster::as.list(landscape_stack))
 
 }
 \references{

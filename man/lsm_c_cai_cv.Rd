@@ -29,7 +29,15 @@ lsm_c_cai_cv(landscape)
 tibble
 }
 \description{
-Coefficient of variation (class level)
+Coefficient of variation of core area index (class level)
+}
+\details{
+Equals the coeffiecent of variation of the core area index of class i.
+The core area index equals the percentage of a patch that is core area
+\deqn{CAI_CV = cv(CAI[patch_i]}
+\subsection{Units}{???}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_cai_cv(landscape)

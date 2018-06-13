@@ -1,6 +1,6 @@
 #' Core area index  (patch level)
 #'
-#' @description  Core area index of patch (patch level)
+#' @description Core area index of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'

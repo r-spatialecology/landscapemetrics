@@ -1,8 +1,17 @@
 #' Euclidean Nearest Neighbor Distance (ENN_MN)
 #'
-#' @description Euclidean Nearest Neighbor Distance Distribution (class level)
+#' @description Mean Euclidean Nearest Neighbor Distance (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
+#' the distance the the nearest neigbouring patch of the same patch type
+#' (shortest edge-to-edge distance)
+#' \deqn{ENN_MN = mean(ENN[class_i])}
+#' \subsection{Units}{Meters}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'

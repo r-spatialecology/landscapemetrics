@@ -1,12 +1,13 @@
-#' Shape index  (class level)
+#' Shape index distribution  (class level)
 #'
 #' @description Standard deviation of shape index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the standard deviation of shape index of class i
-#' \deqn{SHAPE_MN = sd(SHAPE[patch_i])}
+#' Equals the standard deviation of the shape index of class i. SHAPE equals a quater
+#' of the patch perimeter divided by the square root of the patch area
+#' \deqn{SHAPE_SD = sd(SHAPE[patch_i])}
 #' \subsection{Units}{None}
 #' \subsection{Range}{???}
 #'

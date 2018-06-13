@@ -9,8 +9,9 @@
 #' an absolute measure, making comparisons among landscapes with different
 #' total areas difficult. It is a measure of landscape composition.
 #' \deqn{CA = sum(area[patch_i])}
-#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{CA > 0 and increases without limit as the amount of the class increases.
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{CA > 0}
+#' \subsection{Behaviour}{CA increases without limit as the amount of the class increases.
 #' CA = TA if only one class is present}
 #'
 #' @return tibble

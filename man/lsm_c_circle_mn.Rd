@@ -10,7 +10,7 @@
 \alias{lsm_c_circle_mn.RasterBrick}
 \alias{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn.list}
-\title{Related Circumscribing Circle (CIRCLE)}
+\title{Related Circumscribing Circle distribution (CIRCLE)}
 \usage{
 lsm_c_circle_mn(landscape)
 
@@ -29,12 +29,16 @@ lsm_c_circle_mn(landscape)
 tibble
 }
 \description{
-Related Circumscribing Circle (class)
+Mean of related circumscribing circle (class)
 }
 \details{
-Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest circumscribing circle.
+Equals the mean of the related circumscribing circle of
+class i. Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest
+circumscribing circle.
+\deqn{CIRCLE_MN = mean(CIRCLE[patch_i])}
 \subsection{Units}{None}
-\subsection{Range}{0 <= CIRCLE < 1}
+\subsection{Range}{???}
+\subsection{Behaviour}{????}
 }
 \examples{
 lsm_c_circle_mn(landscape)

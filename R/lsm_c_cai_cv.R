@@ -1,8 +1,16 @@
 #' Core area index distribution (class level)
 #'
-#' @description Coefficient of variation (class level)
+#' @description Coefficient of variation of core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the coeffiecent of variation of the core area index of class i.
+#' The core area index equals the percentage of a patch that is core area
+#' \deqn{CAI_CV = cv(CAI[patch_i]}
+#' \subsection{Units}{???}
+#' \subsection{Range}{???}
+#' \subsection{Behaviour}{???}
 #'
 #' @return tibble
 #'
@@ -52,16 +60,16 @@ lsm_c_cai_cv.list <- function(landscape) {
 }
 
 lsm_c_cai_cv_calc <- function(landscape){
-    ndca_sd <- landscape %>%
+    cai_cv <- landscape %>%
         lsm_p_cai() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",
-        class = ndca_sd$class,
+        class = cai_cv$class,
         id = as.integer(NA),
         metric = "core area index (cv)",
-        value = ndca_sd$value
+        value = cai_cv$value
     )
 }
