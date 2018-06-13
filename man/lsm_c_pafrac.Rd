@@ -39,7 +39,8 @@ ln(area) = beta * ln(perimeter) + intercept. It is only meaningful
 if the relationship between the area and perimeter is linear on a logarithmic scale.
 \deqn{PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))}
 \subsection{Units}{None}
-\subsection{Range}{1 <= PAFRAC <= 2 \cr If only a few patches are present the value
+\subsection{Range}{1 <= PAFRAC <= 2}
+\subsection{Behaviour}{If only a few patches are present the value
 can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
 PAFRAC = 2 for irregular shapes}
 }

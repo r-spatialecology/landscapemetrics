@@ -33,7 +33,7 @@ Mean patch area (class level)
 }
 \details{
 Equals the mean patch area of class i.
-\deqn{AREA_MN = mean(area[patch_i])}
+\deqn{AREA_MN = mean(AREA[patch_i])}
 \subsection{Units}{Hectares}
 \subsection{Range}{AREA_MN > 0}
 \subsection{Behaviour}{AREA_MN increases without limit as the amount of the

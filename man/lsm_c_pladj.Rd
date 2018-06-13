@@ -39,9 +39,9 @@ adjacencies. It is a measure of class aggregation.
 
 \deqn{PLADJ = Number of like adjacencies / sum(Number of like adjacencies)}
 \subsection{Units}{Percentage}
-\subsection{Ranges}{0 <= PLADJ <= 100 \cr
-PLADJ equals PLADJ = 0 when class i is maximally dissagregated, i.e. every
-cell is a different patch. PLADJ = 100 when the only one class and patch
+\subsection{Ranges}{0 <= PLADJ <= 100}
+\subsection{Behaviour}{PLADJ equals PLADJ = 0 when class i is maximally dissagregated,
+i.e. every cell is a different patch. PLADJ = 100 when the only one class and patch
 is present}
 }
 \examples{

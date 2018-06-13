@@ -33,10 +33,15 @@ Number of core areas (class level)
 }
 \details{
 Number of core areas equals the sum of number of core areas of class i.
-Called number of disjunct core areas in FRAGSTATS
-\deqn{NDCA = sum(ncore[patch_i])}
+Called number of disjunct core areas in FRAGSTATS. A core area is a 'patch within
+the patch' without any edge cells. In other words, the number of patches within
+the patch that only have neighbouring cells of the same type
+\deqn{NCORE = sum(ncore[patch_i])}
 \subsection{Units}{None}
-\subsection{Range}{NDCA >= 0 \cr }
+\subsection{Range}{NCORE >= 0}
+\subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patches of class i is
+an edge. NCORE increases without limit as core areas become more present, i.e. patches
+becoming larger and less complex}
 }
 \examples{
 lsm_c_ncore(landscape)

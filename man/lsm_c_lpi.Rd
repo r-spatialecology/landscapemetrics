@@ -29,15 +29,15 @@ lsm_c_lpi(landscape)
 tibble
 }
 \description{
-Largest patch index of class (class level)
+Largest patch index of class i (class level)
 }
 \details{
 The largest patch index equals the area of the larges patch of class i
 divided by the total area. It is a simple measure of dominance
 \deqn{LPI = (max(area[patch_i]) / total area) * 100}
 \subsection{Units}{Percentage}
-\subsection{Range}{0 < LPI <= 100 \cr
-LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
+\subsection{Range}{0 < LPI <= 100}
+\subsection{Behaviour}{LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
 and equals LPI = 100 when only one class and patch is present}
 }
 \examples{

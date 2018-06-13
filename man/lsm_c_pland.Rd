@@ -38,7 +38,8 @@ belonging to class i. It is a measure of compostion and because of the relative
 character directly comparable among landscapes with different total areas
 \deqn{PLAND = (sum(area[patch_i]) / total area) * 100}
 \subsection{Units}{Percentage}
-\subsection{Range}{0 < PLAND <= 100 \cr PLAND approaches PLAND = 0 when the class area
+\subsection{Range}{0 < PLAND <= 100}
+\subsection{Behaviour}{PLAND approaches PLAND = 0 when the class area
 is decreasing. PLAND = 100 when only one class is present}
 }
 \examples{

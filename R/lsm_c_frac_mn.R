@@ -8,7 +8,7 @@
 #' Mean of the fractal dimension index of class i. FRAC equals
 #' two times the natural logarithm of a quarter of the patch area divided by the
 #' natural logarithm of the patch area
-#' \deqn{FRAC_MN = mean(FRAC[patch_i])
+#' \deqn{FRAC_MN = mean(FRAC[patch_i])}
 #' \subsection{Units}{None}
 #' \subsection{Range}{???}
 #' \subsection{Behaviour}{???}

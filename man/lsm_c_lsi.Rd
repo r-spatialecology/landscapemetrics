@@ -36,9 +36,9 @@ The landscape shape index equals a quarter of the sum of all edges of class i
 divided by the square root of the total area.
 \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
 \subsection{Units}{none}
-\subsection{Ranges}{LSI >= 1 \cr
-LSI equals LSI = 1 when only one class and patch is present and increases when
-the length of edges increases, i.e. the patches of class i become more complex}
+\subsection{Ranges}{LSI >= 1}
+\subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
+increases when the length of edges increases, i.e. the patches of class i become more complex}
 }
 \examples{
 lsm_c_lsi(landscape)

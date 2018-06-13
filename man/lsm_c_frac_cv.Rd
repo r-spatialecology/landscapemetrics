@@ -31,6 +31,15 @@ tibble
 \description{
 Coeffiecent of variation fractal dimension index (class level)
 }
+\details{
+Coeffiecent of variation of the fractal dimension index of class i. FRAC equals
+two times the natural logarithm of a quarter of the patch area divided by the
+natural logarithm of the patch area
+\deqn{FRAC_CV = cv(FRAC[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
+}
 \examples{
 lsm_c_frac_cv(landscape)
 

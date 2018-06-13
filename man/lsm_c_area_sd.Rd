@@ -33,7 +33,7 @@ Standard deviation of patch area (class level)
 }
 \details{
 Equals the standard deviation of the patch area of class i
-\deqn{AREA_SD = sd(area[patch_i])}
+\deqn{AREA_SD = sd(AREA[patch_i])}
 \subsection{Units}{Hectares}
 \subsection{Range}{???}
 \subsection{Behaviour}{???}

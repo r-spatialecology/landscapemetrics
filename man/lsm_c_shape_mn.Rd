@@ -10,7 +10,7 @@
 \alias{lsm_c_shape_mn.RasterBrick}
 \alias{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn.list}
-\title{Shape index  (class level)}
+\title{Shape index distribution  (class level)}
 \usage{
 lsm_c_shape_mn(landscape)
 
@@ -32,7 +32,8 @@ tibble
 Mean of shape index (class level)
 }
 \details{
-Equals the mean shape index of class i
+Equals the mean shape index of class i. SHAPE equals a quater
+of the patch perimeter divided by the square root of the patch area
 \deqn{SHAPE_MN = mean(SHAPE[patch_i])}
 \subsection{Units}{None}
 \subsection{Range}{???}

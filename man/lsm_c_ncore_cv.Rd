@@ -10,7 +10,7 @@
 \alias{lsm_c_ncore_cv.RasterBrick}
 \alias{lsm_c_ncore_cv}
 \alias{lsm_c_ncore_cv.list}
-\title{Distrubution number of core areas (class level)}
+\title{Number of core areas distribution (class level)}
 \usage{
 lsm_c_ncore_cv(landscape)
 
@@ -29,7 +29,16 @@ lsm_c_ncore_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation (class level)
+Coeffiecent of variation of number of core areas (class level)
+}
+\details{
+Equals the coeffiecent of variation of number of core area of class i.
+A core area is a 'patch within the patch' without any edge cells. In other words,
+the number of patches within the patch that only have neighbouring cells of the same type
+\deqn{NCORE_CV = cv(NCORE[patch_i])}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_c_ncore_cv(landscape)

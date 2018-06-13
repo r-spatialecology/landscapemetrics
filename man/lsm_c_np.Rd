@@ -34,9 +34,9 @@ Number of patches (class level)
 \details{
 Number of patches equals the number of patches of class i
 \subsection{Units}{None}
-\subsection{Ranges}{NP >= 1 \cr
-NP equals NP = 1 when only one class and landscape is present and increases
-without limit as the number of patches increases}
+\subsection{Ranges}{NP >= 1}
+\subsection{Behaviour}{NP = 1 when only one class and landscape is present and
+increases without limit as the number of patches increases}
 }
 \examples{
 lsm_c_np(landscape)
