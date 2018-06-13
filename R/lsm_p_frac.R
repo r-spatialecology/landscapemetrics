@@ -9,7 +9,8 @@
 #' quarter of the patch area divided by the natural logarithm of the patch area
 #' \deqn{FRAC = 2 * ln(0.25 * perimeter[patch]) / ln(area[patch])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{1 <= FRAC <= 2 \cr The fractal dimension index approaches FRAC = 1 for
+#' \subsection{Range}{1 <= FRAC <= 2 }
+#' \subsection{Behaviour}{The fractal dimension index approaches FRAC = 1 for
 #' simple patches and FRAC = 2 for irregular patches}
 #'
 #' @return tibble
@@ -62,7 +63,9 @@ lsm_p_frac.list <- function(landscape) {
 lsm_p_frac_calc <- function(landscape){
 
     perimeter <- lsm_p_perim(landscape)
-    area <- lsm_p_area(landscape)
+
+    area <- lsm_p_area(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
     frac <- 2 * log (0.25 * perimeter$value) / log(area$value)
     frac[is.na(frac)] <- 1

@@ -6,8 +6,9 @@
 #'
 #' @details
 #' Equals the area of the patch
-#' \subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{AREA > 0 and increases without limit as the patch size increases}
+#' \subsection{Units}{hectares}
+#' \subsection{Range}{AREA > 0
+#' \subsection{Behaviour}{Increases without limit as the patch size increases}
 #'
 #' @return tibble
 #'
@@ -66,7 +67,8 @@ lsm_p_area_calc <- function(landscape){
             area_patch <- patches_class %>%
                 raster::values() %>%
                 table(useNA = "no") %>%
-                magrittr::multiply_by(prod(raster::res(patches_class)))
+                magrittr::multiply_by(prod(raster::res(patches_class))) %>%
+                magrittr::divide_by(10000)
 
             tibble::tibble(
                 id = NA,

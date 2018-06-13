@@ -33,8 +33,9 @@ Area of a patch (patch level)
 }
 \details{
 Equals the area of the patch
-\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-\subsection{Range}{AREA > 0 and increases without limit as the patch size increases}
+\subsection{Units}{hectares}
+\subsection{Range}{AREA > 0 \cr
+Increases without limit as the patch size increases}
 }
 \examples{
 lsm_p_area(landscape)

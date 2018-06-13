@@ -8,7 +8,8 @@
 #' The core area index equals the percentage of a patch that is core area
 #' \deqn{CAI = (core[patch] / area[patch]) * 100}
 #' \subsection{Units}{Percentage}
-#' \subsection{Range}{0 <= CAI <= 100 \cr CAI = 0 when the patch has no core area and
+#' \subsection{Range}{0 <= CAI <= 100}
+#' \subsection{Behaviour}{CAI = 0 when the patch has no core area and
 #' approaches CAI = 100 with increasing percentage of core area within a patch}
 #'
 #' @return tibble
@@ -60,11 +61,12 @@ lsm_p_cai.list <- function(landscape) {
 
 lsm_p_cai_calc <- function(landscape){
 
-    area <- lsm_p_area(landscape)
+    area <- lsm_p_area(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
     cai <- landscape %>%
         lsm_p_core() %>%
-        dplyr::mutate(value = value / area$value * 100)
+        dplyr::mutate(value = value * 10000 / area$value * 100)
 
     tibble::tibble(
         level = "patch",

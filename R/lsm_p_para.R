@@ -9,8 +9,9 @@
 #' divided by patch area (no unit) and is a simple measure of complexity
 #' \deqn{PARA = perimeter[patch] / area[patch]}
 #' \subsection{Units}{None}
-#' \subsection{Range}{PARA = 1 for a square and
-#' increases as the patch becomes more irregular}
+#' \subsection{Range}{PARA >0}
+#' \subsection{Behaviour}{PARA = 1 for a square and increases as the patch
+#' becomes more irregular}
 #'
 #' @return tibble
 #'
@@ -62,7 +63,9 @@ lsm_p_para.list <- function(landscape) {
 lsm_p_para_calc <- function(landscape){
 
     perimeter <- lsm_p_perim(landscape)
-    area <- lsm_p_area(landscape)
+
+    area <- lsm_p_area(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
     para <- perimeter$value / area$value
 

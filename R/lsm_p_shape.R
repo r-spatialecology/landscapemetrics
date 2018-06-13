@@ -9,7 +9,8 @@
 #' of the patch area
 #' \deqn{SHAPE = 0.25 * perimeter[patch] / sqrt(area[patch])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{SHAPE = 1 for a square and
+#' \subsection{Range}{SHAPE >= 1}
+#' \subsection{Behaviour}{SHAPE = 1 for a square and
 #' increases as the patch becomes more irregular}
 #'
 #' @return tibble
@@ -62,7 +63,9 @@ lsm_p_shape.list <- function(landscape) {
 lsm_p_shape_calc <- function(landscape){
 
     perimeter <- lsm_p_perim(landscape)
-    area <- lsm_p_area(landscape)
+
+    area <- lsm_p_area(landscape) %>%
+        dplyr::mutate(value = value * 10000)
 
     shape <- 0.25 * perimeter$value / sqrt(area$value)
 

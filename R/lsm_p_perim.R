@@ -6,8 +6,9 @@
 #'
 #' @details
 #' Equals the perimeter of the patch.
-#' \subsection{Units}{Meter (assuming that the input cellsize is in meter)}
-#' \subsection{Range}{PERIm > 0 and increases without limit as the patch size increases}
+#' \subsection{Units}{Meters (assuming that the input cellsize is in meter)}
+#' \subsection{Range}{PERIM > 0}
+#' \subsection{Behaviour}{Increases without limit as the patch size increases}
 #'
 #' @return tibble
 #'

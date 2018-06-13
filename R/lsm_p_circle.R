@@ -5,9 +5,11 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest circumscribing circle.
+#' Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest
+#' circumscribing circle.
 #' \subsection{Units}{None}
 #' \subsection{Range}{0 <= CIRCLE < 1}
+#' \subsection{Behaviour}{CIRCLE = 0 for circular patches and approaches 1 for linear patches}
 #'
 #' @return tibble
 #'
@@ -128,7 +130,7 @@ lsm_p_circle_calc <- function(landscape) {
 
                                 })
 
-    patch_circles <- 1 - (lsm_p_area_calc(landscape)$value/unlist(patch_circles))
+    patch_circles <- 1 - ((lsm_p_area_calc(landscape)$value * 10000) / unlist(patch_circles))
 
 
     tibble::tibble(
