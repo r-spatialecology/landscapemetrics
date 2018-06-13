@@ -36,8 +36,9 @@ Area of core area of patch (patch level)
 \details{
 Equals the area within a patch that is not on the edge of the patch. In other words,
 the area of a patch that has only neighbouring cells of the same type
-\subsection{Units}{Square meter (assuming that the input cellsize is in meter)}
-\subsection{Range}{CORE >= 0 and increases without limit as patch area increases
+\subsection{Units}{Hectares}
+\subsection{Range}{CORE >= 0}
+\subsection{Behaviour}{Increases without limit as patch area increases
 and patch shape simplifies. CORE = 0 when every cell in the patch is an edge}
 }
 \examples{

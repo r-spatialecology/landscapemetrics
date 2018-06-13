@@ -7,7 +7,7 @@
 #' @details
 #' Equals the area of the patch
 #' \subsection{Units}{hectares}
-#' \subsection{Range}{AREA > 0
+#' \subsection{Range}{AREA > 0}
 #' \subsection{Behaviour}{Increases without limit as the patch size increases}
 #'
 #' @return tibble

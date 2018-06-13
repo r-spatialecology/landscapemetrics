@@ -29,8 +29,9 @@ lsm_p_para(landscape)
 divided by patch area (no unit) and is a simple measure of complexity
 \deqn{PARA = perimeter[patch] / area[patch]}
 \subsection{Units}{None}
-\subsection{Range}{PARA = 1 for a square and
-increases as the patch becomes more irregular}}
+\subsection{Range}{PARA >0}
+\subsection{Behaviour}{PARA = 1 for a square and increases as the patch
+becomes more irregular}}
 }
 \value{
 tibble

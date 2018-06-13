@@ -36,7 +36,8 @@ The shape index equals a quater of the patch perimeter divided by the square roo
 of the patch area
 \deqn{SHAPE = 0.25 * perimeter[patch] / sqrt(area[patch])}
 \subsection{Units}{None}
-\subsection{Range}{SHAPE = 1 for a square and
+\subsection{Range}{SHAPE >= 1}
+\subsection{Behaviour}{SHAPE = 1 for a square and
 increases as the patch becomes more irregular}
 }
 \examples{

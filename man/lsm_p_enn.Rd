@@ -34,8 +34,9 @@ Euclidean Nearest-Neighbor Distance of patch (patch level)
 \details{
 Equals the distance the the nearest neigbouring patch of the same patch type (shortest
 edge-to-edge distance)
-\subsection{Units}{Meter (assuming that the input cellsize is in meter)}
+\subsection{Units}{Meters}
 \subsection{Range}{ENN > 0}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_p_enn(landscape)

@@ -34,7 +34,7 @@ Perimeter of patch (patch level)
 \details{
 Equals the perimeter of the patch.
 \subsection{Units}{Meters (assuming that the input cellsize is in meter)}
-\subsection{Range}{PERIm > 0}
+\subsection{Range}{PERIM > 0}
 \subsection{Behaviour}{Increases without limit as the patch size increases}
 }
 \examples{
