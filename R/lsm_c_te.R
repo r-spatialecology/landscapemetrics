@@ -106,7 +106,7 @@ lsm_c_te_calc <- function(landscape, count_boundary) {
         level = "class",
         class = raster::unique(landscape),
         id = as.integer(NA),
-        metric = "percentage of landscape",
+        metric = "total edge",
         value = te
     )
 }
