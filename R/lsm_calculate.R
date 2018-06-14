@@ -107,7 +107,7 @@ lsm_calculate_internal <- function(landscape, what = "all", ...) {
 
     else if(what == "class"){
         result <- dplyr::bind_rows(
-            lsm_c_ta(landscape),
+            lsm_c_ca(landscape),
             lsm_c_area_mn(landscape),
             lsm_c_area_cv(landscape),
             lsm_c_area_sd(landscape),
