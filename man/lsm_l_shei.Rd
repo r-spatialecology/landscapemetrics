@@ -10,7 +10,7 @@
 \alias{lsm_l_shei.RasterBrick}
 \alias{lsm_l_shei}
 \alias{lsm_l_shei.list}
-\title{Shannon's Evenness Index}
+\title{Shannons's evenness index (landscape level)}
 \usage{
 lsm_l_shei(landscape)
 
@@ -29,7 +29,17 @@ lsm_l_shei(landscape)
 tibble
 }
 \description{
-Evenness of patch types (classes) in the landscape
+Shannons's evenness index (landscape level)
+}
+\details{
+Shannon's evenness index equals minus the sum of class proportions multipled by the natural
+logarithm of class proportions divided by the natural logarithm of class types
+\deqn{SHEI = sum(proportion[patch_i] * log(proportion[patch_i])) / log(number of classes)}
+\subsection{Units}{None}
+\subsection{Range}{0 <= SHEI < 1}
+\subsection{Behaviour}{Shannons's evenness index approaches SHEI = 0 when only one patch and
+class is present and approaches SHEI = 1 when the number of class types increases while the
+proportions are equally distributed}
 }
 \examples{
 lsm_l_shei(landscape)

@@ -6,8 +6,8 @@
 #'
 #' @details
 #' The modified Simpson's evenness index equals the negative natural logarithm of
-#' the sum of the squared proportions of all patches in the landscape grouped by class divided
-#' by the natural logarithm of patch richness
+#' the sum of the squared class proportions divided by the natural logarithm of
+#' number of classes
 #' \deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2)) / ln(patch richness)}
 #' \subsection{Units}{None}
 #' \subsection{Range}{0 <= MSIEI < 1}

@@ -33,7 +33,7 @@ Modified Simpson's diversity index (landscape level)
 }
 \details{
 The modified Simpson's diversity index equals the negative natural logarithm of
-the sum of the squared proportions of all patches in the landscape grouped by class
+the sum of the squared class proportions
 \deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2))}
 \subsection{Units}{None}
 \subsection{Range}{MSIDI >= 1}

@@ -26,10 +26,20 @@ lsm_l_siei(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Simpson's evenness index (landscape level)
+}
+\details{
+Simpson's evenness index equals 1 minus the sum of squared class proportions
+divided by 1 minus 1 divided by the number of classes
+\deqn{SIEI = sum(proportion[patch_i] ^ 2) / 1 - (1 / number of classes)}
+\subsection{Units}{None}
+\subsection{Range}{0 < SIEI <= 1}
+\subsection{Behaviour}{Simpson's evenness index approaches SIEI = 0 when only one patch and
+class is present and approaches SIDI = 1 when the number of class types increases while the
+proportions are equally distributed}
 }
 \examples{
 lsm_l_siei(landscape)

@@ -10,7 +10,7 @@
 \alias{lsm_l_shape_sd.RasterBrick}
 \alias{lsm_l_shape_sd}
 \alias{lsm_l_shape_sd.list}
-\title{Shape index  (class level)}
+\title{Shape index distribution  (landscape level)}
 \usage{
 lsm_l_shape_sd(landscape)
 
@@ -29,7 +29,14 @@ lsm_l_shape_sd(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Standard deviation of shape index (landscape level)
+}
+\details{
+Equals the standard deviation of the shape index of all patches in the landscape.
+SHAPE equals a quater of the patch perimeter divided by the square root of the patch area
+\deqn{SHAPE_SD = sd(SHAPE[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_l_shape_sd(landscape)

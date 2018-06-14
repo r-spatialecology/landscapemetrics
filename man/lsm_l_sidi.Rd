@@ -26,10 +26,19 @@ lsm_l_sidi(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Simpson's diversity index (landscape level)
+}
+\details{
+Simpson's diversity index equals 1 minus the sum of the squared class proportions
+\deqn{SIDI = 1 - sum(proportion[patch_i] ^ 2)}
+\subsection{Units}{None}
+\subsection{Range}{0 <= SIDI < 1}
+\subsection{Behaviour}{Simpson's diversity index approaches SIDI = 0 when only one patch and
+class is present and approaches SIDI = 1 when the number of class types increases while the
+proportions are equally distributed}
 }
 \examples{
 lsm_l_sidi(landscape)

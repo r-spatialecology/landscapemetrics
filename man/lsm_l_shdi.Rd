@@ -10,7 +10,7 @@
 \alias{lsm_l_shdi.RasterBrick}
 \alias{lsm_l_shdi}
 \alias{lsm_l_shdi.list}
-\title{Shannon's Diversity Index}
+\title{Shannon's diversity index (landscape level)}
 \usage{
 lsm_l_shdi(landscape)
 
@@ -29,7 +29,17 @@ lsm_l_shdi(landscape)
 tibble
 }
 \description{
-Diversity of patch types (classes) in the landscape
+Shannon's diversity index (landscape level)
+}
+\details{
+Shannon's diversity index equals minus the sum of class proportions multipled by the natural
+logarithm of class proportions
+\deqn{SHDI = sum(proportion[patch_i] * log(proportion[patch_i]))}
+\subsection{Units}{None}
+\subsection{Range}{SHDI >= 0}
+\subsection{Behaviour}{SHDI = 0 when only one patch and class is present and increases
+without limit as the number of classes increases while the proportions are
+equally distributed}
 }
 \examples{
 lsm_l_shdi(landscape)

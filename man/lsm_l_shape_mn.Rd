@@ -10,7 +10,7 @@
 \alias{lsm_l_shape_mn.RasterBrick}
 \alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.list}
-\title{Shape index  (class level)}
+\title{Shape index distribution  (landscape. level)}
 \usage{
 lsm_l_shape_mn(landscape)
 
@@ -29,7 +29,14 @@ lsm_l_shape_mn(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Mean of shape index (landscape. level)
+}
+\details{
+Equals the mean shape index of all patches in the landscape. SHAPE equals a quater
+of the patch perimeter divided by the square root of the patch area
+\deqn{SHAPE_MN = mean(SHAPE[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_l_shape_mn(landscape)

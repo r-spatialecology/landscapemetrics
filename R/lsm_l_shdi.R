@@ -1,8 +1,19 @@
-#' Shannon's Diversity Index
+#' Shannon's diversity index (landscape level)
 #'
-#' @description Diversity of patch types (classes) in the landscape
+#' @description Shannon's diversity index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Shannon's diversity index equals minus the sum of class proportions multipled by the natural
+#' logarithm of class proportions
+#' \deqn{SHDI = sum(proportion[patch_i] * log(proportion[patch_i]))}
+#' \subsection{Units}{None}
+#' \subsection{Range}{SHDI >= 0}
+#' \subsection{Behaviour}{SHDI = 0 when only one patch and class is present and increases
+#' without limit as the number of classes increases while the proportions are
+#' equally distributed}
+#'
 #' @return tibble
 #'
 #' @examples

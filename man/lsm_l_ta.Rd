@@ -10,7 +10,7 @@
 \alias{lsm_l_ta.RasterBrick}
 \alias{lsm_l_ta}
 \alias{lsm_l_ta.list}
-\title{Total class area (landcape level)}
+\title{Total area (landscape level)}
 \usage{
 lsm_l_ta(landscape)
 
@@ -29,7 +29,14 @@ lsm_l_ta(landscape)
 tibble
 }
 \description{
-Total area (landscape level)
+Total area of class (landscape level)
+}
+\details{
+Total area equals the sum of the area of all patches in the landscape
+\deqn{TA = sum(area[patch])}
+\subsection{Units}{Hectares}
+\subsection{Range}{CA > 0}
+\subsection{Behaviour}{TA increases without limit as landscape size increases}
 }
 \examples{
 lsm_l_ta(landscape)

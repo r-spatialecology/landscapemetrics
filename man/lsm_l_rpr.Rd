@@ -8,7 +8,7 @@
 \alias{lsm_l_rpr.RasterStack}
 \alias{lsm_l_rpr}
 \alias{lsm_l_rpr.RasterBrick}
-\title{Relative patch ritchness}
+\title{Relative patch richness (landscape level)}
 \usage{
 lsm_l_rpr(landscape, classes_max)
 
@@ -20,17 +20,25 @@ lsm_l_rpr(landscape, classes_max)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{classes_max}{Maximum number of classes}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
-Number of different classes divided by (potential) maximum number of classes
+Relative patch richness (landscape level)
+}
+\details{
+Relative patch richness equals the number of classes divided by the (potential)
+maximum number of classes. The maximum number of classes needs to be specified
+\deqn{RPR = (number of classes / potential number of classes) * 100}
+\subsection{Units}{Percentage}
+\subsection{Ranges}{0 < RPR < 100}
+\subsection{Behaviour}{RPR approaches RPR = 0 when only one class type is present,
+but the maximum number of classes is large. RPR approaches 100 when the number of
+present class types approaches the maximum number of classes}
 }
 \examples{
-lsm_l_rpr(landscape, 4)
+lsm_l_rpr(landscape, classes_max = 5)
 
 }
 \references{

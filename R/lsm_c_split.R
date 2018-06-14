@@ -6,7 +6,7 @@
 #'
 #' @details
 #' The splitting index equals the squared total area divided by the sum of patch
-#' areas of class i
+#' area squared of class i
 #' \deqn{SPLIT = total area ^ 2 / sum(area[patch_i])}
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= SPLIT <= Number of cells squared}

@@ -1,8 +1,15 @@
-#'  Shape index  (class level)
+#' Shape index distribution  (landscape level)
 #'
-#' @description Perimeter divided by squareroot of area
+#' @description Standard deviation of shape index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Equals the standard deviation of the shape index of all patches in the landscape.
+#' SHAPE equals a quater of the patch perimeter divided by the square root of the patch area
+#' \deqn{SHAPE_SD = sd(SHAPE[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{???}
 #'
 #' @return tibble
 #'

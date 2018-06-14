@@ -26,10 +26,19 @@ lsm_l_split(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
 \value{
-Value >= 1
+tibble
 }
 \description{
 Splitting index (landscape level)
+}
+\details{
+The splitting index equals the squared total area divided by the sum of patch
+area squared
+\deqn{SPLIT = total area ^ 2 / sum(area[patch])}
+\subsection{Units}{None}
+\subsection{Range}{1 <= SPLIT <= Number of cells squared}
+\subsection{Behaviour}{SPLIT = 1 when only one class and patch is present.
+SPLIt increases as the number of patches increases}
 }
 \examples{
 lsm_l_split(landscape)

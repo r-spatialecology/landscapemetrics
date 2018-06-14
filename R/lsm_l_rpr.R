@@ -1,14 +1,23 @@
-#' Relative patch ritchness
+#' Relative patch richness (landscape level)
 #'
-#' @description Number of different classes divided by (potential) maximum number of classes
+#' @description Relative patch richness (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param classes_max Maximum number of classes
 #'
-#' @return Value >= 1
+#' @details
+#' Relative patch richness equals the number of classes divided by the (potential)
+#' maximum number of classes. The maximum number of classes needs to be specified
+#' \deqn{RPR = (number of classes / potential number of classes) * 100}
+#' \subsection{Units}{Percentage}
+#' \subsection{Ranges}{0 < RPR < 100}
+#' \subsection{Behaviour}{RPR approaches RPR = 0 when only one class type is present,
+#' but the maximum number of classes is large. RPR approaches 100 when the number of
+#' present class types approaches the maximum number of classes}
+#'
+#' @return tibble
 #'
 #' @examples
-#' lsm_l_rpr(landscape, 4)
+#' lsm_l_rpr(landscape, classes_max = 5)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr
@@ -55,26 +64,23 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL) {
 
 lsm_l_rpr_calc <- function(landcape, classes_max) {
 
+
     if(is.null(classes_max)) {
         warning("classes_max is NULL - returning NA")
-        tibble::tibble(
-            level = "landscape",
-            id = as.numeric(NA),
-            metric = "relative patch richness",
-            value = NA
-        )
+        rpr <- NA
     }
 
     else {
-        patch_richness <- landscape %>%
-            lsm_l_pr()
-
-        tibble::tibble(
-            level = "landscape",
-            class = as.integer(NA),
-            id = as.integer(NA),
-            metric = "relative patch richness",
-            value = patch_richness$value / classes_max * 100
-        )
+        rpr <- landscape %>%
+            lsm_l_pr() %>%
+            dplyr::mutate(value = value / classes_max * 100) %>%
+            dplyr::pull(value)
     }
+
+    tibble::tibble(
+        level = "landscape",
+        id = as.numeric(NA),
+        metric = "relative patch richness",
+        value = rpr
+    )
 }

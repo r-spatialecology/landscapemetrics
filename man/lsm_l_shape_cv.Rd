@@ -10,7 +10,7 @@
 \alias{lsm_l_shape_cv.RasterBrick}
 \alias{lsm_l_shape_cv}
 \alias{lsm_l_shape_cv.list}
-\title{Shape index  (class level)}
+\title{Shape index distribution  (landscape level)}
 \usage{
 lsm_l_shape_cv(landscape)
 
@@ -29,7 +29,14 @@ lsm_l_shape_cv(landscape)
 tibble
 }
 \description{
-Perimeter divided by squareroot of area
+Coeffiecent of variation of shape index (landscape level)
+}
+\details{
+Equals the coeffiecent of variation shape index of all patches in the landscape.
+SHAPE equals a quater of the patch perimeter divided by the square root of the patch area
+\deqn{SHAPE_CV = cv(SHAPE[patch])}
+\subsection{Units}{None}
+\subsection{Range}{???}
 }
 \examples{
 lsm_l_shape_cv(landscape)

@@ -4,7 +4,16 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @return Value >= 1
+#' @details
+#' The splitting index equals the squared total area divided by the sum of patch
+#' area squared
+#' \deqn{SPLIT = total area ^ 2 / sum(area[patch])}
+#' \subsection{Units}{None}
+#' \subsection{Range}{1 <= SPLIT <= Number of cells squared}
+#' \subsection{Behaviour}{SPLIT = 1 when only one class and patch is present.
+#' SPLIt increases as the number of patches increases}
+#'
+#' @return tibble
 #'
 #' @examples
 #' lsm_l_split(landscape)
@@ -49,14 +58,13 @@ lsm_l_split.list <- function(landscape) {
 
 lsm_l_split_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta(landscape)
 
     split <- landscape %>%
         lsm_p_area() %>%
         dplyr::mutate(value = value ^ 2) %>%
-        # dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (total_area$value ^ 2) / value)
+        dplyr::mutate(value = (area_landscape$value ^ 2) / value)
 
     tibble::tibble(
         level = "landscape",

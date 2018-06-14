@@ -1,10 +1,19 @@
-#' Total Edge (TE, landscape scale)
+#' Total Edge  (landscape level)
 #'
-#' @description  Total Edge
+#' @description Total edge of class (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
-
+#'
+#' @details
+#' Total edge equals the sum of the length of all edges in the landscape.
+#' Total edge is an absolute measure making comparisons among landscapes with
+#' different total areas difficult. ??? Landscape border included or not ???
+#' \deqn{TE = sum(edges)}
+#' \subsection{Units}{Meters}
+#' \subsection{Range}{TE >= 0}
+#' \subsection{Behaviour}{TE increases without limit as landscape becomes more patchy}
+#'
 #' @return tibble
 #'
 #' @examples

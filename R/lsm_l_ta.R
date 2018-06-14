@@ -1,8 +1,15 @@
-#' Total class area (landcape level)
+#' Total area (landscape level)
 #'
-#' @description Total area (landscape level)
+#' @description Total area of class (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#'
+#' @details
+#' Total area equals the sum of the area of all patches in the landscape
+#' \deqn{TA = sum(area[patch])}
+#' \subsection{Units}{Hectares}
+#' \subsection{Range}{CA > 0}
+#' \subsection{Behaviour}{TA increases without limit as landscape size increases}
 #'
 #' @return tibble
 #'
