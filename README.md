@@ -4,6 +4,8 @@ status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](http
 [![Coverage
 status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics)
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # landscapemetrics
