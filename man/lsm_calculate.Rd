@@ -36,9 +36,10 @@ tibble
 Calculate a selected group of metrics
 }
 \examples{
+\dontrun{
 lsm_calculate(landscape)
 lsm_calculate(landscape_stack, what = "patch")
-
+}
 }
 \references{
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis

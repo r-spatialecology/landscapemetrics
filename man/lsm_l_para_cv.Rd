@@ -24,19 +24,20 @@ lsm_l_para_cv(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{details}{Coeffiecent of variation of the perimeter-area ratio of all patches in the landscape.
-PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
-\deqn{PARA_CV = cv(PARA[patch]}
-\subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
 Coeffiecent of variation of perimeter-area ratio (landscape level)
+}
+\details{
+Coeffiecent of variation of the perimeter-area ratio of all patches in the landscape.
+PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
+\deqn{PARA_CV = cv(PARA[patch]}
+\subsection{Units}{None}
+\subsection{Range}{???}
+\subsection{Behaviour}{???}
 }
 \examples{
 lsm_l_para_cv(landscape)

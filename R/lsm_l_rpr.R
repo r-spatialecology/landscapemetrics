@@ -3,7 +3,7 @@
 #' @description Relative patch richness (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#'
+#' @param classes_max xxx
 #' @details
 #' Relative patch richness equals the number of classes divided by the (potential)
 #' maximum number of classes. The maximum number of classes needs to be specified
@@ -27,7 +27,7 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_rpr <- function(landscape, classes_max) UseMethod("lsm_l_rpr")
+lsm_l_rpr <- function(landscape, classes_max = NULL) UseMethod("lsm_l_rpr")
 
 
 #' @name lsm_l_rpr

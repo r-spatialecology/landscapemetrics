@@ -3,6 +3,7 @@
 #' @description Edge Density (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param count_boundary xxx
 #'
 #' @details
 #' Edge density equals the sum of the length of all edges of class i divided by the total

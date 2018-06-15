@@ -40,7 +40,6 @@ of the patch perimeter divided by the square root of the patch area
 }
 \examples{
 lsm_l_shape_mn(landscape)
-lsm_l_shape_mn(landscape_stack)
 
 }
 \references{

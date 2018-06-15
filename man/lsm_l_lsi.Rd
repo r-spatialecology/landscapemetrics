@@ -12,9 +12,9 @@
 \alias{lsm_l_lsi.list}
 \title{Landscape shape index (landscape level)}
 \usage{
-lsm_l_lsi(landscape)
+lsm_l_lsi(landscape, count_boundary = FALSE)
 
-\method{lsm_l_lsi}{RasterLayer}(landscape)
+\method{lsm_l_lsi}{RasterLayer}(landscape, count_boundary = FALSE)
 
 \method{lsm_l_lsi}{RasterStack}(landscape, count_boundary = FALSE)
 
@@ -24,6 +24,8 @@ lsm_l_lsi(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{count_boundary}{xxx}
 }
 \value{
 tibble

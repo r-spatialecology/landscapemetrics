@@ -9,9 +9,10 @@
 #' @return tibble
 #'
 #' @examples
+#' \dontrun{
 #' lsm_calculate(landscape)
 #' lsm_calculate(landscape_stack, what = "patch")
-#'
+#' }
 #' @aliases lsm_calculate
 #' @rdname lsm_calculate
 #'
@@ -70,7 +71,7 @@ lsm_calculate_internal <- function(landscape, what = "all", ...) {
             lsm_p_para(landscape),
             lsm_p_enn(landscape),
 
-            lsm_c_ta(landscape),
+            lsm_c_ca(landscape),
             lsm_c_area_mn(landscape),
             lsm_c_area_cv(landscape),
             lsm_c_area_sd(landscape),

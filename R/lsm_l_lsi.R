@@ -3,6 +3,7 @@
 #' @description Landscape shape index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param count_boundary xxx
 #'
 #' @details
 #' The landscape shape index equals a quarter of the sum of all edges in the landscape
@@ -26,11 +27,11 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_lsi <- function(landscape) UseMethod("lsm_l_lsi")
+lsm_l_lsi <- function(landscape,count_boundary = FALSE) UseMethod("lsm_l_lsi")
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterLayer <- function(landscape) {
+lsm_l_lsi.RasterLayer <- function(landscape,count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }

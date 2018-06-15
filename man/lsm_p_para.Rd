@@ -24,20 +24,21 @@ lsm_p_para(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{details}{The perimeter-area ratio equals the ration of patch perimeter and patch area.
-It is a simple measure of complexity
-\deqn{PARA = perimeter[patch] / area[patch]}
-\subsection{Units}{None}
-\subsection{Range}{PARA >0}
-\subsection{Behaviour}{PARA = 1 for a square and increases as the patch
-becomes more irregular}}
 }
 \value{
 tibble
 }
 \description{
 Ratio of patch perimeter and area (patch level)
+}
+\details{
+The perimeter-area ratio equals the ration of patch perimeter and patch area.
+It is a simple measure of complexity
+\deqn{PARA = perimeter[patch] / area[patch]}
+\subsection{Units}{None}
+\subsection{Range}{PARA >0}
+\subsection{Behaviour}{PARA = 1 for a square and increases as the patch
+becomes more irregular}
 }
 \examples{
 lsm_p_para(landscape)

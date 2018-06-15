@@ -4,8 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @details
-#' Equals the standard deviation of the shape index of class i. SHAPE equals a quater
+#' @details Equals the standard deviation of the shape index of class i. SHAPE equals a quater
 #' of the patch perimeter divided by the square root of the patch area
 #' \deqn{SHAPE_SD = sd(SHAPE[patch_i])}
 #' \subsection{Units}{None}

@@ -24,6 +24,8 @@ lsm_c_ed(landscape, count_boundary)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{count_boundary}{xxx}
 }
 \value{
 tibble

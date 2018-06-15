@@ -15,7 +15,6 @@
 #'
 #' @examples
 #' lsm_l_shape_mn(landscape)
-#' lsm_l_shape_mn(landscape_stack)
 #'
 #' @aliases lsm_l_shape_mn
 #' @rdname lsm_l_shape_mn

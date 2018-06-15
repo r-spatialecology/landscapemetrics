@@ -4,8 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @param details
-#' The perimeter-area ratio equals the ration of patch perimeter and patch area.
+#' @details The perimeter-area ratio equals the ration of patch perimeter and patch area.
 #' It is a simple measure of complexity
 #' \deqn{PARA = perimeter[patch] / area[patch]}
 #' \subsection{Units}{None}
