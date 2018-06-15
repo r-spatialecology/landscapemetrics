@@ -72,25 +72,107 @@
     
     
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="landscapemetrics" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#landscapemetrics" class="anchor"></a>landscapemetrics</h1></div>
-<p>The goal of landscapemetrics is to …</p>
+<p><code>landscapemetrics</code> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman &amp; Ene, 2012) but is supposed to implement also future (meaningful) categorical landscape metrics.</p>
+<p>This package offers support for <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code>as input arguments.</p>
+<p>Every function can be used in a piped workflow, as it takes the data always as first argument and returns always a tibble of the same dimension.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install landscapemetrics from GitHub with:</p>
+<p><a href="https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html" class="uri">https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html</a> You can install landscapemetrics from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"marcosci/landscapemetrics"</span>)</a></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#using-landscapemetrics" class="anchor"></a>Using <code>landscapemetrics</code>
+</h2>
+<p>The functions in <code>landscapemetrics</code> are named as a combination of abbreviations describing the scale (patch, class or landscape level) and metric they implement:</p>
+<pre><code># landscapemetrics
+lsm_"level"_"metric"
+
+# Patch level
+## lsm_p_"metric"
+lsm_p_enn()
+
+# Class level
+## lsm_c_"metric"
+lsm_c_enn()
+
+# Landscape level
+## lsm_p_"metric"
+lsm_l_enn()</code></pre>
+<div id="using-metric-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
+<p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(landscapemetrics)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; ── Attaching packages ──────────────────────────────────── tidyverse 1.2.1 ──</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; ✔ ggplot2 2.2.1     ✔ purrr   0.2.4</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.4</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ tidyr   0.8.0     ✔ stringr 1.3.1</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ readr   1.1.1     ✔ forcats 0.3.0</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ── Conflicts ─────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co"># Landscape raster</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">landscape</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; class       : RasterLayer </span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; dimensions  : 30, 30, 900  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; coord. ref. : NA </span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; data source : in memory</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; names       : clumps </span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; values      : 1, 3  (min, max)</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">## plot landscape</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(landscape)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Calculate Euclidean Nearest-Neighbor Distance on patch level</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">lsm_p_enn</span>()</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 27 x 6</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;    layer level class    id metric                                    value</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   </span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   </span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; # ... with 17 more rows</span></a></code></pre></div>
 </div>
-<div id="code-of-conduct" class="section level2">
+<div id="connected-labelling" class="section level3">
+<h3 class="hasAnchor">
+<a href="#connected-labelling" class="anchor"></a>Connected labelling</h3>
+<p><code>landscapemetrics</code> makes internally heavy use of an implementatian of a connected labelling algorithm by Thell Fowler (<a href="https://github.com/Thell/ccloutline" class="uri">https://github.com/Thell/ccloutline</a>) and exports an reimplementation of this algorithm:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cclabel_landscape &lt;-<span class="st"> </span>landscapemetrics<span class="op">::</span><span class="kw">cclabel</span>(landscape)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_facetplot">util_facetplot</a></span>(cclabel_landscape, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+</div>
+<div id="visualizing-patches" class="section level3">
+<h3 class="hasAnchor">
+<a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h3>
+<p><code>landscapemetrics</code> also offers a plotting function to visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">show_patches</span>(landscape)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="2500px"></p>
+</div>
+</div>
+<div id="contributing" class="section level2">
 <h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
-<p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
+<a href="#contributing" class="anchor"></a>Contributing</h2>
+<p>Bug reports, suggestions for new metrics, and especially code contributions are welcome. Please see <a href="https://github.com/marcosci/landscapemetrics/blob/master/CONTRIBUTING.html">CONTRIBUTING.md</a>. Maintainers and contributors must follow this repository’s <a href="CODE_OF_CONDUCT.html">code of conduct</a>.</p>
 </div>
 </div>
   </div>
@@ -128,6 +210,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/marcosci/landscapemetrics"><img src="https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://ci.appveyor.com/project/marcosci/landscapemetrics"><img src="https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/github/marcosci/landscapemetrics?branch=master"><img src="https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
 </ul>

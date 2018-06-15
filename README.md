@@ -11,10 +11,23 @@ status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badg
 
 # landscapemetrics
 
-The goal of landscapemetrics is to …
+`landscapemetrics` is an R package for calculating landscape metrics for
+categorical landscape patterns in a tidy workflow. It offers most of the
+metrics that are available in the standalone software FRAGSTATS
+(McGarigal, SA Cushman & Ene, 2012) but is supposed to implement also
+future (meaningful) categorical landscape metrics.
+
+This package offers support for `raster` spatial objects and takes
+`RasterLayer`, `RasterStacks`, `RasterBricks` or lists of
+`RasterLayer`as input arguments.
+
+Every function can be used in a piped workflow, as it takes the data
+always as first argument and returns always a tibble of the same
+dimension.
 
 ## Installation
 
+<https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html>
 You can install landscapemetrics from GitHub with:
 
 ``` r
@@ -22,29 +35,104 @@ You can install landscapemetrics from GitHub with:
 devtools::install_github("marcosci/landscapemetrics")
 ```
 
-## Example
+## Using `landscapemetrics`
+
+The functions in `landscapemetrics` are named as a combination of
+abbreviations describing the scale (patch, class or landscape level) and
+metric they implement:
+
+    # landscapemetrics
+    lsm_"level"_"metric"
+    
+    # Patch level
+    ## lsm_p_"metric"
+    lsm_p_enn()
+    
+    # Class level
+    ## lsm_c_"metric"
+    lsm_c_enn()
+    
+    # Landscape level
+    ## lsm_p_"metric"
+    lsm_l_enn()
+
+### Using metric functions
+
+Every function follows the same implementation design, so the usage is
+quite straight forward:
 
 ``` r
-library(raster)
-n_classes <- length(unique(landscapemetrics::landscape))
-lsm_calculate(landscape, classes_max = n_classes)
-#> # A tibble: 148 x 6
-#>    layer level class    id metric    value
-#>    <int> <chr> <int> <dbl> <chr>     <dbl>
-#>  1     1 patch     1     1 area   0.0001  
-#>  2     1 patch     1     2 area   0.0005  
-#>  3     1 patch     1     3 area   0.0148  
-#>  4     1 patch     1     4 area   0.0001  
-#>  5     1 patch     1     5 area   0.0001  
-#>  6     1 patch     1     6 area   0.0014  
-#>  7     1 patch     1     7 area   0.000300
-#>  8     1 patch     1     8 area   0.0005  
-#>  9     1 patch     1     9 area   0.0001  
-#> 10     1 patch     2    10 area   0.0035  
-#> # ... with 138 more rows
+library(landscapemetrics)
+library(tidyverse)
+
+# Landscape raster
+landscape
+#> class       : RasterLayer 
+#> dimensions  : 30, 30, 900  (nrow, ncol, ncell)
+#> resolution  : 1, 1  (x, y)
+#> extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)
+#> coord. ref. : NA 
+#> data source : in memory
+#> names       : clumps 
+#> values      : 1, 3  (min, max)
+
+## plot landscape
+landscapetools::util_plot(landscape)
 ```
 
-## Code of conduct
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md).
+``` r
+
+# Calculate Euclidean Nearest-Neighbor Distance on patch level
+landscape %>% 
+  lsm_p_enn()
+#> # A tibble: 27 x 6
+#>    layer level class    id metric                                    value
+#>    <int> <chr> <int> <int> <chr>                                     <dbl>
+#>  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   
+#>  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   
+#>  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83
+#>  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   
+#>  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   
+#>  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83
+#>  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12
+#>  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12
+#>  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24
+#> 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47
+#> # ... with 17 more rows
+```
+
+### Connected labelling
+
+`landscapemetrics` makes internally heavy use of an implementatian of a
+connected labelling algorithm by Thell Fowler
+(<https://github.com/Thell/ccloutline>) and exports an reimplementation
+of this algorithm:
+
+``` r
+cclabel_landscape <- landscapemetrics::cclabel(landscape)
+landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+### Visualizing patches
+
+`landscapemetrics` also offers a plotting function to visualize patches
+in a landscape and encode each patch with an ID that can be used to
+compare a landscape metric with the actual landscape:
+
+``` r
+show_patches(landscape)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="2500px" />
+
+## Contributing
+
+Bug reports, suggestions for new metrics, and especially code
+contributions are welcome. Please see
+[CONTRIBUTING.md](https://github.com/marcosci/landscapemetrics/blob/master/CONTRIBUTING.md).
+Maintainers and contributors must follow this repository’s [code of
+conduct](CODE_OF_CONDUCT.md).

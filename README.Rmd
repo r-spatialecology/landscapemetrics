@@ -5,9 +5,10 @@ output:
 ---
 
 [![Travis build status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](https://travis-ci.org/marcosci/landscapemetrics)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics)
 [![Coverage status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
- [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
@@ -20,10 +21,14 @@ knitr::opts_chunk$set(
 ```
 # landscapemetrics
 
-The goal of landscapemetrics is to ...
+`landscapemetrics` is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman & Ene, 2012) but is supposed to implement also future (meaningful) categorical landscape metrics.
+
+This package offers support for `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer `as input arguments.
+
+Every function can be used in a piped workflow, as it takes the data always as first argument and returns always a tibble of the same dimension.
 
 ## Installation
-
+https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html
 You can install landscapemetrics from GitHub with:
 
 ```{r gh-installation, eval = FALSE}
@@ -31,13 +36,58 @@ You can install landscapemetrics from GitHub with:
 devtools::install_github("marcosci/landscapemetrics")
 ```
 
-## Example
+## Using `landscapemetrics`
 
-```{r}
-library(raster)
-n_classes <- length(unique(landscapemetrics::landscape))
-lsm_calculate(landscape, classes_max = n_classes)
+The functions in `landscapemetrics` are named as a combination of abbreviations describing the scale (patch, class or landscape level) and metric they implement:
+
+```
+# landscapemetrics
+lsm_"level"_"metric"
+
+# Patch level
+## lsm_p_"metric"
+lsm_p_enn()
+
+# Class level
+## lsm_c_"metric"
+lsm_c_enn()
+
+# Landscape level
+## lsm_p_"metric"
+lsm_l_enn()
 ```
 
-## Code of conduct
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+### Using metric functions
+Every function follows the same implementation design, so the usage is quite straight forward:
+
+```{r}
+library(landscapemetrics)
+library(tidyverse)
+
+# Landscape raster
+landscape
+
+## plot landscape
+landscapetools::util_plot(landscape)
+
+# Calculate Euclidean Nearest-Neighbor Distance on patch level
+landscape %>% 
+  lsm_p_enn()
+```
+
+### Connected labelling 
+`landscapemetrics` makes internally heavy use of an implementatian of a connected labelling algorithm by Thell Fowler (https://github.com/Thell/ccloutline) and exports an reimplementation of this algorithm:
+```{r}
+cclabel_landscape <- landscapemetrics::cclabel(landscape)
+landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
+```
+
+### Visualizing patches
+`landscapemetrics` also offers a plotting function to visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape:
+```{r out.width = "2500px"}
+show_patches(landscape)
+```
+
+
+##  Contributing 
+Bug reports, suggestions for new metrics, and especially code contributions are welcome. Please see [CONTRIBUTING.md](https://github.com/marcosci/landscapemetrics/blob/master/CONTRIBUTING.md). Maintainers and contributors must follow this repository's [code of conduct](CODE_OF_CONDUCT.md).
