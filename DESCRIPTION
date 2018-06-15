@@ -4,7 +4,8 @@ Title: Landscape Metrics for Categorical Map Patterns
 Version: 0.1.0
 Authors@R: c(person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
                      role = c("aut", "cre"), comment = c(ORCID = '0000-0002-3042-5435')), 
-                     person("Maximillian", "Hesselbarth", role = "aut"), 
+                     person("Maximillian", "Hesselbarth", role = "aut", 
+                     comment = c(ORCID = "0000-0003-1125-9918")), 
                      person("Jakub", "Nowosad", role = "aut",
                      email = "nowosad.jakub@gmail.com", 
                      comment = c(ORCID = "0000-0002-1057-3721")),

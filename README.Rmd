@@ -42,20 +42,28 @@ The functions in `landscapemetrics` are named as a combination of abbreviations 
 
 ```
 # landscapemetrics
-lsm_"level"_"metric"
+lsm_"level"_"metric" example:
 
 # Patch level
-## lsm_p_"metric"
+## lsm_p_"metric" example:
 lsm_p_enn()
 
 # Class level
-## lsm_c_"metric"
+## lsm_c_"metric" example:
 lsm_c_enn()
 
 # Landscape level
-## lsm_p_"metric"
+## lsm_p_"metric" example:
 lsm_l_enn()
 ```
+
+...and returns a tibble with the same columns:
+
+| layer  | level | class | id | metric | value
+| ------------- | -------------  | ------------- | ------------- | ------------- | ------------- | 
+| 1 | patch  | 1 | 1 | landscape metric | x |
+| 1 | class  | 1 | NA | landscape metric | x |
+| 1 | landscape  | NA | NA | landscape metric | x |
 
 ### Using metric functions
 Every function follows the same implementation design, so the usage is quite straight forward:

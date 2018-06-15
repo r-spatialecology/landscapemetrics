@@ -42,19 +42,27 @@ abbreviations describing the scale (patch, class or landscape level) and
 metric they implement:
 
     # landscapemetrics
-    lsm_"level"_"metric"
+    lsm_"level"_"metric" example:
     
     # Patch level
-    ## lsm_p_"metric"
+    ## lsm_p_"metric" example:
     lsm_p_enn()
     
     # Class level
-    ## lsm_c_"metric"
+    ## lsm_c_"metric" example:
     lsm_c_enn()
     
     # Landscape level
-    ## lsm_p_"metric"
+    ## lsm_p_"metric" example:
     lsm_l_enn()
+
+…and returns a tibble with the same columns:
+
+| layer | level     | class | id | metric           | value |
+| ----- | --------- | ----- | -- | ---------------- | ----- |
+| 1     | patch     | 1     | 1  | landscape metric | x     |
+| 1     | class     | 1     | NA | landscape metric | x     |
+| 1     | landscape | NA    | NA | landscape metric | x     |
 
 ### Using metric functions
 
@@ -80,7 +88,7 @@ landscape
 landscapetools::util_plot(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
 
 ``` r
 
@@ -115,7 +123,7 @@ cclabel_landscape <- landscapemetrics::cclabel(landscape)
 landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ### Visualizing patches
 
@@ -127,7 +135,7 @@ compare a landscape metric with the actual landscape:
 show_patches(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="2500px" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="2500px" />
 
 ## Contributing
 
