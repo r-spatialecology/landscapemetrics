@@ -30,7 +30,7 @@
 
 <meta property="og:title" content="Largest patch index (class level) — lsm_c_lpi" />
 
-<meta property="og:description" content="Area of the larges patch divided by the total area (class level)" />
+<meta property="og:description" content="Largest patch index of class i (class level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,7 +104,7 @@
 
     <div class="ref-description">
     
-    <p>Area of the larges patch divided by the total area (class level)</p>
+    <p>Largest patch index of class i (class level)</p>
     
     </div>
 
@@ -135,6 +135,18 @@
 
     <p>tibble</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The largest patch index equals the area of the larges patch of class i
+divided by the total area. It is a simple measure of dominance
+$$LPI = (max(area[patch_i]) / total area) * 100$$</p><h3>Units</h3>
+Percentage
+<h3>Range</h3>
+0 &lt; LPI &lt;= 100
+<h3>Behaviour</h3>
+LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
+and equals LPI = 100 when only one class and patch is present
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -143,29 +155,12 @@ PNW-351.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_lpi</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   layer level    id metric              value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
-#&gt; 1     1 class     1 largest patch index  16.4
-#&gt; 2     1 class     2 largest patch index  10.9
-#&gt; 3     1 class     3 largest patch index  50.8</div><div class='input'><span class='fu'>lsm_c_lpi</span>(<span class='no'>landscape_stack</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 5
-#&gt;    layer level    id metric              value
-#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
-#&gt;  1     1 class     1 largest patch index 13.3 
-#&gt;  2     1 class     2 largest patch index 18.8 
-#&gt;  3     1 class     3 largest patch index 30.1 
-#&gt;  4     2 class     1 largest patch index  9.78
-#&gt;  5     2 class     2 largest patch index  7.22
-#&gt;  6     2 class     3 largest patch index 33.1 
-#&gt;  7     3 class     1 largest patch index  4.11
-#&gt;  8     3 class     2 largest patch index 25.1 
-#&gt;  9     3 class     3 largest patch index 37.7 
-#&gt; 10     4 class     1 largest patch index  6.22
-#&gt; 11     4 class     2 largest patch index 10.3 
-#&gt; 12     4 class     3 largest patch index 45.9 
-#&gt; 13     5 class     1 largest patch index 17   
-#&gt; 14     5 class     2 largest patch index  6.11
-#&gt; 15     5 class     3 largest patch index 55.6 </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_lpi</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   layer level class    id metric              value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
+#&gt; 1     1 class     1    NA largest patch index  16.4
+#&gt; 2     1 class     2    NA largest patch index  10.9
+#&gt; 3     1 class     3    NA largest patch index  50.8</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -174,6 +169,8 @@ PNW-351.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

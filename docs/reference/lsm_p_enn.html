@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Euclidean Nearest Neighbor Distance Distribution (ENN) — lsm_p_enn • landscapemetrics</title>
+<title>Euclidean Nearest-Neighbor Distance (ENN) — lsm_p_enn • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Euclidean Nearest Neighbor Distance Distribution (ENN) — lsm_p_enn" />
+<meta property="og:title" content="Euclidean Nearest-Neighbor Distance (ENN) — lsm_p_enn" />
 
-<meta property="og:description" content="Euclidean Nearest Neighbor Distance Distribution (patch level)" />
+<meta property="og:description" content="Euclidean Nearest-Neighbor Distance of patch (patch level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,20 +97,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Euclidean Nearest Neighbor Distance Distribution (ENN)</h1>
+    <h1>Euclidean Nearest-Neighbor Distance (ENN)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_p_enn.R'><code>R/lsm_p_enn.R</code></a></small>
     <div class="hidden name"><code>lsm_p_enn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Euclidean Nearest Neighbor Distance Distribution (patch level)</p>
+    <p>Euclidean Nearest-Neighbor Distance of patch (patch level)</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>lsm_p_enn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
+<span class='fu'>lsm_p_enn</span>(<span class='no'>landscape</span>)
+
+<span class='co'># S3 method for RasterStack</span>
+<span class='fu'>lsm_p_enn</span>(<span class='no'>landscape</span>)
+
+<span class='co'># S3 method for RasterBrick</span>
+<span class='fu'>lsm_p_enn</span>(<span class='no'>landscape</span>)
+
+<span class='co'># S3 method for list</span>
 <span class='fu'>lsm_p_enn</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -125,6 +134,16 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>tibble</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Equals the distance the the nearest neigbouring patch of the same patch type (shortest
+edge-to-edge distance)</p><h3>Units</h3>
+Meters
+<h3>Range</h3>
+ENN &gt; 0
+<h3>Behaviour</h3>
+???
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -156,6 +175,8 @@ PNW-351.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

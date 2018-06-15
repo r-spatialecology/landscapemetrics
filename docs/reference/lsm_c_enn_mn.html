@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Euclidean Nearest Neighbor Distance Distribution (ENN_MN) — lsm_c_enn_mn • landscapemetrics</title>
+<title>Euclidean Nearest Neighbor Distance Distribution (class level) — lsm_c_enn_mn • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Euclidean Nearest Neighbor Distance Distribution (ENN_MN) — lsm_c_enn_mn" />
+<meta property="og:title" content="Euclidean Nearest Neighbor Distance Distribution (class level) — lsm_c_enn_mn" />
 
-<meta property="og:description" content="Euclidean Nearest Neighbor Distance Distribution (class level)" />
+<meta property="og:description" content="Mean Euclidean Nearest Neighbor Distance (class level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,14 +97,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Euclidean Nearest Neighbor Distance Distribution (ENN_MN)</h1>
+    <h1>Euclidean Nearest Neighbor Distance Distribution (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_enn_mn.R'><code>R/lsm_c_enn_mn.R</code></a></small>
     <div class="hidden name"><code>lsm_c_enn_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Euclidean Nearest Neighbor Distance Distribution (class level)</p>
+    <p>Mean Euclidean Nearest Neighbor Distance (class level)</p>
     
     </div>
 
@@ -135,6 +135,18 @@
 
     <p>tibble</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
+the distance the the nearest neigbouring patch of the same patch type
+(shortest edge-to-edge distance)
+$$ENN_MN = mean(ENN[patch_i])$$</p><h3>Units</h3>
+Meters
+<h3>Range</h3>
+???
+<h3>Behaviour</h3>
+???
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -157,6 +169,8 @@ PNW-351.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

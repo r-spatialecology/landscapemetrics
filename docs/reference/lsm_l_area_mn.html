@@ -127,7 +127,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p>
+<p>#' @details
+Equals the mean patch area of all patches in the landscape
+$$AREA_MN = mean(AREA[patch])$$</p><h3>Units</h3>
+Hectares
+<h3>Range</h3>
+???
+<h3>Behaviour</h3>
+???</td>
     </tr>
     </table>
     
@@ -143,17 +151,10 @@ PNW-351.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   layer level        id metric            value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
-#&gt; 1     1 landscape    NA patch area (mean)  33.3</div><div class='input'><span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape_stack</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 5
-#&gt;   layer level        id metric            value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;
-#&gt; 1     1 landscape    NA patch area (mean)  28.1
-#&gt; 2     2 landscape    NA patch area (mean)  22.0
-#&gt; 3     3 landscape    NA patch area (mean)  34.6
-#&gt; 4     4 landscape    NA patch area (mean)  25  
-#&gt; 5     5 landscape    NA patch area (mean)  39.1</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric              value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA patch area (mean) 0.00333</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

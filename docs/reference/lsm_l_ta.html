@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total class area (landcape level) — lsm_l_ta • landscapemetrics</title>
+<title>Total area (landscape level) — lsm_l_ta • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Total class area (landcape level) — lsm_l_ta" />
+<meta property="og:title" content="Total area (landscape level) — lsm_l_ta" />
 
-<meta property="og:description" content="Total area (landscape level)" />
+<meta property="og:description" content="Total area of class (landscape level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,14 +97,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Total class area (landcape level)</h1>
+    <h1>Total area (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_ta.R'><code>R/lsm_l_ta.R</code></a></small>
     <div class="hidden name"><code>lsm_l_ta.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Total area (landscape level)</p>
+    <p>Total area of class (landscape level)</p>
     
     </div>
 
@@ -135,6 +135,16 @@
 
     <p>tibble</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Total area equals the sum of the area of all patches in the landscape
+$$TA = sum(area[patch])$$</p><h3>Units</h3>
+Hectares
+<h3>Range</h3>
+CA &gt; 0
+<h3>Behaviour</h3>
+TA increases without limit as landscape size increases
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -143,10 +153,10 @@ PNW-351.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   layer level        id metric     value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
-#&gt; 1     1 landscape    NA total area   900</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric     value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA total area  0.09</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -155,6 +165,8 @@ PNW-351.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       

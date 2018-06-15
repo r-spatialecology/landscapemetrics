@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total Edge  (TE, class scale) — lsm_c_te • landscapemetrics</title>
+<title>Total Edge  (class level) — lsm_c_te • landscapemetrics</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Total Edge  (TE, class scale) — lsm_c_te" />
+<meta property="og:title" content="Total Edge  (class level) — lsm_c_te" />
 
-<meta property="og:description" content="Total Edge" />
+<meta property="og:description" content="Total edge of class (class level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,30 +97,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Total Edge  (TE, class scale)</h1>
+    <h1>Total Edge  (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_te.R'><code>R/lsm_c_te.R</code></a></small>
     <div class="hidden name"><code>lsm_c_te.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Total Edge</p>
+    <p>Total edge of class (class level)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='no'>count_boundary</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,11 +129,27 @@
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
     </tr>
+    <tr>
+      <th>count_boundary</th>
+      <td><p>Include landscape boundary in edge length</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>tibble</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Total edge equals the sum of the length of all edges of class i. Total edge is an
+absolute measure making comparisons among landscapes with different total areas difficult.
+??? Landscape border included or not ???
+$$TE = sum(edges[class_i])$$</p><h3>Units</h3>
+Meters
+<h3>Range</h3>
+TE &gt;= 0
+<h3>Behaviour</h3>
+TE increases without limit as landscape becomes more patchy
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -144,45 +160,11 @@ PNW-351.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
-#&gt;   layer level class    id metric                  value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                   &lt;dbl&gt;
-#&gt; 1     1 class     1    NA percentage of landscape   90 
-#&gt; 2     1 class     2    NA percentage of landscape  114.
-#&gt; 3     1 class     3    NA percentage of landscape  160.</div><div class='input'><span class='fu'>lsm_c_te</span>(<span class='no'>landscape_stack</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 6
-#&gt;    layer level class    id metric                  value
-#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                   &lt;dbl&gt;
-#&gt;  1     1 class     1    NA percentage of landscape 104. 
-#&gt;  2     1 class     2    NA percentage of landscape 133  
-#&gt;  3     1 class     3    NA percentage of landscape 132. 
-#&gt;  4     2 class     1    NA percentage of landscape 132  
-#&gt;  5     2 class     2    NA percentage of landscape 132. 
-#&gt;  6     2 class     3    NA percentage of landscape 164. 
-#&gt;  7     3 class     1    NA percentage of landscape  92  
-#&gt;  8     3 class     2    NA percentage of landscape 114. 
-#&gt;  9     3 class     3    NA percentage of landscape 134. 
-#&gt; 10     4 class     1    NA percentage of landscape 120  
-#&gt; 11     4 class     2    NA percentage of landscape 110  
-#&gt; 12     4 class     3    NA percentage of landscape 146  
-#&gt; 13     5 class     1    NA percentage of landscape  72  
-#&gt; 14     5 class     2    NA percentage of landscape  89.5
-#&gt; 15     5 class     3    NA percentage of landscape 118. </div><div class='input'><span class='fu'>lsm_c_te</span>(<span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'>as.list</span>(<span class='no'>landscape_stack</span>))</div><div class='output co'>#&gt; # A tibble: 15 x 6
-#&gt;    layer level class    id metric                  value
-#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                   &lt;dbl&gt;
-#&gt;  1     1 class     1    NA percentage of landscape 104. 
-#&gt;  2     1 class     2    NA percentage of landscape 133  
-#&gt;  3     1 class     3    NA percentage of landscape 132. 
-#&gt;  4     2 class     1    NA percentage of landscape 132  
-#&gt;  5     2 class     2    NA percentage of landscape 132. 
-#&gt;  6     2 class     3    NA percentage of landscape 164. 
-#&gt;  7     3 class     1    NA percentage of landscape  92  
-#&gt;  8     3 class     2    NA percentage of landscape 114. 
-#&gt;  9     3 class     3    NA percentage of landscape 134. 
-#&gt; 10     4 class     1    NA percentage of landscape 120  
-#&gt; 11     4 class     2    NA percentage of landscape 110  
-#&gt; 12     4 class     3    NA percentage of landscape 146  
-#&gt; 13     5 class     1    NA percentage of landscape  72  
-#&gt; 14     5 class     2    NA percentage of landscape  89.5
-#&gt; 15     5 class     3    NA percentage of landscape 118. </div><div class='input'>
+#&gt;   layer level class    id metric     value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;
+#&gt; 1     1 class     1    NA total edge   180
+#&gt; 2     1 class     2    NA total edge   227
+#&gt; 3     1 class     3    NA total edge   321</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -191,6 +173,8 @@ PNW-351.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
       
