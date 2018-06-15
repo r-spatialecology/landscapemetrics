@@ -41,7 +41,7 @@ are possible
 \subsection{Behaviour}{ED increases as the landcapes becomes more patchy}
 }
 \examples{
-lsm_c_ed(landscape, T)
+lsm_c_ed(landscape)
 
 }
 \references{

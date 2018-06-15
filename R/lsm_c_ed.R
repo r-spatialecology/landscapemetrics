@@ -16,7 +16,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_ed(landscape, T)
+#' lsm_c_ed(landscape)
 #'
 #' @aliases lsm_c_ed
 #' @rdname lsm_c_ed
