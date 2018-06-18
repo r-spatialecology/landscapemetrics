@@ -58,12 +58,12 @@ lsm_l_division.list <- function(landscape) {
 
 lsm_l_division_calc <- function(landscape) {
 
-    area_landscape <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
     division <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = (value / area_landscape$value) ^ 2) %>%
-        dplyr::summarise(value = sum(value)) %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = 1 - value)
 
     tibble::tibble(

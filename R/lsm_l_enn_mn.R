@@ -61,7 +61,8 @@ lsm_l_enn_mn.list <- function(landscape) {
 
 lsm_l_enn_mn_calc <- function(landscape) {
 
-    enn_mn  <- lsm_p_enn(landscape) %>%
+    enn_mn  <- landscape %>%
+        lsm_p_enn_calc() %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(

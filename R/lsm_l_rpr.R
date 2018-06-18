@@ -27,38 +27,38 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_rpr <- function(landscape, classes_max = NULL) UseMethod("lsm_l_rpr")
+lsm_l_rpr <- function(landscape, ...) UseMethod("lsm_l_rpr")
 
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterBrick <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #" @name lsm_l_rpr
 #" @export
-lsm_l_rpr.list <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.list <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -72,7 +72,7 @@ lsm_l_rpr_calc <- function(landcape, classes_max) {
 
     else {
         rpr <- landscape %>%
-            lsm_l_pr() %>%
+            lsm_l_pr_calc() %>%
             dplyr::mutate(value = value / classes_max * 100) %>%
             dplyr::pull(value)
     }

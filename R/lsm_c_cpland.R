@@ -31,49 +31,50 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cpland <- function(landscape, directions) UseMethod("lsm_c_cpland")
+lsm_c_cpland <- function(landscape, ...) UseMethod("lsm_c_cpland")
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.RasterLayer <- function(landscape, directions = 4) {
+lsm_c_cpland.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.RasterStack <- function(landscape, directions = 4) {
+lsm_c_cpland.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.RasterBrick <- function(landscape, directions = 4) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   directions = directions, .id = "layer") %>%
+                   directions = directions,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.list <- function(landscape, directions = 4) {
+lsm_c_cpland.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_cpland
+#' @export
+lsm_c_cpland.list <- function(landscape, ...) {
     purrr::map_dfr(landscape, lsm_c_cpland_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_cpland_calc <- function(landscape, directions){
+lsm_c_cpland_calc <- function(landscape, ...){
 
     total_area <- lsm_l_ta_calc(landscape)
 
     cpland <- landscape %>%
-        lsm_c_core_calc(directions = directions) %>%
+        lsm_c_core_calc(...) %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(

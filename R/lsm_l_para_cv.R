@@ -61,8 +61,9 @@ lsm_l_para_cv.list <- function(landscape) {
 
 lsm_l_para_cv_calc <- function(landscape){
 
-    para_cv <- lsm_p_para(landscape) %>%
-        dplyr::summarise(value = raster::cv(value))
+    para_cv <- landscape %>%
+        lsm_p_para_calc() %>%
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

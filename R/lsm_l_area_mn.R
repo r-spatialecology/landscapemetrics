@@ -60,8 +60,8 @@ lsm_l_area_mn.list <- function(landscape) {
 # Not working yet!
 lsm_l_area_mn_calc <- function(landscape){
     area_mean <- landscape %>%
-        lsm_p_area() %>%
-        dplyr::summarise(value = mean(value))
+        lsm_p_area_calc() %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

@@ -61,8 +61,8 @@ lsm_l_shape_mn.list <- function(landscape) {
 lsm_l_shape_mn_calc <- function(landscape){
 
     shape_mn <- landscape %>%
-        lsm_p_shape() %>%
-        dplyr::summarise(value = mean(value))
+        lsm_p_shape_calc() %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

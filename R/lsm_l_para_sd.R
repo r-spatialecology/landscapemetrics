@@ -61,8 +61,9 @@ lsm_l_para_sd.list <- function(landscape) {
 
 lsm_l_para_sd_calc <- function(landscape){
 
-    para_sd <- lsm_p_para(landscape) %>%
-        dplyr::summarise(value = stats::sd(value))
+    para_sd <- landscape %>%
+        lsm_p_para_calc() %>%
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

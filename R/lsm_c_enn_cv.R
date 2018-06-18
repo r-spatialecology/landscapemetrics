@@ -63,7 +63,8 @@ lsm_c_enn_cv.list <- function(landscape) {
 
 lsm_c_enn_cv_calc <- function(landscape) {
 
-    enn_cv  <- lsm_p_enn_calc(landscape) %>%
+    enn_cv  <- landscape %>%
+        lsm_p_enn_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 

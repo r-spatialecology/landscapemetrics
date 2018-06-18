@@ -12,20 +12,20 @@
 \alias{lsm_l_lsi.list}
 \title{Landscape shape index (landscape level)}
 \usage{
-lsm_l_lsi(landscape, count_boundary = FALSE)
+lsm_l_lsi(landscape, ...)
 
-\method{lsm_l_lsi}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterLayer}(landscape, ...)
 
-\method{lsm_l_lsi}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterStack}(landscape, ...)
 
-\method{lsm_l_lsi}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterBrick}(landscape, ...)
 
-\method{lsm_l_lsi}{list}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{count_boundary}{xxx}
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

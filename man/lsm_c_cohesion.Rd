@@ -29,7 +29,7 @@ lsm_c_cohesion(landscape)
 tibble
 }
 \description{
-Percentage of Like Adjacencies (class level)
+Patch Cohesion Index (class level)
 }
 \details{
 ???

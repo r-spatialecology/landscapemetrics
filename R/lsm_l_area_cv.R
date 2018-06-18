@@ -61,8 +61,8 @@ lsm_l_area_cv.list <- function(landscape) {
 # Not working yet!
 lsm_l_area_cv_calc <- function(landscape){
     area_cv <- landscape %>%
-        lsm_p_area() %>%
-        dplyr::summarise(value = raster::cv(value))
+        lsm_p_area_calc() %>%
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

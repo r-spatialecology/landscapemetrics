@@ -58,12 +58,12 @@ lsm_l_lpi.list <- function(landscape) {
 
 lsm_l_lpi_calc <- function(landscape) {
 
-    area_landscape <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
     lpi <- landscape %>%
-        lsm_p_area() %>%
-        dplyr::mutate(lpi = value / area_landscape$value * 100) %>%
-        dplyr::summarise(value = max(lpi))
+        lsm_p_area_calc() %>%
+        dplyr::mutate(lpi = (value / area_landscape$value) * 100) %>%
+        dplyr::summarise(value = max(lpi, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

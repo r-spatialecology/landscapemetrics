@@ -1,6 +1,6 @@
 #' Patch Cohesion Index (class level)
 #'
-#' @description Percentage of Like Adjacencies (class level)
+#' @description Patch Cohesion Index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'

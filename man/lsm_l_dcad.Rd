@@ -12,18 +12,20 @@
 \alias{lsm_l_dcad.list}
 \title{Disjunct core area density (landscape level)}
 \usage{
-lsm_l_dcad(landscape)
+lsm_l_dcad(landscape, ...)
 
-\method{lsm_l_dcad}{RasterLayer}(landscape)
+\method{lsm_l_dcad}{RasterLayer}(landscape, ...)
 
-\method{lsm_l_dcad}{RasterStack}(landscape)
+\method{lsm_l_dcad}{RasterStack}(landscape, ...)
 
-\method{lsm_l_dcad}{RasterBrick}(landscape)
+\method{lsm_l_dcad}{RasterBrick}(landscape, ...)
 
-\method{lsm_l_dcad}{list}(landscape)
+\method{lsm_l_dcad}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

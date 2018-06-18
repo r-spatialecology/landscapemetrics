@@ -59,8 +59,9 @@ lsm_l_msiei.list <- function(landscape) {
 
 lsm_l_msiei_calc <- function(landscape) {
 
-    msidi <- lsm_l_msidi(landscape)
-    pr <- lsm_l_pr(landscape)
+    msidi <- lsm_l_msidi_calc(landscape)
+
+    pr <- lsm_l_pr_calc(landscape)
 
     msiei <- msidi$value / log(pr$value)
 

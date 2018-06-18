@@ -12,18 +12,20 @@
 \alias{lsm_c_core_sd.list}
 \title{Core area distribution (class level)}
 \usage{
-lsm_c_core_sd(landscape)
+lsm_c_core_sd(landscape, ...)
 
-\method{lsm_c_core_sd}{RasterLayer}(landscape)
+\method{lsm_c_core_sd}{RasterLayer}(landscape, ...)
 
-\method{lsm_c_core_sd}{RasterStack}(landscape)
+\method{lsm_c_core_sd}{RasterStack}(landscape, ...)
 
-\method{lsm_c_core_sd}{RasterBrick}(landscape)
+\method{lsm_c_core_sd}{RasterBrick}(landscape, ...)
 
-\method{lsm_c_core_sd}{list}(landscape)
+\method{lsm_c_core_sd}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

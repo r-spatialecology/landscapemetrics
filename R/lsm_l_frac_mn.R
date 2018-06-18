@@ -62,8 +62,9 @@ lsm_l_frac_mn.list <- function(landscape) {
 
 lsm_l_frac_mn_calc <- function(landscape){
 
-    frac_mean <- lsm_p_frac(landscape) %>%
-        dplyr::summarise(value = mean(value))
+    frac_mean <- landscape %>%
+        lsm_p_frac() %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

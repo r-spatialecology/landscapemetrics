@@ -12,18 +12,20 @@
 \alias{lsm_c_iji.list}
 \title{Interspersion and Juxtaposition index (class level)}
 \usage{
-lsm_c_iji(landscape, count_boundary)
+lsm_c_iji(landscape, ...)
 
-\method{lsm_c_iji}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterLayer}(landscape, ...)
 
-\method{lsm_c_iji}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterStack}(landscape, ...)
 
-\method{lsm_c_iji}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterBrick}(landscape, ...)
 
-\method{lsm_c_iji}{list}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

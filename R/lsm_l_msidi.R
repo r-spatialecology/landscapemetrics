@@ -59,10 +59,11 @@ lsm_l_msidi.list <- function(landscape) {
 lsm_l_msidi_calc <- function(landscape) {
 
     msidi <- landscape %>%
-        lsm_c_pland() %>%
-        dplyr::mutate(value = (value / 100) ^ 2) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = -log(value))
+        lsm_p_area_calc() %>%
+        dplyr::group_by(class) %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::mutate(value = (value / sum(value, na.rm = TRUE)) ^ 2) %>%
+        dplyr::summarise(value = -log(sum(value, na.rm = TRUE)))
 
     tibble::tibble(
         level = "landscape",

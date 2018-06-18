@@ -61,9 +61,9 @@ lsm_p_para.list <- function(landscape) {
 
 lsm_p_para_calc <- function(landscape){
 
-    perimeter <- lsm_p_perim(landscape)
+    perimeter <- lsm_p_perim_calc(landscape)
 
-    area <- lsm_p_area(landscape) %>%
+    area <- lsm_p_area_calc(landscape) %>%
         dplyr::mutate(value = value * 10000)
 
     para <- perimeter$value / area$value

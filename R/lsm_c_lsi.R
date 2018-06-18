@@ -3,6 +3,7 @@
 #' @description Landscape shape index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' The landscape shape index equals a quarter of the sum of all edges of class i
@@ -26,40 +27,44 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_c_lsi <- function(landscape) UseMethod("lsm_c_lsi")
+lsm_c_lsi <- function(landscape, ...) UseMethod("lsm_c_lsi")
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
+lsm_c_lsi.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
+lsm_c_lsi.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
+lsm_c_lsi.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_lsi_calc, .id = "layer") %>%
+lsm_c_lsi.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_c_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_lsi_calc <- function(landscape) {
+lsm_c_lsi_calc <- function(landscape, ...) {
 
     edges_class <- landscape %>%
-        lsm_c_te_calc() # Needs to include also edge to background
+        lsm_c_te_calc(...)
 
     area_landscape <- landscape %>%
         lsm_l_ta_calc() %>%

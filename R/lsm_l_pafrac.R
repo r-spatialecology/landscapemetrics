@@ -68,10 +68,10 @@ lsm_l_pafrac.list <- function(landscape) {
 
 lsm_l_pafrac_calc <- function(landscape){
 
-    area <- lsm_p_area(landscape)
-    perimeter <- lsm_p_perim(landscape)
+    area <- lsm_p_area_calc(landscape)
+    perimeter <- lsm_p_perim_calc(landscape)
 
-    np <- lsm_l_np(landscape)
+    np <- lsm_l_np_calc(landscape)
 
     if(np$value < 10){
         pafrac = NA

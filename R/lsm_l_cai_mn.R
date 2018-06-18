@@ -3,6 +3,7 @@
 #' @description Mean of core area index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' Equals the mean of the core area index of all patches in the landscape.
@@ -26,44 +27,48 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_cai_mn <- function(landscape) UseMethod("lsm_l_cai_mn")
+lsm_l_cai_mn <- function(landscape, ...) UseMethod("lsm_l_cai_mn")
 
 #' @name lsm_l_cai_mn
 #' @export
-lsm_l_cai_mn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc, .id = "layer") %>%
+lsm_l_cai_mn.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_cai_mn
 #' @export
-lsm_l_cai_mn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_cai_mn
-#' @export
-lsm_l_cai_mn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc, .id = "layer") %>%
+lsm_l_cai_mn.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_cai_mn
 #' @export
-lsm_l_cai_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_cai_mn_calc, .id = "layer") %>%
+lsm_l_cai_mn.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_cai_mn_calc <- function(landscape){
+#' @name lsm_l_cai_mn
+#' @export
+lsm_l_cai_mn.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_l_cai_mn_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_cai_mn_calc <- function(landscape, ...){
 
     cai_mean <- landscape %>%
-        lsm_p_cai() %>%
-        dplyr::summarise(value = mean(value))
+        lsm_p_cai(...) %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

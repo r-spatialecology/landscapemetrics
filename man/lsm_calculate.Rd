@@ -12,7 +12,7 @@
 \alias{lsm_calculate.list}
 \title{Calculate metrics}
 \usage{
-lsm_calculate(landscape, what, classes_max = NULL, ...)
+lsm_calculate(landscape, what, ...)
 
 \method{lsm_calculate}{RasterLayer}(landscape, what = "all", ...)
 

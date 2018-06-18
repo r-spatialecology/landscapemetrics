@@ -62,9 +62,10 @@ lsm_p_shape.list <- function(landscape) {
 
 lsm_p_shape_calc <- function(landscape){
 
-    perimeter <- lsm_p_perim(landscape)
+    perimeter <- lsm_p_perim_calc(landscape)
 
-    area <- lsm_p_area(landscape) %>%
+    area <- landscape %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
     shape <- 0.25 * perimeter$value / sqrt(area$value)
