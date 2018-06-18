@@ -5,8 +5,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Landscape Metrics for Categorical Map Patterns • landscapemetrics</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<title>Landscape Metrics for Categorical Map Patterns • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Landscape Metrics for Categorical Map Patterns">
@@ -37,35 +37,40 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+  <a href="articles/kickstart.html">
+    <span class="fa fa fa fa-magic"></span>
      
+    Get Started
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+  <a href="articles/articles/publication_record.html">
+    <span class="fa fa-file-text-o"></span>
      
-    <span class="caret"></span>
+    Publication Record
   </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/kickstart.html">Vignette Title</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
+  <a href="news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    functions
+  </a>
+</li>
+<li>
   <a href="https://github.com/marcosci/landscapemetrics">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -159,62 +164,35 @@ lsm_l_enn()</code></pre>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(landscapemetrics)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; ── Attaching packages ─────────────── tidyverse 1.2.1 ──</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; ✔ ggplot2 2.2.1     ✔ purrr   0.2.4</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.4</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ tidyr   0.8.0     ✔ stringr 1.3.1</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ readr   1.1.1     ✔ forcats 0.3.0</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ── Conflicts ────────────────── tidyverse_conflicts() ──</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co"># Landscape raster</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">landscape</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; class       : RasterLayer </span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; dimensions  : 30, 30, 900  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; coord. ref. : NA </span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; data source : in memory</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; names       : clumps </span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; values      : 1, 3  (min, max)</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23">## plot landscape</a>
-<a class="sourceLine" id="cb3-24" data-line-number="24">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(landscape)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-1-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Calculate for example the Euclidean Nearest-Neighbor Distance on patch level</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">lsm_p_enn</span>()</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 27 x 6</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;    layer level class    id metric                                    value</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   </span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   </span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; # ... with 17 more rows</span></a></code></pre></div>
-</div>
-<div id="connected-labelling" class="section level3">
-<h3 class="hasAnchor">
-<a href="#connected-labelling" class="anchor"></a>Connected labelling</h3>
-<p><code>landscapemetrics</code> makes internally heavy use of an implementatian of a connected labelling algorithm by Thell Fowler (<a href="https://github.com/Thell/ccloutline" class="uri">https://github.com/Thell/ccloutline</a>) and exports an reimplementation of this algorithm:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cclabel_landscape &lt;-<span class="st"> </span>landscapemetrics<span class="op">::</span><span class="kw">cclabel</span>(landscape)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_facetplot">util_facetplot</a></span>(cclabel_landscape, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="reference/figures/cclabel.png" width="100%"></p>
-</div>
-<div id="visualizing-patches" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h3>
-<p>To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the R package <a href="https://github.com/ropensci/landscapetools"><em>landscapetools</em></a> (currently only in the version on Github):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_show_patches">util_show_patches</a></span>(landscape)</a></code></pre></div>
-<p><img src="reference/figures/showpatches.png" width="100%"></p>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Landscape raster</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">landscape</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; class       : RasterLayer </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; dimensions  : 30, 30, 900  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; coord. ref. : NA </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; data source : in memory</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; names       : clumps </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; values      : 1, 3  (min, max)</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co"># Calculate for example the Euclidean Nearest-Neighbor Distance on patch level</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="st">  </span><span class="kw">lsm_p_enn</span>()</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; # A tibble: 27 x 6</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt;    layer level class    id metric                                    value</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt;  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   </span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt;  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   </span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt;  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   </span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt;  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   </span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt;  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt;  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt;  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt;  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24</span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt; 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt; # ... with 17 more rows</span></a></code></pre></div>
 </div>
 </div>
 <div id="contributing" class="section level2">

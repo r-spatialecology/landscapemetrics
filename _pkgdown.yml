@@ -1,8 +1,8 @@
-title: landscapemetrics
+title: landscapemetrics | Landscape Metrics for Categorical Map Patterns
 
 template:
   params:
-   bootswatch: journal
+   bootswatch: sandstone
 
 reference:
   - title: Internal Datasets
@@ -27,7 +27,6 @@ reference:
      - lsm_p_ncore
      - lsm_p_para
      - lsm_p_perim
-     - lsm_p_prox
      - lsm_p_shape
   - title: Class Level Metrics
     contents:
@@ -54,7 +53,7 @@ reference:
     - lsm_c_enn_mn
     - lsm_c_enn_sd
     - lsm_c_frac_cv
-    - lsm_c_frac_mn
+    - lsm_c_frac_mnAuxiliary functions
     - lsm_c_frac_sd
     - lsm_c_gyrate_cv
     - lsm_c_gyrate_mn
@@ -135,6 +134,28 @@ reference:
     - lsm_l_split
     - lsm_l_ta
     - lsm_l_te
+  - title: All Level Metrics
+    contents:
+    - lsm_calculate
 
+navbar:
+  title: landscapemetrics
+  left:
+    - text: "Get Started"
+      icon: fa fa-magic
+      href: articles/kickstart.html
+    - text: "Publication Record"
+      icon: fa-file-text-o
+      href: articles/articles/publication_record.html
+  right:
+    - icon: fa-newspaper-o
+      text: "news"
+      href: news/index.html
+    - icon: fa-gears
+      text: "functions"
+      href: reference/index.html
+    - icon: fa-github fa-lg
+      text: "github"
+      href: https://github.com/marcosci/landscapemetrics
 
 

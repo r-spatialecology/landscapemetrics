@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • landscapemetrics</title>
+<title>Function reference • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -62,36 +62,41 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+  <a href="../articles/kickstart.html">
+    <span class="fa fa fa fa-magic"></span>
      
+    Get Started
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+  <a href="../articles/articles/publication_record.html">
+    <span class="fa fa-file-text-o"></span>
      
-    <span class="caret"></span>
+    Publication Record
   </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/kickstart.html">Vignette Title</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    functions
+  </a>
+</li>
+<li>
   <a href="https://github.com/marcosci/landscapemetrics">
     <span class="fa fa-github fa-lg"></span>
      
+    github
   </a>
 </li>
       </ul>
@@ -148,6 +153,26 @@
           <p><code><a href="podlasie_ccilc.html">podlasie_ccilc</a></code> </p>
         </td>
         <td><p>Podlasie ESA CCI LC</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-auxiliary-functions" class="hasAnchor"><a href="#section-auxiliary-functions" class="anchor"></a>Auxiliary functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="cclabel.html">cclabel()</a></code> </p>
+        </td>
+        <td><p>Connected compoment labeling for classes in a raster</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pad_raster.html">pad_raster()</a></code> </p>
+        </td>
+        <td><p>pad_raster</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -371,12 +396,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="lsm_c_frac_mn.html">lsm_c_frac_mn()</a></code> </p>
-        </td>
-        <td><p>Fractal dimension index distribution  (class level)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="lsm_c_frac_sd.html">lsm_c_frac_sd()</a></code> </p>
         </td>
         <td><p>Fractal dimension index distribution  (class level)</p></td>
@@ -384,6 +403,12 @@
         
         <td>
           <p><code><a href="lsm_c_gyrate_cv.html">lsm_c_gyrate_cv()</a></code> </p>
+        </td>
+        <td><p>Radius of Gyration Distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_gyrate_mn.html">lsm_c_gyrate_mn()</a></code> </p>
         </td>
         <td><p>Radius of Gyration Distribution (class level)</p></td>
       </tr><tr>
@@ -845,6 +870,20 @@
         </td>
         <td><p>Total Edge  (landscape level)</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-level-metrics" class="hasAnchor"><a href="#section-all-level-metrics" class="anchor"></a>All Level Metrics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="lsm_calculate.html">lsm_calculate()</a></code> </p>
+        </td>
+        <td><p>Calculate metrics</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -853,9 +892,11 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-internal-datasets">Internal Datasets</a></li>
+      <li><a href="#section-auxiliary-functions">Auxiliary functions</a></li>
       <li><a href="#section-patch-level-metrics">Patch Level Metrics</a></li>
       <li><a href="#section-class-level-metrics">Class Level Metrics</a></li>
       <li><a href="#section-landscape-level-metrics">Landscape Level Metrics</a></li>
+      <li><a href="#section-all-level-metrics">All Level Metrics</a></li>
     </ul>
   </div>
 </div>

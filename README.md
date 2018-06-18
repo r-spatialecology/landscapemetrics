@@ -70,23 +70,6 @@ quite straight forward:
 ``` r
 library(landscapemetrics)
 library(tidyverse)
-<<<<<<< HEAD
-#> ── Attaching packages ─────────────────────────────────── tidyverse 1.2.1 ──
-#> ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-#> ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-#> ✔ tidyr   0.8.0     ✔ stringr 1.3.1
-#> ✔ readr   1.1.1     ✔ forcats 0.3.0
-#> ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
-=======
-#> ── Attaching packages ─────────────────────────────────────────────── tidyverse 1.2.1 ──
-#> ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.5     
-#> ✔ tibble  1.4.2          ✔ dplyr   0.7.5     
-#> ✔ tidyr   0.8.1          ✔ stringr 1.3.1     
-#> ✔ readr   1.1.1          ✔ forcats 0.3.0
-#> ── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
->>>>>>> cca41ceb5a39413de713d1b50385cbb4df094aa6
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
 
 # Landscape raster
 landscape
@@ -98,14 +81,6 @@ landscape
 #> data source : in memory
 #> names       : clumps 
 #> values      : 1, 3  (min, max)
-
-## plot landscape
-landscapetools::util_plot(landscape)
-```
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-
-``` r
 
 # Calculate for example the Euclidean Nearest-Neighbor Distance on patch level
 landscape %>% 
@@ -125,34 +100,6 @@ landscape %>%
 #> 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47
 #> # ... with 17 more rows
 ```
-
-### Connected labelling
-
-`landscapemetrics` makes internally heavy use an implementatian of a
-connected labelling algorithm by Thell Fowler
-(<https://github.com/Thell/ccloutline>) and exports an reimplementation
-of this algorithm:
-
-``` r
-cclabel_landscape <- landscapemetrics::cclabel(landscape)
-landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
-```
-
-<img src="man/figures/cclabel.png"  width="100%" />
-
-### Visualizing patches
-
-To visualize patches in a landscape and encode each patch with an ID
-that can be used to compare a landscape metric with the actual landscape
-you can use the R package
-[*landscapetools*](https://github.com/ropensci/landscapetools)
-(currently only in the version on Github):
-
-``` r
-landscapetools::util_show_patches(landscape)
-```
-
-<img src="man/figures/showpatches.png"  width="100%" />
 
 ## Contributing
 

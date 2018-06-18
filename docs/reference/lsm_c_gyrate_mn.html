@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perimeter-area ratio  (patch level) — lsm_p_para • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>Radius of Gyration Distribution (class level) — lsm_c_gyrate_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Perimeter-area ratio  (patch level) — lsm_p_para" />
+<meta property="og:title" content="Radius of Gyration Distribution (class level) — lsm_c_gyrate_mn" />
 
-<meta property="og:description" content="Ratio of patch perimeter and area (patch level)" />
+<meta property="og:description" content="Mean of Radius of Gyration (class level)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,30 +114,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perimeter-area ratio  (patch level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_p_para.R'><code>R/lsm_p_para.R</code></a></small>
-    <div class="hidden name"><code>lsm_p_para.Rd</code></div>
+    <h1>Radius of Gyration Distribution (class level)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_gyrate_mn.R'><code>R/lsm_c_gyrate_mn.R</code></a></small>
+    <div class="hidden name"><code>lsm_c_gyrate_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Ratio of patch perimeter and area (patch level)</p>
+    <p>Mean of Radius of Gyration (class level)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,15 +154,14 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The perimeter-area ratio equals the ration of patch perimeter and patch area.
-It is a simple measure of complexity
-$$PARA = perimeter[patch] / area[patch]$$</p><h3>Units</h3>
-None
+    <p>Equals the mean of mean distance of each cell centroid
+in a patch to the centroid of the whole patch (mean location of all cell centroids) of class i
+$$GYRATE_MN = mean(GYRATE[patch_i]$$</p><h3>Units</h3>
+Meters
 <h3>Range</h3>
-PARA &gt;0
+GYRATE &gt;= 0, without limit
 <h3>Behaviour</h3>
-PARA = 1 for a square and increases as the patch
-becomes more irregular
+0 if single cell, maximum if patch occupies the entire landscape
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -172,20 +171,12 @@ PNW-351.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_p_para</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 27 x 6
-#&gt;    layer level class    id metric               value
-#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                &lt;dbl&gt;
-#&gt;  1     1 patch     1     1 perimeter-area-ratio 4    
-#&gt;  2     1 patch     1     2 perimeter-area-ratio 2.4  
-#&gt;  3     1 patch     1     3 perimeter-area-ratio 0.878
-#&gt;  4     1 patch     1     4 perimeter-area-ratio 4    
-#&gt;  5     1 patch     1     5 perimeter-area-ratio 4    
-#&gt;  6     1 patch     1     6 perimeter-area-ratio 1.43 
-#&gt;  7     1 patch     1     7 perimeter-area-ratio 2.67 
-#&gt;  8     1 patch     1     8 perimeter-area-ratio 2    
-#&gt;  9     1 patch     1     9 perimeter-area-ratio 4    
-#&gt; 10     1 patch     2    10 perimeter-area-ratio 1.09 
-#&gt; # ... with 17 more rows</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_gyrate_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   layer level class    id metric                                value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                 &lt;dbl&gt;
+#&gt; 1     1 class     1    NA related circumscribing circle (mean) 0.0851
+#&gt; 2     1 class     2    NA related circumscribing circle (mean) 0.152 
+#&gt; 3     1 class     3    NA related circumscribing circle (mean) 0.127 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
