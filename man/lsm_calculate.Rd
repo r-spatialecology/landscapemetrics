@@ -38,7 +38,7 @@ Calculate a selected group of metrics
 \examples{
 \dontrun{
 lsm_calculate(landscape)
-lsm_calculate(landscape_stack, what = "patch")
+lsm_calculate(landscape, what = "patch")
 }
 }
 \references{
