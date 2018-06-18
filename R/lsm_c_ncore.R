@@ -3,7 +3,8 @@
 #' @description Number of core areas (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#'
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+
 #' @details
 #' Number of core areas equals the sum of number of core areas of class i.
 #' Called number of disjunct core areas in FRAGSTATS. A core area is a 'patch within
@@ -30,42 +31,46 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_ncore <- function(landscape) UseMethod("lsm_c_ncore")
+lsm_c_ncore <- function(landscape, ...) UseMethod("lsm_c_ncore")
 
 #' @name lsm_c_ncore
 #' @export
-lsm_c_ncore.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc, .id = "layer") %>%
+lsm_c_ncore.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ncore
 #' @export
-lsm_c_ncore.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_ncore
-#' @export
-lsm_c_ncore.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc, .id = "layer") %>%
+lsm_c_ncore.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_ncore
 #' @export
-lsm_c_ncore.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_ncore_calc, .id = "layer") %>%
+lsm_c_ncore.RasterBrick <- function(landscape...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_ncore_calc <- function(landscape){
+#' @name lsm_c_ncore
+#' @export
+lsm_c_ncore.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_c_ncore_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_c_ncore_calc <- function(landscape, ...){
     ncore <- landscape %>%
-        lsm_p_ncore_calc() %>%
+        lsm_p_ncore_calc(...) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 

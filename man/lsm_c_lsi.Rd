@@ -12,18 +12,20 @@
 \alias{lsm_c_lsi.list}
 \title{Landscape shape index (class level)}
 \usage{
-lsm_c_lsi(landscape)
+lsm_c_lsi(landscape, ...)
 
-\method{lsm_c_lsi}{RasterLayer}(landscape)
+\method{lsm_c_lsi}{RasterLayer}(landscape, ...)
 
-\method{lsm_c_lsi}{RasterStack}(landscape)
+\method{lsm_c_lsi}{RasterStack}(landscape, ...)
 
-\method{lsm_c_lsi}{RasterBrick}(landscape)
+\method{lsm_c_lsi}{RasterBrick}(landscape, ...)
 
-\method{lsm_c_lsi}{list}(landscape)
+\method{lsm_c_lsi}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

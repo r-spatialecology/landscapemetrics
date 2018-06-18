@@ -3,6 +3,7 @@
 #' @description Interspersion and Juxtaposition index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' ???
@@ -25,55 +26,48 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_iji <- function(landscape, count_boundary) UseMethod("lsm_c_iji")
+lsm_c_iji <- function(landscape, ...) UseMethod("lsm_c_iji")
 
 #' @name lsm_c_iji
 #' @export
-lsm_c_iji.RasterLayer <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_iji_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
+lsm_c_iji.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_iji_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_iji
 #' @export
-lsm_c_iji.RasterStack <- function(landscape, count_boundary = FALSE) {
+lsm_c_iji.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_iji_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
+                   lsm_c_iji_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_iji
 #' @export
-lsm_c_iji.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_iji_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
+lsm_c_iji.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_iji_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_iji
 #' @export
-lsm_c_iji.list <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_iji_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
+lsm_c_iji.list <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_iji_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 # Not working currently
-lsm_c_iji_calc <- function(landscape, count_boundary) {
+lsm_c_iji_calc <- function(landscape, ...) {
 
-    edge_class <- lsm_c_te_calc(landscape)
+    edge_class <- lsm_c_te_calc(landscape, ...)
     pr <- lsm_l_pr_calc(landscape)
 
     iji <- landscape %>%

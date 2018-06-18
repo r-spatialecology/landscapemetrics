@@ -28,35 +28,24 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_te <- function(landscape, count_boundary) UseMethod("lsm_c_te")
+lsm_c_te <- function(landscape, ...) UseMethod("lsm_c_te")
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterLayer <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_c_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterStack <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_c_te_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
-                   .f = lsm_c_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -64,16 +53,27 @@ lsm_c_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.list <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterBrick <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_c_te_calc,
+                   ....,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary) {
+#' @name lsm_c_te
+#' @export
+lsm_c_te.list <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   ...,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
     # cclabel class
     cclabeled_raster <- cclabel(landscape)
 

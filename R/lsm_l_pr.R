@@ -56,7 +56,9 @@ lsm_l_pr.list = function(landscape){
 }
 
 lsm_l_pr_calc = function(landscape){
-    richness <- length(raster::unique(landscape))
+    richness <- landscape %>%
+        raster::unique() %>%
+        length()
 
     tibble::tibble(
         level = 'landscape',

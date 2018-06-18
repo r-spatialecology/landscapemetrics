@@ -63,7 +63,8 @@ lsm_c_enn_sd.list <- function(landscape) {
 
 lsm_c_enn_sd_calc <- function(landscape) {
 
-    enn_sd  <- lsm_p_enn_calc(landscape) %>%
+    enn_sd  <- landscape %>%
+        lsm_p_enn_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 

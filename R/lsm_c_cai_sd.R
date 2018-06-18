@@ -3,7 +3,8 @@
 #' @description Standard deviation of core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#'
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+
 #' Equals the standard deviation of the core area index of class i.
 #' The core area index equals the percentage of a patch that is core area
 #' \deqn{CAI_SD = sd(CAI[patch_i]}
@@ -25,42 +26,46 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cai_sd <- function(landscape) UseMethod("lsm_c_cai_sd")
+lsm_c_cai_sd <- function(landscape, ...) UseMethod("lsm_c_cai_sd")
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc, .id = "layer") %>%
+lsm_c_cai_sd.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_cai_sd
-#' @export
-lsm_c_cai_sd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc, .id = "layer") %>%
+lsm_c_cai_sd.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_cai_sd_calc, .id = "layer") %>%
+lsm_c_cai_sd.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_sd_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_cai_sd_calc <- function(landscape){
+#' @name lsm_c_cai_sd
+#' @export
+lsm_c_cai_sd.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_c_cai_sd_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_c_cai_sd_calc <- function(landscape, ...){
     cai_sd <- landscape %>%
-        lsm_p_cai_calc() %>%
+        lsm_p_cai_calc(...) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 

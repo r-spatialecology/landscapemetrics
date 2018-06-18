@@ -3,7 +3,7 @@
 #' @description Landscape shape index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary xxx
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' The landscape shape index equals a quarter of the sum of all edges in the landscape
@@ -27,40 +27,46 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_lsi <- function(landscape,count_boundary = FALSE) UseMethod("lsm_l_lsi")
+lsm_l_lsi <- function(landscape, ...) UseMethod("lsm_l_lsi")
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterLayer <- function(landscape,count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+lsm_l_lsi.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterStack <- function(landscape,count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+lsm_l_lsi.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.RasterBrick <- function(landscape,count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+lsm_l_lsi.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
-lsm_l_lsi.list <- function(landscape,count_boundary = FALSE) {
-    purrr::map_dfr(landscape, lsm_l_lsi_calc, .id = "layer") %>%
+lsm_l_lsi.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_l_lsi_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_lsi_calc <- function(landscape) {
+lsm_l_lsi_calc <- function(landscape, ...) {
 
-    edges_landscape <- lsm_l_te(landscape, count_boundary = TRUE) # Needs to include also edge to background
-    area_landscape <- lsm_l_ta(landscape) %>%
+    edges_landscape <- lsm_l_te(landscape, ...)
+
+    area_landscape <- landscape %>%
+        lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000)
 
     lsi <- (0.25 * edges_landscape$value) / sqrt(area_landscape$value)

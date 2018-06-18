@@ -61,7 +61,8 @@ lsm_l_enn_sd.list <- function(landscape) {
 
 lsm_l_enn_sd_calc <- function(landscape) {
 
-    enn_sd  <- lsm_p_enn(landscape) %>%
+    enn_sd  <- landscape %>%
+        lsm_p_enn_calc() %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(

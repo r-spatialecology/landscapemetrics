@@ -61,8 +61,8 @@ lsm_l_ta.list <- function(landscape) {
 lsm_l_ta_calc <- function(landscape) {
 
     total_area <- landscape %>%
-        lsm_p_area() %>%
-        dplyr::summarise(value = sum(value))
+        lsm_p_area_calc() %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

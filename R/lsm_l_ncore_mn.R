@@ -1,6 +1,7 @@
 #' Number of core areas distribution (landscape level)
 #'
 #' @description Mean of number of core areas (landscape level)
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -27,44 +28,48 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_ncore_mn <- function(landscape) UseMethod("lsm_l_ncore_mn")
+lsm_l_ncore_mn <- function(landscape, ...) UseMethod("lsm_l_ncore_mn")
 
 #' @name lsm_l_ncore_mn
 #' @export
-lsm_l_ncore_mn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc, .id = "layer") %>%
+lsm_l_ncore_mn.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ncore_mn
 #' @export
-lsm_l_ncore_mn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_ncore_mn
-#' @export
-lsm_l_ncore_mn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc, .id = "layer") %>%
+lsm_l_ncore_mn.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_ncore_mn
 #' @export
-lsm_l_ncore_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_ncore_mn_calc, .id = "layer") %>%
+lsm_l_ncore_mn.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_mn_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_ncore_mn_calc <- function(landscape){
+#' @name lsm_l_ncore_mn
+#' @export
+lsm_l_ncore_mn.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_l_ncore_mn_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_ncore_mn_calc <- function(landscape, ...){
 
     ncore_mean <- landscape %>%
-        lsm_p_ncore() %>%
-        dplyr::summarise(value = mean(value))
+        lsm_p_ncore_calc(...) %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

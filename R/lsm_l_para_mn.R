@@ -61,8 +61,9 @@ lsm_l_para_mn.list <- function(landscape) {
 
 lsm_l_para_mn_calc <- function(landscape){
 
-    para_mn <- lsm_p_para(landscape) %>%
-        dplyr::summarise(value = mean(value))
+    para_mn <- landscape %>%
+        lsm_p_para_calc() %>%
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

@@ -12,18 +12,20 @@
 \alias{lsm_p_cai.list}
 \title{Core area index  (patch level)}
 \usage{
-lsm_p_cai(landscape)
+lsm_p_cai(landscape, ...)
 
-\method{lsm_p_cai}{RasterLayer}(landscape)
+\method{lsm_p_cai}{RasterLayer}(landscape, ...)
 
-\method{lsm_p_cai}{RasterStack}(landscape)
+\method{lsm_p_cai}{RasterStack}(landscape, ...)
 
-\method{lsm_p_cai}{RasterBrick}(landscape)
+\method{lsm_p_cai}{RasterBrick}(landscape, ...)
 
-\method{lsm_p_cai}{list}(landscape)
+\method{lsm_p_cai}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

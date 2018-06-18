@@ -3,7 +3,7 @@
 #' @description Number of disjunct core areas (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ...
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' #' @details
 #' Equals the number of disjunct core areas. A core area is a 'patch within the patch' without
@@ -32,44 +32,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_ncore <- function(landscape, directions) UseMethod("lsm_p_ncore")
+lsm_p_ncore <- function(landscape, ...) UseMethod("lsm_p_ncore")
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.RasterLayer <- function(landscape, directions = 4) {
+lsm_p_ncore.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.RasterStack <- function(landscape, directions = 4) {
+lsm_p_ncore.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
-                   directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_ncore
-#' @export
-lsm_p_ncore.RasterBrick <- function(landscape, directions = 4) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_ncore
 #' @export
-lsm_p_ncore.list <- function(landscape, directions = 4) {
+lsm_p_ncore.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_ncore_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_ncore
+#' @export
+lsm_p_ncore.list <- function(landscape, ...) {
     purrr::map_dfr(landscape, lsm_p_ncore_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_ncore_calc <- function(landscape, directions){
+lsm_p_ncore_calc <- function(landscape, directions = 4){
 
     core_class <- landscape %>%
         cclabel() %>%
@@ -103,7 +103,6 @@ lsm_p_ncore_calc <- function(landscape, directions){
                     else{
                         core_patch_n <- 0
                     }
-
 
                     tibble::tibble(
                         id = NA,

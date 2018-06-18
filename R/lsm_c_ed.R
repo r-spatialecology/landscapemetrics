@@ -3,7 +3,7 @@
 #' @description Edge Density (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary xxx
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' Edge density equals the sum of the length of all edges of class i divided by the total
@@ -28,35 +28,24 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_ed <- function(landscape, count_boundary) UseMethod("lsm_c_ed")
+lsm_c_ed <- function(landscape, ...) UseMethod("lsm_c_ed")
 
 #' @name lsm_c_ed
 #' @export
-lsm_c_ed.RasterLayer <- function(landscape, count_boundary = FALSE) {
+lsm_c_ed.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ed
 #' @export
-lsm_c_ed.RasterStack <- function(landscape, count_boundary = FALSE) {
+lsm_c_ed.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -64,21 +53,32 @@ lsm_c_ed.RasterBrick <- function(landscape, count_boundary = FALSE) {
 
 #' @name lsm_c_ed
 #' @export
-lsm_c_ed.list <- function(landscape, count_boundary = FALSE) {
+lsm_c_ed.RasterBrick <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary) {
+#' @name lsm_c_ed
+#' @export
+lsm_c_ed.list <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_ed_calc,
+                   ...,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_c_ed_calc <- function(landscape, ...) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
     ed <- landscape %>%
-        lsm_c_te_calc(count_boundary = count_boundary) %>%
+        lsm_c_te_calc(...) %>%
         dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(

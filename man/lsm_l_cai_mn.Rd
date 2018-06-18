@@ -12,18 +12,20 @@
 \alias{lsm_l_cai_mn.list}
 \title{Core area index distribution (landscape level)}
 \usage{
-lsm_l_cai_mn(landscape)
+lsm_l_cai_mn(landscape, ...)
 
-\method{lsm_l_cai_mn}{RasterLayer}(landscape)
+\method{lsm_l_cai_mn}{RasterLayer}(landscape, ...)
 
-\method{lsm_l_cai_mn}{RasterStack}(landscape)
+\method{lsm_l_cai_mn}{RasterStack}(landscape, ...)
 
-\method{lsm_l_cai_mn}{RasterBrick}(landscape)
+\method{lsm_l_cai_mn}{RasterBrick}(landscape, ...)
 
-\method{lsm_l_cai_mn}{list}(landscape)
+\method{lsm_l_cai_mn}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

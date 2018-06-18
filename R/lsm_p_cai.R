@@ -3,7 +3,8 @@
 #' @description Core area index of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#'
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+
 #' @details
 #' The core area index equals the percentage of a patch that is core area
 #' \deqn{CAI = (core[patch] / area[patch]) * 100}
@@ -26,46 +27,51 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_cai <- function(landscape) UseMethod("lsm_p_cai")
+lsm_p_cai <- function(landscape, ...) UseMethod("lsm_p_cai")
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc, .id = "layer") %>%
+lsm_p_cai.RasterLayer <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_cai
-#' @export
-lsm_p_cai.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc, .id = "layer") %>%
+lsm_p_cai.RasterStack <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_cai_calc, .id = "layer") %>%
+lsm_p_cai.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_cai_calc <- function(landscape){
+#' @name lsm_p_cai
+#' @export
+lsm_p_cai.list <- function(landscape, ...) {
+    purrr::map_dfr(landscape, lsm_p_cai_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    area <- lsm_p_area(landscape) %>%
+}
+
+lsm_p_cai_calc <- function(landscape, ...){
+
+    area <- landscape%>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
     cai <- landscape %>%
-        lsm_p_core() %>%
+        lsm_p_core_calc(...) %>%
         dplyr::mutate(value = value * 10000 / area$value * 100)
 
     tibble::tibble(

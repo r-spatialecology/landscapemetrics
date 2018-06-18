@@ -59,10 +59,10 @@ lsm_l_siei.list <- function(landscape) {
 
 lsm_l_siei_calc <- function(landscape) {
 
-    sidi <- lsm_l_sidi(landscape)
-    pr <- lsm_l_pr(landscape)
+    sidi <- lsm_l_sidi_calc(landscape)
+    pr <- lsm_l_pr_calc(landscape)
 
-    siei <- sidi$value / (1 - 1 / pr$value)
+    siei <- sidi$value / (1 - (1 / pr$value))
 
     tibble::tibble(
         level = "landscape",

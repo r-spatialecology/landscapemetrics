@@ -61,8 +61,9 @@ lsm_l_frac_sd.list <- function(landscape) {
 
 lsm_l_frac_sd_calc <- function(landscape){
 
-    frac_sd <- lsm_p_frac(landscape) %>%
-        dplyr::summarise(value = stats::sd(value))
+    frac_sd <- landscape %>%
+        lsm_p_frac_calc() %>%
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

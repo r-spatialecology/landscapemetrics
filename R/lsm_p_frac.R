@@ -62,9 +62,9 @@ lsm_p_frac.list <- function(landscape) {
 
 lsm_p_frac_calc <- function(landscape){
 
-    perimeter <- lsm_p_perim(landscape)
+    perimeter <- lsm_p_perim_calc(landscape)
 
-    area <- lsm_p_area(landscape) %>%
+    area <- lsm_p_area_calc(landscape) %>%
         dplyr::mutate(value = value * 10000)
 
     frac <- 2 * log (0.25 * perimeter$value) / log(area$value)

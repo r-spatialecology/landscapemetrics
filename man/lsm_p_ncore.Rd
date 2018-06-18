@@ -12,20 +12,20 @@
 \alias{lsm_p_ncore.list}
 \title{Number of core areas (patch level)}
 \usage{
-lsm_p_ncore(landscape, directions)
+lsm_p_ncore(landscape, ...)
 
-\method{lsm_p_ncore}{RasterLayer}(landscape, directions = 4)
+\method{lsm_p_ncore}{RasterLayer}(landscape, ...)
 
-\method{lsm_p_ncore}{RasterStack}(landscape, directions = 4)
+\method{lsm_p_ncore}{RasterStack}(landscape, ...)
 
-\method{lsm_p_ncore}{RasterBrick}(landscape, directions = 4)
+\method{lsm_p_ncore}{RasterBrick}(landscape, ...)
 
-\method{lsm_p_ncore}{list}(landscape, directions = 4)
+\method{lsm_p_ncore}{list}(landscape, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{...
+\item{...}{Specific arguments for certain functions, if not provided they fall back to default.
 
 #' @details
 Equals the number of disjunct core areas. A core area is a 'patch within the patch' without

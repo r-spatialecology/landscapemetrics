@@ -61,8 +61,8 @@ lsm_l_shape_sd.list <- function(landscape) {
 lsm_l_shape_sd_calc <- function(landscape){
 
     shape_sd <- landscape %>%
-        lsm_p_shape() %>%
-        dplyr::summarise(value = stats::sd(value))
+        lsm_p_shape_calc() %>%
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

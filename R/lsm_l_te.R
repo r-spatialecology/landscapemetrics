@@ -3,7 +3,7 @@
 #' @description Total edge of class (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary Include landscape boundary in edge length
+#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @details
 #' Total edge equals the sum of the length of all edges in the landscape.
@@ -28,60 +28,55 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_te <- function(landscape, count_boundary) UseMethod("lsm_l_te")
+lsm_l_te <- function(landscape,  ...) UseMethod("lsm_l_te")
 
 #' @name lsm_l_te
 #' @export
-lsm_l_te.RasterLayer <- function(landscape, count_boundary = FALSE) {
+lsm_l_te.RasterLayer <- function(landscape,  ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_l_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_te
 #' @export
-lsm_l_te.RasterStack <- function(landscape, count_boundary = FALSE) {
+lsm_l_te.RasterStack <- function(landscape,  ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_l_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_te
 #' @export
-lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
+lsm_l_te.RasterBrick <- function(landscape,  ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_l_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_te
 #' @export
-lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
+lsm_l_te.list <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape),
-                   count_boundary = count_boundary,
                    .f = lsm_l_te_calc,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary){
+lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,
                              pad_raster_value = max(raster::values(landscape)) + 1,
                              pad_raster_cells = 1)
     }
-
-
 
     adjacent_cells <- raster::adjacent(landscape,
                                        seq_len(raster::ncell(landscape)),

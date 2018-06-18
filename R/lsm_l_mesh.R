@@ -58,12 +58,12 @@ lsm_l_mesh.list <- function(landscape) {
 
 lsm_l_mesh_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    total_area <- lsm_l_ta_calc(landscape)
 
     mesh <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value ^ 2) %>%
-        dplyr::summarise(value = sum(value)) %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = (value / total_area$value))
 
     tibble::tibble(

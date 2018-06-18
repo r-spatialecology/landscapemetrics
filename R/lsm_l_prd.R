@@ -60,10 +60,10 @@ lsm_l_prd.list <- function(landscape) {
 
 lsm_l_prd_calc <- function(landscape) {
 
-    area_landscape <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
     prd <- landscape %>%
-        lsm_l_pr() %>%
+        lsm_l_pr_calc() %>%
         dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(

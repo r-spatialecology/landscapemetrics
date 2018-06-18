@@ -29,44 +29,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, ...) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape, directions = 4) {
+lsm_p_core.RasterLayer <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape, directions = 4) {
+lsm_p_core.RasterStack <- function(landscape, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_core
-#' @export
-lsm_p_core.RasterBrick <- function(landscape, directions = 4) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape, directions = 4) {
+lsm_p_core.RasterBrick <- function(landscape, ...) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
+                   ..., .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_core
+#' @export
+lsm_p_core.list <- function(landscape, ...) {
     purrr::map_dfr(landscape, lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+                   ..., .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_core_calc <- function(landscape, directions){
+lsm_p_core_calc <- function(landscape, directions = 4){
 
     core_area <- landscape %>%
         cclabel() %>%
