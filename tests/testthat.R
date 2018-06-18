@@ -1,5 +1,6 @@
-# library(testthat)
-# library(landscapemetrics)
-#
-# test_check("landscapemetrics")
+library(testthat)
+library(landscapemetrics)
+library(dplyr)
+
+test_check("landscapemetrics")
 

@@ -11,35 +11,33 @@ status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badg
 
 # landscapemetrics
 
-`landscapemetrics` is an R package for calculating landscape metrics for
-categorical landscape patterns in a tidy workflow. It offers most of the
-metrics that are available in the standalone software FRAGSTATS
-(McGarigal, SA Cushman & Ene, 2012) but is supposed to implement also
-future (meaningful) categorical landscape metrics.
+**landscapemetrics** is an R package for calculating landscape metrics
+for categorical landscape patterns in a tidy workflow. It offers most of
+the metrics that are available in the standalone software FRAGSTATS
+(McGarigal, SA Cushman & Ene, 2012) but also allows for implementation
+of future (meaningful) categorical landscape metrics.
 
-This package offers support for `raster` spatial objects and takes
-`RasterLayer`, `RasterStacks`, `RasterBricks` or lists of
-`RasterLayer`as input arguments.
+This package supports `raster` spatial objects and takes `RasterLayer`,
+`RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input
+arguments.
 
-Every function can be used in a piped workflow, as it takes the data
-always as first argument and returns always a tibble of the same
-dimension.
+Every function can be used in a piped workflow, as it always takes the
+data as the first argument and returns a tibble of the same dimension.
 
 ## Installation
 
-<https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html>
-You can install landscapemetrics from GitHub with:
+You can install **landscapemetrics** from GitHub with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("marcosci/landscapemetrics")
 ```
 
-## Using `landscapemetrics`
+## Using landscapemetrics
 
-The functions in `landscapemetrics` are named as a combination of
-abbreviations describing the scale (patch, class or landscape level) and
-metric they implement:
+The functions in **landscapemetrics** starts with `lsm_` and next are
+named based on a combination of abbreviations describing the scale
+(patch - `p`, class - `c` or landscape - `l`) and metric they calculate:
 
     # landscapemetrics
     lsm_"level"_"metric" example:
@@ -72,12 +70,21 @@ quite straight forward:
 ``` r
 library(landscapemetrics)
 library(tidyverse)
+<<<<<<< HEAD
 #> ── Attaching packages ─────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
 #> ✔ tibble  1.4.2     ✔ dplyr   0.7.4
 #> ✔ tidyr   0.8.0     ✔ stringr 1.3.1
 #> ✔ readr   1.1.1     ✔ forcats 0.3.0
 #> ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+=======
+#> ── Attaching packages ─────────────────────────────────────────────── tidyverse 1.2.1 ──
+#> ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.5     
+#> ✔ tibble  1.4.2          ✔ dplyr   0.7.5     
+#> ✔ tidyr   0.8.1          ✔ stringr 1.3.1     
+#> ✔ readr   1.1.1          ✔ forcats 0.3.0
+#> ── Conflicts ────────────────────────────────────────────────── tidyverse_conflicts() ──
+>>>>>>> cca41ceb5a39413de713d1b50385cbb4df094aa6
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 
@@ -121,7 +128,7 @@ landscape %>%
 
 ### Connected labelling
 
-`landscapemetrics` makes internally heavy use of an implementatian of a
+`landscapemetrics` makes internally heavy use an implementatian of a
 connected labelling algorithm by Thell Fowler
 (<https://github.com/Thell/ccloutline>) and exports an reimplementation
 of this algorithm:
