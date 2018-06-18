@@ -84,9 +84,9 @@ lsm_c_te_calc <- function(landscape, count_boundary) {
                        cclabeled_raster[[x]][is.na(cclabeled_raster[[x]])] <- -999
 
                        if(isTRUE(count_boundary)){
-                       cclabeled_raster[[x]] <- padding(landscape = cclabeled_raster[[x]],
-                                                        padding_value = -999,
-                                                        padding_cells = 1)
+                       cclabeled_raster[[x]] <- pad_raster(landscape = cclabeled_raster[[x]],
+                                                        pad_raster_value = -999,
+                                                        pad_raster_cells = 1)
                        }
 
                        # compute neighborhood matrix

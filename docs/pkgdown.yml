@@ -1,5 +1,6 @@
 pandoc: 2.1.3
 pkgdown: 1.0.0.9000
 pkgdown_sha: 5eeb2aab0b68924bcde72ded0f7326070eaa0fa0
-articles: []
+articles:
+  kickstart: kickstart.html
 

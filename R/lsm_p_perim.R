@@ -60,7 +60,7 @@ lsm_p_perim.list <- function(landscape) {
 lsm_p_perim_calc <- function(landscape){
 
     perimeter_class <- landscape %>%
-        padding(padding_value = NA) %>%
+        pad_raster(pad_raster_value = NA) %>%
         cclabel() %>%
         unname() %>%
         purrr::map_dfr(function(x) {

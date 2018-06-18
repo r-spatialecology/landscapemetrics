@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Landscape Metrics for Categorical Map Patterns • landscapemetrics</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Landscape Metrics for Categorical Map Patterns">
@@ -45,6 +45,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/kickstart.html">Vignette Title</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -76,21 +88,20 @@
 <div id="landscapemetrics" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#landscapemetrics" class="anchor"></a>landscapemetrics</h1></div>
-<p><code>landscapemetrics</code> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman &amp; Ene, 2012) but is supposed to implement also future (meaningful) categorical landscape metrics.</p>
-<p>This package offers support for <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code>as input arguments.</p>
-<p>Every function can be used in a piped workflow, as it takes the data always as first argument and returns always a tibble of the same dimension.</p>
+<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman &amp; Ene, 2012) but also allows for implementation of future (meaningful) categorical landscape metrics.</p>
+<p>This package supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments.</p>
+<p>Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><a href="https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html" class="uri">https://www.sportschau.de/fifa-wm-2018/live/videostream-livestream---die-fussball-wm-mit-drei-spielen-100.html</a> You can install landscapemetrics from GitHub with:</p>
+<p>You can install <strong>landscapemetrics</strong> from GitHub with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"marcosci/landscapemetrics"</span>)</a></code></pre></div>
 </div>
 <div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
-<a href="#using-landscapemetrics" class="anchor"></a>Using <code>landscapemetrics</code>
-</h2>
-<p>The functions in <code>landscapemetrics</code> are named as a combination of abbreviations describing the scale (patch, class or landscape level) and metric they implement:</p>
+<a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
+<p>The functions in <strong>landscapemetrics</strong> starts with <code>lsm_</code> and next are named based on a combination of abbreviations describing the scale (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>) and metric they calculate:</p>
 <pre><code># landscapemetrics
 lsm_"level"_"metric" example:
 
@@ -148,12 +159,12 @@ lsm_l_enn()</code></pre>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(landscapemetrics)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; ── Attaching packages ─────────────────────────────────── tidyverse 1.2.1 ──</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; ── Attaching packages ─────────────── tidyverse 1.2.1 ──</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; ✔ ggplot2 2.2.1     ✔ purrr   0.2.4</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; ✔ tibble  1.4.2     ✔ dplyr   0.7.4</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ tidyr   0.8.0     ✔ stringr 1.3.1</span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ readr   1.1.1     ✔ forcats 0.3.0</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ── Conflicts ────────────────── tidyverse_conflicts() ──</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✖ dplyr::filter() masks stats::filter()</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ✖ dplyr::lag()    masks stats::lag()</span></a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"></a>

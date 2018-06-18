@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/journal/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -70,6 +70,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/kickstart.html">Vignette Title</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -108,23 +120,11 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-internal-datasets" class="hasAnchor"><a href="#section-internal-datasets" class="anchor"></a>Internal Datasets</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
-        
-        <td>
-          <p><code><a href="augusta_nlcd.html">augusta_nlcd</a></code> </p>
-        </td>
-        <td><p>Augusta NLCD 2011</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cclabel.html">cclabel()</a></code> </p>
-        </td>
-        <td><p>Connected compoment labeling for classes in a raster</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="landscape.html">landscape</a></code> </p>
@@ -139,10 +139,98 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="landscapemetrics.html">landscapemetrics</a></code> </p>
+          <p><code><a href="augusta_nlcd.html">augusta_nlcd</a></code> </p>
         </td>
-        <td><p>landscapemetrics</p></td>
+        <td><p>Augusta NLCD 2011</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="podlasie_ccilc.html">podlasie_ccilc</a></code> </p>
+        </td>
+        <td><p>Podlasie ESA CCI LC</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-patch-level-metrics" class="hasAnchor"><a href="#section-patch-level-metrics" class="anchor"></a>Patch Level Metrics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="lsm_p_area.html">lsm_p_area()</a></code> </p>
+        </td>
+        <td><p>Area  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_cai.html">lsm_p_cai()</a></code> </p>
+        </td>
+        <td><p>Core area index  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_circle.html">lsm_p_circle()</a></code> </p>
+        </td>
+        <td><p>Related Circumscribing Circle (CIRCLE)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_core.html">lsm_p_core()</a></code> </p>
+        </td>
+        <td><p>Core area (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_enn.html">lsm_p_enn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest-Neighbor Distance (ENN)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_frac.html">lsm_p_frac()</a></code> </p>
+        </td>
+        <td><p>Fractal dimension index  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_gyrate.html">lsm_p_gyrate()</a></code> </p>
+        </td>
+        <td><p>Radius of Gyration (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_ncore.html">lsm_p_ncore()</a></code> </p>
+        </td>
+        <td><p>Number of core areas (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_para.html">lsm_p_para()</a></code> </p>
+        </td>
+        <td><p>Perimeter-area ratio  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_perim.html">lsm_p_perim()</a></code> </p>
+        </td>
+        <td><p>Perimeter  (patch level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_p_shape.html">lsm_p_shape()</a></code> </p>
+        </td>
+        <td><p>Shape index  (patch level)</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-class-level-metrics" class="hasAnchor"><a href="#section-class-level-metrics" class="anchor"></a>Class Level Metrics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="lsm_c_area_cv.html">lsm_c_area_cv()</a></code> </p>
@@ -211,12 +299,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="lsm_c_core.html">lsm_c_core()</a></code> </p>
-        </td>
-        <td><p>Total core area (class level)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="lsm_c_core_cv.html">lsm_c_core_cv()</a></code> </p>
         </td>
         <td><p>Core area distribution (class level)</p></td>
@@ -232,6 +314,12 @@
           <p><code><a href="lsm_c_core_sd.html">lsm_c_core_sd()</a></code> </p>
         </td>
         <td><p>Core area distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_core.html">lsm_c_core()</a></code> </p>
+        </td>
+        <td><p>Total core area (class level)</p></td>
       </tr><tr>
         
         <td>
@@ -259,7 +347,19 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="lsm_c_enn_cv.html">lsm_c_enn_cv()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="lsm_c_enn_mn.html">lsm_c_enn_mn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_enn_sd.html">lsm_c_enn_sd()</a></code> </p>
         </td>
         <td><p>Euclidean Nearest Neighbor Distance Distribution (class level)</p></td>
       </tr><tr>
@@ -295,6 +395,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="lsm_c_iji.html">lsm_c_iji()</a></code> </p>
+        </td>
+        <td><p>Interspersion and Juxtaposition index (class level)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="lsm_c_lpi.html">lsm_c_lpi()</a></code> </p>
         </td>
         <td><p>Largest patch index (class level)</p></td>
@@ -313,12 +419,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="lsm_c_ncore.html">lsm_c_ncore()</a></code> </p>
-        </td>
-        <td><p>Number of core areas (class level)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="lsm_c_ncore_cv.html">lsm_c_ncore_cv()</a></code> </p>
         </td>
         <td><p>Number of core areas distribution (class level)</p></td>
@@ -334,6 +434,12 @@
           <p><code><a href="lsm_c_ncore_sd.html">lsm_c_ncore_sd()</a></code> </p>
         </td>
         <td><p>Number of core areas distribution (class level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_c_ncore.html">lsm_c_ncore()</a></code> </p>
+        </td>
+        <td><p>Number of core areas (class level)</p></td>
       </tr><tr>
         
         <td>
@@ -412,13 +518,15 @@
           <p><code><a href="lsm_c_te.html">lsm_c_te()</a></code> </p>
         </td>
         <td><p>Total Edge  (class level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_calculate.html">lsm_calculate()</a></code> </p>
-        </td>
-        <td><p>Calculate metrics</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-landscape-level-metrics" class="hasAnchor"><a href="#section-landscape-level-metrics" class="anchor"></a>Landscape Level Metrics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="lsm_l_area_cv.html">lsm_l_area_cv()</a></code> </p>
@@ -475,12 +583,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="lsm_l_core.html">lsm_l_core()</a></code> </p>
-        </td>
-        <td><p>Total area of core areas (landscape level)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="lsm_l_core_cv.html">lsm_l_core_cv()</a></code> </p>
         </td>
         <td><p>Core area distribution (landscape level)</p></td>
@@ -496,6 +598,12 @@
           <p><code><a href="lsm_l_core_sd.html">lsm_l_core_sd()</a></code> </p>
         </td>
         <td><p>Core area distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_core.html">lsm_l_core()</a></code> </p>
+        </td>
+        <td><p>Total area of core areas (landscape level)</p></td>
       </tr><tr>
         
         <td>
@@ -517,7 +625,19 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="lsm_l_enn_cv.html">lsm_l_enn_cv()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="lsm_l_enn_mn.html">lsm_l_enn_mn()</a></code> </p>
+        </td>
+        <td><p>Euclidean Nearest Neighbor Distance Distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_enn_sd.html">lsm_l_enn_sd()</a></code> </p>
         </td>
         <td><p>Euclidean Nearest Neighbor Distance Distribution (landscape level)</p></td>
       </tr><tr>
@@ -589,12 +709,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="lsm_l_ncore.html">lsm_l_ncore()</a></code> </p>
-        </td>
-        <td><p>Number of core areas (landscape level)</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="lsm_l_ncore_cv.html">lsm_l_ncore_cv()</a></code> </p>
         </td>
         <td><p>Number of core areas distribution (landscape level)</p></td>
@@ -610,6 +724,12 @@
           <p><code><a href="lsm_l_ncore_sd.html">lsm_l_ncore_sd()</a></code> </p>
         </td>
         <td><p>Number of core areas distribution (landscape level)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lsm_l_ncore.html">lsm_l_ncore()</a></code> </p>
+        </td>
+        <td><p>Number of core areas (landscape level)</p></td>
       </tr><tr>
         
         <td>
@@ -724,96 +844,6 @@
           <p><code><a href="lsm_l_te.html">lsm_l_te()</a></code> </p>
         </td>
         <td><p>Total Edge  (landscape level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_area.html">lsm_p_area()</a></code> </p>
-        </td>
-        <td><p>Area  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_cai.html">lsm_p_cai()</a></code> </p>
-        </td>
-        <td><p>Core area index  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_circle.html">lsm_p_circle()</a></code> </p>
-        </td>
-        <td><p>Related Circumscribing Circle (CIRCLE)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_core.html">lsm_p_core()</a></code> </p>
-        </td>
-        <td><p>Core area (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_enn.html">lsm_p_enn()</a></code> </p>
-        </td>
-        <td><p>Euclidean Nearest-Neighbor Distance (ENN)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_frac.html">lsm_p_frac()</a></code> </p>
-        </td>
-        <td><p>Fractal dimension index  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_gyrate.html">lsm_p_gyrate()</a></code> </p>
-        </td>
-        <td><p>Radius of Gyration (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_gyrate_mn.html">lsm_p_gyrate_mn()</a></code> </p>
-        </td>
-        <td><p>Radius of Gyration Distribution (class level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_ncore.html">lsm_p_ncore()</a></code> </p>
-        </td>
-        <td><p>Number of core areas (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_para.html">lsm_p_para()</a></code> </p>
-        </td>
-        <td><p>Perimeter-area ratio  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_perim.html">lsm_p_perim()</a></code> </p>
-        </td>
-        <td><p>Perimeter  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lsm_p_shape.html">lsm_p_shape()</a></code> </p>
-        </td>
-        <td><p>Shape index  (patch level)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="padding.html">padding()</a></code> </p>
-        </td>
-        <td><p>Padding</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="podlasie_ccilc.html">podlasie_ccilc</a></code> </p>
-        </td>
-        <td><p>Podlasie ESA CCI LC</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="show_patches.html">show_patches()</a></code> </p>
-        </td>
-        <td><p>Plot connected labeld</p></td>
       </tr>
     </tbody>
     </table>
@@ -822,7 +852,10 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-internal-datasets">Internal Datasets</a></li>
+      <li><a href="#section-patch-level-metrics">Patch Level Metrics</a></li>
+      <li><a href="#section-class-level-metrics">Class Level Metrics</a></li>
+      <li><a href="#section-landscape-level-metrics">Landscape Level Metrics</a></li>
     </ul>
   </div>
 </div>

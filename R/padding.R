@@ -1,18 +1,18 @@
-#' Padding
+#' pad_raster
 #'
 #' @description Adding padding to raster
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param padding_value value of cells added
-#' @param padding_cells Number of rows and columns added
+#' @param pad_raster_value Value of cells added
+#' @param pad_raster_cells Number of rows and columns added
 #'
 #' @return raster
 #'
 #' @examples
-#' padding(landscape)
+#' pad_raster(landscape)
 #'
-#' @aliases padding
-#' @rdname padding
+#' @aliases pad_raster
+#' @rdname pad_raster
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -20,46 +20,46 @@
 #'  PNW-351.
 #'
 #' @export
-padding <- function(landscape, padding_value, padding_cells) UseMethod("padding")
+pad_raster <- function(landscape, pad_raster_value, pad_raster_cells) UseMethod("pad_raster")
 
-#' @name padding
+#' @name pad_raster
 #' @export
-padding.RasterLayer <- function(landscape, padding_value = -999, padding_cells = 1) {
-    padding_internal(landscape, padding_value, padding_cells)
+pad_raster.RasterLayer <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+    pad_raster_internal(landscape, pad_raster_value, pad_raster_cells)
 }
 
-#' @name padding
+#' @name pad_raster
 #' @export
-padding.RasterStack <- function(landscape, padding_value = -999, padding_cells = 1) {
-    purrr::map(raster::as.list(landscape), padding_internal,
-               padding_value = padding_value, padding_cells = padding_cells)
+pad_raster.RasterStack <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+    purrr::map(raster::as.list(landscape), pad_raster_internal,
+               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
 }
 
-#' @name padding
+#' @name pad_raster
 #' @export
-padding.RasterBrick <- function(landscape, padding_value = -999, padding_cells = 1) {
-    purrr::map(raster::as.list(landscape), padding_internal,
-               padding_value = padding_value, padding_cells = padding_cells)
+pad_raster.RasterBrick <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+    purrr::map(raster::as.list(landscape), pad_raster_internal,
+               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
 }
 
-#' @name padding
+#' @name pad_raster
 #' @export
-padding.list <- function(landscape, padding_value = -999, padding_cells = 1) {
-    purrr::map(landscape, padding_internal,
-               padding_value = padding_value, padding_cells = padding_cells)
+pad_raster.list <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+    purrr::map(landscape, pad_raster_internal,
+               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
 }
 
-padding_internal <- function(landscape, padding_value, padding_cells){
+pad_raster_internal <- function(landscape, pad_raster_value, pad_raster_cells){
     landscape_matrix <- raster::as.matrix(landscape)
 
-    for(i in seq_len(padding_cells)){
-        landscape_matrix <- rbind(padding_value,
+    for(i in seq_len(pad_raster_cells)){
+        landscape_matrix <- rbind(pad_raster_value,
                                   landscape_matrix,
-                                  padding_value,
+                                  pad_raster_value,
                                   deparse.level = 0)
-        landscape_matrix <- cbind(padding_value,
+        landscape_matrix <- cbind(pad_raster_value,
                                   landscape_matrix,
-                                  padding_value,
+                                  pad_raster_value,
                                   deparse.level = 0)
     }
 
@@ -67,9 +67,9 @@ padding_internal <- function(landscape, padding_value, padding_cells){
 
     raster::extent(landscape_padded) <- c(
         raster::xmin(landscape),
-        (raster::xmax(landscape) + 2 * padding_cells) * raster::res(landscape)[1],
+        (raster::xmax(landscape) + 2 * pad_raster_cells) * raster::res(landscape)[1],
         raster::xmin(landscape),
-        (raster::xmax(landscape) + 2 * padding_cells) * raster::res(landscape)[2]
+        (raster::xmax(landscape) + 2 * pad_raster_cells) * raster::res(landscape)[2]
     )
 
     return(landscape_padded)

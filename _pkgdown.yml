@@ -1,0 +1,140 @@
+title: landscapemetrics
+
+template:
+  params:
+   bootswatch: journal
+
+reference:
+  - title: Internal Datasets
+    contents:
+    - landscape
+    - landscape_stack
+    - augusta_nlcd
+    - podlasie_ccilc
+  - title: Auxiliary functions
+    contents:
+    - cclabel
+    - pad_raster
+  - title: Patch Level Metrics
+    contents:
+     - lsm_p_area
+     - lsm_p_cai
+     - lsm_p_circle
+     - lsm_p_core
+     - lsm_p_enn
+     - lsm_p_frac
+     - lsm_p_gyrate
+     - lsm_p_ncore
+     - lsm_p_para
+     - lsm_p_perim
+     - lsm_p_prox
+     - lsm_p_shape
+  - title: Class Level Metrics
+    contents:
+    - lsm_c_area_cv
+    - lsm_c_area_mn
+    - lsm_c_area_sd
+    - lsm_c_ca
+    - lsm_c_cai_cv
+    - lsm_c_cai_mn
+    - lsm_c_cai_sd
+    - lsm_c_circle_cv
+    - lsm_c_circle_mn
+    - lsm_c_circle_sd
+    - lsm_c_cohesion
+    - lsm_c_core_cv
+    - lsm_c_core_mn
+    - lsm_c_core_sd
+    - lsm_c_core
+    - lsm_c_cpland
+    - lsm_c_dcad
+    - lsm_c_division
+    - lsm_c_ed
+    - lsm_c_enn_cv
+    - lsm_c_enn_mn
+    - lsm_c_enn_sd
+    - lsm_c_frac_cv
+    - lsm_c_frac_mn
+    - lsm_c_frac_sd
+    - lsm_c_gyrate_cv
+    - lsm_c_gyrate_mn
+    - lsm_c_gyrate_sd
+    - lsm_c_iji
+    - lsm_c_lpi
+    - lsm_c_lsi
+    - lsm_c_mesh
+    - lsm_c_ncore_cv
+    - lsm_c_ncore_mn
+    - lsm_c_ncore_sd
+    - lsm_c_ncore
+    - lsm_c_np
+    - lsm_c_pafrac
+    - lsm_c_para_cv
+    - lsm_c_para_mn
+    - lsm_c_para_sd
+    - lsm_c_pd
+    - lsm_c_pladj
+    - lsm_c_pland
+    - lsm_c_shape_cv
+    - lsm_c_shape_mn
+    - lsm_c_shape_sd
+    - lsm_c_split
+    - lsm_c_te
+  - title: Landscape Level Metrics
+    contents:
+    - lsm_l_area_cv
+    - lsm_l_area_mn
+    - lsm_l_area_sd
+    - lsm_l_cai_cv
+    - lsm_l_cai_mn
+    - lsm_l_cai_sd
+    - lsm_l_circle_cv
+    - lsm_l_circle_mn
+    - lsm_l_circle_sd
+    - lsm_l_core_cv
+    - lsm_l_core_mn
+    - lsm_l_core_sd
+    - lsm_l_core
+    - lsm_l_dcad
+    - lsm_l_division
+    - lsm_l_ed
+    - lsm_l_enn_cv
+    - lsm_l_enn_mn
+    - lsm_l_enn_sd
+    - lsm_l_frac_cv
+    - lsm_l_frac_mn
+    - lsm_l_frac_sd
+    - lsm_l_gyrate_cv
+    - lsm_l_gyrate_mn
+    - lsm_l_gyrate_sd
+    - lsm_l_lpi
+    - lsm_l_lsi
+    - lsm_l_mesh
+    - lsm_l_msidi
+    - lsm_l_msiei
+    - lsm_l_ncore_cv
+    - lsm_l_ncore_mn
+    - lsm_l_ncore_sd
+    - lsm_l_ncore
+    - lsm_l_np
+    - lsm_l_pafrac
+    - lsm_l_para_cv
+    - lsm_l_para_mn
+    - lsm_l_para_sd
+    - lsm_l_pd
+    - lsm_l_pr
+    - lsm_l_prd
+    - lsm_l_rpr
+    - lsm_l_shape_cv
+    - lsm_l_shape_mn
+    - lsm_l_shape_sd
+    - lsm_l_shdi
+    - lsm_l_shei
+    - lsm_l_sidi
+    - lsm_l_siei
+    - lsm_l_split
+    - lsm_l_ta
+    - lsm_l_te
+
+
+

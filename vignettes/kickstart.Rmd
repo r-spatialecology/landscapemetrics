@@ -1,0 +1,50 @@
+---
+title: "landscapemetrics"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+
+## Using *landscapemetrics*
+
+
+```{r}
+# Import raster
+
+# Calculate landscape metrics 
+
+```
+
+
+### Using landscapemetrics in a tidy workflow
+
+#### Use multiple metric functions
+We think that it is in general not advisable to use `lsm_calculate` in a 
+research analysis, since you can't use that many correlated metrics in a 
+meaningful blabla.
+
+
+```{r}
+
+patch_metrics <-  dplyr::bind_rows(
+  lsm_p_cai(landscape),
+  lsm_p_circle(landscape),
+  lsm_p_enn(landscape)
+  )
+
+patch_metrics
+```

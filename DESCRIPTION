@@ -33,7 +33,9 @@ Imports:
     tibble
 Suggests: 
     covr,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 LinkingTo: 
     Rcpp,
     RcppArmadillo
@@ -43,3 +45,4 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 SystemRequirements: C++11
+VignetteBuilder: knitr

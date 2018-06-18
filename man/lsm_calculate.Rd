@@ -12,15 +12,18 @@
 \alias{lsm_calculate.list}
 \title{Calculate metrics}
 \usage{
-lsm_calculate(landscape, what, ...)
+lsm_calculate(landscape, what, classes_max = NULL, ...)
 
 \method{lsm_calculate}{RasterLayer}(landscape, what = "all", ...)
 
-\method{lsm_calculate}{RasterStack}(landscape, what = "all", ...)
+\method{lsm_calculate}{RasterStack}(landscape, what = "all",
+  classes_max = NULL, ...)
 
-\method{lsm_calculate}{RasterBrick}(landscape, what = "all", ...)
+\method{lsm_calculate}{RasterBrick}(landscape, what = "all",
+  classes_max = NULL, ...)
 
-\method{lsm_calculate}{list}(landscape, what = "all", ...)
+\method{lsm_calculate}{list}(landscape, what = "all", classes_max = NULL,
+  ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

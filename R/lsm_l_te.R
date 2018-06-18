@@ -76,9 +76,9 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
 lsm_l_te_calc <- function(landscape, count_boundary){
 
     if(isTRUE(count_boundary)){
-        landscape <- padding(landscape = landscape,
-                             padding_value = max(raster::values(landscape)) + 1,
-                             padding_cells = 1)
+        landscape <- pad_raster(landscape = landscape,
+                             pad_raster_value = max(raster::values(landscape)) + 1,
+                             pad_raster_cells = 1)
     }
 
 
