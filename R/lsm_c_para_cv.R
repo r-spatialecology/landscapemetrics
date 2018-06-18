@@ -60,9 +60,10 @@ lsm_c_para_cv.list <- function(landscape) {
 
 lsm_c_para_cv_calc <- function(landscape){
 
-    para_cv <- lsm_p_para(landscape) %>%
+    para_cv <- landscape %>%
+        lsm_p_para_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value))
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

@@ -1,117 +1,3 @@
-#
-# cclabeled_raster <- cclabel(landscape)
-#
-# cclabel_points <- purrr::map(seq_along(cclabeled_raster),
-#                              function(x) {
-#                                  purrr::map(raster::unique(cclabeled_raster[[x]]),
-#                                             function(y) {
-#                                                 raster::rasterToPoints(
-#                                                     cclabeled_raster[[x]],
-#                                                     fun = function(z) {
-#                                                         z == y
-#                                                     }
-#                                                 )
-#                                             })
-#                              })
-#
-#
-# cclabel_points_dist <- purrr::map(seq_along(cclabel_points),
-#                                   function(x) {
-#                                       purrr::map(seq_along(cclabel_points[[x]]), function(y) {
-#                                           purrr::map(seq_along(cclabel_points[[x]]), function(z) {
-#                                               x <- raster::pointDistance(cclabel_points[[x]][[y]][, 1:2],
-#                                                                          cclabel_points[[x]][[z]][, 1:2],
-#                                                                          lonlat = FALSE)
-#                                               tibble::as.tibble(x)
-#                                           })
-#                                       })
-#                                   })
-#
-#
-#
-# cclabel_points_prox  <- purrr::map(seq_along(cclabel_points_dist),function(x) {
-#     purrr::map(seq_along(cclabel_points_dist[[x]]), function(y) {
-#         purrr::map(seq_along(cclabel_points_dist[[x]][[y]]), function(z) {
-#
-#             sum(cclabel_points_dist[[x]][[y]][[z]] > prox_radius) / min(cclabel_points_dist[[x]][[y]][[z]])
-#
-#         })
-#     })
-# })
-#
-# cclabel_points_prox  <- purrr::map(seq_along(cclabel_points_prox),function(x) {
-#     purrr::map(seq_along(cclabel_points_prox[[x]]), function(y) {
-#         sum(unlist(cclabel_points_prox[[x]][[y]]), na.rm = T)
-#     })
-# })
-#
-#
-# tibble::tibble(
-#     level = "patch",
-#     class = unlist(purrr::map(seq_along(cclabel_points_prox), function(x){
-#         rep(x, length(cclabel_points_prox[[x]]))
-#     })),
-#     id = seq_len(length(unlist(cclabel_points_prox))),
-#     metric = "proximity index",
-#     value = unlist(cclabel_points_prox)
-# ) %>% View()
-#
-# cclabeled_raster <- cclabel(landscape)
-#
-# cclabel_points <- purrr::map(seq_along(cclabeled_raster),
-#                              function(x) {
-#                                  purrr::map(raster::unique(cclabeled_raster[[x]]),
-#                                             function(y) {
-#                                                 raster::rasterToPoints(
-#                                                     cclabeled_raster[[x]],
-#                                                     fun = function(z) {
-#                                                         z == y
-#                                                     }
-#                                                 )
-#                                             })
-#                              })
-#
-#
-# cclabel_points_dist <- purrr::map(seq_along(cclabel_points),
-#                                   function(x) {
-#                                       purrr::map(seq_along(cclabel_points[[x]]), function(y) {
-#                                           purrr::map(seq_along(cclabel_points[[x]]), function(z) {
-#                                               x <- raster::pointDistance(cclabel_points[[x]][[y]][, 1:2],
-#                                                                          cclabel_points[[x]][[z]][, 1:2],
-#                                                                          lonlat = FALSE)
-#                                               tibble::as.tibble(x)
-#                                           })
-#                                       })
-#                                   })
-#
-#
-#
-# cclabel_points_prox  <- purrr::map(seq_along(cclabel_points_dist),function(x) {
-#     purrr::map(seq_along(cclabel_points_dist[[x]]), function(y) {
-#         purrr::map(seq_along(cclabel_points_dist[[x]][[y]]), function(z) {
-#
-#             sum(cclabel_points_dist[[x]][[y]][[z]] > prox_radius) / min(cclabel_points_dist[[x]][[y]][[z]])
-#
-#         })
-#     })
-# })
-#
-# cclabel_points_prox  <- purrr::map(seq_along(cclabel_points_prox),function(x) {
-#     purrr::map(seq_along(cclabel_points_prox[[x]]), function(y) {
-#         sum(unlist(cclabel_points_prox[[x]][[y]]), na.rm = T)
-#     })
-# })
-#
-#
-# tibble::tibble(
-#     level = "patch",
-#     class = unlist(purrr::map(seq_along(cclabel_points_prox), function(x){
-#         rep(x, length(cclabel_points_prox[[x]]))
-#     })),
-#     id = seq_len(length(unlist(cclabel_points_prox))),
-#     metric = "proximity index",
-#     value = unlist(cclabel_points_prox)
-# ) %>% View()
 #' Total class area (class level)
 #'
 #' @description Total area of class (class level)
@@ -173,9 +59,9 @@ lsm_c_ca.list <- function(landscape) {
 
 lsm_c_ca_calc <- function(landscape) {
     total_area <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value))
+        dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

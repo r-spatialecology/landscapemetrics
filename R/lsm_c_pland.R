@@ -65,9 +65,9 @@ lsm_c_pland.list <- function(landscape) {
 lsm_c_pland_calc <- function(landscape){
 
     pland <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value)) %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = value / sum(value) * 100)
 
     tibble::tibble(

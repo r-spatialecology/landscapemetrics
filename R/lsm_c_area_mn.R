@@ -62,9 +62,9 @@ lsm_c_area_mn.list <- function(landscape) {
 lsm_c_area_mn_calc <- function(landscape){
 
     area_mean <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value))
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

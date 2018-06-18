@@ -61,9 +61,9 @@ lsm_c_shape_cv.list <- function(landscape) {
 lsm_c_shape_cv_calc <- function(landscape){
 
     shape_cv <- landscape %>%
-        lsm_p_shape() %>%
+        lsm_p_shape_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value))
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

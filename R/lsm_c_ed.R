@@ -75,10 +75,10 @@ lsm_c_ed.list <- function(landscape, count_boundary = FALSE) {
 
 lsm_c_ed_calc <- function(landscape, count_boundary) {
 
-    area_landscape <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
     ed <- landscape %>%
-        lsm_c_te(count_boundary = count_boundary) %>%
+        lsm_c_te_calc(count_boundary = count_boundary) %>%
         dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(

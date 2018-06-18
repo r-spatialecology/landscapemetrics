@@ -60,9 +60,10 @@ lsm_c_para_sd.list <- function(landscape) {
 
 lsm_c_para_sd_calc <- function(landscape){
 
-    para_sd <- lsm_p_para(landscape) %>%
+    para_sd <- landscape %>%
+        lsm_p_para() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = stats::sd(value))
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

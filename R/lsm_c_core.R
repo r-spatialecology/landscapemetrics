@@ -68,9 +68,9 @@ lsm_c_core.list <- function(landscape, directions = 4) {
 
 lsm_c_core_calc <- function(landscape, directions){
     core_area <- landscape %>%
-        lsm_p_core(directions = directions) %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value))
+        dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

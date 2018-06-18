@@ -58,13 +58,13 @@ lsm_c_lpi.list <- function(landscape) {
 
 lsm_c_lpi_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta(landscape)
+    total_area <- lsm_l_ta_calc(landscape)
 
     lpi <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value / total_area$value * 100) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = max(value))
+        dplyr::summarise(value = max(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

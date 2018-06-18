@@ -60,9 +60,9 @@ lsm_c_cai_mn.list <- function(landscape) {
 
 lsm_c_cai_mn_calc <- function(landscape){
     cai_mean <- landscape %>%
-        lsm_p_cai() %>%
+        lsm_p_cai_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value))
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

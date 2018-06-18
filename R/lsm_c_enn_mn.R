@@ -63,13 +63,13 @@ lsm_c_enn_mn.list <- function(landscape) {
 
 lsm_c_enn_mn_calc <- function(landscape) {
 
-    enn_mn  <- lsm_p_enn_calc(landscape) %>%
+    enn_mn  <- lsm_p_enn(landscape) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",
-        class = seq_len(nrow(enn_mn)),
+        class = enn_mn$class,
         id = as.integer(NA),
         metric = "euclidean nearest neighbor distance distribution (mean)",
         value = enn_mn$value

@@ -70,10 +70,10 @@ lsm_c_cpland.list <- function(landscape, directions = 4) {
 
 lsm_c_cpland_calc <- function(landscape, directions){
 
-    total_area <- lsm_l_ta(landscape)
+    total_area <- lsm_l_ta_calc(landscape)
 
     cpland <- landscape %>%
-        lsm_c_core(directions = directions) %>%
+        lsm_c_core_calc(directions = directions) %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(

@@ -73,15 +73,15 @@ lsm_c_iji.list <- function(landscape, count_boundary = FALSE) {
 # Not working currently
 lsm_c_iji_calc <- function(landscape, count_boundary) {
 
-    edge_class <- lsm_c_te(landscape)
-    pr <- lsm_l_pr(landscape)
+    edge_class <- lsm_c_te_calc(landscape)
+    pr <- lsm_l_pr_calc(landscape)
 
     iji <- landscape %>%
-        lsm_p_perim() %>%
+        lsm_p_perim_calc() %>%
         dplyr::mutate(value = (value / edge_class$value[class]) *
                           log((value / edge_class$value[class]))) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = -sum(value)) %>%
+        dplyr::summarise(value = -sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = (value / log(pr$value - 1)) * 100)
 
     tibble::tibble(

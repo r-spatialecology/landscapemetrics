@@ -60,9 +60,9 @@ lsm_c_cai_sd.list <- function(landscape) {
 
 lsm_c_cai_sd_calc <- function(landscape){
     cai_sd <- landscape %>%
-        lsm_p_cai() %>%
+        lsm_p_cai_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = stats::sd(value))
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

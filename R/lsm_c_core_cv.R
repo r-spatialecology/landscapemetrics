@@ -64,9 +64,9 @@ lsm_c_core_cv.list <- function(landscape) {
 lsm_c_core_cv_calc <- function(landscape){
 
     core_cv <- landscape %>%
-        lsm_p_core() %>%
+        lsm_p_core_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value))
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

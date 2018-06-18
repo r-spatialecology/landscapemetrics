@@ -15,10 +15,10 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_gyrate_mn(landscape)
+#' lsm_c_gyrate_mn(landscape)
 #'
-#' @aliases lsm_p_gyrate_mn
-#' @rdname lsm_p_gyrate_mn
+#' @aliases lsm_c_gyrate_mn
+#' @rdname lsm_c_gyrate_mn
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -26,42 +26,43 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_gyrate_mn <- function(landscape) UseMethod("lsm_p_gyrate_mn")
+lsm_c_gyrate_mn <- function(landscape) UseMethod("lsm_c_gyrate_mn")
 
-#' @name lsm_p_gyrate_mn
+#' @name lsm_c_gyrate_mn
 #' @export
-lsm_p_gyrate_mn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_mn_calc, .id = "layer") %>%
+lsm_c_gyrate_mn.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_gyrate_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_p_gyrate_mn
+#' @name lsm_c_gyrate_mn
 #' @export
-lsm_p_gyrate_mn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_mn_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_gyrate_mn
-#' @export
-lsm_p_gyrate_mn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_mn_calc, .id = "layer") %>%
+lsm_c_gyrate_mn.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_gyrate_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_p_gyrate_mn
+#' @name lsm_c_gyrate_mn
 #' @export
-lsm_p_gyrate_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_gyrate_mn_calc, .id = "layer") %>%
+lsm_c_gyrate_mn.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_gyrate_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_gyrate_mn_calc <- function(landscape) {
+#' @name lsm_c_gyrate_mn
+#' @export
+lsm_c_gyrate_mn.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_c_gyrate_mn_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    gyrate_mn  <- lsm_p_gyrate_calc(landscape) %>%
+}
+
+lsm_c_gyrate_mn_calc <- function(landscape) {
+
+    gyrate_mn  <- landscape %>%
+        lsm_p_gyrate_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 

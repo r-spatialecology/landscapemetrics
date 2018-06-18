@@ -62,7 +62,8 @@ lsm_c_circle_cv.list <- function(landscape) {
 
 lsm_c_circle_cv_calc <- function(landscape) {
 
-    circle_mn  <- lsm_p_circle_calc(landscape) %>%
+    circle_mn  <- landscpae %>%
+        lsm_p_circle_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 

@@ -58,8 +58,11 @@ lsm_c_lsi.list <- function(landscape) {
 
 lsm_c_lsi_calc <- function(landscape) {
 
-    edges_class <- lsm_c_te(landscape) # Needs to include also edge to background
-    area_landscape <- lsm_l_ta(landscape) %>%
+    edges_class <- landscape %>%
+        lsm_c_te_calc() # Needs to include also edge to background
+
+    area_landscape <- landscape %>%
+        lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000)
 
     lsi <- (0.25 * edges_class$value) / sqrt(area_landscape$value)
