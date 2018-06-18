@@ -12,15 +12,15 @@
 \alias{lsm_c_cpland.list}
 \title{Core area percentage of landscape (class level)}
 \usage{
-lsm_c_cpland(landscape, ...)
+lsm_c_cpland(landscape, directions)
 
-\method{lsm_c_cpland}{RasterLayer}(landscape, ...)
+\method{lsm_c_cpland}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_cpland}{RasterStack}(landscape, ...)
+\method{lsm_c_cpland}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_cpland}{RasterBrick}(landscape, ...)
+\method{lsm_c_cpland}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_cpland}{list}(landscape, ...)
+\method{lsm_c_cpland}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

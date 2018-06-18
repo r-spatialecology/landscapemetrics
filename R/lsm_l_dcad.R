@@ -3,7 +3,7 @@
 #' @description Disjunct core area density (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 #'
 #' @details
 #' Disjunct core area density equals the sum of number of core areas of the
@@ -31,49 +31,49 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_dcad <- function(landscape, ...) UseMethod("lsm_l_dcad")
+lsm_l_dcad <- function(landscape, directions) UseMethod("lsm_l_dcad")
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.RasterLayer <- function(landscape, ...) {
+lsm_l_dcad.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.RasterStack <- function(landscape, ...) {
+lsm_l_dcad.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_dcad
-#' @export
-lsm_l_dcad.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.list <- function(landscape, ...) {
+lsm_l_dcad.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_dcad
+#' @export
+lsm_l_dcad.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_l_dcad_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_dcad_calc <- function(landscape, ...){
+lsm_l_dcad_calc <- function(landscape, directions = 8){
 
     total_area <- lsm_l_ta_calc(landscape)
 
     dcad <- landscape %>%
-        lsm_p_ncore(...) %>%
+        lsm_p_ncore(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = value / total_area$value) # Correct unit?
 

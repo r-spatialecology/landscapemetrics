@@ -3,7 +3,7 @@
 #' @description Coefficient of variation of core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 
 #' @details
 #' Equals the coeffiecent of variation of the core area index of class i.
@@ -27,46 +27,46 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cai_cv <- function(landscape, ...) UseMethod("lsm_c_cai_cv")
+lsm_c_cai_cv <- function(landscape, directions) UseMethod("lsm_c_cai_cv")
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.RasterLayer <- function(landscape, ...) {
+lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.RasterStack <- function(landscape, ...) {
+lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_cai_cv
-#' @export
-lsm_c_cai_cv.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.list <- function(landscape, ...) {
+lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_cai_cv
+#' @export
+lsm_c_cai_cv.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_c_cai_cv_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_cai_cv_calc <- function(landscape, ...){
+lsm_c_cai_cv_calc <- function(landscape, directions = 8){
     cai_cv <- landscape %>%
-        lsm_p_cai_calc(...) %>%
+        lsm_p_cai_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 

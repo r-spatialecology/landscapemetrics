@@ -3,7 +3,7 @@
 #' @description Mean of patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 
 #' @details
 #' Equals the mean of the patch core area of class i. The core area is
@@ -29,47 +29,47 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_core_mn <- function(landscape, ...) UseMethod("lsm_c_core_mn")
+lsm_c_core_mn <- function(landscape, directions) UseMethod("lsm_c_core_mn")
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.RasterLayer <- function(landscape, ...) {
+lsm_c_core_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_mn_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.RasterStack <- function(landscape, ...) {
+lsm_c_core_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_mn_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_core_mn
-#' @export
-lsm_c_core_mn.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_core_mn_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.list <- function(landscape, ...) {
+lsm_c_core_mn.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_core_mn_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_core_mn
+#' @export
+lsm_c_core_mn.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_c_core_mn_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_core_mn_calc <- function(landscape, ...){
+lsm_c_core_mn_calc <- function(landscape, directions = 8){
 
     core_mean <- landscape %>%
-        lsm_p_core_calc(...) %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

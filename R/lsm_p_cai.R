@@ -3,7 +3,7 @@
 #' @description Core area index of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 
 #' @details
 #' The core area index equals the percentage of a patch that is core area
@@ -27,51 +27,51 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_cai <- function(landscape, ...) UseMethod("lsm_p_cai")
+lsm_p_cai <- function(landscape, directions) UseMethod("lsm_p_cai")
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.RasterLayer <- function(landscape, ...) {
+lsm_p_cai.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.RasterStack <- function(landscape, ...) {
+lsm_p_cai.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_cai
-#' @export
-lsm_p_cai.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_cai
 #' @export
-lsm_p_cai.list <- function(landscape, ...) {
+lsm_p_cai.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_cai_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_cai
+#' @export
+lsm_p_cai.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_p_cai_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_cai_calc <- function(landscape, ...){
+lsm_p_cai_calc <- function(landscape, directions = 8){
 
     area <- landscape%>%
         lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
     cai <- landscape %>%
-        lsm_p_core_calc(...) %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::mutate(value = value * 10000 / area$value * 100)
 
     tibble::tibble(

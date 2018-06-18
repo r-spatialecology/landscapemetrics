@@ -10,18 +10,18 @@
 \alias{lsm_l_rpr.RasterBrick}
 \title{Relative patch richness (landscape level)}
 \usage{
-lsm_l_rpr(landscape, ...)
+lsm_l_rpr(landscape, classes_max)
 
-\method{lsm_l_rpr}{RasterLayer}(landscape, ...)
+\method{lsm_l_rpr}{RasterLayer}(landscape, classes_max = NULL)
 
-\method{lsm_l_rpr}{RasterStack}(landscape, ...)
+\method{lsm_l_rpr}{RasterStack}(landscape, classes_max = NULL)
 
-\method{lsm_l_rpr}{RasterBrick}(landscape, ...)
+\method{lsm_l_rpr}{RasterBrick}(landscape, classes_max = NULL)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{classes_max}{xxx}
+\item{classes_max}{???}
 }
 \value{
 tibble

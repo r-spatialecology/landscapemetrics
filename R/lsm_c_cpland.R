@@ -31,50 +31,50 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cpland <- function(landscape, ...) UseMethod("lsm_c_cpland")
+lsm_c_cpland <- function(landscape, directions) UseMethod("lsm_c_cpland")
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.RasterLayer <- function(landscape, ...) {
+lsm_c_cpland.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.RasterStack <- function(landscape, ...) {
+lsm_c_cpland.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
                    directions = directions,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.RasterBrick <- function(landscape, ...) {
+lsm_c_cpland.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cpland
 #' @export
-lsm_c_cpland.list <- function(landscape, ...) {
+lsm_c_cpland.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_c_cpland_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_cpland_calc <- function(landscape, ...){
+lsm_c_cpland_calc <- function(landscape, directions = 8){
 
     total_area <- lsm_l_ta_calc(landscape)
 
     cpland <- landscape %>%
-        lsm_c_core_calc(...) %>%
+        lsm_c_core_calc(directions = directions) %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(

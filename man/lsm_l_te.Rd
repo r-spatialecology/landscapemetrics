@@ -12,20 +12,20 @@
 \alias{lsm_l_te.list}
 \title{Total Edge  (landscape level)}
 \usage{
-lsm_l_te(landscape, ...)
+lsm_l_te(landscape, count_boundary)
 
-\method{lsm_l_te}{RasterLayer}(landscape, ...)
+\method{lsm_l_te}{RasterLayer}(landscape, count_boundary = FALSE)
 
-\method{lsm_l_te}{RasterStack}(landscape, ...)
+\method{lsm_l_te}{RasterStack}(landscape, count_boundary = FALSE)
 
-\method{lsm_l_te}{RasterBrick}(landscape, ...)
+\method{lsm_l_te}{RasterBrick}(landscape, count_boundary = FALSE)
 
-\method{lsm_l_te}{list}(landscape, ...)
+\method{lsm_l_te}{list}(landscape, count_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
+\item{count_boundary}{???}
 }
 \value{
 tibble

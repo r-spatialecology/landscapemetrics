@@ -3,7 +3,7 @@
 #' @description Area of core area of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ...
+#' @param directions ???
 #'
 #' @details
 #' Equals the area within a patch that is not on the edge of the patch. In other words,
@@ -29,44 +29,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_core <- function(landscape, ...) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape, ...) {
+lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape, ...) {
+lsm_p_core.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_core
-#' @export
-lsm_p_core.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape, ...) {
+lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_core
+#' @export
+lsm_p_core.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_p_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_core_calc <- function(landscape, directions = 4){
+lsm_p_core_calc <- function(landscape, directions = 8){
 
     core_area <- landscape %>%
         cclabel() %>%

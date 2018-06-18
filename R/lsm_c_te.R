@@ -28,35 +28,24 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_te <- function(landscape, ...) UseMethod("lsm_c_te")
+lsm_c_te <- function(landscape, count_boundary) UseMethod("lsm_c_te")
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterLayer <- function(landscape, ...) {
+lsm_c_te.RasterLayer <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   ...,
+                   count_boundary = count_boundary,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterStack <- function(landscape, ...) {
+lsm_c_te.RasterStack <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   ...,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   ....,
+                   count_boundary = count_boundary,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -64,10 +53,21 @@ lsm_c_te.RasterBrick <- function(landscape, ...) {
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.list <- function(landscape, ...) {
+lsm_c_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
-                   ...,
+                   count_boundary = count_boundary,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_te
+#' @export
+lsm_c_te.list <- function(landscape, count_boundary = FALSE) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   count_boundary = count_boundary,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 

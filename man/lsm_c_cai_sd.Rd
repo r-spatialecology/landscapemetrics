@@ -12,20 +12,20 @@
 \alias{lsm_c_cai_sd.list}
 \title{Core area index distribution (class level)}
 \usage{
-lsm_c_cai_sd(landscape, ...)
+lsm_c_cai_sd(landscape, directions)
 
-\method{lsm_c_cai_sd}{RasterLayer}(landscape, ...)
+\method{lsm_c_cai_sd}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_cai_sd}{RasterStack}(landscape, ...)
+\method{lsm_c_cai_sd}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_cai_sd}{RasterBrick}(landscape, ...)
+\method{lsm_c_cai_sd}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_cai_sd}{list}(landscape, ...)
+\method{lsm_c_cai_sd}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{...}{Specific arguments for certain functions, if not provided they fall back to default.
+\item{directions}{???
 Equals the standard deviation of the core area index of class i.
 The core area index equals the percentage of a patch that is core area
 \deqn{CAI_SD = sd(CAI[patch_i]}

@@ -3,7 +3,7 @@
 #' @description Total core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 #'
 #' @details
 #' Equals the area within a patch that is not on the edge of the patch of class i.
@@ -29,46 +29,46 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_core <- function(landscape, ...) UseMethod("lsm_c_core")
+lsm_c_core <- function(landscape, directions) UseMethod("lsm_c_core")
 
 #' @name lsm_c_core
 #' @export
-lsm_c_core.RasterLayer <- function(landscape, ...) {
+lsm_c_core.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_core
 #' @export
-lsm_c_core.RasterStack <- function(landscape, ...) {
+lsm_c_core.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_core
-#' @export
-lsm_c_core.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_core
 #' @export
-lsm_c_core.list <- function(landscape, ...) {
+lsm_c_core.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_core_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_core
+#' @export
+lsm_c_core.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_c_core_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_core_calc <- function(landscape, ...){
+lsm_c_core_calc <- function(landscape, directions = 8){
     core_area <- landscape %>%
-        lsm_p_core_calc(...) %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 

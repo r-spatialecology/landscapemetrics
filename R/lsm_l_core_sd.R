@@ -3,7 +3,7 @@
 #' @description Standard deviation of patch core area (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 #'
 #' @details
 #' Equals the standard deviation of the patch core area of all patches in the landscape.
@@ -29,47 +29,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_core_sd <- function(landscape, ...) UseMethod("lsm_l_core_sd")
+lsm_l_core_sd <- function(landscape, directions) UseMethod("lsm_l_core_sd")
 
 #' @name lsm_l_core_sd
 #' @export
-lsm_l_core_sd.RasterLayer <- function(landscape, ...) {
+lsm_l_core_sd.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_sd_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_core_sd
 #' @export
-lsm_l_core_sd.RasterStack <- function(landscape, ...) {
+lsm_l_core_sd.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_sd_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_core_sd
 #' @export
-lsm_l_core_sd.RasterBrick <- function(landscape, ...) {
+lsm_l_core_sd.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_sd_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_core_sd
 #' @export
-lsm_l_core_sd.list <- function(landscape, ...) {
+lsm_l_core_sd.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_l_core_sd_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_l_core_sd_calc <- function(landscape, ...){
+lsm_l_core_sd_calc <- function(landscape, directions = 8){
 
     core_sd <- landscape %>%
-        lsm_p_core_calc(...) %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(

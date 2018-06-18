@@ -3,7 +3,7 @@
 #' @description Number of core areas (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param directions ???
 #'
 #' @details
 #' Number of core areas equals the sum of number of core areas of all patches in the
@@ -31,47 +31,47 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_ncore <- function(landscape, ...) UseMethod("lsm_l_ncore")
+lsm_l_ncore <- function(landscape, directions) UseMethod("lsm_l_ncore")
 
 #' @name lsm_l_ncore
 #' @export
-lsm_l_ncore.RasterLayer <- function(landscape, ...) {
+lsm_l_ncore.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ncore
 #' @export
-lsm_l_ncore.RasterStack <- function(landscape, ...) {
+lsm_l_ncore.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc,
-                   ..., .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_ncore
-#' @export
-lsm_l_ncore.RasterBrick <- function(landscape, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_ncore
 #' @export
-lsm_l_ncore.list <- function(landscape, ...) {
+lsm_l_ncore.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc,
+                   directions = directions, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_ncore
+#' @export
+lsm_l_ncore.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_l_ncore_calc,
-                   ..., .id = "layer") %>%
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_ncore_calc <- function(landscape, ...){
+lsm_l_ncore_calc <- function(landscape, directions = 8){
 
     ncore <- landscape %>%
-        lsm_p_ncore_calc(...) %>%
+        lsm_p_ncore_calc(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

@@ -12,20 +12,20 @@
 \alias{lsm_c_ed.list}
 \title{Edge Density (class level)}
 \usage{
-lsm_c_ed(landscape, ...)
+lsm_c_ed(landscape, count_boundary)
 
-\method{lsm_c_ed}{RasterLayer}(landscape, ...)
+\method{lsm_c_ed}{RasterLayer}(landscape, count_boundary = FALSE)
 
-\method{lsm_c_ed}{RasterStack}(landscape, ...)
+\method{lsm_c_ed}{RasterStack}(landscape, count_boundary = FALSE)
 
-\method{lsm_c_ed}{RasterBrick}(landscape, ...)
+\method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE)
 
-\method{lsm_c_ed}{list}(landscape, ...)
+\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
+\item{count_boundary}{Specific arguments for certain functions, if not provided they fall back to default.}
 }
 \value{
 tibble

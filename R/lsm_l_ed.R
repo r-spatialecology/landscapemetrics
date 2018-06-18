@@ -3,7 +3,7 @@
 #' @description Edge density (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param ... Specific arguments for certain functions, if not provided they fall back to default.
+#' @param count_boundary ???
 #'
 #' @details
 #' The edge density equals the sum of all edges in the landscape divided by the landscape area.
@@ -27,46 +27,46 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_ed <- function(landscape, ...) UseMethod("lsm_l_ed")
+lsm_l_ed <- function(landscape, count_boundary) UseMethod("lsm_l_ed")
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterLayer <- function(landscape, ...) {
+lsm_l_ed.RasterLayer <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   ..., .id = "layer") %>%
+                   count_boundary = count_boundary, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterStack <- function(landscape, ...) {
+lsm_l_ed.RasterStack <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   ..., .id = "layer") %>%
+                   count_boundary = count_boundary, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterBrick <- function(landscape, ...) {
+lsm_l_ed.RasterBrick <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   ..., .id = "layer") %>%
+                   count_boundary = count_boundary, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.list <- function(landscape, ...) {
+lsm_l_ed.list <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(landscape, lsm_l_ed_calc,
-                   ..., .id = "layer") %>%
+                   count_boundary = count_boundary, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_ed_calc <- function(landscape, ...) {
+lsm_l_ed_calc <- function(landscape, count_boundary = FALSE) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
     ed <- landscape %>%
-        lsm_l_te_calc(...) %>%
+        lsm_l_te_calc(count_boundary = count_boundary) %>%
         dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(
