@@ -24,9 +24,9 @@ Authors:
 \itemize{
   \item Maximillian Hesselbarth (0000-0003-1125-9918)
   \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
-  \item Laura Graham
-  \item Jeffrey Hollister
-  \item Kimberly A, With \email{kwith@ksu.edu} (0000-0001-5570-1515)
+  \item Laura J. Graham (0000-0002-1057-3721)
+  \item Jeffrey Hollister (0000-0002-3611-7281)
+  \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515)
 }
 
 }

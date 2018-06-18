@@ -29,7 +29,7 @@ lsm_c_division(landscape)
 tibble
 }
 \description{
-Landscpae division index (class level)
+Landscape division index (class level)
 }
 \details{
 The landscape division index equals 1 minus the sum of patch areas of
