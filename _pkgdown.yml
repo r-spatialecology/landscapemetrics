@@ -143,7 +143,7 @@ navbar:
   left:
     - text: "Get Started"
       icon: fa fa-magic
-      href: articles/kickstart.html
+      href: articles/getstarted.html
     - text: "Publication Record"
       icon: fa-file-text-o
       href: articles/articles/publication_record.html

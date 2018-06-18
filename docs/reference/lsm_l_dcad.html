@@ -65,7 +65,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/kickstart.html">
+  <a href="../articles/getstarted.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -125,19 +125,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +145,10 @@
     <tr>
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Specific arguments for certain functions, if not provided they fall back to default.</p></td>
     </tr>
     </table>
     
@@ -176,9 +180,9 @@ PNW-351.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>lsm_l_dcad</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
-#&gt;   layer level class    id metric                          value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                           &lt;dbl&gt;
-#&gt; 1     1 class    NA    NA disjunct core area density 288888889.</div><div class='input'>
+#&gt;   layer level class    id metric                     value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                      &lt;dbl&gt;
+#&gt; 1     1 class    NA    NA disjunct core area density  289.</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -200,7 +204,7 @@ PNW-351.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Marco Sciaini, Maximillian Hesselbarth, Jakub Nowosad, Laura Graham, Jeffrey Hollister, Kimberly A, With.</p>
+  <p>Developed by Marco Sciaini, Maximillian Hesselbarth, Jakub Nowosad, Laura J. Graham, Jeffrey Hollister, Kimberly A. With.</p>
 </div>
 
 <div class="pkgdown">

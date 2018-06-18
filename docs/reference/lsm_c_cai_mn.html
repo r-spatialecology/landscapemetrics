@@ -65,7 +65,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/kickstart.html">
+  <a href="../articles/getstarted.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -125,27 +125,31 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_cai_mn</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p>
-<p>#' Equals the mean of the core area index of class i.
+      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Specific arguments for certain functions, if not provided they fall back to default.
+Equals the mean of the core area index of class i.
 The core area index equals the percentage of a patch that is core area
 $$CAI_MN = mean(CAI[patch_i]$$</p><h3>Units</h3>
 Percentage
@@ -193,7 +197,7 @@ PNW-351.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Marco Sciaini, Maximillian Hesselbarth, Jakub Nowosad, Laura Graham, Jeffrey Hollister, Kimberly A, With.</p>
+  <p>Developed by Marco Sciaini, Maximillian Hesselbarth, Jakub Nowosad, Laura J. Graham, Jeffrey Hollister, Kimberly A. With.</p>
 </div>
 
 <div class="pkgdown">

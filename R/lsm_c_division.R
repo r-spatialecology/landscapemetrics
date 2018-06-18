@@ -1,6 +1,6 @@
 #' Landscape division index (class level)
 #'
-#' @description Landscpae division index (class level)
+#' @description Landscape division index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
