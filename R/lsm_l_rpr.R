@@ -62,7 +62,7 @@ lsm_l_rpr.list <- function(landscape, ...) {
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_rpr_calc <- function(landcape, classes_max) {
+lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
 
 
     if(is.null(classes_max)) {
