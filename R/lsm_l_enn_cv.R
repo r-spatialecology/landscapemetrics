@@ -61,7 +61,7 @@ lsm_l_enn_cv.list <- function(landscape) {
 
 lsm_l_enn_cv_calc <- function(landscape) {
 
-    enn_cv  <- lsm_p_enn_calc(landscape) %>%
+    enn_cv  <- lsm_p_enn(landscape) %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(

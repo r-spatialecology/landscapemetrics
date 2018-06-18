@@ -58,10 +58,10 @@ lsm_c_pd.list <- function(landscape) {
 
 lsm_c_pd_calc <- function(landscape) {
 
-    area_landscape <- lsm_l_ta(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
     patch_density <- landscape %>%
-        lsm_c_np() %>%
+        lsm_c_np_calc() %>%
         dplyr::mutate(value = value / area_landscape$value)
 
     tibble::tibble(

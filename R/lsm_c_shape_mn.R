@@ -61,9 +61,9 @@ lsm_c_shape_mn.list <- function(landscape) {
 lsm_c_shape_mn_calc <- function(landscape){
 
     shape_mn <- landscape %>%
-        lsm_p_shape() %>%
+        lsm_p_shape_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value))
+        dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

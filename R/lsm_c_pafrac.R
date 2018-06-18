@@ -68,12 +68,13 @@ lsm_c_pafrac.list <- function(landscape) {
 
 lsm_c_pafrac_calc <- function(landscape){
 
-    area_patch <- lsm_p_area(landscape) %>%
+    area_patch <- landscape %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    perimeter_patch <- lsm_p_perim(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    patches_class <- lsm_c_np(landscape)
+    patches_class <- lsm_c_np_calc(landscape)
 
     if(any(patches_class$value < 10)){warning("PAFRAC = NA for classes NP < 10")}
 

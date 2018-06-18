@@ -62,7 +62,8 @@ lsm_c_circle_mn.list <- function(landscape) {
 
 lsm_c_circle_mn_calc <- function(landscape) {
 
-    circle_mn  <- lsm_p_circle_calc(landscape) %>%
+    circle_mn  <- landscape %>%
+        lsm_p_circle_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 

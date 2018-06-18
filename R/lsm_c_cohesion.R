@@ -71,19 +71,19 @@ lsm_c_cohesion.list <- function(landscape) {
 lsm_c_cohesion_calc <- function(landscape) {
 
     ncells_landscape <- landscape %>%
-        lsm_l_ta() %>%
+        lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
 
     ncells_patch <- landscape %>%
-        lsm_p_area() %>%
+        lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape))) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value))
+        dplyr::summarise(value = sum(value, na.rm = TRUE))
 
    cohesion <- landscape %>%
-        lsm_p_perim() %>%
+        lsm_p_perim_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value)) %>%
+        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(
             value = ((1 - (value / (value * sqrt(ncells_patch$value)))) *
                 ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1)) * 100

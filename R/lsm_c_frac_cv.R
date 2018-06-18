@@ -62,9 +62,10 @@ lsm_c_frac_cv.list <- function(landscape) {
 
 lsm_c_frac_cv_calc <- function(landscape){
 
-    frac_cv <- lsm_p_frac(landscape) %>%
+    frac_cv <- landscape %>%
+        lsm_p_frac_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value))
+        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "patch",

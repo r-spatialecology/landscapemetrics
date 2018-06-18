@@ -64,9 +64,9 @@ lsm_c_core_sd.list <- function(landscape) {
 lsm_c_core_sd_calc <- function(landscape){
 
     core_sd <- landscape %>%
-        lsm_p_core() %>%
+        lsm_p_core_calc() %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = stats::sd(value))
+        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",

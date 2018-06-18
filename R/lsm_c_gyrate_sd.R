@@ -61,7 +61,8 @@ lsm_c_gyrate_sd.list <- function(landscape) {
 
 lsm_c_gyrate_sd_calc <- function(landscape) {
 
-    gyrate_sd  <- lsm_p_gyrate_calc(landscape) %>%
+    gyrate_sd  <- landscape %>%
+        lsm_p_gyrate_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 
