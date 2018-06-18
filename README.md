@@ -72,6 +72,14 @@ quite straight forward:
 ``` r
 library(landscapemetrics)
 library(tidyverse)
+#> ── Attaching packages ─────────────────────────────────── tidyverse 1.2.1 ──
+#> ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+#> ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+#> ✔ tidyr   0.8.0     ✔ stringr 1.3.1
+#> ✔ readr   1.1.1     ✔ forcats 0.3.0
+#> ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
 
 # Landscape raster
 landscape
@@ -88,11 +96,11 @@ landscape
 landscapetools::util_plot(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 ``` r
 
-# Calculate Euclidean Nearest-Neighbor Distance on patch level
+# Calculate for example the Euclidean Nearest-Neighbor Distance on patch level
 landscape %>% 
   lsm_p_enn()
 #> # A tibble: 27 x 6
@@ -123,19 +131,21 @@ cclabel_landscape <- landscapemetrics::cclabel(landscape)
 landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/cclabel.png"  width="100%" />
 
 ### Visualizing patches
 
-`landscapemetrics` also offers a plotting function to visualize patches
-in a landscape and encode each patch with an ID that can be used to
-compare a landscape metric with the actual landscape:
+To visualize patches in a landscape and encode each patch with an ID
+that can be used to compare a landscape metric with the actual landscape
+you can use the R package
+[*landscapetools*](https://github.com/ropensci/landscapetools)
+(currently only in the version on Github):
 
 ``` r
-show_patches(landscape)
+landscapetools::util_show_patches(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="2500px" />
+<img src="man/figures/showpatches.png"  width="100%" />
 
 ## Contributing
 

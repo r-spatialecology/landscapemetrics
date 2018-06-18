@@ -22,7 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Maximillian Hesselbarth
+  \item Maximillian Hesselbarth (0000-0003-1125-9918)
   \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
   \item Laura Graham
   \item Jeffrey Hollister
