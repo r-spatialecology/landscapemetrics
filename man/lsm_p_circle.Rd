@@ -10,7 +10,7 @@
 \alias{lsm_p_circle.RasterBrick}
 \alias{lsm_p_circle}
 \alias{lsm_p_circle.list}
-\title{CIRCLE}
+\title{CIRCLE (patch level)}
 \usage{
 lsm_p_circle(landscape)
 
@@ -29,20 +29,22 @@ lsm_p_circle(landscape)
 tibble
 }
 \description{
-Related Circumscribing Circle (patch)
+Related Circumscribing Circle (Shape metric)
 }
 \details{
 \deqn{CIRCLE = 1 - (\frac{a_{ij}}{a_{ij}^{circle}})}
 where \eqn{a_{ij}} is the area in square meters and \eqn{a_{ij}^{circle}} the area of
-the smalles circumscribing circle
+the smalles circumscribing circle.
 
 CIRCLE is a 'Shape metric'. The diameter of the smallest circumscribing circle is
 the 'diameter' of the patch connecting the opposing corner points of the two cells
-that are the furthest away from each other
+that are the furthest away from each other. The metric characterises the compactness
+of the patch and is comparable among patches with different area.
+
 \subsection{Units}{None}
 \subsection{Range}{0 <= CIRCLE < 1}
-\subsection{Behaviour}{CIRCLe = 0 for a circular patch and approaches CIRCLE = 1 for
-a linear patch}
+\subsection{Behaviour}{CIRCLE = 0 for a circular patch and approaches CIRCLE = 1 for
+a linear patch.}
 }
 \examples{
 lsm_p_circle(landscape)

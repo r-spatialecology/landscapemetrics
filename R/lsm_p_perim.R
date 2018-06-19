@@ -1,14 +1,20 @@
-#'  Perimeter  (patch level)
+#' PERIM (patch level)
 #'
-#' @description Perimeter of patch (patch level)
+#' @description Perimeter (Area and edge metric))
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the perimeter of the patch.
-#' \subsection{Units}{Meters (assuming that the input cellsize is in meter)}
+#' \deqn{PERIM = p_{ij}}
+#' where \eqn{p_{ij}} is the perimeter in meters.
+#'
+#' PERIM is an 'Area and edge metric'. It equals the perimeter of the patch including
+#' also the edge to the landscape boundary. The metric describes patch area (larger perimeter
+#' for larger patches), but also patch shape (large perimeter for irregular shapes).
+#'
+#' \subsection{Units}{Meters}
 #' \subsection{Range}{PERIM > 0}
-#' \subsection{Behaviour}{Increases without limit as the patch size increases}
+#' \subsection{Behaviour}{Increases, without limit, as patch size and complexity increases.}
 #'
 #' @return tibble
 #'

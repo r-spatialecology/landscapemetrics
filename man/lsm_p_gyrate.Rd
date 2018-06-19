@@ -10,7 +10,7 @@
 \alias{lsm_p_gyrate.RasterBrick}
 \alias{lsm_p_gyrate}
 \alias{lsm_p_gyrate.list}
-\title{Radius of Gyration (patch level)}
+\title{GYRATE (patch level)}
 \usage{
 lsm_p_gyrate(landscape)
 
@@ -29,15 +29,21 @@ lsm_p_gyrate(landscape)
 tibble
 }
 \description{
-Radius of Gyration (patch level)
+Radius of Gyration (Area and edge metric)
 }
 \details{
-Equals the mean distance of each cell centroid in a patch to the centroid
-of the whole patch (mean location of all cell centroids)
-\deqn{GYRATE = distance to patch centroid[cell_i] / number of cells in patch}
+\deqn{GYRATE = \sum_{r=1}^{z} \frac{h_{ijr}}{z}}
+where \eqn{h_{ijr}} is the distance from each cell to the centroid of the patch
+and \eqn{z} is the number of cells.
+
+GYRATE is an 'Area and edge metric'. The distance from each cell to the patch
+centroid is based on cell center-to-cell center distances. The metrics characterises
+both the patch area and compactness.
+
 \subsection{Units}{Meters}
-\subsection{Range}{GYRATE >= 0, without limit}
-\subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
+\subsection{Range}{GYRATE >= 0}
+\subsection{Behaviour}{Approaches GYRATE = 0 if patch is a single cell. Increases,
+without limit, when only one patch is present.}
 }
 \examples{
 lsm_p_gyrate(landscape)

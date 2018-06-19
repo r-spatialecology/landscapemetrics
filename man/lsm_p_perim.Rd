@@ -10,7 +10,7 @@
 \alias{lsm_p_perim.RasterBrick}
 \alias{lsm_p_perim}
 \alias{lsm_p_perim.list}
-\title{Perimeter  (patch level)}
+\title{PERIM (patch level)}
 \usage{
 lsm_p_perim(landscape)
 
@@ -29,13 +29,19 @@ lsm_p_perim(landscape)
 tibble
 }
 \description{
-Perimeter of patch (patch level)
+Perimeter (Area and edge metric))
 }
 \details{
-Equals the perimeter of the patch.
-\subsection{Units}{Meters (assuming that the input cellsize is in meter)}
+\deqn{PERIM = p_{ij}}
+where \eqn{p_{ij}} is the perimeter in meters.
+
+PERIM is an 'Area and edge metric'. It equals the perimeter of the patch including
+also the edge to the landscape boundary. The metric describes patch area (larger perimeter
+for larger patches), but also patch shape (large perimeter for irregular shapes).
+
+\subsection{Units}{Meters}
 \subsection{Range}{PERIM > 0}
-\subsection{Behaviour}{Increases without limit as the patch size increases}
+\subsection{Behaviour}{Increases, without limit, as patch size and complexity increases.}
 }
 \examples{
 lsm_p_perim(landscape)

@@ -1,20 +1,22 @@
-#' AREA
+#' AREA (patch level)
 #'
-#' @description Patch area (patch level)
+#' @description Patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{AREA = a_{ij} * (\frac{1}{10000})}
-#' where \eqn{a_{ij}} is the area in square meters
+#' where \eqn{a_{ij}} is the area in square meters.
 #'
-#' AREA is the area of each patch in hectares. The lower limit of AREA is limited by the
-#' resolution of the input raster, i.e. AREA can't be smaller than the resolution squared
-#' (in hectares)
+#' AREA is an 'Area and edge metric' and equals the area of each patch in hectares.
+#' The lower limit of AREA is limited by the resolution of the input raster,
+#' i.e. AREA can't be smaller than the resolution squared (in hectares). It is one of
+#' the most basic, but also most important metrics, to characterise a landscape. The
+#' metric is the simplest measure of composition.
 #'
 #' \subsection{Units}{hectares}
 #' \subsection{Range}{AREA > 0}
-#' \subsection{Behaviour}{Increases without limit as the patch area increases}
+#' \subsection{Behaviour}{Increases, without limit, as the patch size increases.}
 #'
 #' @return tibble
 #'

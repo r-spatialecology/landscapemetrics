@@ -1,16 +1,23 @@
-#'  Perimeter-area ratio  (patch level)
+#' PARA (patch level)
 #'
-#' @description Ratio of patch perimeter and area (patch level)
+#' @description Perimeter-Area ratio (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
-#' @details The perimeter-area ratio equals the ration of patch perimeter and patch area.
-#' It is a simple measure of complexity
-#' \deqn{PARA = perimeter[patch] / area[patch]}
+#' @details
+#' \deqn{PARA = \frac{p_{ij}}{a_{ij}}}
+#' where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the
+#' area in square meters.
+#'
+#' PARA is a 'Shape metric'. It describes the patch complexity in a straightforward way.
+#' However, because it is not standarised to a certain shape (e.g. a square), it
+#' is not scale independent.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{PARA >0}
-#' \subsection{Behaviour}{PARA = 1 for a square and increases as the patch
-#' becomes more irregular}
+#' \subsection{Range}{PARA > 0}
+#' \subsection{Behaviour}{PARA increases, without limit, as the shape comlexity increases.}
+#'
+#' @seealso \code{\link{lsm_p_area}} and \code{\link{lsm_p_perim}}
 #'
 #' @return tibble
 #'

@@ -1,17 +1,24 @@
-#' Shape index  (patch level)
+#' SHAPE (patch level)
 #'
-#' @description Shape index of patch (patch level)
+#' @description Shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The shape index equals a quater of the patch perimeter divided by the square root
-#' of the patch area
-#' \deqn{SHAPE = 0.25 * perimeter[patch] / sqrt(area[patch])}
+#' \deqn{SHAPE = \frac{0.25 * p_{ij}}{\sqrt{a_{ij}}}}
+#' where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the area in
+#' square meters.
+#'
+#' SHAPE is a 'Shape metric'. The index is based on the patch perimeter and the patch area
+#' and describes the patch complexity. Because it it standarised, it is independent
+#' of the patch size.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE >= 1}
-#' \subsection{Behaviour}{SHAPE = 1 for a square and
-#' increases as the patch becomes more irregular}
+#' \subsection{Behaviour}{Approaches SHAPE = 1 for a square and
+#' increases, without limit, as the patch shape becomes more complex.}
+#'
+#' @seealso \code{\link{lsm_p_perim}} and \code{\link{lsm_p_area}}
 #'
 #' @return tibble
 #'

@@ -1,18 +1,24 @@
-#'  Core area (patch level)
+#' CORE (patch level)
 #'
-#' @description Area of core area of patch (patch level)
+#' @description Core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the area within a patch that is not on the edge of the patch. In other words,
-#' the area of a patch that has only neighbouring cells of the same type
-#' A cell is defined as core area if the cells has no neighbour with a different value
-#' than itself (rook's case)
+#' \deqn{CORE = a_{ij}^{core}}
+#' where \eqn{a_{ij}^{core}} is the core area in square meters
+#'
+#' CORE is a 'Core area metric' and equals the area within a patch that is not
+#' on the edge of it. A cell is defined as core area if the cell has no
+#' neighbour with a different value than itself (rook's case). It describes patch area
+#' and shape simultaneously (more core area when the patch is large and the shape is
+#' rather compact, i.e. a square).
+#'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CORE >= 0}
-#' \subsection{Behaviour}{Increases without limit as patch area increases
-#' and patch shape simplifies. CORE = 0 when every cell in the patch is an edge}
+#' \subsection{Behaviour}{Increases, without limit, as the patch area increases
+#' and the patch shape simplifies (more core area). CORE = 0 when every cell in
+#' the patch is an edge.}
 #'
 #' @return tibble
 #'

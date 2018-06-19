@@ -10,7 +10,7 @@
 \alias{lsm_p_ncore.RasterBrick}
 \alias{lsm_p_ncore}
 \alias{lsm_p_ncore.list}
-\title{Number of core areas (patch level)}
+\title{NCORE (patch level)}
 \usage{
 lsm_p_ncore(landscape)
 
@@ -26,20 +26,26 @@ lsm_p_ncore(landscape)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
 
 #' @details
-Equals the number of disjunct core areas. A core area is a 'patch within the patch' without
-any edge cells. In other words, the number of patches within the patch that only have
-neighbouring cells of the same type
+\deqn{NCORE = n_{ij}^{core}}
+where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
+
+NCORE is a 'Core and area metric'. A cell is defined as core if the cell has no
+neighbour with a different value than itself (rook's case). The metric counts the disjunct
+core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+It describes patch area and shape simultaneously (more core area when the patch is large,
+however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+will contain less disjunct core areas than a more irregular patch.
 \subsection{Units}{None}
 \subsection{Range}{NCORE >= 0}
-\subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patches of class i is
-an edge. NCORE increases without limit as core areas become more present, i.e. patches
-becoming larger and less complex}}
+\subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patch is edge.
+Increases, without limit, as core area increases and patch shape allows disjunct core
+areas (i.e. patch shape becomes rather complex).}}
 }
 \value{
 tibble
 }
 \description{
-Number of disjunct core areas (patch level)
+Number of core areas (Core area metric)
 }
 \examples{
 lsm_p_ncore(landscape)
@@ -49,4 +55,7 @@ lsm_p_ncore(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_core}}
 }

@@ -1,17 +1,24 @@
-#'  Fractal dimension index  (patch level)
+#' FRAC (patch level)
 #'
-#' @description Fractacl dimension index of patch (patch level)
+#' @description Fractacl dimension index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The fractal dimension index equals two times the natural logarithm of a
-#' quarter of the patch area divided by the natural logarithm of the patch area
-#' \deqn{FRAC = 2 * ln(0.25 * perimeter[patch]) / ln(area[patch])}
+#' \deqn{FRAC = \frac{2 * \ln * (0.25 * p_{ij})}{\ln a_{ij}}}
+#' where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the
+#' area in square meters
+#'
+#' FRAC is a 'Shape metric'. The index is based on the patch perimeter and
+#' the patch area and describes the patch complexity. Because it is standardized,
+#' it is independent of the patch area.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= FRAC <= 2 }
-#' \subsection{Behaviour}{The fractal dimension index approaches FRAC = 1 for
-#' simple patches and FRAC = 2 for irregular patches}
+#' \subsection{Behaviour}{Approaches FRAC = 1 a squared patch shape form and FRAC = 2
+#' for a irregular patch shape.}
+#'
+#' @seealso \code{\link{lsm_p_area}} and \code{\link{lsm_p_perim}}
 #'
 #' @return tibble
 #'

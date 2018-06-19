@@ -1,24 +1,27 @@
-#' CAI
+#' CAI (patch level)
 #'
-#' @description Core area index (patch level)
+#' @description Core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 
 #' @details
 #' \deqn{CAI = (\frac{a_{ij}^{core}}{a_{ij}}) * 100}
 #' where \eqn{a_{ij}^{core}} is the core area in square meters and \eqn{a_{ij}}
-#' is the patch area in square meters
+#' is the area in square meters.
 #'
 #' CAI is a 'Core area metric'. It equals the percentage of a patch that is core area.
-#' A cell is defined as core area if the cells has no neighbour with a different value
-#' than itself (rook's case)
+#' A cell is defined as core area if the cell has no neighbour with a different value
+#' than itself (rook's case). It describes patch area and shape simultaneously (more core area
+#' when the patch is large and the shape is rather compact, i.e. a square). Because the index is
+#' relative, it is comparable among patches with different area.
+#'
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{0 <= CAI <= 100}
 #' \subsection{Behaviour}{CAI = 0 when the patch has no core area and
-#' approaches CAI = 100 with increasing percentage of core area within a patch}
+#' approaches CAI = 100 with increasing percentage of core area within a patch.}
 #'
-#' @seealso \code{\link{lsm_p_core}}
+#' @seealso \code{\link{lsm_p_core}} and code{\link{lsm_p_area}}
 #'
 #' @return tibble
 #'

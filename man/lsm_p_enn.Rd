@@ -10,7 +10,7 @@
 \alias{lsm_p_enn.RasterBrick}
 \alias{lsm_p_enn}
 \alias{lsm_p_enn.list}
-\title{Euclidean Nearest-Neighbor Distance (ENN)}
+\title{ENN (patch level)}
 \usage{
 lsm_p_enn(landscape)
 
@@ -29,14 +29,24 @@ lsm_p_enn(landscape)
 tibble
 }
 \description{
-Euclidean Nearest-Neighbor Distance of patch (patch level)
+Euclidean Nearest-Neighbor Distance (Aggregation metric)
 }
 \details{
-Equals the distance the the nearest neigbouring patch of the same patch type (shortest
-edge-to-edge distance)
+\deqn{ENN = h_{ij}}
+where \eqn{h_{ij}} is the distance to the nearest neighbouring patch of
+the same class i in meters
+
+ENN is an 'Aggregation metric'. The distance to the nearest neighbouring patch of
+the same class i. The distance is measured from edge-to-edge. The range is limited by the
+cell resolution on the lower limit and the landscape extent on the upper limit. The metric
+is a simple way to describe patch isolation.
+
 \subsection{Units}{Meters}
 \subsection{Range}{ENN > 0}
-\subsection{Behaviour}{???}
+\subsection{Behaviour}{Approaches ENN = 0 as the distance to the nearest neighbour
+decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
+as the distance between neighbouring patches of the same class i increases, i.e. patches are
+more isolated.}
 }
 \examples{
 lsm_p_enn(landscape)
