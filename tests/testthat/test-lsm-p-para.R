@@ -2,6 +2,11 @@ context("patch level para metric")
 
 landscapemetrics_patch_landscape_para <- lsm_p_para(landscape)
 
+test_that("lsm_p_area results are equal to fragstats", {
+    expect_true(all(fragstats_patch_landscape$PARA %in%
+                        round((landscapemetrics_patch_landscape_para$value * 10000), 4)))
+})
+
 test_that("lsm_p_para is typestable", {
     expect_is(landscapemetrics_patch_landscape_para, "tbl_df")
     expect_is(lsm_p_para(landscape_stack), "tbl_df")
