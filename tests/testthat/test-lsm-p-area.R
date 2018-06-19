@@ -29,3 +29,14 @@ test_that("lsm_p_area is typestable", {
 test_that("lsm_p_area returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_values), 6)
 })
+
+test_that("lsm_p_area returns in every column the correct type", {
+    expect_type(landscapemetrics_patch_landscape_area$layer, "integer")
+    expect_type(landscapemetrics_patch_landscape_area$level, "character")
+    expect_type(landscapemetrics_patch_landscape_area$class, "integer")
+    expect_type(landscapemetrics_patch_landscape_area$id, "integer")
+    expect_type(landscapemetrics_patch_landscape_area$metric, "character")
+    expect_type(landscapemetrics_patch_landscape_area$value, "double")
+})
+
+
