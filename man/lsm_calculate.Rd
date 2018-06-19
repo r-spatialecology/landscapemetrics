@@ -31,6 +31,8 @@ lsm_calculate(landscape, what, ...)
 \item{what}{Selected level of metrics: either "all", "patch", "class", "landscape". The default is "all".}
 
 \item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
+
+\item{classes_max}{xxx.}
 }
 \value{
 tibble

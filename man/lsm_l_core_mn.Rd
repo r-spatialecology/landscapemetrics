@@ -12,7 +12,7 @@
 \alias{lsm_l_core_mn.list}
 \title{Core area distribution (landscape level)}
 \usage{
-lsm_l_core_mn(landscape, directions)
+lsm_l_core_mn(landscape)
 
 \method{lsm_l_core_mn}{RasterLayer}(landscape)
 

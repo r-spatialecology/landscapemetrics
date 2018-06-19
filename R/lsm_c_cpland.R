@@ -44,7 +44,6 @@ lsm_c_cpland.RasterLayer <- function(landscape) {
 #' @export
 lsm_c_cpland.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_cpland_calc,
-                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }

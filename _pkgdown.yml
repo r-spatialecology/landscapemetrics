@@ -11,6 +11,18 @@ reference:
     - landscape_stack
     - augusta_nlcd
     - podlasie_ccilc
+    - fragstats_patch_landscape
+    - fragstats_patch_landscapestack
+    - fragstats_patch_augusta_nlcd
+    - fragstats_patch_podlasie
+    - fragstats_class_landscape
+    - fragstats_class_landscapestack
+    - fragstats_class_augusta_nlcd
+    - fragstats_class_podlasie
+    - fragstats_landscape_landscape
+    - fragstats_landscape_landscapestack
+    - fragstats_landscape_augusta_nlcd
+    - fragstats_landscape_podlasie
   - title: Auxiliary functions
     contents:
     - cclabel
@@ -144,6 +156,9 @@ navbar:
     - text: "Get Started"
       icon: fa fa-magic
       href: articles/getstarted.html
+    - text: "Differences FRAGSTATS|landscapemetrics"
+      icon: fa fa-magic
+      href: articles/articles/comparing_fragstats_landscapemetrics.html
     - text: "Publication Record"
       icon: fa-file-text-o
       href: articles/articles/publication_record.html

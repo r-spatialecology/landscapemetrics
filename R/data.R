@@ -59,18 +59,6 @@
 "fragstats_class_augusta_nlcd"
 "fragstats_class_podlasie"
 
-#' Fragstats results (class level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on class
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_class_landscape"
-"fragstats_class_landscapestack"
-"fragstats_class_augusta_nlcd"
-"fragstats_class_podlasie"
-
 
 #' Fragstats results (landscape level)
 #'
