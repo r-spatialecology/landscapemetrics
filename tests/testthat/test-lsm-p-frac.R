@@ -1,23 +1,14 @@
 context("patch level frac metric")
 
 fragstats_patch_landscape_frac <- fragstats_patch_landscape$FRAC
-# fragstats_patch_landscapestack_frac <- fragstats_patch_landscapestack$FRAC
-# fragstats_patch_augusta_nlcd_frac <- fragstats_patch_augusta_nlcd$FRAC
-# fragstats_patch_podlasie_frac <- fragstats_patch_podlasie$FRAC
 landscapemetrics_patch_landscape_frac <- lsm_p_frac(landscape)
-# landscapemetrics_patch_landscape_stack_frac <- lsm_p_frac(landscape_stack)
-# landscapemetrics_patch_augusta_nlcd_frac <- lsm_p_frac(augusta_nlcd)
-# landscapemetrics_patch_podlasie_ccilc_frac <- lsm_p_frac(podlasie_ccilc)
 
-test_that("lsm_p_frac results are equal to fragstats", {
-    expect_true(all(round(sort(fragstats_patch_landscape_frac) / sort(landscapemetrics_patch_landscape_frac$value) *100) - 100 > 10))
-    # expect_true(all(round(sort(fragstats_patch_landscapestack_frac) / sort(landscapemetrics_patch_landscape_stack_frac$value) *100) - 100 > 10))
-    # expect_true(all(round(sort(fragstats_patch_augusta_nlcd_frac) / sort(landscapemetrics_patch_augusta_nlcd_frac$value) *100) - 100 > 10))
-    # expect_true(all(round(sort(fragstats_patch_podlasie_frac) / sort(landscapemetrics_patch_podlasie_ccilc_frac$value) *100) - 100 > 10))
+test_that("lsm_p_enn results are comparable to fragstats", {
+    expect_true(all(fragstats_patch_landscape_frac %in%
+                        round(landscapemetrics_patch_landscape_frac$value, digits = 4)))
 })
-
 test_that("lsm_p_frac is typestable", {
-    expect_is(lsm_p_frac(landscape), "tbl_df")
+    expect_is(landscapemetrics_patch_landscape_frac, "tbl_df")
     expect_is(lsm_p_frac(landscape_stack), "tbl_df")
     expect_is(lsm_p_frac(list(landscape, landscape)), "tbl_df")
 })
