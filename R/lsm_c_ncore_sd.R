@@ -29,7 +29,7 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_ncore_sd <- function(landscape, directions) UseMethod("lsm_c_ncore_sd")
+lsm_c_ncore_sd <- function(landscape) UseMethod("lsm_c_ncore_sd")
 
 #' @name lsm_c_ncore_sd
 #' @export

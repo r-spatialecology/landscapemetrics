@@ -12,7 +12,7 @@
 \alias{lsm_c_cpland.list}
 \title{Core area percentage of landscape (class level)}
 \usage{
-lsm_c_cpland(landscape, directions)
+lsm_c_cpland(landscape)
 
 \method{lsm_c_cpland}{RasterLayer}(landscape)
 
@@ -24,8 +24,6 @@ lsm_c_cpland(landscape, directions)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble

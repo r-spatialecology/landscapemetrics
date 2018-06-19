@@ -12,7 +12,7 @@
 \alias{lsm_l_core_cv.list}
 \title{Core area distribution (landscape level)}
 \usage{
-lsm_l_core_cv(landscape, directions)
+lsm_l_core_cv(landscape)
 
 \method{lsm_l_core_cv}{RasterLayer}(landscape)
 
@@ -24,8 +24,6 @@ lsm_l_core_cv(landscape, directions)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble

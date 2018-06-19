@@ -3,7 +3,6 @@
 #' @description Coeffiecent of variation of patch core area (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 #'
 #' @details
 #' Equals the coeffiecent of variation of the patch core area of all patches in the landscape.
@@ -29,7 +28,7 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_core_cv <- function(landscape, directions) UseMethod("lsm_l_core_cv")
+lsm_l_core_cv <- function(landscape) UseMethod("lsm_l_core_cv")
 
 #' @name lsm_l_core_cv
 #' @export

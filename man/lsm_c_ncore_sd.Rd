@@ -12,7 +12,7 @@
 \alias{lsm_c_ncore_sd.list}
 \title{Number of core areas distribution (class level)}
 \usage{
-lsm_c_ncore_sd(landscape, directions)
+lsm_c_ncore_sd(landscape)
 
 \method{lsm_c_ncore_sd}{RasterLayer}(landscape)
 

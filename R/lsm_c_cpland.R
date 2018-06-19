@@ -3,7 +3,6 @@
 #' @description Core area percentage of landscape (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 #'
 #' @details
 #' Core area percenage of landscape equals the sum of core area of class i
@@ -31,7 +30,7 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cpland <- function(landscape, directions) UseMethod("lsm_c_cpland")
+lsm_c_cpland <- function(landscape) UseMethod("lsm_c_cpland")
 
 #' @name lsm_c_cpland
 #' @export
