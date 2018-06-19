@@ -16,8 +16,6 @@ test_that("lsm_p_area results are equal to fragstats", {
                         landscapemetrics_patch_landscape_stack_area$value))
     expect_true(all(fragstats_patch_augusta_nlcd_area %in%
                         landscapemetrics_patch_augusta_nlcd_area$value))
-    expect_true(all(fragstats_patch_podlasie_area %in%
-                        landscapemetrics_patch_podlasie_ccilc_area$value))
 })
 
 test_that("lsm_p_area is typestable", {
