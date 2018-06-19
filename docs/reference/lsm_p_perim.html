@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perimeter  (patch level) — lsm_p_perim • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>PERIM (patch level) — lsm_p_perim • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Perimeter  (patch level) — lsm_p_perim" />
+<meta property="og:title" content="PERIM (patch level) — lsm_p_perim" />
 
-<meta property="og:description" content="Perimeter of patch (patch level)" />
+<meta property="og:description" content="Perimeter (Area and edge metric))" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -114,14 +117,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perimeter  (patch level)</h1>
+    <h1>PERIM (patch level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_p_perim.R'><code>R/lsm_p_perim.R</code></a></small>
     <div class="hidden name"><code>lsm_p_perim.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Perimeter of patch (patch level)</p>
+    <p>Perimeter (Area and edge metric))</p>
     
     </div>
 
@@ -154,12 +157,17 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the perimeter of the patch.</p><h3>Units</h3>
-Meters (assuming that the input cellsize is in meter)
+    <p>$$PERIM = p_{ij}$$
+where \(p_{ij}\) is the perimeter in meters.</p>
+<p>PERIM is an 'Area and edge metric'. It equals the perimeter of the patch including
+also the edge to the landscape boundary. The metric describes patch area (larger perimeter
+for larger patches), but also patch shape (large perimeter for irregular shapes).</p>
+<h3>Units</h3>
+Meters
 <h3>Range</h3>
 PERIM &gt; 0
 <h3>Behaviour</h3>
-Increases without limit as the patch size increases
+Increases, without limit, as patch size and complexity increases.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

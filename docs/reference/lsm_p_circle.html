@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Related Circumscribing Circle (CIRCLE) — lsm_p_circle • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CIRCLE (patch level) — lsm_p_circle • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Related Circumscribing Circle (CIRCLE) — lsm_p_circle" />
+<meta property="og:title" content="CIRCLE (patch level) — lsm_p_circle" />
 
-<meta property="og:description" content="Related Circumscribing Circle (patch)" />
+<meta property="og:description" content="Related Circumscribing Circle (Shape metric)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -114,14 +117,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Related Circumscribing Circle (CIRCLE)</h1>
+    <h1>CIRCLE (patch level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_p_circle.R'><code>R/lsm_p_circle.R</code></a></small>
     <div class="hidden name"><code>lsm_p_circle.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Related Circumscribing Circle (patch)</p>
+    <p>Related Circumscribing Circle (Shape metric)</p>
     
     </div>
 
@@ -154,20 +157,30 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest
-circumscribing circle.
-$$a = a + b$$</p><h3>Units</h3>
+    <p>$$CIRCLE = 1 - (\frac{a_{ij}}{a_{ij}^{circle}})$$
+where \(a_{ij}\) is the area in square meters and \(a_{ij}^{circle}\) the area of
+the smalles circumscribing circle.</p>
+<p>CIRCLE is a 'Shape metric'. The diameter of the smallest circumscribing circle is
+the 'diameter' of the patch connecting the opposing corner points of the two cells
+that are the furthest away from each other. The metric characterises the compactness
+of the patch and is comparable among patches with different area.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
 0 &lt;= CIRCLE &lt; 1
 <h3>Behaviour</h3>
-CIRCLE = 0 for circular patches and approaches 1 for linear patches
+CIRCLE = 0 for a circular patch and approaches CIRCLE = 1 for
+a linear patch.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -197,6 +210,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total class area (class level) — lsm_c_ca • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CA — lsm_c_ca • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Total class area (class level) — lsm_c_ca" />
+<meta property="og:title" content="CA — lsm_c_ca" />
 
-<meta property="og:description" content="Total area of class (class level)" />
+<meta property="og:description" content="Total area of class i (class level)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -114,14 +117,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Total class area (class level)</h1>
+    <h1>CA</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_ca.R'><code>R/lsm_c_ca.R</code></a></small>
     <div class="hidden name"><code>lsm_c_ca.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Total area of class (class level)</p>
+    <p>Total area of class i (class level)</p>
     
     </div>
 
@@ -154,16 +157,21 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Total class area equals the sum of the area of all patches of class i. Total class area is
-an absolute measure, making comparisons among landscapes with different
-total areas difficult. It is a measure of landscape composition.
-$$CA = sum(area[patch_i])$$</p><h3>Units</h3>
+    <p>$$CA = sum(AREA[patch_{ij}])$$
+where \(AREA[patch_{ij}]\) is the area of each patch in hectares</p>
+<p>CA is an 'Area and egdge metric' and a measure of composition.
+The total (class) area sums the area of all patches belonging to class i.
+CA is an absolute measure, making comparisons among landscapes with different
+total areas difficult.</p>
+<h3>Units</h3>
 Hectares
 <h3>Range</h3>
 CA &gt; 0
 <h3>Behaviour</h3>
-CA increases without limit as the amount of the class increases.
-CA = TA if only one class is present
+Aprroaches 0 as the patch areas of class i become small.
+Increases, without limit, as the patch areas of class i become large. CA = TA if only
+one class is present
+    <p>seealso <code>lsm_p_area</code> and <code>sum</code></p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Number of core areas (patch level) — lsm_p_ncore • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>NCORE (patch level) — lsm_p_ncore • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Number of core areas (patch level) — lsm_p_ncore" />
+<meta property="og:title" content="NCORE (patch level) — lsm_p_ncore" />
 
-<meta property="og:description" content="Number of disjunct core areas (patch level)" />
+<meta property="og:description" content="Number of core areas (Core area metric)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -114,52 +117,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Number of core areas (patch level)</h1>
+    <h1>NCORE (patch level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_p_ncore.R'><code>R/lsm_p_ncore.R</code></a></small>
     <div class="hidden name"><code>lsm_p_ncore.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Number of disjunct core areas (patch level)</p>
+    <p>Number of core areas (Core area metric)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>lsm_p_ncore</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Specific arguments for certain functions, if not provided they fall back to default.</p>
+      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p>
 <p>#' @details
-Equals the number of disjunct core areas. A core area is a 'patch within the patch' without
-any edge cells. In other words, the number of patches within the patch that only have
-neighbouring cells of the same type</p><h3>Units</h3>
+$$NCORE = n_{ij}^{core}$$
+where \(n_{ij}^{core}\) is the number of disjunct core areas.</p>
+<p>NCORE is a 'Core and area metric'. A cell is defined as core if the cell has no
+neighbour with a different value than itself (rook's case). The metric counts the disjunct
+core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+It describes patch area and shape simultaneously (more core area when the patch is large,
+however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+will contain less disjunct core areas than a more irregular patch.</p><h3>Units</h3>
 None
 <h3>Range</h3>
 NCORE &gt;= 0
 <h3>Behaviour</h3>
-NCORE = 0 when CORE = 0, i.e. every cell in patches of class i is
-an edge. NCORE increases without limit as core areas become more present, i.e. patches
-becoming larger and less complex</td>
+NCORE = 0 when CORE = 0, i.e. every cell in patch is edge.
+Increases, without limit, as core area increases and patch shape allows disjunct core
+areas (i.e. patch shape becomes rather complex).</td>
     </tr>
     </table>
     
@@ -172,6 +176,10 @@ becoming larger and less complex</td>
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_core</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -199,6 +207,8 @@ PNW-351.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
