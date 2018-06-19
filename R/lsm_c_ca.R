@@ -1,18 +1,25 @@
-#' Total class area (class level)
+#' CA
 #'
-#' @description Total area of class (class level)
+#' @description Total area of class i (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Total class area equals the sum of the area of all patches of class i. Total class area is
-#' an absolute measure, making comparisons among landscapes with different
-#' total areas difficult. It is a measure of landscape composition.
-#' \deqn{CA = sum(area[patch_i])}
+#' \deqn{CA = sum(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#'
+#' CA is an 'Area and egdge metric' and a measure of composition.
+#' The total (class) area sums the area of all patches belonging to class i.
+#' CA is an absolute measure, making comparisons among landscapes with different
+#' total areas difficult.
+#'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CA > 0}
-#' \subsection{Behaviour}{CA increases without limit as the amount of the class increases.
-#' CA = TA if only one class is present}
+#' \subsection{Behaviour}{Aprroaches 0 as the patch areas of class i become small.
+#' Increases, without limit, as the patch areas of class i become large. CA = TA if only
+#' one class is present}
+#'
+#' seealso \code{\link{lsm_p_area}} and \code{\link{sum}}
 #'
 #' @return tibble
 #'

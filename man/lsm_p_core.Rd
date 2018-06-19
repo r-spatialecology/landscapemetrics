@@ -12,20 +12,18 @@
 \alias{lsm_p_core.list}
 \title{Core area (patch level)}
 \usage{
-lsm_p_core(landscape, directions)
+lsm_p_core(landscape)
 
-\method{lsm_p_core}{RasterLayer}(landscape, directions = 8)
+\method{lsm_p_core}{RasterLayer}(landscape)
 
-\method{lsm_p_core}{RasterStack}(landscape, directions = 8)
+\method{lsm_p_core}{RasterStack}(landscape)
 
-\method{lsm_p_core}{RasterBrick}(landscape, directions = 8)
+\method{lsm_p_core}{RasterBrick}(landscape)
 
-\method{lsm_p_core}{list}(landscape, directions = 8)
+\method{lsm_p_core}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble
@@ -36,6 +34,8 @@ Area of core area of patch (patch level)
 \details{
 Equals the area within a patch that is not on the edge of the patch. In other words,
 the area of a patch that has only neighbouring cells of the same type
+A cell is defined as core area if the cells has no neighbour with a different value
+than itself (rook's case)
 \subsection{Units}{Hectares}
 \subsection{Range}{CORE >= 0}
 \subsection{Behaviour}{Increases without limit as patch area increases

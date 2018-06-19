@@ -1,15 +1,21 @@
-#' Patch area distribution (class level)
+#' AREA_SD
 #'
 #' @description Standard deviation of patch area (class level)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' Equals the standard deviation of the patch area of class i
-#' \deqn{AREA_SD = sd(AREA[patch_i])}
+#' \deqn{AREA_SD = sd(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#'
+#' AREA_SD is an 'Area and Edge metric'. The metric summarises each class
+#' as the standard deviation of all patch areas belonging to class i
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{AREA_SD >= 0}
+#' \subsection{Behaviour}{Increases as the variation of patch areas increases}
+#'
+#' @seealso \code{\link{lsm_p_area}} and \code{\link{sd}}
 #'
 #' @return tibble
 #'

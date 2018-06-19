@@ -1,14 +1,20 @@
-#' Area  (patch level)
+#' AREA
 #'
-#' @description Area of a patch (patch level)
+#' @description Patch area (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the area of the patch
+#' \deqn{AREA = a_{ij} * (\frac{1}{10000})}
+#' where \eqn{a_{ij}} is the area in square meters
+#'
+#' AREA is the area of each patch in hectares. The lower limit of AREA is limited by the
+#' resolution of the input raster, i.e. AREA can't be smaller than the resolution squared
+#' (in hectares)
+#'
 #' \subsection{Units}{hectares}
 #' \subsection{Range}{AREA > 0}
-#' \subsection{Behaviour}{Increases without limit as the patch size increases}
+#' \subsection{Behaviour}{Increases without limit as the patch area increases}
 #'
 #' @return tibble
 #'
@@ -62,7 +68,7 @@ lsm_p_area_calc <- function(landscape){
         cclabel()
 
     area_class <- labeled_landscape %>%
-        unname() %>%
+        # unname() %>%
         purrr::map_dfr(function(patches_class){
             area_patch <- patches_class %>%
                 raster::values() %>%

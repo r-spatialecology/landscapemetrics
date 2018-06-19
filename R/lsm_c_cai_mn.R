@@ -1,16 +1,22 @@
-#' Core area index distribution (class level)
+#' CAI_MN
 #'
-#' @description Mean of core area index (class level)
+#' @description Mean of the core area index (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
-
-#' Equals the mean of the core area index of class i.
-#' The core area index equals the percentage of a patch that is core area
-#' \deqn{CAI_MN = mean(CAI[patch_i]}
-#' \subsection{Units}{Percentage}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#'
+#' @details
+#' \deqn{CAI_MN = mean(CAI[patch_{ij}]}
+#' where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+#'
+#' CAI_MN is a 'Core area metric'. The metric summarises each class
+#' as the mean of the core area index of all patches belonging to class i.
+#' The core area index is the percentag of core area in relation to patch area
+#'
+#' \subsection{Units}{Percent}
+#' \subsection{Range}{CAI_MN > 0}
+#' \subsection{Behaviour}{Increases as the corea area indices increase}
+#'
+#' @seealso \code{\link{lsm_p_cai}} and \code{\link{mean}}
 #'
 #' @return tibble
 #'
@@ -26,44 +32,40 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_cai_mn <- function(landscape, directions) UseMethod("lsm_c_cai_mn")
+lsm_c_cai_mn <- function(landscape) UseMethod("lsm_c_cai_mn")
 
 #' @name lsm_c_cai_mn
 #' @export
-lsm_c_cai_mn.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_c_cai_mn.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_mn
 #' @export
-lsm_c_cai_mn.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_c_cai_mn.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_mn
 #' @export
-lsm_c_cai_mn.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_c_cai_mn.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_cai_mn
 #' @export
-lsm_c_cai_mn.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape, lsm_c_cai_mn_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_c_cai_mn.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_c_cai_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_cai_mn_calc <- function(landscape, directions = 8){
+lsm_c_cai_mn_calc <- function(landscape){
     cai_mean <- landscape %>%
-        lsm_p_cai_calc(directions = directions) %>%
+        lsm_p_cai_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

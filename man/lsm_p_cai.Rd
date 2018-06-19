@@ -10,33 +10,37 @@
 \alias{lsm_p_cai.RasterBrick}
 \alias{lsm_p_cai}
 \alias{lsm_p_cai.list}
-\title{Core area index  (patch level)}
+\title{CAI}
 \usage{
-lsm_p_cai(landscape, directions)
+lsm_p_cai(landscape)
 
-\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterLayer}(landscape)
 
-\method{lsm_p_cai}{RasterStack}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterStack}(landscape)
 
-\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterBrick}(landscape)
 
-\method{lsm_p_cai}{list}(landscape, directions = 8)
+\method{lsm_p_cai}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble
 }
 \description{
-Core area index of patch (patch level)
+Core area index (patch level)
 }
 \details{
-The core area index equals the percentage of a patch that is core area
-\deqn{CAI = (core[patch] / area[patch]) * 100}
-\subsection{Units}{Percentage}
+\deqn{CAI = (\frac{a_{ij}^{core}}{a_{ij}}) * 100}
+where \eqn{a_{ij}^{core}} is the core area in square meters and \eqn{a_{ij}}
+is the patch area in square meters
+
+CAI is a 'Core area metric'. It equals the percentage of a patch that is core area.
+A cell is defined as core area if the cells has no neighbour with a different value
+than itself (rook's case)
+
+\subsection{Units}{Percent}
 \subsection{Range}{0 <= CAI <= 100}
 \subsection{Behaviour}{CAI = 0 when the patch has no core area and
 approaches CAI = 100 with increasing percentage of core area within a patch}
@@ -49,4 +53,7 @@ lsm_p_cai(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_core}}
 }

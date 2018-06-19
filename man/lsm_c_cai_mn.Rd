@@ -10,34 +10,38 @@
 \alias{lsm_c_cai_mn.RasterBrick}
 \alias{lsm_c_cai_mn}
 \alias{lsm_c_cai_mn.list}
-\title{Core area index distribution (class level)}
+\title{CAI_MN}
 \usage{
-lsm_c_cai_mn(landscape, directions)
+lsm_c_cai_mn(landscape)
 
-\method{lsm_c_cai_mn}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_cai_mn}{RasterLayer}(landscape)
 
-\method{lsm_c_cai_mn}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_cai_mn}{RasterStack}(landscape)
 
-\method{lsm_c_cai_mn}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_cai_mn}{RasterBrick}(landscape)
 
-\method{lsm_c_cai_mn}{list}(landscape, directions = 8)
+\method{lsm_c_cai_mn}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???
-Equals the mean of the core area index of class i.
-The core area index equals the percentage of a patch that is core area
-\deqn{CAI_MN = mean(CAI[patch_i]}
-\subsection{Units}{Percentage}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
-Mean of core area index (class level)
+Mean of the core area index (class level)
+}
+\details{
+\deqn{CAI_MN = mean(CAI[patch_{ij}]}
+where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+
+CAI_MN is a 'Core area metric'. The metric summarises each class
+as the mean of the core area index of all patches belonging to class i.
+The core area index is the percentag of core area in relation to patch area
+
+\subsection{Units}{Percent}
+\subsection{Range}{CAI_MN > 0}
+\subsection{Behaviour}{Increases as the corea area indices increase}
 }
 \examples{
 lsm_c_cai_mn(landscape)
@@ -47,4 +51,7 @@ lsm_c_cai_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_cai}} and \code{\link{mean}}
 }

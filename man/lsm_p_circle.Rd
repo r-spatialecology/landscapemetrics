@@ -10,7 +10,7 @@
 \alias{lsm_p_circle.RasterBrick}
 \alias{lsm_p_circle}
 \alias{lsm_p_circle.list}
-\title{Related Circumscribing Circle (CIRCLE)}
+\title{CIRCLE}
 \usage{
 lsm_p_circle(landscape)
 
@@ -32,12 +32,17 @@ tibble
 Related Circumscribing Circle (patch)
 }
 \details{
-Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest
-circumscribing circle.
-\deqn{a = a + b}
+\deqn{CIRCLE = 1 - (\frac{a_{ij}}{a_{ij}^{circle}})}
+where \eqn{a_{ij}} is the area in square meters and \eqn{a_{ij}^{circle}} the area of
+the smalles circumscribing circle
+
+CIRCLE is a 'Shape metric'. The diameter of the smallest circumscribing circle is
+the 'diameter' of the patch connecting the opposing corner points of the two cells
+that are the furthest away from each other
 \subsection{Units}{None}
 \subsection{Range}{0 <= CIRCLE < 1}
-\subsection{Behaviour}{CIRCLE = 0 for circular patches and approaches 1 for linear patches}
+\subsection{Behaviour}{CIRCLe = 0 for a circular patch and approaches CIRCLE = 1 for
+a linear patch}
 }
 \examples{
 lsm_p_circle(landscape)
@@ -47,4 +52,7 @@ lsm_p_circle(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_area}}
 }

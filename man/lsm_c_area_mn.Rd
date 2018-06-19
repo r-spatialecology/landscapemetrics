@@ -10,7 +10,7 @@
 \alias{lsm_c_area_mn.RasterBrick}
 \alias{lsm_c_area_mn}
 \alias{lsm_c_area_mn.list}
-\title{Patch area distribution (class level)}
+\title{AREA_MN}
 \usage{
 lsm_c_area_mn(landscape)
 
@@ -23,21 +23,24 @@ lsm_c_area_mn(landscape)
 \method{lsm_c_area_mn}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
 }
 \value{
 tibble
 }
 \description{
-Mean patch area (class level)
+Mean of patch area (class level)
 }
 \details{
-Equals the mean patch area of class i.
-\deqn{AREA_MN = mean(AREA[patch_i])}
+\deqn{AREA_MN = mean(AREA[patch_{ij}])}
+where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+
+AREA_MN is an 'Area and Edge metric'. The metric summarises each class
+as the mean of all patch areas belonging to class i
+
 \subsection{Units}{Hectares}
 \subsection{Range}{AREA_MN > 0}
-\subsection{Behaviour}{AREA_MN increases without limit as the amount of the
-class increases. AREA_MN = TA if only one class is present}
+\subsection{Behaviour}{Increases as the patch areas increase}
 }
 \examples{
 lsm_c_area_mn(landscape)
@@ -47,4 +50,7 @@ lsm_c_area_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_area}} and \code{\link{mean}}
 }

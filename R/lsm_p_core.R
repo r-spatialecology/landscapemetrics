@@ -3,11 +3,12 @@
 #' @description Area of core area of patch (patch level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 #'
 #' @details
 #' Equals the area within a patch that is not on the edge of the patch. In other words,
 #' the area of a patch that has only neighbouring cells of the same type
+#' A cell is defined as core area if the cells has no neighbour with a different value
+#' than itself (rook's case)
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CORE >= 0}
 #' \subsection{Behaviour}{Increases without limit as patch area increases
@@ -29,48 +30,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_p_core.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_p_core.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_p_core.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape, lsm_p_core_calc,
-                   directions = directions, .id = "layer") %>%
+lsm_p_core.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_core_calc <- function(landscape, directions = 8){
+lsm_p_core_calc <- function(landscape){
 
     core_area <- landscape %>%
         cclabel() %>%
-        unname() %>%
+        # unname() %>%
         purrr::map_dfr(function(landscape_patch) {
             landscape_patch %>%
                 raster::values() %>%
@@ -84,7 +81,7 @@ lsm_p_core_calc <- function(landscape, directions = 8){
                         purrr::map_dbl(function(cell_id) {
                             adjacent_cells <- raster::adjacent(landscape_patch,
                                                                cells = cell_id,
-                                                               directions = directions,
+                                                               directions = 4,
                                                                pairs = FALSE)
                             ifelse(all(landscape_patch[adjacent_cells] == patch_id), cell_id, NA)
                         }) %>%

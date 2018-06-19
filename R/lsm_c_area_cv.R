@@ -1,15 +1,21 @@
-#' Patch area distribution (class level)
+#' AREA_CV
 #'
 #' @description Coeffiecent of variation of patch area (class level)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' Equals the coeffiecent of variation of the patch area of class i
-#' \deqn{AREA_CV = cv(AREA[patch_i])}
+#' \deqn{AREA_CV = cv(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#'
+#' AREA_CV is an 'Area and Edge metric'. The metric summarises each class
+#' as the coeffiecent of variation of all patch areas belonging to class i
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{AREA_CV >= 0}
+#' \subsection{Behaviour}{Increases as the variation of patch areas increases}
+#'
+#' @seealso \code{\link{lsm_p_area}} and \code{\link{cv}}
 #'
 #' @return tibble
 #'
