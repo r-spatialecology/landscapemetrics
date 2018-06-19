@@ -1,0 +1,46 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Known issues
+
+- FRAGSTATS only rounds after the 4th decimal place
+   - That also effects the resolution, if your raster has a resolution with more 
+     than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx) 
+
+### Possible errors in FRAGSTATS for certain metrics
+
+#### CIRCLE metric
+Patches with 1 cell get a CIRCLE metric of 0, should be something around 0.36 instead.
+Sometimes the abbreviation is CIRCLE, sometimes SQUARE.
+
+#### PARA metric
+There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
+The program uses hectare, whereas the documentation states in the formula square meter.
+
+#### SHAPE metric
+The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:
+
+\deqn{(0.25 * PERIM) / sqrt(AREA)}
+
+... and FRAGSTATS give as result for a patch with 5 cells and a perimeter of 12 
+the value of 1.200.
+
+However, implementing the same formula in R results in:
+
+```{r}
+(0.25 * 12) / sqrt(5)
+```
+
+## Patch level
+
+## Class level
+
+## Landscape level

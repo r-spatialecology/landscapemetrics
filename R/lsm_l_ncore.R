@@ -55,7 +55,7 @@ lsm_l_ncore.RasterBrick <- function(landscape) {
 
 #' @name lsm_l_ncore
 #' @export
-lsm_l_ncore.list <- function(landscape8) {
+lsm_l_ncore.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_l_ncore_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }

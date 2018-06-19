@@ -4,6 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param what Selected level of metrics: either "all", "patch", "class", "landscape". The default is "all".
+#' @param classes_max xxx.
 #' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @return tibble

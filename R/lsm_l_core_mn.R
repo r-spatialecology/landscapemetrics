@@ -28,7 +28,7 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_core_mn <- function(landscape, directions) UseMethod("lsm_l_core_mn")
+lsm_l_core_mn <- function(landscape) UseMethod("lsm_l_core_mn")
 
 #' @name lsm_l_core_mn
 #' @export
