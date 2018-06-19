@@ -81,6 +81,10 @@ lsm_calculate(landscape_raster) %>%
   head()
 ```
 
+## Important information for using **landscapemetrics**
+
+- The resolution of a cell has to be in **meters**, as the package converts units internally and returns results in square area for some metrics.
+
 
 ## Using **landscapemetrics** in a tidy workflow
 

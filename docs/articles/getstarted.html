@@ -86,7 +86,7 @@
     <div class="page-header toc-ignore">
       <h1>Get Started with landscapemetrics</h1>
             
-            <h4 class="date">2018-06-18</h4>
+            <h4 class="date">2018-06-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marcosci/landscapemetrics/blob/master/vignettes/getstarted.Rmd"><code>vignettes/getstarted.Rmd</code></a></small>
       <div class="hidden name"><code>getstarted.Rmd</code></div>
@@ -174,16 +174,25 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># Calculate all available landscape metrics </span></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="kw">lsm_calculate</span>(landscape_raster) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/headtail">head</a></span>()</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; Warning in .f(.x[[i]], ...): classes_max is NULL - returning NA</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;   layer level class    id metric  value</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; 1     1 patch     1     1 area   0.0001</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 2     1 patch     1     2 area   0.0005</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 3     1 patch     1     3 area   0.0148</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 4     1 patch     1     4 area   0.0001</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 5     1 patch     1     5 area   0.0001</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 6     1 patch     1     6 area   0.0014</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; Warning in .f(.x[[i]], ...): PAFRAC = NA for classes NP &lt; 10</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; Warning in .f(.x[[i]], ...): RPR = NA for classes_max=NULL</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; # A tibble: 6 x 6</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   layer level class    id metric  value</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 1     1 patch     1     1 area   0.0001</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 2     1 patch     1     2 area   0.0005</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 3     1 patch     1     3 area   0.0148</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 4     1 patch     1     4 area   0.0001</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 5     1 patch     1     5 area   0.0001</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 6     1 patch     1     6 area   0.0014</span></a></code></pre></div>
+<div id="important-information-for-using-landscapemetrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#important-information-for-using-landscapemetrics" class="anchor"></a>Important information for using <strong>landscapemetrics</strong>
+</h2>
+<ul>
+<li>The resolution of a cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in square area for some metrics.</li>
+</ul>
+</div>
 <div id="using-landscapemetrics-in-a-tidy-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-landscapemetrics-in-a-tidy-workflow" class="anchor"></a>Using <strong>landscapemetrics</strong> in a tidy workflow</h2>
@@ -224,15 +233,15 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;    layer level class    id metric          value</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;  1     1 patch     1     1 core area index   0  </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  2     1 patch     1     2 core area index  20  </span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  3     1 patch     1     3 core area index  48.6</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;  2     1 patch     1     2 core area index   0  </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;  3     1 patch     1     3 core area index  27.0</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;  4     1 patch     1     4 core area index   0  </span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;  5     1 patch     1     5 core area index   0  </span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  6     1 patch     1     6 core area index  14.3</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt;  6     1 patch     1     6 core area index   0  </span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;  7     1 patch     1     7 core area index   0  </span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt;  8     1 patch     1     8 core area index   0  </span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;  9     1 patch     1     9 core area index   0  </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 10     1 patch     2    10 core area index  42.9</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 10     1 patch     2    10 core area index  25.7</span></a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; # ... with 71 more rows</span></a></code></pre></div>
 </div>
 </div>
@@ -265,7 +274,8 @@ lsm_l_enn()</code></pre>
 <li><a href="#introduction">Introduction</a></li>
       <li>
 <a href="#using-landscapemetrics">Using <strong>landscapemetrics</strong></a><ul class="nav nav-pills nav-stacked">
-<li><a href="#using-landscapemetrics-in-a-tidy-workflow">Using <strong>landscapemetrics</strong> in a tidy workflow</a></li>
+<li><a href="#important-information-for-using-landscapemetrics">Important information for using <strong>landscapemetrics</strong></a></li>
+      <li><a href="#using-landscapemetrics-in-a-tidy-workflow">Using <strong>landscapemetrics</strong> in a tidy workflow</a></li>
       <li><a href="#connected-labelling">Connected labelling</a></li>
       <li><a href="#visualizing-patches">Visualizing patches</a></li>
       </ul>
