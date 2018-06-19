@@ -62,6 +62,11 @@ cclabel.list <- function(landscape, what = "all") {
 cclabel_int <- function(landscape, what = "all") {
 
     if (what != "all") {
+
+        if(!isTRUE(what %in% raster::unique(landscape))){
+           stop(paste("There is no class", what, "in your raster"))
+        }
+
         # coerce to matrix for connected labeling algorithm
         landscape_matrix <- raster::as.matrix(landscape)
         # ccl algorithm
@@ -82,15 +87,12 @@ cclabel_int <- function(landscape, what = "all") {
         filtered_cclabel <-
             ifelse(filter_mat, cclabel_matrix, NA)
 
-        cclabel_landscape <- raster::raster(filtered_cclabel)
+        e <- raster::extent(landscape)
+        r <- raster::raster(e,
+                            resolution = raster::res(landscape),
+                            crs = raster::crs(landscape))
 
-        # specify resolution ----
-        raster::extent(cclabel_landscape) <- c(
-            raster::xmin(landscape),
-            raster::xmax(landscape),
-            raster::xmin(landscape),
-            raster::xmax(landscape)
-        )
+        cclabel_landscape <- raster::setValues(r, filtered_cclabel)
 
         rcl <-  cbind(
             raster::unique(cclabel_landscape),
@@ -103,6 +105,9 @@ cclabel_int <- function(landscape, what = "all") {
                                rcl = rcl,
                                right = NA)
 
+        names(cclabel_landscape) <- paste0("Class_", what)
+
+        return(cclabel_landscape)
     } else {
         cclabel_landscape <- purrr::map(raster::unique(landscape), function(x) {
             # coerce to matrix for connected labeling algorithm
@@ -125,16 +130,16 @@ cclabel_int <- function(landscape, what = "all") {
             filtered_cclabel <-
                 ifelse(filter_mat, cclabel_matrix, NA)
 
-            cclabel_landscape <-
-                raster::raster(filtered_cclabel)
 
-            # specify resolution ----
-            raster::extent(cclabel_landscape) <- c(
-                raster::xmin(landscape),
-                raster::xmax(landscape),
-                raster::xmin(landscape),
-                raster::xmax(landscape)
-            )
+            filtered_cclabel <-
+                ifelse(filter_mat, cclabel_matrix, NA)
+
+            e <- raster::extent(landscape)
+            r <- raster::raster(e,
+                                resolution = raster::res(landscape),
+                                crs = raster::crs(landscape))
+
+            cclabel_landscape <- raster::setValues(r, filtered_cclabel)
 
             rcl <-  cbind(
                 raster::unique(cclabel_landscape),
@@ -146,19 +151,11 @@ cclabel_int <- function(landscape, what = "all") {
                 raster::reclassify(cclabel_landscape,
                                    rcl = rcl,
                                    right = NA)
+
+            names(cclabel_landscape) <- paste0("Class_", x)
+            return(cclabel_landscape)
         })
 
-        names(cclabel_landscape) <-
-            purrr::map_chr(raster::unique(landscape),
-                           function(x) {
-                               paste("Class", x)
-                           })
-
-
-        cclabel_landscape
-        # return rasterstack for each class
-        # cclabel_landscape <-
-        #     raster::brick(unlist(cclabel_list))
 
 
     }
