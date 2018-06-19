@@ -82,7 +82,7 @@ lsm_l_np_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "number of patches",
-        value = n_patches$value
+        value = as.double(n_patches$value)
     )
 
 }

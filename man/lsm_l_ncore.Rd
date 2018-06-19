@@ -12,20 +12,18 @@
 \alias{lsm_l_ncore.list}
 \title{Number of core areas (landscape level)}
 \usage{
-lsm_l_ncore(landscape, directions)
+lsm_l_ncore(landscape)
 
-\method{lsm_l_ncore}{RasterLayer}(landscape, directions = 8)
+\method{lsm_l_ncore}{RasterLayer}(landscape)
 
-\method{lsm_l_ncore}{RasterStack}(landscape, directions = 8)
+\method{lsm_l_ncore}{RasterStack}(landscape)
 
-\method{lsm_l_ncore}{RasterBrick}(landscape, directions = 8)
+\method{lsm_l_ncore}{RasterBrick}(landscape)
 
-\method{lsm_l_ncore}{list}(landscape, directions = 8)
+\method{lsm_l_ncore}{list}(landscape8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble

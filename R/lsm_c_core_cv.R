@@ -3,7 +3,6 @@
 #' @description Coeffiecent of variation of patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 #'
 #' @details
 #' Equals the coeffiecent of variation of the patch core area of class i. The core area is
@@ -29,47 +28,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_core_cv <- function(landscape, directions) UseMethod("lsm_c_core_cv")
+lsm_c_core_cv <- function(landscape) UseMethod("lsm_c_core_cv")
 
 #' @name lsm_c_core_cv
 #' @export
-lsm_c_core_cv.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_core_cv.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_core_cv
 #' @export
-lsm_c_core_cv.RasterStack <- function(landscape, directions = 8) {
+lsm_c_core_cv.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_core_cv
 #' @export
-lsm_c_core_cv.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_core_cv.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_core_cv
 #' @export
-lsm_c_core_cv.list <- function(landscape, directions = 8) {
+lsm_c_core_cv.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_core_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_c_core_cv_calc <- function(landscape, directions = 8){
+lsm_c_core_cv_calc <- function(landscape){
 
     core_cv <- landscape %>%
-        lsm_p_core_calc(directions = directions) %>%
+        lsm_p_core_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 

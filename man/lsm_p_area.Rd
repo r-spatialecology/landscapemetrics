@@ -10,7 +10,7 @@
 \alias{lsm_p_area.RasterBrick}
 \alias{lsm_p_area}
 \alias{lsm_p_area.list}
-\title{Area  (patch level)}
+\title{AREA}
 \usage{
 lsm_p_area(landscape)
 
@@ -29,13 +29,19 @@ lsm_p_area(landscape)
 tibble
 }
 \description{
-Area of a patch (patch level)
+Patch area (patch level)
 }
 \details{
-Equals the area of the patch
+\deqn{AREA = a_{ij} * (\frac{1}{10000})}
+where \eqn{a_{ij}} is the area in square meters
+
+AREA is the area of each patch in hectares. The lower limit of AREA is limited by the
+resolution of the input raster, i.e. AREA can't be smaller than the resolution squared
+(in hectares)
+
 \subsection{Units}{hectares}
 \subsection{Range}{AREA > 0}
-\subsection{Behaviour}{Increases without limit as the patch size increases}
+\subsection{Behaviour}{Increases without limit as the patch area increases}
 }
 \examples{
 lsm_p_area(landscape)

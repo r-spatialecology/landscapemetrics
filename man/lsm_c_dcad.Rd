@@ -12,20 +12,18 @@
 \alias{lsm_c_dcad.list}
 \title{Disjunct core area density (class level)}
 \usage{
-lsm_c_dcad(landscape, directions)
+lsm_c_dcad(landscape)
 
-\method{lsm_c_dcad}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterLayer}(landscape)
 
-\method{lsm_c_dcad}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterStack}(landscape)
 
-\method{lsm_c_dcad}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterBrick}(landscape)
 
-\method{lsm_c_dcad}{list}(landscape, directions = 8)
+\method{lsm_c_dcad}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble

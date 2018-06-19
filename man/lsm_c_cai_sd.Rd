@@ -10,34 +10,38 @@
 \alias{lsm_c_cai_sd.RasterBrick}
 \alias{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd.list}
-\title{Core area index distribution (class level)}
+\title{CAI_SD}
 \usage{
-lsm_c_cai_sd(landscape, directions)
+lsm_c_cai_sd(landscape)
 
-\method{lsm_c_cai_sd}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_cai_sd}{RasterLayer}(landscape)
 
-\method{lsm_c_cai_sd}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_cai_sd}{RasterStack}(landscape)
 
-\method{lsm_c_cai_sd}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_cai_sd}{RasterBrick}(landscape)
 
-\method{lsm_c_cai_sd}{list}(landscape, directions = 8)
+\method{lsm_c_cai_sd}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???
-Equals the standard deviation of the core area index of class i.
-The core area index equals the percentage of a patch that is core area
-\deqn{CAI_SD = sd(CAI[patch_i]}
-\subsection{Units}{???}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}}
 }
 \value{
 tibble
 }
 \description{
-Standard deviation of core area index (class level)
+Standard deviation of the core area index (class level)
+}
+\details{
+\deqn{CAI_SD = sd(CAI[patch_{ij}]}
+where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+
+CAI_SD is a 'Core area metric'. The metric summarises each class
+as the standard deviation of the core area index of all patches belonging to class i.
+The core area index is the percentag of core area in relation to patch area
+
+\subsection{Units}{Percent}
+\subsection{Range}{CAI_SD >= 0}
+\subsection{Behaviour}{Increases as the variation of the core area indices increases}
 }
 \examples{
 lsm_c_cai_sd(landscape)
@@ -47,4 +51,7 @@ lsm_c_cai_sd(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_cai}} and \code{\link{sd}}
 }

@@ -3,7 +3,6 @@
 #' @description Standard deviation of patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 
 #' @details
 #' Equals the standard deviation of the patch core area of class i. The core area is
@@ -33,43 +32,40 @@ lsm_c_core_sd <- function(landscape, directions) UseMethod("lsm_c_core_sd")
 
 #' @name lsm_c_core_sd
 #' @export
-lsm_c_core_sd.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_core_sd.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_core_sd
 #' @export
-lsm_c_core_sd.RasterStack <- function(landscape, directions = 8) {
+lsm_c_core_sd.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_core_sd
 #' @export
-lsm_c_core_sd.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_core_sd.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_core_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_core_sd
 #' @export
-lsm_c_core_sd.list <- function(landscape, directions = 8) {
+lsm_c_core_sd.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_core_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_c_core_sd_calc <- function(landscape, directions = 8){
+lsm_c_core_sd_calc <- function(landscape){
 
     core_sd <- landscape %>%
-        lsm_p_core_calc(directions = directions) %>%
+        lsm_p_core_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 

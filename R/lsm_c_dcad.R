@@ -3,7 +3,6 @@
 #' @description Disjunct core area density (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 
 #' @details
 #' Disjunct core area density equals the sum of number of core areas of
@@ -31,49 +30,46 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_c_dcad <- function(landscape, directions) UseMethod("lsm_c_dcad")
+lsm_c_dcad <- function(landscape) UseMethod("lsm_c_dcad")
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_dcad.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_dcad_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterStack <- function(landscape, directions = 8) {
+lsm_c_dcad.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_dcad_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_dcad.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_dcad_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.list <- function(landscape, directions = 8) {
+lsm_c_dcad.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_dcad_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_c_dcad_calc <- function(landscape, directions = 8){
+lsm_c_dcad_calc <- function(landscape){
 
     total_area <- lsm_l_ta_calc(landscape)
 
     dcad <- landscape %>%
-        lsm_c_ncore_calc(directions = directions) %>%
+        lsm_c_ncore_calc() %>%
         dplyr::mutate(value = value / total_area$value) # Correct unit?
 
     tibble::tibble(

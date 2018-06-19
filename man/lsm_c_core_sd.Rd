@@ -14,18 +14,16 @@
 \usage{
 lsm_c_core_sd(landscape, directions)
 
-\method{lsm_c_core_sd}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_core_sd}{RasterLayer}(landscape)
 
-\method{lsm_c_core_sd}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_core_sd}{RasterStack}(landscape)
 
-\method{lsm_c_core_sd}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_core_sd}{RasterBrick}(landscape)
 
-\method{lsm_c_core_sd}{list}(landscape, directions = 8)
+\method{lsm_c_core_sd}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble

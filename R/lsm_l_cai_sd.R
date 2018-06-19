@@ -3,8 +3,6 @@
 #' @description Standard deviation of core area index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
-
 #'
 #' @details
 #' Equals the standard deviation of the core area index of all patches in the landscape.
@@ -28,47 +26,44 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_cai_sd <- function(landscape, directions) UseMethod("lsm_l_cai_sd")
+lsm_l_cai_sd <- function(landscape) UseMethod("lsm_l_cai_sd")
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterLayer <- function(landscape, directions = 8) {
+lsm_l_cai_sd.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterStack <- function(landscape, directions = 8) {
+lsm_l_cai_sd.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterBrick <- function(landscape, directions = 8) {
+lsm_l_cai_sd.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.list <- function(landscape, directions = 8) {
+lsm_l_cai_sd.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_l_cai_sd_calc,
-                   directions = directions, .id = "layer") %>%
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_l_cai_sd_calc <- function(landscape, directions = 8){
+lsm_l_cai_sd_calc <- function(landscape){
 
     cai_sd <- landscape %>%
-        lsm_p_cai(directions = directions) %>%
+        lsm_p_cai() %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(

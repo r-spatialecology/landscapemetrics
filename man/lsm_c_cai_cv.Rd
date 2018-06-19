@@ -10,36 +10,39 @@
 \alias{lsm_c_cai_cv.RasterBrick}
 \alias{lsm_c_cai_cv}
 \alias{lsm_c_cai_cv.list}
-\title{Core area index distribution (class level)}
+\title{CAI_CV}
 \usage{
-lsm_c_cai_cv(landscape, directions)
+lsm_c_cai_cv(landscape)
 
-\method{lsm_c_cai_cv}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterLayer}(landscape)
 
-\method{lsm_c_cai_cv}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterStack}(landscape)
 
-\method{lsm_c_cai_cv}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterBrick}(landscape)
 
-\method{lsm_c_cai_cv}{list}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{directions}{???}
 }
 \value{
 tibble
 }
 \description{
-Coefficient of variation of core area index (class level)
+Coefficient of variation of the core area index (class level)
 }
 \details{
-Equals the coeffiecent of variation of the core area index of class i.
-The core area index equals the percentage of a patch that is core area
-\deqn{CAI_CV = cv(CAI[patch_i]}
-\subsection{Units}{???}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\deqn{CAI_CV = cv(CAI[patch_{ij}]}
+where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+
+CAI_CV is a 'Core area metric'. The metric summarises each class
+as the coeffiecent of variation of the core area index of all patches
+belonging to class i. The core area index is the percentag of core area
+in relation to patch area
+
+\subsection{Units}{Percent}
+\subsection{Range}{CAI_CV >= 0}
+\subsection{Behaviour}{Increases as the variation of the core area indices increases}
 }
 \examples{
 lsm_c_cai_cv(landscape)
@@ -49,4 +52,7 @@ lsm_c_cai_cv(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_cai}} and \code{\link{cv}}
 }

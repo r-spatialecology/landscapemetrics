@@ -1,16 +1,21 @@
-#' Patch area distribution (class level)
+#' AREA_MN
 #'
-#' @description Mean patch area (class level)
+#' @description Mean of patch area (class level)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' Equals the mean patch area of class i.
-#' \deqn{AREA_MN = mean(AREA[patch_i])}
+#' \deqn{AREA_MN = mean(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#'
+#' AREA_MN is an 'Area and Edge metric'. The metric summarises each class
+#' as the mean of all patch areas belonging to class i
+#'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_MN > 0}
-#' \subsection{Behaviour}{AREA_MN increases without limit as the amount of the
-#' class increases. AREA_MN = TA if only one class is present}
+#' \subsection{Behaviour}{Increases as the patch areas increase}
+#'
+#' @seealso \code{\link{lsm_p_area}} and \code{\link{mean}}
 #'
 #' @return tibble
 #'

@@ -3,7 +3,6 @@
 #' @description Mean of number of core areas (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions ???
 #'
 #' @details
 #' Equals the mean of number of core area of class i.
@@ -32,42 +31,39 @@ lsm_c_ncore_mn <- function(landscape, directions) UseMethod("lsm_c_ncore_mn")
 
 #' @name lsm_c_ncore_mn
 #' @export
-lsm_c_ncore_mn.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_ncore_mn.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ncore_mn
 #' @export
-lsm_c_ncore_mn.RasterStack <- function(landscape, directions = 8) {
+lsm_c_ncore_mn.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_ncore_mn
 #' @export
-lsm_c_ncore_mn.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_ncore_mn.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_c_ncore_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_c_ncore_mn
 #' @export
-lsm_c_ncore_mn.list <- function(landscape, directions = 8) {
+lsm_c_ncore_mn.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_ncore_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_c_ncore_mn_calc <- function(landscape, directions = 8){
+lsm_c_ncore_mn_calc <- function(landscape){
     ncore_mean <- landscape %>%
-        lsm_p_ncore_calc(directions = directions) %>%
+        lsm_p_ncore_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

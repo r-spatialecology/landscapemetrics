@@ -3,7 +3,6 @@
 #' @description Mean of patch core area (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param direction ???
 #'
 #' @details
 #' Equals the mean of the patch core area of all patches in the landscape.
@@ -33,43 +32,40 @@ lsm_l_core_mn <- function(landscape, directions) UseMethod("lsm_l_core_mn")
 
 #' @name lsm_l_core_mn
 #' @export
-lsm_l_core_mn.RasterLayer <- function(landscape, directions = 8) {
+lsm_l_core_mn.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_core_mn
 #' @export
-lsm_l_core_mn.RasterStack <- function(landscape, directions = 8) {
+lsm_l_core_mn.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_core_mn
 #' @export
-lsm_l_core_mn.RasterBrick <- function(landscape, directions = 8) {
+lsm_l_core_mn.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_core_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 #' @name lsm_l_core_mn
 #' @export
-lsm_l_core_mn.list <- function(landscape, directions = 8) {
+lsm_l_core_mn.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_l_core_mn_calc,
-                   directions = directions, .id = "layer") %>%
+                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
-lsm_l_core_mn_calc <- function(landscape, directions = 8){
+lsm_l_core_mn_calc <- function(landscape){
 
     core_mean <- landscape %>%
-        lsm_p_core_calc(directions = directions) %>%
+        lsm_p_core_calc() %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(

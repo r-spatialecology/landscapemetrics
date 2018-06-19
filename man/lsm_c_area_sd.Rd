@@ -10,7 +10,7 @@
 \alias{lsm_c_area_sd.RasterBrick}
 \alias{lsm_c_area_sd}
 \alias{lsm_c_area_sd.list}
-\title{Patch area distribution (class level)}
+\title{AREA_SD}
 \usage{
 lsm_c_area_sd(landscape)
 
@@ -23,7 +23,7 @@ lsm_c_area_sd(landscape)
 \method{lsm_c_area_sd}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
 }
 \value{
 tibble
@@ -32,11 +32,15 @@ tibble
 Standard deviation of patch area (class level)
 }
 \details{
-Equals the standard deviation of the patch area of class i
-\deqn{AREA_SD = sd(AREA[patch_i])}
+\deqn{AREA_SD = sd(AREA[patch_{ij}])}
+where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+
+AREA_SD is an 'Area and Edge metric'. The metric summarises each class
+as the standard deviation of all patch areas belonging to class i
+
 \subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{AREA_SD >= 0}
+\subsection{Behaviour}{Increases as the variation of patch areas increases}
 }
 \examples{
 lsm_c_area_sd(landscape)
@@ -46,4 +50,7 @@ lsm_c_area_sd(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_area}} and \code{\link{sd}}
 }
