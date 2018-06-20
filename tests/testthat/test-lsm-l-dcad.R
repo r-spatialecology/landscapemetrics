@@ -1,0 +1,24 @@
+context("landscape level dcad metric")
+
+landscapemetrics_landscape_landscape_dcad <- lsm_l_dcad(landscape)
+
+test_that("lsm_c_dcad is typestable", {
+    expect_is(landscapemetrics_landscape_landscape_dcad, "tbl_df")
+    expect_is(lsm_l_dcad(landscape_stack), "tbl_df")
+    expect_is(lsm_l_dcad(list(landscape, landscape)), "tbl_df")
+})
+
+test_that("lsm_p_area returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_landscape_landscape_dcad), 6)
+})
+
+test_that("lsm_p_area returns in every column the correct type", {
+    expect_type(landscapemetrics_landscape_landscape_dcad$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_dcad$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_dcad$landscape, "integer")
+    expect_type(landscapemetrics_landscape_landscape_dcad$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_dcad$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_dcad$value, "double")
+})
+
+

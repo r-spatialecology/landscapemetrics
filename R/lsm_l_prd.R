@@ -64,7 +64,7 @@ lsm_l_prd_calc <- function(landscape) {
 
     prd <- landscape %>%
         lsm_l_pr_calc() %>%
-        dplyr::mutate(value = value / area_landscape$value)
+        dplyr::mutate(value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
         level = "landscape",

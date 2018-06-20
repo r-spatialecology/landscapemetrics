@@ -1,24 +1,24 @@
-context("class level core metric")
+context("class level tca metric")
 
-landscapemetrics_class_landscape_core <- lsm_c_core(landscape)
+landscapemetrics_class_landscape_tca <- lsm_c_tca(landscape)
 
-test_that("lsm_c_core is typestable", {
-    expect_is(landscapemetrics_class_landscape_core, "tbl_df")
-    expect_is(lsm_c_core(landscape_stack), "tbl_df")
-    expect_is(lsm_c_core(list(landscape, landscape)), "tbl_df")
+test_that("lsm_c_tca is typestable", {
+    expect_is(landscapemetrics_class_landscape_tca, "tbl_df")
+    expect_is(lsm_c_tca(landscape_stack), "tbl_df")
+    expect_is(lsm_c_tca(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_core returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_core), 6)
+test_that("lsm_p_tca returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_class_landscape_tca), 6)
 })
 
-test_that("lsm_p_core returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_core$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_core$level, "character")
-    expect_type(landscapemetrics_class_landscape_core$class, "integer")
-    expect_type(landscapemetrics_class_landscape_core$id, "integer")
-    expect_type(landscapemetrics_class_landscape_core$metric, "character")
-    expect_type(landscapemetrics_class_landscape_core$value, "double")
+test_that("lsm_p_tca returns in every column the correct type", {
+    expect_type(landscapemetrics_class_landscape_tca$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_tca$level, "character")
+    expect_type(landscapemetrics_class_landscape_tca$class, "integer")
+    expect_type(landscapemetrics_class_landscape_tca$id, "integer")
+    expect_type(landscapemetrics_class_landscape_tca$metric, "character")
+    expect_type(landscapemetrics_class_landscape_tca$value, "double")
 })
 
 
