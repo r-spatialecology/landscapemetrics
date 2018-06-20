@@ -1,20 +1,26 @@
-#'  Core area percentage of landscape (class level)
+#' CPLAND (class level)
 #'
-#' @description Core area percentage of landscape (class level)
+#' @description Core area percentage of landscape (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Core area percenage of landscape equals the sum of core area of class i
-#' divided by the total area. In other words, CPLAND equals the percentage of
-#' the landscape belonging to class i only including core area. Because CPLAND is
-#' a relative measure, it is comparable among landscapes with different total areas
-#' \deqn{CPLAND = (sum(core[patch_i]) / total area) * 100}
+#' \deqn{CPLAND = (\frac{\sum_{j = 1} ^ {n} a_{ij} ^ {core}}{A}) * 100}
+#' where \eqn{a_{ij}^{core}} is the core area in square meters and \eqn{A}
+#' is the total landscape area in square meters.
+#'
+#' CPLAND is a 'Core area metric'. It is the percentage of core area of class i in relation to
+#' the total landscape area. A cell is defined as core area if the cell has
+#' no neighbour with a different value than itself (rook's case). Because CPLAND is
+#' a relative measure, it is comparable among landscapes with different total areas.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 <= CPLAND < 100}
-#' \subsection{Behaviour}{CPLAND approaches CPLAND =  0 when patches
-#' do not contain large core areas, i.e. are small and complex. Approaches CPLAND = 100
-#' when only one class and patch is present}
+#' \subsection{Behaviour}{Approaches CPLAND = 0 if CORE = 0 for all patches. Increases as
+#' the amount of core area increases, i.e. patches become larger while beiing rather simple
+#' in shape.}
+#'
+#' @seealso \code{\link{lsm_p_core}} and \code{\link{lsm_l_ta}}
 #'
 #' @return tibble
 #'
@@ -69,14 +75,14 @@ lsm_c_cpland_calc <- function(landscape){
     total_area <- lsm_l_ta_calc(landscape)
 
     cpland <- landscape %>%
-        lsm_c_core_calc() %>%
+        lsm_c_tca_calc() %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(
         level = "class",
-        class = cpland$class,
+        class = as.integer(cpland$class),
         id = as.integer(NA),
         metric = "core area percentage of landscape",
-        value = cpland$value
+        value = as.double(cpland$value)
     )
 }
