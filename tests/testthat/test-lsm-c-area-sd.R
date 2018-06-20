@@ -1,5 +1,5 @@
 context("class level area sd metric")
-s
+
 landscapemetrics_class_landscape_area <- lsm_c_area_sd(landscape)
 
 test_that("lsm_c_area_sd is typestable", {
