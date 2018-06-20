@@ -3,19 +3,12 @@
 \docType{data}
 \name{fragstats_class_landscape}
 \alias{fragstats_class_landscape}
-\alias{fragstats_class_landscape}
 \title{Fragstats results (class level)}
 \format{A tibble object.}
 \usage{
 fragstats_class_landscape
-
-fragstats_class_landscape
 }
 \description{
-A single tibble for every spatial dataset included in landscapemetrics
-that contains the FRAGSTAT results for every implemented metric on class
-level.
-
 A single tibble for every spatial dataset included in landscapemetrics
 that contains the FRAGSTAT results for every implemented metric on class
 level.

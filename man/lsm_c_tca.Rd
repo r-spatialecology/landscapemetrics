@@ -38,7 +38,10 @@ where here \eqn{a_{ij}^{core}} is the core area in square meters.
 TCA is a 'Core area metric' and equals the sum of core areas of all patches belonging
 to class i. A cell is defined as core area if the cell has no neighbour with a different
 value than itself (rook's case). In other words, the core area of a patch is all area that
-is not an edge.
+is not an edge. It characterises patch areas and shapes of patches belonging to class i
+simultaneously (more core area when the patch is large and the shape is rather compact,
+i.e. a square). Additionally, TCA is a measure for the configuration of the landscape,
+because the sum of edges increase as patches are less aggregated.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{TCA >= 0}

@@ -10,7 +10,7 @@
 \alias{lsm_c_dcad.RasterBrick}
 \alias{lsm_c_dcad}
 \alias{lsm_c_dcad.list}
-\title{Disjunct core area density (class level)}
+\title{DCAD (class level)}
 \usage{
 lsm_c_dcad(landscape)
 
@@ -29,19 +29,24 @@ lsm_c_dcad(landscape)
 tibble
 }
 \description{
-Disjunct core area density (class level)
+Disjunct core area density (Corea area metric)
 }
 \details{
-Disjunct core area density equals the sum of number of core areas of
-class i divided by the total area. In other words, it is the number of core areas
-relative to the total area. The measure is relative and therefore comparable among
-landscapes with different total areas
-\deqn{DCAD = sum(ncore[patch_i]) / total area}
-\subsection{Units}{Number per hectares (FRAGSTATS has per 100 ha)}
+\deqn{DCAD = (\frac{\sum_{j=1}^{n} n_{ij}^{core}}{A}) * 10000 * 100}
+where \eqn{n_{ij}^{core}} is the number of disjunct core areas and \eqn{A}
+is the total landscape area in square meters.
+
+DCAD is a 'Core area metric'. It equals the number of disjunct core areas per
+100 ha. relative to the total area. A disjunct core area is a 'patch within
+the patch' containing only core cells. A cell is defined as core area if the cell has no
+neighbour with a different value than itself (rook's case). The metric is relative and
+therefore comparable among landscapes with different total areas.
+
+\subsection{Units}{Number per 100 hectares}
 \subsection{Range}{DCAD >= 0}
-\subsection{Behaviour}{DCAD = 0 when CORE = 0, i.e. every cell in patches
-of class i is an edge. DCAD increases without limit as core areas become more
-present, i.e. patches becoming larger and less complex}
+\subsection{Behaviour}{Equals DCAD = 0 when DCORE = 0, i.e. no patch of class i contains
+a disjunct core area. Increases, without limit, as disjunct core areas become more
+present, i.e. patches becoming larger and less complex.}
 }
 \examples{
 lsm_c_dcad(landscape)
@@ -51,4 +56,9 @@ lsm_c_dcad(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_c_ndca}},
+\code{\link{lsm_l_area}}, \cr
+\code{\link{lsm_l_dcad}}
 }
