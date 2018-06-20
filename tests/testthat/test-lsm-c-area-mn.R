@@ -1,4 +1,4 @@
-context("class level area mn metric")
+context("class level area_mn metric")
 
 fragstats_class_landscape_area <- fragstats_class_landscape$AREA_MN
 landscapemetrics_class_landscape_area <- lsm_c_area_mn(landscape)
