@@ -37,7 +37,7 @@ class i divided by the total area. In other words, it is the number of core area
 relative to the total area. The measure is relative and therefore comparable among
 landscapes with different total areas
 \deqn{DCAD = sum(ncore[patch_i]) / total area}
-\subsection{Units}{Number per hectares (FRAGSTATS has per 100 ha)}
+\subsection{Units}{Number per 100 hectares}
 \subsection{Range}{DCAD >= 0}
 \subsection{Behaviour}{DCAD = 0 when CORE = 0, i.e. every cell in patches
 of class i is an edge. DCAD increases without limit as core areas become more

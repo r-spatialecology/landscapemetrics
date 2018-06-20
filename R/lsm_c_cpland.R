@@ -69,7 +69,7 @@ lsm_c_cpland_calc <- function(landscape){
     total_area <- lsm_l_ta_calc(landscape)
 
     cpland <- landscape %>%
-        lsm_c_core_calc() %>%
+        lsm_c_tca_calc() %>%
         dplyr::mutate(value = value / total_area$value * 100)
 
     tibble::tibble(

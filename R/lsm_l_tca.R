@@ -17,52 +17,52 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_core(landscape)
+#' lsm_l_tca(landscape)
 #'
-#' @aliases lsm_l_core
-#' @rdname lsm_l_core
+#' @aliases lsm_l_tca
+#' @rdname lsm_l_tca
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_core <- function(landscape) UseMethod("lsm_l_core")
+lsm_l_tca <- function(landscape) UseMethod("lsm_l_tca")
 
 
-#' @name lsm_l_core
+#' @name lsm_l_tca
 #' @export
-lsm_l_core.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_calc,
+lsm_l_tca.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
                     .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_core
+#' @name lsm_l_tca
 #' @export
-lsm_l_core.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_calc,
+lsm_l_tca.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
                     .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_core
+#' @name lsm_l_tca
 #' @export
-lsm_l_core.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_calc,
+lsm_l_tca.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
                     .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_core
+#' @name lsm_l_tca
 #' @export
-lsm_l_core.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_core_calc,
+lsm_l_tca.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_l_tca_calc,
                     .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_core_calc <- function(landscape) {
+lsm_l_tca_calc <- function(landscape) {
 
     total_core_area <- landscape %>%
         lsm_p_core_calc() %>%
