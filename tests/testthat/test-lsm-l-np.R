@@ -21,7 +21,7 @@ test_that("lsm_p_area returns the desired number of columns", {
 test_that("lsm_p_area returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_np$layer, "integer")
     expect_type(landscapemetrics_landscape_landscape_np$level, "character")
-    expect_type(landscapemetrics_landscape_landscape_np$landscape, "integer")
+    expect_type(landscapemetrics_landscape_landscape_np$class, "integer")
     expect_type(landscapemetrics_landscape_landscape_np$id, "integer")
     expect_type(landscapemetrics_landscape_landscape_np$metric, "character")
     expect_type(landscapemetrics_landscape_landscape_np$value, "double")

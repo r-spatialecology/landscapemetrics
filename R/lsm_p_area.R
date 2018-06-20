@@ -26,7 +26,7 @@
 #' \code{\link{lsm_l_area_mn}},
 #' \code{\link{lsm_l_area_sd}},
 #' \code{\link{lsm_l_area_cv}},
-#' \code{\link{lsm_l_ca}}
+#' \code{\link{lsm_l_ta}}
 #'
 #' @return tibble
 #'

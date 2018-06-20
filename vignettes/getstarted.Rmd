@@ -10,11 +10,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  cache=TRUE
 )
 ```
 
@@ -70,7 +70,7 @@ tibble in further analyses.
 # load packages
 library(landscapemetrics)
 library(raster)
-library(landscapemetrics)
+library(tidyverse)
 # Import raster
 landscape_raster <- landscapemetrics::landscape
 # for local file: raster("pathtoyourraster/raster.asc")

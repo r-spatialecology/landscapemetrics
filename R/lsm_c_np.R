@@ -68,7 +68,7 @@ lsm_c_np_calc <- function(landscape){
                 class = y,
                 id = as.integer(NA),
                 metric = "number of patches",
-                value = length(unique(raster::values(x)[!is.na(raster::values(x))]))
+                value = as.double(length(unique(raster::values(x)[!is.na(raster::values(x))])))
             )
         })
 }

@@ -29,7 +29,7 @@
 #' \code{\link{lsm_l_dcore_mn}},
 #' \code{\link{lsm_l_dcore_sd}},
 #' \code{\link{lsm_l_dcore_cv}},
-#' \code{\link{lsm_l_ncore}}
+#' \code{\link{lsm_l_ndca}}
 #'
 #' @return tibble
 #'
