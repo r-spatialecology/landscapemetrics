@@ -1,6 +1,8 @@
 context("patch level area metric")
 
-fragstats_patch_landscape_area <- fragstats_patch_landscape$AREA
+fragstats_patch_landscape_area <- c(1e-04, 0.0148, 5e-04, 0.0014, 1e-04, 5e-04, 1e-04, 1e-04, 3e-04,
+                                    9e-04, 0.0457, 0.001, 3e-04, 0.0035, 0.0057, 0.0024, 2e-04, 1e-04,
+                                    2e-04, 3e-04, 3e-04, 4e-04, 2e-04, 0.0098, 3e-04, 1e-04, 7e-04)
 landscapemetrics_patch_landscape_area <- lsm_p_area(landscape)
 
 test_that("lsm_p_area results are equal to fragstats", {
