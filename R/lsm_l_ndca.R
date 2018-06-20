@@ -9,20 +9,20 @@
 #' landscape. Called number of disjunct core areas in FRAGSTATS. A core area is a
 #' 'patch within the patch' without any edge cells. In other words, the number of
 #' patches within the patch that only have neighbouring cells of the same type
-#' \deqn{NCORE = sum(ncore[patch])}
+#' \deqn{ndca = sum(ndca[patch])}
 #' \subsection{Units}{None}
-#' \subsection{Range}{NCORE >= 0}
-#' \subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patches of class i is
-#' an edge. NCORE increases without limit as core areas become more present, i.e. patches
+#' \subsection{Range}{ndca >= 0}
+#' \subsection{Behaviour}{ndca = 0 when CORE = 0, i.e. every cell in patches of class i is
+#' an edge. ndca increases without limit as core areas become more present, i.e. patches
 #' becoming larger and less complex}
 #'
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_ncore(landscape)
+#' lsm_l_ndca(landscape)
 #'
-#' @aliases lsm_l_ncore
-#' @rdname lsm_l_ncore
+#' @aliases lsm_l_ndca
+#' @rdname lsm_l_ndca
 #'
 #' @references
 #' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
@@ -30,39 +30,39 @@
 #'  PNW-351.
 #'
 #' @export
-lsm_l_ncore <- function(landscape) UseMethod("lsm_l_ncore")
+lsm_l_ndca <- function(landscape) UseMethod("lsm_l_ndca")
 
-#' @name lsm_l_ncore
+#' @name lsm_l_ndca
 #' @export
-lsm_l_ncore.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc, .id = "layer") %>%
+lsm_l_ndca.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_ncore
+#' @name lsm_l_ndca
 #' @export
-lsm_l_ncore.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc, .id = "layer") %>%
+lsm_l_ndca.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_ncore
+#' @name lsm_l_ndca
 #' @export
-lsm_l_ncore.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ncore_calc, .id = "layer") %>%
+lsm_l_ndca.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_l_ncore
+#' @name lsm_l_ndca
 #' @export
-lsm_l_ncore.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_ncore_calc, .id = "layer") %>%
+lsm_l_ndca.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_ncore_calc <- function(landscape){
+lsm_l_ndca_calc <- function(landscape){
 
-    ncore <- landscape %>%
+    ndca <- landscape %>%
         lsm_p_ncore_calc() %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
@@ -71,6 +71,6 @@ lsm_l_ncore_calc <- function(landscape){
         class =  as.integer(NA),
         id = as.integer(NA),
         metric = "number of disjunct core areas",
-        value = ncore$value
+        value = ndca$value
     )
 }
