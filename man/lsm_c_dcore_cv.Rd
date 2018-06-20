@@ -10,7 +10,7 @@
 \alias{lsm_c_dcore_cv.RasterBrick}
 \alias{lsm_c_dcore_cv}
 \alias{lsm_c_dcore_cv.list}
-\title{Number of core areas distribution (class level)}
+\title{DCORE_CV (class level)}
 \usage{
 lsm_c_dcore_cv(landscape)
 
@@ -29,16 +29,24 @@ lsm_c_dcore_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation of number of core areas (class level)
+Coeffiecent of variation number of disjunct core areas (Core area metric)
 }
 \details{
-Equals the coeffiecent of variation of number of core area of class i.
-A core area is a 'patch within the patch' without any edge cells. In other words,
-the number of patches within the patch that only have neighbouring cells of the same type
-\deqn{dcore_CV = cv(dcore[patch_i])}
+\deqn{DCORE_{CV} = cv(NCORE[patch_{ij}])}
+where \eqn{NCORE[patch_{ij}]} is the number of core areas.
+
+DCORE_CV is an 'Core area metric'. It summarises each class as the coeffiecent
+of variation of all patch areas belonging to class i. A cell is defined as core if the cell
+has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
+core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+The metric describes the differences among patches of the same class i in
+the landscape and is easily comparable because it is scaled to the mean.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{DCORE_CV >= 0}
+\subsection{Behaviour}{Equals DCORE_CV = 0 if all patches have the same number of disjunct
+core areas. Increases, without limit, as the variation of number of disjunct corea areas
+increases.}
 }
 \examples{
 lsm_c_dcore_cv(landscape)
@@ -48,4 +56,13 @@ lsm_c_dcore_cv(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_ncore}},
+\code{\link{cv}}, \cr
+\code{\link{lsm_c_dcore_mn}},
+\code{\link{lsm_c_dcore_sd}}, \cr
+\code{\link{lsm_l_dcore_mn}},
+\code{\link{lsm_l_dcore_sd}},
+\code{\link{lsm_l_dcore_cv}}
 }

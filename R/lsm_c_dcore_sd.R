@@ -1,17 +1,34 @@
-#' Number of core areas distribution (class level)
+#' DCORE_SD (class level)
 #'
-#' @description Standart deviation of number of core areas (class level)
+#' @description Standard deviation number of disjunct core areas (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the standard deviation of number of core area of class i.
-#' A core area is a 'patch within the patch' without any edge cells. In other words,
-#' the number of patches within the patch that only have neighbouring cells of the same type
-#' \deqn{DCORE_SD = sd(dcore[patch_i])}
+#' \deqn{DCORE_{SD} = sd(NCORE[patch_{ij}])}
+#' where \eqn{NCORE[patch_{ij}]} is the number of core areas.
+#'
+#' DCORE_SD is an 'Core area metric'. It summarises each class as the standard deviation
+#' of all patch areas belonging to class i. A cell is defined as core if the cell
+#' has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
+#' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+#' The metric describes the differences among patches of the same class i in
+#' the landscape.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{DCORE_SD >= 0}
+#' \subsection{Behaviour}{Equals DCORE_SD = 0 if all patches have the same number of disjunct
+#' core areas. Increases, without limit, as the variation of number of disjunct corea areas
+#' increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_ncore}},
+#' \code{\link{sd}}, \cr
+#' \code{\link{lsm_c_dcore_mn}},
+#' \code{\link{lsm_c_dcore_cv}}, \cr
+#' \code{\link{lsm_l_dcore_mn}},
+#' \code{\link{lsm_l_dcore_sd}},
+#' \code{\link{lsm_l_dcore_cv}}
 #'
 #' @return tibble
 #'
@@ -71,9 +88,9 @@ lsm_c_dcore_sd_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = dcore_sd$class,
+        class = as.integer(dcore_sd$class),
         id = as.integer(NA),
         metric = "number of core areas (sd)",
-        value = dcore_sd$value
+        value = as.double(dcore_sd$value)
     )
 }

@@ -1,21 +1,32 @@
-#' AREA_MN
+#' AREA_MN (class level)
 #'
-#' @description Mean of patch area (class level)
+#' @description Mean of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' \deqn{AREA_MN = mean(AREA[patch_{ij}])}
+#' \deqn{AREA_{MN} = mean(AREA[patch_{ij}])}
 #' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
 #'
 #' AREA_MN is an 'Area and Edge metric'. The metric summarises each class
-#' as the mean of all patch areas belonging to class i
+#' as the mean of all patch areas belonging to class i. The metric is a simple way
+#' to describe the composition of the landscape. Especially together with the total
+#' class area (\code{\link{lsm_c_ca}}), it can also give an an idea of patch structure
+#' (e.g. many small patches vs. few larges patches).
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_MN > 0}
-#' \subsection{Behaviour}{Increases as the patch areas increase}
+#' \subsection{Behaviour}{Approaches AREA_MN = 0 if all patches are small. Increases, without
+#' limit, as the patch areas increase.}
 #'
-#' @seealso \code{\link{lsm_p_area}} and \code{\link{mean}}
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_area_cv}},
+#' \code{\link{lsm_c_area_sd}}, \cr
+#' \code{\link{lsm_l_area_mn}},
+#' \code{\link{lsm_l_area_sd}},
+#' \code{\link{lsm_l_area_cv}}
 #'
 #' @return tibble
 #'
@@ -73,9 +84,9 @@ lsm_c_area_mn_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = area_mean$class,
+        class = as.integer(area_mean$class),
         id = as.integer(NA),
         metric = "patch area (mean)",
-        value = area_mean$value
+        value = as.double(area_mean$value)
     )
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Disjunct core area density (class level) — lsm_c_dcad • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>DCAD (class level) — lsm_c_dcad • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Disjunct core area density (class level) — lsm_c_dcad" />
+<meta property="og:title" content="DCAD (class level) — lsm_c_dcad" />
 
-<meta property="og:description" content="Disjunct core area density (class level)" />
+<meta property="og:description" content="Disjunct core area density (Corea area metric)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +124,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Disjunct core area density (class level)</h1>
+    <h1>DCAD (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_dcad.R'><code>R/lsm_c_dcad.R</code></a></small>
     <div class="hidden name"><code>lsm_c_dcad.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Disjunct core area density (class level)</p>
+    <p>Disjunct core area density (Corea area metric)</p>
     
     </div>
 
@@ -161,18 +164,22 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Disjunct core area density equals the sum of number of core areas of
-class i divided by the total area. In other words, it is the number of core areas
-relative to the total area. The measure is relative and therefore comparable among
-landscapes with different total areas
-$$DCAD = sum(ncore[patch_i]) / total area$$</p><h3>Units</h3>
-Number per hectares (FRAGSTATS has per 100 ha)
+    <p>$$DCAD = (\frac{\sum_{j=1}^{n} n_{ij}^{core}}{A}) * 10000 * 100$$
+where \(n_{ij}^{core}\) is the number of disjunct core areas and \(A\)
+is the total landscape area in square meters.</p>
+<p>DCAD is a 'Core area metric'. It equals the number of disjunct core areas per
+100 ha. relative to the total area. A disjunct core area is a 'patch within
+the patch' containing only core cells. A cell is defined as core area if the cell has no
+neighbour with a different value than itself (rook's case). The metric is relative and
+therefore comparable among landscapes with different total areas.</p>
+<h3>Units</h3>
+Number per 100 hectares
 <h3>Range</h3>
 DCAD &gt;= 0
 <h3>Behaviour</h3>
-DCAD = 0 when CORE = 0, i.e. every cell in patches
-of class i is an edge. DCAD increases without limit as core areas become more
-present, i.e. patches becoming larger and less complex
+Equals DCAD = 0 when DCORE = 0, i.e. no patch of class i contains
+a disjunct core area. Increases, without limit, as disjunct core areas become more
+present, i.e. patches becoming larger and less complex.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -180,14 +187,15 @@ present, i.e. patches becoming larger and less complex
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_c_ndca</code>,
+<code>lsm_l_area</code>, <br />
+<code>lsm_l_dcad</code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_dcad</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
-#&gt;   layer level class    id metric                     value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                      &lt;dbl&gt;
-#&gt; 1     1 class     1    NA disjunct core area density  66.7
-#&gt; 2     1 class     2    NA disjunct core area density  88.9
-#&gt; 3     1 class     3    NA disjunct core area density 133. </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_dcad</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lsm_c_ncore_calc(.): could not find function "lsm_c_ncore_calc"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -200,6 +208,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

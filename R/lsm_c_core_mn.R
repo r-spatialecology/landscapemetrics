@@ -1,18 +1,30 @@
-#' Core area distribution (class level)
+#' CORE_MN (class level)
 #'
-#' @description Mean of patch core area (class level)
+#' @description Mean of core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 
 #' @details
-#' Equals the mean of the patch core area of class i. The core area is
-#' the area within a patch that is not on the edge of the patch of class i.
-#' In other words, the area of a patch that has only neighbouring cells of the same type
-#' of class i
-#' \deqn{CORE_MN = mean(core[patch_i])}
+#' \deqn{CORE_{MN} = mean(CORE[patch_{ij}])}
+#' where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+#'
+#' CORE_MN is a 'Core area metric' and equals the mean of core areas of all patches
+#' belonging to class i. The core area is defined as all cells that have no
+#' neighbour with a different value than themselves (rook's case).
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{CORE_MN >= 0}
+#' \subsection{Behaviour}{Equals CORE_MN = 0 if CORE = 0 for all patches. Increases,
+#' without limit, as the corea area indices increase.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_core}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_sd}},
+#' \code{\link{lsm_c_cv}}, \cr
+#' \code{\link{lsm_l_mn}},
+#' \code{\link{lsm_l_sd}},
+#' \code{\link{lsm_l_cv}}
 #'
 #' @return tibble
 #'
@@ -71,9 +83,9 @@ lsm_c_core_mn_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = core_mean$class,
+        class = as.integer(core_mean$class),
         id = as.integer(NA),
         metric = "core area (mean)",
-        value = core_mean$value
+        value = as.double(core_mean$value)
     )
 }

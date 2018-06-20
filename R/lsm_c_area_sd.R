@@ -1,21 +1,30 @@
-#' AREA_SD
+#' AREA_SD (class level)
 #'
-#' @description Standard deviation of patch area (class level)
+#' @description Standard deviation of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' \deqn{AREA_SD = sd(AREA[patch_{ij}])}
-#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#' \deqn{AREA_{SD} = sd(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 #'
 #' AREA_SD is an 'Area and Edge metric'. The metric summarises each class
-#' as the standard deviation of all patch areas belonging to class i
+#' as the standard deviation of all patch areas belonging to class i. The metric describes the differences among patches of the same class i in
+#' the landscape.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_SD >= 0}
-#' \subsection{Behaviour}{Increases as the variation of patch areas increases}
+#' \subsection{Behaviour}{Equals AREA_SD = 0 if all patches are identical in size.
+#' Increases, without limit, as the variation of patch areas increases.}
 #'
-#' @seealso \code{\link{lsm_p_area}} and \code{\link{sd}}
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{sd}}, \cr
+#' \code{\link{lsm_c_area_mn}},
+#' \code{\link{lsm_c_area_cv}}, \cr
+#' \code{\link{lsm_l_area_mn}},
+#' \code{\link{lsm_l_area_sd}},
+#' \code{\link{lsm_l_area_cv}}
 #'
 #' @return tibble
 #'
@@ -72,9 +81,9 @@ lsm_c_area_sd_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = area_sd$class,
+        class = as.integer(area_sd$class),
         id = as.integer(NA),
         metric = "patch area (sd)",
-        value = area_sd$value
+        value = as.double(area_sd$value)
     )
 }

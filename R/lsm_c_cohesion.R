@@ -1,16 +1,30 @@
-#' Patch Cohesion Index (class level)
+#' COHESION (class level)
 #'
-#' @description Patch Cohesion Index (class level)
+#' @description Patch Cohesion Index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' ???
+#' \deqn{COHESION = 1 - (\frac{\sum_{j = 1} ^ {n} p_{ij}}
+#' {\sum_{j = 1} ^ {n} p_{ij} \sqrt{a_{ij}}}) *
+#' (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
+#' where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
+#' meters and \eqn{Z} is the number of cells.
 #'
-#' \deqn{???}
-#' \subsection{Units}{???}
-#' \subsection{Ranges}{???}
-#' \subsection{Behaviour}{???}
+#' COHESION is an 'Aggregation metric'. It characterises the conncectedness of patches
+#' belonging to class i. It can be used to asses if patches of the same class are located
+#' aggregated or rather isolated and thereby COHESION gives information about the
+#' configuration of the landscape.
+#'
+#' \subsection{Units}{Percent}
+#' \subsection{Ranges}{0 < COHESION < 100}
+#' \subsection{Behaviour}{Approaches COHESION = 0 if patches of class i become more isolated.
+#' Increases if patches of class i become more aggregated.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_perim}},
+#' \code{\link{lsm_p_area}}, \cr
+#' \code{\link{lsm_l_cohesion}}
 #'
 #' @return tibble
 #'
@@ -91,9 +105,9 @@ lsm_c_cohesion_calc <- function(landscape) {
 
    tibble::tibble(
        level = "class",
-       class = cohesion$class,
+       class = as.integer(cohesion$class),
        id = as.integer(NA),
        metric = "patch cohesion index",
-       value = cohesion$value
+       value = as.double(cohesion$value)
    )
 }

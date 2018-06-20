@@ -55,5 +55,12 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_perim}} and \code{\link{lsm_p_area}}
+\code{\link{lsm_p_perim}},
+\code{\link{lsm_p_area}}, \cr
+\code{\link{lsm_c_shape_mn}},
+\code{\link{lsm_c_shape_sd}},
+\code{\link{lsm_c_shape_cv}}, \cr
+\code{\link{lsm_l_shape_mn}},
+\code{\link{lsm_l_shape_sd}},
+\code{\link{lsm_l_shape_cv}}
 }

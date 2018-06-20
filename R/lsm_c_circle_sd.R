@@ -1,17 +1,33 @@
-#' Related Circumscribing Circle distribution (CIRCLE)
+#' CIRCLE_SD (Class level)
 #'
-#' @description Standard deviation of related circumscribing circle (class)
+#' @description Standard deviation of related circumscribing circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the standard deviation of the related circumscribing circle of
-#' class i. Equals the 1 - the patch area (m^2) divided by the area (m^2) of the smallest
-#' circumscribing circle.
-#' \deqn{CIRCLE_SD = sd(CIRCLE[patch_i])}
+#' \deqn{CIRCLE_{SD} = sd(CIRCLE[patch_{ij}])}
+#' where \eqn{CIRCLE[patch_{ij}]} is the related circumscribing circle of each patch.
+#'
+#' CIRCLE_SD is a 'Shape metric' and summarises each class as the standard deviation of
+#' the related circumscribing circle of all patches belonging to class i. CIRCLE describes
+#' the ratio between the patch area and the smallest circumscribing circle of the patch
+#' and characterises the compactness of the patch. The metric describes the differences
+#' among patches of the same class i in the landscape.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{????}
+#' \subsection{Range}{CIRCLE_SD >= 0}
+#' \subsection{Behaviour}{Equals CIRCLE_SD if the related circumscribing circle is identical
+#' for all patches. Increases, without limit, as the variation of related circumscribing
+#' circles increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_circle}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_circle_mn}},
+#' \code{\link{lsm_c_circle_cv}}, \cr
+#' \code{\link{lsm_l_circle_mn}},
+#' \code{\link{lsm_l_circle_sd}},
+#' \code{\link{lsm_l_circle_cv}}
 #'
 #' @return tibble
 #'
@@ -69,10 +85,10 @@ lsm_c_circle_sd_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = seq_len(nrow(circle_mn)),
+        class = as.integer(seq_len(nrow(circle_mn))),
         id = as.integer(NA),
         metric = "related circumscribing circle (mean)",
-        value = circle_mn$value
+        value = as.double(circle_mn$value)
     )
 
 }

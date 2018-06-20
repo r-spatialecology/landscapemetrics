@@ -1,18 +1,32 @@
-#' Core area distribution (class level)
+#' CORE_CV (class level)
 #'
-#' @description Coeffiecent of variation of patch core area (class level)
+#' @description Coeffiecent of variation of core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the coeffiecent of variation of the patch core area of class i. The core area is
-#' the area within a patch that is not on the edge of the patch of class i.
-#' In other words, the area of a patch that has only neighbouring cells of the same type
-#' of class i
-#' \deqn{CORE_CV = cv(core[patch_i])}
+#' \deqn{CORE_{CV} = cv(CORE[patch_{ij}])}
+#' where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+#'
+#' CORE_CV is a 'Core area metric'. It equals the coeffiecent of variation of the core area
+#' of each patch belonging to class i. The core area is defined as all cells that have no
+#' neighbour with a different value than themselves (rook's case). The metric describes the
+#' differences among patches of the same class i in the landscape and is easily comparable
+#' because it is scaled to the mean.
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{CORE_CV >= 0}
+#' \subsection{Behaviour}{Equals CORE_CV = 0 if all patches have the same core area.
+#' Increases, without limit, as the variation of patch core areas increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_core}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_mn}},
+#' \code{\link{lsm_c_sd}}, \cr
+#' \code{\link{lsm_l_mn}},
+#' \code{\link{lsm_l_sd}},
+#' \code{\link{lsm_l_cv}}
 #'
 #' @return tibble
 #'
@@ -71,9 +85,9 @@ lsm_c_core_cv_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = core_cv$class,
+        class = as.integer(core_cv$class),
         id = as.integer(NA),
         metric = "core area (cv)",
-        value = core_cv$value
+        value = as.double(core_cv$value)
     )
 }

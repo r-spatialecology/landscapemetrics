@@ -9,7 +9,8 @@
 #' where \eqn{a_{ij}} is the area in square meters and \eqn{a_{ij}^{circle}} the area of
 #' the smalles circumscribing circle.
 #'
-#' CIRCLE is a 'Shape metric'. The diameter of the smallest circumscribing circle is
+#' CIRCLE is a 'Shape metric'. The metric is the ratio between the patch area and the smallest
+#' circumscribing circle of the patch. The diameter of the smallest circumscribing circle is
 #' the 'diameter' of the patch connecting the opposing corner points of the two cells
 #' that are the furthest away from each other. The metric characterises the compactness
 #' of the patch and is comparable among patches with different area.
@@ -19,7 +20,14 @@
 #' \subsection{Behaviour}{CIRCLE = 0 for a circular patch and approaches CIRCLE = 1 for
 #' a linear patch.}
 #'
-#' @seealso \code{\link{lsm_p_area}}
+#' @seealso
+#' \code{\link{lsm_p_area}}, \cr
+#' \code{\link{lsm_c_circle_mn}},
+#' \code{\link{lsm_c_circle_sd}},
+#' \code{\link{lsm_c_circle_cv}}, \cr
+#' \code{\link{lsm_l_circle_mn}},
+#' \code{\link{lsm_l_circle_sd}},
+#' \code{\link{lsm_l_circle_cv}}
 #'
 #' @return tibble
 #'
@@ -145,12 +153,13 @@ lsm_p_circle_calc <- function(landscape) {
 
     tibble::tibble(
         level = "patch",
-        class = unlist(purrr::map(seq_along(patch_diameter), function(x) {
+        class = as.integer(unlist(purrr::map(seq_along(patch_diameter),
+                                             function(x) {
             rep(x, length(patch_diameter[[x]][[1]]))
-        })),
-        id = seq_len(length(patch_circles)),
+        }))),
+        id = as.integer(seq_len(length(patch_circles))),
         metric = "related circumscribing circle",
-        value = patch_circles
+        value = as.double(patch_circles)
     )
 }
 

@@ -100,8 +100,8 @@ lsm_p_perim_calc <- function(landscape){
     tibble::tibble(
         level = "patch",
         class = as.integer(perimeter_class$class),
-        id = seq_len(nrow(perimeter_class)),
+        id = as.integer(seq_len(nrow(perimeter_class))),
         metric = "perimeter",
-        value = perimeter_class$value
+        value = as.double(perimeter_class$value)
     )
 }

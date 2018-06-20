@@ -10,7 +10,7 @@
 \alias{lsm_c_cohesion.RasterBrick}
 \alias{lsm_c_cohesion}
 \alias{lsm_c_cohesion.list}
-\title{Patch Cohesion Index (class level)}
+\title{COHESION (class level)}
 \usage{
 lsm_c_cohesion(landscape)
 
@@ -29,15 +29,24 @@ lsm_c_cohesion(landscape)
 tibble
 }
 \description{
-Patch Cohesion Index (class level)
+Patch Cohesion Index (Aggregation metric)
 }
 \details{
-???
+\deqn{COHESION = 1 - (\frac{\sum_{j = 1} ^ {n} p_{ij}}
+{\sum_{j = 1} ^ {n} p_{ij} \sqrt{a_{ij}}}) *
+(1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
+where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
+meters and \eqn{Z} is the number of cells.
 
-\deqn{???}
-\subsection{Units}{???}
-\subsection{Ranges}{???}
-\subsection{Behaviour}{???}
+COHESION is an 'Aggregation metric'. It characterises the conncectedness of patches
+belonging to class i. It can be used to asses if patches of the same class are located
+aggregated or rather isolated and thereby COHESION gives information about the
+configuration of the landscape.
+
+\subsection{Units}{Percent}
+\subsection{Ranges}{0 < COHESION < 100}
+\subsection{Behaviour}{Approaches COHESION = 0 if patches of class i become more isolated.
+Increases if patches of class i become more aggregated.}
 }
 \examples{
 lsm_c_cohesion(landscape)
@@ -47,4 +56,9 @@ lsm_c_cohesion(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_perim}},
+\code{\link{lsm_p_area}}, \cr
+\code{\link{lsm_l_cohesion}}
 }

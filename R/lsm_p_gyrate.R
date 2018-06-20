@@ -18,6 +18,13 @@
 #' \subsection{Behaviour}{Approaches GYRATE = 0 if patch is a single cell. Increases,
 #' without limit, when only one patch is present.}
 #'
+#' @seealso
+#' \code{\link{lsm_c_gyrate_mn}},
+#' \code{\link{lsm_c_gyrate_sd}},
+#' \code{\link{lsm_c_gyrate_cv}}, \cr
+#' \code{\link{lsm_l_gyrate_mn}},
+#' \code{\link{lsm_l_gyrate_sd}},
+#' \code{\link{lsm_l_gyrate_cv}}
 #' @return tibble
 #'
 #' @examples
@@ -100,12 +107,13 @@ lsm_p_gyrate_calc <- function(landscape) {
 
     tibble::tibble(
         level = "patch",
-        class = unlist(purrr::map(seq_along(cclabel_gyration), function(x) {
+        class = as.integer(unlist(purrr::map(seq_along(cclabel_gyration),
+                                             function(x) {
             rep(x, length(cclabel_gyration[[x]]))
-        })),
-        id = seq_len(length(unlist(cclabel_gyration))),
+        }))),
+        id = as.integer(seq_len(length(unlist(cclabel_gyration)))),
         metric = "radius of gyration",
-        value = unlist(cclabel_gyration)
+        value = as.double(unlist(cclabel_gyration))
     )
 }
 

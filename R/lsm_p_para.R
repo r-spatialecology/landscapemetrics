@@ -17,7 +17,15 @@
 #' \subsection{Range}{PARA > 0}
 #' \subsection{Behaviour}{PARA increases, without limit, as the shape comlexity increases.}
 #'
-#' @seealso \code{\link{lsm_p_area}} and \code{\link{lsm_p_perim}}
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_p_perim}}, \cr
+#' \code{\link{lsm_c_para_mn}},
+#' \code{\link{lsm_c_para_sd}},
+#' \code{\link{lsm_c_para_cv}}, \cr
+#' \code{\link{lsm_l_para_mn}},
+#' \code{\link{lsm_l_para_sd}},
+#' \code{\link{lsm_l_para_cv}}
 #'
 #' @return tibble
 #'
@@ -77,9 +85,9 @@ lsm_p_para_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = perimeter$class,
-        id = perimeter$id,
+        class = as.integer(perimeter$class),
+        id = as.integer(perimeter$id),
         metric = "perimeter-area-ratio",
-        value = para
+        value = as.double(para)
     )
 }

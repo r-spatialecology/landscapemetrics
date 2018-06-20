@@ -21,7 +21,15 @@
 #' Increases, without limit, as core area increases and patch shape allows disjunct core
 #' areas (i.e. patch shape becomes rather complex).}
 #'
-#' @seealso \code{\link{lsm_p_core}}
+#' @seealso
+#' \code{\link{lsm_c_dcore_mn}},
+#' \code{\link{lsm_c_dcore_sd}},
+#' \code{\link{lsm_c_dcore_cv}},
+#' \code{\link{lsm_c_ndca}}, \cr
+#' \code{\link{lsm_l_dcore_mn}},
+#' \code{\link{lsm_l_dcore_sd}},
+#' \code{\link{lsm_l_dcore_cv}},
+#' \code{\link{lsm_l_ncore}}
 #'
 #' @return tibble
 #'
@@ -118,8 +126,8 @@ lsm_p_ncore_calc <- function(landscape){
     tibble::tibble(
         level = "patch",
         class = as.integer(core_class$class),
-        id = seq_len(nrow(core_class)),
+        id = as.integer(seq_len(nrow(core_class))),
         metric = "number of core areas",
-        value = core_class$value
+        value = as.double(core_class$value)
     )
 }

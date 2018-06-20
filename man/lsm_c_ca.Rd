@@ -10,7 +10,7 @@
 \alias{lsm_c_ca.RasterBrick}
 \alias{lsm_c_ca}
 \alias{lsm_c_ca.list}
-\title{CA}
+\title{CA (class level)}
 \usage{
 lsm_c_ca(landscape)
 
@@ -29,24 +29,23 @@ lsm_c_ca(landscape)
 tibble
 }
 \description{
-Total area of class i (class level)
+Total (class) area (Area and edge metric)
 }
 \details{
 \deqn{CA = sum(AREA[patch_{ij}])}
-where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 
 CA is an 'Area and egdge metric' and a measure of composition.
 The total (class) area sums the area of all patches belonging to class i.
-CA is an absolute measure, making comparisons among landscapes with different
+It shows if the landcsape is e.g. dominated by one class or if all classes
+are equally present. CA is an absolute measure, making comparisons among landscapes with different
 total areas difficult.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{CA > 0}
 \subsection{Behaviour}{Aprroaches 0 as the patch areas of class i become small.
 Increases, without limit, as the patch areas of class i become large. CA = TA if only
-one class is present}
-
-seealso \code{\link{lsm_p_area}} and \code{\link{sum}}
+one class is present.}
 }
 \examples{
 lsm_c_ca(landscape)
@@ -56,4 +55,9 @@ lsm_c_ca(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_area}},
+\code{\link{sum}}, \cr
+\code{\link{lsm_l_ta}}
 }

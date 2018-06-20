@@ -56,7 +56,7 @@ reference:
     - lsm_c_core_cv
     - lsm_c_core_mn
     - lsm_c_core_sd
-    - lsm_c_core
+    - lsm_c_tca
     - lsm_c_cpland
     - lsm_c_dcad
     - lsm_c_dcore_cv
@@ -105,7 +105,7 @@ reference:
     - lsm_l_core_cv
     - lsm_l_core_mn
     - lsm_l_core_sd
-    - lsm_l_core
+    - lsm_l_tca
     - lsm_l_dcad
     - lsm_l_dcore_cv
     - lsm_l_dcore_mn

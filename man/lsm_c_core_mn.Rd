@@ -10,7 +10,7 @@
 \alias{lsm_c_core_mn.RasterBrick}
 \alias{lsm_c_core_mn}
 \alias{lsm_c_core_mn.list}
-\title{Core area distribution (class level)}
+\title{CORE_MN (class level)}
 \usage{
 lsm_c_core_mn(landscape)
 
@@ -29,17 +29,20 @@ lsm_c_core_mn(landscape)
 tibble
 }
 \description{
-Mean of patch core area (class level)
+Mean of core area (Core area metric)
 }
 \details{
-Equals the mean of the patch core area of class i. The core area is
-the area within a patch that is not on the edge of the patch of class i.
-In other words, the area of a patch that has only neighbouring cells of the same type
-of class i
-\deqn{CORE_MN = mean(core[patch_i])}
+\deqn{CORE_{MN} = mean(CORE[patch_{ij}])}
+where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+
+CORE_MN is a 'Core area metric' and equals the mean of core areas of all patches
+belonging to class i. The core area is defined as all cells that have no
+neighbour with a different value than themselves (rook's case).
+
 \subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{CORE_MN >= 0}
+\subsection{Behaviour}{Equals CORE_MN = 0 if CORE = 0 for all patches. Increases,
+without limit, as the corea area indices increase.}
 }
 \examples{
 lsm_c_core_mn(landscape)
@@ -49,4 +52,13 @@ lsm_c_core_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_core}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_sd}},
+\code{\link{lsm_c_cv}}, \cr
+\code{\link{lsm_l_mn}},
+\code{\link{lsm_l_sd}},
+\code{\link{lsm_l_cv}}
 }

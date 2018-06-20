@@ -18,7 +18,15 @@
 #' \subsection{Behaviour}{Approaches SHAPE = 1 for a square and
 #' increases, without limit, as the patch shape becomes more complex.}
 #'
-#' @seealso \code{\link{lsm_p_perim}} and \code{\link{lsm_p_area}}
+#' @seealso
+#' \code{\link{lsm_p_perim}},
+#' \code{\link{lsm_p_area}}, \cr
+#' \code{\link{lsm_c_shape_mn}},
+#' \code{\link{lsm_c_shape_sd}},
+#' \code{\link{lsm_c_shape_cv}}, \cr
+#' \code{\link{lsm_l_shape_mn}},
+#' \code{\link{lsm_l_shape_sd}},
+#' \code{\link{lsm_l_shape_cv}}
 #'
 #' @return tibble
 #'
@@ -75,13 +83,13 @@ lsm_p_shape_calc <- function(landscape){
         lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    shape <- 0.25 * perimeter$value / sqrt(area$value)
+    shape <- (0.25 * perimeter$value) / sqrt(area$value)
 
     tibble::tibble(
         level = "patch",
-        class = perimeter$class,
-        id = perimeter$id,
+        class = as.integer(perimeter$class),
+        id = as.integer(perimeter$id),
         metric = "shape index",
-        value = shape
+        value = as.double(shape)
     )
 }

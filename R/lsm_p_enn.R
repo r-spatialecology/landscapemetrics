@@ -21,6 +21,14 @@
 #' as the distance between neighbouring patches of the same class i increases, i.e. patches are
 #' more isolated.}
 #'
+#' @seealso
+#' \code{\link{lsm_c_enn_mn}},
+#' \code{\link{lsm_c_enn_sd}},
+#' \code{\link{lsm_c_enn_cv}}, \cr
+#' \code{\link{lsm_l_enn_mn}},
+#' \code{\link{lsm_l_enn_sd}},
+#' \code{\link{lsm_l_enn_cv}}
+#'
 #' @return tibble
 #'
 #' @examples
@@ -117,12 +125,13 @@ lsm_p_enn_calc <- function(landscape) {
 
     tibble::tibble(
         level = "patch",
-        class = unlist(purrr::map(seq_along(dist_mat_list_mean), function(x){
+        class = as.integer(unlist(purrr::map(seq_along(dist_mat_list_mean),
+                                             function(x){
             rep(x, length(dist_mat_list_mean[[x]]))
-        })),
-        id = seq_len(length(unlist(dist_mat_list_mean))),
+        }))),
+        id = as.integer(seq_len(length(unlist(dist_mat_list_mean)))),
         metric = "euclidean nearest neighbor distance distribution (mean)",
-        value = unlist(dist_mat_list_mean)
+        value = as.double(unlist(dist_mat_list_mean))
     )
 
 }

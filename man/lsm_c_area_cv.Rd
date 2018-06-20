@@ -10,7 +10,7 @@
 \alias{lsm_c_area_cv.RasterBrick}
 \alias{lsm_c_area_cv}
 \alias{lsm_c_area_cv.list}
-\title{AREA_CV}
+\title{AREA_CV (class level)}
 \usage{
 lsm_c_area_cv(landscape)
 
@@ -29,18 +29,21 @@ lsm_c_area_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation of patch area (class level)
+Coeffiecent of variation of patch area (Area and edge metric)
 }
 \details{
-\deqn{AREA_CV = cv(AREA[patch_{ij}])}
-where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+\deqn{AREA_{CV} = cv(AREA[patch_{ij}])}
+where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 
 AREA_CV is an 'Area and Edge metric'. The metric summarises each class
-as the coeffiecent of variation of all patch areas belonging to class i
+as the coeffiecent of variation of all patch areas belonging to class i.
+The metric describes the differences among patches of the same class i in
+the landscape and is easily comparable because it is scaled to the mean.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{AREA_CV >= 0}
-\subsection{Behaviour}{Increases as the variation of patch areas increases}
+\subsection{Behaviour}{Equals AREA_CV = 0 if all patches are identical in size.
+Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
 lsm_c_area_cv(landscape)
@@ -52,5 +55,11 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_area}} and \code{\link{cv}}
+\code{\link{lsm_p_area}},
+\code{\link{cv}}, \cr
+\code{\link{lsm_c_area_mn}},
+\code{\link{lsm_c_area_sd}}, \cr
+\code{\link{lsm_l_area_mn}},
+\code{\link{lsm_l_area_sd}},
+\code{\link{lsm_l_area_cv}}
 }

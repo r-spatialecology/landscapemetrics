@@ -1,23 +1,35 @@
-#' CAI_CV
+#' CAI_CV (class level)
 #'
-#' @description Coefficient of variation of the core area index (class level)
+#' @description Coefficient of variation of core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{CAI_CV = cv(CAI[patch_{ij}]}
-#' where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+#' \deqn{CAI_{CV} = cv(CAI[patch_{ij}]}
+#' where \eqn{CAI[patch_{ij}]} is the core area index of each patch.
 #'
 #' CAI_CV is a 'Core area metric'. The metric summarises each class
 #' as the coeffiecent of variation of the core area index of all patches
 #' belonging to class i. The core area index is the percentag of core area
-#' in relation to patch area
+#' in relation to patch area. A cell is defined as core area if the cell has
+#' no neighbour with a different value than itself (rook's case). The metric
+#' describes the differences among patches of the same class i in
+#' the landscape. Because it is scaled to the mean, it is easily comparable.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{CAI_CV >= 0}
-#' \subsection{Behaviour}{Increases as the variation of the core area indices increases}
+#' \subsection{Behaviour}{Equals CAI_CV = 0 if the core area index is identical for
+#' all patches. Increases, without limit, as the variation of the core area
+#' indices increases.}
 #'
-#' @seealso \code{\link{lsm_p_cai}} and \code{\link{cv}}
+#' @seealso
+#' \code{\link{lsm_p_cai}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_cai_mn}},
+#' \code{\link{lsm_c_cai_sd}}, \cr
+#' \code{\link{lsm_l_cai_mn}},
+#' \code{\link{lsm_l_cai_sd}},
+#' \code{\link{lsm_l_cai_cv}}
 #'
 #' @return tibble
 #'
@@ -74,9 +86,9 @@ lsm_c_cai_cv_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = cai_cv$class,
+        class = as.integer(cai_cv$class),
         id = as.integer(NA),
         metric = "core area index (cv)",
-        value = cai_cv$value
+        value = as.double(cai_cv$value)
     )
 }

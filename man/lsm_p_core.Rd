@@ -56,3 +56,13 @@ McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
+\seealso{
+\code{\link{lsm_c_core_mn}},
+\code{\link{lsm_c_core_sd}},
+\code{\link{lsm_c_core_cv}},
+\code{\link{lsm_c_tca}}, \cr
+\code{\link{lsm_l_core_mn}},
+\code{\link{lsm_l_core_sd}},
+\code{\link{lsm_l_core_cv}},
+\code{\link{lsm_l_tca}}
+}

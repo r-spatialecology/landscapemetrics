@@ -10,7 +10,7 @@
 \alias{lsm_c_cai_sd.RasterBrick}
 \alias{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd.list}
-\title{CAI_SD}
+\title{CAI_SD (class level)}
 \usage{
 lsm_c_cai_sd(landscape)
 
@@ -29,19 +29,24 @@ lsm_c_cai_sd(landscape)
 tibble
 }
 \description{
-Standard deviation of the core area index (class level)
+Standard deviation of core area index (Core area metric)
 }
 \details{
-\deqn{CAI_SD = sd(CAI[patch_{ij}]}
-where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+\deqn{CAI_{SD} = sd(CAI[patch_{ij}]}
+where \eqn{CAI[patch_{ij}]} is the core area index of each patch.
 
 CAI_SD is a 'Core area metric'. The metric summarises each class
 as the standard deviation of the core area index of all patches belonging to class i.
-The core area index is the percentag of core area in relation to patch area
+The core area index is the percentag of core area in relation to patch area.
+A cell is defined as core area if the cell has no neighbour with a different
+value than itself (rook's case). The metric describes the differences among patches
+of the same class i in the landscape.
 
 \subsection{Units}{Percent}
 \subsection{Range}{CAI_SD >= 0}
-\subsection{Behaviour}{Increases as the variation of the core area indices increases}
+\subsection{Behaviour}{Equals CAI_SD = 0 if the core area index is identical for
+all patches. Increases, without limit, as the variation of core area
+indices increases.}
 }
 \examples{
 lsm_c_cai_sd(landscape)
@@ -53,5 +58,11 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_cai}} and \code{\link{sd}}
+\code{\link{lsm_p_cai}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_cai_mn}},
+\code{\link{lsm_c_cai_cv}}, \cr
+\code{\link{lsm_l_cai_mn}},
+\code{\link{lsm_l_cai_sd}},
+\code{\link{lsm_l_cai_cv}}
 }

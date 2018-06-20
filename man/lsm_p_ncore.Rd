@@ -57,5 +57,12 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_core}}
+\code{\link{lsm_c_dcore_mn}},
+\code{\link{lsm_c_dcore_sd}},
+\code{\link{lsm_c_dcore_cv}},
+\code{\link{lsm_c_ndca}}, \cr
+\code{\link{lsm_l_dcore_mn}},
+\code{\link{lsm_l_dcore_sd}},
+\code{\link{lsm_l_dcore_cv}},
+\code{\link{lsm_l_ncore}}
 }

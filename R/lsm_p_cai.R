@@ -21,7 +21,16 @@
 #' \subsection{Behaviour}{CAI = 0 when the patch has no core area and
 #' approaches CAI = 100 with increasing percentage of core area within a patch.}
 #'
-#' @seealso \code{\link{lsm_p_core}} and code{\link{lsm_p_area}}
+#' @seealso
+#' \code{\link{lsm_p_core}},
+#' \code{\link{lsm_p_area}}, \cr
+#' \code{\link{lsm_c_cai_mn}},
+#' \code{\link{lsm_c_cai_sd}},
+#' \code{\link{lsm_c_cai_cv}},
+#' \code{\link{lsm_c_cpland}}, \cr
+#' \code{\link{lsm_l_cai_mn}},
+#' \code{\link{lsm_l_cai_sd}},
+#' \code{\link{lsm_l_cai_cv}}
 #'
 #' @return tibble
 #'
@@ -82,9 +91,9 @@ lsm_p_cai_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = cai$class,
-        id = cai$id,
+        class = as.integer(cai$class),
+        id = as.integer(cai$id),
         metric = "core area index",
-        value = cai$value
+        value = as.double(cai$value)
     )
 }

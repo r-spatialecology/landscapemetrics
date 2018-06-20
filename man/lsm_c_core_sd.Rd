@@ -32,14 +32,18 @@ tibble
 Standard deviation of patch core area (class level)
 }
 \details{
-Equals the standard deviation of the patch core area of class i. The core area is
-the area within a patch that is not on the edge of the patch of class i.
-In other words, the area of a patch that has only neighbouring cells of the same type
-of class i
-\deqn{CORE_SD = sd(core[patch_i])}
+\deqn{CORE_{SD} = sd(CORE[patch_{ij}])}
+where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+
+CORE_SD is a 'Core area metric'. It equals the standard deviation of the core area
+of each patch belonging to class i. The core area is defined as all cells that have no
+neighbour with a different value than themselves (rook's case). The metric describes the
+differences among patches of the same class i in the landscape.
+
 \subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{CORE_SD >= 0}
+\subsection{Behaviour}{Equals CORE_SD = 0 if all patches have the same core area.
+Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
 lsm_c_core_sd(landscape)
@@ -49,4 +53,13 @@ lsm_c_core_sd(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_core}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_mn}},
+\code{\link{lsm_c_cv}}, \cr
+\code{\link{lsm_l_mn}},
+\code{\link{lsm_l_sd}},
+\code{\link{lsm_l_cv}}
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Landscape division index (class level) — lsm_c_division • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>DIVISION (class level) — lsm_c_division • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,20 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Landscape division index (class level) — lsm_c_division" />
+<meta property="og:title" content="DIVISION (class level) — lsm_c_division" />
 
-<meta property="og:description" content="Landscape division index (class level)" />
+<meta property="og:description" content="Landscape division index (Aggregation metric)" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +124,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Landscape division index (class level)</h1>
+    <h1>DIVISION (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_division.R'><code>R/lsm_c_division.R</code></a></small>
     <div class="hidden name"><code>lsm_c_division.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Landscape division index (class level)</p>
+    <p>Landscape division index (Aggregation metric)</p>
     
     </div>
 
@@ -161,21 +164,31 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The landscape division index equals 1 minus the sum of patch areas of
-class i divided by the total area squared
-$$DIVISON = 1 - sum((area[patch_i] / total area) ^ 2)$$</p><h3>Units</h3>
-Proportion (???)
+    <p>$$DIVISON = (1 - \sum_{j=1}^{n} (\frac{a_{ij}}{A}) ^ 2)$$
+where \(a_{ij}\) is the area in square meters and \(A\) is the total
+landscape area in square meters.</p>
+<p>DIVISION is an 'Aggregation metric. It can be in as the probability that two
+randomly selected cells are not located in the same patch of class i. The landscape
+division index is negativly correlated with the  effective mesh size  (<code>lsm_c_mesh</code>).</p>
+<h3>Units</h3>
+Proportion 
 <h3>Ranges</h3>
 0 &lt;= Division &lt; 1
 <h3>Behaviour</h3>
-DIVISION = 1 when only one class and patch is present. Approaches
-DIVISON = 1 when all patches of class i are single cells
+Equals DIVISION = 0 if only one patch is present. Approaches
+DIVISION = 1 if all patches of class i are single cells.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_l_division</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -197,6 +210,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

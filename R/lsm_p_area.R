@@ -18,6 +18,16 @@
 #' \subsection{Range}{AREA > 0}
 #' \subsection{Behaviour}{Increases, without limit, as the patch size increases.}
 #'
+#' @seealso
+#' \code{\link{lsm_c_area_mn}},
+#' \code{\link{lsm_c_area_sd}},
+#' \code{\link{lsm_c_area_cv}},
+#' \code{\link{lsm_c_ca}}, \cr
+#' \code{\link{lsm_l_area_mn}},
+#' \code{\link{lsm_l_area_sd}},
+#' \code{\link{lsm_l_area_cv}},
+#' \code{\link{lsm_l_ca}}
+#'
 #' @return tibble
 #'
 #' @examples
@@ -87,9 +97,9 @@ lsm_p_area_calc <- function(landscape){
     tibble::tibble(
         level = "patch",
         class = as.integer(area_class$class),
-        id = seq_len(nrow(area_class)),
+        id = as.integer(seq_len(nrow(area_class))),
         metric = "area",
-        value = area_class$value
+        value = as.double(area_class$value)
     )
 }
 

@@ -10,7 +10,7 @@
 \alias{lsm_c_cpland.RasterBrick}
 \alias{lsm_c_cpland}
 \alias{lsm_c_cpland.list}
-\title{Core area percentage of landscape (class level)}
+\title{CPLAND (class level)}
 \usage{
 lsm_c_cpland(landscape)
 
@@ -29,19 +29,23 @@ lsm_c_cpland(landscape)
 tibble
 }
 \description{
-Core area percentage of landscape (class level)
+Core area percentage of landscape (Core area metric)
 }
 \details{
-Core area percenage of landscape equals the sum of core area of class i
-divided by the total area. In other words, CPLAND equals the percentage of
-the landscape belonging to class i only including core area. Because CPLAND is
-a relative measure, it is comparable among landscapes with different total areas
-\deqn{CPLAND = (sum(core[patch_i]) / total area) * 100}
+\deqn{CPLAND = (\frac{\sum_{j = 1} ^ {n} a_{ij} ^ {core}}{A}) * 100}
+where \eqn{a_{ij}^{core}} is the core area in square meters and \eqn{A}
+is the total landscape area in square meters.
+
+CPLAND is a 'Core area metric'. It is the percentage of core area of class i in relation to
+the total landscape area. A cell is defined as core area if the cell has
+no neighbour with a different value than itself (rook's case). Because CPLAND is
+a relative measure, it is comparable among landscapes with different total areas.
+
 \subsection{Units}{Percentage}
 \subsection{Range}{0 <= CPLAND < 100}
-\subsection{Behaviour}{CPLAND approaches CPLAND =  0 when patches
-do not contain large core areas, i.e. are small and complex. Approaches CPLAND = 100
-when only one class and patch is present}
+\subsection{Behaviour}{Approaches CPLAND = 0 if CORE = 0 for all patches. Increases as
+the amount of core area increases, i.e. patches become larger while beiing rather simple
+in shape.}
 }
 \examples{
 lsm_c_cpland(landscape)
@@ -51,4 +55,7 @@ lsm_c_cpland(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_core}} and \code{\link{lsm_l_ta}}
 }

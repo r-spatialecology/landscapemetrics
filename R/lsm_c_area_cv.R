@@ -1,21 +1,31 @@
-#' AREA_CV
+#' AREA_CV (class level)
 #'
-#' @description Coeffiecent of variation of patch area (class level)
+#' @description Coeffiecent of variation of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
 #' @details
-#' \deqn{AREA_CV = cv(AREA[patch_{ij}])}
-#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares
+#' \deqn{AREA_{CV} = cv(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 #'
 #' AREA_CV is an 'Area and Edge metric'. The metric summarises each class
-#' as the coeffiecent of variation of all patch areas belonging to class i
+#' as the coeffiecent of variation of all patch areas belonging to class i.
+#' The metric describes the differences among patches of the same class i in
+#' the landscape and is easily comparable because it is scaled to the mean.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_CV >= 0}
-#' \subsection{Behaviour}{Increases as the variation of patch areas increases}
+#' \subsection{Behaviour}{Equals AREA_CV = 0 if all patches are identical in size.
+#' Increases, without limit, as the variation of patch areas increases.}
 #'
-#' @seealso \code{\link{lsm_p_area}} and \code{\link{cv}}
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_area_mn}},
+#' \code{\link{lsm_c_area_sd}}, \cr
+#' \code{\link{lsm_l_area_mn}},
+#' \code{\link{lsm_l_area_sd}},
+#' \code{\link{lsm_l_area_cv}}
 #'
 #' @return tibble
 #'
@@ -72,9 +82,9 @@ lsm_c_area_cv_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = area_cv$class,
+        class = as.integer(area_cv$class),
         id = as.integer(NA),
         metric = "patch area (cv)",
-        value = area_cv$value
+        value = as.double(area_cv$value)
     )
 }

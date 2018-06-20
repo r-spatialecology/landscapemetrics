@@ -20,6 +20,16 @@
 #' and the patch shape simplifies (more core area). CORE = 0 when every cell in
 #' the patch is an edge.}
 #'
+#' @seealso
+#' \code{\link{lsm_c_core_mn}},
+#' \code{\link{lsm_c_core_sd}},
+#' \code{\link{lsm_c_core_cv}},
+#' \code{\link{lsm_c_tca}}, \cr
+#' \code{\link{lsm_l_core_mn}},
+#' \code{\link{lsm_l_core_sd}},
+#' \code{\link{lsm_l_core_cv}},
+#' \code{\link{lsm_l_tca}}
+#'
 #' @return tibble
 #'
 #' @importFrom stats na.omit
@@ -104,8 +114,8 @@ lsm_p_core_calc <- function(landscape){
     tibble::tibble(
         level = "patch",
         class = as.integer(core_area$class),
-        id = seq_len(nrow(core_area)),
+        id = as.integer(seq_len(nrow(core_area))),
         metric = "core area",
-        value = core_area$value
+        value = as.double(core_area$value)
     )
 }

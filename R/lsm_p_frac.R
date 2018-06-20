@@ -18,7 +18,15 @@
 #' \subsection{Behaviour}{Approaches FRAC = 1 a squared patch shape form and FRAC = 2
 #' for a irregular patch shape.}
 #'
-#' @seealso \code{\link{lsm_p_area}} and \code{\link{lsm_p_perim}}
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_p_perim}}, \cr
+#' \code{\link{lsm_c_frac_mn}},
+#' \code{\link{lsm_c_frac_sd}},
+#' \code{\link{lsm_c_frac_cv}}, \cr
+#' \code{\link{lsm_l_frac_mn}},
+#' \code{\link{lsm_l_frac_sd}},
+#' \code{\link{lsm_l_frac_cv}}
 #'
 #' @return tibble
 #'
@@ -79,9 +87,9 @@ lsm_p_frac_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = perimeter$class,
-        id = perimeter$id,
+        class = as.integer(perimeter$class),
+        id = as.integer(perimeter$id),
         metric = "fractal dimension index",
-        value = frac
+        value = as.double(frac)
     )
 }

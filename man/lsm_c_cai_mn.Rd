@@ -10,7 +10,7 @@
 \alias{lsm_c_cai_mn.RasterBrick}
 \alias{lsm_c_cai_mn}
 \alias{lsm_c_cai_mn.list}
-\title{CAI_MN}
+\title{CAI_MN (class level)}
 \usage{
 lsm_c_cai_mn(landscape)
 
@@ -29,19 +29,22 @@ lsm_c_cai_mn(landscape)
 tibble
 }
 \description{
-Mean of the core area index (class level)
+Mean of core area index (Core area metric)
 }
 \details{
-\deqn{CAI_MN = mean(CAI[patch_{ij}]}
-where \eqn{CAI[patch_{ij}]} is the core area index of each patch
+\deqn{CAI_{MN} = mean(CAI[patch_{ij}]}
+where \eqn{CAI[patch_{ij}]} is the core area index of each patch.
 
 CAI_MN is a 'Core area metric'. The metric summarises each class
 as the mean of the core area index of all patches belonging to class i.
-The core area index is the percentag of core area in relation to patch area
+The core area index is the percentag of core area in relation to patch area.
+A cell is defined as core area if the cell has no neighbour with a different
+value than itself (rook's case).
 
 \subsection{Units}{Percent}
-\subsection{Range}{CAI_MN > 0}
-\subsection{Behaviour}{Increases as the corea area indices increase}
+\subsection{Range}{CAI_MN >= 0}
+\subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches. Increases,
+without limit, as the core area indices increase.}
 }
 \examples{
 lsm_c_cai_mn(landscape)
@@ -53,5 +56,11 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_cai}} and \code{\link{mean}}
+\code{\link{lsm_p_cai}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_cai_sd}},
+\code{\link{lsm_c_cai_cv}}, \cr
+\code{\link{lsm_l_cai_mn}},
+\code{\link{lsm_l_cai_sd}},
+\code{\link{lsm_l_cai_cv}}
 }

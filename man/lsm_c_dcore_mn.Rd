@@ -10,7 +10,7 @@
 \alias{lsm_c_dcore_mn.RasterBrick}
 \alias{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn.list}
-\title{Number of core areas distribution (class level)}
+\title{DCORE_MN (class level)}
 \usage{
 lsm_c_dcore_mn(landscape)
 
@@ -29,16 +29,21 @@ lsm_c_dcore_mn(landscape)
 tibble
 }
 \description{
-Mean of number of core areas (class level)
+Mean number of disjunct core areas (Core area metric)
 }
 \details{
-Equals the mean of number of core area of class i.
-A core area is a 'patch within the patch' without any edge cells. In other words,
-the number of patches within the patch that only have neighbouring cells of the same type
-\deqn{DCORE_MN = mean(dcore[patch_i])}
+\deqn{DCORE_{MN} = mean(NCORE[patch_{ij}])}
+where \eqn{NCORE[patch_{ij}]} is the number of core areas.
+
+DCORE_MN is an 'Core area metric'. It summarises each class as the mean of all
+patch areas belonging to class i. A cell is defined as core if the cell
+has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
+core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{DCORE_MN > 0}
+\subsection{Behaviour}{Equals DCORE_MN = 0 if NCORE = 0 for all patches. Increases,
+without limit, as the number of disjunct corea areas increases.}
 }
 \examples{
 lsm_c_dcore_mn(landscape)
@@ -48,4 +53,13 @@ lsm_c_dcore_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_ncore}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_dcore_sd}},
+\code{\link{lsm_c_dcore_cv}}, \cr
+\code{\link{lsm_l_dcore_mn}},
+\code{\link{lsm_l_dcore_sd}},
+\code{\link{lsm_l_dcore_cv}}
 }
