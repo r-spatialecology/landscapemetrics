@@ -10,7 +10,7 @@
 #' relative to the total area. The measure is relative and therefore comparable among
 #' landscapes with different total areas
 #' \deqn{DCAD = sum(ncore[patch]) / total area}
-#' \subsection{Units}{Number per hectares (FRAGSTATS has per 100 ha)}
+#' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Range}{DCAD >= 0}
 #' \subsection{Behaviour}{DCAD = 0 when CORE = 0, i.e. every cell in patches
 #' of class i is an edge. DCAD increases without limit as core areas become more
@@ -71,7 +71,7 @@ lsm_l_dcad_calc <- function(landscape){
     dcad <- landscape %>%
         lsm_p_ncore() %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-        dplyr::mutate(value = value / total_area$value) # Correct unit?
+        dplyr::mutate(value = (value / total_area$value) * 100)
 
     tibble::tibble(
         level = "class",
