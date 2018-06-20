@@ -62,7 +62,7 @@ lsm_c_pd_calc <- function(landscape) {
 
     patch_density <- landscape %>%
         lsm_c_np_calc() %>%
-        dplyr::mutate(value = (value / total_area$value) * 100)
+        dplyr::mutate(value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
         level = "class",
