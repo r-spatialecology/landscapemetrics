@@ -57,9 +57,9 @@ PNW-351.
 \seealso{
 \code{\link{lsm_p_core}},
 \code{\link{sd}}, \cr
-\code{\link{lsm_c_mn}},
-\code{\link{lsm_c_cv}}, \cr
-\code{\link{lsm_l_mn}},
-\code{\link{lsm_l_sd}},
-\code{\link{lsm_l_cv}}
+\code{\link{lsm_c_core_mn}},
+\code{\link{lsm_c_core_cv}}, \cr
+\code{\link{lsm_l_core_mn}},
+\code{\link{lsm_l_core_sd}},
+\code{\link{lsm_l_core_cv}}
 }

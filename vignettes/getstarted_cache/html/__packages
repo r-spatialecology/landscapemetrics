@@ -12,3 +12,4 @@ dplyr
 stringr
 forcats
 bindrcpp
+testthat

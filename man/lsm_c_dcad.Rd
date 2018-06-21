@@ -59,6 +59,6 @@ PNW-351.
 }
 \seealso{
 \code{\link{lsm_c_ndca}},
-\code{\link{lsm_l_area}}, \cr
+\code{\link{lsm_l_ta}}, \cr
 \code{\link{lsm_l_dcad}}
 }
