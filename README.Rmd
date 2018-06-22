@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# landscapemetrics <img src="man/figures/logo.png" align="right" width="30%" />
+# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 **landscapemetrics** is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. 
 It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman & Ene, 2012) but also allows for implementation of

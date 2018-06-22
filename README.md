@@ -9,7 +9,7 @@ status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badg
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# landscapemetrics <img src="man/figures/logo.png" align="right" />
+# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 **landscapemetrics** is an R package for calculating landscape metrics
 for categorical landscape patterns in a tidy workflow. It offers most of
