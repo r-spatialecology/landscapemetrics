@@ -1,6 +1,12 @@
 context("landscape level core_sd metric")
 
+fragstats_landscape_landscape_core_sd <- fragstats_landscape_landscape$dcad
 landscapemetrics_landscape_landscape_core_sd <- lsm_l_core_sd(landscape)
+
+test_that("lsm_l_core_sd results are equal to fragstats", {
+    expect_true(all(fragstats_landscape_landscape_core_sd %in%
+                        round(landscapemetrics_landscape_landscape_core_sd$value, 4)))
+})
 
 test_that("lsm_c_core_sd is typestable", {
     expect_is(landscapemetrics_landscape_landscape_core_sd, "tbl_df")
@@ -20,5 +26,3 @@ test_that("lsm_p_area returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_core_sd$metric, "character")
     expect_type(landscapemetrics_landscape_landscape_core_sd$value, "double")
 })
-
-
