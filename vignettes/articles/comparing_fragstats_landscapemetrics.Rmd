@@ -14,7 +14,7 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
-library(tidyverse)
+library(dplyr)
 library(DT)
 ```
 

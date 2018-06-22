@@ -13,8 +13,7 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  cache=TRUE
+  comment = "#>"
 )
 ```
 
@@ -70,15 +69,15 @@ tibble in further analyses.
 # load packages
 library(landscapemetrics)
 library(raster)
-library(tidyverse)
+library(dplyr)
 # Import raster
 landscape_raster <- landscapemetrics::landscape
 # for local file: raster("pathtoyourraster/raster.asc")
 # ... or any other raster file type, geotiff, ...
 
 # Calculate all available landscape metrics 
-lsm_calculate(landscape_raster) %>% 
-  head()
+landscape_raster %>% 
+  lsm_p_perim()
 ```
 
 ## Important information for using **landscapemetrics**

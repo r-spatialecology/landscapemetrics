@@ -80,7 +80,7 @@ lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
-        id = as.numeric(NA),
+        id = as.integer(NA),
         metric = "relative patch richness",
         value = as.double(rpr)
     )
