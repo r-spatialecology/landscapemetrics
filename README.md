@@ -1,4 +1,8 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
+
 [![Travis build
 status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](https://travis-ci.org/marcosci/landscapemetrics)
 [![AppVeyor build
@@ -7,9 +11,7 @@ status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemet
 status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
+## Overview
 
 **landscapemetrics** is an R package for calculating landscape metrics
 for categorical landscape patterns in a tidy workflow. It offers most of
