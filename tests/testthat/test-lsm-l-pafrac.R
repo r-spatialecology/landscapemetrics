@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_pafrac <- lsm_l_pafrac(landscape)
 
 test_that("lsm_p_area results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_pafrac %in%
-                        round(landscapemetrics_landscape_landscape_pafrac$value,4)))
+                        round(landscapemetrics_landscape_landscape_pafrac$value, 4)))
 })
 
 test_that("lsm_c_pafrac is typestable", {
