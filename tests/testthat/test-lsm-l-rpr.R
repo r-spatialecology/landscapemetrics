@@ -3,22 +3,22 @@ context("landscape level rpr metric")
 fragstats_landscape_landscape_rpr <- fragstats_landscape_landscape$RPR
 landscapemetrics_landscape_landscape_rpr <- lsm_l_rpr(landscape, 5)
 
-test_that("lsm_p_area results are equal to fragstats", {
+test_that("lsm_l_rpr results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_rpr %in%
-                        round(landscapemetrics_landscape_landscape_rpr$value,4)))
+                        round(landscapemetrics_landscape_landscape_rpr$value, 4)))
 })
 
-test_that("lsm_c_rpr is typestable", {
+test_that("lsm_l_rpr is typestable", {
     expect_is(landscapemetrics_landscape_landscape_rpr, "tbl_df")
     expect_is(lsm_l_rpr(landscape_stack), "tbl_df")
     expect_is(lsm_l_rpr(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_area returns the desired number of columns", {
+test_that("lsm_l_rpr returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_landscape_landscape_rpr), 6)
 })
 
-test_that("lsm_p_area returns in every column the correct type", {
+test_that("lsm_l_rpr returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_rpr$layer, "integer")
     expect_type(landscapemetrics_landscape_landscape_rpr$level, "character")
     expect_type(landscapemetrics_landscape_landscape_rpr$class, "integer")
