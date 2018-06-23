@@ -4,7 +4,7 @@ language: r
 sudo: true
 dist: trusty
 cache: packages
-latex: false
+# latex: false
 warnings_are_errors: false
 
 matrix:
