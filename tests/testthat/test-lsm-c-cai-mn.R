@@ -1,6 +1,6 @@
 context("class level cai_mn metric")
 
-fragstats_class_landscape_cai_mn <- fragstats_class_landscape$cai_mn
+fragstats_class_landscape_cai_mn <- fragstats_class_landscape$CAI_MN
 landscapemetrics_class_landscape_cai_mn <- lsm_c_cai_mn(landscape)
 
 test_that("lsm_c_cai_mn results are equal to fragstats", {
