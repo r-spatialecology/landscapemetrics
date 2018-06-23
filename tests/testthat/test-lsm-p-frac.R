@@ -7,6 +7,7 @@ test_that("lsm_p_enn results are comparable to fragstats", {
     expect_true(all(fragstats_patch_landscape_frac %in%
                         round(landscapemetrics_patch_landscape_frac$value, digits = 4)))
 })
+
 test_that("lsm_p_frac is typestable", {
     expect_is(landscapemetrics_patch_landscape_frac, "tbl_df")
     expect_is(lsm_p_frac(landscape_stack), "tbl_df")

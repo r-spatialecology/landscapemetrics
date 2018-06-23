@@ -1,6 +1,12 @@
 context("patch level gyrate metric")
 
+fragstats_patch_landscape_gyrate <- fragstats_patch_landscape$GYRATE
 landscapemetrics_patch_landscape_gyrate <- lsm_p_gyrate(landscape)
+
+test_that("lsm_p_enn results are comparable to fragstats", {
+    expect_true(all(fragstats_patch_landscape_gyrate %in%
+                        round(landscapemetrics_patch_landscape_gyrate$value, digits = 4)))
+})
 
 test_that("lsm_p_gyrate is typestable", {
     expect_is(landscapemetrics_patch_landscape_gyrate, "tbl_df")

@@ -1,6 +1,12 @@
 context("patch level shape metric")
 
+fragstats_patch_landscape_shape <- fragstats_patch_landscape$SHAPE
 landscapemetrics_patch_landscape_shape <- lsm_p_shape(landscape)
+
+test_that("lsm_p_shape results are equal to fragstats", {
+    expect_true(all(fragstats_patch_landscape_shape %in%
+                        landscapemetrics_patch_landscape_shape$value))
+})
 
 test_that("lsm_p_shape is typestable", {
     expect_is(landscapemetrics_patch_landscape_shape, "tbl_df")

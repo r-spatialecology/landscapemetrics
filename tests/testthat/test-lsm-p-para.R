@@ -1,9 +1,10 @@
 context("patch level para metric")
 
+fragstats_patch_landscape_para <- fragstats_patch_landscape$PARA
 landscapemetrics_patch_landscape_para <- lsm_p_para(landscape)
 
 test_that("lsm_p_area results are equal to fragstats", {
-    expect_true(all(fragstats_patch_landscape$PARA %in%
+    expect_true(all(fragstats_patch_landscape_para %in%
                         round((landscapemetrics_patch_landscape_para$value * 10000), 4)))
 })
 
