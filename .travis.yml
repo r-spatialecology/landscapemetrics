@@ -23,3 +23,8 @@ notifications:
   email:
   on_success: change
 on_failure: change
+
+script:
+  - |
+    R CMD build .
+    travis_wait 20 R CMD check landscapemetrics*tar.gz
