@@ -27,7 +27,6 @@ Depends:
 Imports: 
     checkmate,
     dplyr,
-    ggplot2,
     magrittr,
     purrr,
     raster,

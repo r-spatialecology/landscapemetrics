@@ -27,4 +27,4 @@ on_failure: change
 script:
   - |
     R CMD build .
-    travis_wait 35 R CMD check landscapemetrics*tar.gz
+    travis_wait 60 R CMD check landscapemetrics*tar.gz
