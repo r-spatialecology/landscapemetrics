@@ -1,6 +1,12 @@
 context("class level pladj metric")
 
+fragstats_class_landscape_pladj <- fragstats_class_landscape$PLADJ
 landscapemetrics_class_landscape_pladj <- lsm_c_pladj(landscape)
+
+test_that("lsm_c_pladj results are equal to fragstats", {
+    expect_true(all(fragstats_class_landscape_pladj %in%
+                        round(landscapemetrics_class_landscape_pladj$value, 4)))
+})
 
 test_that("lsm_c_pladj is typestable", {
     expect_is(landscapemetrics_class_landscape_pladj, "tbl_df")
