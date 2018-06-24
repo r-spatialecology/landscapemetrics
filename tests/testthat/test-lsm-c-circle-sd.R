@@ -14,11 +14,11 @@ test_that("lsm_c_circle_sd is typestable", {
     expect_is(lsm_c_circle_sd(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_circle returns the desired number of columns", {
+test_that("lsm_c_circle_sd returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_class_landscape_circle_sd), 6)
 })
 
-test_that("lsm_p_circle returns in every column the correct type", {
+test_that("lsm_c_circle_sd returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_circle_sd$layer, "integer")
     expect_type(landscapemetrics_class_landscape_circle_sd$level, "character")
     expect_type(landscapemetrics_class_landscape_circle_sd$class, "integer")

@@ -5,7 +5,7 @@ landscapemetrics_class_landscape_area_sd <- lsm_c_area_sd(landscape)
 
 test_that("lsm_c_area_sd results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_area_sd %in%
-                        round(landscapemetrics_class_landscape_area_sd$value,4)))
+                        round(landscapemetrics_class_landscape_area_sd$value, 4)))
 })
 
 test_that("lsm_c_area_sd is typestable", {
@@ -18,7 +18,7 @@ test_that("lsm_c_area_sd returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_class_landscape_area_sd), 6)
 })
 
-test_that("lsm_c_area_sd_mn returns in every column the correct type", {
+test_that("lsm_c_area_sd returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_area_sd$layer, "integer")
     expect_type(landscapemetrics_class_landscape_area_sd$level, "character")
     expect_type(landscapemetrics_class_landscape_area_sd$class, "integer")

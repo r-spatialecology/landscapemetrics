@@ -1,6 +1,6 @@
 context("class level shape_sd metric")
 
-fragstats_class_landscape_shape_sd <- fragstats_class_landscape$shape_sd
+fragstats_class_landscape_shape_sd <- fragstats_class_landscape$SHAPE_SD
 landscapemetrics_class_landscape_shape_sd <- lsm_c_shape_sd(landscape)
 
 test_that("lsm_c_shape_sd results are equal to fragstats", {

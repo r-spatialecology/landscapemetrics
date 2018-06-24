@@ -14,11 +14,11 @@ test_that("lsm_c_pladj is typestable", {
     expect_is(lsm_c_pladj(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_pladj returns the desirpladj number of columns", {
+test_that("lsm_c_pladj returns the desirpladj number of columns", {
     expect_equal(ncol(landscapemetrics_class_landscape_pladj), 6)
 })
 
-test_that("lsm_p_pladj returns in every column the correct type", {
+test_that("lsm_c_pladj returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_pladj$layer, "integer")
     expect_type(landscapemetrics_class_landscape_pladj$level, "character")
     expect_type(landscapemetrics_class_landscape_pladj$class, "integer")

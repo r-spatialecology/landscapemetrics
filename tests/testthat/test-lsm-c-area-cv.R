@@ -3,9 +3,9 @@ context("class level area cv metric")
 fragstats_class_landscape_area_cv <- fragstats_class_landscape$AREA_CV
 landscapemetrics_class_landscape_area_cv <- lsm_c_area_cv(landscape)
 
-test_that("lsm_c_area_mn results are equal to fragstats", {
+test_that("lsm_c_area_cv results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_area_cv %in%
-                        round(landscapemetrics_class_landscape_area_cv$value,4)))
+                        round(landscapemetrics_class_landscape_area_cv$value, 4)))
 })
 
 test_that("lsm_c_area_cv is typestable", {
@@ -14,11 +14,11 @@ test_that("lsm_c_area_cv is typestable", {
     expect_is(lsm_c_area_cv(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_area returns the desired number of columns", {
+test_that("lsm_c_area_cv returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_class_landscape_area_cv), 6)
 })
 
-test_that("lsm_p_area returns in every column the correct type", {
+test_that("lsm_c_area_cv returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_area_cv$layer, "integer")
     expect_type(landscapemetrics_class_landscape_area_cv$level, "character")
     expect_type(landscapemetrics_class_landscape_area_cv$class, "integer")

@@ -14,11 +14,11 @@ test_that("lsm_c_tca is typestable", {
     expect_is(lsm_c_tca(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_tca returns the desired number of columns", {
+test_that("lsm_c_tca returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_class_landscape_tca), 6)
 })
 
-test_that("lsm_p_tca returns in every column the correct type", {
+test_that("lsm_c_tca returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_tca$layer, "integer")
     expect_type(landscapemetrics_class_landscape_tca$level, "character")
     expect_type(landscapemetrics_class_landscape_tca$class, "integer")
