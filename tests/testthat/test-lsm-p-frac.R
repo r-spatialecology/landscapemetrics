@@ -3,9 +3,9 @@ context("patch level frac metric")
 fragstats_patch_landscape_frac <- fragstats_patch_landscape$FRAC
 landscapemetrics_patch_landscape_frac <- lsm_p_frac(landscape)
 
-test_that("lsm_p_enn results are comparable to fragstats", {
+test_that("lsm_p_frac results are comparable to fragstats", {
     expect_true(all(fragstats_patch_landscape_frac %in%
-                        round(landscapemetrics_patch_landscape_frac$value, digits = 4)))
+                        round(landscapemetrics_patch_landscape_frac$value, 4)))
 })
 
 test_that("lsm_p_frac is typestable", {
