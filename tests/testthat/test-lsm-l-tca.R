@@ -8,7 +8,7 @@ test_that("lsm_l_tca results are equal to fragstats", {
                  fragstats_landscape_landscape_tca)
 })
 
-test_that("lsm_c_tca is typestable", {
+test_that("lsm_l_tca is typestable", {
     expect_is(landscapemetrics_landscape_landscape_tca, "tbl_df")
     expect_is(lsm_l_tca(landscape_stack), "tbl_df")
     expect_is(lsm_l_tca(list(landscape, landscape)), "tbl_df")

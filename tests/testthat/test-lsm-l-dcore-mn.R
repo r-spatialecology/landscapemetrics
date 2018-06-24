@@ -1,6 +1,6 @@
 context("landscape level dcore_mn metric")
 
-fragstats_landscape_landscape_dcore_mn <- fragstats_landscape_landscape$dcore_mn
+fragstats_landscape_landscape_dcore_mn <- fragstats_landscape_landscape$DCORE_MN
 landscapemetrics_landscape_landscape_dcore_mn <- lsm_l_dcore_mn(landscape)
 
 test_that("lsm_l_dcore_mn results are equal to fragstats", {

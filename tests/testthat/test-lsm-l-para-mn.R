@@ -1,6 +1,6 @@
 context("landscape level para_mn metric")
 
-fragstats_landscape_landscape_para_mn <- fragstats_landscape_landscape$PARA_mn
+fragstats_landscape_landscape_para_mn <- fragstats_landscape_landscape$PARA_MN
 landscapemetrics_landscape_landscape_para_mn <- lsm_l_para_mn(landscape)
 
 test_that("lsm_l_para_mn results are equal to fragstats", {

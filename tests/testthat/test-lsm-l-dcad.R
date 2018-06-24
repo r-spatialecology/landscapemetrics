@@ -1,6 +1,6 @@
 context("landscape level dcad metric")
 
-fragstats_landscape_landscape_dcad <- fragstats_landscape_landscape$dcad
+fragstats_landscape_landscape_dcad <- fragstats_landscape_landscape$DCAD
 landscapemetrics_landscape_landscape_dcad <- lsm_l_dcad(landscape)
 
 test_that("lsm_l_dcad results are equal to fragstats", {

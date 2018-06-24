@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_ed <- lsm_l_ed(landscape)
 
 test_that("lsm_l_ed results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_ed %in%
-                        round(landscapemetrics_landscape_landscape_ed$value,4)))
+                        round(landscapemetrics_landscape_landscape_ed$value, 4)))
 })
 
 test_that("lsm_l_ed is typestable", {

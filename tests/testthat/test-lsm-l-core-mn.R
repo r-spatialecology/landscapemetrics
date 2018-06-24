@@ -1,6 +1,6 @@
 context("landscape level core_mn metric")
 
-fragstats_landscape_landscape_core_mn <- fragstats_landscape_landscape$dcad
+fragstats_landscape_landscape_core_mn <- fragstats_landscape_landscape$CORE_MN
 landscapemetrics_landscape_landscape_core_mn <- lsm_l_core_mn(landscape)
 
 test_that("lsm_l_core_mn results are equal to fragstats", {
@@ -14,11 +14,11 @@ test_that("lsm_c_core_mn is typestable", {
     expect_is(lsm_l_core_mn(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_area returns the desired number of columns", {
+test_that("lsm_l_core_mn returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_landscape_landscape_core_mn), 6)
 })
 
-test_that("lsm_p_area returns in every column the correct type", {
+test_that("lsm_l_core_mn returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_core_mn$layer, "integer")
     expect_type(landscapemetrics_landscape_landscape_core_mn$level, "character")
     expect_type(landscapemetrics_landscape_landscape_core_mn$class, "integer")

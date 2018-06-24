@@ -1,6 +1,6 @@
 context("landscape level enn_mn metric")
 
-fragstats_landscape_landscape_enn_mn <- fragstats_landscape_landscape$FRAC_MN
+fragstats_landscape_landscape_enn_mn <- fragstats_landscape_landscape$ENN_MN
 landscapemetrics_landscape_landscape_enn_mn <- lsm_l_enn_mn(landscape)
 
 test_that("lsm_l_enn_mn results are equal to fragstats", {

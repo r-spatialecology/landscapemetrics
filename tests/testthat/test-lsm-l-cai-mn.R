@@ -1,6 +1,6 @@
 context("landscape level cai_mn metric")
 
-fragstats_landscape_landscape_cai_mn <- fragstats_landscape_landscape$dcad
+fragstats_landscape_landscape_cai_mn <- fragstats_landscape_landscape$CAI_MN
 landscapemetrics_landscape_landscape_cai_mn <- lsm_l_cai_mn(landscape)
 
 test_that("lsm_l_cai_mn results are equal to fragstats", {

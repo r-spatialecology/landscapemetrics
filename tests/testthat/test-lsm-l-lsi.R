@@ -1,6 +1,6 @@
 context("landscape level lsi metric")
 
-fragstats_landscape_landscape_lsi <- fragstats_landscape_landscape$lsi
+fragstats_landscape_landscape_lsi <- fragstats_landscape_landscape$LSI
 landscapemetrics_landscape_landscape_lsi <- lsm_l_lsi(landscape)
 
 test_that("lsm_l_lsi results are equal to fragstats", {

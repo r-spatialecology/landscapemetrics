@@ -1,6 +1,6 @@
 context("landscape level frac_sd metric")
 
-fragstats_landscape_landscape_frac_sd <- fragstats_landscape_landscape$frac_sd
+fragstats_landscape_landscape_frac_sd <- fragstats_landscape_landscape$FRAC_SD
 landscapemetrics_landscape_landscape_frac_sd <- lsm_l_frac_sd(landscape)
 
 test_that("lsm_l_frac_sd results are equal to fragstats", {

@@ -1,6 +1,6 @@
 context("landscape level gyrate_cv metric")
 
-fragstats_landscape_landscape_gyrate_cv <- fragstats_landscape_landscape$gyrate_cv
+fragstats_landscape_landscape_gyrate_cv <- fragstats_landscape_landscape$GYRATE_SD
 landscapemetrics_landscape_landscape_gyrate_cv <- lsm_l_gyrate_cv(landscape)
 
 test_that("lsm_l_gyrate_cv results are equal to fragstats", {

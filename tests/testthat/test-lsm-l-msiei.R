@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_msiei <- lsm_l_msiei(landscape)
 
 test_that("lsm_l_msiei results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_msiei %in%
-                        round(landscapemetrics_landscape_landscape_msiei$value,4)))
+                        round(landscapemetrics_landscape_landscape_msiei$value, 4)))
 })
 
 test_that("lsm_l_msiei is typestable", {

@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_lpi <- lsm_l_lpi(landscape)
 
 test_that("lsm_l_lpi results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_lpi %in%
-                        round(landscapemetrics_landscape_landscape_lpi$value,4)))
+                        round(landscapemetrics_landscape_landscape_lpi$value, 4)))
 })
 
 test_that("lsm_l_lpi is typestable", {

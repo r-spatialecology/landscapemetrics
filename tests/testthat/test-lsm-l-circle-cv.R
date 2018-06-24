@@ -1,6 +1,6 @@
 context("landscape level circle_cv metric")
 
-fragstats_landscape_landscape_circle_cv <- fragstats_landscape_landscape$dcad
+fragstats_landscape_landscape_circle_cv <- fragstats_landscape_landscape$CIRCLE_CV
 landscapemetrics_landscape_landscape_circle_cv <- lsm_l_circle_cv(landscape)
 
 test_that("lsm_l_circle_cv results are equal to fragstats", {

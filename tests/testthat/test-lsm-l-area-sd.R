@@ -1,6 +1,6 @@
 context("landscape level area_sd metric")
 
-fragstats_landscape_landscape_area_sd <- fragstats_landscape_landscape$dcad
+fragstats_landscape_landscape_area_sd <- fragstats_landscape_landscape$AREA_SD
 landscapemetrics_landscape_landscape_area_sd <- lsm_l_area_sd(landscape)
 
 test_that("lsm_l_area_sd results are equal to fragstats", {
