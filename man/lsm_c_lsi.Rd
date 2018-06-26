@@ -10,33 +10,33 @@
 \alias{lsm_c_lsi.RasterBrick}
 \alias{lsm_c_lsi}
 \alias{lsm_c_lsi.list}
-\title{Landscape shape index (class level)}
+\title{LSI (class level)}
 \usage{
-lsm_c_lsi(landscape, count_boundary)
+lsm_c_lsi(landscape)
 
-\method{lsm_c_lsi}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_c_lsi}{RasterLayer}(landscape)
 
-\method{lsm_c_lsi}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_c_lsi}{RasterStack}(landscape)
 
-\method{lsm_c_lsi}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_c_lsi}{RasterBrick}(landscape)
 
-\method{lsm_c_lsi}{list}(landscape, count_boundary = FALSE)
+\method{lsm_c_lsi}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{count_boundary}{???}
 }
 \value{
 tibble
 }
 \description{
-Landscape shape index (class level)
+Landscape shape index (Aggregation index)
 }
 \details{
+\deqn{LSI = \frac{e_{i}}{\min e_{i}}}
+where
+
 The landscape shape index equals a quarter of the sum of all edges of class i
 divided by the square root of the total area.
-\deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
 \subsection{Units}{none}
 \subsection{Ranges}{LSI >= 1}
 \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and

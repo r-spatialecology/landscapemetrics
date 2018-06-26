@@ -32,9 +32,9 @@ tibble
 Shape index (Shape metric)
 }
 \details{
-\deqn{SHAPE = \frac{0.25 * p_{ij}}{\sqrt{a_{ij}}}}
-where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the area in
-square meters.
+\deqn{SHAPE = \frac{p_{ij}}{\min p_{ij}}}
+where \eqn{p_{ij}} is the perimeter in meters and \eqn{\min p_{ij}} is the minimum
+perimeter of the patch,
 
 SHAPE is a 'Shape metric'. The index is based on the patch perimeter and the patch area
 and describes the patch complexity. Because it it standarised, it is independent
@@ -42,7 +42,7 @@ of the patch size.
 
 \subsection{Units}{None}
 \subsection{Range}{SHAPE >= 1}
-\subsection{Behaviour}{Approaches SHAPE = 1 for a square and
+\subsection{Behaviour}{Equals SHAPE = 1 for a squared patch and
 increases, without limit, as the patch shape becomes more complex.}
 }
 \examples{

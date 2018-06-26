@@ -3,12 +3,11 @@
 #' @description Landscape shape index (landscape level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary ???
 #'
 #' @details
 #' The landscape shape index equals a quarter of the sum of all edges in the landscape
 #' divided by the square root of the total area.
-#' \deqn{LSI = (0.25 * sum(edges[patch])) / sqrt(total area)}
+#' \deqn{LSI = \frac{E}{\min E}}
 #' \subsection{Units}{none}
 #' \subsection{Ranges}{LSI >= 1}
 #' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
@@ -59,19 +58,27 @@ lsm_l_lsi.list <- function(landscape) {
 
 lsm_l_lsi_calc <- function(landscape) {
 
-    edges_landscape <- lsm_l_te(landscape, count_boundary = TRUE)
+    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = T)
 
     area_landscape <- landscape %>%
         lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    lsi <- (0.25 * edges_landscape$value) / sqrt(area_landscape$value)
+    lsi <- area_landscape %>%
+        dplyr::mutate(n = trunc(sqrt(value)),
+                      m = value - n^ 2,
+                      minp = dplyr::case_when(m == 0 ~ n * 4,
+                                              n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                              value > n * (1 + n) ~ 4 * n + 4),
+                      value = edge_landscape$value / minp) %>%
+        dplyr::select(-c(n, m, minp))
 
     tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "landscape shape index",
-        value = lsi
+        level = "patch",
+        class = as.integer(edge_landscape$class),
+        id = as.integer(edge_landscape$id),
+        metric = "shape index",
+        value = as.double(lsi$value)
     )
+
 }

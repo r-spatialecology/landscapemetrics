@@ -5,8 +5,9 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
-
+#' \deqn{LSI = \frac{e_{i}}{\min e_{i}}}
+#' where
+#'
 #' The landscape shape index equals a quarter of the sum of all edges of class i
 #' divided by the square root of the total area.
 #' \subsection{Units}{none}
@@ -59,20 +60,27 @@ lsm_c_lsi.list <- function(landscape) {
 
 lsm_c_lsi_calc <- function(landscape) {
 
-    edges_class <- landscape %>%
-        lsm_c_te_calc(count_boundary = TRUE)
+    edge_class <- lsm_c_te_calc(landscape, count_boundary = T)
 
-    area_landscape <- landscape %>%
-        lsm_l_ta_calc() %>%
+    area_class <- landscape %>%
+        lsm_c_ca_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    lsi <- (0.25 * edges_class$value) / sqrt(area_landscape$value)
+    lsi <- area_class %>%
+        dplyr::mutate(n = trunc(sqrt(value)),
+                      m = value - n^ 2,
+                      minp = dplyr::case_when(m == 0 ~ n * 4,
+                                              n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                              value > n * (1 + n) ~ 4 * n + 4),
+                      value = edge_class$value / minp) %>%
+        dplyr::select(-c(n, m, minp))
 
     tibble::tibble(
-        level = "class",
-        class = edges_class$class,
-        id = as.integer(NA),
-        metric = "landscape shape index",
-        value = lsi
+        level = "patch",
+        class = as.integer(edge_class$class),
+        id = as.integer(edge_class$id),
+        metric = "shape index",
+        value = as.double(lsi$value)
     )
+
 }

@@ -12,20 +12,18 @@
 \alias{lsm_l_lsi.list}
 \title{Landscape shape index (landscape level)}
 \usage{
-lsm_l_lsi(landscape, count_boundary)
+lsm_l_lsi(landscape)
 
-\method{lsm_l_lsi}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterLayer}(landscape)
 
-\method{lsm_l_lsi}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterStack}(landscape)
 
-\method{lsm_l_lsi}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{RasterBrick}(landscape)
 
-\method{lsm_l_lsi}{list}(landscape, count_boundary = FALSE)
+\method{lsm_l_lsi}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
-
-\item{count_boundary}{???}
 }
 \value{
 tibble
@@ -36,7 +34,7 @@ Landscape shape index (landscape level)
 \details{
 The landscape shape index equals a quarter of the sum of all edges in the landscape
 divided by the square root of the total area.
-\deqn{LSI = (0.25 * sum(edges[patch])) / sqrt(total area)}
+\deqn{LSI = \frac{E}{\min E}}
 \subsection{Units}{none}
 \subsection{Ranges}{LSI >= 1}
 \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
