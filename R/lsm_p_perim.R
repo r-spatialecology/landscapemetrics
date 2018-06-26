@@ -65,43 +65,45 @@ lsm_p_perim.list <- function(landscape) {
 
 lsm_p_perim_calc <- function(landscape){
 
-    perimeter_class <- landscape %>%
+    perimeter_patch <- landscape %>%
         pad_raster(pad_raster_value = NA) %>%
         cclabel() %>%
-        unname() %>%
-        purrr::map_dfr(function(x) {
-
-            x %>%
+        purrr::map_dfr(function(patches_class) {
+            patches_class %>%
                 raster::values() %>%
                 stats::na.omit() %>%
                 unique() %>%
                 sort() %>%
-                purrr::map_dfr(function(y) {
-                    x[x != y | is.na(x)] <- -999
+                purrr::map_dfr(function(patch_id) {
+                    patches_class[patches_class != patch_id | is.na(patches_class)] <- -999
 
-                    adjacent_cells <- raster::adjacent(x = x,
-                                                       cells = seq_len(raster::ncell(x)),
+                    adjacent_cells <- raster::adjacent(x = patches_class,
+                                                       cells = seq_len(raster::ncell(patches_class)),
                                                        directions = 4,
                                                        pairs = TRUE)
 
-                    neighbour_matrix <- table(x[adjacent_cells[,1]],
-                                              x[adjacent_cells[,2]])
+                    neighbour_matrix <- table(patches_class[adjacent_cells[,1]],
+                                              patches_class[adjacent_cells[,2]])
 
-                    perimeter_patch_n <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                        prod(raster::res(x))
+                    perimeter_patch_ij <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
+                        prod(raster::res(patches_class))
+
+                    class_name <- patches_class %>%
+                        names() %>%
+                        sub("Class_", "", .)
 
                     tibble::tibble(
-                        id = NA,
-                        value = perimeter_patch_n
+                        class = class_name,
+                        value = perimeter_patch_ij
                     )
                 })
-        }, .id = "class")
+        })
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(perimeter_class$class),
-        id = as.integer(seq_len(nrow(perimeter_class))),
+        class = as.integer(perimeter_patch$class),
+        id = as.integer(seq_len(nrow(perimeter_patch))),
         metric = "perimeter",
-        value = as.double(perimeter_class$value)
+        value = as.double(perimeter_patch$value)
     )
 }

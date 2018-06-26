@@ -77,19 +77,20 @@ lsm_p_frac.list <- function(landscape) {
 
 lsm_p_frac_calc <- function(landscape){
 
-    perimeter <- lsm_p_perim_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    area <- lsm_p_area_calc(landscape) %>%
-        dplyr::mutate(value = value * 10000)
+    frac_patch <- landscape %>%
+        lsm_p_area_calc() %>%
+        dplyr::mutate(value = 2 * log (0.25 * perimeter_patch$value) /
+                          log(value * 10000))
 
-    frac <- 2 * log (0.25 * perimeter$value) / log(area$value)
-    frac[is.na(frac)] <- 1
+    frac_patch[is.na(frac_patch)] <- 1
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(perimeter$class),
-        id = as.integer(perimeter$id),
+        class = as.integer(perimeter_patch$class),
+        id = as.integer(perimeter_patch$id),
         metric = "fractal dimension index",
-        value = as.double(frac)
+        value = as.double(frac_patch$value)
     )
 }

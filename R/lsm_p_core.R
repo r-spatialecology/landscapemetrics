@@ -81,41 +81,44 @@ lsm_p_core.list <- function(landscape) {
 
 lsm_p_core_calc <- function(landscape){
 
-    core_area <- landscape %>%
+    core_area_patch <- landscape %>%
         cclabel() %>%
-        # unname() %>%
-        purrr::map_dfr(function(landscape_patch) {
-            landscape_patch %>%
+        purrr::map_dfr(function(patches_class) {
+            patches_class %>%
                 raster::values() %>%
                 stats::na.omit() %>%
                 unique() %>%
                 sort() %>%
                 purrr::map_dfr(function(patch_id) {
-                    landscape_patch[landscape_patch != patch_id |
-                                        is.na(landscape_patch)] <- -999
-                    core_cells <- raster::Which(landscape_patch == patch_id, cells = T) %>%
+                    patches_class[patches_class != patch_id |
+                                        is.na(patches_class)] <- -999
+                    core_cells <- raster::Which(patches_class == patch_id, cells = T) %>%
                         purrr::map_dbl(function(cell_id) {
-                            adjacent_cells <- raster::adjacent(landscape_patch,
+                            adjacent_cells <- raster::adjacent(patches_class,
                                                                cells = cell_id,
                                                                directions = 4,
                                                                pairs = FALSE)
-                            ifelse(all(landscape_patch[adjacent_cells] == patch_id), cell_id, NA)
+                            ifelse(all(patches_class[adjacent_cells] == patch_id), cell_id, NA)
                         }) %>%
                         na.omit() %>%
                         length()
 
+                    class_name <- patches_class %>%
+                        names() %>%
+                        sub("Class_", "", .)
+
                     tibble::tibble(
-                        id = NA,
+                        class = class_name,
                         value = (core_cells * prod(raster::res(landscape)) / 10000)
                     )
                 })
-        }, .id = "class")
+        })
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(core_area$class),
-        id = as.integer(seq_len(nrow(core_area))),
+        class = as.integer(core_area_patch$class),
+        id = as.integer(seq_len(nrow(core_area_patch))),
         metric = "core area",
-        value = as.double(core_area$value)
+        value = as.double(core_area_patch$value)
     )
 }

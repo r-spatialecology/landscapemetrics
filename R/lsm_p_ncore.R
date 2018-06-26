@@ -85,30 +85,29 @@ lsm_p_ncore_calc <- function(landscape){
 
     core_class <- landscape %>%
         cclabel() %>%
-        unname() %>%
-        purrr::map_dfr(function(landscape_patch) {
-            landscape_patch %>%
+        purrr::map_dfr(function(patches_class) {
+            patches_class %>%
                 raster::values() %>%
                 stats::na.omit() %>%
                 unique() %>%
                 sort() %>%
                 purrr::map_dfr(function(patch_id) {
-                    landscape_patch[landscape_patch != patch_id |
-                                        is.na(landscape_patch)] <- -999
-                    core_cells <- raster::Which(landscape_patch == patch_id, cells = T) %>%
+                    patches_class[patches_class != patch_id |
+                                        is.na(patches_class)] <- -999
+                    core_cells <- raster::Which(patches_class == patch_id, cells = T) %>%
                         purrr::map_dbl(function(cell_id) {
-                        adjacent_cells <- raster::adjacent(landscape_patch,
+                        adjacent_cells <- raster::adjacent(patches_class,
                                                            cells = cell_id,
                                                            directions = 4,
                                                            pairs = FALSE)
-                        ifelse(all(landscape_patch[adjacent_cells] == patch_id), cell_id, NA)
+                        ifelse(all(patches_class[adjacent_cells] == patch_id), cell_id, NA)
                         }) %>%
                         na.omit()
 
                     if(length(core_cells) != 0){
-                        landscape_patch[!1:ncell(landscape_patch) %in% core_cells] <- NA
+                        patches_class[!1:ncell(patches_class) %in% core_cells] <- NA
 
-                        core_patch_n <- landscape_patch %>%
+                        core_patch_n <- patches_class %>%
                             lsm_l_np() %>%
                             dplyr::pull(value)
                     }
@@ -116,12 +115,16 @@ lsm_p_ncore_calc <- function(landscape){
                         core_patch_n <- 0
                     }
 
+                    class_name <- patches_class %>%
+                        names() %>%
+                        sub("Class_", "", .)
+
                     tibble::tibble(
-                        id = NA,
+                        class = class_name,
                         value = core_patch_n
                     )
                 })
-        }, .id = "class")
+        })
 
     tibble::tibble(
         level = "patch",

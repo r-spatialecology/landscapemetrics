@@ -76,30 +76,32 @@ lsm_p_area.list <- function(landscape) {
 }
 
 lsm_p_area_calc <- function(landscape){
-    labeled_landscape <- landscape %>%
-        cclabel()
 
-    area_class <- labeled_landscape %>%
-        # unname() %>%
+    area_patch <- landscape %>%
+        cclabel() %>%
         purrr::map_dfr(function(patches_class){
-            area_patch <- patches_class %>%
+            area_patch_ij <- patches_class %>%
                 raster::values() %>%
                 table(useNA = "no") %>%
                 magrittr::multiply_by(prod(raster::res(patches_class))) %>%
                 magrittr::divide_by(10000)
 
+            class_name <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
+
             tibble::tibble(
-                id = NA,
-                value = area_patch
+                class = as.integer(class_name),
+                value = area_patch_ij
             )
-        }, .id = "class")
+        })
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(area_class$class),
-        id = as.integer(seq_len(nrow(area_class))),
+        class = as.integer(area_patch$class),
+        id = as.integer(seq_len(nrow(area_patch))),
         metric = "area",
-        value = as.double(area_class$value)
+        value = as.double(area_patch$value)
     )
 }
 

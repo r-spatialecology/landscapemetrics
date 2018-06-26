@@ -76,18 +76,17 @@ lsm_p_para.list <- function(landscape) {
 
 lsm_p_para_calc <- function(landscape){
 
-    perimeter <- lsm_p_perim_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    area <- lsm_p_area_calc(landscape) %>%
-        dplyr::mutate(value = value * 10000)
-
-    para <- perimeter$value / area$value
+    para_patch <- landscape %>%
+        lsm_p_area_calc() %>%
+        dplyr::mutate(value = perimeter_patch$value / (value * 10000))
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(perimeter$class),
-        id = as.integer(perimeter$id),
+        class = as.integer(perimeter_patch$class),
+        id = as.integer(perimeter_patch$id),
         metric = "perimeter-area-ratio",
-        value = as.double(para)
+        value = as.double(para_patch$value)
     )
 }

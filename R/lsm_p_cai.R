@@ -81,19 +81,19 @@ lsm_p_cai.list <- function(landscape) {
 
 lsm_p_cai_calc <- function(landscape){
 
-    area <- landscape%>%
+    area_patch <- landscape %>%
         lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    cai <- landscape %>%
+    cai_patch <- landscape %>%
         lsm_p_core_calc() %>%
-        dplyr::mutate(value = value * 10000 / area$value * 100)
+        dplyr::mutate(value = value * 10000 / area_patch$value * 100)
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(cai$class),
-        id = as.integer(cai$id),
+        class = as.integer(area_patch$class),
+        id = as.integer(cai_patch$id),
         metric = "core area index",
-        value = as.double(cai$value)
+        value = as.double(cai_patch$value)
     )
 }

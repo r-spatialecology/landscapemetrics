@@ -79,12 +79,10 @@ lsm_p_shape_calc <- function(landscape){
 
     perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    area_patch <- landscape %>%
+    shape_patch <- landscape %>%
         lsm_p_area_calc() %>%
-        dplyr::mutate(value = value * 10000)
-
-    shape <- area_patch %>%
-        dplyr::mutate(n = trunc(sqrt(value)),
+        dplyr::mutate(value = value * 10000,
+                      n = trunc(sqrt(value)),
                       m = value - n^ 2,
                       minp = dplyr::case_when(m == 0 ~ n * 4,
                                               n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
@@ -97,7 +95,7 @@ lsm_p_shape_calc <- function(landscape){
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "shape index",
-        value = as.double(shape$value)
+        value = as.double(shape_patch$value)
         )
 
 
