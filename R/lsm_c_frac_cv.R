@@ -1,17 +1,33 @@
-#'  Fractal dimension index distribution (class level)
+#' FRAC_CV (class level)
 #'
-#' @description Coeffiecent of variation fractal dimension index (class level)
+#' @description Coeffiecent of variation fractal dimension index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Coeffiecent of variation of the fractal dimension index of class i. FRAC equals
-#' two times the natural logarithm of a quarter of the patch area divided by the
-#' natural logarithm of the patch area
-#' \deqn{FRAC_CV = cv(FRAC[patch_i])}
+#' \deqn{FRAC_{CV} = cv(FRAC[patch_{ij}])}
+#' where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
+#'
+#' FRAC_CV is a 'Shape metric'. The metric summarises each class
+#' as the coeffiecent of variation of the fractal dimension index of all patches
+#' belonging to class i. The fractal dimenstion index is based on the patch perimeter and
+#' the patch area and describes the patch complexity. The coeffiecent of variation is
+#' scaled to the mean and comparable among different landscapes.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{FRAC_CV >= 0 }
+#' \subsection{Behaviour}{Equals FRAC_CV = 0 if the fractal dimension index is identical
+#' for all patches. Increases, without limit, as the variation of the fractal dimension
+#' indices increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_frac}},
+#' \code{\link{cv}}, \cre
+#' \code{\link{lsm_c_frac_mn}},
+#' \code{\link{lsm_c_frac_sd}}, \cr
+#' \code{\link{lsm_l_frac_mn}},
+#' \code{\link{lsm_l_frac_sd}},
+#' \code{\link{lsm_l_frac_cv}}
 #'
 #' @return tibble
 #'

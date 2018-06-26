@@ -1,17 +1,27 @@
-#' Largest patch index (class level)
+#' LPI (class level)
 #'
-#' @description Largest patch index of class i (class level)
+#' @description Largest patch index (Area and Edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The largest patch index equals the area of the larges patch of class i
-#' divided by the total area. It is a simple measure of dominance
-#' \deqn{LPI = (max(area[patch_i]) / total area) * 100}
+#' \deqn{LPI = \frac{\max\limits_{j = 1} ^ {n} (a_{ij})}{A} * 100}
+#' where \eqn{max(a_{ij})} is the area of the patch in square meters and \eqn{A}
+#' is the total landscape area in square meters.
+#'
+#' The largest patch index is an 'Area and edge metric'. It is the percentage of the
+#' landscape covered by the corresponding largest patch of each class i. It is a simple
+#' measure of dominance.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 < LPI <= 100}
-#' \subsection{Behaviour}{LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
-#' and equals LPI = 100 when only one class and patch is present}
+#' \subsection{Behaviour}{Approaches LPI = 0 when the largest patch is becoming small
+#' and equals LPI = 100 when only one patch is present}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_l_lpi}}
 #'
 #' @return tibble
 #'

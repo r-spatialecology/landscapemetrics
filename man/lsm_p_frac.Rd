@@ -29,7 +29,7 @@ lsm_p_frac(landscape)
 tibble
 }
 \description{
-Fractacl dimension index (Shape metric)
+Fractal dimension index (Shape metric)
 }
 \details{
 \deqn{FRAC = \frac{2 * \ln * (0.25 * p_{ij})}{\ln a_{ij}}}
@@ -42,7 +42,7 @@ it is independent of the patch area.
 
 \subsection{Units}{None}
 \subsection{Range}{1 <= FRAC <= 2 }
-\subsection{Behaviour}{Approaches FRAC = 1 a squared patch shape form and FRAC = 2
+\subsection{Behaviour}{Approaches FRAC = 1 for a squared patch shape form and FRAC = 2
 for a irregular patch shape.}
 }
 \examples{

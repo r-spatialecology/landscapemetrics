@@ -1,16 +1,33 @@
-#' Radius of Gyration Distribution (class level)
+#' GYRATE_SD (class level)
 #'
-#' @description Standard Deviation of Radius of Gyration (class level)
+#' @description Standard deviation radius of gyration (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the standard deviation of mean distance of each cell centroid
-#' in a patch to the centroid of the whole patch (mean location of all cell centroids) of class i
-#' \deqn{GYRATE_SD = sd(GYRATE[patch_i]}
+#' \deqn{GYRATE_{SD} = sd(GYRATE[patch_{ij}])}
+#' where \eqn{GYRATE[patch_{ij}]} equals the radius of gyration of each patch.
+#'
+#' GYRATE_SD is an 'Area and edge metric'. The metric summarises each class
+#' as the standard deviation of the radius of gyration of all patches
+#' belonging to class i. GYRATE measures the distance from each cell to the patch
+#' centroid and is based on cell center-to-cell center distances. The metrics characterises
+#' both the patch area and compactness.
+#'
 #' \subsection{Units}{Meters}
-#' \subsection{Range}{GYRATE >= 0, without limit}
-#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
+#' \subsection{Range}{GYRATE_SD >= 0 }
+#' \subsection{Behaviour}{Equals GYRATE_SD = 0 if the radius of gyration is identical
+#' for all patches. Increases, without limit, as the variation of the radius of gyration
+#' increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_gyrate}},
+#' \code{\link{cv}}, \cre
+#' \code{\link{lsm_c_gyrate_mn}},
+#' \code{\link{lsm_c_gyrate_cv}}, \cr
+#' \code{\link{lsm_l_gyrate_mn}},
+#' \code{\link{lsm_l_gyrate_sd}},
+#' \code{\link{lsm_l_gyrate_cv}}
 #'
 #' @return tibble
 #'

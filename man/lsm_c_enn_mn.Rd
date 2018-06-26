@@ -10,7 +10,7 @@
 \alias{lsm_c_enn_mn.RasterBrick}
 \alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.list}
-\title{Euclidean Nearest Neighbor Distance Distribution (class level)}
+\title{ENN_MN (patch level)}
 \usage{
 lsm_c_enn_mn(landscape)
 
@@ -29,16 +29,24 @@ lsm_c_enn_mn(landscape)
 tibble
 }
 \description{
-Mean Euclidean Nearest Neighbor Distance (class level)
+Mean of euclidean nearest-neighbor distance (Aggregation metric)
 }
 \details{
-Equals the mean of the eclidean nearest neighbor distance of class i. ENN equals
-the distance the the nearest neigbouring patch of the same patch type
-(shortest edge-to-edge distance)
-\deqn{ENN_MN = mean(ENN[patch_i])}
+\deqn{ENN_{MN} = cv(mean[patch_{ij}])}
+where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
+of each patch.
+
+ENN_CV is an 'Aggregation metric'. It summarises each class as the mean of each patch
+belonging to class i. ENN measures the distance to the  nearest neighbouring patch
+of the same class i. The distance is measured from edge-to-edge. The range is limited
+by the cell resolution on the lower limit and the landscape extent on the upper limit.
+
 \subsection{Units}{Meters}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{ENN_MN > 0}
+\subsection{Behaviour}{Approaches ENN_MN = 0 as the distance to the nearest neighbour
+decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
+as the distance between neighbouring patches of the same class i increases, i.e. patches are
+more isolated.}
 }
 \examples{
 lsm_c_enn_mn(landscape)
@@ -48,4 +56,13 @@ lsm_c_enn_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_enn}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_enn_sd}},
+\code{\link{lsm_c_enn_cv}}, \cr
+\code{\link{lsm_l_enn_mn}},
+\code{\link{lsm_l_enn_sd}},
+\code{\link{lsm_l_enn_cv}}
 }

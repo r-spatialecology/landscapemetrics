@@ -10,7 +10,7 @@
 \alias{lsm_c_frac_sd.RasterBrick}
 \alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.list}
-\title{Fractal dimension index distribution  (class level)}
+\title{FRAC_SD (class level)}
 \usage{
 lsm_c_frac_sd(landscape)
 
@@ -29,16 +29,22 @@ lsm_c_frac_sd(landscape)
 tibble
 }
 \description{
-Standard deviation fractal dimension index (class level)
+Standard deviation fractal dimension index (Shape metric)
 }
 \details{
-Standard deviation of the fractal dimension index of class i. FRAC equals
-two times the natural logarithm of a quarter of the patch area divided by the
-natural logarithm of the patch area
-\deqn{FRAC_SD = sd(FRAC[patch_i])}
+\deqn{FRAC_{SD} = sd(FRAC[patch_{ij}])}
+where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
+
+FRAC_SD is a 'Shape metric'. The metric summarises each class
+as the standard deviation of the fractal dimension index of all patches
+belonging to class i. The fractal dimenstion index is based on the patch perimeter and
+the patch area and describes the patch complexity.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{FRAC_SD>= 0 }
+\subsection{Behaviour}{Equals FRAC_SD = 0 if the fractal dimension index is identical
+for all patches. Increases, without limit, as the variation of the fractal dimension
+indices increases.}
 }
 \examples{
 lsm_c_frac_sd(landscape)
@@ -48,4 +54,13 @@ lsm_c_frac_sd(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_frac}},
+\code{\link{sd}}, \cre
+\code{\link{lsm_c_frac_mn}},
+\code{\link{lsm_c_frac_cv}}, \cr
+\code{\link{lsm_l_frac_mn}},
+\code{\link{lsm_l_frac_sd}},
+\code{\link{lsm_l_frac_cv}}
 }

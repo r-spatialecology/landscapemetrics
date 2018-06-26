@@ -10,7 +10,7 @@
 \alias{lsm_c_frac_mn.RasterBrick}
 \alias{lsm_c_frac_mn}
 \alias{lsm_c_frac_mn.list}
-\title{Fractal dimension index distribution  (class level)}
+\title{FRAC_MN (class level)}
 \usage{
 lsm_c_frac_mn(landscape)
 
@@ -25,20 +25,23 @@ lsm_c_frac_mn(landscape)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 }
-\value{
-tibble
-}
 \description{
-Mean fractal dimension index (class level)
+Mean fractal dimension index (Shape metric)
 }
 \details{
-Mean of the fractal dimension index of class i. FRAC equals
-two times the natural logarithm of a quarter of the patch area divided by the
-natural logarithm of the patch area
-\deqn{FRAC_MN = mean(FRAC[patch_i])}
+\deqn{FRAC_{MN} = mean(FRAC[patch_{ij}])}
+where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
+
+FRAC_MN is a 'Shape metric'. The metric summarises each class
+as the mean of the fractal dimension index of all patches belonging to class i.
+The fractal dimenstion index is based on the patch perimeter and
+the patch area and describes the patch complexity. The coeffiecent of variation is
+scaled to the mean and comparable among different landscapes.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{FRAC_MN > 0 }
+\subsection{Behaviour}{Approaches FRAC_MN = 1 if all patches are squared and FRAC_MN = 2
+if all patches are irregular.}
 }
 \examples{
 lsm_c_frac_mn(landscape)
@@ -48,4 +51,13 @@ lsm_c_frac_mn(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_frac}},
+\code{\link{mean}}, \cre
+\code{\link{lsm_c_frac_sd}},
+\code{\link{lsm_c_frac_cv}}, \cr
+\code{\link{lsm_l_frac_mn}},
+\code{\link{lsm_l_frac_sd}},
+\code{\link{lsm_l_frac_cv}}
 }

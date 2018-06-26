@@ -1,16 +1,33 @@
-#' Radius of Gyration Distribution (class level)
+#' GYRATE_MN (class level)
 #'
-#' @description Mean of Radius of Gyration (class level)
+#' @description Mean radius of gyration (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the mean of mean distance of each cell centroid
-#' in a patch to the centroid of the whole patch (mean location of all cell centroids) of class i
-#' \deqn{GYRATE_MN = mean(GYRATE[patch_i]}
+#' \deqn{GYRATE_{MN} = mean(GYRATE[patch_{ij}])}
+#' where \eqn{GYRATE[patch_{ij}]} equals the radius of gyration of each patch.
+#'
+#' GYRATE_MN is an 'Area and edge metric'. The metric summarises each class
+#' as the mean of the radius of gyration of all patches belonging to class i.
+#' GYRATE measures the distance from each cell to the patch centroid and is based on
+#' cell center-to-cell center distances. The metrics characterises
+#' both the patch area and compactness. The coeffiecent of variation is
+#' scaled to the mean and comparable among different landscapes.
+#'
 #' \subsection{Units}{Meters}
-#' \subsection{Range}{GYRATE >= 0, without limit}
-#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
+#' \subsection{Range}{GYRATE_MN >= 0 }
+#' \subsection{Behaviour}{Approaches GYRATE_MN = 0 if every patch is a single cell. Increases,
+#' without limit, when only one patch is present.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_gyrate}},
+#' \code{\link{mean}}, \cre
+#' \code{\link{lsm_c_gyrate_sd}},
+#' \code{\link{lsm_c_gyrate_cv}}, \cr
+#' \code{\link{lsm_l_gyrate_mn}},
+#' \code{\link{lsm_l_gyrate_sd}},
+#' \code{\link{lsm_l_gyrate_cv}}
 #'
 #' @return tibble
 #'

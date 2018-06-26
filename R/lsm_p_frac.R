@@ -1,6 +1,6 @@
 #' FRAC (patch level)
 #'
-#' @description Fractacl dimension index (Shape metric)
+#' @description Fractal dimension index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -15,7 +15,7 @@
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= FRAC <= 2 }
-#' \subsection{Behaviour}{Approaches FRAC = 1 a squared patch shape form and FRAC = 2
+#' \subsection{Behaviour}{Approaches FRAC = 1 for a squared patch shape form and FRAC = 2
 #' for a irregular patch shape.}
 #'
 #' @seealso

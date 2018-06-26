@@ -1,18 +1,33 @@
-#' Edge Density (class level)
+#' ED (class level)
 #'
-#' @description Edge Density (class level)
+#' @description Edge Density (Area and Edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary Specific arguments for certain functions, if not provided they fall back to default.
+#' @param count_boundary
 #'
 #' @details
-#' Edge density equals the sum of the length of all edges of class i divided by the total
-#' area multiplied 10 000. Because edge density is relative, comparison among landcapes with different total areas
-#' are possible
-#' \deqn{ED = (sum(edges[class_i]) / total area) * 10 000}
+#' \deqn{ED = \frac{\sum_{k = 1} ^ {m} e_{ik}}{A} * 10000}
+#' where \eqn{e_{ik}} is the total edge length in meters and \eqn{A} is the total
+#' landcape area in square meters.
+#'
+#' ED is an 'Area and Edge metric'. The edge density equals the sum of all edges of class i
+#' in relation to the landcape area. The boundary of the landscape is only included in the
+#' corresponding total class edge length if \code{count_boundary} is set to \code{TRUE}.
+#' The metric describes the configuration of the landscape, e.g. because  an  aggregation
+#' of the same class will result in a low edge density. The metric is standarized to the
+#' total landscape area, and therefore comparisons among landscapes with different total
+#' areas are possible.
+
 #' \subsection{Units}{Meters per hectare}
 #' \subsection{Range}{ED >= 0}
-#' \subsection{Behaviour}{ED increases as the landcapes becomes more patchy}
+#' \subsection{Behaviour}{Equals ED = 0 if only one patch is present (and the landcape
+#' boundary is not included) and increases, without limit, as the landcapes becomes more
+#' patchy}
+#'
+#' @seealso
+#' \code{\link{lsm_c_te}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_l_ed}}
 #'
 #' @return tibble
 #'

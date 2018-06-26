@@ -10,7 +10,7 @@
 \alias{lsm_c_enn_cv.RasterBrick}
 \alias{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv.list}
-\title{Euclidean Nearest Neighbor Distance Distribution (class level)}
+\title{ENN_CV (patch level)}
 \usage{
 lsm_c_enn_cv(landscape)
 
@@ -29,16 +29,24 @@ lsm_c_enn_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation Euclidean Nearest Neighbor Distance (class level)
+Coeffiecent of variation of euclidean nearest-neighbor distance (Aggregation metric)
 }
 \details{
-Equals the coeffiecent of variation of the eclidean nearest neighbor distance of class i.
-ENN equals the distance the the nearest neigbouring patch of the same patch type
-(shortest edge-to-edge distance)
-\deqn{ENN_CV = cv(ENN[patch_i])}
+\deqn{ENN_{CV} = cv(ENN[patch_{ij}])}
+where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
+of each patch.
+
+ENN_CV is an 'Aggregation metric'. It summarises each class as the coeffiecent
+of variation of each patch belonging to class i. ENN measures the distance to the  nearest
+neighbouring patch of the same class i. The distance is measured from edge-to-edge.
+The range is limited by the cell resolution on the lower limit and the landscape extent
+on the upper limit. The metric is a simple way to describe patch isolation. Because it is
+scaled to the mean, it is easily comparable among different landscapes.
+
 \subsection{Units}{Meters}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{ENN_CV >= 0}
+\subsection{Behaviour}{Equals ENN_CV = 0 if the euclidean nearest-neighbor distance is
+identical for all patches. Increases, without limit, as the variation of ENN increases.}
 }
 \examples{
 lsm_c_enn_cv(landscape)
@@ -48,4 +56,13 @@ lsm_c_enn_cv(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_enn}},
+\corde{\link{cv}}, \cr
+\code{\link{lsm_c_enn_mn}},
+\code{\link{lsm_c_enn_sd}}, \cr
+\code{\link{lsm_l_enn_mn}},
+\code{\link{lsm_l_enn_sd}},
+\code{\link{lsm_l_enn_cv}}
 }
