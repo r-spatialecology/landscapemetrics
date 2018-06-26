@@ -77,89 +77,69 @@ lsm_p_circle.list <- function(landscape) {
 }
 
 lsm_p_circle_calc <- function(landscape) {
-    cclabeled_raster <- cclabel(landscape)
 
-    cclabel_points <- purrr::map(seq_along(cclabeled_raster),
-                                 function(x) {
-                                     purrr::map(raster::unique(cclabeled_raster[[x]]),
-                                                function(y) {
-                                                    raster::rasterToPoints(
-                                                        cclabeled_raster[[x]],
-                                                        fun = function(z) {
-                                                            z == y
-                                                        }
-                                                    )
-                                                })
-                                 })
+    resolution <- landscape %>%
+        raster::res() %>%
+        magrittr::extract2(1) %>%
+        magrittr::divide_by(2)
 
+    area_patch <- lsm_p_area_calc(landscape)
 
+    circle_patch <- landscape %>%
+        cclabel() %>%
+        purrr::map_dfr(function(patches_class) {
 
+            class <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
 
-    cclabel_patch_celledges <- purrr::map(seq_along(cclabel_points),
-                                          function(class) {
-                                              purrr::map(seq_along(cclabel_points[[class]]), function(patch) {
-                                                  purrr::map_dfr(seq_len(nrow(cclabel_points[[class]][[patch]])), function(cell) {
-                                                      xy1 <-
-                                                          cclabel_points[[class]][[patch]][cell, 1:2] - raster::res(landscape) / 2
+            points_class <- patches_class %>%
+                raster::rasterToPoints() %>%
+                tibble::as.tibble() %>%
+                setNames(c("x", "y", "id"))
 
+            points_class %>%
+                dplyr::pull(id) %>%
+                unique() %>%
+                sort() %>%
+                purrr::map_dfr(function(patch_ij){
 
-                                                      xy2 <-
-                                                          c(
-                                                              cclabel_points[[class]][[patch]][cell, 1] - raster::res(landscape)[1] / 2,
-                                                              cclabel_points[[class]][[patch]][cell, 2] + raster::res(landscape)[1] / 2
-                                                          )
-                                                      xy3 <-
-                                                          cclabel_points[[class]][[patch]][cell, 1:2] + raster::res(landscape) / 2
-                                                      xy4 <-
-                                                          c(
-                                                              cclabel_points[[class]][[patch]][cell, 1] + raster::res(landscape)[1] / 2,
-                                                              cclabel_points[[class]][[patch]][cell, 2] - raster::res(landscape)[1] / 2
-                                                          )
+                    x <- points_class %>%
+                        dplyr::filter(id == patch_ij) %>%
+                        dplyr::pull(x)
 
+                    y <- points_class %>%
+                        dplyr::filter(id == patch_ij) %>%
+                        dplyr::pull(y)
 
-                                                      edge_coords <-
-                                                          dplyr::bind_rows(xy1, xy2, xy3, xy4)
+                    points_corners <- tibble::tibble(x = c(x - resolution,  x - resolution,
+                                                           x + resolution,  x + resolution),
+                                                     y = c(y - resolution,  y + resolution,
+                                                          y + resolution,  y - resolution))
 
+                    diameter <- points_corners %>%
+                        raster::pointDistance(lonlat = FALSE) %>%
+                        max()
 
-                                                  })
-                                              })
-                                          })
+                    circle <- (diameter / 2) ^ 2  * pi
 
-
-
-
-    patch_diameter <- purrr::map(seq_along(cclabel_patch_celledges),
-                                 function(class) {
-                                     purrr::map_dfr(seq_along(cclabel_patch_celledges[[class]]),
-                                                    function(patch) {
-                                                        tibble::tibble(x = raster::pointDistance(cclabel_patch_celledges[[class]][[patch]],
-                                                                                                 lonlat = FALSE) %>%
-                                                                           max())
-
-
-                                                    })
-                                 })
-
-
-    patch_circles <- purrr::map(seq_along(cclabel_patch_celledges),
-                                function(class) {
-                                    (patch_diameter[[class]][[1]] / 2) ^ 2  * pi
-
-
-                                })
-
-    patch_circles <- 1 - ((lsm_p_area_calc(landscape)$value * 10000) / unlist(patch_circles))
-
+                    tibble::tibble(class = class,
+                                   id = patch_ij,
+                                   value = circle)
+                })
+        }) %>%
+        dplyr::mutate(value = 1 - ((area_patch$value * 10000) / value))
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(unlist(purrr::map(seq_along(patch_diameter),
-                                             function(x) {
-            rep(x, length(patch_diameter[[x]][[1]]))
-        }))),
-        id = as.integer(seq_len(length(patch_circles))),
+        class = as.integer(circle_patch$class),
+        id = as.integer(seq_len(nrow(circle_patch))),
         metric = "related circumscribing circle",
-        value = as.double(patch_circles)
+        value = as.double(circle_patch$value)
     )
 }
+
+
+
+
 

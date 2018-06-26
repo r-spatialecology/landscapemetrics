@@ -86,12 +86,12 @@ lsm_p_area_calc <- function(landscape){
                 magrittr::multiply_by(prod(raster::res(patches_class))) %>%
                 magrittr::divide_by(10000)
 
-            class_name <- patches_class %>%
+            class <- patches_class %>%
                 names() %>%
                 sub("Class_", "", .)
 
             tibble::tibble(
-                class = as.integer(class_name),
+                class = as.integer(class),
                 value = area_patch_ij
             )
         })
