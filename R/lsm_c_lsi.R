@@ -1,14 +1,14 @@
-#' Landscape shape index (class level)
+#' LSI (class level)
 #'
-#' @description Landscape shape index (class level)
+#' @description Landscape shape index (Aggregation index)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary ???
 #'
 #' @details
+#' \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
+
 #' The landscape shape index equals a quarter of the sum of all edges of class i
 #' divided by the square root of the total area.
-#' \deqn{LSI = (0.25 * sum(edges[patch_i])) / sqrt(total area)}
 #' \subsection{Units}{none}
 #' \subsection{Ranges}{LSI >= 1}
 #' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
@@ -27,44 +27,40 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_c_lsi <- function(landscape, count_boundary) UseMethod("lsm_c_lsi")
+lsm_c_lsi <- function(landscape) UseMethod("lsm_c_lsi")
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterLayer <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_c_lsi.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterStack <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_c_lsi.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_c_lsi.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.list <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(landscape, lsm_c_lsi_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_c_lsi.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_c_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_lsi_calc <- function(landscape, count_boundary = FALSE) {
+lsm_c_lsi_calc <- function(landscape) {
 
     edges_class <- landscape %>%
-        lsm_c_te_calc(count_boundary = count_boundary)
+        lsm_c_te_calc(count_boundary = TRUE)
 
     area_landscape <- landscape %>%
         lsm_l_ta_calc() %>%
