@@ -78,13 +78,7 @@ lsm_p_enn.list <- function(landscape) {
 
 lsm_p_enn_calc <- function(landscape) {
 
-    patches_class <- lsm_c_np_calc(landscape)
-
-    if(any(patches_class$value == 1)){
-        warning("ENN = NA for class with only 1 patch")
-    }
-
-    landscape %>%
+    enn_patch <- landscape %>%
         cclabel() %>%
         purrr::map_dfr(function(patches_class) {
 
@@ -92,22 +86,27 @@ lsm_p_enn_calc <- function(landscape) {
                 names() %>%
                 sub("Class_", "", .)
 
-            points_class <- patches_class %>%
-                raster::rasterToPoints() %>%
-                tibble::as.tibble() %>%
-                setNames(c("x", "y", "id"))
-
-            np_class <- points_class %>%
-                dplyr::pull(id) %>%
+            np_class <- patches_class %>%
+                raster::values() %>%
                 unique() %>%
-                sort()
+                na.omit() %>%
+                length()
 
-            if(length(np_class) == 1){
-                enn <- NA
+            if(np_class == 1){
+                minimum_distance <- as.double(NA)
+                warning(paste0("Class ", class,
+                               ": ENN = NA for class with only 1 patch"),
+                        call. = FALSE)
             }
 
             else{
-                enn <- np_class %>%
+                points_class <- patches_class %>%
+                    raster::rasterToPoints() %>%
+                    tibble::as.tibble() %>%
+                    setNames(c("x", "y", "id"))
+
+                minimum_distance <- np_class %>%
+                    seq_len() %>%
                     purrr::map_dbl(function(patch_ij){
                         patch_focal <- points_class %>%
                             dplyr::filter(id == patch_ij)
@@ -122,11 +121,20 @@ lsm_p_enn_calc <- function(landscape) {
                     })
             }
 
-            tibble::tibble(level = "patch",
-                           class = as.integer(class),
-                           id = as.integer(patch_ij),
-                           metric = "euclidean nearest neighbor distance distribution (mean)",
-                           value = as.double(enn))
-        })
-}
+            tibble::tibble(class = class,
+                           value = minimum_distance)
 
+        })
+
+   tibble::tibble(level = "patch",
+                  class = as.integer(enn_patch$class),
+                  id = as.integer(seq_len(nrow(enn_patch))),
+                  metric = "euclidean nearest neighbor distance distribution (mean)",
+                  value = as.double(enn_patch$value))
+
+    # if(exists("print_warning")){
+    #     warning("ENN = NA for class with only 1 patch")
+    # }
+    #
+    # return(enn_patch)
+}

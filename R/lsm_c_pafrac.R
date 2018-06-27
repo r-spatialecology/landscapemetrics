@@ -74,19 +74,20 @@ lsm_c_pafrac_calc <- function(landscape){
 
     perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    patches_class <- lsm_c_np_calc(landscape)
+    np_class <- lsm_c_np_calc(landscape)
 
-    if(any(patches_class$value < 10)){warning("PAFRAC = NA for classes NP < 10")}
-
-    patches_class %>%
+    pafrac_class <- np_class %>%
         nrow() %>%
         seq_len() %>%
         purrr::map_dfr(function(class_current) {
 
-            class_name <- as.integer(patches_class[class_current, "class"])
+            class_name <- as.integer(np_class[class_current, "class"])
 
-            if(patches_class$value[patches_class$class == class_name] < 10){
-                pafrac = NA
+            if(np_class$value[np_class$class == class_name] < 10){
+                pafrac <- NA
+                warning(paste0("Class ", class_name,
+                               ": PAFRAC = NA for class with < 10 patches"),
+                               call. = FALSE)
             }
 
             else{
@@ -107,7 +108,6 @@ lsm_c_pafrac_calc <- function(landscape){
                 class = as.integer(class_name),
                 id = as.integer(NA),
                 metric = "perimeter-area fractal dimension",
-                value = as.double(pafrac)
-            )
+                value = as.double(pafrac))
         })
 }
