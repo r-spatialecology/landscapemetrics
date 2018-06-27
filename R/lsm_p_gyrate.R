@@ -73,47 +73,51 @@ lsm_p_gyrate.list <- function(landscape) {
 }
 
 lsm_p_gyrate_calc <- function(landscape) {
-    cclabeled_raster <- cclabel(landscape)
 
-    cclabel_points <- purrr::map(seq_along(cclabeled_raster),
-                                 function(x) {
-                                     purrr::map(raster::unique(cclabeled_raster[[x]]),
-                                                function(y) {
-                                                    raster::rasterToPoints(
-                                                        cclabeled_raster[[x]],
-                                                        fun = function(z) {
-                                                            z == y
-                                                        }
-                                                    )
-                                                })
-                                 })
+    landscape %>%
+        cclabel() %>%
+        purrr::map_dfr(function(patches_class) {
 
+            class <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
 
+            points_class <- patches_class %>%
+                raster::rasterToPoints() %>%
+                tibble::as.tibble() %>%
+                setNames(c("x", "y", "id"))
 
+            points_class %>%
+                dplyr::pull(id) %>%
+                unique() %>%
+                sort() %>%
+                purrr::map_dfr(function(patch_ij){
 
-    cclabel_gyration <- purrr::map(seq_along(cclabel_points),
-                                          function(class) {
-                                              purrr::map(seq_along(cclabel_points[[class]]), function(patch) {
+                    points_patch <- points_class %>%
+                        dplyr::filter(id == patch_ij)
 
-                                                  mx <- mean(cclabel_points[[class]][[patch]][,1])
-                                                  my <- mean(cclabel_points[[class]][[patch]][,2])
+                    mean_x <- points_patch %>%
+                        dplyr::pull(x) %>%
+                        mean(na.rm = TRUE)
 
-                                                  mean(raster::pointDistance(cclabel_points[[class]][[patch]][,1:2],
-                                                                        matrix(c(mx,my), ncol = 2, nrow = 1),
-                                                                        lonlat = FALSE)) / nrow(cclabel_points[[class]][[patch]])
+                    mean_y <- points_patch %>%
+                        dplyr::pull(y) %>%
+                        mean(na.rm = TRUE)
 
-                                              })
-                                          })
+                    gyrate_patch <- raster::pointDistance(points_patch[, 1:2],
+                                                          dplyr::bind_cols(x = mean_x,
+                                                                           y = mean_y),
+                                                          lonlat = FALSE) %>%
+                        mean() %>%
+                        magrittr::divide_by(nrow(points_patch))
 
-    tibble::tibble(
-        level = "patch",
-        class = as.integer(unlist(purrr::map(seq_along(cclabel_gyration),
-                                             function(x) {
-            rep(x, length(cclabel_gyration[[x]]))
-        }))),
-        id = as.integer(seq_len(length(unlist(cclabel_gyration)))),
-        metric = "radius of gyration",
-        value = as.double(unlist(cclabel_gyration))
-    )
+                    tibble::tibble(level = "patch",
+                                   class = as.integer(class),
+                                   id = as.integer(patch_ij),
+                                   metric = "radius of gyration",
+                                   value = as.double(gyrate_patch))
+                })
+        })
+
 }
 
