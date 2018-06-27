@@ -71,9 +71,9 @@ lsm_c_mesh_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = mesh$class,
+        class = as.integer(mesh$class),
         id = as.integer(NA),
         metric = "effective mesh size",
-        value = mesh$value
+        value = as.double(mesh$value)
     )
 }

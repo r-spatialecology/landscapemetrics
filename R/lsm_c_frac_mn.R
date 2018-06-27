@@ -81,9 +81,9 @@ lsm_c_frac_mn_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = frac_mean$class,
+        class = as.integer(frac_mean$class),
         id = as.integer(NA),
         metric = "fractal dimension index (mean)",
-        value = frac_mean$value
+        value = as.double(frac_mean$value)
     )
 }

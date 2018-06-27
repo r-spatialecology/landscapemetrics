@@ -84,9 +84,9 @@ lsm_c_dcad_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = dcad$class,
+        class = as.integer(dcad$class),
         id = as.integer(NA),
         metric = "disjunct core area density",
-        value = dcad$value
+        value = as.double(dcad$value)
     )
 }

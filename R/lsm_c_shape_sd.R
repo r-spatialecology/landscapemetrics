@@ -66,9 +66,9 @@ lsm_c_shape_sd_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = shape_sd$class,
+        class = as.integer(shape_sd$class),
         id = as.integer(NA),
         metric = "shape index (sd)",
-        value = shape_sd$value
+        value = as.double(shape_sd$value)
     )
 }

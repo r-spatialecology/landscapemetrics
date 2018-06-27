@@ -84,10 +84,10 @@ lsm_c_circle_mn_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = seq_len(nrow(circle_mn)),
+        class = as.integer(circle_mn$class),
         id = as.integer(NA),
         metric = "related circumscribing circle (mean)",
-        value = circle_mn$value
+        value = as.double(circle_mn$value)
     )
 
 }

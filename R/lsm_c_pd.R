@@ -66,9 +66,9 @@ lsm_c_pd_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = patch_density$class,
+        class = as.integer(patch_density$class),
         id = as.integer(NA),
         metric = "patch density",
-        value = patch_density$value
+        value = as.double(patch_density$value)
     )
 }

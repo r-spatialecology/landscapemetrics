@@ -85,9 +85,9 @@ lsm_c_frac_cv_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = frac_cv$class,
+        class = as.integer(frac_cv$class),
         id = as.integer(NA),
         metric = "fractal dimension index (cv)",
-        value = frac_cv$value
+        value = as.double(frac_cv$value)
     )
 }

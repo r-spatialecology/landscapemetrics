@@ -74,6 +74,7 @@ lsm_c_pladj.list <- function(landscape) {
 }
 
 lsm_c_pladj_calc <- function(landscape) {
+
     adjacent_cells <- raster::adjacent(
         landscape,
         cells =  seq_len(raster::ncell(landscape)),
@@ -93,9 +94,9 @@ lsm_c_pladj_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = raster::unique(landscape),
+        class = as.integer(raster::unique(landscape)),
         id = as.integer(NA),
         metric = "percentage of like adjacencies",
-        value = pladj
+        value = as.double(pladj)
     )
 }

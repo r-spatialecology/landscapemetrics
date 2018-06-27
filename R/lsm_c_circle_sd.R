@@ -78,17 +78,17 @@ lsm_c_circle_sd.list <- function(landscape) {
 
 lsm_c_circle_sd_calc <- function(landscape) {
 
-    circle_mn  <- landscape %>%
+    circle_sd  <- landscape %>%
         lsm_p_circle_calc() %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "class",
-        class = as.integer(seq_len(nrow(circle_mn))),
+        class = as.integer(circle_sd$class),
         id = as.integer(NA),
         metric = "related circumscribing circle (mean)",
-        value = as.double(circle_mn$value)
+        value = as.double(circle_sd$value)
     )
 
 }

@@ -72,10 +72,10 @@ lsm_c_pland_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = pland$class,
+        class = as.integer(pland$class),
         id = as.integer(NA),
         metric = "percentage of landscape",
-        value = pland$value
+        value = as.double(pland$value)
     )
 }
 

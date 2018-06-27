@@ -80,19 +80,21 @@ lsm_c_pafrac_calc <- function(landscape){
 
     patches_class %>%
         nrow() %>%
-        seq_len(.) %>%
-        purrr::map_dfr(function(current_class) {
+        seq_len() %>%
+        purrr::map_dfr(function(class_current) {
 
-            if(patches_class$value[patches_class$class == current_class] < 10){
+            class_name <- as.integer(patches_class[class_current, "class"])
+
+            if(patches_class$value[patches_class$class == class_name] < 10){
                 pafrac = NA
             }
 
             else{
                 area_class <- area_patch %>%
-                    dplyr::filter(class == current_class)
+                    dplyr::filter(class == class_name)
 
                 perimeter_class <- perimeter_patch %>%
-                    dplyr::filter(class == current_class)
+                    dplyr::filter(class == class_name)
 
                 regression_model_class <- stats::lm(log(area_class$value) ~
                                                         log(perimeter_class$value))
@@ -102,10 +104,10 @@ lsm_c_pafrac_calc <- function(landscape){
 
             tibble::tibble(
                 level = "class",
-                class = current_class,
+                class = as.integer(class_name),
                 id = as.integer(NA),
                 metric = "perimeter-area fractal dimension",
-                value = pafrac
+                value = as.double(pafrac)
             )
         })
 }

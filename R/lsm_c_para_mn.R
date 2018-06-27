@@ -68,9 +68,9 @@ lsm_c_para_mn_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = para_mn$class,
+        class = as.integer(para_mn$class),
         id = as.integer(NA),
         metric = "perimeter-area-ratio (cv)",
-        value = para_mn$value
+        value = as.double(para_mn$value)
     )
 }

@@ -87,10 +87,10 @@ lsm_c_enn_cv_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = seq_len(nrow(enn_cv)),
+        class = as.integer(enn_cv$class),
         id = as.integer(NA),
         metric = "euclidean nearest neighbor distance distribution (cv)",
-        value = enn_cv$value
+        value = as.double(enn_cv$value)
     )
 
 }

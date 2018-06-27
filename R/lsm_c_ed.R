@@ -98,9 +98,9 @@ lsm_c_ed_calc <- function(landscape, count_boundary = FALSE) {
 
     tibble::tibble(
         level = "class",
-        class = ed$class,
+        class = as.integer(ed$class),
         id = as.integer(NA),
         metric = "edge density",
-        value = ed$value
+        value = as.double(ed$value)
     )
 }

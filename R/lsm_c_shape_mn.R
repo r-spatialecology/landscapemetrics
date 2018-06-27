@@ -67,9 +67,9 @@ lsm_c_shape_mn_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = shape_mn$class,
+        class = as.integer(shape_mn$class),
         id = as.integer(NA),
         metric = "shape index (mean)",
-        value = shape_mn$value
+        value = as.double(shape_mn$value)
     )
 }

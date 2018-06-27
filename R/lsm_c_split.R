@@ -69,9 +69,9 @@ lsm_c_split_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = split$class,
+        class = as.integer(split$class),
         id = as.integer(NA),
         metric = "splitting index",
-        value = split$value
+        value = as.double(split$value)
     )
 }

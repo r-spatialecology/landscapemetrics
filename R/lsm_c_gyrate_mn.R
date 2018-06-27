@@ -85,10 +85,10 @@ lsm_c_gyrate_mn_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = seq_len(nrow(gyrate_mn)),
+        class = as.integer(gyrate_mn$class),
         id = as.integer(NA),
-        metric = "related circumscribing circle (mean)",
-        value = gyrate_mn$value
+        metric = "radius of gyration (mn)",
+        value = as.double(gyrate_mn$value)
     )
 
 }

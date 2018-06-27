@@ -72,9 +72,9 @@ lsm_c_ndca_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = dcad$class,
+        class = as.integer(dcad$class),
         id = as.integer(NA),
         metric = "number of core areas",
-        value = dcad$value
+        value = as.double(dcad$value)
     )
 }

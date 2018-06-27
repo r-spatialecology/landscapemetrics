@@ -67,9 +67,9 @@ lsm_c_para_sd_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = para_sd$class,
+        class = as.integer(para_sd$class),
         id = as.integer(NA),
         metric = "perimeter-area-ratio (sd)",
-        value = para_sd$value
+        value = as.double(para_sd$value)
     )
 }
