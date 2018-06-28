@@ -59,5 +59,6 @@ program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
 }
 \seealso{
-\code{\link{lsm_p_core}}
+\code{\link{lsm_p_core}},
+\code{\link{lsm_l_tca}}
 }

@@ -22,7 +22,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_gyrate}},
-#' \code{\link{cv}}, \cre
+#' \code{\link{cv}}, \cr
 #' \code{\link{lsm_c_gyrate_mn}},
 #' \code{\link{lsm_c_gyrate_cv}}, \cr
 #' \code{\link{lsm_l_gyrate_mn}},

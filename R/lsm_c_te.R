@@ -1,18 +1,28 @@
-#' Total Edge  (class level)
+#' TE  (class level)
 #'
-#' @description Total edge of class (class level)
+#' @description Total (class) edge (Area and Edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
 #'
 #' @details
-#' Total edge equals the sum of the length of all edges of class i. Total edge is an
-#' absolute measure making comparisons among landscapes with different total areas difficult.
-#' ??? Landscape border included or not ???
-#' \deqn{TE = sum(edges[class_i])}
+#' \deqn{TE = \sum_{k=1}^{m} e_{ik}}
+#' where \eqn{e_{ik}} is the edge lengths in meters
+
+#' TE is an 'Area and edge metric'. Total (class) edge includes all edges between class i and
+#' all other classes k. It measures the configuration of the landscape because a highly
+#' fragmentated landscape will have many edges. However, total edge is an absolute measure,
+#' making comparisons among landscapes with different total areas difficult. If
+#' \code{cound_boundary = TRUE} also edges to the landscape boundary are included.
+#'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{TE >= 0}
-#' \subsection{Behaviour}{TE increases without limit as landscape becomes more patchy}
+#' \subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,
+#' as landscape becomes more fragmentated}
+#'
+#' @seealso
+#' \code{\link{lsm_p_perim}}
+#' \code{\link{lsm_l_te}}
 #'
 #' @return tibble
 #'

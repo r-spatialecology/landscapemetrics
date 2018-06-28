@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Effective Mesh Size (class level) — lsm_c_mesh • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>MESH (class level) — lsm_c_mesh • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Effective Mesh Size (class level) — lsm_c_mesh" />
+<meta property="og:title" content="MESH (class level) — lsm_c_mesh" />
 
-<meta property="og:description" content="Effective Mesh Size (class level)" />
+<meta property="og:description" content="Effective Mesh Size (Aggregation metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Effective Mesh Size (class level)</h1>
+    <h1>MESH (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_mesh.R'><code>R/lsm_c_mesh.R</code></a></small>
     <div class="hidden name"><code>lsm_c_mesh.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Effective Mesh Size (class level)</p>
+    <p>Effective Mesh Size (Aggregation metric)</p>
     
     </div>
 
@@ -161,21 +166,32 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The effective mesh size equals the sum of patch areas of class i squared
-divided by the total area divided by 10 000 to convert to hectares (???)
-$$MESH = (sum(area[patch_i]) ^ 2) / total area$$</p><h3>Units</h3>
+    <p>$$MESH = \frac{\sum_{j = 1}^{n} a_{ij} ^ 2}{A} * \frac{1}{10000}$$
+where \(a_{ij}\) is the patch area in square meters and \(A\) is the
+total landscape area in square meters.</p>
+<p>The effective mesh size is an 'Aggregation metric'. Because each patch is squared
+before the sums for each group i are calculated and the sum is standardised by the
+total landscape area, MESH is a relative measure of patch structure. MESH is
+perfectly, negatively correlated to <code>lsm_c_division</code>.</p>
+<h3>Units</h3>
 Hectares
 <h3>Range</h3>
-ratio of cell size to total area (???) &lt;= MESH &lt;= total area
+cell size / total area &lt;= MESH &lt;= total area
 <h3>Behaviour</h3>
-MESH equals the lower limit when every cell is a patch and
-increases when only one patch is present
+Equals cellsize/total area if class covers only
+one cell and equals total area if only one patch is present.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_l_mesh</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -197,6 +213,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

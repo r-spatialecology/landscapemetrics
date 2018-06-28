@@ -1,15 +1,31 @@
-#' Shape index distribution  (class level)
+#' SHAPE_CV (class level)
 #'
-#' @description Coeffiecent of variation of shape index (class level)
+#' @description Covariance of variation shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the coeffiecent of variation shape index of class i. SHAPE equals a quater
-#' of the patch perimeter divided by the square root of the patch area
-#' \deqn{SHAPE_CV = cv(SHAPE[patch_i])}
+#' \deqn{SHAPE_{CV} = cv(SHAPE[patch_{ij}])}
+#' where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
+#'
+#' SHAPE_CV is a 'Shape metric'. Each class is summarised as the coeffiecent of variation
+#' of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter
+#' of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+#' equals the perimeter if the patch would be maximally compact.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
+#' \subsection{Range}{SHAPE_CV >= 0}
+#' \subsection{Behaviour}{Equals SHAPE_CV = 0 if all patches have an identical shape index.
+#' Increases, without limit, as the variation of the shape index increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_shape}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_shape_mn}},
+#' \code{\link{lsm_c_shape_sd}}, \cr
+#' \code{\link{lsm_l_shape_mn}},
+#' \code{\link{lsm_l_shape_sd}},
+#' \code{\link{lsm_l_shape_cv}}
 #'
 #' @return tibble
 #'

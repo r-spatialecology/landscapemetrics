@@ -59,7 +59,7 @@ PNW-351.
 }
 \seealso{
 \code{\link{lsm_p_enn}},
-\corde{\link{sd}}, \cr
+\code{\link{sd}}, \cr
 \code{\link{lsm_c_enn_mn}},
 \code{\link{lsm_c_enn_cv}}, \cr
 \code{\link{lsm_l_enn_mn}},

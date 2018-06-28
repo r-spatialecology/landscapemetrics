@@ -10,7 +10,7 @@
 \alias{lsm_c_shape_sd.RasterBrick}
 \alias{lsm_c_shape_sd}
 \alias{lsm_c_shape_sd.list}
-\title{Shape index distribution  (class level)}
+\title{SHAPE_SD (class level)}
 \usage{
 lsm_c_shape_sd(landscape)
 
@@ -29,14 +29,21 @@ lsm_c_shape_sd(landscape)
 tibble
 }
 \description{
-Standard deviation of shape index (class level)
+Standard deviation shape index (Shape metric)
 }
 \details{
-Equals the standard deviation of the shape index of class i. SHAPE equals a quater
-of the patch perimeter divided by the square root of the patch area
-\deqn{SHAPE_SD = sd(SHAPE[patch_i])}
+\deqn{SHAPE_{SD} = sd(SHAPE[patch_{ij}])}
+where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
+
+SHAPE_SD is a 'Shape metric'. Each class is summarised as the standard deviation
+of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter
+of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+equals the perimeter if the patch would be maximally compact.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
+\subsection{Range}{SHAPE_SD >= 0}
+\subsection{Behaviour}{Equals SHAPE_SD = 0 if all patches have an identical shape index.
+Increases, without limit, as the variation of the shape index increases.}
 }
 \examples{
 lsm_c_shape_sd(landscape)
@@ -46,4 +53,13 @@ lsm_c_shape_sd(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_shape}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_shape_mn}},
+\code{\link{lsm_c_shape_cv}}, \cr
+\code{\link{lsm_l_shape_mn}},
+\code{\link{lsm_l_shape_sd}},
+\code{\link{lsm_l_shape_cv}}
 }

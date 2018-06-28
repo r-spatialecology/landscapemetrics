@@ -1,17 +1,28 @@
-#' Effective Mesh Size (class level)
+#' MESH (class level)
 #'
-#' @description Effective Mesh Size (class level)
+#' @description Effective Mesh Size (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The effective mesh size equals the sum of patch areas of class i squared
-#' divided by the total area divided by 10 000 to convert to hectares (???)
-#' \deqn{MESH = (sum(area[patch_i]) ^ 2) / total area}
+#' \deqn{MESH = \frac{\sum_{j = 1}^{n} a_{ij} ^ 2}{A} * \frac{1}{10000}}
+#' where \eqn{a_{ij}} is the patch area in square meters and \eqn{A} is the
+#' total landscape area in square meters.
+#'
+#' The effective mesh size is an 'Aggregation metric'. Because each patch is squared
+#' before the sums for each group i are calculated and the sum is standardised by the
+#' total landscape area, MESH is a relative measure of patch structure. MESH is
+#' perfectly, negatively correlated to \code{\link{lsm_c_division}}.
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area}
-#' \subsection{Behaviour}{MESH equals the lower limit when every cell is a patch and
-#' increases when only one patch is present}
+#' \subsection{Range}{cell size / total area <= MESH <= total area}
+#' \subsection{Behaviour}{Equals cellsize/total area if class covers only
+#' one cell and equals total area if only one patch is present.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_l_mesh}}
 #'
 #' @return tibble
 #'

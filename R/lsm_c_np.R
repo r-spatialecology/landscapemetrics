@@ -1,15 +1,23 @@
-#' Number of patches (class level)
+#' NP (class level)
 #'
-#' @description Number of patches (class level)
+#' @description Number of patches (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Number of patches equals the number of patches of class i
+#' \deqn{NP = n_{i}}
+#' where \eqn{n_{i}} is the number of patches.
+#'
+#' NP is an 'Aggregation metric'. It describes the fragmentation of a class, however, does not
+#' necessarily contain information about the configuration or composition of the class.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{NP >= 1}
-#' \subsection{Behaviour}{NP = 1 when only one class and patch is present and
-#' increases without limit as the number of patches increases}
+#' \subsection{Behaviour}{Equals NP = 1 when only one patch is present and
+#' increases, without limit, as the number of patches increases}
+#'
+#' @seealso
+#' \code{\link{lsm_l_np}}
 #'
 #' @return tibble
 #'

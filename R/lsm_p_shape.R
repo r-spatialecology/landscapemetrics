@@ -6,12 +6,12 @@
 #'
 #' @details
 #' \deqn{SHAPE = \frac{p_{ij}}{\min p_{ij}}}
-#' where \eqn{p_{ij}} is the perimeter in meters and \eqn{\min p_{ij}} is the minimum
-#' perimeter of the patch,
+#' where \eqn{p_{ij}} is the perimeter in terms of cell surfaces and \eqn{\min p_{ij}}
+#' is the minimum perimeter of the patch in terms of cell surfaces.
 #'
-#' SHAPE is a 'Shape metric'. The index is based on the patch perimeter and the patch area
-#' and describes the patch complexity. Because it it standarised, it is independent
-#' of the patch size.
+#' SHAPE is a 'Shape metric'. It describes the ratio between the actual perimeter of
+#' the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+#' equals the perimeter if the patch would be maximally compact.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE >= 1}

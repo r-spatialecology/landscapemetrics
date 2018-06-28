@@ -10,7 +10,7 @@
 \alias{lsm_c_np.RasterBrick}
 \alias{lsm_c_np}
 \alias{lsm_c_np.list}
-\title{Number of patches (class level)}
+\title{NP (class level)}
 \usage{
 lsm_c_np(landscape)
 
@@ -29,14 +29,19 @@ lsm_c_np(landscape)
 tibble
 }
 \description{
-Number of patches (class level)
+Number of patches (Aggregation metric)
 }
 \details{
-Number of patches equals the number of patches of class i
+\deqn{NP = n_{i}}
+where \eqn{n_{i}} is the number of patches.
+
+NP is an 'Aggregation metric'. It describes the fragmentation of a class, however, does not
+necessarily contain information about the configuration or composition of the class.
+
 \subsection{Units}{None}
 \subsection{Ranges}{NP >= 1}
-\subsection{Behaviour}{NP = 1 when only one class and patch is present and
-increases without limit as the number of patches increases}
+\subsection{Behaviour}{Equals NP = 1 when only one patch is present and
+increases, without limit, as the number of patches increases}
 }
 \examples{
 lsm_c_np(landscape)
@@ -46,4 +51,7 @@ lsm_c_np(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_l_np}}
 }

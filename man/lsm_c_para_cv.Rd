@@ -10,7 +10,7 @@
 \alias{lsm_c_para_cv.RasterBrick}
 \alias{lsm_c_para_cv}
 \alias{lsm_c_para_cv.list}
-\title{Perimeter-area ratio distribution (class level)}
+\title{PARA_CV (class level)}
 \usage{
 lsm_c_para_cv(landscape)
 
@@ -29,15 +29,23 @@ lsm_c_para_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation of perimeter-area ratio (class level)
+Coeffiecent of variation perimeter-area ratio (class level)
 }
 \details{
-Coeffiecent of variation of the perimeter-area ratio of all patches of class i.
-PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
-\deqn{PARA_CV = cv(PARA[patch_i]}
+\deqn{PARA_{CV} = cv(PARA[patch_{ij}]}
+where \eqn{PARA[patch_{ij}]} is the perimeter area ratio of each patch.
+
+PARA_CV is a 'Shape metric'. It summarises each class as the coeffiecent of variation of
+each patch belonging to class i. The perimeter-area ratio describes the patch complexity
+in a straightforward way. However, because it is not standarised to a certain shape
+(e.g. a square), it is not scale independent, meaning that increasing the patch size
+while not changing the patch form will change the ratio.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{PARA_CV >= 0}
+\subsection{Behaviour}{Equals PARA_CV = 0 if the perimeter-area ratio is identical for
+all patches. Increases, without limit, as the variation of the perimeter-area ratio
+increases.}
 }
 \examples{
 lsm_c_para_cv(landscape)
@@ -47,4 +55,13 @@ lsm_c_para_cv(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_para}},
+\code{\link{cv}}, \cr
+\code{\link{lsm_c_para_mn}},
+\code{\link{lsm_c_para_sd}}, \cr
+\code{\link{lsm_l_para_mn}},
+\code{\link{lsm_l_para_sd}},
+\code{\link{lsm_l_para_cv}}
 }

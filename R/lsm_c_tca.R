@@ -22,7 +22,9 @@
 #' and patch shapes simplify. TCA = 0 when every cell in every patch of class i
 #' is an edge.}
 #'
-#' @seealso \code{\link{lsm_p_core}}
+#' @seealso
+#' \code{\link{lsm_p_core}},
+#' \code{\link{lsm_l_tca}}
 #'
 #' @return tibble
 #'

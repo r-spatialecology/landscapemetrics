@@ -10,7 +10,7 @@
 \alias{lsm_c_te.RasterBrick}
 \alias{lsm_c_te}
 \alias{lsm_c_te.list}
-\title{Total Edge  (class level)}
+\title{TE  (class level)}
 \usage{
 lsm_c_te(landscape, count_boundary)
 
@@ -31,16 +31,21 @@ lsm_c_te(landscape, count_boundary)
 tibble
 }
 \description{
-Total edge of class (class level)
+Total (class) edge (Area and Edge metric)
 }
 \details{
-Total edge equals the sum of the length of all edges of class i. Total edge is an
-absolute measure making comparisons among landscapes with different total areas difficult.
-??? Landscape border included or not ???
-\deqn{TE = sum(edges[class_i])}
+\deqn{TE = \sum_{k=1}^{m} e_{ik}}
+where \eqn{e_{ik}} is the edge lengths in meters
+TE is an 'Area and edge metric'. Total (class) edge includes all edges between class i and
+all other classes k. It measures the configuration of the landscape because a highly
+fragmentated landscape will have many edges. However, total edge is an absolute measure,
+making comparisons among landscapes with different total areas difficult. If
+\code{cound_boundary = TRUE} also edges to the landscape boundary are included.
+
 \subsection{Units}{Meters}
 \subsection{Range}{TE >= 0}
-\subsection{Behaviour}{TE increases without limit as landscape becomes more patchy}
+\subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,
+as landscape becomes more fragmentated}
 }
 \examples{
 lsm_c_te(landscape)
@@ -50,4 +55,8 @@ lsm_c_te(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_perim}}
+\code{\link{lsm_l_te}}
 }

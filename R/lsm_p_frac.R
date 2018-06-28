@@ -11,7 +11,8 @@
 #'
 #' FRAC is a 'Shape metric'. The index is based on the patch perimeter and
 #' the patch area and describes the patch complexity. Because it is standardized,
-#' it is independent of the patch area.
+#' it is scale independent, meaning that increasing the patch size while not changing the
+#' patch form will not change the ratio.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= FRAC <= 2 }

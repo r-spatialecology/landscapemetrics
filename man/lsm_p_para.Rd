@@ -38,11 +38,12 @@ area in square meters.
 
 PARA is a 'Shape metric'. It describes the patch complexity in a straightforward way.
 However, because it is not standarised to a certain shape (e.g. a square), it
-is not scale independent.
+is not scale independent, meaning that increasing the patch size while not changing the
+patch form will change the ratio.
 
 \subsection{Units}{None}
 \subsection{Range}{PARA > 0}
-\subsection{Behaviour}{PARA increases, without limit, as the shape comlexity increases.}
+\subsection{Behaviour}{Increases, without limit, as the shape comlexity increases.}
 }
 \examples{
 lsm_p_para(landscape)

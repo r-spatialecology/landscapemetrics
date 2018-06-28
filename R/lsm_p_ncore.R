@@ -8,7 +8,7 @@
 #' \deqn{NCORE = n_{ij}^{core}}
 #' where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
 #'
-#' NCORE is a 'Core and area metric'. A cell is defined as core if the cell has no
+#' NCORE is a 'Core area metric'. A cell is defined as core if the cell has no
 #' neighbour with a different value than itself (rook's case). The metric counts the disjunct
 #' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
 #' It describes patch area and shape simultaneously (more core area when the patch is large,

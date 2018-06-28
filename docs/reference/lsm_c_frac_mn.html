@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fractal dimension index distribution  (class level) — lsm_c_frac_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>FRAC_MN (class level) — lsm_c_frac_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Fractal dimension index distribution  (class level) — lsm_c_frac_mn" />
+<meta property="og:title" content="FRAC_MN (class level) — lsm_c_frac_mn" />
 
-<meta property="og:description" content="Mean fractal dimension index (class level)" />
+<meta property="og:description" content="Mean fractal dimension index (Shape metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fractal dimension index distribution  (class level)</h1>
+    <h1>FRAC_MN (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_frac_mn.R'><code>R/lsm_c_frac_mn.R</code></a></small>
     <div class="hidden name"><code>lsm_c_frac_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean fractal dimension index (class level)</p>
+    <p>Mean fractal dimension index (Shape metric)</p>
     
     </div>
 
@@ -155,27 +160,38 @@
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>tibble</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Mean of the fractal dimension index of class i. FRAC equals
-two times the natural logarithm of a quarter of the patch area divided by the
-natural logarithm of the patch area
-$$FRAC_MN = mean(FRAC[patch_i])$$</p><h3>Units</h3>
+    <p>$$FRAC_{MN} = mean(FRAC[patch_{ij}])$$
+where \(FRAC[patch_{ij}]\) equals the fractal dimension index of each patch.</p>
+<p>FRAC_MN is a 'Shape metric'. The metric summarises each class
+as the mean of the fractal dimension index of all patches belonging to class i.
+The fractal dimenstion index is based on the patch perimeter and
+the patch area and describes the patch complexity. The coeffiecent of variation is
+scaled to the mean and comparable among different landscapes.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
-???
+FRAC_MN &gt; 0 
 <h3>Behaviour</h3>
-???
+Approaches FRAC_MN = 1 if all patches are squared and FRAC_MN = 2
+if all patches are irregular.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_frac</code>,
+<code>mean</code>, <br />
+<code>lsm_c_frac_sd</code>,
+<code>lsm_c_frac_cv</code>, <br />
+<code>lsm_l_frac_mn</code>,
+<code>lsm_l_frac_sd</code>,
+<code>lsm_l_frac_cv</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -192,11 +208,11 @@ PNW-351.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

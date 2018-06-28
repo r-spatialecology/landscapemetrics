@@ -59,7 +59,7 @@ PNW-351.
 }
 \seealso{
 \code{\link{lsm_p_gyrate}},
-\code{\link{cv}}, \cre
+\code{\link{cv}}, \cr
 \code{\link{lsm_c_gyrate_mn}},
 \code{\link{lsm_c_gyrate_sd}}, \cr
 \code{\link{lsm_l_gyrate_mn}},

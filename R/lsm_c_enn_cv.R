@@ -23,7 +23,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_enn}},
-#' \corde{\link{cv}}, \cr
+#' \code{\link{cv}}, \cr
 #' \code{\link{lsm_c_enn_mn}},
 #' \code{\link{lsm_c_enn_sd}}, \cr
 #' \code{\link{lsm_l_enn_mn}},

@@ -1,17 +1,28 @@
-#' Patch density (class level)
+#' PD (class level)
 #'
-#' @description Patch density (class level)
+#' @description Patch density (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Patch density equals the number of patches of class i divided by the total
-#' area. Patch density is a relative measure and compareable among landscapes with
-#' different total areas
-#' \deqn{PD = number of patches / total area}
-#' \subsection{Units}{Number per hectares (Number per 100 ha in FRAGSTATS???)}
-#' \subsection{Ranges}{PD > 0}
-#' \subsection{Behaviour}{Increases as the landscape gets more patchy}
+#' \deqn{PD = \frac{n_{i}}{A} * 10000 * 100}
+#' where \eqn{n_{i}} is the number of patches and \eqn{A} is the total landscape
+#' area in square meters.
+#'
+#' PD is an 'Aggregation metric'. It describes the fragmentation of a class, however, does not
+#' necessarily contain information about the configuration or composition of the class. In
+#' contrast to \code{\link{lsm_c_np}} it is standardised to the area and comparisons among
+#' landscapes with different total area are possible.
+#'
+#' \subsection{Units}{Number per 100 hectares}
+#' \subsection{Ranges}{0 < PD <= 1e+06}
+#' \subsection{Behaviour}{Increases as the landscape gets more patchy. Reaches its maximum
+#' if every cell is a different patch.}
+#'
+#' @seealso
+#' \code{\link{lsm_c_np}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_l_pd}}
 #'
 #' @return tibble
 #'

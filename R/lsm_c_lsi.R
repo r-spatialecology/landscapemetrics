@@ -1,19 +1,27 @@
 #' LSI (class level)
 #'
-#' @description Landscape shape index (Aggregation index)
+#' @description Landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{LSI = \frac{e_{i}}{\min e_{i}}}
-#' where
+#' where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
+#' is the minimum total edge length in cell surfaces
 #'
-#' The landscape shape index equals a quarter of the sum of all edges of class i
-#' divided by the square root of the total area.
-#' \subsection{Units}{none}
+#' LSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
+#' class i and the hypothetical minimum edge length of class i. The minimum edge length equals
+#' the edge length if class i would be maximally aggregated.
+#'
+#' \subsection{Units}{None}
 #' \subsection{Ranges}{LSI >= 1}
-#' \subsection{Behaviour}{Equals LSI = 1 when only one class and patch is present and
-#' increases when the length of edges increases, i.e. the patches of class i become more complex}
+#' \subsection{Behaviour}{Equals LSI = 1 when only one squared patch is present or all
+#' patches are maximally aggregated. Increases, without limit, as the length of the
+#' actual edges increases, i.e. the patches become less compact.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_shape}}, \cr
+#' \code{\link{lsm_l_lsi}}
 #'
 #' @return tibble
 #'

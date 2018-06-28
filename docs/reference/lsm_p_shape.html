@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -31,7 +33,10 @@
 <meta property="og:title" content="SHAPE (patch level) — lsm_p_shape" />
 
 <meta property="og:description" content="Shape index (Shape metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -161,18 +166,18 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$SHAPE = \frac{0.25 * p_{ij}}{\sqrt{a_{ij}}}$$
-where \(p_{ij}\) is the perimeter in meters and \(a_{ij}\) is the area in
-square meters.</p>
-<p>SHAPE is a 'Shape metric'. The index is based on the patch perimeter and the patch area
-and describes the patch complexity. Because it it standarised, it is independent
-of the patch size.</p>
+    <p>$$SHAPE = \frac{p_{ij}}{\min p_{ij}}$$
+where \(p_{ij}\) is the perimeter in terms of cell surfaces and \(\min p_{ij}\)
+is the minimum perimeter of the patch in terms of cell surfaces.</p>
+<p>SHAPE is a 'Shape metric'. It describes the ratio between the actual perimeter of
+the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+equals the perimeter if the patch would be maximally compact.</p>
 <h3>Units</h3>
 None
 <h3>Range</h3>
 SHAPE &gt;= 1
 <h3>Behaviour</h3>
-Approaches SHAPE = 1 for a square and
+Equals SHAPE = 1 for a squared patch and
 increases, without limit, as the patch shape becomes more complex.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -198,15 +203,15 @@ PNW-351.</p>
 #&gt;    layer level class    id metric      value
 #&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;       &lt;dbl&gt;
 #&gt;  1     1 patch     1     1 shape index  1   
-#&gt;  2     1 patch     1     2 shape index  1.34
-#&gt;  3     1 patch     1     3 shape index  2.67
+#&gt;  2     1 patch     1     2 shape index  1.2 
+#&gt;  3     1 patch     1     3 shape index  2.6 
 #&gt;  4     1 patch     1     4 shape index  1   
 #&gt;  5     1 patch     1     5 shape index  1   
-#&gt;  6     1 patch     1     6 shape index  1.34
-#&gt;  7     1 patch     1     7 shape index  1.15
-#&gt;  8     1 patch     1     8 shape index  1.12
+#&gt;  6     1 patch     1     6 shape index  1.25
+#&gt;  7     1 patch     1     7 shape index  1   
+#&gt;  8     1 patch     1     8 shape index  1   
 #&gt;  9     1 patch     1     9 shape index  1   
-#&gt; 10     1 patch     2    10 shape index  1.61
+#&gt; 10     1 patch     2    10 shape index  1.58
 #&gt; # ... with 17 more rows</div><div class='input'>
 </div></pre>
   </div>

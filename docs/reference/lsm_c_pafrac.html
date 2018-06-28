@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perimeter-Area Fractal Dimension  (class level) — lsm_c_pafrac • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>PAFRAC  (class level) — lsm_c_pafrac • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Perimeter-Area Fractal Dimension  (class level) — lsm_c_pafrac" />
+<meta property="og:title" content="PAFRAC  (class level) — lsm_c_pafrac" />
 
-<meta property="og:description" content="Perimeter-Area Fractal Dimension (class level)" />
+<meta property="og:description" content="Perimeter-Area Fractal Dimension (Shape metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perimeter-Area Fractal Dimension  (class level)</h1>
+    <h1>PAFRAC  (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_pafrac.R'><code>R/lsm_c_pafrac.R</code></a></small>
     <div class="hidden name"><code>lsm_c_pafrac.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Perimeter-Area Fractal Dimension (class level)</p>
+    <p>Perimeter-Area Fractal Dimension (Shape metric)</p>
     
     </div>
 
@@ -161,21 +166,22 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The perimeter-area fractal dimension equals two divided by the slope of
-the regression line of the natural logrithm of patch area against the
-natural logrithm of the patch perimeter of class i. The regression has equation
-ln(area) = beta * ln(perimeter) + intercept. It is only meaningful
-if the relationship between the area and perimeter is linear on a logarithmic scale
-If there are less than 10 patches, the functions returns NA because of the small-
-sample issue
-$$PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))$$</p><h3>Units</h3>
+    <p>$$PAFRAC = \frac{2}{\beta}$$
+where \(\beta\) is the slope of the regression of the area against the perimeter
+(logarithm) \(n_{i}\sum_{j=1}^{n} \ln a_{ij} = a + \beta n_{i}\sum_{j=1}^{n} \ln p_{ij}\)</p>
+<p>PAFRAC is a 'Shape metric'. It describes the patch complexity of class i while beeing
+scale independent. This means that increasing the patch size while not changing the
+patch form will not change the metric. However, it is only meaningful if the relationship
+between the area and perimeter is linear on a logarithmic scale. Furthermore, if there
+are less than 10 patches in class i, the metric returns NA because of the small-sample
+issue.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
 1 &lt;= PAFRAC &lt;= 2
 <h3>Behaviour</h3>
-If only a few patches are present the value
-can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
-PAFRAC = 2 for irregular shapes
+Approaches PAFRAC = 1 for patches with simples shapes and
+approaches PAFRAC = 2 for irregular shapes
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -183,9 +189,15 @@ PAFRAC = 2 for irregular shapes
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>lsm_p_perim</code>, <br />
+<code>lsm_l_pafrac</code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_pafrac</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: PAFRAC = NA for classes NP &lt; 10</span></div><div class='output co'>#&gt; # A tibble: 3 x 6
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_pafrac</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='output co'>#&gt; # A tibble: 3 x 6
 #&gt;   layer level class    id metric                           value
 #&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                            &lt;dbl&gt;
 #&gt; 1     1 class     1    NA perimeter-area fractal dimension NA   
@@ -203,6 +215,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

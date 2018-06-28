@@ -10,7 +10,7 @@
 \alias{lsm_c_pladj.RasterBrick}
 \alias{lsm_c_pladj}
 \alias{lsm_c_pladj.list}
-\title{Percentage of Like Adjacencies (class level)}
+\title{PLADJ (class level)}
 \usage{
 lsm_c_pladj(landscape)
 
@@ -29,20 +29,22 @@ lsm_c_pladj(landscape)
 tibble
 }
 \description{
-Percentage of Like Adjacencies (class level)
+Percentage of Like Adjacencies (Aggregation metric)
 }
 \details{
-Percentage of like adjacencies equals the number of like adjacencies of
-class i divided by the total number of like adjacencies. In other other words,
-PLADJ equals the percentage of like adjacencies of class i of all like
-adjacencies. It is a measure of class aggregation.
+\deqn{PLADJ = (\frac{g_{ij}}{\sum_{k=1}^{m} g_{ik}}) * 100}
+where \eqn{g_{ii}} is the number of adjacencies between cells of class i
+and \eqn{g_{ik}} is the number of adjacencies between cells of class i and k.
 
-\deqn{PLADJ = Number of like adjacencies / sum(Number of like adjacencies)}
-\subsection{Units}{Percentage}
+PLADJ is an 'Aggregation metric'. It calculates the frequency how often patches of
+different classes i (focal class) and k are next to eacht other, and following is a
+measure of class aggregation. The adjacencies are counted using the double-count method.
+
+\subsection{Units}{Percent}
 \subsection{Ranges}{0 <= PLADJ <= 100}
-\subsection{Behaviour}{PLADJ equals PLADJ = 0 when class i is maximally dissagregated,
-i.e. every cell is a different patch. PLADJ = 100 when the only one class and patch
-is present}
+\subsection{Behaviour}{Equals PLADJ = 0 if class i is maximal dissagregated,
+i.e. every cell is a different patch. Equals PLADJ = 100 when the only one patch
+is present.}
 }
 \examples{
 lsm_c_pladj(landscape)

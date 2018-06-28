@@ -10,7 +10,7 @@
 \alias{lsm_c_pafrac.RasterBrick}
 \alias{lsm_c_pafrac}
 \alias{lsm_c_pafrac.list}
-\title{Perimeter-Area Fractal Dimension  (class level)}
+\title{PAFRAC  (class level)}
 \usage{
 lsm_c_pafrac(landscape)
 
@@ -29,22 +29,24 @@ lsm_c_pafrac(landscape)
 tibble
 }
 \description{
-Perimeter-Area Fractal Dimension (class level)
+Perimeter-Area Fractal Dimension (Shape metric)
 }
 \details{
-The perimeter-area fractal dimension equals two divided by the slope of
-the regression line of the natural logrithm of patch area against the
-natural logrithm of the patch perimeter of class i. The regression has equation
-ln(area) = beta * ln(perimeter) + intercept. It is only meaningful
-if the relationship between the area and perimeter is linear on a logarithmic scale
-If there are less than 10 patches, the functions returns NA because of the small-
-sample issue
-\deqn{PAFRAC = 2 / (beta(ln(area[patch_i]) ~ ln(perimeter[patch_i]))}
+\deqn{PAFRAC = \frac{2}{\beta}}
+where \eqn{\beta} is the slope of the regression of the area against the perimeter
+(logarithm) \eqn{n_{i}\sum_{j=1}^{n} \ln a_{ij} = a + \beta n_{i}\sum_{j=1}^{n} \ln p_{ij}}
+
+PAFRAC is a 'Shape metric'. It describes the patch complexity of class i while beeing
+scale independent. This means that increasing the patch size while not changing the
+patch form will not change the metric. However, it is only meaningful if the relationship
+between the area and perimeter is linear on a logarithmic scale. Furthermore, if there
+are less than 10 patches in class i, the metric returns NA because of the small-sample
+issue.
+
 \subsection{Units}{None}
 \subsection{Range}{1 <= PAFRAC <= 2}
-\subsection{Behaviour}{If only a few patches are present the value
-can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
-PAFRAC = 2 for irregular shapes}
+\subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simples shapes and
+approaches PAFRAC = 2 for irregular shapes}
 }
 \examples{
 lsm_c_pafrac(landscape)
@@ -54,4 +56,9 @@ lsm_c_pafrac(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_p_area}},
+\code{\link{lsm_p_perim}}, \cr
+\code{\link{lsm_l_pafrac}}
 }

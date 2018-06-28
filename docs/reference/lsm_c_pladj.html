@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Percentage of Like Adjacencies (class level) — lsm_c_pladj • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>PLADJ (class level) — lsm_c_pladj • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Percentage of Like Adjacencies (class level) — lsm_c_pladj" />
+<meta property="og:title" content="PLADJ (class level) — lsm_c_pladj" />
 
-<meta property="og:description" content="Percentage of Like Adjacencies (class level)" />
+<meta property="og:description" content="Percentage of Like Adjacencies (Aggregation metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Percentage of Like Adjacencies (class level)</h1>
+    <h1>PLADJ (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_pladj.R'><code>R/lsm_c_pladj.R</code></a></small>
     <div class="hidden name"><code>lsm_c_pladj.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Percentage of Like Adjacencies (class level)</p>
+    <p>Percentage of Like Adjacencies (Aggregation metric)</p>
     
     </div>
 
@@ -161,18 +166,20 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Percentage of like adjacencies equals the number of like adjacencies of
-class i divided by the total number of like adjacencies. In other other words,
-PLADJ equals the percentage of like adjacencies of class i of all like
-adjacencies. It is a measure of class aggregation.</p>
-<p>$$PLADJ = Number of like adjacencies / sum(Number of like adjacencies)$$</p><h3>Units</h3>
-Percentage
+    <p>$$PLADJ = (\frac{g_{ij}}{\sum_{k=1}^{m} g_{ik}}) * 100$$
+where \(g_{ii}\) is the number of adjacencies between cells of class i
+and \(g_{ik}\) is the number of adjacencies between cells of class i and k.</p>
+<p>PLADJ is an 'Aggregation metric'. It calculates the frequency how often patches of
+different classes i (focal class) and k are next to eacht other, and following is a
+measure of class aggregation. The adjacencies are counted using the double-count method.</p>
+<h3>Units</h3>
+Percent
 <h3>Ranges</h3>
 0 &lt;= PLADJ &lt;= 100
 <h3>Behaviour</h3>
-PLADJ equals PLADJ = 0 when class i is maximally dissagregated,
-i.e. every cell is a different patch. PLADJ = 100 when the only one class and patch
-is present
+Equals PLADJ = 0 if class i is maximal dissagregated,
+i.e. every cell is a different patch. Equals PLADJ = 100 when the only one patch
+is present.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

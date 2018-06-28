@@ -1,17 +1,26 @@
-#' Splitting index (class level)
+#' SPLIT (class level)
 #'
-#' @description Splitting index (class level)
+#' @description Splitting index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The splitting index equals the squared total area divided by the sum of patch
-#' area squared of class i
-#' \deqn{SPLIT = total area ^ 2 / sum(area[patch_i])}
+#' \deqn{SPLIT = \frac{A^2}{\sum_{j = 1}^{n} a_{ij}^2}}
+#' where \eqn{a_{ij}} is the patch area in square meters and \eqn{A} is the
+#' total landscape area.
+#'
+#' SPLIT is an 'Aggregation metric'. It describes number of patches if all patches of
+#' class i would be divided into equally sized patches.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= SPLIT <= Number of cells squared}
-#' \subsection{Behaviour}{SPLIT = 1 when only one class and patch is present.
-#' SPLIt increases as the number of patches of class i increases}
+#' \subsection{Behaviour}{Equals SPLIT = 1 if only one patch is present. Increases as
+#' the number of patches of class i increases and is limited if all cells are a patch}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_l_split}}
 #'
 #' @return tibble
 #'

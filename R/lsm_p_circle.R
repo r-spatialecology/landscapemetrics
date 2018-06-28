@@ -124,7 +124,6 @@ lsm_p_circle_calc <- function(landscape) {
                     circle <- (diameter / 2) ^ 2  * pi
 
                     tibble::tibble(class = class,
-                                   id = patch_ij,
                                    value = circle)
                 })
         }) %>%

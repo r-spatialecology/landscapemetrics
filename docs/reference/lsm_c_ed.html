@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Edge Density (class level) — lsm_c_ed • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>ED (class level) — lsm_c_ed • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -21,17 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Edge Density (class level) — lsm_c_ed" />
+<meta property="og:title" content="ED (class level) — lsm_c_ed" />
 
-<meta property="og:description" content="Edge Density (class level)" />
+<meta property="og:description" content="Edge Density (Area and Edge metric)" />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -57,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">landscapemetrics</a>
+        <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -121,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Edge Density (class level)</h1>
+    <h1>ED (class level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_ed.R'><code>R/lsm_c_ed.R</code></a></small>
     <div class="hidden name"><code>lsm_c_ed.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Edge Density (class level)</p>
+    <p>Edge Density (Area and Edge metric)</p>
     
     </div>
 
@@ -155,7 +160,7 @@
     </tr>
     <tr>
       <th>count_boundary</th>
-      <td><p>Specific arguments for certain functions, if not provided they fall back to default.</p></td>
+      <td></td>
     </tr>
     </table>
     
@@ -165,21 +170,35 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Edge density equals the sum of the length of all edges of class i divided by the total
-area multiplied 10 000. Because edge density is relative, comparison among landcapes with different total areas
-are possible
-$$ED = (sum(edges[class_i]) / total area) * 10 000$$</p><h3>Units</h3>
+    <p>$$ED = \frac{\sum_{k = 1} ^ {m} e_{ik}}{A} * 10000$$
+where \(e_{ik}\) is the total edge length in meters and \(A\) is the total
+landcape area in square meters.</p>
+<p>ED is an 'Area and Edge metric'. The edge density equals the sum of all edges of class i
+in relation to the landcape area. The boundary of the landscape is only included in the
+corresponding total class edge length if <code>count_boundary</code> is set to <code>TRUE</code>.
+The metric describes the configuration of the landscape, e.g. because  an  aggregation
+of the same class will result in a low edge density. The metric is standarized to the
+total landscape area, and therefore comparisons among landscapes with different total
+areas are possible.</p><h3>Units</h3>
 Meters per hectare
 <h3>Range</h3>
 ED &gt;= 0
 <h3>Behaviour</h3>
-ED increases as the landcapes becomes more patchy
+Equals ED = 0 if only one patch is present (and the landcape
+boundary is not included) and increases, without limit, as the landcapes becomes more
+patchy
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_c_te</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_l_ed</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -201,6 +220,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -10,7 +10,7 @@
 \alias{lsm_c_pland.RasterBrick}
 \alias{lsm_c_pland}
 \alias{lsm_c_pland.list}
-\title{Percentage of landscape (class level)}
+\title{PLAND (class level)}
 \usage{
 lsm_c_pland(landscape)
 
@@ -29,18 +29,21 @@ lsm_c_pland(landscape)
 tibble
 }
 \description{
-Percentage of landscape of class (class level)
+Percentage of landscape of class (Area and Edge metric)
 }
 \details{
-Percentage of landscape equals the sum of the patch area of class i divided
-by the total area. In other words, PLAND is the percentage of the landscape
+\deqn{PLAND = \frac{\sum_{j=1}^{n} a_{ij}}{A} * 100}
+where \eqn{a_{ij}} is the area of each patch and \eqn{A} is the total
+landscape area.
+
+PLAND is an 'Area and edge metric'. It is the percentage of the landscape
 belonging to class i. It is a measure of compostion and because of the relative
-character directly comparable among landscapes with different total areas
-\deqn{PLAND = (sum(area[patch_i]) / total area) * 100}
+character directly comparable among landscapes with different total areas.
+
 \subsection{Units}{Percentage}
 \subsection{Range}{0 < PLAND <= 100}
-\subsection{Behaviour}{PLAND approaches PLAND = 0 when the class area
-is decreasing. PLAND = 100 when only one class is present}
+\subsection{Behaviour}{Approaches PLAND = 0 when the proportional class area is decreasing.
+Equals PLAND = 100 when only one patch is present.}
 }
 \examples{
 lsm_c_pland(landscape)
@@ -50,4 +53,8 @@ lsm_c_pland(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_c_ca}},
+\code{\link{lsm_l_ta}}
 }

@@ -58,7 +58,7 @@ PNW-351.
 }
 \seealso{
 \code{\link{lsm_p_frac}},
-\code{\link{cv}}, \cre
+\code{\link{cv}}, \cr
 \code{\link{lsm_c_frac_mn}},
 \code{\link{lsm_c_frac_sd}}, \cr
 \code{\link{lsm_l_frac_mn}},
