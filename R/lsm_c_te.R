@@ -109,7 +109,14 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
 
             tb <- table(patches_class[adjacent_cells[,1]],
                         patches_class[adjacent_cells[,2]])
-            te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+
+            if(all(dim(tb) == 1)){
+                te <- 0
+            }
+
+            else{
+                te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+            }
 
             tibble::tibble(
                 level = "class",
