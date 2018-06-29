@@ -48,6 +48,7 @@ pad_raster.list <- function(landscape, pad_raster_value = -999, pad_raster_cells
 }
 
 pad_raster_internal <- function(landscape, pad_raster_value, pad_raster_cells){
+
     landscape_matrix <- raster::as.matrix(landscape)
 
     for(i in seq_len(pad_raster_cells)){

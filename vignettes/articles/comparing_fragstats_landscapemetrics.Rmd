@@ -1,10 +1,9 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Comparing FRAGSTSTAS and landscapemetrics"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Comparing FRAGSTSTAS and landscapemetrics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,11 +23,21 @@ library(DT)
    - That also effects the resolution, if your raster has a resolution with more 
      than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx) 
 
-### Possible errors in FRAGSTATS for certain metrics
+## Patch level
 
 #### CIRCLE metric
-Patches with 1 cell get a CIRCLE metric of 0, should be something around 0.36 instead.
-Sometimes the abbreviation is CIRCLE, sometimes SQUARE.
+Patches with 1 cell get a CIRCLE metric of 0, however the definition of the metric is:
+	
+> CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (...)
+
+The smallest circle around a quadrat should not have the same area as the quadrat.
+
+```{r}
+sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
+sort(fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE) # fragstats results for the gyrate metric in the landscape raster
+```
+Further points:
+* Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.
 
 #### PARA metric
 There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
@@ -48,114 +57,126 @@ However, implementing the same formula in R results in:
 (0.25 * 12) / sqrt(5)
 ```
 
-## Patch level
+#### GYRATE metric
 
-## Class level
+From the FRAGSTATS (2015) manual:
 
-```{r, echo=FALSE}
-fs_class = data.frame(
-    metric = c(
-        "total area",
-        "patch area (mean)",
-        "patch area (mean)",
-        "patch area (mean)",
-        "patch area (cv)",
-        "patch area (cv)",
-        "patch area (cv)",
-        "patch area (sd)",
-        "patch area (sd)",
-        "patch area (sd)",
-        "percentage of landscape",
-        "percentage of landscape",
-        "percentage of landscape",
-        "largest patch index",
-        "largest patch index",
-        "largest patch index",
-        "number of patches",
-        "number of patches",
-        "number of patches",
-        "euclidean nearest neighbor distance distribution (mean)",
-        "euclidean nearest neighbor distance distribution (mean)",
-        "euclidean nearest neighbor distance distribution (mean)"
-    ),
-    class = c(NA, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2,
-              1, 3, 2, 1, 3, 2),
-    value_fs = c(
-        NA,
-        0.002,
-        0.012,
-        0.0017,
-        228.5906,
-        162.6136,
-        159.0109,
-        0.0045,
-        0.0195,
-        0.0027,
-        19.8889,
-        53.2222,
-        26.8889,
-        16.4444,
-        50.7778,
-        10.8889,
-        9,
-        4,
-        14,
-        3.6829,
-        2,
-        3.1969
-    )
-)
+> GYRATE = 0 when the patch consists of a single cell
 
-lsm_class = lsm_calculate(landscape, what = "class")
+... however, FRAGSTATS returns values of 0.5 for patches with a single cell:
 
-class = left_join(fs_class, lsm_class, by = c("metric", "class")) %>% 
-    select(starts_with("valu")) %>% 
-    select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value)
-
-datatable(class)
+```{r}
+sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
+sort(fragstats_patch_landscape_gyrate) # fragstats results for the gyrate metric in the landscape raster
 ```
 
-## Landscape level
 
-```{r, echo=FALSE}
-fs_land = data.frame(
-    metric = c(
-        "total area",
-        "patch area (mean)",
-        "patch area (cv)",
-        "patch area (sd)",
-        "largest patch index",
-        "total edge",
-        "number of patches",
-        "patch richness",
-        "patch richness density",
-        "relative patch richness",
-        "euclidean nearest neighbor distance distribution (mean)",
-        "Shannon's evenness index",
-        "Shannon's diversity index"
-    ),
-    value_fs = c(
-        0.09,
-        0.0033,
-        268.3046,
-        0.0089,
-        50.7778,
-        364,
-        27,
-        3,
-        3333.3333,
-        NA,
-        .1816,
-        0.9194,
-        1.0101
-    )
-)
+<!-- ## Class level -->
 
-lsm_land = lsm_calculate(landscape, what = "landscape")
+<!-- ```{r, echo=FALSE} -->
+<!-- fs_class = data.frame( -->
+<!--     metric = c( -->
+<!--         "total area", -->
+<!--         "patch area (mean)", -->
+<!--         "patch area (mean)", -->
+<!--         "patch area (mean)", -->
+<!--         "patch area (cv)", -->
+<!--         "patch area (cv)", -->
+<!--         "patch area (cv)", -->
+<!--         "patch area (sd)", -->
+<!--         "patch area (sd)", -->
+<!--         "patch area (sd)", -->
+<!--         "percentage of landscape", -->
+<!--         "percentage of landscape", -->
+<!--         "percentage of landscape", -->
+<!--         "largest patch index", -->
+<!--         "largest patch index", -->
+<!--         "largest patch index", -->
+<!--         "number of patches", -->
+<!--         "number of patches", -->
+<!--         "number of patches", -->
+<!--         "euclidean nearest neighbor distance distribution (mean)", -->
+<!--         "euclidean nearest neighbor distance distribution (mean)", -->
+<!--         "euclidean nearest neighbor distance distribution (mean)" -->
+<!--     ), -->
+<!--     class = c(NA, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, -->
+<!--               1, 3, 2, 1, 3, 2), -->
+<!--     value_fs = c( -->
+<!--         NA, -->
+<!--         0.002, -->
+<!--         0.012, -->
+<!--         0.0017, -->
+<!--         228.5906, -->
+<!--         162.6136, -->
+<!--         159.0109, -->
+<!--         0.0045, -->
+<!--         0.0195, -->
+<!--         0.0027, -->
+<!--         19.8889, -->
+<!--         53.2222, -->
+<!--         26.8889, -->
+<!--         16.4444, -->
+<!--         50.7778, -->
+<!--         10.8889, -->
+<!--         9, -->
+<!--         4, -->
+<!--         14, -->
+<!--         3.6829, -->
+<!--         2, -->
+<!--         3.1969 -->
+<!--     ) -->
+<!-- ) -->
 
-land = left_join(fs_land, lsm_land, by = "metric") %>%
-    select(starts_with("valu")) %>% 
-    select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value)
+<!-- lsm_class = lsm_calculate(landscape, what = "class") -->
 
-datatable(land)
-```
+<!-- class = left_join(fs_class, lsm_class, by = c("metric", "class")) %>%  -->
+<!--     select(starts_with("valu")) %>%  -->
+<!--     select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value) -->
+
+<!-- datatable(class) -->
+<!-- ``` -->
+
+<!-- ## Landscape level -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- fs_land = data.frame( -->
+<!--     metric = c( -->
+<!--         "total area", -->
+<!--         "patch area (mean)", -->
+<!--         "patch area (cv)", -->
+<!--         "patch area (sd)", -->
+<!--         "largest patch index", -->
+<!--         "total edge", -->
+<!--         "number of patches", -->
+<!--         "patch richness", -->
+<!--         "patch richness density", -->
+<!--         "relative patch richness", -->
+<!--         "euclidean nearest neighbor distance distribution (mean)", -->
+<!--         "Shannon's evenness index", -->
+<!--         "Shannon's diversity index" -->
+<!--     ), -->
+<!--     value_fs = c( -->
+<!--         0.09, -->
+<!--         0.0033, -->
+<!--         268.3046, -->
+<!--         0.0089, -->
+<!--         50.7778, -->
+<!--         364, -->
+<!--         27, -->
+<!--         3, -->
+<!--         3333.3333, -->
+<!--         NA, -->
+<!--         .1816, -->
+<!--         0.9194, -->
+<!--         1.0101 -->
+<!--     ) -->
+<!-- ) -->
+
+<!-- lsm_land = lsm_calculate(landscape, what = "landscape") -->
+
+<!-- land = left_join(fs_land, lsm_land, by = "metric") %>% -->
+<!--     select(starts_with("valu")) %>%  -->
+<!--     select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value) -->
+
+<!-- datatable(land) -->
+<!-- ``` -->

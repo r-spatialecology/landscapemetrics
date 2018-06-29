@@ -109,8 +109,7 @@ lsm_p_gyrate_calc <- function(landscape) {
                                                           dplyr::bind_cols(x = mean_x,
                                                                            y = mean_y),
                                                           lonlat = FALSE) %>%
-                        mean() %>%
-                        magrittr::divide_by(nrow(points_patch))
+                        mean()
 
                     tibble::tibble(level = "patch",
                                    class = as.integer(class),
