@@ -106,9 +106,37 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Landscape metrics are xxx.</p>
-<p>Other Software: fragstats, sdmtools (only on patch and class level?)</p>
-<p>landscapemetrics all levels, tidy workflow, …</p>
+<p>Ecology and landscape ecology mainly studies interactions between organisms and their environment. In a wider sense the environment preceived by the organisim can be defined as landscape. This can spread from huge areas for e.g. mobile, large-bodied mammals to much smaller areas for e.g. immobile insects and always depends on the research question.</p>
+<p>Landscape metrics are a tool to characterise a landscape. This includes mainly describing the composition and configuration of the landscape. While the composition basically describes how much of the landscape is occupied a certain landcover type, the configuration mainly describes the spatial arrangement to each other of the landcover types. The basic idea of landscape metrics is to condense as much information as possible into single indicies.</p>
+<p><strong>landscapemetrics</strong> supports <code>raster</code> spatial objects. A raster (sometimes also referred to as grid) contains spatial explicit information by dividing the landscape into discrete cells. Consequently, the cells are the smallest “resolution of information”. Because <strong>landscapemetrics</strong> deals with categorical data, each cell has to be assigned to a discrete class. These classe must be positive integer numbers.</p>
+<div id="levels-of-landscape-metrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#levels-of-landscape-metrics" class="anchor"></a>Levels of landscape metrics</h2>
+<p>Landscape metrics can be calculated for three different levels (or “scales”). Each levels contains information about different aspects of the landscape. Which level is of interest depends on the research question. Often, even a combination of several levels can be useful. Similar, also the chose of which metric to use depends on the research question asked.</p>
+<p>A patch is defined as neighbouring cells belonging to the same class i. Hereby, <strong>landscapemetrics</strong> uses the 8-neighbours rule (queen’s case) to identify patches. Patch level metrics calculated the metric for every patch in the landscape regardless of the class the patch belongs to. The output will be as long as the number of present patches in the landscape. These metrics are mostly the basis for metrics of the other two levels.</p>
+<p>Class level metrics summarise all patches belonging to one class i. These metrics can either be only the “distribution” of patch level metrics of all patches of class i (e.g. the mean), or consider only patches of class i for the calculations of the metric. Regardless of the mathematical background, the output will always be as long as number of classes are present. Class level metrics are suitable to describe the compostion and configuration of the landscape.</p>
+<p>Landscape level metrics summarise the whole landscape into one value. This can either be done by summarising metrics of lower levels or calculating a metric including all patches and classes. Following, the output will always be just one number. Landscape level metrics are suitable of condensing many information of the landscape into just one value.</p>
+</div>
+<div id="classes-of-landscape-metrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#classes-of-landscape-metrics" class="anchor"></a>Classes of landscape metrics</h2>
+<p>There are five different classes of landscape metrics implemented in <strong>landscapemetrics</strong>.</p>
+<p>Area and edge metrics describe the size of patches and classes and the amount of edge. An edge is defined as border between two patches of class i and k in meters. These metrics mainly characterise the composition of the landscape and are able to show dominance or rareness of classes.</p>
+<p>Shape metrics describe the shape of patches, mainly by using its area and perimeter. This can be important for many research questions, because e.g. eventhough while beeing equal in size a long and narrow patchs has probably different characteristics than a squared patch of the same size.</p>
+<p>Core metrics describe the area of patches that are not an edge. These metrics can be interesting for research questions in which e.g. only areas are of interest that are not influenced by neighbouring patches of a different class.</p>
+<p>Aggregation metrics describe if patches (of the same class) are rather clumped (aggregated) or tend to be isolated. Following, these metrics describe mainly the spatial configuration of the landscape.</p>
+<p>Diversity metrics are only available on landscape level. They describe the abundance and dominance/rareness of classes. Thereby, they show the diversity of present classes.</p>
+<div id="references" class="section level4">
+<h4 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h4>
+<p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following web site: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
+</div>
+</div>
+<div id="other-software" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-software" class="anchor"></a>Other Software</h2>
+<p>All metrics are based on the stand-alone software FRAGSTATS (for more information see <a href="https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html">here</a>). However, FRAGSTATS is only available on Windows and even though the software is quite extensive and computational fast, we wanted to implement most of the metrics in R because it is probably the most used data analysing tool in ecology. Another package containing at least a few landscape metrics is <code>SDMTools</code>, however, there are no landscape level metrics and also on patch and class level not all generally available metrics can be found. Those were the reason we implemented <strong>landscapemetrics</strong>, however, we want to fully appreciate and acknowledgment the already present software.</p>
+</div>
 </div>
 <div id="using-landscapemetrics" class="section level1">
 <h1 class="hasAnchor">
@@ -293,7 +321,13 @@ landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdo
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
+<li>
+<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#levels-of-landscape-metrics">Levels of landscape metrics</a></li>
+      <li><a href="#classes-of-landscape-metrics">Classes of landscape metrics</a></li>
+      <li><a href="#other-software">Other Software</a></li>
+      </ul>
+</li>
       <li>
 <a href="#using-landscapemetrics">Using <strong>landscapemetrics</strong></a><ul class="nav nav-pills nav-stacked">
 <li><a href="#important-information-for-using-landscapemetrics">Important information for using <strong>landscapemetrics</strong></a></li>
