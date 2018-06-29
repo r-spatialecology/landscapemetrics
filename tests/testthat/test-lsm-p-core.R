@@ -5,7 +5,7 @@ landscapemetrics_patch_landscape_core <- lsm_p_core(landscape)
 
 test_that("lsm_p_core results are equal to fragstats", {
     expect_true(all(fragstats_patch_landscape_core %in%
-                        landscapemetrics_patch_landscape_core$value))
+                        round(landscapemetrics_patch_landscape_core$value, 4)))
 })
 
 test_that("lsm_p_core is typestable", {
