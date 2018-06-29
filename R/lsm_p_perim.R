@@ -87,7 +87,7 @@ lsm_p_perim_calc <- function(landscape){
                                               patches_class[adjacent_cells[,2]])
 
                     perimeter_patch_ij <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                        prod(raster::res(patches_class))
+                        raster::res(patches_class)[[1]]
 
                     class_name <- patches_class %>%
                         names() %>%
