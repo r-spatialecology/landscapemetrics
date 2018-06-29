@@ -94,7 +94,7 @@ with the value of the specific class.
 
 However, while we can proof that our method works as description of the core metric
 in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.
-a
+
 ### GYRATE metric
 
 From the FRAGSTATS (2015) manual:
