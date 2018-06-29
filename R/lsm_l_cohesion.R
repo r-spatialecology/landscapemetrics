@@ -1,23 +1,19 @@
-#' COHESION (class level)
+#' COHESION (landscape level)
 #'
 #' @description Patch Cohesion Index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{COHESION = 1 - (\frac{\sum \limits_{j = 1}^{n} p_{ij}} {\sum \limits_{j = 1}^{n} p_{ij} \sqrt{a_{ij}}}) * (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
+#' \deqn{COHESION = 1 - (\frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} p_{ij}} {\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} p_{ij} \sqrt{a_{ij}}}) * (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
 #' where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
 #' meters and \eqn{Z} is the number of cells.
 #'
-#' COHESION is an 'Aggregation metric'. It characterises the conncectedness of patches
-#' belonging to class i. It can be used to asses if patches of the same class are located
-#' aggregated or rather isolated and thereby COHESION gives information about the
-#' configuration of the landscape.
+#' COHESION is an 'Aggregation metric'.
 #'
 #' \subsection{Units}{Percent}
-#' \subsection{Ranges}{0 < COHESION < 100}
-#' \subsection{Behaviour}{Approaches COHESION = 0 if patches of class i become more isolated.
-#' Increases if patches of class i become more aggregated.}
+#' \subsection{Ranges}{Unkown}
+#' \subsection{Behaviour}{Unkown}
 #'
 #' @seealso
 #' \code{\link{lsm_p_perim}},
@@ -27,10 +23,10 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cohesion(landscape)
+#' lsm_l_cohesion(landscape)
 #'
-#' @aliases lsm_c_cohesion
-#' @rdname lsm_c_cohesion
+#' @aliases lsm_l_cohesion
+#' @rdname lsm_l_cohesion
 #'
 #' @references
 #' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
@@ -39,49 +35,49 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_cohesion <- function(landscape)
-    UseMethod("lsm_c_cohesion")
+lsm_l_cohesion <- function(landscape)
+    UseMethod("lsm_l_cohesion")
 
-#' @name lsm_c_cohesion
+#' @name lsm_l_cohesion
 #' @export
-lsm_c_cohesion.RasterLayer <- function(landscape) {
+lsm_l_cohesion.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_l_cohesion_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_c_cohesion
+#' @name lsm_l_cohesion
 #' @export
-lsm_c_cohesion.RasterStack <- function(landscape) {
+lsm_l_cohesion.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_l_cohesion_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_c_cohesion
+#' @name lsm_l_cohesion
 #' @export
-lsm_c_cohesion.list <- function(landscape) {
+lsm_l_cohesion.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_l_cohesion_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_cohesion_calc <- function(landscape) {
+#' @name lsm_l_cohesion
+#' @export
+lsm_l_cohesion.list <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_cohesion_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_cohesion_calc <- function(landscape) {
 
     ncells_landscape <- landscape %>%
         lsm_l_ta_calc() %>%
@@ -96,22 +92,22 @@ lsm_c_cohesion_calc <- function(landscape) {
 
     denominator <- perim_patch %>%
         dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%
-        dplyr::group_by(class) %>%
+        # dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     cohesion <- perim_patch %>%
-        dplyr::group_by(class) %>%
+        # dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(
             value = (1 - (value / denominator$value)) *
-                          ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1) * 100
-            )
+                ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1) * 100
+        )
 
-   tibble::tibble(
-       level = "class",
-       class = as.integer(cohesion$class),
-       id = as.integer(NA),
-       metric = "patch cohesion index",
-       value = as.double(cohesion$value)
-   )
+    tibble::tibble(
+        level = "landscape",
+        class = as.integer(NA),
+        id = as.integer(NA),
+        metric = "patch cohesion index",
+        value = as.double(cohesion$value)
+    )
 }
