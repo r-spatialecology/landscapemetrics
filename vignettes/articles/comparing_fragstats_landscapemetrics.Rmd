@@ -25,7 +25,13 @@ library(DT)
 
 ## Patch level
 
-#### CIRCLE metric
+### CAI metric
+
+Metric based on [core metric](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric),
+which already shows a malfunction in FRAGSTATS. Therefore most likely just
+a error propagation starting there. 
+
+### CIRCLE metric
 
 Patches with 1 cell get a CIRCLE metric of 0, however the definition of the metric is:
 	
@@ -40,7 +46,7 @@ sort(fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE) # fra
 Further points:
 * Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.
 
-#### CORE metric
+### CORE metric
 
 The core metric is defined as:
 
@@ -49,7 +55,7 @@ The core metric is defined as:
 
 This is a visual aid to help understand how we implemented the core metric:
 
-```{r fig.retina=2}
+```{r message=FALSE, fig.retina=2}
 library(raster)
 library(patchwork)
 
@@ -59,6 +65,8 @@ class_1 <- cclabel(landscape)[[1]]
 # core area of every patch in class 1, 1 = Edge, 0 = Core
 core <- boundaries(class_1, directions = 4)
 
+# the left plot is class 1 of our landscape, 
+# the right plot show the core area of these patches (blueish color)
 landscapetools::util_plot(class_1) + 
 landscapetools::util_plot(core)
 ```
@@ -69,7 +77,7 @@ with the value of the specific class.
 However, while we can proof that our method works as description of the core metric
 in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.
 
-#### GYRATE metric
+### GYRATE metric
 
 From the FRAGSTATS (2015) manual:
 
@@ -82,11 +90,11 @@ sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
 sort(fragstats_patch_landscape$GYRATE) # fragstats results for the gyrate metric in the landscape raster
 ```
 
-#### PARA metric
+### PARA metric
 There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
 The program uses hectare, whereas the documentation states in the formula square meter.
 
-#### SHAPE metric
+### SHAPE metric
 The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:
 
 \deqn{(0.25 * PERIM) / sqrt(AREA)}
