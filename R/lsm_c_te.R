@@ -1,4 +1,4 @@
-#' TE  (class level)
+#' TE (class level)
 #'
 #' @description Total (class) edge (Area and Edge metric)
 #'
@@ -6,8 +6,8 @@
 #' @param count_boundary Include landscape boundary in edge length
 #'
 #' @details
-#' \deqn{TE = \sum_{k=1}^{m} e_{ik}}
-#' where \eqn{e_{ik}} is the edge lengths in meters
+#' \deqn{TE = \sum \limits_{k = 1}^{m} e_{ik}}
+#' where \eqn{e_{ik}} is the edge lengths in meters.
 
 #' TE is an 'Area and edge metric'. Total (class) edge includes all edges between class i and
 #' all other classes k. It measures the configuration of the landscape because a highly
@@ -33,9 +33,10 @@
 #' @rdname lsm_c_te
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_c_te <- function(landscape, count_boundary) UseMethod("lsm_c_te")

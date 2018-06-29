@@ -10,7 +10,7 @@
 \alias{lsm_l_core_mn.RasterBrick}
 \alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.list}
-\title{Core area distribution (landscape level)}
+\title{CORE_MN (landscape level)}
 \usage{
 lsm_l_core_mn(landscape)
 
@@ -29,24 +29,37 @@ lsm_l_core_mn(landscape)
 tibble
 }
 \description{
-Mean of patch core area (landscape level)
+Mean of core area (Core area metric)
 }
 \details{
-Equals the mean of the patch core area of all patches in the landscape.
-The core area is the area within a patch that is not on the edge of the patch of class i.
-In other words, the area of a patch that has only neighbouring cells of the same type
-of class i
-\deqn{CORE_MN = mean(core[patch])}
+\deqn{CORE_{MN} = mean(CORE[patch_{ij}])}
+where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+
+CORE_MN is a 'Core area metric' and equals the mean of core areas of all patches
+in the landscape. The core area is defined as all cells that have no
+neighbour with a different value than themselves (rook's case).
+
 \subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{CORE_MN >= 0}
+\subsection{Behaviour}{Equals CORE_MN = 0 if CORE = 0 for all patches. Increases,
+without limit, as the corea area indices increase.}
 }
 \examples{
 lsm_l_core_mn(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_core}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_core_mn}},
+\code{\link{lsm_c_core_sd}},
+\code{\link{lsm_c_core_cv}}, \cr
+\code{\link{lsm_l_core_sd}},
+\code{\link{lsm_l_core_cv}}
 }

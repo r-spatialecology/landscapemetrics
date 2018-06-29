@@ -10,7 +10,7 @@
 \alias{lsm_l_shape_mn.RasterBrick}
 \alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.list}
-\title{Shape index distribution  (landscape. level)}
+\title{SHAPE_MN (landscape level)}
 \usage{
 lsm_l_shape_mn(landscape)
 
@@ -29,21 +29,38 @@ lsm_l_shape_mn(landscape)
 tibble
 }
 \description{
-Mean of shape index (landscape. level)
+Mean shape index (Shape metric)
 }
 \details{
-Equals the mean shape index of all patches in the landscape. SHAPE equals a quater
-of the patch perimeter divided by the square root of the patch area
-\deqn{SHAPE_MN = mean(SHAPE[patch])}
+\deqn{SHAPE_{MN} = mean(SHAPE[patch_{ij}])}
+where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
+
+SHAPE_MN is a 'Shape metric'. The landscape is summarised as the mean
+of all patches in the landscape. SHAPE describes the ratio between the actual perimeter
+of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+equals the perimeter if the patch would be maximally compact.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
+\subsection{Range}{SHAPE_SD >= 1}
+\subsection{Behaviour}{Equals SHAPE_MN = 0 if all patches are squares.
+Increases, without limit, as the shapes of patches become more complex.}
 }
 \examples{
 lsm_l_shape_mn(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_shape}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_shape_mn}},
+\code{\link{lsm_c_shape_sd}},
+\code{\link{lsm_c_shape_cv}}, \cr
+\code{\link{lsm_l_shape_sd}},
+\code{\link{lsm_l_shape_cv}}
 }

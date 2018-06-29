@@ -1,15 +1,25 @@
-#' Number of patches (landscape level)
+#' NP (landscape level)
 #'
-#' @description Number of patches (landscape level)
+#' @description Number of patches (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Number of patches equals the number of patches in the landscape
+#' \deqn{NP = N}
+#' where \eqn{N} is the number of patches.
+#'
+#' NP is an 'Aggregation metric'. It describes the fragmentation of the landscape,
+#' however, does not necessarily contain information about the configuration or
+#' composition of the landscape.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{NP >= 1}
-#' \subsection{Behaviour}{NP = 1 when only one class and patch is present and
-#' increases without limit as the number of patches increases}
+#' \subsection{Behaviour}{Equals NP = 1 when only one patch is present and
+#' increases, without limit, as the number of patches increases}
+#'
+#' @seealso
+#' \code{\link{lsm_c_np}}
+#'
 #' @return tibble
 #'
 #' @examples
@@ -19,9 +29,10 @@
 #' @rdname lsm_l_np
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_np <- function(landscape) UseMethod("lsm_l_np")

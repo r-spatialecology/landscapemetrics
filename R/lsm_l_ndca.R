@@ -1,21 +1,31 @@
-#' Number of core areas (landscape level)
+#' NDCA (landscape level)
 #'
-#' @description Number of core areas (landscape level)
+#' @description Number of disjunct core areas (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#'
+
 #' @details
-#' Number of core areas equals the sum of number of core areas of all patches in the
-#' landscape. Called number of disjunct core areas in FRAGSTATS. A core area is a
-#' 'patch within the patch' without any edge cells. In other words, the number of
-#' patches within the patch that only have neighbouring cells of the same type
-#' \deqn{ndca = sum(ndca[patch])}
-#' \subsection{Units}{None}
-#' \subsection{Range}{ndca >= 0}
-#' \subsection{Behaviour}{ndca = 0 when CORE = 0, i.e. every cell in patches of class i is
-#' an edge. ndca increases without limit as core areas become more present, i.e. patches
-#' becoming larger and less complex}
+#' \deqn{NDCA = \sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} n_{ij}^{core}}
+#' where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
 #'
+#' NDCA is a 'Core area metric'. The metric summarises the landscape as the sum of all
+#' patches in the landscape. A cell is defined as core if the cell has no
+#' neighbour with a different value than itself (rook's case). NDCA counts the disjunct
+#' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+#' It describes patch area and shape simultaneously (more core area when the patch is large,
+#' however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+#' will contain less disjunct core areas than a more irregular patch.
+#'
+#' \subsection{Units}{None}
+#' \subsection{Range}{NDCA >= 0}
+#' \subsection{Behaviour}{NDCA = 0 when TCA = 0, i.e. every cell in the landscape is
+#' an edge cell. NDCA increases, with out limit, as core area increases and patch shapes allow
+#' disjunct core areas (i.e. patch shapes become rather complex).}
+#'
+#' @seealso
+#' \code{\link{lsm_c_tca}}, \cr
+#' \code{\link{lsm_p_ncore}},
+#' \code{\link{lsm_c_ndca}}
 #' @return tibble
 #'
 #' @examples
@@ -25,9 +35,10 @@
 #' @rdname lsm_l_ndca
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_ndca <- function(landscape) UseMethod("lsm_l_ndca")
@@ -71,6 +82,6 @@ lsm_l_ndca_calc <- function(landscape){
         class =  as.integer(NA),
         id = as.integer(NA),
         metric = "number of disjunct core areas",
-        value = ndca$value
+        value = as.double(ndca$value)
     )
 }

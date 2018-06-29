@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Largest patch index (landscape level) — lsm_l_lpi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>LPI (landscape level) — lsm_l_lpi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Largest patch index (landscape level) — lsm_l_lpi" />
+<meta property="og:title" content="LPI (landscape level) — lsm_l_lpi" />
 
-<meta property="og:description" content="Largest patch index of the whole landscape (landscape level)" />
+<meta property="og:description" content="Largest patch index (Area and Edge metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Largest patch index (landscape level)</h1>
+    <h1>LPI (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_lpi.R'><code>R/lsm_l_lpi.R</code></a></small>
     <div class="hidden name"><code>lsm_l_lpi.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Largest patch index of the whole landscape (landscape level)</p>
+    <p>Largest patch index (Area and Edge metric)</p>
     
     </div>
 
@@ -166,21 +166,32 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The largest patch index equals the area of the larges patch of the whole landscape
-divided by the total area. It is a simple measure of dominance
-$$LPI = (max(area[patch]) / total area) * 100$$</p><h3>Units</h3>
+    <p>$$LPI = \frac{\max (a_{ij})} {A} * 100$$
+where \(max(a_{ij})\) is the area of the patch in square meters and \(A\)
+is the total landscape area in square meters.</p>
+<p>The largest patch index is an 'Area and edge metric'. It is the percentage of the
+landscape covered by the largest patch in the landscape. It is a simple
+measure of dominance.</p>
+<h3>Units</h3>
 Percentage
 <h3>Range</h3>
 0 &lt; LPI &lt;= 100
 <h3>Behaviour</h3>
-LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
-and equals LPI = 100 when only one class and patch is present
+Approaches LPI = 0 when the largest patch is becoming small
+and equals LPI = 100 when only one patch is present
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_c_lpi</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +211,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

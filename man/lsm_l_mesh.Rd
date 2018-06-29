@@ -10,7 +10,7 @@
 \alias{lsm_l_mesh.RasterBrick}
 \alias{lsm_l_mesh}
 \alias{lsm_l_mesh.list}
-\title{Effective Mesh Size (landscape level)}
+\title{MESH (landscape level)}
 \usage{
 lsm_l_mesh(landscape)
 
@@ -29,23 +29,35 @@ lsm_l_mesh(landscape)
 tibble
 }
 \description{
-Effective Mesh Size (landscape level)
+Effective Mesh Size (Aggregation metric)
 }
 \details{
-The effective mesh size equals the sum of patch areas of all patches in the landscape
-squared divided by the total area
-\deqn{MESH = (sum(area[patch]) ^ 2) / total area}
+\deqn{MESH = \frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} a_{ij} ^ 2}{A} * \frac{1} {10000}}
+where \eqn{a_{ij}} is the patch area in square meters and \eqn{A} is the
+total landscape area in square meters.
+
+The effective mesh size is an 'Aggregation metric'. Because each patch is squared
+before the sum is calculated and the sum is standardised by the
+total landscape area, MESH is a relative measure of patch structure. MESH is
+perfectly, negatively correlated to \code{\link{lsm_c_division}}.
+
 \subsection{Units}{Hectares}
-\subsection{Range}{ratio of cell size to total area (???) <= MESH <= total area}
-\subsection{Behaviour}{MESH equals the lower limit when every cell is a patch and
-increases when only one patch is present}
+\subsection{Range}{cell size / total area <= MESH <= total area}
+\subsection{Behaviour}{Equals cellsize/total area if class covers only
+one cell and equals total area if only one patch is present.}
 }
 \examples{
 lsm_l_mesh(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_area}},
+\code{\link{lsm_l_ta}}, \cr
+\code{\link{lsm_c_mesh}}
 }

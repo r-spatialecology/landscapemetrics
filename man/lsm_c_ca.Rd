@@ -43,7 +43,7 @@ total areas difficult.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{CA > 0}
-\subsection{Behaviour}{Aprroaches 0 as the patch areas of class i become small.
+\subsection{Behaviour}{Aprroaches CA > 0 as the patch areas of class i become small.
 Increases, without limit, as the patch areas of class i become large. CA = TA if only
 one class is present.}
 }
@@ -52,9 +52,10 @@ lsm_c_ca(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_p_area}},

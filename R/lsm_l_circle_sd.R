@@ -1,17 +1,33 @@
-#' Related Circumscribing Circle distribution (landscape level)
+#' CIRCLE_SD (landscape level)
 #'
-#' @description Standard deviation of related circumscribing circle (landscape level)
+#' @description Standard deviation of related circumscribing circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the Standard deviation of the related circumscribing circle of all patches
-#' in the landscape. Equals the 1 - the patch area (m^2) divided by the area (m^2)
-#' of the smallest circumscribing circle.
-#' \deqn{CIRCLE_SD = sd(CIRCLE[patch])}
+#' \deqn{CIRCLE_{SD} = sd(CIRCLE[patch_{ij}])}
+#' where \eqn{CIRCLE[patch_{ij}]} is the related circumscribing circle of each patch.
+#'
+#' CIRCLE_SD is a 'Shape metric' and summarises the landscape as the standard deviation of
+#' the related circumscribing circle of all patches in the landscape. CIRCLE describes
+#' the ratio between the patch area and the smallest circumscribing circle of the patch
+#' and characterises the compactness of the patch. The metric describes the differences
+#' among all patches of the landscape.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{????}
+#' \subsection{Range}{CIRCLE_SD >= 0}
+#' \subsection{Behaviour}{Equals CIRCLE_SD if the related circumscribing circle is identical
+#' for all patches. Increases, without limit, as the variation of related circumscribing
+#' circles increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_circle}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_circle_mn}},
+#' \code{\link{lsm_c_circle_sd}},
+#' \code{\link{lsm_c_circle_cv}}, \cr
+#' \code{\link{lsm_l_circle_mn}},
+#' \code{\link{lsm_l_circle_cv}}
 #'
 #' @return tibble
 #'
@@ -22,9 +38,10 @@
 #' @rdname lsm_l_circle_sd
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_circle_sd <- function(landscape) UseMethod("lsm_l_circle_sd")
@@ -71,7 +88,7 @@ lsm_l_circle_sd_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "related circumscribing circle (mean)",
-        value = circle_mn$value
+        value = as.double(circle_mn$value)
     )
 
 }

@@ -10,7 +10,7 @@
 \alias{lsm_l_shei.RasterBrick}
 \alias{lsm_l_shei}
 \alias{lsm_l_shei.list}
-\title{Shannons's evenness index (landscape level)}
+\title{SHEI (landscape level)}
 \usage{
 lsm_l_shei(landscape)
 
@@ -29,17 +29,21 @@ lsm_l_shei(landscape)
 tibble
 }
 \description{
-Shannons's evenness index (landscape level)
+Shannons's evenness index (Diversity metric)
 }
 \details{
-Shannon's evenness index equals minus the sum of class proportions multipled by the natural
-logarithm of class proportions divided by the natural logarithm of class types
-\deqn{SHEI = sum(proportion[patch_i] * log(proportion[patch_i])) / log(number of classes)}
+\deqn{SHEI = \frac{- \sum \limits_{i = 1} ^ {m} (P_{i} * \ln P_{i})} {\ln m}}
+where \eqn{P_{i}} is the proportion of class i and \eqn{m} is the
+number of classes.
+
+SHEI is a 'Diversity metric'. It is the ratio between the actual Shannon's diversity index
+and and the theoretical maximum of the Shannon diversity index. It can be understood as a
+measure of dominance.
+
 \subsection{Units}{None}
 \subsection{Range}{0 <= SHEI < 1}
-\subsection{Behaviour}{Shannons's evenness index approaches SHEI = 0 when only one patch and
-class is present and approaches SHEI = 1 when the number of class types increases while the
-proportions are equally distributed}
+\subsection{Behaviour}{Equals SHEI = 0 when only one patch  present and equals SHEI = 1
+when the proportion of classes is completely equally distributed}
 }
 \examples{
 lsm_l_shei(landscape)
@@ -49,4 +53,8 @@ lsm_l_shei(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_c_pland}},
+\code{\link{lsm_l_pr}}
 }

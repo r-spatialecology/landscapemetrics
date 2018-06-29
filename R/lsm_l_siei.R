@@ -1,18 +1,27 @@
-#' Simpson's evenness index (landscape level)
+#' SIEI (landscape level)
 #'
-#' @description Simpson's evenness index (landscape level)
+#' @description Simpson's evenness index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Simpson's evenness index equals 1 minus the sum of squared class proportions
-#' divided by 1 minus 1 divided by the number of classes
-#' \deqn{SIEI = sum(proportion[patch_i] ^ 2) / 1 - (1 / number of classes)}
+#' \deqn{SIEI = \frac{1 - \sum \limits_{i = 1}^{m} P_{i}^{2}} {1 - \frac{1} {m}}}
+#' where \eqn{P_{i}} is the proportion of class i and \eqn{m} is the
+#' number of classes.
+#'
+#' SIEI is a 'Diversity metric'. The metric is widely used in biodiversity and ecology.
+#' It is the ratio between the actual Simpson's diversity  index and the theoretical maximum
+#' Simpson's diversity index.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{0 < SIEI <= 1}
-#' \subsection{Behaviour}{Simpson's evenness index approaches SIEI = 0 when only one patch and
-#' class is present and approaches SIDI = 1 when the number of class types increases while the
-#' proportions are equally distributed}
+#' \subsection{Behaviour}{Equals SIEI = 0 when only one patch is present and approaches
+#' SIEI = 1 when the number of class types increases while the proportions are
+#' equally distributed}
+#'
+#' @seealso
+#' \code{\link{lsm_c_pland}},
+#' \code{\link{lsm_l_pr}}
 #'
 #' @return tibble
 #'
@@ -23,9 +32,11 @@
 #' @rdname lsm_l_siei
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_siei <- function(landscape) UseMethod("lsm_l_siei")
 
@@ -69,6 +80,6 @@ lsm_l_siei_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "Simpson's evenness index",
-        value = siei
+        value = as.double(siei)
     )
 }

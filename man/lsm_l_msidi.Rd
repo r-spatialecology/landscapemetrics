@@ -10,7 +10,7 @@
 \alias{lsm_l_msidi.RasterBrick}
 \alias{lsm_l_msidi}
 \alias{lsm_l_msidi.list}
-\title{Modified Simpson's diversity index (landscape level)}
+\title{MSIDI (landscape level)}
 \usage{
 lsm_l_msidi(landscape)
 
@@ -29,23 +29,29 @@ lsm_l_msidi(landscape)
 tibble
 }
 \description{
-Modified Simpson's diversity index (landscape level)
+Modified Simpson's diversity index (Diversity metric)
 }
 \details{
-The modified Simpson's diversity index equals the negative natural logarithm of
-the sum of the squared class proportions
-\deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2))}
+\deqn{MSIDI = -\ln \sum \limits_{i = 1}^{m} P_{i}^{2}}
+where \eqn{P_{i}} is the landscape area proportion of class i.
+
+MSIDI is a 'Diversity metric'.
+
 \subsection{Units}{None}
-\subsection{Range}{MSIDI >= 1}
-\subsection{Behaviour}{MSIDI = 0 when only one class and patch is present and increases
-without limit as the amount of patches with equally distributed landscape proportions increases}
+\subsection{Range}{MSIDI >= 0}
+\subsection{Behaviour}{MSIDI = 0 if only one patch is present and increases, without
+limit, as the amount of patches with equally distributed landscape proportions increases}
 }
 \examples{
 lsm_l_msidi(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_l_sidi}}
 }

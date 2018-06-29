@@ -160,7 +160,7 @@
     </tr>
     <tr>
       <th>count_boundary</th>
-      <td></td>
+      <td><p>Count landscape boundary as edge</p></td>
     </tr>
     </table>
     
@@ -170,12 +170,12 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$ED = \frac{\sum_{k = 1} ^ {m} e_{ik}}{A} * 10000$$
+    <p>$$ED = \frac{\sum \limits_{k = 1}^{m} e_{ik}} {A} * 10000$$
 where \(e_{ik}\) is the total edge length in meters and \(A\) is the total
 landcape area in square meters.</p>
 <p>ED is an 'Area and Edge metric'. The edge density equals the sum of all edges of class i
 in relation to the landcape area. The boundary of the landscape is only included in the
-corresponding total class edge length if <code>count_boundary</code> is set to <code>TRUE</code>.
+corresponding total class edge length if <code>count_boundary = TRUE</code>.
 The metric describes the configuration of the landscape, e.g. because  an  aggregation
 of the same class will result in a low edge density. The metric is standarized to the
 total landscape area, and therefore comparisons among landscapes with different total
@@ -190,9 +190,10 @@ patchy
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

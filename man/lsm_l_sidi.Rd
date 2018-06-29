@@ -10,7 +10,7 @@
 \alias{lsm_l_sidi.RasterBrick}
 \alias{lsm_l_sidi}
 \alias{lsm_l_sidi.list}
-\title{Simpson's diversity index (landscape level)}
+\title{SIDI (landscape level)}
 \usage{
 lsm_l_sidi(landscape)
 
@@ -29,16 +29,22 @@ lsm_l_sidi(landscape)
 tibble
 }
 \description{
-Simpson's diversity index (landscape level)
+Simpson's diversity index (Diversity metric)
 }
 \details{
-Simpson's diversity index equals 1 minus the sum of the squared class proportions
-\deqn{SIDI = 1 - sum(proportion[patch_i] ^ 2)}
+\deqn{SIDI = 1 - \sum \limits_{i = 1}^{m} P_{i}^{2}}
+where \eqn{P_{i}} is the proportion of class i and \eqn{m} is the
+number of classes.
+
+SIDI is a 'Diversity metric'. It is widely used in biodiversity and ecology. It is
+less sensitive to rare class types than \code{\link{lsm_l_shdi}}. It can be interpreted
+as the probability that two randomly selected cells belong to the same class.
+
 \subsection{Units}{None}
 \subsection{Range}{0 <= SIDI < 1}
-\subsection{Behaviour}{Simpson's diversity index approaches SIDI = 0 when only one patch and
-class is present and approaches SIDI = 1 when the number of class types increases while the
-proportions are equally distributed}
+\subsection{Behaviour}{Equals SIDI = 0 when only one patch is present and approaches
+SIDI < 1 when the number of class types increases while the proportions are equally
+distributed}
 }
 \examples{
 lsm_l_sidi(landscape)
@@ -48,4 +54,8 @@ lsm_l_sidi(landscape)
 McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
 program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 PNW-351.
+}
+\seealso{
+\code{\link{lsm_c_pland}},
+\code{\link{lsm_l_pr}}
 }

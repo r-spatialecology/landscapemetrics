@@ -5,7 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{DIVISON = (1 - \sum_{j=1}^{n} (\frac{a_{ij}}{A}) ^ 2)}
+#' \deqn{DIVISON = (1 - \sum \limits_{j = 1}^{n} (\frac{a_{ij}} {A}) ^ 2)}
 #' where \eqn{a_{ij}} is the area in square meters and \eqn{A} is the total
 #' landscape area in square meters.
 #'
@@ -32,9 +32,11 @@
 #' @rdname lsm_c_division
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_c_division <- function(landscape) UseMethod("lsm_c_division")
 

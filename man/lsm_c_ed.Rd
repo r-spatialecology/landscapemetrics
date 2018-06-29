@@ -25,7 +25,7 @@ lsm_c_ed(landscape, count_boundary)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{count_boundary}{}
+\item{count_boundary}{Count landscape boundary as edge}
 }
 \value{
 tibble
@@ -34,13 +34,13 @@ tibble
 Edge Density (Area and Edge metric)
 }
 \details{
-\deqn{ED = \frac{\sum_{k = 1} ^ {m} e_{ik}}{A} * 10000}
+\deqn{ED = \frac{\sum \limits_{k = 1}^{m} e_{ik}} {A} * 10000}
 where \eqn{e_{ik}} is the total edge length in meters and \eqn{A} is the total
 landcape area in square meters.
 
 ED is an 'Area and Edge metric'. The edge density equals the sum of all edges of class i
 in relation to the landcape area. The boundary of the landscape is only included in the
-corresponding total class edge length if \code{count_boundary} is set to \code{TRUE}.
+corresponding total class edge length if \code{count_boundary = TRUE}.
 The metric describes the configuration of the landscape, e.g. because  an  aggregation
 of the same class will result in a low edge density. The metric is standarized to the
 total landscape area, and therefore comparisons among landscapes with different total
@@ -56,9 +56,10 @@ lsm_c_ed(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_c_te}},

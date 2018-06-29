@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Shannon's diversity index (landscape level) — lsm_l_shdi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>SHDI (landscape level) — lsm_l_shdi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Shannon's diversity index (landscape level) — lsm_l_shdi" />
+<meta property="og:title" content="SHDI (landscape level) — lsm_l_shdi" />
 
-<meta property="og:description" content="Shannon's diversity index (landscape level)" />
+<meta property="og:description" content="Shannon's diversity index (Diversity metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Shannon's diversity index (landscape level)</h1>
+    <h1>SHDI (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_shdi.R'><code>R/lsm_l_shdi.R</code></a></small>
     <div class="hidden name"><code>lsm_l_shdi.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Shannon's diversity index (landscape level)</p>
+    <p>Shannon's diversity index (Diversity metric)</p>
     
     </div>
 
@@ -166,22 +166,29 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Shannon's diversity index equals minus the sum of class proportions multipled by the natural
-logarithm of class proportions
-$$SHDI = sum(proportion[patch_i] * log(proportion[patch_i]))$$</p><h3>Units</h3>
+    <p>$$SHID = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})$$
+where \(P_{i}\) is the proportion of class i.</p>
+<p>SHDI is a 'Diversity metric'. It is a widely used metric in biodiversity and ecology
+and takes both the number of classes and the abundance of each class into account.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
 SHDI &gt;= 0
 <h3>Behaviour</h3>
-SHDI = 0 when only one patch and class is present and increases
-without limit as the number of classes increases while the proportions are
+Equals SHDI = 0 when only one patch is present and increases,
+without limit, as the number of classes increases while the proportions are
 equally distributed
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_c_pland</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -201,6 +208,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

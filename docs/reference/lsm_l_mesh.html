@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Effective Mesh Size (landscape level) — lsm_l_mesh • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>MESH (landscape level) — lsm_l_mesh • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Effective Mesh Size (landscape level) — lsm_l_mesh" />
+<meta property="og:title" content="MESH (landscape level) — lsm_l_mesh" />
 
-<meta property="og:description" content="Effective Mesh Size (landscape level)" />
+<meta property="og:description" content="Effective Mesh Size (Aggregation metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Effective Mesh Size (landscape level)</h1>
+    <h1>MESH (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_mesh.R'><code>R/lsm_l_mesh.R</code></a></small>
     <div class="hidden name"><code>lsm_l_mesh.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Effective Mesh Size (landscape level)</p>
+    <p>Effective Mesh Size (Aggregation metric)</p>
     
     </div>
 
@@ -166,21 +166,33 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The effective mesh size equals the sum of patch areas of all patches in the landscape
-squared divided by the total area
-$$MESH = (sum(area[patch]) ^ 2) / total area$$</p><h3>Units</h3>
+    <p>$$MESH = \frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} a_{ij} ^ 2}{A} * \frac{1} {10000}$$
+where \(a_{ij}\) is the patch area in square meters and \(A\) is the
+total landscape area in square meters.</p>
+<p>The effective mesh size is an 'Aggregation metric'. Because each patch is squared
+before the sum is calculated and the sum is standardised by the
+total landscape area, MESH is a relative measure of patch structure. MESH is
+perfectly, negatively correlated to <code>lsm_c_division</code>.</p>
+<h3>Units</h3>
 Hectares
 <h3>Range</h3>
-ratio of cell size to total area (???) &lt;= MESH &lt;= total area
+cell size / total area &lt;= MESH &lt;= total area
 <h3>Behaviour</h3>
-MESH equals the lower limit when every cell is a patch and
-increases when only one patch is present
+Equals cellsize/total area if class covers only
+one cell and equals total area if only one patch is present.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_c_mesh</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +212,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -1,17 +1,27 @@
-#' Largest patch index (landscape level)
+#' LPI (landscape level)
 #'
-#' @description Largest patch index of the whole landscape (landscape level)
+#' @description Largest patch index (Area and Edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The largest patch index equals the area of the larges patch of the whole landscape
-#' divided by the total area. It is a simple measure of dominance
-#' \deqn{LPI = (max(area[patch]) / total area) * 100}
+#' \deqn{LPI = \frac{\max (a_{ij})} {A} * 100}
+#' where \eqn{max(a_{ij})} is the area of the patch in square meters and \eqn{A}
+#' is the total landscape area in square meters.
+#'
+#' The largest patch index is an 'Area and edge metric'. It is the percentage of the
+#' landscape covered by the largest patch in the landscape. It is a simple
+#' measure of dominance.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 < LPI <= 100}
-#' \subsection{Behaviour}{LPI approaches LPI = 0 when the largest patch of the corresponding class is becoming small
-#' and equals LPI = 100 when only one class and patch is present}
+#' \subsection{Behaviour}{Approaches LPI = 0 when the largest patch is becoming small
+#' and equals LPI = 100 when only one patch is present}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_c_lpi}}
 #'
 #' @return tibble
 #'
@@ -22,9 +32,11 @@
 #' @rdname lsm_l_lpi
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_lpi <- function(landscape) UseMethod("lsm_l_lpi")
 
@@ -70,6 +82,6 @@ lsm_l_lpi_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "largest patch index",
-        value = lpi$value
+        value = as.double(lpi$value)
     )
 }

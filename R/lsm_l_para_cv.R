@@ -1,16 +1,33 @@
-#' Perimeter-area ratio distribution (landscape level)
+#' PARA_CV (landscape level)
 #'
-#' @description Coeffiecent of variation of perimeter-area ratio (landscape level)
+#' @description Coeffiecent of variation perimeter-area ratio (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Coeffiecent of variation of the perimeter-area ratio of all patches in the landscape.
-#' PARA equals the ration of patch perimeter and patch area. It is a simple measure of complexity
-#' \deqn{PARA_CV = cv(PARA[patch]}
+#' \deqn{PARA_{CV} = cv(PARA[patch_{ij}]}
+#' where \eqn{PARA[patch_{ij}]} is the perimeter area ratio of each patch.
+#'
+#' PARA_CV is a 'Shape metric'. It summarises the landscape as the coeffiecent of variation of
+#' each patch belonging in the landscape The perimeter-area ratio describes the patch complexity
+#' in a straightforward way. However, because it is not standarised to a certain shape
+#' (e.g. a square), it is not scale independent, meaning that increasing the patch size
+#' while not changing the patch form will change the ratio.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{PARA_CV >= 0}
+#' \subsection{Behaviour}{Equals PARA_CV = 0 if the perimeter-area ratio is identical for
+#' all patches. Increases, without limit, as the variation of the perimeter-area ratio
+#' increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_para}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_para_mn}},
+#' \code{\link{lsm_c_para_sd}},
+#' \code{\link{lsm_c_para_cv}}, \cr
+#' \code{\link{lsm_l_para_mn}},
+#' \code{\link{lsm_l_para_sd}}
 #'
 #' @return tibble
 #'
@@ -21,9 +38,10 @@
 #' @rdname lsm_l_para_cv
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_para_cv <- function(landscape) UseMethod("lsm_l_para_cv")
@@ -70,6 +88,6 @@ lsm_l_para_cv_calc <- function(landscape){
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "perimeter-area-ratio (cv)",
-        value = para_cv$value
+        value = as.double(para_cv$value)
     )
 }

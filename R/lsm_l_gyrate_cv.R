@@ -1,17 +1,34 @@
-#' Radius of Gyration Distribution (landcape level)
+#' GYRATE_CV (landscape level)
 #'
-#' @description Coeffiecent of variation of Radius of Gyration (landscape level)
+#' @description Coeffiecent of variation radius of gyration (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals coeffiecent of variation of mean distance of each cell centroid in a patch to
-#' the centroid of the whole patch (mean location of all cell centroids) of all patches
-#' in the landscape
-#' \deqn{GYRATE_CV = cv(GYRATE[patch])}
+#' \deqn{GYRATE_{CV} = cv(GYRATE[patch_{ij}])}
+#' where \eqn{GYRATE[patch_{ij}]} equals the radius of gyration of each patch.
+#'
+#' GYRATE_CV is an 'Area and edge metric'. The metric summarises the landscape
+#' as the coeffiecent of variation of the radius of gyration of all patches
+#' in the landscape. GYRATE measures the distance from each cell to the patch
+#' centroid and is based on cell center-to-cell center distances. The metrics characterises
+#' both the patch area and compactness. The coeffiecent of variation is
+#' scaled to the mean and comparable among different landscapes.
+#'
 #' \subsection{Units}{Meters}
-#' \subsection{Range}{GYRATE >= 0, without limit}
-#' \subsection{Behaviour}{0 if single cell, maximum if patch occupies the entire landscape}
+#' \subsection{Range}{GYRATE_CV >= 0 }
+#' \subsection{Behaviour}{Equals GYRATE_CV = 0 if the radius of gyration is identical
+#' for all patches. Increases, without limit, as the variation of the radius of gyration
+#' increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_gyrate}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_gyrate_mn}},
+#' \code{\link{lsm_c_gyrate_sd}},
+#' \code{\link{lsm_c_gyrate_cv}}, \cr
+#' \code{\link{lsm_l_gyrate_mn}},
+#' \code{\link{lsm_l_gyrate_sd}}
 #'
 #' @return tibble
 #'
@@ -22,9 +39,10 @@
 #' @rdname lsm_l_gyrate_cv
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_gyrate_cv <- function(landscape) UseMethod("lsm_l_gyrate_cv")
@@ -71,7 +89,7 @@ lsm_l_gyrate_cv_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "related circumscribing circle (mean)",
-        value = gyrate_cv$value
+        value = as.double(gyrate_cv$value)
     )
 
 }

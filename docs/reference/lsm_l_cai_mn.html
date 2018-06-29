@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Core area index distribution (landscape level) — lsm_l_cai_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CAI_MN (landscape level) — lsm_l_cai_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Core area index distribution (landscape level) — lsm_l_cai_mn" />
+<meta property="og:title" content="CAI_MN (landscape level) — lsm_l_cai_mn" />
 
-<meta property="og:description" content="Mean of core area index (landscape level)" />
+<meta property="og:description" content="Mean of core area index (Core area metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Core area index distribution (landscape level)</h1>
+    <h1>CAI_MN (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_cai_mn.R'><code>R/lsm_l_cai_mn.R</code></a></small>
     <div class="hidden name"><code>lsm_l_cai_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean of core area index (landscape level)</p>
+    <p>Mean of core area index (Core area metric)</p>
     
     </div>
 
@@ -166,20 +166,37 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the mean of the core area index of all patches in the landscape.
-The core area index equals the percentage of a patch that is core area
-$$CAI_MN = mean(CAI[patch]$$</p><h3>Units</h3>
-???
+    <p>$$CAI_{MN} = mean(CAI[patch_{ij}]$$
+where \(CAI[patch_{ij}]\) is the core area index of each patch.</p>
+<p>CAI_MN is a 'Core area metric'. The metric summarises the landscape
+as the mean of the core area index of all patches in the landscape.
+The core area index is the percentag of core area in relation to patch area.
+A cell is defined as core area if the cell has no neighbour with a different
+value than itself (rook's case).</p>
+<h3>Units</h3>
+Percent
 <h3>Range</h3>
-???
+CAI_MN &gt;= 0
 <h3>Behaviour</h3>
-???
+Equals CAI_MN = 0 if CAI = 0 for all patches. Increases,
+without limit, as the core area indices increase.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_cai</code>,
+<code>mean</code>, <br />
+<code>lsm_c_cai_sd</code>,
+<code>lsm_c_cai_sd</code>,
+<code>lsm_c_cai_cv</code>, <br />
+<code>lsm_l_cai_sd</code>,
+<code>lsm_l_cai_cv</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -199,6 +216,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

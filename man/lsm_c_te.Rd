@@ -10,7 +10,7 @@
 \alias{lsm_c_te.RasterBrick}
 \alias{lsm_c_te}
 \alias{lsm_c_te.list}
-\title{TE  (class level)}
+\title{TE (class level)}
 \usage{
 lsm_c_te(landscape, count_boundary)
 
@@ -34,8 +34,8 @@ tibble
 Total (class) edge (Area and Edge metric)
 }
 \details{
-\deqn{TE = \sum_{k=1}^{m} e_{ik}}
-where \eqn{e_{ik}} is the edge lengths in meters
+\deqn{TE = \sum \limits_{k = 1}^{m} e_{ik}}
+where \eqn{e_{ik}} is the edge lengths in meters.
 TE is an 'Area and edge metric'. Total (class) edge includes all edges between class i and
 all other classes k. It measures the configuration of the landscape because a highly
 fragmentated landscape will have many edges. However, total edge is an absolute measure,
@@ -52,9 +52,10 @@ lsm_c_te(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_p_perim}}

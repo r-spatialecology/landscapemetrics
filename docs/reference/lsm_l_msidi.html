@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Modified Simpson's diversity index (landscape level) — lsm_l_msidi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>MSIDI (landscape level) — lsm_l_msidi • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Modified Simpson's diversity index (landscape level) — lsm_l_msidi" />
+<meta property="og:title" content="MSIDI (landscape level) — lsm_l_msidi" />
 
-<meta property="og:description" content="Modified Simpson's diversity index (landscape level)" />
+<meta property="og:description" content="Modified Simpson's diversity index (Diversity metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Modified Simpson's diversity index (landscape level)</h1>
+    <h1>MSIDI (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_msidi.R'><code>R/lsm_l_msidi.R</code></a></small>
     <div class="hidden name"><code>lsm_l_msidi.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Modified Simpson's diversity index (landscape level)</p>
+    <p>Modified Simpson's diversity index (Diversity metric)</p>
     
     </div>
 
@@ -166,21 +166,27 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The modified Simpson's diversity index equals the negative natural logarithm of
-the sum of the squared class proportions
-$$MSIDI = -ln(sum(proportion[patch_i] ^ 2))$$</p><h3>Units</h3>
+    <p>$$MSIDI = -\ln \sum \limits_{i = 1}^{m} P_{i}^{2}$$
+where \(P_{i}\) is the landscape area proportion of class i.</p>
+<p>MSIDI is a 'Diversity metric'.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
-MSIDI &gt;= 1
+MSIDI &gt;= 0
 <h3>Behaviour</h3>
-MSIDI = 0 when only one class and patch is present and increases
-without limit as the amount of patches with equally distributed landscape proportions increases
+MSIDI = 0 if only one patch is present and increases, without
+limit, as the amount of patches with equally distributed landscape proportions increases
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_l_sidi</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +206,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

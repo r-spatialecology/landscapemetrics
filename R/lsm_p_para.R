@@ -5,7 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{PARA = \frac{p_{ij}}{a_{ij}}}
+#' \deqn{PARA = \frac{p_{ij}} {a_{ij}}}
 #' where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the
 #' area in square meters.
 #'
@@ -37,9 +37,10 @@
 #' @rdname lsm_p_para
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_p_para <- function(landscape) UseMethod("lsm_p_para")

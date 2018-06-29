@@ -10,7 +10,7 @@
 \alias{pad_raster.RasterBrick}
 \alias{pad_raster}
 \alias{pad_raster.list}
-\title{pad_raster}
+\title{padding}
 \usage{
 pad_raster(landscape, pad_raster_value, pad_raster_cells)
 
@@ -39,12 +39,10 @@ raster
 \description{
 Adding padding to raster
 }
+\details{
+Addes equally (in all four directions) additionall cells around the raster
+}
 \examples{
 pad_raster(landscape)
 
-}
-\references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
 }

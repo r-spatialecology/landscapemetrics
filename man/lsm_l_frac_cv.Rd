@@ -10,7 +10,7 @@
 \alias{lsm_l_frac_cv.RasterBrick}
 \alias{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv.list}
-\title{Fractal dimension index distribution (landscape level)}
+\title{FRAC_CV (landscape level)}
 \usage{
 lsm_l_frac_cv(landscape)
 
@@ -29,23 +29,40 @@ lsm_l_frac_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation fractal dimension index (landscape level)
+Coeffiecent of variation fractal dimension index (Shape metric)
 }
 \details{
-Coeffiecent of variation of the fractal dimension index of all patches in the landscape.
-FRAC equals two times the natural logarithm of a quarter of the patch area divided by the
-natural logarithm of the patch area
-\deqn{FRAC_CV = cv(FRAC[patch])}
+\deqn{FRAC_{CV} = cv(FRAC[patch_{ij}])}
+where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
+
+FRAC_CV is a 'Shape metric'. The metric summarises the landscape
+as the coeffiecent of variation of the fractal dimension index of all patches
+in the landscape. The fractal dimenstion index is based on the patch perimeter and
+the patch area and describes the patch complexity. The coeffiecent of variation is
+scaled to the mean and comparable among different landscapes.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{FRAC_CV >= 0 }
+\subsection{Behaviour}{Equals FRAC_CV = 0 if the fractal dimension index is identical
+for all patches. Increases, without limit, as the variation of the fractal dimension
+indices increases.}
 }
 \examples{
 lsm_l_frac_cv(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_frac}},
+\code{\link{cv}}, \cr
+\code{\link{lsm_c_frac_mn}},
+\code{\link{lsm_c_frac_sd}},
+\code{\link{lsm_c_frac_cv}}, \cr
+\code{\link{lsm_l_frac_mn}},
+\code{\link{lsm_l_frac_sd}},
 }

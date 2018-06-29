@@ -1,17 +1,22 @@
-#' Modified Simpson's diversity index (landscape level)
+#' MSIDI (landscape level)
 #'
-#' @description Modified Simpson's diversity index (landscape level)
+#' @description Modified Simpson's diversity index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The modified Simpson's diversity index equals the negative natural logarithm of
-#' the sum of the squared class proportions
-#' \deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2))}
+#' \deqn{MSIDI = -\ln \sum \limits_{i = 1}^{m} P_{i}^{2}}
+#' where \eqn{P_{i}} is the landscape area proportion of class i.
+#'
+#' MSIDI is a 'Diversity metric'.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{MSIDI >= 1}
-#' \subsection{Behaviour}{MSIDI = 0 when only one class and patch is present and increases
-#' without limit as the amount of patches with equally distributed landscape proportions increases}
+#' \subsection{Range}{MSIDI >= 0}
+#' \subsection{Behaviour}{MSIDI = 0 if only one patch is present and increases, without
+#' limit, as the amount of patches with equally distributed landscape proportions increases}
+#'
+#' @seealso
+#' \code{\link{lsm_l_sidi}}
 #'
 #' @return tibble
 #'
@@ -22,9 +27,11 @@
 #' @rdname lsm_l_msidi
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_msidi <- function(landscape) UseMethod("lsm_l_msidi")
 
@@ -70,6 +77,6 @@ lsm_l_msidi_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "modified Simpson's diversity index",
-        value = msidi$value
+        value = as.double(msidi$value)
     )
 }

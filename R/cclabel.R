@@ -1,17 +1,17 @@
-#' Connected compoment labeling for classes in a raster
+#' cclabel
 #'
-#' @description xxx
+#' @description Connected components labeling
 #'
-#' @param landscape xxx
+#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param what Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
 #'
 #' @details
+#' Searches for connected patches (neighbouring cells of the same class i). The 8-neighbours
+#' rule is used ('queen's case). Returns a list with raster. For each class the connected
+#' patches have the value 1 - n. All cells not belonging to the class are \code{NA}.
 #'
-#' `what` returns a RasterBrick if the argument `"all"` is used. Each layer
-#' represents a unique class found in the raster and contains the labelled patches.
-#'
-#' @return List with RasterLayer/RasterBrick
+#' @return List
 #'
 #' @examples
 #' # check for patches of class 1

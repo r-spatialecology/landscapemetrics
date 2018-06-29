@@ -10,7 +10,7 @@
 \alias{lsm_l_shape_cv.RasterBrick}
 \alias{lsm_l_shape_cv}
 \alias{lsm_l_shape_cv.list}
-\title{Shape index distribution  (landscape level)}
+\title{SHAPE_CV (landscape level)}
 \usage{
 lsm_l_shape_cv(landscape)
 
@@ -29,21 +29,38 @@ lsm_l_shape_cv(landscape)
 tibble
 }
 \description{
-Coeffiecent of variation of shape index (landscape level)
+Covariance of variation shape index (Shape metric)
 }
 \details{
-Equals the coeffiecent of variation shape index of all patches in the landscape.
-SHAPE equals a quater of the patch perimeter divided by the square root of the patch area
-\deqn{SHAPE_CV = cv(SHAPE[patch])}
+\deqn{SHAPE_{CV} = cv(SHAPE[patch_{ij}])}
+where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
+
+SHAPE_CV is a 'Shape metric'. The landscape is summarised as the coeffiecent of variation
+of all patches in the landscape. SHAPE describes the ratio between the actual perimeter
+of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
+equals the perimeter if the patch would be maximally compact.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
+\subsection{Range}{SHAPE_CV >= 0}
+\subsection{Behaviour}{Equals SHAPE_CV = 0 if all patches have an identical shape index.
+Increases, without limit, as the variation of the shape index increases.}
 }
 \examples{
 lsm_l_shape_cv(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_shape}},
+\code{\link{cv}}, \cr
+\code{\link{lsm_c_shape_mn}},
+\code{\link{lsm_c_shape_sd}}, \cr
+\code{\link{lsm_c_shape_cv}},
+\code{\link{lsm_l_shape_mn}},
+\code{\link{lsm_l_shape_sd}}
 }

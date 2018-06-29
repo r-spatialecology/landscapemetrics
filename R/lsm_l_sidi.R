@@ -1,17 +1,27 @@
-#' Simpson's diversity index (landscape level)
+#' SIDI (landscape level)
 #'
-#' @description Simpson's diversity index (landscape level)
+#' @description Simpson's diversity index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Simpson's diversity index equals 1 minus the sum of the squared class proportions
-#' \deqn{SIDI = 1 - sum(proportion[patch_i] ^ 2)}
+#' \deqn{SIDI = 1 - \sum \limits_{i = 1}^{m} P_{i}^{2}}
+#' where \eqn{P_{i}} is the proportion of class i and \eqn{m} is the
+#' number of classes.
+#'
+#' SIDI is a 'Diversity metric'. It is widely used in biodiversity and ecology. It is
+#' less sensitive to rare class types than \code{\link{lsm_l_shdi}}. It can be interpreted
+#' as the probability that two randomly selected cells belong to the same class.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{0 <= SIDI < 1}
-#' \subsection{Behaviour}{Simpson's diversity index approaches SIDI = 0 when only one patch and
-#' class is present and approaches SIDI = 1 when the number of class types increases while the
-#' proportions are equally distributed}
+#' \subsection{Behaviour}{Equals SIDI = 0 when only one patch is present and approaches
+#' SIDI < 1 when the number of class types increases while the proportions are equally
+#' distributed}
+#'
+#' @seealso
+#' \code{\link{lsm_c_pland}},
+#' \code{\link{lsm_l_pr}}
 #'
 #' @return tibble
 #'

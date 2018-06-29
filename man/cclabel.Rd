@@ -10,7 +10,7 @@
 \alias{cclabel.RasterBrick}
 \alias{cclabel}
 \alias{cclabel.list}
-\title{Connected compoment labeling for classes in a raster}
+\title{cclabel}
 \usage{
 cclabel(landscape, what = "all")
 
@@ -23,20 +23,21 @@ cclabel(landscape, what = "all")
 \method{cclabel}{list}(landscape, what = "all")
 }
 \arguments{
-\item{landscape}{xxx}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{what}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
 }
 \value{
-List with RasterLayer/RasterBrick
+List
 }
 \description{
-xxx
+Connected components labeling
 }
 \details{
-\code{what} returns a RasterBrick if the argument \code{"all"} is used. Each layer
-represents a unique class found in the raster and contains the labelled patches.
+Searches for connected patches (neighbouring cells of the same class i). The 8-neighbours
+rule is used ('queen's case). Returns a list with raster. For each class the connected
+patches have the value 1 - n. All cells not belonging to the class are \code{NA}.
 }
 \examples{
 # check for patches of class 1

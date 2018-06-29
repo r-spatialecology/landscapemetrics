@@ -10,7 +10,7 @@
 \alias{lsm_l_core_sd.RasterBrick}
 \alias{lsm_l_core_sd}
 \alias{lsm_l_core_sd.list}
-\title{Core area distribution (landscape level)}
+\title{CORE_SD (landscape level)}
 \usage{
 lsm_l_core_sd(landscape)
 
@@ -29,24 +29,38 @@ lsm_l_core_sd(landscape)
 tibble
 }
 \description{
-Standard deviation of patch core area (landscape level)
+Standard deviation of patch core area (class level)
 }
 \details{
-Equals the standard deviation of the patch core area of all patches in the landscape.
-The core area is the area within a patch that is not on the edge of the patch of class i.
-In other words, the area of a patch that has only neighbouring cells of the same type
-of class i
-\deqn{CORE_SD = sd(core[patch])}
+\deqn{CORE_{SD} = sd(CORE[patch_{ij}])}
+where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
+
+CORE_SD is a 'Core area metric'. It equals the standard deviation of the core area
+of all patches in the landscape. The core area is defined as all cells that have no
+neighbour with a different value than themselves (rook's case). The metric describes the
+differences among all patches in the landscape.
+
 \subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{CORE_SD >= 0}
+\subsection{Behaviour}{Equals CORE_SD = 0 if all patches have the same core area.
+Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
 lsm_l_core_sd(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_core}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_core_mn}},
+\code{\link{lsm_c_core_sd}},
+\code{\link{lsm_c_core_cv}}, \cr
+\code{\link{lsm_l_core_mn}},
+\code{\link{lsm_l_core_cv}}
 }

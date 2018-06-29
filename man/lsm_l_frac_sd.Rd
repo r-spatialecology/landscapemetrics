@@ -10,7 +10,7 @@
 \alias{lsm_l_frac_sd.RasterBrick}
 \alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.list}
-\title{Fractal dimension index distribution (landscape level)}
+\title{FRAC_SD (landscape level)}
 \usage{
 lsm_l_frac_sd(landscape)
 
@@ -29,23 +29,39 @@ lsm_l_frac_sd(landscape)
 tibble
 }
 \description{
-Standard deviation fractal dimension index (landscape level)
+Standard deviation fractal dimension index (Shape metric)
 }
 \details{
-Standard deviation of the fractal dimension index of all patches in the landscape.
-FRAC equals two times the natural logarithm of a quarter of the patch area divided by the
-natural logarithm of the patch area
-\deqn{FRAC_SD = sd(FRAC[patch])}
+\deqn{FRAC_{SD} = sd(FRAC[patch_{ij}])}
+where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
+
+FRAC_SD is a 'Shape metric'. The metric summarises the landscape
+as the standard deviation of the fractal dimension index of all patches
+in the landscape. The fractal dimenstion index is based on the patch perimeter and
+the patch area and describes the patch complexity.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\subsection{Range}{FRAC_SD>= 0 }
+\subsection{Behaviour}{Equals FRAC_SD = 0 if the fractal dimension index is identical
+for all patches. Increases, without limit, as the variation of the fractal dimension
+indices increases.}
 }
 \examples{
 lsm_l_frac_sd(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_frac}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_frac_mn}},
+\code{\link{lsm_c_frac_sd}},
+\code{\link{lsm_c_frac_cv}}, \cr
+\code{\link{lsm_l_frac_mn}},
+\code{\link{lsm_l_frac_cv}}
 }

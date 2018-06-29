@@ -1,19 +1,23 @@
-#' Patch richness density (lanscape level)
+#' PRD (landscape level)
 #'
-#' @description Patch richness density (lanscape level)
+#' @description Patch richness density (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Number of classes in the landscape divided by the total area.
-#' This is a very simple measure of composition and comparable among landscapes
-#' with different total area
-#' \deqn{PRD = number of classes / total area}
-#' \subsection{Units}{Number per hectare}
-#' \subsection{Range}{PRD > 0}
-#' \subsection{Behaviour}{PRD approaches PRD = 0 when only one class is present and
-#' the landscape area increases. PRD increases as the number of classes increases and
-#' the total area decreases}
+#' \deqn{PRD = \frac{m} {A} * 10000 * 100 }
+#' where \eqn{m} is the number of classes and \eqn{A} is the total landscape area in
+#' square meters.
+#'
+#' PRD is a 'Diversity metric'. It is one of the simplest diversity and composition measures.
+#' In contrast to \code{\link{lsm_l_pr}}, it is a relative measure and following, comparable
+#' amoing landscapes with different total landscape areas.
+#'
+#' \subsection{Units}{Number per 100 hectares}
+#' \subsection{Range}{PR > 0}
+#' \subsection{Behaviour}{Approaches PRD > 1 when only one patch is present and the landscape
+#' is rather large. Increases, without limit, as the number of classes increases and the
+#' total landscape area decreases.}
 #'
 #' @return tibble
 #'
@@ -24,9 +28,11 @@
 #' @rdname lsm_l_prd
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_prd <- function(landscape) UseMethod("lsm_l_prd")
 
@@ -71,6 +77,6 @@ lsm_l_prd_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "patch richness density",
-        value = prd$value
+        value = as.double(prd$value)
     )
 }

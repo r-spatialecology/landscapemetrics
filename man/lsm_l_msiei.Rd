@@ -10,7 +10,7 @@
 \alias{lsm_l_msiei.RasterBrick}
 \alias{lsm_l_msiei}
 \alias{lsm_l_msiei.list}
-\title{Modified Simpson's evenness index (landscape level)}
+\title{MSIEI (landscape level)}
 \usage{
 lsm_l_msiei(landscape)
 
@@ -29,16 +29,15 @@ lsm_l_msiei(landscape)
 tibble
 }
 \description{
-Modified Simpson's evenness index (landscape level)
+Modified Simpson's evenness index (Diversity metric)
 }
 \details{
-The modified Simpson's evenness index equals the negative natural logarithm of
-the sum of the squared class proportions divided by the natural logarithm of
-number of classes
-\deqn{MSIDI = -ln(sum(proportion[patch_i] ^ 2)) / ln(patch richness)}
+\deqn{MSIEi = \frac{- \ln \sum \limits_{i = 1}^{m} P_{i}^{2}} {\ln m}}
+where \eqn{P_{i}} is the landscape area proportion of class i.
+MSIEI is a 'Diversity metric'.
 \subsection{Units}{None}
 \subsection{Range}{0 <= MSIEI < 1}
-\subsection{Behaviour}{MSIEI = 0 when only one class and patch is present and approaches
+\subsection{Behaviour}{MSIEI = 0 when only one patch is present and approaches
 MSIEI = 1 as the proportional distribution of patches becomes more even}
 }
 \examples{
@@ -46,7 +45,11 @@ lsm_l_msiei(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_l_siei}}
 }

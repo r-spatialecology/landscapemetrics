@@ -10,7 +10,7 @@
 \alias{lsm_l_circle_mn.RasterBrick}
 \alias{lsm_l_circle_mn}
 \alias{lsm_l_circle_mn.list}
-\title{Related Circumscribing Circle distribution (landscape level)}
+\title{CIRCLE_MN (landscape level)}
 \usage{
 lsm_l_circle_mn(landscape)
 
@@ -29,23 +29,39 @@ lsm_l_circle_mn(landscape)
 tibble
 }
 \description{
-Mean of related circumscribing circle (landscape level)
+Mean of related circumscribing circle (Shape metric)
 }
 \details{
-Equals the mean of the related circumscribing circle of all patches
-in the landscape. Equals the 1 - the patch area (m^2) divided by the area (m^2)
-of the smallest circumscribing circle.
-\deqn{CIRCLE_MN = mean(CIRCLE[patch])}
+\deqn{CIRCLE_{MN} = mean(CIRCLE[patch_{ij}])}
+where \eqn{CIRCLE[patch_{ij}]} is the related circumscribing circle of each patch.
+
+CIRCLE_MN is a 'Shape metric' and summarises the landscape as the mean of the related
+circumscribing circle of all patches in the landscape. CIRCLE describes
+the ratio between the patch area and the smallest circumscribing circle of the patch
+and characterises the compactness of the patch.
+
 \subsection{Units}{None}
-\subsection{Range}{???}
-\subsection{Behaviour}{????}
+\subsection{Range}{CIRCLE_MN > 0}
+\subsection{Behaviour}{Approaches CIRCLE_MN = 0 if the related circumscribing circle
+of all patches is small. Increases, without limit, as the related circumscribing circles
+increase.}
 }
 \examples{
 lsm_l_circle_mn(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_circle}},
+\code{\link{mean}}, \cr
+\code{\link{lsm_c_circle_mn}},
+\code{\link{lsm_c_circle_sd}},
+\code{\link{lsm_c_circle_cv}}, \cr
+\code{\link{lsm_l_circle_sd}},
+\code{\link{lsm_l_circle_cv}}
 }

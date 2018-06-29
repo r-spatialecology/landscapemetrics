@@ -1,18 +1,33 @@
-#' Edge density (landscape level)
+#' ED (landscape level)
 #'
-#' @description Edge density (landscape level)
+#' @description Edge Density (Area and Edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary ???
+#' @param count_boundary Count landscape boundary as edge
 #'
 #' @details
-#' The edge density equals the sum of all edges in the landscape divided by the landscape area.
-#' ED is scaled to 1 hectare and therefore compareable among landscapes with different total areas
-#' \deqn{ED = total edge / total area}
-#' \subsection{Units}{Meters per hectar}
+#' \deqn{ED = \frac{E} {A} * 10000}
+#' where \eqn{E} is the total landscape edge in meters and \eqn{A} is the total
+#' landcape area in square meters.
+#'
+#' ED is an 'Area and Edge metric'. The edge density equals all edges in the landscape
+#' in relation to the landcape area. The boundary of the landscape is only included in the
+#' corresponding total class edge length if \code{count_boundary = TRUE}.
+#' The metric describes the configuration of the landscape, e.g. because an overall aggregation
+#' of  classes will result in a low edge density. The metric is standarized to the
+#' total landscape area, and therefore comparisons among landscapes with different total
+#' areas are possible.
+
+#' \subsection{Units}{Meters per hectare}
 #' \subsection{Range}{ED >= 0}
-#' \subsection{Behaviour}{ED = 0 when only one class and patch is present and increases
-#' without limit as edges increase, i.e. number of patches and classes}
+#' \subsection{Behaviour}{Equals ED = 0 if only one patch is present (and the landcape
+#' boundary is not included) and increases, without limit, as the landcapes becomes more
+#' patchy}
+#'
+#' @seealso
+#' \code{\link{lsm_l_te}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_c_ed}}
 #'
 #' @return tibble
 #'
@@ -23,9 +38,11 @@
 #' @rdname lsm_l_ed
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_ed <- function(landscape, count_boundary) UseMethod("lsm_l_ed")
 
@@ -74,6 +91,6 @@ lsm_l_ed_calc <- function(landscape, count_boundary = FALSE) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "edge density",
-        value = ed$value
+        value = as.double(ed$value)
     )
 }

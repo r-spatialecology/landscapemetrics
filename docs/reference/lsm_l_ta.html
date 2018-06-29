@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total area (landscape level) — lsm_l_ta • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>TA (landscape level) — lsm_l_ta • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Total area (landscape level) — lsm_l_ta" />
+<meta property="og:title" content="TA (landscape level) — lsm_l_ta" />
 
-<meta property="og:description" content="Total area of class (landscape level)" />
+<meta property="og:description" content="Total area (Area and edge metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Total area (landscape level)</h1>
+    <h1>TA (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_ta.R'><code>R/lsm_l_ta.R</code></a></small>
     <div class="hidden name"><code>lsm_l_ta.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Total area of class (landscape level)</p>
+    <p>Total area (Area and edge metric)</p>
     
     </div>
 
@@ -166,19 +166,30 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Total area equals the sum of the area of all patches in the landscape
-$$TA = sum(area[patch])$$</p><h3>Units</h3>
+    <p>$$CA = sum(AREA[patch_{ij}])$$
+where \(AREA[patch_{ij}]\) is the area of each patch in hectares.</p>
+<p>TA is an 'Area and egdge metric'. The total (class) area sums the area of all patches
+in the landscape. It is the area of the observation area.</p>
+<h3>Units</h3>
 Hectares
 <h3>Range</h3>
-CA &gt; 0
+TA &gt; 0
 <h3>Behaviour</h3>
-TA increases without limit as landscape size increases
+Approaches TA &gt; 0 if the landscape is small and increases,
+without limit, as the size of the landscape increases.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>sum</code>, <br />
+<code>lsm_c_ca</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -198,6 +209,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

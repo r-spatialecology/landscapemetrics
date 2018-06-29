@@ -1,23 +1,30 @@
-#' Perimeter-Area Fractal Dimension  (landscape level)
+#' PAFRAC  (landscape level)
 #'
-#' @description Perimeter-Area Fractal Dimension (landscape level)
+#' @description Perimeter-Area Fractal Dimension (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' The perimeter-area fractal dimension equals two divided by the slope of
-#' the regression line of the natural logrithm of patch area against the
-#' natural logrithm of the patch perimeter of all patches in the landscape.
-#' The regression has equation ln(area) = beta * ln(perimeter) + intercept.
-#' It is only meaningful if the relationship between the area and perimeter.
-#' is linear on a logarithmic scale. If there are less than 10 patches,
-#' the functions returns NA because of the small-sample issue
-#' \deqn{PAFRAC = 2 / (beta(ln(area[patch]) ~ ln(perimeter[patch]))}
+#' \deqn{PAFRAC = \frac{2}{\beta}}
+#' where \eqn{\beta} is the slope of the regression of the area against the perimeter
+#' (logarithm) \eqn{N \sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} \ln a_{ij} = a + \beta N \sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} \ln p_{ij}}
+#'
+#' PAFRAC is a 'Shape metric'. It describes the patch complexity of the landscape while beeing
+#' scale independent. This means that increasing the patch size while not changing the
+#' patch form will not change the metric. However, it is only meaningful if the relationship
+#' between the area and perimeter is linear on a logarithmic scale. Furthermore, if there
+#' are less than 10 patches in the landscape, the metric returns NA because of the small-sample
+#' issue.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= PAFRAC <= 2}
-#' \subsection{Behaviour}{If only a few patches are present the value
-#' can exceed the range. Approaches PAFRAC = 1 for patches with simples shapes and
-#' PAFRAC = 2 for irregular shapes}
+#' \subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simples shapes and
+#' approaches PAFRAC = 2 for irregular shapes}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{lsm_p_perim}}, \cr
+#' \code{\link{lsm_c_pafrac}}
 #'
 #' @return tibble
 #'
@@ -28,9 +35,10 @@
 #' @rdname lsm_l_pafrac
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_pafrac <- function(landscape) UseMethod("lsm_l_pafrac")
@@ -77,6 +85,7 @@ lsm_l_pafrac_calc <- function(landscape){
         pafrac = NA
         warning("PAFRAC = NA for NP < 10")
     }
+
     else{
         regression_model <- stats::lm(log(area$value) ~ log(perimeter$value))
         pafrac = 2 / regression_model$coefficients[[2]]
@@ -87,6 +96,6 @@ lsm_l_pafrac_calc <- function(landscape){
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "perimeter-area fractal dimension",
-        value = pafrac
+        value = as.double(pafrac)
     )
 }

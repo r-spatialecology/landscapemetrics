@@ -1,17 +1,31 @@
-#' Number of core areas distribution (landscape level)
+#' DCORE_MN (landscape level)
 #'
-#' @description Mean of number of core areas (landscape level)
+#' @description Mean number of disjunct core areas (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the mean of number of core area of all patches in the landscape.
-#' A core area is a 'patch within the patch' without any edge cells. In other words,
-#' the number of patches within the patch that only have neighbouring cells of the same type
-#' \deqn{dcore_MN = mean(dcore[patch])}
+#' \deqn{DCORE_{MN} = mean(NCORE[patch_{ij}])}
+#' where \eqn{NCORE[patch_{ij}]} is the number of core areas.
+#'
+#' DCORE_MN is an 'Core area metric'. It summarises the landscape as the mean of all
+#' patches in the landscpe. A cell is defined as core if the cell has no neighbour with
+#' a different value than itself (rook's case). NCORE counts the disjunct core areas,
+#' whereby a core area is a 'patch within the patch' containing only core cells.
+#'
 #' \subsection{Units}{None}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{DCORE_MN > 0}
+#' \subsection{Behaviour}{Equals DCORE_MN = 0 if NCORE = 0 for all patches. Increases,
+#' without limit, as the number of disjunct corea areas increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_ncore}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_dcore_mn}},
+#' \code{\link{lsm_c_dcore_sd}},
+#' \code{\link{lsm_c_dcore_cv}}, \cr
+#' \code{\link{lsm_l_dcore_sd}},
+#' \code{\link{lsm_l_dcore_cv}}
 #'
 #' @return tibble
 #'
@@ -22,9 +36,10 @@
 #' @rdname lsm_l_dcore_mn
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_dcore_mn <- function(landscape) UseMethod("lsm_l_dcore_mn")
@@ -69,6 +84,6 @@ lsm_l_dcore_mn_calc <- function(landscape){
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "number of core areas (mean)",
-        value = dcore_mean$value
+        value = as.double(dcore_mean$value)
     )
 }

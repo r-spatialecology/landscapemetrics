@@ -10,7 +10,7 @@
 \alias{lsm_l_shdi.RasterBrick}
 \alias{lsm_l_shdi}
 \alias{lsm_l_shdi.list}
-\title{Shannon's diversity index (landscape level)}
+\title{SHDI (landscape level)}
 \usage{
 lsm_l_shdi(landscape)
 
@@ -29,16 +29,19 @@ lsm_l_shdi(landscape)
 tibble
 }
 \description{
-Shannon's diversity index (landscape level)
+Shannon's diversity index (Diversity metric)
 }
 \details{
-Shannon's diversity index equals minus the sum of class proportions multipled by the natural
-logarithm of class proportions
-\deqn{SHDI = sum(proportion[patch_i] * log(proportion[patch_i]))}
+\deqn{SHID = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})}
+where \eqn{P_{i}} is the proportion of class i.
+
+SHDI is a 'Diversity metric'. It is a widely used metric in biodiversity and ecology
+and takes both the number of classes and the abundance of each class into account.
+
 \subsection{Units}{None}
 \subsection{Range}{SHDI >= 0}
-\subsection{Behaviour}{SHDI = 0 when only one patch and class is present and increases
-without limit as the number of classes increases while the proportions are
+\subsection{Behaviour}{Equals SHDI = 0 when only one patch is present and increases,
+without limit, as the number of classes increases while the proportions are
 equally distributed}
 }
 \examples{
@@ -46,7 +49,11 @@ lsm_l_shdi(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_c_pland}}
 }

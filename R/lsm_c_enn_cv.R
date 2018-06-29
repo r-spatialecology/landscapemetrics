@@ -1,4 +1,4 @@
-#' ENN_CV (patch level)
+#' ENN_CV (class level)
 #'
 #' @description Coeffiecent of variation of euclidean nearest-neighbor distance (Aggregation metric)
 #'
@@ -39,9 +39,10 @@
 #' @rdname lsm_c_enn_cv
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_c_enn_cv <- function(landscape) UseMethod("lsm_c_enn_cv")

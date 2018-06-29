@@ -1,10 +1,13 @@
-#' pad_raster
+#' padding
 #'
 #' @description Adding padding to raster
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param pad_raster_value Value of cells added
 #' @param pad_raster_cells Number of rows and columns added
+#'
+#' @details
+#' Addes equally (in all four directions) additionall cells around the raster
 #'
 #' @return raster
 #'
@@ -13,11 +16,6 @@
 #'
 #' @aliases pad_raster
 #' @rdname pad_raster
-#'
-#' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
 #'
 #' @export
 pad_raster <- function(landscape, pad_raster_value, pad_raster_cells) UseMethod("pad_raster")

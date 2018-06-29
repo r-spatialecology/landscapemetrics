@@ -10,7 +10,7 @@
 \alias{lsm_l_area_sd.RasterBrick}
 \alias{lsm_l_area_sd}
 \alias{lsm_l_area_sd.list}
-\title{Patch area distribution (landscape level)}
+\title{AREA_SD (landscape level)}
 \usage{
 lsm_l_area_sd(landscape)
 
@@ -23,29 +23,43 @@ lsm_l_area_sd(landscape)
 \method{lsm_l_area_sd}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
-
-#' @details
-Equals the standard deviation of patch area of all patches in the landscape
-\deqn{AREA_SD = sd(AREA[patch])}
-\subsection{Units}{Hectares}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
 }
 \value{
 tibble
-
-tibble
 }
 \description{
-Mean patch size (landscape level)
+Standard deviation of patch area (Area and edge metric)
+}
+\details{
+\deqn{AREA_{SD} = sd(AREA[patch_{ij}])}
+where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
+
+AREA_SD is an 'Area and Edge metric'. The metric summarises the landscape
+as the standard deviation of all patch in the landscape. The metric describes
+the differences among all patches in the landscape.
+
+\subsection{Units}{Hectares}
+\subsection{Range}{AREA_SD >= 0}
+\subsection{Behaviour}{Equals AREA_SD = 0 if all patches are identical in size.
+Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
 lsm_l_area_sd(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_area}},
+\code{\link{sd}}, \cr
+\code{\link{lsm_c_area_mn}},
+\code{\link{lsm_c_area_sd}},
+\code{\link{lsm_c_area_cv}} \cr
+\code{\link{lsm_l_area_mn}},
+\code{\link{lsm_l_area_cv}}
 }

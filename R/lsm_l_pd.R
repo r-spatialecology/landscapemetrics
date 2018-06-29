@@ -1,17 +1,28 @@
-#' Patch density (landscape level)
+#' PD (landscape level)
 #'
-#' @description Patch density (landscape level)
+#' @description Patch density (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Patch density equals the number of all patches in the landscape divided by the total
-#' area. Patch density is a relative measure and compareable among landscapes with
-#' different total areas
-#' \deqn{PD = number of patches / total area}
-#' \subsection{Units}{Number per hectares (Number per 100 ha in FRAGSTATS???)}
-#' \subsection{Ranges}{PD > 0}
-#' \subsection{Behaviour}{Increases as the landscape gets more patchy}
+#' \deqn{PD = \frac{N} {A} * 10000 * 100}
+#' where \eqn{N} is the number of patches and \eqn{A} is the total landscape
+#' area in square meters.
+#'
+#' PD is an 'Aggregation metric'. It describes the fragmentation the landscape, however,
+#' does not necessarily contain information about the configuration or composition of the
+#' landscape. In contrast to \code{\link{lsm_l_np}} it is standardised to the area and
+#' comparisons among landscapes with different total area are possible.
+#'
+#' \subsection{Units}{Number per 100 hectares}
+#' \subsection{Ranges}{0 < PD <= 1e+06}
+#' \subsection{Behaviour}{Increases as the landscape gets more patchy. Reaches its maximum
+#' if every cell is a different patch.}
+#'
+#' @seealso
+#' \code{\link{lsm_c_np}},
+#' \code{\link{lsm_l_ta}}, \cr
+#' \code{\link{lsm_c_pd}}
 #'
 #' @return tibble
 #'
@@ -22,9 +33,11 @@
 #' @rdname lsm_l_pd
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_pd <- function(landscape) UseMethod("lsm_l_pd")
 
@@ -69,6 +82,6 @@ lsm_l_pd_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "patch density",
-        value = patch_density$value
+        value = as.double(patch_density$value)
     )
 }

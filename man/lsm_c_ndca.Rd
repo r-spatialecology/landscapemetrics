@@ -32,7 +32,7 @@ tibble
 Number of disjunct core areas (Core area metric)
 }
 \details{
-\deqn{NDCA = \sum_{j=1}^{n} n_{ij}^{core}}
+\deqn{NDCA = \sum \limits_{j = 1}^{n} n_{ij}^{core}}
 where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
 
 NDCA is a 'Core area metric'. The metric summarises class i as the sum of all
@@ -46,17 +46,18 @@ will contain less disjunct core areas than a more irregular patch.
 \subsection{Units}{None}
 \subsection{Range}{NDCA >= 0}
 \subsection{Behaviour}{NDCA = 0 when TCA = 0, i.e. every cell in patches of class i is
-an edge. NDCA increases, with out limit, as core area increases and patch shape allows
-disjunct core areas (i.e. patch shape becomes rather complex).}
+an edge. NDCA increases, with out limit, as core area increases and patch shapes allow
+disjunct core areas (i.e. patch shapes become rather complex).}
 }
 \examples{
 lsm_c_ndca(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_c_tca}}, \cr

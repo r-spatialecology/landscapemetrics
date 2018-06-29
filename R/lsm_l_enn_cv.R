@@ -1,17 +1,34 @@
-#' Euclidean Nearest Neighbor Distance Distribution (landscape level)
+#' ENN_CV (landscape level)
 #'
-#' @description Coefficent of variation Euclidean Nearest Neighbor Distance (landscape level)
+#' @description Coeffiecent of variation of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the coefficent of variation of the eclidean nearest neighbor distance of all patches
-#' in the landscape. ENN equals the distance the the nearest neigbouring patch of the same
-#' patch type (shortest edge-to-edge distance)
-#' \deqn{ENN_CV = cv(ENN[patch])}
+#' \deqn{ENN_{CV} = cv(ENN[patch_{ij}])}
+#' where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
+#' of each patch.
+#'
+#' ENN_CV is an 'Aggregation metric'. It summarises the landscape as the coeffiecent
+#' of variation of all patches in the landscape. ENN measures the distance to the  nearest
+#' neighbouring patch of the same class i. The distance is measured from edge-to-edge.
+#' The range is limited by the cell resolution on the lower limit and the landscape extent
+#' on the upper limit. The metric is a simple way to describe patch isolation. Because it is
+#' scaled to the mean, it is easily comparable among different landscapes.
+#'
 #' \subsection{Units}{Meters}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{ENN_CV >= 0}
+#' \subsection{Behaviour}{Equals ENN_CV = 0 if the euclidean nearest-neighbor distance is
+#' identical for all patches. Increases, without limit, as the variation of ENN increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_enn}},
+#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_c_enn_mn}},
+#' \code{\link{lsm_c_enn_sd}},
+#' \code{\link{lsm_c_enn_cv}}, \cr
+#' \code{\link{lsm_l_enn_mn}},
+#' \code{\link{lsm_l_enn_sd}},
 #'
 #' @return tibble
 #'
@@ -22,9 +39,10 @@
 #' @rdname lsm_l_enn_cv
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_enn_cv <- function(landscape) UseMethod("lsm_l_enn_cv")
@@ -70,7 +88,7 @@ lsm_l_enn_cv_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "euclidean nearest neighbor distance distribution (cv)",
-        value = enn_cv$value
+        value = as.double(enn_cv$value)
     )
 
 }

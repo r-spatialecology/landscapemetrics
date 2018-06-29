@@ -32,9 +32,7 @@ tibble
 Patch Cohesion Index (Aggregation metric)
 }
 \details{
-\deqn{COHESION = 1 - (\frac{\sum_{j = 1} ^ {n} p_{ij}}
-{\sum_{j = 1} ^ {n} p_{ij} \sqrt{a_{ij}}}) *
-(1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
+\deqn{COHESION = 1 - (\frac{\sum \limits_{j = 1}^{n} p_{ij}} {\sum \limits_{j = 1}^{n} p_{ij} \sqrt{a_{ij}}}) * (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
 where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
 meters and \eqn{Z} is the number of cells.
 
@@ -53,9 +51,10 @@ lsm_c_cohesion(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_p_perim}},

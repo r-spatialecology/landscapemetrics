@@ -1,15 +1,21 @@
-#' Patch richness (lanscape level)
+#' PR (landscape level)
 #'
-#' @description Patch richness (lanscape level)
+#' @description Patch richness (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Number of classes in the landscape. This is a very simple measure of composition.
+#' \deqn{PR = m}
+#' where \eqn{m} is the number of classes
+#'
+#' PR is a 'Diversity metric'. It is one of the simplest diversity and composition measures.
+#' However, because of its absolute nature, it is not comparable among landscapes with
+#' different total areas.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{PR >= 1}
-#' \subsection{Behaviour}{PR = 1 when only 1 class is present and increases without
-#' limit as the number of classes increases}
+#' \subsection{Behaviour}{Equals PR = 1 when only one patch is present and increases, without
+#' limit, as the number of classes increases}
 #'
 #' @return tibble
 #'
@@ -20,9 +26,11 @@
 #' @rdname lsm_l_pr
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 
 lsm_l_pr <- function(landscape) UseMethod("lsm_l_pr")

@@ -1,6 +1,6 @@
-#' Core area distribution (class level)
+#' CORE_SD (class level)
 #'
-#' @description Standard deviation of patch core area (class level)
+#' @description Standard deviation patch core area (class level)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 
@@ -36,9 +36,10 @@
 #' @rdname lsm_c_core_sd
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_c_core_sd <- function(landscape) UseMethod("lsm_c_core_sd")

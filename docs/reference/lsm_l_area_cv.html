@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Patch area distribution (landscape level) — lsm_l_area_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>AREA_CV (landscape level) — lsm_l_area_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Patch area distribution (landscape level) — lsm_l_area_cv" />
+<meta property="og:title" content="AREA_CV (landscape level) — lsm_l_area_cv" />
 
-<meta property="og:description" content="Coefficient of variation patch size (landscape level)" />
+<meta property="og:description" content="Coeffiecent of variation of patch area (Area and edge metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Patch area distribution (landscape level)</h1>
+    <h1>AREA_CV (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_area_cv.R'><code>R/lsm_l_area_cv.R</code></a></small>
     <div class="hidden name"><code>lsm_l_area_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Coefficient of variation patch size (landscape level)</p>
+    <p>Coeffiecent of variation of patch area (Area and edge metric)</p>
     
     </div>
 
@@ -156,15 +156,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p>
-<p>#' @details
-Equals the coeffiecent of variation of the area of all patches in the landscape
-$$AREA_CV = cv(AREA[patch])$$</p><h3>Units</h3>
-Hectares
-<h3>Range</h3>
-???
-<h3>Behaviour</h3>
-???</td>
+      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers</p></td>
     </tr>
     </table>
     
@@ -172,11 +164,38 @@ Hectares
 
     <p>tibble</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>$$AREA_{CV} = cv(AREA[patch_{ij}])$$
+where \(AREA[patch_{ij}]\) is the area of each patch in hectares.</p>
+<p>AREA_CV is an 'Area and Edge metric'. The metric summarises the landscape
+as the coeffiecent of variation of all patches in the landscape.
+The metric describes the differences among patches in the landscape and is
+easily comparable because it is scaled to the mean.</p>
+<h3>Units</h3>
+Hectares
+<h3>Range</h3>
+AREA_CV &gt;= 0
+<h3>Behaviour</h3>
+Equals AREA_CV = 0 if all patches are identical in size.
+Increases, without limit, as the variation of patch areas increases.
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_area</code>,
+<code>cv</code>, <br />
+<code>lsm_c_area_mn</code>,
+<code>lsm_c_area_sd</code>,
+<code>lsm_c_area_cv</code>, <br />
+<code>lsm_l_area_mn</code>,
+<code>lsm_l_area_sd</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -193,7 +212,11 @@ PNW-351.</p>
       
       <li><a href="#value">Value</a></li>
 
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

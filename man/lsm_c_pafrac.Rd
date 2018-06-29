@@ -34,7 +34,7 @@ Perimeter-Area Fractal Dimension (Shape metric)
 \details{
 \deqn{PAFRAC = \frac{2}{\beta}}
 where \eqn{\beta} is the slope of the regression of the area against the perimeter
-(logarithm) \eqn{n_{i}\sum_{j=1}^{n} \ln a_{ij} = a + \beta n_{i}\sum_{j=1}^{n} \ln p_{ij}}
+(logarithm) \eqn{n_{i}\sum \limits_{j = 1}^{n} \ln a_{ij} = a + \beta n_{i}\sum \limits_{j = 1}^{n} \ln p_{ij}}
 
 PAFRAC is a 'Shape metric'. It describes the patch complexity of class i while beeing
 scale independent. This means that increasing the patch size while not changing the
@@ -53,9 +53,10 @@ lsm_c_pafrac(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_p_area}},

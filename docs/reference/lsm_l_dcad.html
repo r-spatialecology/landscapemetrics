@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Disjunct core area density (landscape level) — lsm_l_dcad • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>DCAD (landscape level) — lsm_l_dcad • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Disjunct core area density (landscape level) — lsm_l_dcad" />
+<meta property="og:title" content="DCAD (landscape level) — lsm_l_dcad" />
 
-<meta property="og:description" content="Disjunct core area density (landscape level)" />
+<meta property="og:description" content="Disjunct core area density (Corea area metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Disjunct core area density (landscape level)</h1>
+    <h1>DCAD (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_dcad.R'><code>R/lsm_l_dcad.R</code></a></small>
     <div class="hidden name"><code>lsm_l_dcad.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Disjunct core area density (landscape level)</p>
+    <p>Disjunct core area density (Corea area metric)</p>
     
     </div>
 
@@ -166,24 +166,35 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Disjunct core area density equals the sum of number of core areas of the
-landscape divided by the total area. In other words, it is the number of core areas
-relative to the total area. The measure is relative and therefore comparable among
-landscapes with different total areas
-$$DCAD = sum(ncore[patch]) / total area$$</p><h3>Units</h3>
+    <p>$$DCAD = (\frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} n_{ij}^{core}} {A}) * 10000 * 100$$
+where \(n_{ij}^{core}\) is the number of disjunct core areas and \(A\)
+is the total landscape area in square meters.</p>
+<p>DCAD is a 'Core area metric'. It equals the number of disjunct core areas per
+100 ha relative to the total area. A disjunct core area is a 'patch within
+the patch' containing only core cells. A cell is defined as core area if the cell has no
+neighbour with a different value than itself (rook's case). The metric is relative and
+therefore comparable among landscapes with different total areas.</p>
+<h3>Units</h3>
 Number per 100 hectares
 <h3>Range</h3>
 DCAD &gt;= 0
 <h3>Behaviour</h3>
-DCAD = 0 when CORE = 0, i.e. every cell in patches
-of class i is an edge. DCAD increases without limit as core areas become more
-present, i.e. patches becoming larger and less complex
+Equals DCAD = 0 when DCORE = 0, i.e. no patch contains
+a disjunct core area. Increases, without limit, as disjunct core areas become more
+present, i.e. patches becoming larger and less complex.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_c_ndca</code>,
+<code>lsm_l_ta</code>, <br />
+<code>lsm_c_dcad</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -203,6 +214,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

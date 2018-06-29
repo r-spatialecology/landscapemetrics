@@ -10,7 +10,7 @@
 \alias{lsm_l_split.RasterBrick}
 \alias{lsm_l_split}
 \alias{lsm_l_split.list}
-\title{Splitting index (landscape level)}
+\title{SPLIT (landscape level)}
 \usage{
 lsm_l_split(landscape)
 
@@ -29,23 +29,33 @@ lsm_l_split(landscape)
 tibble
 }
 \description{
-Splitting index (landscape level)
+Splitting index (Aggregation metric)
 }
 \details{
-The splitting index equals the squared total area divided by the sum of patch
-area squared
-\deqn{SPLIT = total area ^ 2 / sum(area[patch])}
+\deqn{SSPLIT = \frac{A^2} {\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} a_{ij}^2}}
+where \eqn{a_{ij}} is the patch area in square meters and \eqn{A} is the
+total landscape area.
+
+SPLIT is an 'Aggregation metric'. It describes the number of patches if all patches the
+landscape would be divided into equally sized patches.
+
 \subsection{Units}{None}
 \subsection{Range}{1 <= SPLIT <= Number of cells squared}
-\subsection{Behaviour}{SPLIT = 1 when only one class and patch is present.
-SPLIt increases as the number of patches increases}
+\subsection{Behaviour}{Equals SPLIT = 1 if only one patch is present. Increases as
+the number of patches increases and is limited if all cells are a patch}
 }
 \examples{
 lsm_l_split(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_area}},
+\code{\link{lsm_l_ta}}, \cr
+\code{\link{lsm_c_split}}
 }

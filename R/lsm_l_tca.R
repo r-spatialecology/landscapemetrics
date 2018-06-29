@@ -1,18 +1,29 @@
-#'  Total area of core areas (landscape level)
+#' TCA (landscape level)
 #'
-#' @description Area of corea area (landscape level)
+#' @description Total core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the area within a patch that is not on the edge of all patches in the landscape.
-#' In other words, the area of a patch that has only neighbouring cells of the same type
-#' of class i
+#' \deqn{TCA = \sum \limits_{j = 1}^{n} a_{ij}^{core} * (\frac{1} {10000})}
+#' where here \eqn{a_{ij}^{core}} is the core area in square meters.
+#'
+#' TCA is a 'Core area metric' and equals the sum of core areas of all patches in the
+#' landscape. A cell is defined as core area if the cell has no neighbour with a different
+#' value than itself (rook's case). In other words, the core area of a patch is all area that
+#' is not an edge. It characterises patch areas and shapes of all patches in the landscape
+#' simultaneously (more core area when the patch is large and the shape is rather compact,
+#' i.e. a square). Additionally, TCA is a measure for the configuration of the landscape,
+#' because the sum of edges increase as patches are less aggregated.
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{CORE >= 0}
-#' \subsection{Behaviour}{CORE increases without limit as patch areas increase
-#' and patch shapes simplify. CORE = 0 when every cell in every patch of class i
-#' is an edge}
+#' \subsection{Range}{TCA >= 0}
+#' \subsection{Behaviour}{Increases, without limit, as patch areas increase
+#' and patch shapes simplify. TCA = 0 when every cell in every patch is an edge.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_core}},
+#' \code{\link{lsm_c_tca}}
 #'
 #' @return tibble
 #'
@@ -23,9 +34,11 @@
 #' @rdname lsm_l_tca
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_tca <- function(landscape) UseMethod("lsm_l_tca")
 
@@ -73,6 +86,6 @@ lsm_l_tca_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "total core area",
-        value = total_core_area$value
+        value = as.double(total_core_area$value)
     )
 }

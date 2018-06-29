@@ -1,15 +1,25 @@
-#' Total area (landscape level)
+#' TA (landscape level)
 #'
-#' @description Total area of class (landscape level)
+#' @description Total area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Total area equals the sum of the area of all patches in the landscape
-#' \deqn{TA = sum(area[patch])}
+#' \deqn{CA = sum(AREA[patch_{ij}])}
+#' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
+#'
+#' TA is an 'Area and egdge metric'. The total (class) area sums the area of all patches
+#' in the landscape. It is the area of the observation area.
+#'
 #' \subsection{Units}{Hectares}
-#' \subsection{Range}{CA > 0}
-#' \subsection{Behaviour}{TA increases without limit as landscape size increases}
+#' \subsection{Range}{TA > 0}
+#' \subsection{Behaviour}{Approaches TA > 0 if the landscape is small and increases,
+#' without limit, as the size of the landscape increases.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_area}},
+#' \code{\link{sum}}, \cr
+#' \code{\link{lsm_c_ca}}
 #'
 #' @return tibble
 #'
@@ -20,9 +30,11 @@
 #' @rdname lsm_l_ta
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
 #' @export
 lsm_l_ta <- function(landscape) UseMethod("lsm_l_ta")
 
@@ -69,6 +81,6 @@ lsm_l_ta_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "total area",
-        value = total_area$value
+        value = as.double(total_area$value)
     )
 }

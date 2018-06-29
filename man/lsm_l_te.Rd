@@ -10,7 +10,7 @@
 \alias{lsm_l_te.RasterBrick}
 \alias{lsm_l_te}
 \alias{lsm_l_te.list}
-\title{Total Edge  (landscape level)}
+\title{TE (landscape level)}
 \usage{
 lsm_l_te(landscape, count_boundary)
 
@@ -25,29 +25,39 @@ lsm_l_te(landscape, count_boundary)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{count_boundary}{???}
+\item{count_boundary}{Include landscape boundary in edge length}
 }
 \value{
 tibble
 }
 \description{
-Total edge of class (landscape level)
+Total edge (Area and Edge metric)
 }
 \details{
-Total edge equals the sum of the length of all edges in the landscape.
-Total edge is an absolute measure making comparisons among landscapes with
-different total areas difficult. ??? Landscape border included or not ???
-\deqn{TE = sum(edges)}
+\deqn{TE = \sum \limits_{k = 1}^{m} e_{ik}}
+where \eqn{e_{ik}} is the edge lengths in meters.
+TE is an 'Area and edge metric'. Total edge includes all edges. It measures the
+configuration of the landscape because a highly fragmentated landscape will have many
+edges. However, total edge is an absolute measure, making comparisons among landscapes
+with different total areas difficult. If \code{cound_boundary = TRUE} also edges to the
+landscape boundary are included.
+
 \subsection{Units}{Meters}
 \subsection{Range}{TE >= 0}
-\subsection{Behaviour}{TE increases without limit as landscape becomes more patchy}
+\subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,
+as landscape becomes more fragmentated}
 }
 \examples{
 lsm_l_te(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{lsm_p_perim}}
+\code{\link{lsm_l_te}}
 }

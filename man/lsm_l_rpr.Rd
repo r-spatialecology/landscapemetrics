@@ -8,7 +8,7 @@
 \alias{lsm_l_rpr.RasterStack}
 \alias{lsm_l_rpr}
 \alias{lsm_l_rpr.RasterBrick}
-\title{Relative patch richness (landscape level)}
+\title{RPD (landscape level)}
 \usage{
 lsm_l_rpr(landscape, classes_max)
 
@@ -27,24 +27,30 @@ lsm_l_rpr(landscape, classes_max)
 tibble
 }
 \description{
-Relative patch richness (landscape level)
+Relative patch richness (Diversity metric)
 }
 \details{
-Relative patch richness equals the number of classes divided by the (potential)
-maximum number of classes. The maximum number of classes needs to be specified
-\deqn{RPR = (number of classes / potential number of classes) * 100}
+\deqn{RPR = \frac{m} {m_{max}} * 100}
+where \eqn{m} is the number of classes and \eqn{m_{max}} is the (theoretical)
+maximum number of classes.
+
+RPR is an 'Diversity metric'. The metric calculates the percentage of present classes
+in the landscape in relation to a (theoretical) number of maximum classes. The user has to
+specify the maximum number of classes. Note, that if \code{classes_max} is not provided,
+the functions returns \code{NA}.
+
 \subsection{Units}{Percentage}
-\subsection{Ranges}{0 < RPR < 100}
-\subsection{Behaviour}{RPR approaches RPR = 0 when only one class type is present,
-but the maximum number of classes is large. RPR approaches 100 when the number of
-present class types approaches the maximum number of classes}
+\subsection{Ranges}{0 < RPR <= 100}
+\subsection{Behaviour}{Approaches RPR > 0 when only one class type is present,
+but the maximum number of classes is large. Equals RPR = 100 when m = m_max}
 }
 \examples{
 lsm_l_rpr(landscape, classes_max = 5)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }

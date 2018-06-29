@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Total area of core areas (landscape level) — lsm_l_tca • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>TCA (landscape level) — lsm_l_tca • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Total area of core areas (landscape level) — lsm_l_tca" />
+<meta property="og:title" content="TCA (landscape level) — lsm_l_tca" />
 
-<meta property="og:description" content="Area of corea area (landscape level)" />
+<meta property="og:description" content="Total core area (Core area metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Total area of core areas (landscape level)</h1>
+    <h1>TCA (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_tca.R'><code>R/lsm_l_tca.R</code></a></small>
     <div class="hidden name"><code>lsm_l_tca.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Area of corea area (landscape level)</p>
+    <p>Total core area (Core area metric)</p>
     
     </div>
 
@@ -166,22 +166,34 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the area within a patch that is not on the edge of all patches in the landscape.
-In other words, the area of a patch that has only neighbouring cells of the same type
-of class i</p><h3>Units</h3>
+    <p>$$TCA = \sum \limits_{j = 1}^{n} a_{ij}^{core} * (\frac{1} {10000})$$
+where here \(a_{ij}^{core}\) is the core area in square meters.</p>
+<p>TCA is a 'Core area metric' and equals the sum of core areas of all patches in the
+landscape. A cell is defined as core area if the cell has no neighbour with a different
+value than itself (rook's case). In other words, the core area of a patch is all area that
+is not an edge. It characterises patch areas and shapes of all patches in the landscape
+simultaneously (more core area when the patch is large and the shape is rather compact,
+i.e. a square). Additionally, TCA is a measure for the configuration of the landscape,
+because the sum of edges increase as patches are less aggregated.</p>
+<h3>Units</h3>
 Hectares
 <h3>Range</h3>
-CORE &gt;= 0
+TCA &gt;= 0
 <h3>Behaviour</h3>
-CORE increases without limit as patch areas increase
-and patch shapes simplify. CORE = 0 when every cell in every patch of class i
-is an edge
+Increases, without limit, as patch areas increase
+and patch shapes simplify. TCA = 0 when every cell in every patch is an edge.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_core</code>,
+<code>lsm_c_tca</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -201,6 +213,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

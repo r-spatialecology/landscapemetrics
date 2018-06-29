@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Euclidean Nearest Neighbor Distance Distribution (landscape level) — lsm_l_enn_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>ENN_MN (landscape level) — lsm_l_enn_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Euclidean Nearest Neighbor Distance Distribution (landscape level) — lsm_l_enn_mn" />
+<meta property="og:title" content="ENN_MN (landscape level) — lsm_l_enn_mn" />
 
-<meta property="og:description" content="Mean Euclidean Nearest Neighbor Distance (landscape level)" />
+<meta property="og:description" content="Mean of euclidean nearest-neighbor distance (Aggregation metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Euclidean Nearest Neighbor Distance Distribution (landscape level)</h1>
+    <h1>ENN_MN (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_enn_mn.R'><code>R/lsm_l_enn_mn.R</code></a></small>
     <div class="hidden name"><code>lsm_l_enn_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean Euclidean Nearest Neighbor Distance (landscape level)</p>
+    <p>Mean of euclidean nearest-neighbor distance (Aggregation metric)</p>
     
     </div>
 
@@ -166,21 +166,39 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the mean of the eclidean nearest neighbor distance of all patches in the
-landscape. ENN equals the distance the the nearest neigbouring patch of the same
-patch type (shortest edge-to-edge distance)
-$$ENN_MN = mean(ENN[patch])$$</p><h3>Units</h3>
+    <p>$$ENN_{MN} = cv(mean[patch_{ij}])$$
+where \(ENN[patch_{ij}]\) is the euclidean nearest-neighbor distance
+of each patch.</p>
+<p>ENN_CV is an 'Aggregation metric'. It summarises the landscape as the mean of all patches
+in the landscape. ENN measures the distance to the  nearest neighbouring patch
+of the same class i. The distance is measured from edge-to-edge. The range is limited
+by the cell resolution on the lower limit and the landscape extent on the upper limit.</p>
+<h3>Units</h3>
 Meters
 <h3>Range</h3>
-???
+ENN_MN &gt; 0
 <h3>Behaviour</h3>
-???
+Approaches ENN_MN = 0 as the distance to the nearest neighbour
+decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
+as the distance between neighbouring patches of the same class i increases, i.e. patches are
+more isolated.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_enn</code>,
+<code>mean</code>, <br />
+<code>lsm_c_enn_mn</code>,
+<code>lsm_c_enn_sd</code>,
+<code>lsm_c_enn_cv</code>, <br />
+<code>lsm_l_enn_sd</code>,
+<code>lsm_l_enn_cv</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +218,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

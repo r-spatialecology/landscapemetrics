@@ -32,7 +32,7 @@ tibble
 Patch area (Area and edge metric)
 }
 \details{
-\deqn{AREA = a_{ij} * (\frac{1}{10000})}
+\deqn{AREA = a_{ij} * (\frac{1} {10000})}
 where \eqn{a_{ij}} is the area in square meters.
 
 AREA is an 'Area and edge metric' and equals the area of each patch in hectares.
@@ -50,9 +50,10 @@ lsm_p_area(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_c_area_mn}},

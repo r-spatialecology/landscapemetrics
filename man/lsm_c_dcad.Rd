@@ -32,12 +32,12 @@ tibble
 Disjunct core area density (Corea area metric)
 }
 \details{
-\deqn{DCAD = (\frac{\sum_{j=1}^{n} n_{ij}^{core}}{A}) * 10000 * 100}
+\deqn{DCAD = (\frac{\sum \limits_{j = 1}^{n} n_{ij}^{core}} {A}) * 10000 * 100}
 where \eqn{n_{ij}^{core}} is the number of disjunct core areas and \eqn{A}
 is the total landscape area in square meters.
 
 DCAD is a 'Core area metric'. It equals the number of disjunct core areas per
-100 ha. relative to the total area. A disjunct core area is a 'patch within
+100 ha relative to the total area. A disjunct core area is a 'patch within
 the patch' containing only core cells. A cell is defined as core area if the cell has no
 neighbour with a different value than itself (rook's case). The metric is relative and
 therefore comparable among landscapes with different total areas.
@@ -53,9 +53,10 @@ lsm_c_dcad(landscape)
 
 }
 \references{
-McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_c_ndca}},

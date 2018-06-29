@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Number of core areas distribution (landscape level) — lsm_l_dcore_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>DCORE_CV (landscape level) — lsm_l_dcore_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Number of core areas distribution (landscape level) — lsm_l_dcore_cv" />
+<meta property="og:title" content="DCORE_CV (landscape level) — lsm_l_dcore_cv" />
 
-<meta property="og:description" content="Coeffiecent of variation of number of core areas (landscape level)" />
+<meta property="og:description" content="Coeffiecent of variation number of disjunct core areas (Core area metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,14 +126,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Number of core areas distribution (landscape level)</h1>
+    <h1>DCORE_CV (landscape level)</h1>
     <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_dcore_cv.R'><code>R/lsm_l_dcore_cv.R</code></a></small>
     <div class="hidden name"><code>lsm_l_dcore_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Coeffiecent of variation of number of core areas (landscape level)</p>
+    <p>Coeffiecent of variation number of disjunct core areas (Core area metric)</p>
     
     </div>
 
@@ -166,21 +166,39 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Equals the coeffiecent of variation of number of core area of all patches in the landscape.
-A core area is a 'patch within the patch' without any edge cells. In other words,
-the number of patches within the patch that only have neighbouring cells of the same type
-$$dcore_CV = cv(dcore[patch])$$</p><h3>Units</h3>
+    <p>$$DCORE_{CV} = cv(NCORE[patch_{ij}])$$
+where \(NCORE[patch_{ij}]\) is the number of core areas.</p>
+<p>DCORE_CV is an 'Core area metric'. It summarises the landscape as the coeffiecent
+of variation of all patches belonging to the landscape. A cell is defined as core if
+the cell has no neighbour with a different value than itself (rook's case). NCORE counts
+the disjunct core areas, whereby a core area is a 'patch within the patch' containing
+only core cells. The metric describes the differences among all patches in the landscape
+and is easily comparable because it is scaled to the mean.</p>
+<h3>Units</h3>
 None
 <h3>Range</h3>
-???
+DCORE_CV &gt;= 0
 <h3>Behaviour</h3>
-???
+Equals DCORE_CV = 0 if all patches have the same number of disjunct
+core areas. Increases, without limit, as the variation of number of disjunct corea areas
+increases.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-PNW-351.</p>
+    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical and Continuous Maps. Computer software program produced by
+the authors at the University of Massachusetts, Amherst. Available at the following
+web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_ncore</code>,
+<code>cv</code>, <br />
+<code>lsm_c_dcore_mn</code>,
+<code>lsm_c_dcore_sd</code>,
+<code>lsm_c_dcore_cv</code>, <br />
+<code>lsm_l_dcore_mn</code>,
+<code>lsm_l_dcore_sd</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +218,8 @@ PNW-351.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

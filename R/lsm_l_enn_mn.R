@@ -1,17 +1,34 @@
-#' Euclidean Nearest Neighbor Distance Distribution (landscape level)
+#' ENN_MN (landscape level)
 #'
-#' @description Mean Euclidean Nearest Neighbor Distance (landscape level)
+#' @description Mean of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' Equals the mean of the eclidean nearest neighbor distance of all patches in the
-#' landscape. ENN equals the distance the the nearest neigbouring patch of the same
-#' patch type (shortest edge-to-edge distance)
-#' \deqn{ENN_MN = mean(ENN[patch])}
+#' \deqn{ENN_{MN} = cv(mean[patch_{ij}])}
+#' where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
+#' of each patch.
+#'
+#' ENN_CV is an 'Aggregation metric'. It summarises the landscape as the mean of all patches
+#' in the landscape. ENN measures the distance to the  nearest neighbouring patch
+#' of the same class i. The distance is measured from edge-to-edge. The range is limited
+#' by the cell resolution on the lower limit and the landscape extent on the upper limit.
+#'
 #' \subsection{Units}{Meters}
-#' \subsection{Range}{???}
-#' \subsection{Behaviour}{???}
+#' \subsection{Range}{ENN_MN > 0}
+#' \subsection{Behaviour}{Approaches ENN_MN = 0 as the distance to the nearest neighbour
+#' decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
+#' as the distance between neighbouring patches of the same class i increases, i.e. patches are
+#' more isolated.}
+#'
+#' @seealso
+#' \code{\link{lsm_p_enn}},
+#' \code{\link{mean}}, \cr
+#' \code{\link{lsm_c_enn_mn}},
+#' \code{\link{lsm_c_enn_sd}},
+#' \code{\link{lsm_c_enn_cv}}, \cr
+#' \code{\link{lsm_l_enn_sd}},
+#' \code{\link{lsm_l_enn_cv}}
 #'
 #' @return tibble
 #'
@@ -22,9 +39,10 @@
 #' @rdname lsm_l_enn_mn
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
 lsm_l_enn_mn <- function(landscape) UseMethod("lsm_l_enn_mn")
@@ -70,7 +88,7 @@ lsm_l_enn_mn_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "euclidean nearest neighbor distance distribution (mean)",
-        value = enn_mn$value
+        value = as.double(enn_mn$value)
     )
 
 }
