@@ -1,4 +1,4 @@
-#' padding
+#' pad_raster
 #'
 #' @description Adding padding to raster
 #'
@@ -48,6 +48,7 @@ pad_raster.list <- function(landscape, pad_raster_value = -999, pad_raster_cells
 }
 
 pad_raster_internal <- function(landscape, pad_raster_value, pad_raster_cells){
+
     landscape_matrix <- raster::as.matrix(landscape)
 
     for(i in seq_len(pad_raster_cells)){
@@ -61,14 +62,15 @@ pad_raster_internal <- function(landscape, pad_raster_value, pad_raster_cells){
                                   deparse.level = 0)
     }
 
-    landscape_padded <- raster::raster(landscape_matrix)
+    landscape_padded_extent <- raster::extent(landscape) +
+        (pad_raster_cells * 2 * raster::res(landscape))
 
-    raster::extent(landscape_padded) <- c(
-        raster::xmin(landscape),
-        (raster::xmax(landscape) + 2 * pad_raster_cells) * raster::res(landscape)[1],
-        raster::xmin(landscape),
-        (raster::xmax(landscape) + 2 * pad_raster_cells) * raster::res(landscape)[2]
-    )
+    landscape_padded <- raster::raster(x = landscape_padded_extent,
+                                       resolution = raster::res(landscape),
+                                       crs = raster::crs(landscape))
+
+    landscape_padded <- raster::setValues(landscape_padded, landscape_matrix)
+
 
     return(landscape_padded)
 
