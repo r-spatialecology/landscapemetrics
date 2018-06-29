@@ -11,3 +11,6 @@ stringr
 forcats
 DT
 bindrcpp
+sp
+raster
+patchwork

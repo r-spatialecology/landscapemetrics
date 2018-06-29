@@ -26,6 +26,7 @@ library(DT)
 ## Patch level
 
 #### CIRCLE metric
+
 Patches with 1 cell get a CIRCLE metric of 0, however the definition of the metric is:
 	
 > CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (...)
@@ -38,6 +39,48 @@ sort(fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE) # fra
 ```
 Further points:
 * Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.
+
+#### CORE metric
+
+The core metric is defined as:
+
+> CORE equals the area (m2) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, [...]
+
+
+This is a visual aid to help understand how we implemented the core metric:
+
+```{r fig.retina=2}
+library(raster)
+library(patchwork)
+
+# class 1
+class_1 <- cclabel(landscape)[[1]]
+
+# core area of every patch in class 1, 1 = Edge, 0 = Core
+core <- boundaries(class_1, directions = 4)
+
+landscapetools::util_plot(class_1) + 
+landscapetools::util_plot(core)
+```
+
+We look at each patch of every class and count the cells that have 4 neighbors
+with the value of the specific class.
+
+However, while we can proof that our method works as description of the core metric
+in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.
+
+#### GYRATE metric
+
+From the FRAGSTATS (2015) manual:
+
+> GYRATE = 0 when the patch consists of a single cell
+
+... however, FRAGSTATS returns values of 0.5 for patches with a single cell:
+
+```{r}
+sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
+sort(fragstats_patch_landscape$GYRATE) # fragstats results for the gyrate metric in the landscape raster
+```
 
 #### PARA metric
 There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
@@ -55,19 +98,6 @@ However, implementing the same formula in R results in:
 
 ```{r}
 (0.25 * 12) / sqrt(5)
-```
-
-#### GYRATE metric
-
-From the FRAGSTATS (2015) manual:
-
-> GYRATE = 0 when the patch consists of a single cell
-
-... however, FRAGSTATS returns values of 0.5 for patches with a single cell:
-
-```{r}
-sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
-sort(fragstats_patch_landscape_gyrate) # fragstats results for the gyrate metric in the landscape raster
 ```
 
 

@@ -92,17 +92,11 @@ lsm_p_core_calc <- function(landscape){
                 sort() %>%
                 purrr::map_dfr(function(patch_id) {
                     patches_class[patches_class != patch_id |
-                                        is.na(patches_class)] <- -999
-                    core_cells <- raster::Which(patches_class == patch_id, cells = T) %>%
-                        purrr::map_dbl(function(cell_id) {
-                            adjacent_cells <- raster::adjacent(patches_class,
-                                                               cells = cell_id,
-                                                               directions = 4,
-                                                               pairs = FALSE)
-                            ifelse(all(patches_class[adjacent_cells] == patch_id), cell_id, NA)
-                        }) %>%
-                        na.omit() %>%
-                        length()
+                                      is.na(patches_class)] <- NA
+
+
+                    core_cells <- freq(boundaries(patches_class, directions = 4),
+                                       value = 0)
 
                     class_name <- patches_class %>%
                         names() %>%
