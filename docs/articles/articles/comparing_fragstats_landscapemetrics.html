@@ -103,20 +103,26 @@
 
     
     
-<div id="known-issues" class="section level2">
-<h2 class="hasAnchor">
-<a href="#known-issues" class="anchor"></a>Known issues</h2>
+<div id="general" class="section level1">
+<h1 class="hasAnchor">
+<a href="#general" class="anchor"></a>General</h1>
+<p>There are a few important differences between <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong> that you should be aware of, if you either compare results between the two or use both of the tools:</p>
 <ul>
-<li>FRAGSTATS only rounds after the 4th decimal place
+<li>FRAGSTATS rounds after the 4th decimal place
 <ul>
 <li>That also effects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx)</li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="patch-level" class="section level2">
+<div id="specific-differences" class="section level1">
+<h1 class="hasAnchor">
+<a href="#specific-differences" class="anchor"></a>Specific differences</h1>
+<p>We thoroughly compared each our implemented landscape metrics against the results from FRAGSTATS and will give you here a list with why we think there are differences in the results.</p>
+<p><strong>FRAGSTATS</strong> is unfortunately not an open-source project, so we can’t definetly say some of the metrics have bugs, but we try to show on small examples why we think there could be some of them.</p>
+<div id="differences-on-patch-level" class="section level2">
 <h2 class="hasAnchor">
-<a href="#patch-level" class="anchor"></a>Patch level</h2>
+<a href="#differences-on-patch-level" class="anchor"></a>Differences on patch level:</h2>
 <div id="cai-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cai-metric" class="anchor"></a>CAI metric</h3>
@@ -129,7 +135,7 @@
 <blockquote>
 <p>CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (…)</p>
 </blockquote>
-<p>The smallest circle around a quadrat should not have the same area as the quadrat.</p>
+<p>The smallest circle around a quadrat should not have the same area as the quadrat, which is the case in FRAGSTATS:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
 <pre><code>##  [1] 0.0001 0.0001 0.0001 0.0001 0.0001 0.0001 0.0002 0.0002 0.0002 0.0003
 ## [11] 0.0003 0.0003 0.0003 0.0003 0.0004 0.0005 0.0005 0.0007 0.0009 0.0010
@@ -138,7 +144,10 @@
 <pre><code>##  [1] 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3144 0.3634 0.4907 0.4907
 ## [11] 0.4907 0.5103 0.5225 0.5225 0.5416 0.5520 0.5544 0.5796 0.6180 0.6180
 ## [21] 0.6180 0.6255 0.6658 0.6817 0.6850 0.7783 0.8112</code></pre>
-<p>Further points: * Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.</p>
+<p>Further points:</p>
+<ul>
+<li>Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.</li>
+</ul>
 </div>
 <div id="core-metric" class="section level3">
 <h3 class="hasAnchor">
@@ -163,11 +172,7 @@
 <a class="sourceLine" id="cb5-13" data-line-number="13">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(core)</a></code></pre></div>
 <p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class.</p>
-<p>However, while we can proof that our method works as description of the core metric in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.</p>
-</div>
-<div id="gyrate-metric" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gyrate-metric" class="anchor"></a>GYRATE metric</h3>
+<p>However, while we can proof that our method works as description of the core metric in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated. a ### GYRATE metric</p>
 <p>From the FRAGSTATS (2015) manual:</p>
 <blockquote>
 <p>GYRATE = 0 when the patch consists of a single cell</p>
@@ -187,6 +192,18 @@
 <h3 class="hasAnchor">
 <a href="#para-metric" class="anchor"></a>PARA metric</h3>
 <p>There is a mixup between hectare and meter in documentation and code of FRAGSTATS. The program uses hectare, whereas the documentation states in the formula square meter.</p>
+<p>We implemented it with square meters, but the result is in principale correct:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># results from fragstats</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">fragstats_patch_landscape_para &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>PARA</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#calculate para metrics</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">landscapemetrics_patch_landscape_para &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get hectare </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">fragstats_patch_landscape_para <span class="op">%in%</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
+<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+## [15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
 </div>
 <div id="shape-metric" class="section level3">
 <h3 class="hasAnchor">
@@ -195,7 +212,7 @@
 
 <p>… and FRAGSTATS give as result for a patch with 5 cells and a perimeter of 12 the value of 1.200.</p>
 <p>However, implementing the same formula in R results in:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] 1.341641</code></pre>
 <!-- ## Class level -->
 <!-- ```{r, echo=FALSE} -->
@@ -299,6 +316,7 @@
 <!-- ``` -->
 </div>
 </div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -306,8 +324,12 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#known-issues">Known issues</a></li>
-      <li><a href="#patch-level">Patch level</a></li>
+<li><a href="#general">General</a></li>
+      <li>
+<a href="#specific-differences">Specific differences</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#differences-on-patch-level">Differences on patch level:</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
