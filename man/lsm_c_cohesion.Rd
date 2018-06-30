@@ -58,5 +58,6 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_p_perim}},
-\code{\link{lsm_p_area}}
+\code{\link{lsm_p_area}}, \cr
+\code{\link{lsm_l_cohesion}}
 }
