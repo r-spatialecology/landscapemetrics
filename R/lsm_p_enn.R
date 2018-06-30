@@ -104,7 +104,7 @@ lsm_p_enn_calc <- function(landscape) {
                 points_class <- patches_class %>%
                     raster::rasterToPoints() %>%
                     tibble::as.tibble() %>%
-                    setNames(c("x", "y", "id"))
+                    purrr::set_names(c("x", "y", "id"))
 
                 minimum_distance <- np_class %>%
                     seq_len() %>%

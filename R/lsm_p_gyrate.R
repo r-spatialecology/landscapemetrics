@@ -86,7 +86,7 @@ lsm_p_gyrate_calc <- function(landscape) {
             points_class <- patches_class %>%
                 raster::rasterToPoints() %>%
                 tibble::as.tibble() %>%
-                setNames(c("x", "y", "id"))
+                purrr::set_names(c("x", "y", "id"))
 
             points_class %>%
                 dplyr::pull(id) %>%
