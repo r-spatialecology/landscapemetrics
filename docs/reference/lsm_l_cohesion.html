@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GYRATE_SD (class level) — lsm_c_gyrate_sd • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>COHESION (landscape level) — lsm_l_cohesion • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="GYRATE_SD (class level) — lsm_c_gyrate_sd" />
+<meta property="og:title" content="COHESION (landscape level) — lsm_l_cohesion" />
 
-<meta property="og:description" content="Standard deviation radius of gyration (Area and edge metric)" />
+<meta property="og:description" content="Patch Cohesion Index (Aggregation metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,30 +126,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GYRATE_SD (class level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_gyrate_sd.R'><code>R/lsm_c_gyrate_sd.R</code></a></small>
-    <div class="hidden name"><code>lsm_c_gyrate_sd.Rd</code></div>
+    <h1>COHESION (landscape level)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_cohesion.R'><code>R/lsm_l_cohesion.R</code></a></small>
+    <div class="hidden name"><code>lsm_l_cohesion.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Standard deviation radius of gyration (Area and edge metric)</p>
+    <p>Patch Cohesion Index (Aggregation metric)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,21 +166,16 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$GYRATE_{SD} = sd(GYRATE[patch_{ij}])$$
-where \(GYRATE[patch_{ij}]\) equals the radius of gyration of each patch.</p>
-<p>GYRATE_SD is an 'Area and edge metric'. The metric summarises each class
-as the standard deviation of the radius of gyration of all patches
-belonging to class i. GYRATE measures the distance from each cell to the patch
-centroid and is based on cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness.</p>
+    <p>$$COHESION = 1 - (\frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} p_{ij}} {\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} p_{ij} \sqrt{a_{ij}}}) * (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100$$
+where \(p_{ij}\) is the perimeter in meters, \(a_{ij}\) is the area in square
+meters and \(Z\) is the number of cells.</p>
+<p>COHESION is an 'Aggregation metric'.</p>
 <h3>Units</h3>
-Meters
-<h3>Range</h3>
-GYRATE_SD &gt;= 0 
+Percent
+<h3>Ranges</h3>
+Unkown
 <h3>Behaviour</h3>
-Equals GYRATE_SD = 0 if the radius of gyration is identical
-for all patches. Increases, without limit, as the variation of the radius of gyration
-increases.
+Unkown
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -191,22 +186,16 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>lsm_p_gyrate</code>,
-<code>cv</code>, <br />
-<code>lsm_c_gyrate_mn</code>,
-<code>lsm_c_gyrate_cv</code>, <br />
-<code>lsm_l_gyrate_mn</code>,
-<code>lsm_l_gyrate_sd</code>,
-<code>lsm_l_gyrate_cv</code></p></div>
+    <div class='dont-index'><p><code>lsm_p_perim</code>,
+<code>lsm_p_area</code>, <br />
+<code>lsm_l_cohesion</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_gyrate_sd</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
-#&gt;   layer level class    id metric                  value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                   &lt;dbl&gt;
-#&gt; 1     1 class     1    NA radius of gyration (sd)  2.74
-#&gt; 2     1 class     2    NA radius of gyration (sd)  1.72
-#&gt; 3     1 class     3    NA radius of gyration (sd)  5.10</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_cohesion</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric               value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;                &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA patch cohesion index  95.4</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
