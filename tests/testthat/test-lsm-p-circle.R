@@ -1,7 +1,7 @@
 context("patch level circle metric")
 
 # fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE
-# landscapemetrics_patch_landscape_circle <- lsm_p_circle(landscape)
+landscapemetrics_patch_landscape_circle <- lsm_p_circle(landscape)
 #
 # test_that("lsm_p_circle results are equal to fragstats", {
 #     expect_true(all(fragstats_patch_landscape_circle %in%

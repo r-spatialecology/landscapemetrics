@@ -1,7 +1,7 @@
 context("patch level cai metric")
 
 # fragstats_patch_landscape_cai <- fragstats_patch_landscape$CAI
-# landscapemetrics_patch_landscape_cai <- lsm_p_cai(landscape)
+landscapemetrics_patch_landscape_cai <- lsm_p_cai(landscape)
 #
 # test_that("lsm_p_cai results are equal to fragstats", {
 #     expect_true(all(fragstats_patch_landscape_cai %in%

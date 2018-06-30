@@ -1,7 +1,7 @@
 context("patch level gyrate metric")
 
 # fragstats_patch_landscape_gyrate <- fragstats_patch_landscape$GYRATE
-# landscapemetrics_patch_landscape_gyrate <- lsm_p_gyrate(landscape)
+landscapemetrics_patch_landscape_gyrate <- lsm_p_gyrate(landscape)
 #
 # test_that("lsm_p_gyrate results are comparable to fragstats", {
 #     expect_true(all(fragstats_patch_landscape_gyrate %in%
