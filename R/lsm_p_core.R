@@ -95,7 +95,7 @@ lsm_p_core_calc <- function(landscape){
                                       is.na(patches_class)] <- NA
 
 
-                    core_cells <- freq(boundaries(patches_class, directions = 4),
+                    core_cells <- raster::freq(raster::boundaries(patches_class, directions = 4),
                                        value = 0)
 
                     class_name <- patches_class %>%
