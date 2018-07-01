@@ -156,12 +156,15 @@ navbar:
     - text: "Get Started"
       icon: fa fa-magic
       href: articles/getstarted.html
-    - text: "Differences FRAGSTATS|landscapemetrics"
-      icon: fa-band-aid
-      href: articles/articles/comparing_fragstats_landscapemetrics.html
-    - text: "Publication Record"
-      icon: fa-file-text-o
-      href: articles/articles/publication_record.html
+    - text: "Background"
+      icon: fa-graduation-cap
+      menu:
+       - text: "Differences FRAGSTATS|landscapemetrics"
+         icon: fa-drafting-compass
+         href: articles/articles/comparing_fragstats_landscapemetrics.html
+       - text: "Publication Record"
+         icon: fa-file-text-o
+         href: articles/articles/publication_record.html
   right:
     - icon: fa-newspaper-o
       text: "news"

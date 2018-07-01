@@ -95,7 +95,7 @@
       <h1>Get Started with landscapemetrics</h1>
                         <h4 class="author">Marco Sciaini, Maximilian Hesselbarth, Jakub Nowosad</h4>
             
-            <h4 class="date">2018-06-30</h4>
+            <h4 class="date">2018-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marcosci/landscapemetrics/blob/master/vignettes/getstarted.Rmd"><code>vignettes/getstarted.Rmd</code></a></small>
       <div class="hidden name"><code>getstarted.Rmd</code></div>
@@ -217,7 +217,7 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb2-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># Calculate all available landscape metrics </span></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12">landscape_raster <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw">lsm_p_perim</span>()</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_perim">lsm_p_perim</a></span>()</a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; # A tibble: 27 x 6</span></a>
 <a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;    layer level class    id metric    value</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;</span></a>
@@ -248,7 +248,7 @@ lsm_l_enn()</code></pre>
 <a href="#pipe-landscapes-into-the-functions" class="anchor"></a>Pipe landscapes into the functions</h3>
 <p>Every function in <em>landscapemetrics</em> accept data as its first argument, which makes piping a natural workflow:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">lsm_p_enn</span>()</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>()</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; # A tibble: 27 x 6</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    layer level class    id metric                                    value</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                     &lt;dbl&gt;</span></a>
@@ -270,9 +270,9 @@ lsm_l_enn()</code></pre>
 <p>As the result of every function always returns a tibble, combining the metrics that were selected for your research question is straightforward:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># bind results from different metric functions</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">patch_metrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw">lsm_p_cai</span>(landscape),</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">lsm_p_circle</span>(landscape),</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="kw">lsm_p_enn</span>(landscape)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_cai">lsm_p_cai</a></span>(landscape),</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_circle">lsm_p_circle</a></span>(landscape),</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>(landscape)</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">  )</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># look at the results</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">patch_metrics </a>
@@ -296,7 +296,7 @@ lsm_l_enn()</code></pre>
 <h2 class="hasAnchor">
 <a href="#connected-labelling" class="anchor"></a>Connected labelling</h2>
 <p><code>landscapemetrics</code> makes internally heavy use of an implementatian of the connected labelling algorithm by Thell Fowler (<a href="https://github.com/Thell/ccloutline" class="uri">https://github.com/Thell/ccloutline</a>) and exports an reimplementation of this algorithm:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cclabel_landscape &lt;-<span class="st"> </span>landscapemetrics<span class="op">::</span><span class="kw">cclabel</span>(landscape)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cclabel_landscape &lt;-<span class="st"> </span>landscapemetrics<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/cclabel">cclabel</a></span>(landscape)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_facetplot">util_facetplot</a></span>(cclabel_landscape, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="cclabel.png" style="width:100.0%"></p>
 </div>

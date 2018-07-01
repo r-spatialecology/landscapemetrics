@@ -94,7 +94,7 @@
     <div class="page-header toc-ignore">
       <h1>Comparing FRAGSTSTAS and landscapemetrics</h1>
             
-            <h4 class="date">2018-06-30</h4>
+            <h4 class="date">2018-07-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/marcosci/landscapemetrics/blob/master/vignettes/articles/comparing_fragstats_landscapemetrics.Rmd"><code>vignettes/articles/comparing_fragstats_landscapemetrics.Rmd</code></a></small>
       <div class="hidden name"><code>comparing_fragstats_landscapemetrics.Rmd</code></div>
@@ -112,6 +112,30 @@
 <ul>
 <li>That also effects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx)</li>
 </ul>
+</li>
+<li>Error in FRAGSTATS for every metric summarized with the coefficient of variation (<em>metric</em>_CV)
+<ul>
+<li>Example based on AREA metric:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># function to calculate coefficient of variation ((standard deviation divided by the mean) * 100)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">cv &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  (<span class="kw">sd</span>(x, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">mean</span>(x, <span class="dt">na.rm=</span><span class="ot">TRUE</span>))<span class="op">*</span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># 'true' results based an patch level results from fragstats</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">fragstats_patch_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">  </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">CV =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">  </span><span class="kw">pull</span>(CV) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span><span class="kw">sort</span>()</a></code></pre></div>
+<pre><code>## [1] 165.0134 187.7700 242.4570</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># actual results from fragstats on class level</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">sort</span>(fragstats_class_landscape<span class="op">$</span>AREA_CV)</a></code></pre></div>
+<pre><code>## [1] 159.0109 162.6136 228.5906</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># results from landscapemetrics</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">sort</span>(<span class="kw">lsm_c_area_cv</span>(landscape)<span class="op">$</span>value)</a></code></pre></div>
+<pre><code>## [1] 165.0134 187.7700 242.4570</code></pre>
 </li>
 </ul>
 </div>
@@ -136,11 +160,11 @@
 <p>CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (…)</p>
 </blockquote>
 <p>The smallest circle around a quadrat should not have the same area as the quadrat, which is the case in FRAGSTATS:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
 <pre><code>##  [1] 0.0001 0.0001 0.0001 0.0001 0.0001 0.0001 0.0002 0.0002 0.0002 0.0003
 ## [11] 0.0003 0.0003 0.0003 0.0003 0.0004 0.0005 0.0005 0.0007 0.0009 0.0010
 ## [21] 0.0014 0.0024 0.0035 0.0057 0.0098 0.0148 0.0457</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape_circle &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>CIRCLE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape_circle &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>CIRCLE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
 <pre><code>##  [1] 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3144 0.3634 0.4907 0.4907
 ## [11] 0.4907 0.5103 0.5225 0.5225 0.5416 0.5520 0.5544 0.5796 0.6180 0.6180
 ## [21] 0.6180 0.6255 0.6658 0.6817 0.6850 0.7783 0.8112</code></pre>
@@ -157,20 +181,20 @@
 <p>CORE equals the area (m2) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, […]</p>
 </blockquote>
 <p>This is a visual aid to help understand how we implemented the core metric:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># class 1</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># core area of every patch in class 1, 1 = Edge, 0 = Core</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">core &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/boundaries">boundaries</a></span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># the left plot is class 1 of our landscape, </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co"># the right plot show the core area of these patches (blueish color)</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(class_<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(core)</a></code></pre></div>
-<p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># class 1</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co"># core area of every patch in class 1, 1 = Edge, 0 = Core</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">core &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/boundaries">boundaries</a></span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># the left plot is class 1 of our landscape, </span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># the right plot show the core area of these patches (blueish color)</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(class_<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(core)</a></code></pre></div>
+<p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class.</p>
 <p>However, while we can proof that our method works as description of the core metric in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.</p>
 </div>
@@ -182,30 +206,35 @@
 <p>GYRATE = 0 when the patch consists of a single cell</p>
 </blockquote>
 <p>… however, FRAGSTATS returns values of 0.5 for patches with a single cell:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
 <pre><code>##  [1] 0.0001 0.0001 0.0001 0.0001 0.0001 0.0001 0.0002 0.0002 0.0002 0.0003
 ## [11] 0.0003 0.0003 0.0003 0.0003 0.0004 0.0005 0.0005 0.0007 0.0009 0.0010
 ## [21] 0.0014 0.0024 0.0035 0.0057 0.0098 0.0148 0.0457</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape<span class="op">$</span>GYRATE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape<span class="op">$</span>GYRATE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
 <pre><code>##  [1]  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000
 ##  [9]  0.6449  0.6449  0.6667  0.6667  0.6667  0.7071  0.7071  0.8493
 ## [17]  0.9779  0.9921  1.2400  1.2531  1.6339  2.4917  2.5116  3.1784
 ## [25]  6.2767  8.6143 11.2509</code></pre>
+</div>
+<div id="ncore-metric" class="section level3">
+<h3 class="hasAnchor">
+<a href="#ncore-metric" class="anchor"></a>NCORE metric</h3>
+<p>Metric based on <a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric">core metric</a>, which already shows a malfunction in FRAGSTATS. Therefore most likely just a error propagation starting there.</p>
 </div>
 <div id="para-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#para-metric" class="anchor"></a>PARA metric</h3>
 <p>There is a mixup between hectare and meter in documentation and code of FRAGSTATS. The program uses hectare, whereas the documentation states in the formula square meter.</p>
 <p>We implemented it with square meters, but the result is in principale correct:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># results from fragstats</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">fragstats_patch_landscape_para &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>PARA</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#calculate para metrics</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">landscapemetrics_patch_landscape_para &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get hectare </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">fragstats_patch_landscape_para <span class="op">%in%</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># results from fragstats</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">fragstats_patch_landscape_para &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>PARA</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#calculate para metrics</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">landscapemetrics_patch_landscape_para &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape)</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get hectare </span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">fragstats_patch_landscape_para <span class="op">%in%</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 ## [15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
 </div>
@@ -216,7 +245,7 @@
 
 <p>… and FRAGSTATS give as result for a patch with 5 cells and a perimeter of 12 the value of 1.200.</p>
 <p>However, implementing the same formula in R results in:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] 1.341641</code></pre>
 <!-- ## Class level -->
 <!-- ```{r, echo=FALSE} -->

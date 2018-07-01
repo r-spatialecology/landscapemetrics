@@ -28,6 +28,28 @@ both of the tools:
 - FRAGSTATS rounds after the 4th decimal place
    - That also effects the resolution, if your raster has a resolution with more 
      than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx) 
+- Error in FRAGSTATS for every metric summarized with the coefficient of variation (*metric*_CV)     
+  - Example based on AREA metric:   
+  ```{r}
+  # function to calculate coefficient of variation ((standard deviation divided by the mean) * 100)
+  cv <- function(x){
+    (sd(x, na.rm=TRUE)/ 
+    mean(x, na.rm=TRUE))*100
+  }
+  
+  # 'true' results based an patch level results from fragstats
+  fragstats_patch_landscape %>% 
+    group_by(TYPE) %>% 
+    summarise(CV = cv(AREA)) %>% 
+    pull(CV) %>% 
+    sort()
+  
+  # actual results from fragstats on class level
+  sort(fragstats_class_landscape$AREA_CV)
+  
+  # results from landscapemetrics
+  sort(lsm_c_area_cv(landscape)$value)
+  ```
 
 # Specific differences
 
@@ -107,6 +129,12 @@ From the FRAGSTATS (2015) manual:
 sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
 sort(fragstats_patch_landscape$GYRATE) # fragstats results for the gyrate metric in the landscape raster
 ```
+
+### NCORE metric
+
+Metric based on [core metric](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric),
+which already shows a malfunction in FRAGSTATS. Therefore most likely just
+a error propagation starting there. 
 
 ### PARA metric
 There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
