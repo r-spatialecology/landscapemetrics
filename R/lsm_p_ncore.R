@@ -94,26 +94,15 @@ lsm_p_ncore_calc <- function(landscape){
                 sort() %>%
                 purrr::map_dfr(function(patch_id) {
                     patches_class[patches_class != patch_id |
-                                        is.na(patches_class)] <- -999
-                    core_cells <- raster::Which(patches_class == patch_id, cells = T) %>%
-                        purrr::map_dbl(function(cell_id) {
-                        adjacent_cells <- raster::adjacent(patches_class,
-                                                           cells = cell_id,
-                                                           directions = 4,
-                                                           pairs = FALSE)
-                        ifelse(all(patches_class[adjacent_cells] == patch_id), cell_id, NA)
-                        }) %>%
-                        na.omit()
+                                        is.na(patches_class)] <- NA
 
-                    if(length(core_cells) != 0){
-                        patches_class[!1:ncell(patches_class) %in% core_cells] <- NA
+                    core_areas <- raster::boundaries(patches_class, directions = 4)
 
-                        core_patch_n <- patches_class %>%
-                            lsm_l_np() %>%
-                            dplyr::pull(value)
-                    }
-                    else{
-                        core_patch_n <- 0
+                    if(raster::minValue(core_areas) == 1){
+                        n_core_areas <- 0
+                    } else{
+                        core_areas[core_areas == 1] <- NA
+                        n_core_areas <- raster::cellStats(cclabel(core_areas)[[1]], max)
                     }
 
                     class_name <- patches_class %>%
@@ -122,7 +111,7 @@ lsm_p_ncore_calc <- function(landscape){
 
                     tibble::tibble(
                         class = class_name,
-                        value = core_patch_n
+                        value = n_core_areas
                     )
                 })
         })

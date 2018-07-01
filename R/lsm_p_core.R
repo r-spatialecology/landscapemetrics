@@ -31,7 +31,7 @@
 #' \code{\link{lsm_l_tca}}
 #'
 #' @return tibble
-#'
+#'c
 #' @importFrom stats na.omit
 #'
 #' @examples
@@ -74,7 +74,7 @@ lsm_p_core.RasterBrick <- function(landscape) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape) {
+lsm_p_core.list <- function(landscape) {c
     purrr::map_dfr(landscape, lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -91,9 +91,9 @@ lsm_p_core_calc <- function(landscape){
                 unique() %>%
                 sort() %>%
                 purrr::map_dfr(function(patch_id) {
+
                     patches_class[patches_class != patch_id |
                                       is.na(patches_class)] <- NA
-
 
                     core_cells <- raster::freq(raster::boundaries(patches_class, directions = 4),
                                        value = 0)
