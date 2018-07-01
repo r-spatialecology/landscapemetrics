@@ -1,9 +1,9 @@
 ---
-title: "Comparing FRAGSTSTAS and landscapemetrics"
+title: "Differences FRAGSTATS|landscapemetrics"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Comparing FRAGSTSTAS and landscapemetrics}
+  %\VignetteIndexEntry{Differences FRAGSTATS|landscapemetrics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -40,6 +40,23 @@ There are a few important differences between **FRAGSTATS** and **landscapemetri
   
   # results from landscapemetrics
   sort(lsm_c_area_cv(landscape)$value)
+  ``` 
+- Error in FRAGSTATS for every metric summarized with the standard deviation (*metric*_SD)     
+  - Example based on AREA metric:   
+  ```{r}
+  # 'true' results based an patch level results from fragstats
+  fragstats_patch_landscape %>% 
+      group_by(TYPE) %>% 
+      summarise(CV = sd(AREA)) %>% 
+      pull(CV) %>% 
+      sort() %>% 
+      round(.,4)
+  
+  # actual results from fragstats on class level
+  sort(fragstats_class_landscape$AREA_SD)
+  
+  # results from landscapemetrics
+  round(sort(lsm_c_area_sd(landscape)$value),4)
   ```
 
 # Specific differences
