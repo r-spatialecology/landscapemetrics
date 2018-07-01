@@ -248,16 +248,6 @@
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 ## [15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-</div>
-<div id="shape-metric" class="section level3">
-<h3 class="hasAnchor">
-<a href="#shape-metric" class="anchor"></a>SHAPE metric</h3>
-<p>The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:</p>
-<p><span class="math display">\[\frac{(0.25 \times PERIM)}{\sqrt{AREA}}\]</span></p>
-<p>… and FRAGSTATS returns the value of 1.200 for a patch with 5 cells and a perimeter of 12.</p>
-<p>However, implementing the same formula in R results in:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
-<pre><code>## [1] 1.341641</code></pre>
 <!-- ## Class level -->
 <!-- ```{r, echo=FALSE} -->
 <!-- fs_class = data.frame( -->

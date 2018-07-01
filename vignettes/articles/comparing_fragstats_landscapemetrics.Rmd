@@ -141,21 +141,6 @@ fragstats_patch_landscape_para %in%
                         round((landscapemetrics_patch_landscape_para$value * 10000), 4)
 ```
 
-### SHAPE metric
-
-The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:
-
-$$\frac{(0.25 \times PERIM)}{\sqrt{AREA}}$$
-
-... and FRAGSTATS returns the value of 1.200 for a patch with 5 cells and a perimeter of 12.
-
-However, implementing the same formula in R results in:
-
-```{r}
-(0.25 * 12) / sqrt(5)
-```
-
-
 <!-- ## Class level -->
 
 <!-- ```{r, echo=FALSE} -->
