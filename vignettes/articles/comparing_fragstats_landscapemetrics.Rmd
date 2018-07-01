@@ -17,17 +17,12 @@ library(dplyr)
 library(DT)
 ```
 
-
-
 # General
 
-There are a few important differences between **FRAGSTATS** and **landscapemetrics**
-that you should be aware of, if you either compare results between the two or use
-both of the tools:
+There are a few important differences between **FRAGSTATS** and **landscapemetrics** that you should be aware of if you compare results between the two or use both of the tools:
 
 - FRAGSTATS rounds after the 4th decimal place
-   - That also effects the resolution, if your raster has a resolution with more 
-     than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx) 
+  - That also affects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx) 
 - Error in FRAGSTATS for every metric summarized with the coefficient of variation (*metric*_CV)     
   - Example based on AREA metric:   
   ```{r}
@@ -53,35 +48,33 @@ both of the tools:
 
 # Specific differences
 
-We thoroughly compared each our implemented landscape metrics against the results
-from FRAGSTATS and will give you here a list with why we think there are differences
-in the results.
+We thoroughly compared each of our implemented landscape metrics against the results from FRAGSTATS and will give you here a list with why we think the differences in the results exist.
 
-**FRAGSTATS** is unfortunately not an open-source project, so we can't definetly say
-some of the metrics have bugs, but we try to show on small examples why we think
-there could be some of them.
+**FRAGSTATS** is unfortunately not an open-source project, so we can't definitely say that some of the metrics have bugs.
+However, we try to explain our thinking based on several small examples.
 
-## Differences on patch level:
+## Differences on the patch level:
 
 ### CAI metric
 
 Metric based on [core metric](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric),
-which already shows a malfunction in FRAGSTATS. Therefore most likely just
-a error propagation starting there. 
+which already shows a malfunction in FRAGSTATS.
+<!-- what does it mean? -->
+Therefore most likely just an error propagation starting there. 
 
 ### CIRCLE metric
 
-Patches with 1 cell get a CIRCLE metric of 0, however the definition of the metric is:
-	
-> CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (...)
+Patches with 1 cell get a CIRCLE metric of 0, however, the definition of this metric is:
+    
+> CIRCLE equals 1 minus patch area (m^2^) divided by the area (m^2^) of the smallest circumscribing circle. (...)
 
-The smallest circle around a quadrat should not have the same area as the quadrat,
-which is the case in FRAGSTATS:
+The smallest circle around a quadrat should not have the same area as the quadrat, which is the case in FRAGSTATS:
 
 ```{r}
 sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
 sort(fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE) # fragstats results for the gyrate metric in the landscape raster
 ```
+
 Further points:
 
 * Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.
@@ -90,8 +83,7 @@ Further points:
 
 The core metric is defined as:
 
-> CORE equals the area (m2) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, [...]
-
+> CORE equals the area (m^2^) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, [...]
 
 This is a visual aid to help understand how we implemented the core metric:
 
@@ -111,11 +103,9 @@ landscapetools::util_plot(class_1) +
 landscapetools::util_plot(core)
 ```
 
-We look at each patch of every class and count the cells that have 4 neighbors
-with the value of the specific class.
+We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class.
 
-However, while we can proof that our method works as description of the core metric
-in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.
+However, while we can prove that our method works as described in the FRAGSTATS manual, the results of the FRAGSTATS software itself cannot be replicated.
 
 ### GYRATE metric
 
@@ -137,8 +127,9 @@ which already shows a malfunction in FRAGSTATS. Therefore most likely just
 a error propagation starting there. 
 
 ### PARA metric
+
 There is a mixup between hectare and meter in documentation and code of FRAGSTATS.
-The program uses hectare, whereas the documentation states in the formula square meter.
+The program uses hectare, whereas the documentation uses square meter in the formula.
 
 We implemented it with square meters, but the result is in principale correct:
 
@@ -149,18 +140,18 @@ fragstats_patch_landscape_para <- fragstats_patch_landscape$PARA
 #calculate para metrics
 landscapemetrics_patch_landscape_para <- lsm_p_para(landscape)
 
-# compare and multiply by 10000 to get hectare 
+# compare and multiply by 10000 to get a hectare 
 fragstats_patch_landscape_para %in%
                         round((landscapemetrics_patch_landscape_para$value * 10000), 4)
 ```
 
 ### SHAPE metric
+
 The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:
 
-\deqn{(0.25 * PERIM) / sqrt(AREA)}
+$$\frac{(0.25 \times PERIM)}{\sqrt{AREA}}$$
 
-... and FRAGSTATS give as result for a patch with 5 cells and a perimeter of 12 
-the value of 1.200.
+... and FRAGSTATS returns the value of 1.200 for a patch with 5 cells and a perimeter of 12.
 
 However, implementing the same formula in R results in:
 

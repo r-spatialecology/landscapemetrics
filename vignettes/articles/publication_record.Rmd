@@ -4,6 +4,6 @@ output:
     html_preview: false
 ---
 
-We try to maintain a list here of publications that have used the `landscapemetrics` package.
-If you have used `nlmr` in your own work, we would love to hear from you.
+We try to maintain a list of publications that have used the `landscapemetrics` package.
+If you have used `landscapemetrics` in your own work, we would love to hear from you.
 Please [file an issue on GitHub](https://github.com/marcosci/landscapemetrics/issues/new/) so we can add your work to this list.

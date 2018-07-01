@@ -31,7 +31,7 @@
 #' \code{\link{lsm_l_tca}}
 #'
 #' @return tibble
-#'c
+#'
 #' @importFrom stats na.omit
 #'
 #' @examples
@@ -74,10 +74,9 @@ lsm_p_core.RasterBrick <- function(landscape) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape) {c
+lsm_p_core.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-
 }
 
 lsm_p_core_calc <- function(landscape){
