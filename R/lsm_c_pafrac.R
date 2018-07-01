@@ -86,7 +86,7 @@ lsm_c_pafrac_calc <- function(landscape){
 
     pafrac_class <- np_class %>%
         nrow() %>%
-        seq_len() %>%
+        seq_len(.) %>%
         purrr::map_dfr(function(class_current) {
 
             class_name <- as.integer(np_class[class_current, "class"])

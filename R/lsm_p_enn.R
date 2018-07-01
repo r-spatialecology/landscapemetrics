@@ -107,7 +107,7 @@ lsm_p_enn_calc <- function(landscape) {
                     purrr::set_names(c("x", "y", "id"))
 
                 minimum_distance <- np_class %>%
-                    seq_len() %>%
+                    seq_len(.) %>%
                     purrr::map_dbl(function(patch_ij){
                         patch_focal <- points_class %>%
                             dplyr::filter(id == patch_ij)
