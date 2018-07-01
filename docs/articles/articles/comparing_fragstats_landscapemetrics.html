@@ -43,19 +43,30 @@
     Get Started
   </a>
 </li>
-<li>
-  <a href="../../articles/articles/comparing_fragstats_landscapemetrics.html">
-    <span class="fa fa-band-aid"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-graduation-cap"></span>
      
-    Differences FRAGSTATS|landscapemetrics
-  </a>
-</li>
-<li>
-  <a href="../../articles/articles/publication_record.html">
-    <span class="fa fa-file-text-o"></span>
+    Background
      
-    Publication Record
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../../articles/articles/comparing_fragstats_landscapemetrics.html">
+        <span class="fa fa-edit"></span>
+         
+        Differences FRAGSTATS|landscapemetrics
+      </a>
+    </li>
+    <li>
+      <a href="../../articles/articles/publication_record.html">
+        <span class="fa fa-file-text-o"></span>
+         
+        Publication Record
+      </a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -106,11 +117,11 @@
 <div id="general" class="section level1">
 <h1 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h1>
-<p>There are a few important differences between <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong> that you should be aware of, if you either compare results between the two or use both of the tools:</p>
+<p>There are a few important differences between <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong> that you should be aware of if you compare results between the two or use both of the tools:</p>
 <ul>
 <li>FRAGSTATS rounds after the 4th decimal place
 <ul>
-<li>That also effects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx)</li>
+<li>That also affects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx)</li>
 </ul>
 </li>
 <li>Error in FRAGSTATS for every metric summarized with the coefficient of variation (<em>metric</em>_CV)
@@ -142,22 +153,22 @@
 <div id="specific-differences" class="section level1">
 <h1 class="hasAnchor">
 <a href="#specific-differences" class="anchor"></a>Specific differences</h1>
-<p>We thoroughly compared each our implemented landscape metrics against the results from FRAGSTATS and will give you here a list with why we think there are differences in the results.</p>
-<p><strong>FRAGSTATS</strong> is unfortunately not an open-source project, so we can’t definetly say some of the metrics have bugs, but we try to show on small examples why we think there could be some of them.</p>
-<div id="differences-on-patch-level" class="section level2">
+<p>We thoroughly compared each of our implemented landscape metrics against the results from FRAGSTATS and will give you here a list with why we think the differences in the results exist.</p>
+<p><strong>FRAGSTATS</strong> is unfortunately not an open-source project, so we can’t definitely say that some of the metrics have bugs. However, we try to explain our thinking based on several small examples.</p>
+<div id="differences-on-the-patch-level" class="section level2">
 <h2 class="hasAnchor">
-<a href="#differences-on-patch-level" class="anchor"></a>Differences on patch level:</h2>
+<a href="#differences-on-the-patch-level" class="anchor"></a>Differences on the patch level:</h2>
 <div id="cai-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cai-metric" class="anchor"></a>CAI metric</h3>
-<p>Metric based on <a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric">core metric</a>, which already shows a malfunction in FRAGSTATS. Therefore most likely just a error propagation starting there.</p>
+<p>Metric based on <a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric">core metric</a>, which already shows a malfunction in FRAGSTATS. <!-- what does it mean? --> Therefore most likely just an error propagation starting there.</p>
 </div>
 <div id="circle-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#circle-metric" class="anchor"></a>CIRCLE metric</h3>
-<p>Patches with 1 cell get a CIRCLE metric of 0, however the definition of the metric is:</p>
+<p>Patches with 1 cell get a CIRCLE metric of 0, however, the definition of this metric is:</p>
 <blockquote>
-<p>CIRCLE equals 1 minus patch area (m2) divided by the area (m2) of the smallest circumscribing circle. (…)</p>
+<p>CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. (…)</p>
 </blockquote>
 <p>The smallest circle around a quadrat should not have the same area as the quadrat, which is the case in FRAGSTATS:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
@@ -178,7 +189,7 @@
 <a href="#core-metric" class="anchor"></a>CORE metric</h3>
 <p>The core metric is defined as:</p>
 <blockquote>
-<p>CORE equals the area (m2) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, […]</p>
+<p>CORE equals the area (m<sup>2</sup>) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, […]</p>
 </blockquote>
 <p>This is a visual aid to help understand how we implemented the core metric:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
@@ -196,7 +207,7 @@
 <a class="sourceLine" id="cb11-13" data-line-number="13">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(core)</a></code></pre></div>
 <p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class.</p>
-<p>However, while we can proof that our method works as description of the core metric in the FRAGSTATS manual the results of the FRAGSTATS software itself can not be replicated.</p>
+<p>However, while we can prove that our method works as described in the FRAGSTATS manual, the results of the FRAGSTATS software itself cannot be replicated.</p>
 </div>
 <div id="gyrate-metric" class="section level3">
 <h3 class="hasAnchor">
@@ -224,7 +235,7 @@
 <div id="para-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#para-metric" class="anchor"></a>PARA metric</h3>
-<p>There is a mixup between hectare and meter in documentation and code of FRAGSTATS. The program uses hectare, whereas the documentation states in the formula square meter.</p>
+<p>There is a mixup between hectare and meter in documentation and code of FRAGSTATS. The program uses hectare, whereas the documentation uses square meter in the formula.</p>
 <p>We implemented it with square meters, but the result is in principale correct:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># results from fragstats</span></a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">fragstats_patch_landscape_para &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>PARA</a>
@@ -232,7 +243,7 @@
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#calculate para metrics</span></a>
 <a class="sourceLine" id="cb16-5" data-line-number="5">landscapemetrics_patch_landscape_para &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape)</a>
 <a class="sourceLine" id="cb16-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get hectare </span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get a hectare </span></a>
 <a class="sourceLine" id="cb16-8" data-line-number="8">fragstats_patch_landscape_para <span class="op">%in%</span></a>
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
@@ -242,8 +253,8 @@
 <h3 class="hasAnchor">
 <a href="#shape-metric" class="anchor"></a>SHAPE metric</h3>
 <p>The documentation of FRAGSTATS formulates the SHAPE metric on patch level as:</p>
-
-<p>… and FRAGSTATS give as result for a patch with 5 cells and a perimeter of 12 the value of 1.200.</p>
+<p><span class="math display">\[\frac{(0.25 \times PERIM)}{\sqrt{AREA}}\]</span></p>
+<p>… and FRAGSTATS returns the value of 1.200 for a patch with 5 cells and a perimeter of 12.</p>
 <p>However, implementing the same formula in R results in:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">5</span>)</a></code></pre></div>
 <pre><code>## [1] 1.341641</code></pre>
@@ -360,7 +371,7 @@
 <li><a href="#general">General</a></li>
       <li>
 <a href="#specific-differences">Specific differences</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#differences-on-patch-level">Differences on patch level:</a></li>
+<li><a href="#differences-on-the-patch-level">Differences on the patch level:</a></li>
       </ul>
 </li>
       </ul>

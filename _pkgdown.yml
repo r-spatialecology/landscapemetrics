@@ -68,7 +68,7 @@ reference:
     - lsm_c_enn_mn
     - lsm_c_enn_sd
     - lsm_c_frac_cv
-    - lsm_c_frac_mnAuxiliary functions
+    - lsm_c_frac_mn
     - lsm_c_frac_sd
     - lsm_c_gyrate_cv
     - lsm_c_gyrate_mn
@@ -102,6 +102,7 @@ reference:
     - lsm_l_circle_cv
     - lsm_l_circle_mn
     - lsm_l_circle_sd
+    - lsm_l_cohesion
     - lsm_l_core_cv
     - lsm_l_core_mn
     - lsm_l_core_sd
@@ -160,7 +161,7 @@ navbar:
       icon: fa-graduation-cap
       menu:
        - text: "Differences FRAGSTATS|landscapemetrics"
-         icon: fa-drafting-compass
+         icon: fa-edit
          href: articles/articles/comparing_fragstats_landscapemetrics.html
        - text: "Publication Record"
          icon: fa-file-text-o
