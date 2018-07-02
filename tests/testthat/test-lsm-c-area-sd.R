@@ -1,6 +1,11 @@
 context("class level area_sd metric")
 
-fragstats_class_landscape_area_sd <- fragstats_class_landscape$AREA_SD
+fragstats_class_landscape_area_sd <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = sd(AREA)) %>%
+    pull(metric) %>%
+    round(.,4)
+
 landscapemetrics_class_landscape_area_sd <- lsm_c_area_sd(landscape)
 
 test_that("lsm_c_area_sd results are equal to fragstats", {
