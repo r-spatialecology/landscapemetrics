@@ -167,6 +167,9 @@ navbar:
     - text: "Background"
       icon: fa-graduation-cap
       menu:
+       - text: "General background"
+         icon: fa-book
+         href: articles/articles/general-background.html
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
          href: articles/articles/comparing_fragstats_landscapemetrics.html

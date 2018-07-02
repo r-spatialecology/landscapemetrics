@@ -1,0 +1,81 @@
+---
+title: "General background"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    html_preview: false
+vignette: >
+  %\VignetteIndexEntry{General background}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+Ecology and landscape ecology mainly studies interactions between organisms and their environment.
+In a wider sense, the environment perceived by the organism can be defined as a landscape.
+This can spread from huge areas for e.g. mobile, large-bodied mammals to much smaller areas for e.g. immobile insects and always depends on the research question.
+
+Landscape metrics are tools to characterize a landscape.
+This includes mainly describing the composition and configuration of a landscape.
+While the composition basically describes how much of the landscape is occupied by a certain land cover type, the configuration mainly describes the spatial arrangement of the landcover types.
+The basic idea of landscape metrics is to condense as much information as possible into single number.
+
+The **landscapemetrics** package supports `raster` spatial objects. 
+A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells.
+Consequently, the cells are the smallest "resolution of information".
+Because **landscapemetrics** deals with categorical data, each cell has to be assigned to a discrete class. 
+These classes must be positive integer numbers. 
+
+## Levels of landscape metrics
+
+**Landscape metrics** can be calculated for three different levels (or "scales").
+Each level contains information about different aspects of the landscape.
+Level of interest depends largely on the research question.
+Often, even a combination of several levels can be useful.
+Similar, also the decision of which metric to use depends on the research question asked.   
+
+**A patch** is defined as neighboring cells belonging to the same class `i`.
+Hereby, **landscapemetrics** uses the 8-neighbors rule (Queen's case) to identify patches.
+Patch level metrics are calculated for every patch in the landscape, regardless of the class that the patch belongs to.
+The output will match the number of patches present in the landscape.
+These metrics are also often the basis for metrics of the other two levels.
+
+**Class level metrics** summaries all patches belonging to one class `i`. 
+These metrics can be either the "distribution" of patch level metrics of all patches of class `i` (e.g. the mean) or consider only patches of class `i` for the calculations of the metric.
+Regardless of the mathematical background, the output will always match the number of classes present. 
+Class level metrics are suitable to describe the composition and configuration of the landscape.
+
+**Landscape level metrics** summaries the whole landscape into one value.
+This can either be done by summarising metrics of lower levels or calculating a metric including all patches and classes.
+Following, the output will always be just one number. 
+Landscape level metrics are suitable for condensing information about the landscape into just one value.
+
+## Classes of landscape metrics
+
+There are five different classes of landscape metrics implemented in **landscapemetrics**:
+
+1. **Area and edge metrics** describe the size of patches and classes and the amount of edge.
+An edge is defined as the border between two patches of class `i` and `k` in meters. 
+These metrics mainly characterize the composition of the landscape and are able to show dominance or rareness of classes.
+2. **Shape metrics** describe the shape of patches, mainly by using its area and perimeter.
+This can be important for many research questions, because e.g. even though, being equal in size, long and narrow patches has probably different characteristics than a squared patch of the same size.
+3. **Core metrics** describe the area of patches that are not an edge. 
+These metrics can be interesting for research questions in which e.g. only areas that are not influenced by neighboring patches of a different class are of interest.
+4. **Aggregation metrics** describe if patches (of the same class) are rather clumped (aggregated) or tend to be isolated.
+Following, these metrics describe mainly the spatial configuration of the landscape.
+5. **Diversity metrics** are only available on the landscape level.
+They describe the abundance and dominance/rareness of classes.
+Thereby, they show the diversity of present classes.
+
+### References 
+
+McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: http://www.umass.edu/landeco/research/fragstats/fragstats.html
