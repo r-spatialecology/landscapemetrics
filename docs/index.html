@@ -123,9 +123,10 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman &amp; Ene, 2012) but also allows for implementation of future (meaningful) categorical landscape metrics.</p>
-<p>This package supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments.</p>
-<p>Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.</p>
+<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. This package supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.</p>
+<p>There are already software packages available to calculate landscape metrics, the most famous one probably being the stand-alone software FRAGSTATS (McGarigal <em>et al.</em> 2012). But also add-ons to GIS software, e.g. r.le (Baker &amp; Cai 1992) for GRASS GIS. Lastly, also a R package, namely SDMTools (VanDerWal <em>et al.</em> 2014), can be used.</p>
+<p>Nevertheless, we decided to reimplement most of the metrics available in <a href="https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html">FRAGSTATS</a>. We wanted to provide a comprehensive collection of landscape metrics in R. While FRAGSTATS is a extensive collection it is only available for Windows. Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html">Differences FRAGSTATS|landscapemetrics</a>). Further, SDMTools as R package does only contain a subset of metrics does not cover all levels (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html">General background</a>). Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see <a href="CONTRIBUTING.html">CONTRIBUTING</a>).</p>
+<p>Those were the main reasons we implemented <strong>landscapemetrics</strong>, however, we want to fully appreciate and acknowledge the already present software.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -231,7 +232,15 @@ landscape <span class="op">%&gt;%</span><span class="st"> </span>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>Bug reports, suggestions for new metrics, and especially code contributions are welcome. Please see <a href="https://github.com/marcosci/landscapemetrics/blob/master/CONTRIBUTING.html">CONTRIBUTING.md</a>. Maintainers and contributors must follow this repository’s <a href="CODE_OF_CONDUCT.html">code of conduct</a>.</p>
+<p>One of the major motivations behind <strong>landscapemetrics</strong> is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics. Therefore, in case you want to suggest new metrics and in the best case even contribute code, we warmly welcome to do so! For more information see <a href="CONTRIBUTING.html">CONTRIBUTING</a>.</p>
+<p>Maintainers and contributors must follow this repository’s <a href="CODE_OF_CONDUCT.html">CODE OF CONDUCT</a>.</p>
+<div id="references" class="section level3">
+<h3 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h3>
+<p>Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.</p>
+<p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
+<p>VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014. SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="uri">https://CRAN.R-project.org/package=SDMTools</a></p>
+</div>
 </div>
 </div>
   </div>

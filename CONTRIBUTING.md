@@ -2,7 +2,7 @@
 
 ### Please contribute!
 
-We love collaboration.
+We love collaboration. In fact, this was one of the main ideas to start the work on this package. This includes suggestions or even implementations of new landscape metrics. Of course, you are also welcome to suggest general improvements to the package structure or to whatsoever. We appreciate any contribution and collaboration.
 
 ### Bugs?
 

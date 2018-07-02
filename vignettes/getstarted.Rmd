@@ -1,6 +1,5 @@
 ---
 title: "Get Started with landscapemetrics"
-author: "Marco Sciaini, Maximilian Hesselbarth, Jakub Nowosad"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -21,14 +20,6 @@ knitr::opts_chunk$set(
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
 ```
-
-# Other Software
-
-All metrics are based on the stand-alone software FRAGSTATS (for more information see [here](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html)).
-However, FRAGSTATS is only available on Windows.
-Moreover, even though the software is quite extensive and computational fast, we wanted to implement most of the metrics in R because it is probably the most used data analyzing tool in ecology. 
-Another package containing at least a few landscape metrics is `SDMTools`, however, there are no landscape level metrics and also not all of the possible metrics on patch and class level can be found.
-Those were the main reasons we implemented **landscapemetrics**, however, we want to fully appreciate and acknowledgment the already present software.
 
 # Using **landscapemetrics**
 

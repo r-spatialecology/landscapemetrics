@@ -1,6 +1,5 @@
 ---
 title: "General background"
-author: "Marco Sciaini, Maximilian Hesselbarth, Jakub Nowosad"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -50,12 +49,12 @@ Patch level metrics are calculated for every patch in the landscape, regardless 
 The output will match the number of patches present in the landscape.
 These metrics are also often the basis for metrics of the other two levels.
 
-**Class level metrics** summarise all patches belonging to one class `i`. 
+**Class level metrics** summaries all patches belonging to one class `i`. 
 These metrics can be either the "distribution" of patch level metrics of all patches of class `i` (e.g. the mean) or consider only patches of class `i` for the calculations of the metric.
 Regardless of the mathematical background, the output will always match the number of classes present. 
 Class level metrics are suitable to describe the composition and configuration of the landscape.
 
-**Landscape level metrics** summarise the whole landscape into one value.
+**Landscape level metrics** summaries the whole landscape into one value.
 This can either be done by summarising metrics of lower levels or calculating a metric including all patches and classes.
 Following, the output will always be just one number. 
 Landscape level metrics are suitable for condensing information about the landscape into just one value.

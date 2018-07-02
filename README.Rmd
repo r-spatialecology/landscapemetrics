@@ -24,13 +24,13 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**landscapemetrics** is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. 
-It offers most of the metrics that are available in the standalone software FRAGSTATS (McGarigal, SA Cushman & Ene, 2012) but also allows for implementation of
-future (meaningful) categorical landscape metrics.
+**landscapemetrics** is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. This package supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.
 
-This package supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments.
+There are already software packages available to calculate landscape metrics, the most famous one probably being the stand-alone software FRAGSTATS (McGarigal *et al.* 2012). But also add-ons to GIS software, e.g. r.le (Baker & Cai 1992) for GRASS GIS. Lastly, also a R package, namely SDMTools (VanDerWal *et al.* 2014), can be used.
 
-Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.
+Nevertheless, we decided to reimplement most of the metrics available in [FRAGSTATS](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html). We wanted to provide a comprehensive collection of landscape metrics in R. While FRAGSTATS is a extensive collection it is only available for Windows. Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences ([Differences FRAGSTATS|landscapemetrics](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)). Further, SDMTools as R package does only contain a subset of metrics does not cover all levels ([General background](https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html)). Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see [CONTRIBUTING](CONTRIBUTING.md)).
+
+Those were the main reasons we implemented **landscapemetrics**, however, we want to fully appreciate and acknowledge the already present software.
 
 ## Installation
 
@@ -92,5 +92,15 @@ landscape %>%
 
 ##  Contributing 
 
-Bug reports, suggestions for new metrics, and especially code contributions are welcome. Please see [CONTRIBUTING.md](https://github.com/marcosci/landscapemetrics/blob/master/CONTRIBUTING.md). 
-Maintainers and contributors must follow this repository's [code of conduct](CODE_OF_CONDUCT.md).
+One of the major motivations behind **landscapemetrics** is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics. Therefore, in case you want to suggest new metrics and in the best case even contribute code, we warmly welcome to do so! For more information see [CONTRIBUTING](CONTRIBUTING.md). 
+
+Maintainers and contributors must follow this repository's [CODE OF CONDUCT](CODE_OF_CONDUCT.md).
+
+### References
+
+Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.
+
+McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014. SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. https://CRAN.R-project.org/package=SDMTools
+
