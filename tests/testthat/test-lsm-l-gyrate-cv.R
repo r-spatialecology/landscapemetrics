@@ -1,12 +1,12 @@
 context("landscape level gyrate_cv metric")
 
-fragstats_landscape_landscape_gyrate_cv <- fragstats_landscape_landscape$GYRATE_SD
+# fragstats_landscape_landscape_gyrate_cv <- fragstats_landscape_landscape$GYRATE_SD
 landscapemetrics_landscape_landscape_gyrate_cv <- lsm_l_gyrate_cv(landscape)
 
-test_that("lsm_l_gyrate_cv results are equal to fragstats", {
-    expect_true(all(fragstats_landscape_landscape_gyrate_cv %in%
-                        round(landscapemetrics_landscape_landscape_gyrate_cv$value, 4)))
-})
+# test_that("lsm_l_gyrate_cv results are equal to fragstats", {
+    # expect_true(all(fragstats_landscape_landscape_gyrate_cv %in%
+                        # round(landscapemetrics_landscape_landscape_gyrate_cv$value, 4)))
+# })
 
 test_that("lsm_l_gyrate_cv is typestable", {
     expect_is(landscapemetrics_landscape_landscape_gyrate_cv, "tbl_df")
