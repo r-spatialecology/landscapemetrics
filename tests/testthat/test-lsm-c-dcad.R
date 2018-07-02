@@ -1,12 +1,12 @@
 context("class level dcad metric")
 
-fragstats_class_landscape_dcad <- fragstats_class_landscape$DCAD
+# fragstats_class_landscape_dcad <- fragstats_class_landscape$DCAD
 landscapemetrics_class_landscape_dcad <- lsm_c_dcad(landscape)
-
-test_that("lsm_c_dcad results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_dcad %in%
-                        round(landscapemetrics_class_landscape_dcad$value, 4)))
-})
+#
+# test_that("lsm_c_dcad results are equal to fragstats", {
+#     expect_true(all(fragstats_class_landscape_dcad %in%
+#                         round(landscapemetrics_class_landscape_dcad$value, 4)))
+# })
 
 test_that("lsm_c_dcad is typestable", {
     expect_is(landscapemetrics_class_landscape_dcad, "tbl_df")

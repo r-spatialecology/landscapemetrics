@@ -1,12 +1,12 @@
 context("class level dcore_cv metric")
 
-fragstats_class_landscape_dcore_cv <- fragstats_class_landscape$DCORE_CV
+# fragstats_class_landscape_dcore_cv <- fragstats_class_landscape$DCORE_CV
 landscapemetrics_class_landscape_dcore_cv <- lsm_c_dcore_cv(landscape)
-
-test_that("lsm_c_dcore_cv results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_dcore_cv %in%
-                        round(landscapemetrics_class_landscape_dcore_cv$value, 4)))
-})
+#
+# test_that("lsm_c_dcore_cv results are equal to fragstats", {
+#     expect_true(all(fragstats_class_landscape_dcore_cv %in%
+#                         round(landscapemetrics_class_landscape_dcore_cv$value, 4)))
+# })
 
 test_that("lsm_c_dcore_cv is typestable", {
     expect_is(landscapemetrics_class_landscape_dcore_cv, "tbl_df")

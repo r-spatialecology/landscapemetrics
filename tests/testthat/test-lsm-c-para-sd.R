@@ -1,11 +1,16 @@
 context("class level para_sd metric")
 
-fragstats_class_landscape_para_sd <- fragstats_class_landscape$PARA_SD
+fragstats_class_landscape_para_sd <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = sd(PARA)) %>%
+    pull(metric) %>%
+    round(.,4)
+
 landscapemetrics_class_landscape_para_sd <- lsm_c_para_sd(landscape)
 
 test_that("lsm_c_para_sd results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_para_sd %in%
-                        round(landscapemetrics_class_landscape_para_sd$value, 4)))
+                        round(landscapemetrics_class_landscape_para_sd$value * 10000, 4)))
 })
 
 test_that("lsm_c_para_sd is typestable", {

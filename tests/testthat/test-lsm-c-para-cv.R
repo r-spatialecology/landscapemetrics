@@ -1,6 +1,11 @@
 context("class level para_cv metric")
 
-fragstats_class_landscape_para_cv <- fragstats_class_landscape$PARA_CV
+fragstats_class_landscape_para_cv <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = raster::cv(PARA)) %>%
+    pull(metric) %>%
+    round(.,4)
+
 landscapemetrics_class_landscape_para_cv <- lsm_c_para_cv(landscape)
 
 test_that("lsm_c_para_cv results are equal to fragstats", {

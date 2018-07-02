@@ -1,12 +1,23 @@
 context("class level shape_cv metric")
 
-fragstats_class_landscape_shape_cv <- fragstats_class_landscape$SHAPE_CV
-landscapemetrics_class_landscape_shape_cv <- lsm_c_shape_cv(landscape)
+fragstats_class_landscape_shape_cv <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = raster::cv(SHAPE)) %>%
+    pull(metric) %>%
+    round(.,4)
+
+#### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
+landscape_shape_cv <-  landscape %>%
+    lsm_p_shape_calc() %>%
+    dplyr::group_by(class)  %>%
+    dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
 
 test_that("lsm_c_shape_cv results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_shape_cv %in%
-                        round(landscapemetrics_class_landscape_shape_cv$value, 4)))
+                        round(landscape_shape_cv$metric, 4)))
 })
+
+landscapemetrics_class_landscape_shape_cv <- lsm_c_shape_cv(landscape)
 
 test_that("lsm_c_shape_cv is typestable", {
     expect_is(landscapemetrics_class_landscape_shape_cv, "tbl_df")

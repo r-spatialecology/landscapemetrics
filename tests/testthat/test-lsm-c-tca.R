@@ -1,12 +1,12 @@
 context("class level tca metric")
 
-fragstats_class_landscape_tca <- fragstats_class_landscape$TCA
+# fragstats_class_landscape_tca <- fragstats_class_landscape$TCA
 landscapemetrics_class_landscape_tca <- lsm_c_tca(landscape)
-
-test_that("lsm_c_tca results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_tca %in%
-                        round(landscapemetrics_class_landscape_tca$value, 4)))
-})
+#
+# test_that("lsm_c_tca results are equal to fragstats", {
+#     expect_true(all(fragstats_class_landscape_tca %in%
+#                         round(landscapemetrics_class_landscape_tca$value, 4)))
+# })
 
 test_that("lsm_c_tca is typestable", {
     expect_is(landscapemetrics_class_landscape_tca, "tbl_df")

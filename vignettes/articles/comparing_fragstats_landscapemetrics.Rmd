@@ -13,7 +13,7 @@ library(dplyr)
 library(DT)
 ```
 
-# General
+# General differences
 
 There are a few important differences between **FRAGSTATS** and **landscapemetrics** that you should be aware of if you compare results between the two or use both of the tools:
 
@@ -66,14 +66,8 @@ We thoroughly compared each of our implemented landscape metrics against the res
 **FRAGSTATS** is unfortunately not an open-source project, so we can't definitely say that some of the metrics have bugs.
 However, we try to explain our thinking based on several small examples.
 
-## Differences on the patch level:
-
-### CAI metric
-
-Metric based on [core metric](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric),
-which already shows a malfunction in FRAGSTATS.
-<!-- what does it mean? -->
-Therefore most likely just an error propagation starting there. 
+Some metrics in FRAGSTATS are interdependent and thus if there is an error starting at the patch level metric it propagates through every depending metric.
+We list these metrics that are different from their FRAGSTATS implementation here under the metric where the error propagation starts.
 
 ### CIRCLE metric
 
@@ -91,6 +85,16 @@ sort(fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE) # fra
 Further points:
 
 * Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.
+
+#### Error propagation (for metrics based on **CORE** metric)
+
+##### Class level
+
+- CIRCLE_CV (`lsm_c_circle_cv`)
+- CIRCLE_MN (`lsm_c_circle_mn`)
+- CIRCLE_SD (`lsm_c_circle_sd`)
+
+##### Landscape level
 
 ### CORE metric
 
@@ -117,8 +121,32 @@ landscapetools::util_plot(core)
 ```
 
 We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class.
-
 However, while we can prove that our method works as described in the FRAGSTATS manual, the results of the FRAGSTATS software itself cannot be replicated.
+
+#### Error propagation (for metrics based on **CORE** metric)
+
+##### Patch level
+
+- NCORE metric (`lsm_p_ncore`)
+- CAI metric (`lsm_p_cai`)
+
+##### Class level
+
+- CAI_CV (`lsm_c_cai_cv`)
+- CAI_MN (`lsm_c_cai_mn`)
+- CAI_SD (`lsm_c_cai_sd`)
+- CORE_CV (`lsm_c_core_cv`)
+- CORE_MN (`lsm_c_core_mn`)
+- CORE_SD (`lsm_c_core_sd`)
+- CPLAND (`lsm_c_cpland`)
+- DCAD (`lsm_c_dcad`)
+- DCORE_CV (`lsm_c_dcore_cv`)
+- DCORE_MN (`lsm_c_dcore_mn`)
+- DCORE_SD (`lsm_c_dcore_sd`)
+- NDCA (`lsm_c_ndca_sd`)
+- TCA (`lsm_c_tca`)
+
+##### Landscape level
 
 ### GYRATE metric
 
@@ -133,11 +161,13 @@ sort(lsm_p_area(landscape)$value) # calculate cell size, 0.0001 == 1 cell
 sort(fragstats_patch_landscape$GYRATE) # fragstats results for the gyrate metric in the landscape raster
 ```
 
-### NCORE metric
+#### Error propagation (for metrics based on **GYRATE** metric)
 
-Metric based on [core metric](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html#core-metric),
-which already shows a malfunction in FRAGSTATS. Therefore most likely just
-a error propagation starting there. 
+##### Class level
+
+- GYRATE_CV (`lsm_c_gyrate_cv`)
+- GYRATE_MN (`lsm_c_gyrate_mn`)
+- GYRATE_SD (`lsm_c_gyrate_sd`)
 
 ### PARA metric
 
@@ -158,112 +188,9 @@ fragstats_patch_landscape_para %in%
                         round((landscapemetrics_patch_landscape_para$value * 10000), 4)
 ```
 
-<!-- ## Class level -->
 
-<!-- ```{r, echo=FALSE} -->
-<!-- fs_class = data.frame( -->
-<!--     metric = c( -->
-<!--         "total area", -->
-<!--         "patch area (mean)", -->
-<!--         "patch area (mean)", -->
-<!--         "patch area (mean)", -->
-<!--         "patch area (cv)", -->
-<!--         "patch area (cv)", -->
-<!--         "patch area (cv)", -->
-<!--         "patch area (sd)", -->
-<!--         "patch area (sd)", -->
-<!--         "patch area (sd)", -->
-<!--         "percentage of landscape", -->
-<!--         "percentage of landscape", -->
-<!--         "percentage of landscape", -->
-<!--         "largest patch index", -->
-<!--         "largest patch index", -->
-<!--         "largest patch index", -->
-<!--         "number of patches", -->
-<!--         "number of patches", -->
-<!--         "number of patches", -->
-<!--         "euclidean nearest neighbor distance distribution (mean)", -->
-<!--         "euclidean nearest neighbor distance distribution (mean)", -->
-<!--         "euclidean nearest neighbor distance distribution (mean)" -->
-<!--     ), -->
-<!--     class = c(NA, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, -->
-<!--               1, 3, 2, 1, 3, 2), -->
-<!--     value_fs = c( -->
-<!--         NA, -->
-<!--         0.002, -->
-<!--         0.012, -->
-<!--         0.0017, -->
-<!--         228.5906, -->
-<!--         162.6136, -->
-<!--         159.0109, -->
-<!--         0.0045, -->
-<!--         0.0195, -->
-<!--         0.0027, -->
-<!--         19.8889, -->
-<!--         53.2222, -->
-<!--         26.8889, -->
-<!--         16.4444, -->
-<!--         50.7778, -->
-<!--         10.8889, -->
-<!--         9, -->
-<!--         4, -->
-<!--         14, -->
-<!--         3.6829, -->
-<!--         2, -->
-<!--         3.1969 -->
-<!--     ) -->
-<!-- ) -->
+#### Error propagation (for metrics based on **PARA** metric)
 
-<!-- lsm_class = lsm_calculate(landscape, what = "class") -->
-
-<!-- class = left_join(fs_class, lsm_class, by = c("metric", "class")) %>%  -->
-<!--     select(starts_with("valu")) %>%  -->
-<!--     select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value) -->
-
-<!-- datatable(class) -->
-<!-- ``` -->
-
-<!-- ## Landscape level -->
-
-<!-- ```{r, echo=FALSE} -->
-<!-- fs_land = data.frame( -->
-<!--     metric = c( -->
-<!--         "total area", -->
-<!--         "patch area (mean)", -->
-<!--         "patch area (cv)", -->
-<!--         "patch area (sd)", -->
-<!--         "largest patch index", -->
-<!--         "total edge", -->
-<!--         "number of patches", -->
-<!--         "patch richness", -->
-<!--         "patch richness density", -->
-<!--         "relative patch richness", -->
-<!--         "euclidean nearest neighbor distance distribution (mean)", -->
-<!--         "Shannon's evenness index", -->
-<!--         "Shannon's diversity index" -->
-<!--     ), -->
-<!--     value_fs = c( -->
-<!--         0.09, -->
-<!--         0.0033, -->
-<!--         268.3046, -->
-<!--         0.0089, -->
-<!--         50.7778, -->
-<!--         364, -->
-<!--         27, -->
-<!--         3, -->
-<!--         3333.3333, -->
-<!--         NA, -->
-<!--         .1816, -->
-<!--         0.9194, -->
-<!--         1.0101 -->
-<!--     ) -->
-<!-- ) -->
-
-<!-- lsm_land = lsm_calculate(landscape, what = "landscape") -->
-
-<!-- land = left_join(fs_land, lsm_land, by = "metric") %>% -->
-<!--     select(starts_with("valu")) %>%  -->
-<!--     select(Value_FRAGSTATS = value_fs, Value_landscapemetrics = value) -->
-
-<!-- datatable(land) -->
-<!-- ``` -->
+##### Class level
+- PARA_MN (`lsm_c_para_mn`)
+- PARA_SD (`lsm_c_para_sd`)

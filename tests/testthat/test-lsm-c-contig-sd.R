@@ -1,6 +1,11 @@
 context("class level contig metric")
 
-fragstats_patch_landscape_contig_sd <- fragstats_class_landscape$CONTIG_SD
+fragstats_patch_landscape_contig_sd <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = sd(CONTIG)) %>%
+    pull(metric) %>%
+    round(.,4)
+
 landscapemetrics_patch_landscape_contig_sd <- lsm_c_contig_sd(landscape)
 
 test_that("lsm_p_contig_sd results are equal to fragstats", {

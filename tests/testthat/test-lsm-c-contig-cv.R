@@ -1,12 +1,23 @@
 context("class level contig metric")
 
-fragstats_patch_landscape_contig_cv <- fragstats_class_landscape$CONTIG_CV
-landscapemetrics_patch_landscape_contig_cv <- lsm_c_contig_cv(landscape)
+fragstats_patch_landscape_contig_cv <- fragstats_patch_landscape %>%
+    group_by(TYPE) %>%
+    summarise(metric = raster::cv(CONTIG)) %>%
+    pull(metric) %>%
+    round(.,4)
+
+#### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
+landscape_contig_cv <- landscape %>%
+    lsm_p_contig_calc() %>%
+    dplyr::group_by(class)  %>%
+    dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
 
 test_that("lsm_p_contig_cv results are equal to fragstats", {
     expect_true(all(fragstats_patch_landscape_contig_cv %in%
-                        round(landscapemetrics_patch_landscape_contig_cv$value, 4)))
+                        round(landscape_contig_cv$metric, 4)))
 })
+
+landscapemetrics_patch_landscape_contig_cv <- lsm_c_contig_cv(landscape)
 
 test_that("lsm_p_contig_cv is typestable", {
     expect_is(landscapemetrics_patch_landscape_contig_cv, "tbl_df")

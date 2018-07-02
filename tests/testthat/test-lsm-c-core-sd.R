@@ -1,12 +1,12 @@
 context("class level core_sd metric")
 
-fragstats_class_landscape_core_sd <- fragstats_class_landscape$CORE_SD
+# fragstats_class_landscape_core_sd <- fragstats_class_landscape$CORE_SD
 landscapemetrics_class_landscape_core_sd <- lsm_c_core_sd(landscape)
-
-test_that("lsm_c_core_sd results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_core_sd %in%
-                        round(landscapemetrics_class_landscape_core_sd$value, 4)))
-})
+#
+# test_that("lsm_c_core_sd results are equal to fragstats", {
+#     expect_true(all(fragstats_class_landscape_core_sd %in%
+#                         round(landscapemetrics_class_landscape_core_sd$value, 4)))
+# })
 
 test_that("lsm_c_core_sd is typestable", {
     expect_is(landscapemetrics_class_landscape_core_sd, "tbl_df")
