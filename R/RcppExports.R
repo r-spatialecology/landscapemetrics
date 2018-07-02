@@ -28,6 +28,34 @@ ccl_borders <- function(m) {
     .Call('_landscapemetrics_ccl_borders', PACKAGE = 'landscapemetrics', m)
 }
 
+rcpp_get_composition_vector <- function(x) {
+    .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
+}
+
+rcpp_get_coocurrence_matrix <- function(x, directions = 8L) {
+    .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
+}
+
+triangular_index <- function(r, c) {
+    .Call('_landscapemetrics_triangular_index', PACKAGE = 'landscapemetrics', r, c)
+}
+
+rcpp_get_coocurrence_vector <- function(x, directions = 8L, ordered = TRUE) {
+    .Call('_landscapemetrics_rcpp_get_coocurrence_vector', PACKAGE = 'landscapemetrics', x, directions, ordered)
+}
+
+rcpp_get_offdiagonal_vector <- function(x, directions = 8L) {
+    .Call('_landscapemetrics_rcpp_get_offdiagonal_vector', PACKAGE = 'landscapemetrics', x, directions)
+}
+
+rcpp_get_entropy <- function(x, base = "log2") {
+    .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
+}
+
+get_neighbors <- function(x, i, j, directions = 8L) {
+    .Call('_landscapemetrics_get_neighbors', PACKAGE = 'landscapemetrics', x, i, j, directions)
+}
+
 #' @title 8-way connected component labelling.
 #'
 #' @description 8-way neighborhood connected component labelling of
