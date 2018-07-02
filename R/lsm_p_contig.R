@@ -5,7 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{CONTIG =  \tfrac{\Bigg[\tfrac{\sum\limits_{r=1}^z  c_{ijr}}{a_{ij}}\Bigg] - 1 }{ v - 1} }
+#' \deqn{CONTIG =  \frac{\Bigg[\tfrac{\sum\limits_{r=1}^z  c_{ijr}}{a_{ij}}\Bigg] - 1 }{ v - 1} }
 #'
 #' where \eqn{c_{ijr}} is the contiguity value for pixel r in patch ij,
 #' \eqn{a_{ij}} the area of the respective patch (number of cells) and \eqn{v} is
