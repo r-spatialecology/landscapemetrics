@@ -135,7 +135,7 @@
 #' @format A tibble object.
 "fragstats_landscape_augusta_nlcd"
 
-#' Fragstats results for landscapemetrics::podlasie (landscape level)
+#' Fragstats results for landscapemetrics::podlasie_ccilc (landscape level)
 #'
 #' A single tibble for every spatial dataset included in landscapemetrics
 #' that contains the FRAGSTAT results for every implemented metric on landscape
