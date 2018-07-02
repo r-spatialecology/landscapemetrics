@@ -1,6 +1,9 @@
 context("landscape level enn_sd metric")
 
-fragstats_landscape_landscape_enn_sd <- fragstats_landscape_landscape$ENN_SD
+fragstats_landscape_landscape_enn_sd <- fragstats_patch_landscape %>%
+    summarise(metric = sd(ENN)) %>%
+    pull(metric) %>%
+    round(.,4)
 landscapemetrics_landscape_landscape_enn_sd <- lsm_l_enn_sd(landscape)
 
 test_that("lsm_l_enn_sd results are equal to fragstats", {

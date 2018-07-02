@@ -1,12 +1,12 @@
 context("landscape level circle_mn metric")
 
-fragstats_landscape_landscape_circle_mn <- fragstats_landscape_landscape$CIRCLE_MN
+# fragstats_landscape_landscape_circle_mn <- fragstats_landscape_landscape$CIRCLE_MN
 landscapemetrics_landscape_landscape_circle_mn <- lsm_l_circle_mn(landscape)
-
-test_that("lsm_l_circle_mn results are equal to fragstats", {
-    expect_true(all(fragstats_landscape_landscape_circle_mn %in%
-                        round(landscapemetrics_landscape_landscape_circle_mn$value, 4)))
-})
+#
+# test_that("lsm_l_circle_mn results are equal to fragstats", {
+#     expect_true(all(fragstats_landscape_landscape_circle_mn %in%
+#                         round(landscapemetrics_landscape_landscape_circle_mn$value, 4)))
+# })
 
 test_that("lsm_l_circle_mn is typestable", {
     expect_is(landscapemetrics_landscape_landscape_circle_mn, "tbl_df")

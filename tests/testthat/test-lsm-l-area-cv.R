@@ -1,6 +1,10 @@
 context("landscape level area_cv metric")
 
-fragstats_landscape_landscape_area_cv <- fragstats_landscape_landscape$AREA_CV
+fragstats_landscape_landscape_area_cv <- fragstats_patch_landscape %>%
+    summarise(metric = raster::cv(AREA)) %>%
+    pull(metric) %>%
+    round(.,4)
+
 landscapemetrics_landscape_landscape_area_cv <- lsm_l_area_cv(landscape)
 
 test_that("lsm_l_area_cv results are equal to fragstats", {

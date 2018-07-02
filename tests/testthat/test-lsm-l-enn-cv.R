@@ -1,6 +1,9 @@
 context("landscape level enn_cv metric")
 
-fragstats_landscape_landscape_enn_cv <- fragstats_landscape_landscape$ENN_CV
+fragstats_landscape_landscape_enn_cv <- fragstats_patch_landscape %>%
+    summarise(metric = raster::cv(ENN)) %>%
+    pull(metric) %>%
+    round(.,4)
 landscapemetrics_landscape_landscape_enn_cv <- lsm_l_enn_cv(landscape)
 
 test_that("lsm_l_enn_cv results are equal to fragstats", {

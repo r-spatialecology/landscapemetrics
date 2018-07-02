@@ -96,6 +96,12 @@ Further points:
 
 ##### Landscape level
 
+- CIRCLE_CV (`lsm_l_circle_cv`)
+- CIRCLE_MN (`lsm_l_circle_mn`)
+- CIRCLE_SD (`lsm_l_circle_sd`)
+
+##### Landscape level
+
 ### CORE metric
 
 The core metric is defined as:
@@ -148,6 +154,19 @@ However, while we can prove that our method works as described in the FRAGSTATS 
 
 ##### Landscape level
 
+- CAI_CV (`lsm_l_cai_cv`)
+- CAI_MN (`lsm_l_cai_mn`)
+- CAI_SD (`lsm_l_cai_sd`)
+- CORE_CV (`lsm_l_core_cv`)
+- CORE_MN (`lsm_l_core_mn`)
+- CORE_SD (`lsm_l_core_sd`)
+- DCAD (`lsm_l_dcad`)
+- DCORE_CV (`lsm_l_dcore_cv`)
+- DCORE_MN (`lsm_l_dcore_mn`)
+- DCORE_SD (`lsm_l_dcore_sd`)
+- NDCA (`lsm_l_ndca`)
+- TCA (`lsm_l_ndca`)
+
 ### GYRATE metric
 
 From the FRAGSTATS (2015) manual:
@@ -168,6 +187,12 @@ sort(fragstats_patch_landscape$GYRATE) # fragstats results for the gyrate metric
 - GYRATE_CV (`lsm_c_gyrate_cv`)
 - GYRATE_MN (`lsm_c_gyrate_mn`)
 - GYRATE_SD (`lsm_c_gyrate_sd`)
+
+##### Landscape level
+
+- GYRATE_CV (`lsm_l_gyrate_cv`)
+- GYRATE_MN (`lsm_l_gyrate_mn`)
+- GYRATE_SD (`lsm_l_gyrate_sd`)
 
 ### PARA metric
 

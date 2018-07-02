@@ -86,7 +86,7 @@ lsm_l_contig_sd_calc <- function(landscape) {
 
     contig_cv  <- landscape %>%
         lsm_p_contig_calc() %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = sd(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

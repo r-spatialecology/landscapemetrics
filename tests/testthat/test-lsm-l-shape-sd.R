@@ -1,6 +1,9 @@
 context("landscape level shape_sd metric")
 
-fragstats_landscape_landscape_shape_sd <- fragstats_landscape_landscape$SHAPE_SD
+fragstats_landscape_landscape_shape_sd <- fragstats_patch_landscape %>%
+    summarise(metric = sd(SHAPE)) %>%
+    pull(metric) %>%
+    round(.,4)
 landscapemetrics_landscape_landscape_shape_sd <- lsm_l_shape_sd(landscape)
 
 test_that("lsm_l_shape_sd results are equal to fragstats", {

@@ -1,6 +1,9 @@
 context("landscape level frac_sd metric")
 
-fragstats_landscape_landscape_frac_sd <- fragstats_landscape_landscape$FRAC_SD
+fragstats_landscape_landscape_frac_sd <- fragstats_patch_landscape %>%
+    summarise(metric = sd(FRAC)) %>%
+    pull(metric) %>%
+    round(.,4)
 landscapemetrics_landscape_landscape_frac_sd <- lsm_l_frac_sd(landscape)
 
 test_that("lsm_l_frac_sd results are equal to fragstats", {

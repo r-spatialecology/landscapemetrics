@@ -1,6 +1,9 @@
 context("landscape level frac_cv metric")
 
-fragstats_landscape_landscape_frac_cv <- fragstats_landscape_landscape$FRAC_CV
+fragstats_landscape_landscape_frac_cv <- fragstats_patch_landscape %>%
+    summarise(metric = raster::cv(FRAC)) %>%
+    pull(metric) %>%
+    round(.,4)
 landscapemetrics_landscape_landscape_frac_cv <- lsm_l_frac_cv(landscape)
 
 test_that("lsm_l_frac_cv results are equal to fragstats", {

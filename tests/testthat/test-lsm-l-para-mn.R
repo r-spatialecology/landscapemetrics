@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_para_mn <- lsm_l_para_mn(landscape)
 
 test_that("lsm_l_para_mn results are equal to fragstats", {
     expect_true(all(fragstats_landscape_landscape_para_mn %in%
-                        round(landscapemetrics_landscape_landscape_para_mn$value, 4)))
+                        round(landscapemetrics_landscape_landscape_para_mn$value * 10000, 4)))
 })
 
 test_that("lsm_l_para_mn is typestable", {
