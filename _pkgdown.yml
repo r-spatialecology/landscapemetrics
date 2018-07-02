@@ -141,6 +141,7 @@ reference:
     - lsm_l_para_mn
     - lsm_l_para_sd
     - lsm_l_pd
+    - lsm_l_pladj
     - lsm_l_pr
     - lsm_l_prd
     - lsm_l_rpr
