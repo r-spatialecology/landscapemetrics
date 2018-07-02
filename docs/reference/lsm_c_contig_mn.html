@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ENN_MN (landscape level) — lsm_l_enn_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CONTIG_MN (class level) — lsm_c_contig_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="ENN_MN (landscape level) — lsm_l_enn_mn" />
+<meta property="og:title" content="CONTIG_MN (class level) — lsm_c_contig_mn" />
 
-<meta property="og:description" content="Mean of euclidean nearest-neighbor distance (Aggregation metric)" />
+<meta property="og:description" content="Mean of Contiguity index (Shape metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -137,30 +137,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>ENN_MN (landscape level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_enn_mn.R'><code>R/lsm_l_enn_mn.R</code></a></small>
-    <div class="hidden name"><code>lsm_l_enn_mn.Rd</code></div>
+    <h1>CONTIG_MN (class level)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_contig_mn.R'><code>R/lsm_c_contig_mn.R</code></a></small>
+    <div class="hidden name"><code>lsm_c_contig_mn.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean of euclidean nearest-neighbor distance (Aggregation metric)</p>
+    <p>Mean of Contiguity index (Shape metric)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,22 +177,25 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$ENN_{MN} = cv(mean[patch_{ij}])$$
-where \(ENN[patch_{ij}]\) is the euclidean nearest-neighbor distance
-of each patch.</p>
-<p>ENN_CV is an 'Aggregation metric'. It summarises the landscape as the mean of all patches
-in the landscape. ENN measures the distance to the  nearest neighbouring patch
-of the same class i. The distance is measured from edge-to-edge. The range is limited
-by the cell resolution on the lower limit and the landscape extent on the upper limit.</p>
+    <p>$$CONTIG_{MN} =  mean(CONTIG[patch_{ij}])$$</p>
+<p>where \(CONTIG[patch_{ij}]\) is the contiguity of each patch.</p>
+<p>CONTIG_MN is a 'Shape metric'. It summarises each class as the mean of each patch
+belonging to class i. CONTIG_MN asses the spatial connectedness (contiguity) of
+cells in patches. The metric coerces patch values to a value of 1 and the background
+to NA. A nine cell focal filter matrix:</p><pre>filter_matrix &lt;- matrix(c(1, 2, 1,
+                          2, 1, 2,
+                          1, 2, 1), 3, 3, byrow = T)
+</pre>
+    <p>... is then used to weight orthogonally contiguous pixels more heavily than
+diagonally contiguous pixels. Therefore, larger and more connections between
+patch cells in the rookie case result in larger contiguity index values.</p>
 <h3>Units</h3>
-Meters
+None
 <h3>Range</h3>
-ENN_MN &gt; 0
+0 &gt;= CONTIG_MN &lt;= 1
 <h3>Behaviour</h3>
-Approaches ENN_MN = 0 as the distance to the nearest neighbour
-decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
-as the distance between neighbouring patches of the same class i increases, i.e. patches are
-more isolated.
+CONTIG equals the mean of the contiguity index on class level for all
+patches.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -203,20 +206,21 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>lsm_p_enn</code>,
-<code>mean</code>, <br />
-<code>lsm_c_enn_mn</code>,
-<code>lsm_c_enn_sd</code>,
-<code>lsm_c_enn_cv</code>, <br />
-<code>lsm_l_enn_sd</code>,
-<code>lsm_l_enn_cv</code></p></div>
+    <div class='dont-index'><p><code>lsm_p_contig</code>,
+<code>lsm_c_contig_sd</code>,
+<code>lsm_c_contig_cv</code>, <br />
+<code>lsm_l_contig_mn</code>,
+<code>lsm_l_contig_sd</code>,
+<code>lsm_l_contig_cv</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_enn_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
-#&gt;   layer level     class    id metric                                      value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                       &lt;dbl&gt;
-#&gt; 1     1 landscape    NA    NA euclidean nearest neighbor distance distri… 0.348</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_contig_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   layer level class    id metric                         value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                          &lt;dbl&gt;
+#&gt; 1     1 class     1    NA contiguity distribution (mean) 0.261
+#&gt; 2     1 class     2    NA contiguity distribution (mean) 0.357
+#&gt; 3     1 class     3    NA contiguity distribution (mean) 0.514</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

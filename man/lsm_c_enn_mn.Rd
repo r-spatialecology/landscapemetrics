@@ -32,11 +32,11 @@ tibble
 Mean of euclidean nearest-neighbor distance (Aggregation metric)
 }
 \details{
-\deqn{ENN_{MN} = cv(mean[patch_{ij}])}
+\deqn{ENN_{MN} = mean(ENN[patch_{ij}])}
 where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
 of each patch.
 
-ENN_CV is an 'Aggregation metric'. It summarises each class as the mean of each patch
+ENN_MN is an 'Aggregation metric'. It summarises each class as the mean of each patch
 belonging to class i. ENN measures the distance to the  nearest neighbouring patch
 of the same class i. The distance is measured from edge-to-edge. The range is limited
 by the cell resolution on the lower limit and the landscape extent on the upper limit.

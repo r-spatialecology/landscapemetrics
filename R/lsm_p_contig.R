@@ -1,30 +1,43 @@
-#' contig (patch level)
+#' CONTIG (patch level)
 #'
-#' @description contig area (contig area metric)
+#' @description Contiguity index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{contig = a_{ij}^{contig}}
-#' where \eqn{a_{ij}^{contig}} is the contig area in square meters
+#' \deqn{CONTIG =  \tfrac{\Bigg[\tfrac{\sum\limits_{r=1}^z  c_{ijr}}{a_{ij}} - 1 \Bigg]}{ v - 1} }
 #'
-#' contig is a 'contig area metric' and equals the area within a patch that is not
-#' on the edge of it. A cell is defined as contig area if the cell has no
-#' neighbour with a different value than itself (rook's case). It describes patch area
-#' and shape simultaneously (more contig area when the patch is large and the shape is
-#' rather compact, i.e. a square).
+#' where \eqn{c_{ijr}} is the contiguity value for pixel r in patch ij,
+#' \eqn{a_{ij}} the area of the respective patch (number of cells) and \eqn{v} is
+#' the size of the filter matrix (13 in this case).
 #'
-#' \subsection{Units}{Hectares}
-#' \subsection{Range}{contig >= 0}
-#' \subsection{Behaviour}{Increases, without limit, as the patch area increases
-#' and the patch shape simplifies (more contig area). contig = 0 when every cell in
-#' the patch is an edge.}
+#' CONTIG is a 'Shape metric'. It asses the spatial connectedness (contiguity) of
+#' cells in patches. CONTIG coerces patch values to a value of 1 and the background
+#' to NA. A nine cell focal filter matrix:
+#'
+#' ```
+#' filter_matrix <- matrix(c(1, 2, 1,
+#'                           2, 1, 2,
+#'                           1, 2, 1), 3, 3, byrow = T)
+#' ```
+#' ... is then used to weight orthogonally contiguous pixels more heavily than
+#' diagonally contiguous pixels. Therefore, larger and more connections between
+#' patch cells in the rookie case result in larger contiguity index values.
+#'
+#' \subsection{Units}{None}
+#' \subsection{Range}{0 >= CONTIG <= 1}
+#' \subsection{Behaviour}{Equals 0 for one-pixel patches and increases to a limit
+#' of 1 (fully connected patch).}
 #'
 #' @seealso
+#' \code{\link{lsm_c_contig_mn}},
+#' \code{\link{lsm_c_contig_sd}},
+#' \code{\link{lsm_c_contig_cv}}, \cr
+#' \code{\link{lsm_l_contig_mn}},
+#' \code{\link{lsm_l_contig_sd}},
+#' \code{\link{lsm_l_contig_cv}}
 #'
 #' @return tibble
-#'
-#' @importFrom stats na.omit
 #'
 #' @examples
 #' lsm_p_contig(landscape)
@@ -105,7 +118,7 @@ lsm_p_contig_calc <- function(landscape) {
                                             pad = TRUE)
 
                     contig <- ((raster::cellStats(filter, sum) /
-                                    sum(!is.na(getValues(patches_class)))
+                                    sum(!is.na(raster::getValues(patches_class)))
                                 ) - 1) / 12
 
                     class_name <- patches_class %>%

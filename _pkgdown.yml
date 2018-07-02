@@ -32,6 +32,7 @@ reference:
      - lsm_p_area
      - lsm_p_cai
      - lsm_p_circle
+     - lsm_p_contig
      - lsm_p_core
      - lsm_p_enn
      - lsm_p_frac
@@ -53,6 +54,9 @@ reference:
     - lsm_c_circle_mn
     - lsm_c_circle_sd
     - lsm_c_cohesion
+    - lsm_c_contig_cv
+    - lsm_c_contig_mn
+    - lsm_c_contig_sd
     - lsm_c_core_cv
     - lsm_c_core_mn
     - lsm_c_core_sd
@@ -103,6 +107,9 @@ reference:
     - lsm_l_circle_mn
     - lsm_l_circle_sd
     - lsm_l_cohesion
+    - lsm_l_contig_cv
+    - lsm_l_contig_mn
+    - lsm_l_contig_sd
     - lsm_l_core_cv
     - lsm_l_core_mn
     - lsm_l_core_sd

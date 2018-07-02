@@ -177,10 +177,10 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$ENN_{MN} = cv(mean[patch_{ij}])$$
+    <p>$$ENN_{MN} = mean(ENN[patch_{ij}])$$
 where \(ENN[patch_{ij}]\) is the euclidean nearest-neighbor distance
 of each patch.</p>
-<p>ENN_CV is an 'Aggregation metric'. It summarises each class as the mean of each patch
+<p>ENN_MN is an 'Aggregation metric'. It summarises each class as the mean of each patch
 belonging to class i. ENN measures the distance to the  nearest neighbouring patch
 of the same class i. The distance is measured from edge-to-edge. The range is limited
 by the cell resolution on the lower limit and the landscape extent on the upper limit.</p>
