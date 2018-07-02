@@ -1,8 +1,9 @@
-pandoc: 2.2.1
+pandoc: 1.19.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   comparing_fragstats_landscapemetrics: articles/comparing_fragstats_landscapemetrics.html
+  general-background: articles/general-background.html
   publication_record: articles/publication_record.html
   getstarted: getstarted.html
 
