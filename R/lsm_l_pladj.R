@@ -1,4 +1,4 @@
-#' PLADJ (class level)
+#' PLADJ (landscape level)
 #'
 #' @description Percentage of Like Adjacencies (Aggregation metric)
 #'
@@ -22,10 +22,10 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_pladj(landscape)
+#' lsm_l_pladj(landscape)
 #'
-#' @aliases lsm_c_pladj
-#' @rdname lsm_c_pladj
+#' @aliases lsm_l_pladj
+#' @rdname lsm_l_pladj
 #'
 #' @references
 #' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
@@ -34,49 +34,49 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html.
 #'
 #' @export
-lsm_c_pladj <- function(landscape)
-    UseMethod("lsm_c_pladj")
+lsm_l_pladj <- function(landscape)
+    UseMethod("lsm_l_pladj")
 
-#' @name lsm_c_pladj
+#' @name lsm_l_pladj
 #' @export
-lsm_c_pladj.RasterLayer <- function(landscape) {
+lsm_l_pladj.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
+                   .f = lsm_l_pladj_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_c_pladj
+#' @name lsm_l_pladj
 #' @export
-lsm_c_pladj.RasterStack <- function(landscape) {
+lsm_l_pladj.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_pladj
-#' @export
-lsm_c_pladj.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
+                   .f = lsm_l_pladj_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_c_pladj
+#' @name lsm_l_pladj
 #' @export
-lsm_c_pladj.list <- function(landscape) {
+lsm_l_pladj.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
+                   .f = lsm_l_pladj_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_pladj_calc <- function(landscape) {
+#' @name lsm_l_pladj
+#' @export
+lsm_l_pladj.list <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_pladj_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_pladj_calc <- function(landscape) {
 
     paster_padded <- pad_raster(landscape, pad_raster_value = -999,
                                 pad_raster_cells = 1)
@@ -91,18 +91,14 @@ lsm_c_pladj_calc <- function(landscape) {
     tb <- table(paster_padded[adjacent_cells[, 1]],
                 paster_padded[adjacent_cells[, 2]])
 
-    pladj <- purrr::map_dbl(seq_len(nrow(tb)), function(x) {
-        like_adjacencies <- tb[x, x]
-        total_adjacencies <- sum(tb[x, ])
+    like_adjacencies <- sum(diag(tb)[-1])
+    total_adjacencies <- sum(tb[,-1])
 
-        like_adjacencies / total_adjacencies * 100
-    })
-
-    pladj <- pladj[-1]
+    pladj <- like_adjacencies / total_adjacencies * 100
 
     tibble::tibble(
-        level = "class",
-        class = as.integer(raster::unique(landscape)),
+        level = "landscape",
+        class = as.integer(NA),
         id = as.integer(NA),
         metric = "percentage of like adjacencies",
         value = as.double(pladj)
