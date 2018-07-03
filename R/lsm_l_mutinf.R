@@ -1,7 +1,7 @@
 #' Mutual information (landscape level)
 #'
 #' @description It disambiguates landscape pattern types characterize
-#' by the same value of an overall complexity (\code{\link{lsm_l_cplx}}).
+#' by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which cells should be connected:
