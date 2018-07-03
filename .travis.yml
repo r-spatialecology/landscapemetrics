@@ -17,7 +17,7 @@ matrix:
         - brew link --force curl
 
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - travis_wait 60 Rscript -e 'covr::codecov()'
 
 notifications:
   email:
@@ -27,4 +27,4 @@ on_failure: change
 script:
   - |
     R CMD build .
-    travis_wait 120 R CMD check landscapemetrics*tar.gz
+    travis_wait 60 R CMD check landscapemetrics*tar.gz
