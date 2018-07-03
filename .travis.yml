@@ -17,7 +17,7 @@ matrix:
         - brew link --force curl
 
 after_success:
-  - Rscript -e 'covr::codecov()'
+  - travis_wait 60 Rscript -e 'covr::codecov()'
 
 notifications:
   email:
