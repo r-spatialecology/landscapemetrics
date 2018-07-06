@@ -83,54 +83,48 @@ lsm_p_enn_calc <- function(landscape) {
 
     enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-            class <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+        class <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
 
-            np_class <- patches_class %>%
-                raster::values() %>%
-                unique() %>%
-                na.omit() %>%
-                length()
+        np_class <- patches_class %>%
+            raster::values() %>%
+            unique() %>%
+            na.omit() %>%
+            length()
 
-            if(np_class == 1){
-                minimum_distance <- as.double(NA)
-                warning(paste0("Class ", class,
-                               ": ENN = NA for class with only 1 patch"),
-                        call. = FALSE)
-            }
+        if(np_class == 1){
+            minimum_distance <- as.double(NA)
+            warning(paste0("Class ", class,
+                           ": ENN = NA for class with only 1 patch"),
+                    call. = FALSE)
+        }
 
-            else{
-                points_class <- patches_class %>%
-                    raster::rasterToPoints() %>%
-                    tibble::as.tibble() %>%
-                    purrr::set_names(c("x", "y", "id"))
+        else{
+            points_class <- raster::rasterToPoints(patches_class)
 
-                minimum_distance <- np_class %>%
-                    seq_len() %>%
-                    purrr::map_dbl(function(patch_ij) {
+            minimum_distance <- purrr::map_dbl(seq_len(np_class), function(patch_ij) {
 
-                        patch_focal <- dplyr::filter(points_class, id == patch_ij)
+                patch_focal <- points_class[points_class[,3] == patch_ij,]
 
-                        patch_others <- dplyr::filter(points_class, id != patch_ij)
+                patch_others <- points_class[points_class[,3] != patch_ij,]
 
-                        minimum_distance <- raster::pointDistance(patch_focal[1:2],
-                                                                  patch_others[1:2],
-                                                                  lonlat = FALSE) %>%
-                            min()
-                    })
-            }
+                minimum_distance <- dist(matrix(c(patch_focal[1:2],
+                                                  patch_others[1:2]), ncol = 2, byrow = T)) %>%
+                    min()
+            })
+        }
 
-            tibble::tibble(class = class,
-                           value = minimum_distance)
+        tibble::tibble(class = class,
+                       value = minimum_distance)
 
-        })
+    })
 
-   tibble::tibble(level = "patch",
-                  class = as.integer(enn_patch$class),
-                  id = as.integer(seq_len(nrow(enn_patch))),
-                  metric = "euclidean nearest neighbor distance distribution (mean)",
-                  value = as.double(enn_patch$value))
+    tibble::tibble(level = "patch",
+                   class = as.integer(enn_patch$class),
+                   id = as.integer(seq_len(nrow(enn_patch))),
+                   metric = "euclidean nearest neighbor distance distribution (mean)",
+                   value = as.double(enn_patch$value))
 
     # if(exists("print_warning")){
     #     warning("ENN = NA for class with only 1 patch")
