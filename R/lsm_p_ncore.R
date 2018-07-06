@@ -86,37 +86,46 @@ lsm_p_ncore_calc <- function(landscape){
 
     landscape_labelled <- cclabel(landscape)
 
+    e <- raster::extent(landscape)
+    r <- raster::raster(e,
+                        resolution = raster::res(landscape),
+                        crs = raster::crs(landscape))
+
     core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-        current_patch <- patches_class %>%
-           raster::values() %>%
-           stats::na.omit() %>%
-           unique() %>%
-           sort()
+        classes_landscape <- patches_class %>%
+            raster::values() %>%
+            stats::na.omit() %>%
+            unique() %>%
+            sort()
 
-        purrr::map_dfr(current_patch, function(patch_id) {
-            raster::values(patches_class)[raster::values(patches_class) != patch_id] <- NA
+        class_boundary <- raster::boundaries(patches_class, directions = 4)
 
-            core_areas <- raster::boundaries(patches_class, directions = 4)
+        raster::values(class_boundary)[raster::values(class_boundary) == 1 | raster::values(is.na(class_boundary))] <- -999
 
-            if(raster::minValue(core_areas) == 1) {
-               n_core_areas <- 0
-            }
-            else {
-               core_areas[core_areas == 1] <- NA
-               n_core_areas <- raster::cellStats(cclabel(core_areas)[[1]], max)
-            }
+        class_boundary_mat <- raster::as.matrix(class_boundary)
 
-            class_name <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+        ccl_mat <- ccl_labels(class_boundary_mat)[[1]]
 
-            tibble::tibble(
-                class = class_name,
-                value = n_core_areas
-                )
-            })
-        })
+        cclabel_landscape <- raster::setValues(r, ccl_mat)
+
+        points <- raster::rasterToPoints(cclabel_landscape)
+        points <- points[!duplicated(points[,'layer']),]
+
+
+        n_core_area <- table(raster::extract(x = patches_class,
+                                             y = points[,1:2]))
+
+        result <- c(rep(0, length(classes_landscape)))
+        names(result)  <- classes_landscape
+
+        result[as.numeric(names(n_core_area))] <- n_core_area
+
+        tibble::tibble(
+            class = classes_landscape,
+            value = result
+        )
+    })
 
     tibble::tibble(
         level = "patch",
