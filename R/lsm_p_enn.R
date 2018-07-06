@@ -109,8 +109,10 @@ lsm_p_enn_calc <- function(landscape) {
 
                 patch_others <- points_class[points_class[,3] != patch_ij,]
 
-                minimum_distance <- dist(matrix(c(patch_focal[1:2],
-                                                  patch_others[1:2]), ncol = 2, byrow = T)) %>%
+                minimum_distance <- stats::dist(matrix(c(patch_focal[1:2],
+                                                         patch_others[1:2]),
+                                                       ncol = 2,
+                                                       byrow = TRUE)) %>%
                     min()
             })
         }
