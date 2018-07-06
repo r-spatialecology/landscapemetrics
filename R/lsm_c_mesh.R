@@ -71,16 +71,16 @@ lsm_c_mesh.list <- function(landscape) {
 
 lsm_c_mesh_calc <- function(landscape) {
 
-    total_area <- landscape %>%
+    area_landscape <- landscape %>%
         lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    mesh <- landscape %>%
-        lsm_p_area_calc() %>%
-        dplyr::mutate(value = (value * 10000) ^ 2) %>%
+    area_patch <- lsm_p_area_calc(landscape)
+
+    mesh <- dplyr::mutate(area_patch, value = (value * 10000) ^ 2) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-        dplyr::mutate(value = (value / total_area$value) * (1 / 10000))
+        dplyr::mutate(value = (value / area_landscape$value) * (1 / 10000))
 
     tibble::tibble(
         level = "class",

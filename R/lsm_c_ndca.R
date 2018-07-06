@@ -77,6 +77,7 @@ lsm_c_ndca.list <- function(landscape) {
 }
 
 lsm_c_ndca_calc <- function(landscape){
+
     dcad <- landscape %>%
         lsm_p_ncore_calc() %>%
         dplyr::group_by(class) %>%

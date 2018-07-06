@@ -74,6 +74,7 @@ lsm_c_tca.list <- function(landscape) {
 }
 
 lsm_c_tca_calc <- function(landscape){
+
     core_area <- landscape %>%
         lsm_p_core_calc() %>%
         dplyr::group_by(class) %>%

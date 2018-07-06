@@ -69,26 +69,25 @@ lsm_c_np.list <- function(landscape) {
 
 lsm_c_np_calc <- function(landscape){
 
-    landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class){
+    landscape_labelled <- cclabel(landscape)
 
-            class <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+    purrr::map_dfr(landscape_labelled, function(patches_class) {
+        class <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
 
-            np <- patches_class %>%
-                raster::values() %>%
-                unique() %>%
-                na.omit() %>%
-                length()
+        np <- patches_class %>%
+            raster::values() %>%
+            unique() %>%
+            na.omit() %>%
+            length()
 
-            tibble::tibble(
-                level = "class",
-                class = as.integer(class),
-                id = as.integer(NA),
-                metric = "number of patches",
-                value = as.double(np)
-            )
-        })
+        tibble::tibble(
+            level = "class",
+            class = as.integer(class),
+            id = as.integer(NA),
+            metric = "number of patches",
+            value = as.double(np)
+        )
+    })
 }

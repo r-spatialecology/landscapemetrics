@@ -86,45 +86,44 @@ lsm_c_te.list <- function(landscape, count_boundary = FALSE) {
 
 lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
 
-    cclabeled_raster <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape)
 
-    cclabeled_raster %>%
-        purrr::map_dfr(function(patches_class){
+    purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-            class_name <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+        class_name <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
 
-            patches_class[is.na(patches_class)] <- -999
+        raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
 
-            if(isTRUE(count_boundary)){
-                patches_class <- pad_raster(landscape = patches_class,
-                                            pad_raster_value = -999,
-                                            pad_raster_cells = 1)
-            }
+        if(isTRUE(count_boundary)){
+            patches_class <- pad_raster(landscape = patches_class,
+                                        pad_raster_value = -999,
+                                        pad_raster_cells = 1)
+        }
 
-            adjacent_cells <- raster::adjacent(patches_class,
-                                               seq_len(raster::ncell(patches_class)),
-                                               directions = 4,
-                                               pairs=TRUE)
+        adjacent_cells <- raster::adjacent(patches_class,
+                                           seq_len(raster::ncell(patches_class)),
+                                           directions = 4,
+                                           pairs=TRUE)
 
-            tb <- table(patches_class[adjacent_cells[,1]],
-                        patches_class[adjacent_cells[,2]])
+        tb <- table(patches_class[adjacent_cells[,1]],
+                    patches_class[adjacent_cells[,2]])
 
-            if(all(dim(tb) == 1)){
-                te <- 0
-            }
+        if(all(dim(tb) == 1)){
+            te <- 0
+        }
 
-            else{
-                te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
-            }
+        else{
+            te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+        }
 
-            tibble::tibble(
-                level = "class",
-                class = as.integer(class_name),
-                id = as.integer(NA),
-                metric = "total edge",
-                value = as.double(te))
-        })
+        tibble::tibble(
+            level = "class",
+            class = as.integer(class_name),
+            id = as.integer(NA),
+            metric = "total edge",
+            value = as.double(te))
+    })
 
 }

@@ -70,11 +70,11 @@ lsm_c_lpi.list <- function(landscape) {
 
 lsm_c_lpi_calc <- function(landscape) {
 
-    total_area <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
-    lpi <- landscape %>%
-        lsm_p_area_calc() %>%
-        dplyr::mutate(value = value / total_area$value * 100) %>%
+    area_patch <- lsm_p_area_calc(landscape)
+
+    lpi <- dplyr::mutate(area_patch, value = value / area_landscape$value * 100) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = max(value, na.rm = TRUE))
 

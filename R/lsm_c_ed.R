@@ -93,9 +93,9 @@ lsm_c_ed_calc <- function(landscape, count_boundary = FALSE) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
-    ed <- landscape %>%
-        lsm_c_te_calc(count_boundary = count_boundary) %>%
-        dplyr::mutate(value = value / area_landscape$value)
+    edge_landscape <- lsm_c_te_calc(landscape, count_boundary = count_boundary)
+
+    ed <- dplyr::mutate(edge_landscape, value = value / area_landscape$value)
 
     tibble::tibble(
         level = "class",

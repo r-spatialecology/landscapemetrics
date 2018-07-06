@@ -73,11 +73,11 @@ lsm_c_cpland.list <- function(landscape) {
 
 lsm_c_cpland_calc <- function(landscape){
 
-    total_area <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
-    cpland <- landscape %>%
-        lsm_c_tca_calc() %>%
-        dplyr::mutate(value = value / total_area$value * 100)
+    core_area_class <- lsm_c_tca_calc(landscape)
+
+    cpland <- dplyr::mutate(core_area_class, value = value / area_landscape$value * 100)
 
     tibble::tibble(
         level = "class",
