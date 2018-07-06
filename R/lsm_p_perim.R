@@ -80,10 +80,8 @@ lsm_p_perim_calc <- function(landscape){
 
         purrr::map_dfr(patch_current, function(patch_id) {
 
-            patches_class[patches_class != patch_id | is.na(patches_class)] <- -999
-
-            raster::values(patches_class)[raster::values(patches_class) != patch_id] <- -999
-            raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
+            raster::values(patches_class)[raster::values(patches_class) != patch_id |
+                                              is.na(raster::values(patches_class))] <- -999
 
             adjacent_cells <- raster::adjacent(x = patches_class,
                                                cells = seq_len(raster::ncell(patches_class)),
@@ -103,8 +101,8 @@ lsm_p_perim_calc <- function(landscape){
             tibble::tibble(
                 class = class_name,
                 value = perimeter_patch_ij
-                )
-            })
+            )
+        })
     })
 
     tibble::tibble(
