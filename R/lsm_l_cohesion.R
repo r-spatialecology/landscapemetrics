@@ -92,11 +92,9 @@ lsm_l_cohesion_calc <- function(landscape) {
 
     denominator <- perim_patch %>%
         dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%
-        # dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     cohesion <- perim_patch %>%
-        # dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(
             value = (1 - (value / denominator$value)) *

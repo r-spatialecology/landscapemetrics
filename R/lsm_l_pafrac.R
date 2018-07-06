@@ -76,18 +76,18 @@ lsm_l_pafrac.list <- function(landscape) {
 
 lsm_l_pafrac_calc <- function(landscape){
 
-    area <- lsm_p_area_calc(landscape)
-    perimeter <- lsm_p_perim_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    np <- lsm_l_np_calc(landscape)
+    np_landscape <- lsm_l_np_calc(landscape)
 
-    if(np$value < 10){
+    if(np_landscapep$value < 10){
         pafrac = NA
         warning("PAFRAC = NA for NP < 10")
     }
 
     else{
-        regression_model <- stats::lm(log(area$value) ~ log(perimeter$value))
+        regression_model <- stats::lm(log(area_patch$value) ~ log(perimeter_patch$value))
         pafrac = 2 / regression_model$coefficients[[2]]
     }
 

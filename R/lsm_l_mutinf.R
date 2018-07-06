@@ -85,6 +85,7 @@ lsm_l_mutinf.list <- function(landscape, directions = 4, ordered = TRUE, base = 
 }
 
 lsm_l_mutinf_calc <- function(landscape, directions, ordered, base){
+
     landscape_matrix <- raster::as.matrix(landscape)
     cmh  <- rcpp_get_composition_vector(landscape_matrix)
     coh <- rcpp_get_coocurrence_vector(landscape_matrix,

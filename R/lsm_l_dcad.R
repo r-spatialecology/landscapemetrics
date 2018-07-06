@@ -77,12 +77,13 @@ lsm_l_dcad.list <- function(landscape) {
 
 lsm_l_dcad_calc <- function(landscape){
 
-    total_area <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape)
 
-    dcad <- landscape %>%
-        lsm_p_ncore() %>%
+    ncore_patch <- lsm_p_ncore_calc(landscape)
+
+    dcad <- ncore_patch %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
-        dplyr::mutate(value = (value / total_area$value) * 100)
+        dplyr::mutate(value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
         level = "class",

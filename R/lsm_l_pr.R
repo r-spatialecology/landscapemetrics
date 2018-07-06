@@ -64,6 +64,7 @@ lsm_l_pr.list = function(landscape){
 }
 
 lsm_l_pr_calc = function(landscape){
+
     richness <- landscape %>%
         raster::unique() %>%
         length()

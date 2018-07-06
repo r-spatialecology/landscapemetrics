@@ -84,6 +84,7 @@ lsm_l_joinent.list <- function(landscape, directions = 4, ordered = TRUE, base =
 }
 
 lsm_l_joinent_calc <- function(landscape, directions, ordered, base){
+
     landscape_matrix <- raster::as.matrix(landscape)
     coh <- rcpp_get_coocurrence_vector(landscape_matrix,
                                        directions = directions,

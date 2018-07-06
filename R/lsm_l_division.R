@@ -72,8 +72,9 @@ lsm_l_division_calc <- function(landscape) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
-    division <- landscape %>%
-        lsm_p_area_calc() %>%
+    area_patch <- lsm_p_area_calc(landscape)
+
+    division <- area_patch %>%
         dplyr::mutate(value = (value / area_landscape$value) ^ 2) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = 1 - value)

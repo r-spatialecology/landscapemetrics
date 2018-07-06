@@ -76,14 +76,13 @@ lsm_l_lsi_calc <- function(landscape) {
         lsm_l_ta_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    lsi <- area_landscape %>%
-        dplyr::mutate(n = trunc(sqrt(value)),
-                      m = value - n^ 2,
-                      minp = dplyr::case_when(m == 0 ~ n * 4,
-                                              n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                              value > n * (1 + n) ~ 4 * n + 4),
-                      value = edge_landscape$value / minp) %>%
-        dplyr::select(-c(n, m, minp))
+    lsi <- dplyr::mutate(area_landscape,
+                         n = trunc(sqrt(value)),
+                         m = value - n^ 2,
+                         minp = dplyr::case_when(m == 0 ~ n * 4,
+                                                 n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                                 value > n * (1 + n) ~ 4 * n + 4),
+                         value = edge_landscape$value / minp)
 
     tibble::tibble(
         level = "patch",

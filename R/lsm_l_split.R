@@ -71,8 +71,9 @@ lsm_l_split_calc <- function(landscape) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
-    split <- landscape %>%
-        lsm_p_area_calc() %>%
+    area_patch <- lsm_p_area_calc(landscape)
+
+    split <- area_patch %>%
         dplyr::mutate(value = value ^ 2) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = (area_landscape$value ^ 2) / value)
