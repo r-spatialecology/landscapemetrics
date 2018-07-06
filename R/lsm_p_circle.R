@@ -119,7 +119,7 @@ lsm_p_circle_calc <- function(landscape) {
                                                  y + resolution,  y - resolution)), ncol = 2)
 
                 diameter <- points_corners %>%
-                    dist() %>%
+                    stats::dist() %>%
                     max()
 
                 circle <- (diameter / 2) ^ 2  * pi
