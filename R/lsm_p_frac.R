@@ -81,10 +81,11 @@ lsm_p_frac_calc <- function(landscape){
 
     perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    frac_patch <- landscape %>%
-        lsm_p_area_calc() %>%
-        dplyr::mutate(value = 2 * log (0.25 * perimeter_patch$value) /
-                          log(value * 10000))
+    area_patch <- lsm_p_area_calc(landscape)
+
+    frac_patch <- dplyr::mutate(area_patch,
+                                value = 2 * log (0.25 * perimeter_patch$value) /
+                                    log(value * 10000))
 
     frac_patch[is.na(frac_patch)] <- 1
 

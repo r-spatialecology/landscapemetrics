@@ -66,39 +66,46 @@ lsm_p_perim.list <- function(landscape) {
 
 lsm_p_perim_calc <- function(landscape){
 
-    perimeter_patch <- landscape %>%
-        pad_raster(pad_raster_value = NA) %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class) {
-            patches_class %>%
-                raster::values() %>%
-                stats::na.omit() %>%
-                unique() %>%
-                sort() %>%
-                purrr::map_dfr(function(patch_id) {
-                    patches_class[patches_class != patch_id | is.na(patches_class)] <- -999
+    landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
 
-                    adjacent_cells <- raster::adjacent(x = patches_class,
-                                                       cells = seq_len(raster::ncell(patches_class)),
-                                                       directions = 4,
-                                                       pairs = TRUE)
+    landscape_labelled <- cclabel(landscape_padded)
 
-                    neighbour_matrix <- table(patches_class[adjacent_cells[,1]],
-                                              patches_class[adjacent_cells[,2]])
+    perimeter_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-                    perimeter_patch_ij <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
-                        raster::res(patches_class)[[1]]
+        patch_current <- patches_class %>%
+            raster::values() %>%
+            stats::na.omit() %>%
+            unique() %>%
+            sort()
 
-                    class_name <- patches_class %>%
-                        names() %>%
-                        sub("Class_", "", .)
+        purrr::map_dfr(patch_current, function(patch_id) {
 
-                    tibble::tibble(
-                        class = class_name,
-                        value = perimeter_patch_ij
-                    )
-                })
-        })
+            patches_class[patches_class != patch_id | is.na(patches_class)] <- -999
+
+            raster::values(patches_class)[raster::values(patches_class) != patch_id] <- -999
+            raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
+
+            adjacent_cells <- raster::adjacent(x = patches_class,
+                                               cells = seq_len(raster::ncell(patches_class)),
+                                               directions = 4,
+                                               pairs = TRUE)
+
+            neighbour_matrix <- table(patches_class[adjacent_cells[,1]],
+                                      patches_class[adjacent_cells[,2]])
+
+            perimeter_patch_ij <- neighbour_matrix[2:ncol(neighbour_matrix),1] *
+                raster::res(patches_class)[[1]]
+
+            class_name <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
+
+            tibble::tibble(
+                class = class_name,
+                value = perimeter_patch_ij
+                )
+            })
+    })
 
     tibble::tibble(
         level = "patch",

@@ -79,9 +79,9 @@ lsm_p_enn.list <- function(landscape) {
 
 lsm_p_enn_calc <- function(landscape) {
 
-    enn_patch <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class) {
+    landscape_labelled <- cclabel(landscape)
+
+    enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
             class <- patches_class %>%
                 names() %>%
@@ -107,13 +107,12 @@ lsm_p_enn_calc <- function(landscape) {
                     purrr::set_names(c("x", "y", "id"))
 
                 minimum_distance <- np_class %>%
-                    seq_len(.) %>%
-                    purrr::map_dbl(function(patch_ij){
-                        patch_focal <- points_class %>%
-                            dplyr::filter(id == patch_ij)
+                    seq_len() %>%
+                    purrr::map_dbl(function(patch_ij) {
 
-                        patch_others <- points_class %>%
-                            dplyr::filter(id != patch_ij)
+                        patch_focal <- dplyr::filter(points_class, id == patch_ij)
+
+                        patch_others <- dplyr::filter(points_class, id != patch_ij)
 
                         minimum_distance <- raster::pointDistance(patch_focal[1:2],
                                                                   patch_others[1:2],

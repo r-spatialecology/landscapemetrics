@@ -78,9 +78,9 @@ lsm_p_area.list <- function(landscape) {
 
 lsm_p_area_calc <- function(landscape){
 
-    area_patch <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class){
+    landscape_labelled <- cclabel(landscape)
+
+    area_patch <- purrr::map_dfr(landscape_labelled, function(patches_class){
             area_patch_ij <- patches_class %>%
                 raster::values() %>%
                 table(useNA = "no") %>%

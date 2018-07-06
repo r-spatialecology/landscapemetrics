@@ -81,36 +81,36 @@ lsm_p_core.list <- function(landscape) {
 
 lsm_p_core_calc <- function(landscape){
 
-    landscape_labeled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape)
 
-    core <- landscape_labeled %>%
-        purrr::map_dfr(function(patches_class) {
+    core <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-            current_patch <- patches_class %>%
-                raster::values() %>%
-                stats::na.omit() %>%
-                unique() %>%
-                sort()
+        current_patch <- patches_class %>%
+            raster::values() %>%
+            stats::na.omit() %>%
+            unique() %>%
+            sort()
 
-            core_patch_i <- current_patch %>%
-                purrr::map_dfr(function(patch_id) {
+        core_patch_i <- purrr::map_dfr(current_patch, function(patch_id) {
 
-                    raster::values(patches_class)[raster::values(patches_class) != patch_id] <- NA
+            raster::values(patches_class)[raster::values(patches_class) != patch_id] <- NA
 
-                    core_cells <- raster::freq(raster::boundaries(patches_class,
-                                                                  directions = 4),
-                                               value = 0)
+            core_cells <- raster::freq(raster::boundaries(patches_class,
+                                                          directions = 4),
+                                       value = 0)
 
-                    class_name <- patches_class %>%
-                        names() %>%
-                        sub("Class_", "", .)
+            core_area <- core_cells * prod(raster::res(landscape)) / 10000
 
-                    tibble::tibble(
-                        class = class_name,
-                        value = (core_cells * prod(raster::res(landscape)) / 10000)
-                    )
-                })
-        })
+            class_name <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
+
+            tibble::tibble(
+                class = class_name,
+                value = core_area
+                )
+            })
+    })
 
     tibble::tibble(
         level = "patch",

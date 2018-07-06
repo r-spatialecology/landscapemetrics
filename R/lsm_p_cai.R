@@ -86,9 +86,10 @@ lsm_p_cai_calc <- function(landscape){
         lsm_p_area_calc() %>%
         dplyr::mutate(value = value * 10000)
 
-    cai_patch <- landscape %>%
-        lsm_p_core_calc() %>%
-        dplyr::mutate(value = value * 10000 / area_patch$value * 100)
+    core_patch <- lsm_p_core_calc(landscape)
+
+    cai_patch <- dplyr::mutate(core_patch,
+                               value = value * 10000 / area_patch$value * 100)
 
     tibble::tibble(
         level = "patch",

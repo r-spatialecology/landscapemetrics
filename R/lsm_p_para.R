@@ -80,9 +80,9 @@ lsm_p_para_calc <- function(landscape){
 
     perimeter_patch <- lsm_p_perim_calc(landscape)
 
-    para_patch <- landscape %>%
-        lsm_p_area_calc() %>%
-        dplyr::mutate(value = perimeter_patch$value / (value * 10000))
+    area_patch <- lsm_p_area_calc(landscape)
+
+    para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value / (value * 10000))
 
     tibble::tibble(
         level = "patch",

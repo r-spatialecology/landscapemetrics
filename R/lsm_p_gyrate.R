@@ -75,9 +75,9 @@ lsm_p_gyrate.list <- function(landscape) {
 
 lsm_p_gyrate_calc <- function(landscape) {
 
-    landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class) {
+    landscape_labelled <- cclabel(landscape)
+
+    purrr::map_dfr(landscape_labelled, function(patches_class) {
 
             class <- patches_class %>%
                 names() %>%
@@ -88,36 +88,36 @@ lsm_p_gyrate_calc <- function(landscape) {
                 tibble::as.tibble() %>%
                 purrr::set_names(c("x", "y", "id"))
 
-            points_class %>%
+            patches_class <- points_class %>%
                 dplyr::pull(id) %>%
                 unique() %>%
-                sort() %>%
-                purrr::map_dfr(function(patch_ij){
+                sort()
 
-                    points_patch <- points_class %>%
-                        dplyr::filter(id == patch_ij)
+            purrr::map_dfr(patches_class, function(patch_ij){
 
-                    mean_x <- points_patch %>%
-                        dplyr::pull(x) %>%
-                        mean(na.rm = TRUE)
+                points_patch <- dplyr::filter(points_class, id == patch_ij)
 
-                    mean_y <- points_patch %>%
-                        dplyr::pull(y) %>%
-                        mean(na.rm = TRUE)
+                mean_x <- points_patch %>%
+                    dplyr::pull(x) %>%
+                    mean(na.rm = TRUE)
 
-                    gyrate_patch <- raster::pointDistance(points_patch[, 1:2],
-                                                          dplyr::bind_cols(x = mean_x,
-                                                                           y = mean_y),
-                                                          lonlat = FALSE) %>%
-                        mean()
+                mean_y <- points_patch %>%
+                    dplyr::pull(y) %>%
+                    mean(na.rm = TRUE)
 
-                    tibble::tibble(level = "patch",
-                                   class = as.integer(class),
-                                   id = as.integer(patch_ij),
-                                   metric = "radius of gyration",
-                                   value = as.double(gyrate_patch))
-                })
-        })
+                gyrate_patch <- raster::pointDistance(points_patch[, 1:2],
+                                                      dplyr::bind_cols(x = mean_x,
+                                                                       y = mean_y),
+                                                      lonlat = FALSE)
+                gyrate_mean_patch <- mean(gyrate_patch, na.rm = TRUE)
+
+                tibble::tibble(level = "patch",
+                               class = as.integer(class),
+                               id = as.integer(patch_ij),
+                               metric = "radius of gyration",
+                               value = as.double(gyrate_mean_patch))
+            })
+    })
 
 }
 

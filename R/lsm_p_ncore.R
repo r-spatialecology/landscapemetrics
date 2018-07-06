@@ -84,36 +84,38 @@ lsm_p_ncore.list <- function(landscape) {
 
 lsm_p_ncore_calc <- function(landscape){
 
-    core_class <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class) {
-            patches_class %>%
-                raster::values() %>%
-                stats::na.omit() %>%
-                unique() %>%
-                sort() %>%
-                purrr::map_dfr(function(patch_id) {
-                    patches_class[patches_class != patch_id |
-                                        is.na(patches_class)] <- NA
+    landscape_labelled <- cclabel(landscape)
 
-                    core_areas <- raster::boundaries(patches_class, directions = 4)
+    core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-                    if(raster::minValue(core_areas) == 1){
-                        n_core_areas <- 0
-                    } else{
-                        core_areas[core_areas == 1] <- NA
-                        n_core_areas <- raster::cellStats(cclabel(core_areas)[[1]], max)
-                    }
+        current_patch <- patches_class %>%
+           raster::values() %>%
+           stats::na.omit() %>%
+           unique() %>%
+           sort()
 
-                    class_name <- patches_class %>%
-                        names() %>%
-                        sub("Class_", "", .)
+        purrr::map_dfr(current_patch, function(patch_id) {
+            raster::values(patches_class)[raster::values(patches_class) != patch_id] <- NA
 
-                    tibble::tibble(
-                        class = class_name,
-                        value = n_core_areas
-                    )
-                })
+            core_areas <- raster::boundaries(patches_class, directions = 4)
+
+            if(raster::minValue(core_areas) == 1) {
+               n_core_areas <- 0
+            }
+            else {
+               core_areas[core_areas == 1] <- NA
+               n_core_areas <- raster::cellStats(cclabel(core_areas)[[1]], max)
+            }
+
+            class_name <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
+
+            tibble::tibble(
+                class = class_name,
+                value = n_core_areas
+                )
+            })
         })
 
     tibble::tibble(
