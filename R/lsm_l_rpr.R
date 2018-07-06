@@ -81,7 +81,8 @@ lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
     else {
         rpr <- landscape %>%
             lsm_l_pr_calc() %>%
-            dplyr::mutate(value = value / classes_max * 100)
+            dplyr::mutate(value = value / classes_max * 100) %>%
+            dplyr::pull(value)
     }
 
     tibble::tibble(
@@ -89,6 +90,6 @@ lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "relative patch richness",
-        value = as.double(rpr$value)
+        value = as.double(rpr)
     )
 }
