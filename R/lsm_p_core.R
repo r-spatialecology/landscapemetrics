@@ -81,21 +81,25 @@ lsm_p_core.list <- function(landscape) {
 
 lsm_p_core_calc <- function(landscape){
 
-    core_area_patch <- landscape %>%
-        cclabel() %>%
+    landscape_labeled <- cclabel(landscape)
+
+    core <- landscape_labeled %>%
         purrr::map_dfr(function(patches_class) {
-            patches_class %>%
+
+            current_patch <- patches_class %>%
                 raster::values() %>%
                 stats::na.omit() %>%
                 unique() %>%
-                sort() %>%
+                sort()
+
+            core_patch_i <- current_patch %>%
                 purrr::map_dfr(function(patch_id) {
 
-                    patches_class[patches_class != patch_id |
-                                      is.na(patches_class)] <- NA
+                    raster::values(patches_class)[raster::values(patches_class) != patch_id] <- NA
 
-                    core_cells <- raster::freq(raster::boundaries(patches_class, directions = 4),
-                                       value = 0)
+                    core_cells <- raster::freq(raster::boundaries(patches_class,
+                                                                  directions = 4),
+                                               value = 0)
 
                     class_name <- patches_class %>%
                         names() %>%
@@ -110,9 +114,10 @@ lsm_p_core_calc <- function(landscape){
 
     tibble::tibble(
         level = "patch",
-        class = as.integer(core_area_patch$class),
-        id = as.integer(seq_len(nrow(core_area_patch))),
+        class = as.integer(core$class),
+        id = as.integer(seq_len(nrow(core))),
         metric = "core area",
-        value = as.double(core_area_patch$value)
+        value = as.double(core$value)
     )
 }
+
