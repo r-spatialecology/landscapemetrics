@@ -18,8 +18,8 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
         int c = cell[i] - 1;
         size_t col = fmod(c, n_cols);
         size_t row = (c / n_cols);
-        result(i, 0) = col;
-        result(i, 1) = row;
+        result(i, 1) = col;
+        result(i, 0) = row;
     }
 
     return result;
@@ -36,14 +36,14 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     IntegerVector result(len);
 
     for (size_t i = 0; i < len; i++) {
-        double row = y(i, 1);
-        double col = y(i, 0);
+        double col = y(i, 1);
+        double row = y(i, 0);
 
         if (row < 0 || row >= n_rows || col < 0 || col >= n_cols) {
             result[i] = NA_INTEGER;
         } else {
             // result[i] = row * n_cols + col + 1 ;
-            result[i] = row * n_cols + col;
+            result[i] = col * n_rows + row;
         }
     }
 
@@ -105,7 +105,7 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
 }
 
 // [[Rcpp::export]]
-NumericMatrix rcpp_get_coocurrence_matrix2(arma::imat x, int directions = 4) {
+IntegerMatrix rcpp_get_coocurrence_matrix2(arma::imat x, int directions = 4) {
 
     // get unique values
     arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
@@ -123,15 +123,18 @@ NumericMatrix rcpp_get_coocurrence_matrix2(arma::imat x, int directions = 4) {
         // Rcpp::Rcout << neigh_cell << std::endl;
 
         if (neigh_cell != INT_MIN){
-            int center = x(adjency_pairs(i, 0));
+            int center_cell = adjency_pairs(i, 0);
+            int center = x(center_cell);
             int neigh = x(neigh_cell);
+            // Rcpp::Rcout << neigh << std::endl;
+
             arma::uvec loc_c = find(u == center);
             arma::uvec loc_n = find(u == neigh);
             cooc_mat(loc_c, loc_n) += 1;
         }
     }
     // return a coocurence matrix
-    NumericMatrix cooc_mat_result = as<NumericMatrix>(wrap(cooc_mat));
+    IntegerMatrix cooc_mat_result = as<IntegerMatrix>(wrap(cooc_mat));
     // add names
     List u_names = List::create(u, u);
     cooc_mat_result.attr("dimnames") = u_names;
@@ -139,7 +142,7 @@ NumericMatrix rcpp_get_coocurrence_matrix2(arma::imat x, int directions = 4) {
 }
 
 /*** R
-x = matrix(c(1, 1, 1, 2), ncol = 2)
+x = matrix(c(1, 1, 1, 2, 2, 1), ncol = 2)
 x
 y = rcpp_xy_from_matrix(x)
 y
@@ -149,4 +152,15 @@ a = rcpp_get_adjacency(x, 4)
 na.omit(a)
 b = rcpp_get_coocurrence_matrix2(x, 4)
 b
+# 1 2
+# 1 6 3
+# 2 3 2
+d = rcpp_get_coocurrence_matrix2(land, 4)
+d
+rcpp_get_coocurrence_matrix2(raster::as.matrix(landscape), directions = 4)
+#      -999   1   2    3
+# -999  248  16  37   67
+# 1      16 520  43  137
+# 2      37  43 704  184
+# 3      67 137 184 1528
 */
