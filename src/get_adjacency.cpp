@@ -172,8 +172,7 @@ b
 # 1 2
 # 1 6 3
 # 2 3 2
-d = rcpp_get_coocurrence_matrix2(land, 4)
-d
+data("landscape")
 rcpp_get_coocurrence_matrix2(raster::as.matrix(landscape), directions = 4)
 #      -999   1   2    3
 # -999  248  16  37   67
