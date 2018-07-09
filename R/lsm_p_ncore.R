@@ -86,18 +86,22 @@ lsm_p_ncore_calc <- function(landscape){
 
     landscape_labelled <- cclabel(landscape)
 
-    e <- raster::extent(landscape)
-    r <- raster::raster(e,
+    landscape_extent <- raster::extent(landscape)
+    landscape_raster <- raster::raster(landscape_extent,
                         resolution = raster::res(landscape),
                         crs = raster::crs(landscape))
 
     core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-        classes_landscape <- patches_class %>%
+        patches_landscape <- patches_class %>%
             raster::values() %>%
             stats::na.omit() %>%
             unique() %>%
             sort()
+
+        class_name <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
 
         class_boundary <- raster::boundaries(patches_class, directions = 4)
 
@@ -107,22 +111,21 @@ lsm_p_ncore_calc <- function(landscape){
 
         cclabel_matrix <- ccl_labels(class_boundary_matrix)[[1]]
 
-        cclabel_landscape <- raster::setValues(r, cclabel_matrix)
+        cclabel_landscape <- raster::setValues(landscape_raster, cclabel_matrix)
 
         points <- raster::rasterToPoints(cclabel_landscape)
         points <- points[!duplicated(points[,'layer']),]
 
-
         n_core_area <- table(raster::extract(x = patches_class,
                                              y = points[,1:2]))
 
-        result <- c(rep(0, length(classes_landscape)))
-        names(result)  <- classes_landscape
+        result <- c(rep(0, length(patches_landscape)))
+        names(result)  <- patches_landscape
 
         result[as.numeric(names(n_core_area))] <- n_core_area
 
         tibble::tibble(
-            class = classes_landscape,
+            class = class_name,
             value = result
         )
     })
