@@ -94,12 +94,50 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
     IntegerVector n_elem = seq_len(n_elem_size) - 1;
     IntegerVector center_cells(directions * n_elem_size);
 
-    center_cells = rep(n_elem, directions);
+    IntegerVector center_cells_unrep = rcpp_cell_from_xy(x, xy);
+
+    center_cells = rep(center_cells_unrep, directions);
     IntegerVector neighs_cells = rcpp_cell_from_xy(x, neighs);
+
+    // Rcpp::Rcout << row_ids << std::endl;
+    // Rcpp::Rcout << col_ids << std::endl;
+    // Rcpp::Rcout << center_cells << std::endl;
+
 
     IntegerMatrix result(row_ids_rep.size(), 2);
     result(_, 0) = center_cells;
     result(_, 1) = neighs_cells;
+
+    return result;
+}
+
+// [[Rcpp::export]]
+IntegerMatrix rcpp_get_pairs(arma::imat x, int directions = 4) {
+
+    IntegerMatrix adjency_pairs = rcpp_get_adjacency(x, directions);
+    int num_pairs = adjency_pairs.nrow();
+
+    IntegerVector center_cells_val(num_pairs);
+    IntegerVector neighs_cells_val(num_pairs);
+
+    for (int i = 0; i < num_pairs; i++) {
+        int neigh_cell = adjency_pairs(i, 1);
+        // Rcpp::Rcout << neigh_cell << std::endl;
+
+        if (neigh_cell != INT_MIN){
+            int center_cell = adjency_pairs(i, 0);
+            center_cells_val[i] = x(center_cell);
+            neighs_cells_val[i] = x(neigh_cell);
+            // Rcpp::Rcout << neigh << std::endl;
+        } else {
+            center_cells_val[i] = NA_INTEGER;
+            neighs_cells_val[i] = NA_INTEGER;
+        }
+    }
+
+    IntegerMatrix result(num_pairs, 2);
+    result(_, 0) = center_cells_val;
+    result(_, 1) = neighs_cells_val;
 
     return result;
 }
@@ -150,6 +188,8 @@ z = rcpp_cell_from_xy(x, y)
 z
 a = rcpp_get_adjacency(x, 4)
 na.omit(a)
+rcpp_get_pairs(x, 4)
+
 b = rcpp_get_coocurrence_matrix2(x, 4)
 b
 # 1 2
