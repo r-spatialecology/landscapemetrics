@@ -79,6 +79,15 @@ lsm_p_circle.list <- function(landscape) {
 
 lsm_p_circle_calc <- function(landscape) {
 
+    max_diameter <- function(x1, x2, x3, x4, y1, y2, y3, y4) {
+        matrix(c(
+            x = c(x1, x2, x3, x4),
+            y = c(y1, y2, y3, y4)),
+            ncol = 2) %>%
+            stats::dist() %>%
+            max()
+    }
+
     resolution <- landscape %>%
         raster::res() %>%
         magrittr::extract2(1) %>%
@@ -94,39 +103,25 @@ lsm_p_circle_calc <- function(landscape) {
             names() %>%
             sub("Class_", "", .)
 
-        points_class <- patches_class %>%
-            raster::rasterToPoints() %>%
-            tibble::as.tibble() %>%
-            purrr::set_names(c("x", "y", "id"))
+        points_class <- cbind(raster::xyFromCell(patches_class, 1:ncell(patches_class)),
+                              id = raster::values(patches_class)) %>%
+            na.omit() %>%
+            tibble::as.tibble()
 
-        points_class %>%
-            dplyr::pull(id) %>%
-            unique() %>%
-            sort() %>%
-            purrr::map_dfr(function(patch_ij){
+        points_corner <- dplyr::mutate(points_class,
+                                       x1 = x - resolution, x2 = x - resolution,
+                                       x3 = x + resolution, x4 = x + resolution,
+                                       y1 = y - resolution, y2 = y + resolution,
+                                       y3 = y + resolution, y4 = y - resolution)
 
-                x <- points_class %>%
-                    dplyr::filter(id == patch_ij) %>%
-                    dplyr::pull(x)
 
-                y <- points_class %>%
-                    dplyr::filter(id == patch_ij) %>%
-                    dplyr::pull(y)
+        circle <- points_corner %>%
+            dplyr::group_by(id) %>%
+            dplyr::summarise(value = (max_diameter(x1, x2, x3, x4, y1, y2, y3, y4) / 2) ^ 2 * pi) # (diameter / 2) ^ 2  * pi
 
-                points_corners <- matrix(c(x = c(x - resolution,  x - resolution,
-                                                 x + resolution,  x + resolution),
-                                           y = c(y - resolution,  y + resolution,
-                                                 y + resolution,  y - resolution)), ncol = 2)
+        tibble::tibble(class = class,
+                       value = circle$value)
 
-                diameter <- points_corners %>%
-                    stats::dist() %>%
-                    max()
-
-                circle <- (diameter / 2) ^ 2  * pi
-
-                tibble::tibble(class = class,
-                               value = circle)
-            })
     })
 
     circle_patch <- dplyr::mutate(circle_patch,
