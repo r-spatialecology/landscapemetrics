@@ -96,8 +96,7 @@ lsm_p_ncore_calc <- function(landscape){
         patches_landscape <- patches_class %>%
             raster::values() %>%
             stats::na.omit() %>%
-            unique() %>%
-            sort()
+            unique()
 
         class_name <- patches_class %>%
             names() %>%
@@ -110,20 +109,20 @@ lsm_p_ncore_calc <- function(landscape){
         cclabel_landscape <- cclabel(class_boundary)[[2]]
 
         points <- raster::rasterToPoints(cclabel_landscape)
-        points <- points[!duplicated(points[, 3]),]
+        points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
 
         n_core_area <- table(raster::extract(x = patches_class,
-                                             y = points[,1:2]))
+                                             y = points[, 1:2]))
 
         result <- c(rep(0, length(patches_landscape)))
         names(result)  <- patches_landscape
 
         result[as.numeric(names(n_core_area))] <- n_core_area
 
-        tibble::tibble(
+        (tibble::tibble(
             class = class_name,
             value = result
-        )
+        ))
     })
 
     tibble::tibble(
