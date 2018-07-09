@@ -85,50 +85,50 @@ lsm_p_contig.list <- function(landscape) {
 
 lsm_p_contig_calc <- function(landscape) {
 
-    filter_matrix <- matrix(c(1, 2, 1,
-                              2, 1, 2,
-                              1, 2, 1), 3, 3, byrow = T)
+    landscape_labelled <- cclabel(landscape)
 
-    filter_function <- function(x) {
-        center <- x[ceiling(length(x) / 2)]
+    contig_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-        if (is.na(center)) {
-            return(center)
-        } else {
-            sum(x, na.rm = TRUE)
-        }
-    }
+        cells <- raster::Which(!is.na(patches_class), cells = TRUE)
+        n_cells <- table(raster::values(patches_class))
+        n_patches <- length(n_cells)
 
+        diagonal_matrix <- matrix(c(1, NA, 1,
+                                    NA, 0, NA,
+                                    1, NA, 1), 3, 3, byrow = T)
 
-    contig_patch <- landscape %>%
-        cclabel() %>%
-        purrr::map_dfr(function(patches_class) {
-            patches_class %>%
-                raster::values() %>%
-                stats::na.omit() %>%
-                unique() %>%
-                sort() %>%
-                purrr::map_dfr(function(patch_id) {
-                    patches_class[patches_class != patch_id] <- NA
-                    patches_class[patches_class == patch_id] <- 1
+        straigth_matrix <- matrix(c(NA, 1, NA,
+                                    1, 0, 1,
+                                    NA, 1, NA), 3, 3, byrow = T)
 
-                    filter <- raster::focal(patches_class,
-                                            filter_matrix,
-                                            filter_function,
-                                            pad = TRUE)
+        diagonal_neighbours <- raster::adjacent(patches_class,
+                                                cells = cells,
+                                                directions = diagonal_matrix)
 
-                    contig <- ((raster::cellStats(filter, sum) /
-                                    sum(!is.na(raster::getValues(patches_class)))
-                                ) - 1) / 12
+        straigth_neighbours <- raster::adjacent(patches_class,
+                                                cells = cells,
+                                                directions = straigth_matrix)
 
-                    class_name <- patches_class %>%
-                        names() %>%
-                        sub("Class_", "", .)
+        tb_diagonal <- table(factor(patches_class[diagonal_neighbours[,1]],
+                                    levels = 1:n_patches),
+                             factor(patches_class[diagonal_neighbours[,2]],
+                                    levels = 1:n_patches))
 
-                    tibble::tibble(class = class_name,
-                                   value = contig)
-                })
-        })
+        tb_straight <- table(factor(patches_class[straigth_neighbours[,1]],
+                                    levels = 1:n_patches),
+                             factor(patches_class[straigth_neighbours[,2]],
+                                    levels = 1:n_patches)) * 2
+
+        contiguity <- (((diag(tb_diagonal) + diag(tb_straight) + n_cells) /
+                            n_cells) - 1) / 12
+
+        class_name <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
+
+        tibble::tibble(class = class_name,
+                       value = contiguity)
+    })
 
     tibble::tibble(
         level = "patch",
