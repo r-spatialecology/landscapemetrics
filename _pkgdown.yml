@@ -53,6 +53,7 @@ reference:
     - lsm_c_circle_cv
     - lsm_c_circle_mn
     - lsm_c_circle_sd
+    - lsm_c_clumpy
     - lsm_c_cohesion
     - lsm_c_contig_cv
     - lsm_c_contig_mn

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AREA_MN (landscape level) — lsm_l_area_mn • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CLUMPY (class level) — lsm_c_clumpy • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="AREA_MN (landscape level) — lsm_l_area_mn" />
+<meta property="og:title" content="CLUMPY (class level) — lsm_c_clumpy" />
 
-<meta property="og:description" content="Mean of patch area (Area and edge metric)" />
+<meta property="og:description" content="Clumpiness index (Contagion/Interspersion metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -144,30 +144,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>AREA_MN (landscape level)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_l_area_mn.R'><code>R/lsm_l_area_mn.R</code></a></small>
-    <div class="hidden name"><code>lsm_l_area_mn.Rd</code></div>
+    <h1>CLUMPY (class level)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/marcosci/landscapemetrics/blob/master/R/lsm_c_clumpy.R'><code>R/lsm_c_clumpy.R</code></a></small>
+    <div class="hidden name"><code>lsm_c_clumpy.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mean of patch area (Area and edge metric)</p>
+    <p>Clumpiness index (Contagion/Interspersion metric)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,20 +184,23 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$AREA_{MN} = mean(AREA[patch_{ij}])$$
-where \(AREA[patch_{ij}]\) is the area of each patch in hectares</p>
-<p>AREA_MN is an 'Area and Edge metric'. The metric summarises the landscape
-as the mean of all patch in the landscape. The metric is a simple way
-to describe the composition of the landscape. Especially together with the total
-landscape area (<code>lsm_l_ta</code>), it can also give an an idea of patch structure
-(e.g. many small patches vs. few larges patches).</p>
+    <p>$$Given G_{i} = \Bigg(\frac{g_{ii}}{ (\sum\limits_{k=1}^m g_{ik}) - min e_{i}} \Bigg)$$
+$$CLUMPY = \Bigg[ \frac{G_{i} - P_{i}}{P_{i}} for G_{i} &lt; P_{i} \&amp; P_{i} &lt; .5; else \\  \frac{G_{i} - P_{i}}{1 -P_{i}} \Bigg] $$</p>
+<p>where \(g_{ii}\) is the number of like adjacencies, \(g_{ik}\) is the classwise
+number of all adjacencies including the focal class, \(min e_{i}\) is the
+minimum perimeter of the total class in terms of cell surfaces assuming total clumping and
+\(P_{i}\) is the proportion of landscape occupied by each class.</p>
+<p>CLUMPY is an 'Contagion/Interspersion metric'. It equals the proportional deviation of
+the proportion of like adjacencies involving the corresponding class from that expected
+under a spatially random distribution. The metric is based on he adjacency matrix and the
+the double-count method.</p>
 <h3>Units</h3>
-Hectares
+None
 <h3>Range</h3>
-AREA_MN &gt; 0
+-1 &lt;= CLUMPY &lt;= 1
 <h3>Behaviour</h3>
-Approaches AREA_MN = 0 if all patches are small. Increases, without
-limit, as the patch areas increase.
+Equals -1 for maximally disaggregated, 0 for randomly distributed
+and 1 for maximally aggregated classes.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -206,22 +209,14 @@ Program for Categorical and Continuous Maps. Computer software program produced 
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code>lsm_p_area</code>,
-<code>mean</code>, <br />
-<code>lsm_c_area_mn</code>,
-<code>lsm_c_area_sd</code>,
-<code>lsm_c_area_cv</code> <br />
-<code>lsm_l_area_sd</code>,
-<code>lsm_l_area_cv</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_area_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
-#&gt;   layer level     class    id metric              value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;
-#&gt; 1     1 landscape    NA    NA patch area (mean) 0.00333</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_clumpy</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   layer level class    id metric value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+#&gt; 1     1 class     1    NA clumpy 0.732
+#&gt; 2     1 class     2    NA clumpy 0.697
+#&gt; 3     1 class     3    NA clumpy 0.649</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -234,8 +229,6 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
