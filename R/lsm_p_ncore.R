@@ -107,14 +107,10 @@ lsm_p_ncore_calc <- function(landscape){
 
         raster::values(class_boundary)[raster::values(class_boundary) == 1 | raster::values(is.na(class_boundary))] <- -999
 
-        class_boundary_matrix <- raster::as.matrix(class_boundary)
-
-        cclabel_matrix <- ccl_labels(class_boundary_matrix)[[1]]
-
-        cclabel_landscape <- raster::setValues(landscape_raster, cclabel_matrix)
+        cclabel_landscape <- cclabel(class_boundary)[[2]]
 
         points <- raster::rasterToPoints(cclabel_landscape)
-        points <- points[!duplicated(points[,'layer']),]
+        points <- points[!duplicated(points[, 3]),]
 
         n_core_area <- table(raster::extract(x = patches_class,
                                              y = points[,1:2]))
