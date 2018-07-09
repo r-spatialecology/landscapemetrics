@@ -42,7 +42,6 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
         if (row < 0 || row >= n_rows || col < 0 || col >= n_cols) {
             result[i] = NA_INTEGER;
         } else {
-            // result[i] = row * n_cols + col + 1 ;
             result[i] = col * n_rows + row;
         }
     }
@@ -66,7 +65,6 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
     IntegerVector y_id(directions);
 
     if (directions == 4){
-        // initiate neighbors ids
         x_id = IntegerVector::create(0, -1, 1, 0);
         y_id = IntegerVector::create(-1, 0, 0, 1);
     }
@@ -99,11 +97,6 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
     center_cells = rep(center_cells_unrep, directions);
     IntegerVector neighs_cells = rcpp_cell_from_xy(x, neighs);
 
-    // Rcpp::Rcout << row_ids << std::endl;
-    // Rcpp::Rcout << col_ids << std::endl;
-    // Rcpp::Rcout << center_cells << std::endl;
-
-
     IntegerMatrix result(row_ids_rep.size(), 2);
     result(_, 0) = center_cells;
     result(_, 1) = neighs_cells;
@@ -122,13 +115,11 @@ IntegerMatrix rcpp_get_pairs(arma::imat x, int directions = 4) {
 
     for (int i = 0; i < num_pairs; i++) {
         int neigh_cell = adjency_pairs(i, 1);
-        // Rcpp::Rcout << neigh_cell << std::endl;
 
         if (neigh_cell != INT_MIN){
             int center_cell = adjency_pairs(i, 0);
             center_cells_val[i] = x(center_cell);
             neighs_cells_val[i] = x(neigh_cell);
-            // Rcpp::Rcout << neigh << std::endl;
         } else {
             center_cells_val[i] = NA_INTEGER;
             neighs_cells_val[i] = NA_INTEGER;
@@ -158,13 +149,11 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(arma::imat x, int directions = 4) {
     // for each row and col
     for (int i = 0; i < num_pairs; i++) {
         int neigh_cell = adjency_pairs(i, 1);
-        // Rcpp::Rcout << neigh_cell << std::endl;
 
         if (neigh_cell != INT_MIN){
             int center_cell = adjency_pairs(i, 0);
             int center = x(center_cell);
             int neigh = x(neigh_cell);
-            // Rcpp::Rcout << neigh << std::endl;
 
             arma::uvec loc_c = find(u == center);
             arma::uvec loc_n = find(u == neigh);
@@ -195,8 +184,7 @@ b
 # 1 2
 # 1 6 3
 # 2 3 2
-d = rcpp_get_coocurrence_matrix2(land, 4)
-d
+data("landscape")
 rcpp_get_coocurrence_matrix2(raster::as.matrix(landscape), directions = 4)
 #      -999   1   2    3
 # -999  248  16  37   67
