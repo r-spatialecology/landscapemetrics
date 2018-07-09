@@ -28,11 +28,27 @@ ccl_borders <- function(m) {
     .Call('_landscapemetrics_ccl_borders', PACKAGE = 'landscapemetrics', m)
 }
 
+rcpp_xy_from_matrix <- function(x) {
+    .Call('_landscapemetrics_rcpp_xy_from_matrix', PACKAGE = 'landscapemetrics', x)
+}
+
+rcpp_cell_from_xy <- function(x, y) {
+    .Call('_landscapemetrics_rcpp_cell_from_xy', PACKAGE = 'landscapemetrics', x, y)
+}
+
+rcpp_get_adjacency <- function(x, directions) {
+    .Call('_landscapemetrics_rcpp_get_adjacency', PACKAGE = 'landscapemetrics', x, directions)
+}
+
+rcpp_get_pairs <- function(x, directions = 4L) {
+    .Call('_landscapemetrics_rcpp_get_pairs', PACKAGE = 'landscapemetrics', x, directions)
+}
+
 rcpp_get_composition_vector <- function(x) {
     .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
-rcpp_get_coocurrence_matrix <- function(x, directions = 8L) {
+rcpp_get_coocurrence_matrix <- function(x, directions = 4L) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
 
@@ -50,10 +66,6 @@ rcpp_get_offdiagonal_vector <- function(x, directions = 8L) {
 
 rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
-}
-
-get_neighbors <- function(x, i, j, directions = 8L) {
-    .Call('_landscapemetrics_get_neighbors', PACKAGE = 'landscapemetrics', x, i, j, directions)
 }
 
 #' @title 8-way connected component labelling.
@@ -75,5 +87,17 @@ get_neighbors <- function(x, i, j, directions = 8L) {
 #' @export
 ccl_labels <- function(m) {
     .Call('_landscapemetrics_ccl_labels', PACKAGE = 'landscapemetrics', m)
+}
+
+timesTwo <- function(x) {
+    .Call('_landscapemetrics_timesTwo', PACKAGE = 'landscapemetrics', x)
+}
+
+doXYFromCell <- function(x) {
+    .Call('_landscapemetrics_doXYFromCell', PACKAGE = 'landscapemetrics', x)
+}
+
+doCrossTab2 <- function(x, y) {
+    .Call('_landscapemetrics_doCrossTab2', PACKAGE = 'landscapemetrics', x, y)
 }
 
