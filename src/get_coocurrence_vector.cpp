@@ -1,39 +1,33 @@
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
-#include "get_neighbors.h"
+#include "get_adjacency.h"
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
-NumericMatrix rcpp_get_coocurrence_matrix(arma::imat x, int directions = 8) {
-        // number of rows and cols
-        int num_r = x.n_rows;
-        int num_c = x.n_cols;
+IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, int directions = 4) {
         // get unique values
         arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
         // create a matrix of zeros of unique values size
         arma::imat cooc_mat(u.n_elem, u.n_elem, arma::fill::zeros);
+        // extract adjency pairs
+        IntegerMatrix pairs = rcpp_get_pairs(x, directions);
+        // number of pairs
+        int num_pairs = pairs.nrow();
         // for each row and col
-        for (int i = 0; i < num_r; i++) {
-                for (int j = 0; j < num_c; j++) {
-                        // extract a central value
-                        int center = x(i, j);
-                        // check if a central value is not NA (INT_MIN)
-                        if (center != INT_MIN){
-                                // get neighbors values
-                                arma::ivec neighs = get_neighbors(x, i, j, directions);
-                                // populate a coocurence matrix with values
-                                for (arma::uword n = 0; n < neighs.n_elem; n++){
-                                        arma::uvec loc_c = find(u == center);
-                                        arma::uvec loc_n = find(u == neighs(n));
-                                        cooc_mat(loc_c, loc_n) += 1;
-                                }
-                        }
-                }
+        for (int i = 0; i < num_pairs; i++) {
+                // extract value of central cell and its neighbot
+                int center = pairs(i, 0);
+                int neigh = pairs(i, 1);
+                // find their location in the output matrix
+                arma::uvec loc_c = find(u == center);
+                arma::uvec loc_n = find(u == neigh);
+                // add its count
+                cooc_mat(loc_c, loc_n) += 1;
         }
         // return a coocurence matrix
-        NumericMatrix cooc_mat_result = as<NumericMatrix>(wrap(cooc_mat));
+        IntegerMatrix cooc_mat_result = as<IntegerMatrix>(wrap(cooc_mat));
         // add names
         List u_names = List::create(u, u);
         cooc_mat_result.attr("dimnames") = u_names;
