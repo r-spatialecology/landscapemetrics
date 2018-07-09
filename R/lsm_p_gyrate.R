@@ -77,47 +77,37 @@ lsm_p_gyrate_calc <- function(landscape) {
 
     landscape_labelled <- cclabel(landscape)
 
-    purrr::map_dfr(landscape_labelled, function(patches_class) {
+    gyrate <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-            class <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+        class <- patches_class %>%
+            names() %>%
+            sub("Class_", "", .)
 
-            points_class <- patches_class %>%
-                raster::rasterToPoints() %>%
-                tibble::as.tibble() %>%
-                purrr::set_names(c("x", "y", "id"))
+        points_class <- patches_class %>%
+            raster::rasterToPoints() %>%
+            tibble::as.tibble() %>%
+            purrr::set_names(c("x", "y", "id"))
 
-            patches_class <- points_class %>%
-                dplyr::pull(id) %>%
-                unique() %>%
-                sort()
+        centroid <- points_class %>%
+            dplyr::group_by(id) %>%
+            dplyr::summarise(x_centroid = mean(x),
+                             y_centroid = mean(y))
 
-            purrr::map_dfr(patches_class, function(patch_ij){
+        full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
 
-                points_patch <- dplyr::filter(points_class, id == patch_ij)
+        gyrate_class <-  dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2)) %>%
+            dplyr::group_by(id) %>%
+            dplyr::summarise(value = mean(dist, na.rm = TRUE))
 
-                mean_x <- points_patch %>%
-                    dplyr::pull(x) %>%
-                    mean(na.rm = TRUE)
-
-                mean_y <- points_patch %>%
-                    dplyr::pull(y) %>%
-                    mean(na.rm = TRUE)
-
-                gyrate_patch <- raster::pointDistance(points_patch[, 1:2],
-                                                      dplyr::bind_cols(x = mean_x,
-                                                                       y = mean_y),
-                                                      lonlat = FALSE)
-                gyrate_mean_patch <- mean(gyrate_patch, na.rm = TRUE)
-
-                tibble::tibble(level = "patch",
-                               class = as.integer(class),
-                               id = as.integer(patch_ij),
-                               metric = "radius of gyration",
-                               value = as.double(gyrate_mean_patch))
-            })
+        tibble::tibble(class = as.integer(class),
+                       value = as.double(gyrate_class$value))
     })
+
+    tibble::tibble(level = "patch",
+                   class = as.integer(gyrate$class),
+                   id = as.integer(seq_len(nrow(gyrate))),
+                   metric = "radius of gyration",
+                   value = as.double(gyrate$value))
 
 }
 

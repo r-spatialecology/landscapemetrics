@@ -98,7 +98,7 @@ lsm_p_contig_calc <- function(landscape) {
                                     1, NA, 1), 3, 3, byrow = T)
 
         straigth_matrix <- matrix(c(NA, 1, NA,
-                                    1, 0, 1,
+                                     1, 0, 1,
                                     NA, 1, NA), 3, 3, byrow = T)
 
         diagonal_neighbours <- raster::adjacent(patches_class,
