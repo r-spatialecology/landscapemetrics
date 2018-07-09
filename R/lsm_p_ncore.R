@@ -103,11 +103,11 @@ lsm_p_ncore_calc <- function(landscape){
 
         raster::values(class_boundary)[raster::values(class_boundary) == 1 | raster::values(is.na(class_boundary))] <- -999
 
-        class_boundary_mat <- raster::as.matrix(class_boundary)
+        class_boundary_matrix <- raster::as.matrix(class_boundary)
 
-        ccl_mat <- ccl_labels(class_boundary_mat)[[1]]
+        cclabel_matrix <- ccl_labels(class_boundary_matrix)[[1]]
 
-        cclabel_landscape <- raster::setValues(r, ccl_mat)
+        cclabel_landscape <- raster::setValues(r, cclabel_matrix)
 
         points <- raster::rasterToPoints(cclabel_landscape)
         points <- points[!duplicated(points[,'layer']),]
