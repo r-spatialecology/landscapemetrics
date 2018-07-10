@@ -43,6 +43,7 @@ reference:
      - lsm_p_shape
   - title: Class Level Metrics
     contents:
+    - lsm_c_ai
     - lsm_c_area_cv
     - lsm_c_area_mn
     - lsm_c_area_sd
