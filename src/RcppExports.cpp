@@ -147,40 +147,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// timesTwo
-NumericVector timesTwo(arma::imat x);
-RcppExport SEXP _landscapemetrics_timesTwo(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(timesTwo(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// doXYFromCell
-NumericMatrix doXYFromCell(arma::imat x);
-RcppExport SEXP _landscapemetrics_doXYFromCell(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(doXYFromCell(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// doCrossTab2
-IntegerVector doCrossTab2(int x, int y);
-RcppExport SEXP _landscapemetrics_doCrossTab2(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(doCrossTab2(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_ccl_borders", (DL_FUNC) &_landscapemetrics_ccl_borders, 1},
@@ -195,9 +161,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_ccl_labels", (DL_FUNC) &_landscapemetrics_ccl_labels, 1},
-    {"_landscapemetrics_timesTwo", (DL_FUNC) &_landscapemetrics_timesTwo, 1},
-    {"_landscapemetrics_doXYFromCell", (DL_FUNC) &_landscapemetrics_doXYFromCell, 1},
-    {"_landscapemetrics_doCrossTab2", (DL_FUNC) &_landscapemetrics_doCrossTab2, 2},
     {NULL, NULL, 0}
 };
 

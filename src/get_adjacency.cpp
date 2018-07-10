@@ -3,6 +3,11 @@ using namespace Rcpp;
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
+//' Coordinates from a matrix
+//'
+//' These functions get coordinates (row and column numbers) of the matrix cells.
+//'
+//' @param x A matrix
 // [[Rcpp::export]]
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
     // get number of rows and columns
@@ -29,6 +34,14 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
     return result;
 }
 
+//' Get cell number
+//'
+//' Get cell number(s) of a matrix from row and column numbers.
+//' Cell numbers start at 0 in the upper left corner,
+//' and increase from top to bottom, and then from left to right.
+//'
+//' @param x A matrix
+//' @param y A matrix with two columns (row and column numbers)
 // [[Rcpp::export]]
 IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     // get number of rows and columns
@@ -52,6 +65,15 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     return result;
 }
 
+//' Adjacent cells
+//'
+//' Identify cells that are adjacent to a set of cells on a matrix.
+//' An output is a two columns matrix, where the first column contains a
+//' main cell number and the second column contains an adjacent cell number.
+//'
+//' @param x A matrix
+//' @param directions The number of directions in which cells should be connected:
+//' 4 (rook's case) or 8 (queen's case)
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
     // extract coordinates from matrix
@@ -102,6 +124,15 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
     return result;
 }
 
+//' Adjacent cells values
+//'
+//' Extract values of adjacent cells.
+//' An output is a two columns matrix, where the first column contains a
+//' main cell value and the second column contains an adjacent cell value.
+//'
+//' @param x A matrix
+//' @param directions The number of directions in which cells should be connected:
+//' 4 (rook's case) or 8 (queen's case)
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_pairs(arma::imat x, int directions = 4) {
     // extract adjency pairs
