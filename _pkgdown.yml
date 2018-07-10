@@ -172,9 +172,9 @@ navbar:
        - text: "General background"
          icon: fa-book
          href: articles/articles/general-background.html
-#       - text: "Differences FRAGSTATS|landscapemetrics"
-#         icon: fa-edit
-#         href: articles/articles/comparing_fragstats_landscapemetrics.html
+       - text: "Differences FRAGSTATS|landscapemetrics"
+         icon: fa-edit
+         href: articles/articles/comparing_fragstats_landscapemetrics.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/articles/publication_record.html
