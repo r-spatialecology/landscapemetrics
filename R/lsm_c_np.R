@@ -78,9 +78,7 @@ lsm_c_np_calc <- function(landscape){
 
         np <- patches_class %>%
             raster::values() %>%
-            unique() %>%
-            na.omit() %>%
-            length()
+            max(na.rm = TRUE)
 
         tibble::tibble(
             level = "class",
