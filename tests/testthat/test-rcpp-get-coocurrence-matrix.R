@@ -50,9 +50,6 @@ land_result2 = rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), di
 land_result3 = rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = 4)
 land_result4 = rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 8)
 
-fragstats_landscape_landscape_msidi <- fragstats_landscape_landscape$MSIDI
-
-
 test_that("rcpp_get_coocurrence_matrix results are correct", {
     expect_equivalent(land_result1, land_true1)
     expect_equivalent(land_result2, land_true2)
