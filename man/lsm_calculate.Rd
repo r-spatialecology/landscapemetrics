@@ -28,11 +28,11 @@ lsm_calculate(landscape, what, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{what}{Selected level of metrics: either "all", "patch", "class", "landscape". The default is "all".}
+\item{what}{Selected level of metrics: either "all", "patch", "class", "landscape".
+The default is "all". It is also possible to specifiy functions as a vector of strings,
+e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
 \item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
-
-\item{classes_max}{xxx.}
 }
 \value{
 tibble
