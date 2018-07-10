@@ -10,6 +10,7 @@ using namespace Rcpp;
 //' @param x A matrix
 // [[Rcpp::export]]
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
+    // adapted from raster::xyFromCell()
     // get number of rows and columns
     int n_rows = x.n_rows;
     int n_cols = x.n_cols;
@@ -44,6 +45,7 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
 //' @param y A matrix with two columns (row and column numbers)
 // [[Rcpp::export]]
 IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
+    // adapted from raster::cellFromXY()
     // get number of rows and columns
     int n_rows = x.n_rows;
     int n_cols = x.n_cols;
