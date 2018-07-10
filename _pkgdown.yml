@@ -109,12 +109,14 @@ reference:
     - lsm_l_circle_mn
     - lsm_l_circle_sd
     - lsm_l_cohesion
+    - lsm_l_condent
     - lsm_l_contig_cv
     - lsm_l_contig_mn
     - lsm_l_contig_sd
     - lsm_l_core_cv
     - lsm_l_core_mn
     - lsm_l_core_sd
+    - lsm_l_ent
     - lsm_l_tca
     - lsm_l_dcad
     - lsm_l_dcore_cv
@@ -131,11 +133,13 @@ reference:
     - lsm_l_gyrate_cv
     - lsm_l_gyrate_mn
     - lsm_l_gyrate_sd
+    - lsm_l_joinent
     - lsm_l_lpi
     - lsm_l_lsi
     - lsm_l_mesh
     - lsm_l_msidi
     - lsm_l_msiei
+    - lsm_l_mutinf
     - lsm_l_ndca
     - lsm_l_np
     - lsm_l_pafrac
