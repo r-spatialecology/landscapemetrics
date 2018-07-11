@@ -28,11 +28,58 @@ ccl_borders <- function(m) {
     .Call('_landscapemetrics_ccl_borders', PACKAGE = 'landscapemetrics', m)
 }
 
+#' Coordinates from a matrix
+#'
+#' These functions get coordinates (row and column numbers) of the matrix cells.
+#'
+#' @param x A matrix
+rcpp_xy_from_matrix <- function(x) {
+    .Call('_landscapemetrics_rcpp_xy_from_matrix', PACKAGE = 'landscapemetrics', x)
+}
+
+#' Get cell number
+#'
+#' Get cell number(s) of a matrix from row and column numbers.
+#' Cell numbers start at 0 in the upper left corner,
+#' and increase from top to bottom, and then from left to right.
+#'
+#' @param x A matrix
+#' @param y A matrix with two columns (row and column numbers)
+rcpp_cell_from_xy <- function(x, y) {
+    .Call('_landscapemetrics_rcpp_cell_from_xy', PACKAGE = 'landscapemetrics', x, y)
+}
+
+#' Adjacent cells
+#'
+#' Identify cells that are adjacent to a set of cells on a matrix.
+#' An output is a two columns matrix, where the first column contains a
+#' main cell number and the second column contains an adjacent cell number.
+#'
+#' @param x A matrix
+#' @param directions The number of directions in which cells should be connected:
+#' 4 (rook's case) or 8 (queen's case)
+rcpp_get_adjacency <- function(x, directions) {
+    .Call('_landscapemetrics_rcpp_get_adjacency', PACKAGE = 'landscapemetrics', x, directions)
+}
+
+#' Adjacent cells values
+#'
+#' Extract values of adjacent cells.
+#' An output is a two columns matrix, where the first column contains a
+#' main cell value and the second column contains an adjacent cell value.
+#'
+#' @param x A matrix
+#' @param directions The number of directions in which cells should be connected:
+#' 4 (rook's case) or 8 (queen's case)
+rcpp_get_pairs <- function(x, directions = 4L) {
+    .Call('_landscapemetrics_rcpp_get_pairs', PACKAGE = 'landscapemetrics', x, directions)
+}
+
 rcpp_get_composition_vector <- function(x) {
     .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
-rcpp_get_coocurrence_matrix <- function(x, directions = 8L) {
+rcpp_get_coocurrence_matrix <- function(x, directions = 4L) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
 
@@ -50,10 +97,6 @@ rcpp_get_offdiagonal_vector <- function(x, directions = 8L) {
 
 rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
-}
-
-get_neighbors <- function(x, i, j, directions = 8L) {
-    .Call('_landscapemetrics_get_neighbors', PACKAGE = 'landscapemetrics', x, i, j, directions)
 }
 
 #' @title 8-way connected component labelling.
