@@ -71,7 +71,7 @@ lsm_c_clumpy.list <- function(landscape) {
 
 }
 
-lsm_c_clumpy_calc_new <- function(landscape){
+lsm_c_clumpy_calc <- function(landscape){
 
     landscape_padded <- pad_raster(landscape)
 
