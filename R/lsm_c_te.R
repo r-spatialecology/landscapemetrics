@@ -102,13 +102,7 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
                                         pad_raster_cells = 1)
         }
 
-        adjacent_cells <- raster::adjacent(patches_class,
-                                           seq_len(raster::ncell(patches_class)),
-                                           directions = 4,
-                                           pairs=TRUE)
-
-        tb <- table(patches_class[adjacent_cells[,1]],
-                    patches_class[adjacent_cells[,2]])
+        tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class), directions = 4)
 
         if(all(dim(tb) == 1)){
             te <- 0

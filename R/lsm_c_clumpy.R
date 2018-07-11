@@ -75,15 +75,7 @@ lsm_c_clumpy_calc_new <- function(landscape){
 
     landscape_padded <- pad_raster(landscape)
 
-    adjacent_cells <- raster::adjacent(
-        landscape_padded,
-        cells =  seq_len(raster::ncell(landscape_padded)),
-        directions = 4,
-        pairs = TRUE
-    )
-
     tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded), directions = 4)
-
 
     like_adjacencies <- diag(tb)
     like_adjacencies <- like_adjacencies[2:length(like_adjacencies)]

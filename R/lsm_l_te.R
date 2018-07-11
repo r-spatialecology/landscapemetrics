@@ -89,13 +89,7 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
                              pad_raster_cells = 1)
     }
 
-    adjacent_cells <- raster::adjacent(landscape,
-                                       seq_len(raster::ncell(landscape)),
-                                       4,
-                                       pairs=TRUE)
-    # count whos neighbor of who
-    tb <- table(landscape[adjacent_cells[,1]],
-                landscape[adjacent_cells[,2]])
+    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
     te <- sum(tb[lower.tri(tb)]) * raster::res(landscape)[[1]]
 
     tibble::tibble(
