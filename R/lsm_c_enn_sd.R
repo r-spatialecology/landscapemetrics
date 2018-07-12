@@ -90,7 +90,7 @@ lsm_c_enn_sd_calc <- function(landscape) {
         level = "class",
         class = as.integer(enn_sd$class),
         id = as.integer(NA),
-        metric = "euclidean nearest neighbor distance distribution (sd)",
+        metric = "enn_sd",
         value = as.double(enn_sd$value)
     )
 

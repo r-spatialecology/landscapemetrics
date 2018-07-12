@@ -83,7 +83,7 @@ lsm_c_cpland_calc <- function(landscape){
         level = "class",
         class = as.integer(cpland$class),
         id = as.integer(NA),
-        metric = "core area percentage of landscape",
+        metric = "cpland",
         value = as.double(cpland$value)
     )
 }

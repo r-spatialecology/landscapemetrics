@@ -83,7 +83,7 @@
 #'         level = "class",
 #'         class = iji$class,
 #'         id = as.integer(NA),
-#'         metric = "interspersion and juxtaposition index",
+#'         metric = "iji",
 #'         value = iji$value
 #'     )
 #' }

@@ -41,9 +41,11 @@ lsm_calculate.RasterLayer <- function(landscape, what = "all", ...) {
 #' @export
 lsm_calculate.RasterStack <- function(landscape, what = "all",
                                       classes_max = NULL, ...) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_calculate_internal,
-                   what = what, ...) %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_calculate_internal,
+                   what = what,
+                   ...)
 }
 
 #' @name lsm_calculate
@@ -204,21 +206,22 @@ lsm_calculate_internal <- function(landscape, what, ...) {
         }
 
         if (what == "patch") {
-            result <- dplyr::bind_rows(
-                lsm_p_area(landscape),
-                lsm_p_cai(landscape),
-                lsm_p_circle(landscape),
-                lsm_p_contig(landscape),
-                lsm_p_core(landscape),
-                lsm_p_enn(landscape),
-                lsm_p_frac(landscape),
-                lsm_p_gyrate(landscape),
-                lsm_p_ncore(landscape),
-                lsm_p_para(landscape),
-                lsm_p_perim(landscape),
-                # lsm_p_prox(landscape),
-                lsm_p_shape(landscape)
-            )
+            area <- lsm_p_area(landscape)
+            cai <- lsm_p_cai(landscape)
+            circle <- lsm_p_circle(landscape)
+            contig <- lsm_p_contig(landscape)
+            core <- lsm_p_core(landscape)
+            enn <- lsm_p_enn(landscape)
+            frac <- lsm_p_frac(landscape)
+            gyrate <- lsm_p_gyrate(landscape)
+            ncore <- lsm_p_ncore(landscape)
+            para <- lsm_p_para(landscape)
+            perim <- lsm_p_perim(landscape)
+            # prox <- lsm_p_prox(landscape)
+            shape <- lsm_p_shape(landscape)
+
+            result <- dplyr::bind_rows(area, cai, circle, contig, core, enn,
+                                       frac, gyrate, ncore, para, perim, shape)
         }
 
         else if (what == "class") {

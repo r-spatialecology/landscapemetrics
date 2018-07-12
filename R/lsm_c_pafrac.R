@@ -115,7 +115,7 @@ lsm_c_pafrac_calc <- function(landscape){
                 level = "class",
                 class = as.integer(class_name),
                 id = as.integer(NA),
-                metric = "perimeter-area fractal dimension",
+                metric = "pafrac",
                 value = as.double(pafrac))
         })
 }

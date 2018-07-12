@@ -78,7 +78,7 @@ lsm_c_pladj.list <- function(landscape) {
 
 lsm_c_pladj_calc <- function(landscape) {
 
-    paster_padded <- pad_raster(landscape, pad_raster_value = -999,
+    landscape_padded <- pad_raster(landscape, pad_raster_value = -999,
                                 pad_raster_cells = 1)
 
     tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded), directions = 4)
@@ -96,7 +96,7 @@ lsm_c_pladj_calc <- function(landscape) {
         level = "class",
         class = as.integer(raster::unique(landscape)),
         id = as.integer(NA),
-        metric = "percentage of like adjacencies",
+        metric = "pladj",
         value = as.double(pladj)
     )
 }

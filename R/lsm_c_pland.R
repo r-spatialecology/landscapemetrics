@@ -82,7 +82,7 @@ lsm_c_pland_calc <- function(landscape){
         level = "class",
         class = as.integer(pland$class),
         id = as.integer(NA),
-        metric = "percentage of landscape",
+        metric = "pland",
         value = as.double(pland$value)
     )
 }

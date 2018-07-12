@@ -87,7 +87,7 @@ lsm_c_frac_sd_calc <- function(landscape){
         level = "patch",
         class = as.integer(frac_sd$class),
         id = as.integer(NA),
-        metric = "fractal dimension index (sd)",
+        metric = "frac_sd",
         value = as.double(frac_sd$value)
     )
 }

@@ -81,7 +81,7 @@ lsm_c_pd_calc <- function(landscape) {
         level = "class",
         class = as.integer(patch_density$class),
         id = as.integer(NA),
-        metric = "patch density",
+        metric = "pd",
         value = as.double(patch_density$value)
     )
 }

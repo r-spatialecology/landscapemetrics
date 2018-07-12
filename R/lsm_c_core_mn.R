@@ -86,7 +86,7 @@ lsm_c_core_mn_calc <- function(landscape){
         level = "class",
         class = as.integer(core_mean$class),
         id = as.integer(NA),
-        metric = "core area (mean)",
+        metric = "core_mn",
         value = as.double(core_mean$value)
     )
 }

@@ -101,7 +101,7 @@ lsm_c_ed_calc <- function(landscape, count_boundary = FALSE) {
         level = "class",
         class = as.integer(ed$class),
         id = as.integer(NA),
-        metric = "edge density",
+        metric = "ed",
         value = as.double(ed$value)
     )
 }

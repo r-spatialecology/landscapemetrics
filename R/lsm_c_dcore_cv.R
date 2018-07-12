@@ -92,7 +92,7 @@ lsm_c_dcore_cv_calc <- function(landscape){
         level = "class",
         class = as.integer(dcore_sd$class),
         id = as.integer(NA),
-        metric = "number of core areas (cv)",
+        metric = "dcore_cv",
         value = as.double(dcore_sd$value)
     )
 }

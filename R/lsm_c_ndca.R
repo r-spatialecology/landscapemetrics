@@ -87,7 +87,7 @@ lsm_c_ndca_calc <- function(landscape){
         level = "class",
         class = as.integer(dcad$class),
         id = as.integer(NA),
-        metric = "number of core areas",
+        metric = "ndca",
         value = as.double(dcad$value)
     )
 }

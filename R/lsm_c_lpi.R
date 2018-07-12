@@ -82,7 +82,7 @@ lsm_c_lpi_calc <- function(landscape) {
         level = "class",
         class = as.integer(lpi$class),
         id = as.integer(NA),
-        metric = "largest patch index",
+        metric = "lpi",
         value = as.double(lpi$value)
     )
 }

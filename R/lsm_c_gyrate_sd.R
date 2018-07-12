@@ -88,7 +88,7 @@ lsm_c_gyrate_sd_calc <- function(landscape) {
         level = "class",
         class = as.integer(gyrate_sd$class),
         id = as.integer(NA),
-        metric = "radius of gyration (sd)",
+        metric = "gyrate_sd",
         value = as.double(gyrate_sd$value)
     )
 

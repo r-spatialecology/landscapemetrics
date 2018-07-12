@@ -80,7 +80,7 @@ lsm_c_ca_calc <- function(landscape) {
         level = "class",
         class = as.integer(total_area$class),
         id = as.integer(NA),
-        metric = "total area",
+        metric = "ca",
         value = as.double(total_area$value)
     )
 }

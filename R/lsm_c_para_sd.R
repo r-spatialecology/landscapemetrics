@@ -88,7 +88,7 @@ lsm_c_para_sd_calc <- function(landscape){
         level = "class",
         class = as.integer(para_sd$class),
         id = as.integer(NA),
-        metric = "perimeter-area-ratio (sd)",
+        metric = "para_sd",
         value = as.double(para_sd$value)
     )
 }

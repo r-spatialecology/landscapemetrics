@@ -83,7 +83,7 @@ lsm_c_division_calc <- function(landscape) {
         level = "class",
         class = as.integer(division$class),
         id = as.integer(NA),
-        metric = "landscape division index",
+        metric = "division",
         value = as.double(division$value)
     )
 }

@@ -86,7 +86,7 @@ lsm_c_shape_mn_calc <- function(landscape){
         level = "patch",
         class = as.integer(shape_mn$class),
         id = as.integer(NA),
-        metric = "shape index (mean)",
+        metric = "shape_mn",
         value = as.double(shape_mn$value)
     )
 }
