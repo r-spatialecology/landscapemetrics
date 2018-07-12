@@ -74,7 +74,7 @@ lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
 
 
     if(is.null(classes_max)) {
-        warning("RPR = NA for classes_max=NULL")
+        warning("RPR = NA for classes_max=NULL", call. = FALSE)
         rpr <- NA
     }
 

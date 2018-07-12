@@ -45,7 +45,10 @@ lsm_calculate.RasterStack <- function(landscape, what = "all",
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_calculate_internal,
                    what = what,
-                   ...)
+                   .id = "layer2",
+                   ...) %>%
+        dplyr::mutate(layer = as.integer(layer2)) %>%
+        dplyr::select(-layer2)
 }
 
 #' @name lsm_calculate
@@ -220,8 +223,18 @@ lsm_calculate_internal <- function(landscape, what, ...) {
             # prox <- lsm_p_prox(landscape)
             shape <- lsm_p_shape(landscape)
 
-            result <- dplyr::bind_rows(area, cai, circle, contig, core, enn,
-                                       frac, gyrate, ncore, para, perim, shape)
+            result <- dplyr::bind_rows(area,
+                                       cai,
+                                       circle,
+                                       contig,
+                                       core,
+                                       # enn,
+                                       frac,
+                                       gyrate,
+                                       ncore,
+                                       para,
+                                       perim,
+                                       shape)
         }
 
         else if (what == "class") {
