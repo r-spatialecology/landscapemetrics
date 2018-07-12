@@ -107,7 +107,7 @@ lsm_p_core_calc <- function(landscape) {
         level = "patch",
         class = as.integer(core$class),
         id = as.integer(seq_len(nrow(core))),
-        metric = "core area",
+        metric = "core",
         value = as.double(core$value)
     )
 }

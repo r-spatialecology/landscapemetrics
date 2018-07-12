@@ -103,7 +103,7 @@ lsm_p_perim_calc <- function(landscape) {
         id = as.integer(seq_len(nrow(
             perimeter_patch
         ))),
-        metric = "perimeter",
+        metric = "perim",
         value = as.double(perimeter_patch$value)
     )
 }

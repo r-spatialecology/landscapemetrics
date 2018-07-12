@@ -53,6 +53,6 @@
 #         rep(x, length(cclabel_points_prox[[x]]))
 #     })),
 #     id = seq_len(length(unlist(cclabel_points_prox))),
-#     metric = "proximity index",
+#     metric = "prox",
 #     value = unlist(cclabel_points_prox)
 # ) %>% View()

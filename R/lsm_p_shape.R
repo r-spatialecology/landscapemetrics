@@ -95,7 +95,7 @@ lsm_p_shape_calc <- function(landscape){
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "shape index",
+        metric = "shape",
         value = as.double(shape_patch$value)
         )
 

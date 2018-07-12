@@ -95,7 +95,7 @@ lsm_p_cai_calc <- function(landscape){
         level = "patch",
         class = as.integer(area_patch$class),
         id = as.integer(cai_patch$id),
-        metric = "core area index",
+        metric = "cai",
         value = as.double(cai_patch$value)
     )
 }

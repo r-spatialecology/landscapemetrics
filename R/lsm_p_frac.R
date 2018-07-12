@@ -93,7 +93,7 @@ lsm_p_frac_calc <- function(landscape){
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "fractal dimension index",
+        metric = "frac",
         value = as.double(frac_patch$value)
     )
 }

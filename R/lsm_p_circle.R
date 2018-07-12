@@ -131,7 +131,7 @@ lsm_p_circle_calc <- function(landscape) {
         level = "patch",
         class = as.integer(circle_patch$class),
         id = as.integer(seq_len(nrow(circle_patch))),
-        metric = "related circumscribing circle",
+        metric = "circle",
         value = as.double(circle_patch$value)
     )
 }

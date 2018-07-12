@@ -134,7 +134,7 @@ lsm_p_contig_calc <- function(landscape) {
         level = "patch",
         class = as.integer(contig_patch$class),
         id = as.integer(seq_len(nrow(contig_patch))),
-        metric = "contiguity",
+        metric = "contig",
         value = as.double(contig_patch$value)
     )
 }

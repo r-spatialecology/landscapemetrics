@@ -129,7 +129,7 @@ lsm_p_ncore_calc <- function(landscape){
         level = "patch",
         class = as.integer(core_class$class),
         id = as.integer(seq_len(nrow(core_class))),
-        metric = "number of core areas",
+        metric = "ncore",
         value = as.double(core_class$value)
     )
 }

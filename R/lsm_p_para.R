@@ -88,7 +88,7 @@ lsm_p_para_calc <- function(landscape){
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "perimeter-area-ratio",
+        metric = "para",
         value = as.double(para_patch$value)
     )
 }

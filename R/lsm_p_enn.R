@@ -125,7 +125,7 @@ lsm_p_enn_calc <- function(landscape) {
     tibble::tibble(level = "patch",
                    class = as.integer(enn_patch$class),
                    id = as.integer(seq_len(nrow(enn_patch))),
-                   metric = "euclidean nearest neighbor distance distribution (mean)",
+                   metric = "enn",
                    value = as.double(enn_patch$value))
 }
 

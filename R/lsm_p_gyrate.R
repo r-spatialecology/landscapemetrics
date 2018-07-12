@@ -106,7 +106,7 @@ lsm_p_gyrate_calc <- function(landscape) {
     tibble::tibble(level = "patch",
                    class = as.integer(gyrate$class),
                    id = as.integer(seq_len(nrow(gyrate))),
-                   metric = "radius of gyration",
+                   metric = "gyrate",
                    value = as.double(gyrate$value))
 
 }
