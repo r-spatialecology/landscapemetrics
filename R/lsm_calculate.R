@@ -81,7 +81,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_p_circle(landscape),
                 lsm_p_contig(landscape),
                 lsm_p_core(landscape),
-                lsm_p_enn(landscape),
+                # lsm_p_enn(landscape),
                 lsm_p_frac(landscape),
                 lsm_p_gyrate(landscape),
                 lsm_p_ncore(landscape),
@@ -115,9 +115,9 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_dcore_sd(landscape),
                 lsm_c_division(landscape),
                 lsm_c_ed(landscape, ...),
-                lsm_c_enn_cv(landscape),
-                lsm_c_enn_mn(landscape),
-                lsm_c_enn_sd(landscape),
+                # lsm_c_enn_cv(landscape),
+                # lsm_c_enn_mn(landscape),
+                # lsm_c_enn_sd(landscape),
                 lsm_c_frac_cv(landscape),
                 lsm_c_frac_mn(landscape),
                 lsm_c_frac_sd(landscape),
@@ -167,9 +167,9 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_l_dcore_mn(landscape),
                 lsm_l_dcore_sd(landscape),
                 lsm_l_ed(landscape, ...),
-                lsm_l_enn_cv(landscape),
-                lsm_l_enn_mn(landscape),
-                lsm_l_enn_sd(landscape),
+                # lsm_l_enn_cv(landscape),
+                # lsm_l_enn_mn(landscape),
+                # lsm_l_enn_sd(landscape),
                 lsm_l_frac_cv(landscape),
                 lsm_l_frac_mn(landscape),
                 lsm_l_frac_sd(landscape),
@@ -211,7 +211,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
             circle <- lsm_p_circle(landscape)
             contig <- lsm_p_contig(landscape)
             core <- lsm_p_core(landscape)
-            enn <- lsm_p_enn(landscape)
+            # enn <- lsm_p_enn(landscape)
             frac <- lsm_p_frac(landscape)
             gyrate <- lsm_p_gyrate(landscape)
             ncore <- lsm_p_ncore(landscape)
@@ -250,9 +250,9 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_dcore_sd(landscape),
                 lsm_c_division(landscape),
                 lsm_c_ed(landscape, ...),
-                lsm_c_enn_cv(landscape),
-                lsm_c_enn_mn(landscape),
-                lsm_c_enn_sd(landscape),
+                # lsm_c_enn_cv(landscape),
+                # lsm_c_enn_mn(landscape),
+                # lsm_c_enn_sd(landscape),
                 lsm_c_frac_cv(landscape),
                 lsm_c_frac_mn(landscape),
                 lsm_c_frac_sd(landscape),
@@ -305,9 +305,9 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_l_dcore_mn(landscape),
                 lsm_l_dcore_sd(landscape),
                 lsm_l_ed(landscape, ...),
-                lsm_l_enn_cv(landscape),
-                lsm_l_enn_mn(landscape),
-                lsm_l_enn_sd(landscape),
+                # lsm_l_enn_cv(landscape),
+                # lsm_l_enn_mn(landscape),
+                # lsm_l_enn_sd(landscape),
                 lsm_l_frac_cv(landscape),
                 lsm_l_frac_mn(landscape),
                 lsm_l_frac_sd(landscape),
