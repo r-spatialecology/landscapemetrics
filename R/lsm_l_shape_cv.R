@@ -85,7 +85,7 @@ lsm_l_shape_cv_calc <- function(landscape){
         level = "patch",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "shape index (cv)",
+        metric = "shape_cv",
         value = as.double(shape_cv$value)
     )
 }

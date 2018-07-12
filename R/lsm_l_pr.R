@@ -73,7 +73,7 @@ lsm_l_pr_calc = function(landscape){
         level = 'landscape',
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = 'patch richness',
+        metric = 'pr',
         value = as.double(richness))
 
 }

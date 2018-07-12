@@ -82,7 +82,7 @@ lsm_l_split_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "splitting index",
+        metric = "split",
         value = as.double(split$value)
     )
 }

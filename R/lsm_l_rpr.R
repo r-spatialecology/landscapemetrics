@@ -89,7 +89,7 @@ lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "relative patch richness",
+        metric = "rpr",
         value = as.double(rpr)
     )
 }

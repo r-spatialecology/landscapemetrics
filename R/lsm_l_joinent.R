@@ -95,7 +95,7 @@ lsm_l_joinent_calc <- function(landscape, directions, ordered, base){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "joint entropy",
+        metric = "joinent",
         value = as.double(cplx)
     )
 }

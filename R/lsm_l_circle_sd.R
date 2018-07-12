@@ -87,7 +87,7 @@ lsm_l_circle_sd_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "related circumscribing circle (mean)",
+        metric = "circle_sd",
         value = as.double(circle_mn$value)
     )
 

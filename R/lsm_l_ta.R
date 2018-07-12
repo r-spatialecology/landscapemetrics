@@ -80,7 +80,7 @@ lsm_l_ta_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "total area",
+        metric = "ta",
         value = as.double(total_area$value)
     )
 }

@@ -81,7 +81,7 @@ lsm_l_ndca_calc <- function(landscape){
         level = "landscape",
         class =  as.integer(NA),
         id = as.integer(NA),
-        metric = "number of disjunct core areas",
+        metric = "ndca",
         value = as.double(ndca$value)
     )
 }

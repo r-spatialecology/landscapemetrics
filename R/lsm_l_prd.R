@@ -76,7 +76,7 @@ lsm_l_prd_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "patch richness density",
+        metric = "prd",
         value = as.double(prd$value)
     )
 }

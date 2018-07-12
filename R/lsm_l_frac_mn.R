@@ -86,7 +86,7 @@ lsm_l_frac_mn_calc <- function(landscape){
         level = "patch",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "fractal dimension index (mean)",
+        metric = "frac_mn",
         value = as.double(frac_mean$value)
     )
 }

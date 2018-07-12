@@ -85,7 +85,7 @@ lsm_l_area_cv_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "patch area (cv)",
+        metric = "area_cv",
         value = as.double(area_cv$value)
     )
 }

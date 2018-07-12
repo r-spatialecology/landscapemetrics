@@ -75,7 +75,7 @@ lsm_l_msiei_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "modified Simpson's evenness index",
+        metric = "msiei",
         value = as.double(msiei)
     )
 }

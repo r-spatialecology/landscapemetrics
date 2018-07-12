@@ -89,7 +89,7 @@ lsm_l_cai_sd_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area index (sd)",
+        metric = "cai_sd",
         value = as.double(cai_sd$value)
     )
 }

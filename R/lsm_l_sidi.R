@@ -77,7 +77,7 @@ lsm_l_sidi_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "Simpson's diversity index",
-        value = sidi$value
+        metric = "sidi",
+        value = as.double(sidi$value)
     )
 }

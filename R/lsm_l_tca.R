@@ -85,7 +85,7 @@ lsm_l_tca_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "total core area",
+        metric = "tca",
         value = as.double(total_core_area$value)
     )
 }

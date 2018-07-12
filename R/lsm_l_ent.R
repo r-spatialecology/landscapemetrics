@@ -79,7 +79,7 @@ lsm_l_ent_calc <- function(landscape, base){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "Shannon entropy",
+        metric = "ent",
         value = as.double(comp)
     )
 }

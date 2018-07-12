@@ -91,7 +91,7 @@ lsm_l_contig_mn_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "contiguity distribution (mean)",
+        metric = "contig_mn",
         value = as.double(contig_mn$value)
     )
 

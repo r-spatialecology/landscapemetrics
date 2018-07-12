@@ -85,7 +85,7 @@ lsm_l_shape_sd_calc <- function(landscape){
         level = "patch",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "shape index (sd)",
+        metric = "shape_sd",
         value = as.double(shape_sd$value)
     )
 }

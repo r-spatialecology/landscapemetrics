@@ -86,7 +86,7 @@ lsm_l_core_sd_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area (sd)",
+        metric = "core_sd",
         value = as.double(core_sd$value)
     )
 }

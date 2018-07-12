@@ -83,7 +83,7 @@ lsm_l_dcore_mn_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "number of core areas (mean)",
+        metric = "dcore_mn",
         value = as.double(dcore_mean$value)
     )
 }

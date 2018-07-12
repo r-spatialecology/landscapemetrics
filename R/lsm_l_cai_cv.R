@@ -90,7 +90,7 @@ lsm_l_cai_cv_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area index (cv)",
+        metric = "cai_cv",
         value = as.double(cai_cv$value)
     )
 }

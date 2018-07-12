@@ -76,7 +76,7 @@ lsm_l_msidi_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "modified Simpson's diversity index",
+        metric = "msidi",
         value = as.double(msidi$value)
     )
 }

@@ -105,7 +105,7 @@ lsm_l_cohesion_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "patch cohesion index",
+        metric = "cohesion",
         value = as.double(cohesion$value)
     )
 }

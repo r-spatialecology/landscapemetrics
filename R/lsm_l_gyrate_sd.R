@@ -87,7 +87,7 @@ lsm_l_gyrate_sd_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "related circumscribing circle (mean)",
+        metric = "gyrate_sd",
         value = as.double(gyrate_sd$value)
     )
 

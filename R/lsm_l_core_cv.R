@@ -87,7 +87,7 @@ lsm_l_core_cv_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area (cv)",
+        metric = "core_cv",
         value = as.double(core_cv$value)
     )
 }

@@ -96,7 +96,7 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "total edge",
+        metric = "te",
         value = as.double(te)
     )
 

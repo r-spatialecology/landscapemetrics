@@ -87,7 +87,7 @@ lsm_l_enn_cv_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "euclidean nearest neighbor distance distribution (cv)",
+        metric = "enn_cv",
         value = as.double(enn_cv$value)
     )
 

@@ -84,7 +84,7 @@ lsm_l_mesh_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "effective mesh size",
+        metric = "mesh",
         value = as.double(mesh$value)
     )
 }

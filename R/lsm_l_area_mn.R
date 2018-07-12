@@ -86,7 +86,7 @@ lsm_l_area_mn_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "patch area (mean)",
+        metric = "area_mn",
         value = as.double(area_mean$value)
     )
 }

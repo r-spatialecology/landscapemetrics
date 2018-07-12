@@ -88,7 +88,7 @@ lsm_l_lsi_calc <- function(landscape) {
         level = "patch",
         class = as.integer(edge_landscape$class),
         id = as.integer(edge_landscape$id),
-        metric = "shape index",
+        metric = "lsi",
         value = as.double(lsi$value)
     )
 

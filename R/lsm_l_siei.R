@@ -79,7 +79,7 @@ lsm_l_siei_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "Simpson's evenness index",
+        metric = "siei",
         value = as.double(siei)
     )
 }

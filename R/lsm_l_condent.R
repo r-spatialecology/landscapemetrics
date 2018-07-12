@@ -100,7 +100,7 @@ lsm_l_condent_calc <- function(landscape, directions, ordered, base){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "conditional entropy",
+        metric = "condent",
         value = as.double(conf)
     )
 }

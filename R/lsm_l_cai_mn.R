@@ -87,7 +87,7 @@ lsm_l_cai_mn_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "core area index (mean)",
+        metric = "cai_mn",
         value = as.double(cai_mean$value)
     )
 }

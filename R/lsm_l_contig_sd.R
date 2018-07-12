@@ -92,7 +92,7 @@ lsm_l_contig_sd_calc <- function(landscape) {
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "contiguity distribution (cv)",
+        metric = "contig_sd",
         value = as.double(contig_cv$value)
     )
 

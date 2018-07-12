@@ -100,7 +100,7 @@ lsm_l_mutinf_calc <- function(landscape, directions, ordered, base){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "mutual information",
+        metric = "mutinf",
         value = as.double(aggr)
     )
 }

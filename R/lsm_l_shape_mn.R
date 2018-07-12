@@ -85,7 +85,7 @@ lsm_l_shape_mn_calc <- function(landscape){
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
-        metric = "shape index (mean)",
+        metric = "shape_mn",
         value = as.double(shape_mn$value)
     )
 }
