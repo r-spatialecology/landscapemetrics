@@ -99,6 +99,7 @@ reference:
     - lsm_c_te
   - title: Landscape Level Metrics
     contents:
+    - lsm_l_ai
     - lsm_l_area_cv
     - lsm_l_area_mn
     - lsm_l_area_sd
