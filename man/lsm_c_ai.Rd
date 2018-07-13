@@ -56,3 +56,6 @@ Program for Categorical and Continuous Maps. Computer software program produced 
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
+\seealso{
+\code{\link{lsm_l_ai}}
+}

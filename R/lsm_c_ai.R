@@ -21,6 +21,9 @@
 #'
 #' @return tibble
 #'
+#' @seealso
+#' \code{\link{lsm_l_ai}}
+#'
 #' @examples
 #' lsm_c_ai(landscape)
 #'

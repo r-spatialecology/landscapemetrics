@@ -56,14 +56,29 @@ show_patches_intern <- function(landscape) {
     }
 
     labeled_landscape %>%
-        raster::stack() %>%
-        sum(na.rm = TRUE) %>%
-        raster::as.data.frame(xy = TRUE) %>%
-        ggplot2::ggplot() +
-        ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
-        ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer), colour = "white") +
-        ggplot2::coord_equal() +
-        ggplot2::theme_void() +
-        ggplot2::guides(fill = FALSE) +
-        ggplot2::scale_fill_viridis_c()
+            raster::stack() %>%
+            sum(na.rm = TRUE) %>%
+            raster::as.data.frame(xy = TRUE) %>%
+            ggplot2::ggplot() +
+            ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
+            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer), colour = "white") +
+            ggplot2::coord_equal() +
+            ggplot2::theme_void() +
+            ggplot2::guides(fill = FALSE) +
+            ggplot2::scale_fill_gradientn(
+                    colours = c(
+                            "#5F4690",
+                            "#1D6996",
+                            "#38A6A5",
+                            "#0F8554",
+                            "#73AF48",
+                            "#EDAD08",
+                            "#E17C05",
+                            "#CC503E",
+                            "#94346E",
+                            "#6F4070",
+                            "#994E95",
+                            "#666666"
+                        )
+        )
 }
