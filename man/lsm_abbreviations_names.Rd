@@ -17,4 +17,13 @@ in the literature.
 Can be used ofter calculating the metric(s) with a join to have
 a more readable results tibble or for visualizing your results.
 }
+\examples{
+aggregation_index <- lsm_p_area(landscape)
+aggregation_index <- dplyr::right_join(aggregation_index,
+                                       lsm_abbreviations_names,
+                                       by = 'metric')
+aggregation_index
+
+
+}
 \keyword{datasets}
