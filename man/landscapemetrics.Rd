@@ -12,7 +12,7 @@ xxx
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/marcosci/landscapemetrics}
+  \item \url{https://marcosci.github.io/landscapemetrics/}
   \item Report bugs at \url{https://github.com/marcosci/landscapemetrics/issues}
 }
 

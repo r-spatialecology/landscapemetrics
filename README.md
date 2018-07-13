@@ -10,6 +10,9 @@ status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemet
 [![Coverage
 status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 ## Overview
 
@@ -113,18 +116,18 @@ landscape
 landscape %>% 
   lsm_p_enn()
 #> # A tibble: 27 x 6
-#>    layer level class    id metric                                    value
-#>    <int> <chr> <int> <int> <chr>                                     <dbl>
-#>  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   
-#>  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   
-#>  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83
-#>  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   
-#>  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   
-#>  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83
-#>  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12
-#>  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12
-#>  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24
-#> 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47
+#>    layer level class    id metric value
+#>    <int> <chr> <int> <int> <chr>  <dbl>
+#>  1     1 patch     1     1 enn     7   
+#>  2     1 patch     1     2 enn     4   
+#>  3     1 patch     1     3 enn     2.83
+#>  4     1 patch     1     4 enn     2   
+#>  5     1 patch     1     5 enn     2   
+#>  6     1 patch     1     6 enn     2.83
+#>  7     1 patch     1     7 enn     4.12
+#>  8     1 patch     1     8 enn     4.12
+#>  9     1 patch     1     9 enn     4.24
+#> 10     1 patch     2    10 enn     4.47
 #> # ... with 17 more rows
 ```
 

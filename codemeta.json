@@ -1,0 +1,220 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "landscapemetrics",
+  "description": "More about what it does (maybe more than one line)\n    Use four spaces when indenting paragraphs within the Description.",
+  "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
+  "codeRepository": "https://marcosci.github.io/landscapemetrics/",
+  "issueTracker": "https://github.com/marcosci/landscapemetrics/issues",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "version": "0.1.0",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "version": "3.5.1",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.5.1 (2018-07-02)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Marco",
+      "familyName": "Sciaini",
+      "email": "sciaini.marco@gmail.com",
+      "@id": "https://orcid.org/0000-0002-3042-5435"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Maximillian",
+      "familyName": "Hesselbarth",
+      "@id": "https://orcid.org/0000-0003-1125-9918"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jakub",
+      "familyName": "Nowosad",
+      "email": "nowosad.jakub@gmail.com",
+      "@id": "https://orcid.org/0000-0002-1057-3721"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Laura J.",
+      "familyName": "Graham",
+      "@id": "https://orcid.org/0000-0002-1057-3721"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jeffrey",
+      "familyName": "Hollister",
+      "@id": "https://orcid.org/0000-0002-3611-7281"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Kimberly A.",
+      "familyName": "With",
+      "email": "kwith@ksu.edu",
+      "@id": "https://orcid.org/0000-0001-5570-1515"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Marco",
+      "familyName": "Sciaini",
+      "email": "sciaini.marco@gmail.com",
+      "@id": "https://orcid.org/0000-0002-3042-5435"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.1"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "magrittr",
+      "name": "magrittr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=magrittr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "purrr",
+      "name": "purrr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "raster",
+      "name": "raster",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=raster"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Rcpp",
+      "name": "Rcpp",
+      "version": ">= 0.12.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rcpp"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tibble",
+      "name": "tibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "https://sysreqs.r-hub.io/get/cxx11"
+    }
+  ],
+  "releaseNotes": "https://github.com/marcosci/landscapemetrics/blob/master/NEWS.md",
+  "readme": "https://github.com/marcosci/landscapemetrics/blob/master/README.md",
+  "fileSize": "956.908KB",
+  "contIntegration": ["https://travis-ci.org/marcosci/landscapemetrics", "https://ci.appveyor.com/project/marcosci/landscapemetrics", "https://codecov.io/github/marcosci/landscapemetrics?branch=master"],
+  "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental"
+}
