@@ -23,5 +23,23 @@ globalVariables(c(".",
                   "id",
                   "m",
                   "minp",
-                  "n"))
+                  "n",
+                  "count",
+                  "dist",
+                  "layer2",
+                  "lsm_p_nca",
+                  "x1",
+                  "x2",
+                  "x3",
+                  "x4",
+                  "x_centroid",
+                  "y1",
+                  "y2",
+                  "y3",
+                  "y4",
+                  "y_centroid"))
+
+
+
+
 # nocov end

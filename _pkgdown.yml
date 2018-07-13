@@ -7,6 +7,7 @@ template:
 reference:
   - title: Internal Datasets
     contents:
+    - lsm_abbreviations_names
     - landscape
     - landscape_stack
     - augusta_nlcd

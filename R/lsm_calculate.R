@@ -39,8 +39,7 @@ lsm_calculate.RasterLayer <- function(landscape, what = "all", ...) {
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterStack <- function(landscape, what = "all",
-                                      classes_max = NULL, ...) {
+lsm_calculate.RasterStack <- function(landscape, what = "all", ...) {
 
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_calculate_internal,
@@ -53,8 +52,7 @@ lsm_calculate.RasterStack <- function(landscape, what = "all",
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterBrick <- function(landscape, what = "all",
-                                      classes_max = NULL, ...) {
+lsm_calculate.RasterBrick <- function(landscape, what = "all", ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_calculate_internal,
                    what = what, ...) %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -62,8 +60,7 @@ lsm_calculate.RasterBrick <- function(landscape, what = "all",
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.list <- function(landscape, what = "all",
-                               classes_max = NULL, ...) {
+lsm_calculate.list <- function(landscape, what = "all", ...) {
     purrr::map_dfr(landscape, lsm_calculate_internal,
                    what = what, ...) %>%
         dplyr::mutate(layer = as.integer(layer))
