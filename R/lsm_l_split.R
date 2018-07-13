@@ -42,21 +42,24 @@ lsm_l_split <- function(landscape) UseMethod("lsm_l_split")
 #' @name lsm_l_split
 #' @export
 lsm_l_split.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_split_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_split_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_split
 #' @export
 lsm_l_split.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_split_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_split_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_split
 #' @export
 lsm_l_split.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_split_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_split_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

@@ -85,11 +85,13 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,
-                             pad_raster_value = max(raster::values(landscape)) + 1,
+                             pad_raster_value = max(raster::values(landscape)) +
+                                 1,
                              pad_raster_cells = 1)
     }
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
+    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                      directions = 4)
     te <- sum(tb[lower.tri(tb)]) * raster::res(landscape)[[1]]
 
     tibble::tibble(

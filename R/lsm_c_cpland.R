@@ -77,7 +77,8 @@ lsm_c_cpland_calc <- function(landscape){
 
     core_area_class <- lsm_c_tca_calc(landscape)
 
-    cpland <- dplyr::mutate(core_area_class, value = value / area_landscape$value * 100)
+    cpland <- dplyr::mutate(core_area_class,
+                            value = value / area_landscape$value * 100)
 
     tibble::tibble(
         level = "class",

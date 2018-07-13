@@ -39,33 +39,36 @@ lsm_l_shei <- function(landscape) UseMethod("lsm_l_shei")
 
 #' @name lsm_l_shei
 #' @export
-lsm_l_shei.RasterLayer = function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+lsm_l_shei.RasterLayer <- function(landscape){
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shei_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
-lsm_l_shei.RasterStack = function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+lsm_l_shei.RasterStack <- function(landscape){
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shei_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
-lsm_l_shei.RasterBrick = function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shei_calc, .id = "layer") %>%
+lsm_l_shei.RasterBrick <- function(landscape){
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shei_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
-lsm_l_shei.list = function(landscape){
+lsm_l_shei.list <- function(landscape){
     purrr::map_dfr(landscape, lsm_l_shei_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_shei_calc = function(landscape){
+lsm_l_shei_calc <- function(landscape){
     area <- raster::ncell(landscape)
 
     p <- landscape %>%
@@ -77,7 +80,8 @@ lsm_l_shei_calc = function(landscape){
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shei",
-        value = as.double(sum(-p * log(p, exp(1)), na.rm = TRUE) / log(length(p), exp(1)))
+        value = as.double(sum(-p * log(p, exp(1)), na.rm = TRUE) /
+                              log(length(p), exp(1)))
     )
     E
 }

@@ -43,21 +43,24 @@ lsm_l_lsi <- function(landscape) UseMethod("lsm_l_lsi")
 #' @name lsm_l_lsi
 #' @export
 lsm_l_lsi.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
 lsm_l_lsi.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lsi
 #' @export
 lsm_l_lsi.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lsi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lsi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -70,7 +73,7 @@ lsm_l_lsi.list <- function(landscape) {
 
 lsm_l_lsi_calc <- function(landscape) {
 
-    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = T)
+    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = TRUE)
 
     area_landscape <- landscape %>%
         lsm_l_ta_calc() %>%
@@ -79,9 +82,10 @@ lsm_l_lsi_calc <- function(landscape) {
     lsi <- dplyr::mutate(area_landscape,
                          n = trunc(sqrt(value)),
                          m = value - n^ 2,
-                         minp = dplyr::case_when(m == 0 ~ n * 4,
-                                                 n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                                 value > n * (1 + n) ~ 4 * n + 4),
+                         minp = dplyr::case_when(
+                             m == 0 ~ n * 4,
+                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                             value > n * (1 + n) ~ 4 * n + 4),
                          value = edge_landscape$value / minp)
 
     tibble::tibble(

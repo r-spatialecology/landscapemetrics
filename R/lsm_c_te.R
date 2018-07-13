@@ -94,7 +94,8 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
             names() %>%
             sub("Class_", "", .)
 
-        raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
+        raster::values(patches_class)[is.na(raster::values(
+            patches_class))] <- -999
 
         if(isTRUE(count_boundary)){
             patches_class <- pad_raster(landscape = patches_class,
@@ -102,7 +103,8 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
                                         pad_raster_cells = 1)
         }
 
-        tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class), directions = 4)
+        tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                          directions = 4)
 
         if(all(dim(tb) == 1)){
             te <- 0

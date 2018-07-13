@@ -32,11 +32,17 @@
 #' landscape complexity. DOI:
 #'
 #' @export
-lsm_l_mutinf <- function(landscape, directions = 4, ordered = TRUE, base = "log2") UseMethod("lsm_l_mutinf")
+lsm_l_mutinf <- function(landscape,
+                         directions = 4,
+                         ordered = TRUE,
+                         base = "log2") UseMethod("lsm_l_mutinf")
 
 #' @name lsm_l_mutinf
 #' @export
-lsm_l_mutinf.RasterLayer <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_mutinf.RasterLayer <- function(landscape,
+                                     directions = 4,
+                                     ordered = TRUE,
+                                     base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_mutinf_calc,
                    directions = directions,
@@ -48,7 +54,10 @@ lsm_l_mutinf.RasterLayer <- function(landscape, directions = 4, ordered = TRUE, 
 
 #' @name lsm_l_mutinf
 #' @export
-lsm_l_mutinf.RasterStack <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_mutinf.RasterStack <- function(landscape,
+                                     directions = 4,
+                                     ordered = TRUE,
+                                     base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_mutinf_calc,
                    directions = directions,
@@ -61,7 +70,10 @@ lsm_l_mutinf.RasterStack <- function(landscape, directions = 4, ordered = TRUE, 
 
 #' @name lsm_l_mutinf
 #' @export
-lsm_l_mutinf.RasterBrick <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_mutinf.RasterBrick <- function(landscape,
+                                     directions = 4,
+                                     ordered = TRUE,
+                                     base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_mutinf_calc,
                    directions = directions,
@@ -74,7 +86,10 @@ lsm_l_mutinf.RasterBrick <- function(landscape, directions = 4, ordered = TRUE, 
 
 #' @name lsm_l_mutinf
 #' @export
-lsm_l_mutinf.list <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_mutinf.list <- function(landscape,
+                              directions = 4,
+                              ordered = TRUE,
+                              base = "log2") {
     purrr::map_dfr(landscape,
                    lsm_l_mutinf_calc,
                    directions = directions,

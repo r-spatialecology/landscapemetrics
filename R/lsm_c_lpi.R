@@ -43,21 +43,24 @@ lsm_c_lpi <- function(landscape) UseMethod("lsm_c_lpi")
 #' @name lsm_c_lpi
 #' @export
 lsm_c_lpi.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lpi
 #' @export
 lsm_c_lpi.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lpi
 #' @export
 lsm_c_lpi.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -74,7 +77,8 @@ lsm_c_lpi_calc <- function(landscape) {
 
     area_patch <- lsm_p_area_calc(landscape)
 
-    lpi <- dplyr::mutate(area_patch, value = value / area_landscape$value * 100) %>%
+    lpi <- dplyr::mutate(area_patch,
+                         value = value / area_landscape$value * 100) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = max(value, na.rm = TRUE))
 

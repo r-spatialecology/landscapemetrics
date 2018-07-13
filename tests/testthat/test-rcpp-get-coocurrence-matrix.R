@@ -1,13 +1,13 @@
 context("coocurrence matrix")
 
-landscape_na = matrix(c(1, 1, NA, 2, 2, 1), ncol = 2)
+landscape_na <- matrix(c(1, 1, NA, 2, 2, 1), ncol = 2)
 
-land_true1 = structure(c(520L, 43L, 137L, 43L, 704L, 184L, 137L, 184L, 1528L),
+land_true1 <- structure(c(520L, 43L, 137L, 43L, 704L, 184L, 137L, 184L, 1528L),
                        .Dim = c(3L, 3L),
                        .Dimnames = structure(list(c("1", "2", "3"), c("1", "2", "3")),
                                              .Names = c("", "")))
 
-land_true2 = structure(c(121354L, 33908L, 15997L, 126L, 930L, 2L, 3732L, 182L,
+land_true2 <- structure(c(121354L, 33908L, 15997L, 126L, 930L, 2L, 3732L, 182L,
                            1597L, 23L, 13347L, 632L, 580L, 318L, 33908L, 74946L, 6664L,
                            67L, 213L, 0L, 1099L, 61L, 366L, 0L, 2784L, 34L, 1515L, 171L,
                            15997L, 6664L, 26500L, 142L, 1218L, 2L, 4272L, 304L, 2292L, 29L,
@@ -34,21 +34,21 @@ land_true2 = structure(c(121354L, 33908L, 15997L, 126L, 930L, 2L, 3732L, 182L,
                                                     "130", "180", "190", "210")),
                                              .Names = c("", "")))
 
-land_true3 = structure(c(2L, 3L, 3L, 2L),
+land_true3 <- structure(c(2L, 3L, 3L, 2L),
                        .Dim = c(2L, 2L),
                        .Dimnames = structure(list(c("1", "2"), c("1", "2")),
                                              .Names = c("", "")))
 
-land_true4 = structure(c(986L, 96L, 304L, 96L, 1306L, 424L, 304L, 424L, 2904L),
+land_true4 <- structure(c(986L, 96L, 304L, 96L, 1306L, 424L, 304L, 424L, 2904L),
                        .Dim = c(3L, 3L),
                        .Dimnames = structure(list(c("1", "2", "3"),
                                                   c("1", "2", "3")),
                                              .Names = c("", "")))
 
-land_result1 = landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
-land_result2 = landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = 4)
-land_result3 = landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = 4)
-land_result4 = landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 8)
+land_result1 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
+land_result2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = 4)
+land_result3 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = 4)
+land_result4 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 8)
 
 test_that("rcpp_get_coocurrence_matrix results are correct", {
     expect_equivalent(land_result1, land_true1)
@@ -63,11 +63,11 @@ test_that("rcpp_get_coocurrence_matrix is typestable", {
 
 context("coocurrence vector")
 
-land_true1_v = as.vector(land_true1)
-land_true4_v = as.vector(land_true4)
+land_true1_v <- as.vector(land_true1)
+land_true4_v <- as.vector(land_true4)
 
-land_result1_v = landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 4)
-land_result4_v = landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 8)
+land_result1_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 4)
+land_result4_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 8)
 
 test_that("rcpp_get_coocurrence_vector results are correct", {
     expect_equivalent(land_result1_v, land_true1_v)
@@ -80,9 +80,9 @@ test_that("rcpp_get_coocurrence_vector is typestable", {
 
 context("composition vector")
 
-land_true1_cv = unclass(table(landscape@data@values))
+land_true1_cv <- unclass(table(landscape@data@values))
 
-land_result1_cv = landscapemetrics:::rcpp_get_composition_vector(raster::as.matrix(landscape))
+land_result1_cv <- landscapemetrics:::rcpp_get_composition_vector(raster::as.matrix(landscape))
 
 test_that("rcpp_get_composition_vector results are correct", {
     expect_equivalent(land_result1_cv, land_true1_cv)

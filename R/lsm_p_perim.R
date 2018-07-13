@@ -36,14 +36,16 @@ lsm_p_perim <- function(landscape) UseMethod("lsm_p_perim")
 #' @name lsm_p_perim
 #' @export
 lsm_p_perim.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_perim_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_perim_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_perim
 #' @export
 lsm_p_perim.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_perim_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_perim_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -51,7 +53,8 @@ lsm_p_perim.RasterStack <- function(landscape) {
 #' @name lsm_p_perim
 #' @export
 lsm_p_perim.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_perim_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_perim_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

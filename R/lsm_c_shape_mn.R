@@ -47,14 +47,16 @@ lsm_c_shape_mn <- function(landscape) UseMethod("lsm_c_shape_mn")
 #' @name lsm_c_shape_mn
 #' @export
 lsm_c_shape_mn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_shape_mn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_shape_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_shape_mn
 #' @export
 lsm_c_shape_mn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_shape_mn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_shape_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -62,7 +64,8 @@ lsm_c_shape_mn.RasterStack <- function(landscape) {
 #' @name lsm_c_shape_mn
 #' @export
 lsm_c_shape_mn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_shape_mn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_shape_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -70,7 +73,8 @@ lsm_c_shape_mn.RasterBrick <- function(landscape) {
 #' @name lsm_c_shape_mn
 #' @export
 lsm_c_shape_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_shape_mn_calc, .id = "layer") %>%
+    purrr::map_dfr(landscape,
+                   lsm_c_shape_mn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

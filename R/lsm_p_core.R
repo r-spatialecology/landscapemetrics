@@ -52,14 +52,16 @@ lsm_p_core <- function(landscape) UseMethod("lsm_p_core")
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc,.id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_core_calc,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -67,7 +69,8 @@ lsm_p_core.RasterStack <- function(landscape) {
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_core_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_core_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -90,10 +93,12 @@ lsm_p_core_calc <- function(landscape) {
                 table()
 
             boundary_patch <-
-                table(patches_class[raster::boundaries(patches_class, directions = 4)])
+                table(patches_class[raster::boundaries(patches_class,
+                                                       directions = 4)])
 
             core_area <-
-                (cells_patch - boundary_patch) * prod(raster::res(patches_class)) / 10000
+                (cells_patch - boundary_patch) *
+                prod(raster::res(patches_class)) / 10000
 
             class_name <- patches_class %>%
                 names() %>%

@@ -31,11 +31,17 @@
 #' landscape complexity. DOI:
 #'
 #' @export
-lsm_l_joinent <- function(landscape, directions = 4, ordered = TRUE, base = "log2") UseMethod("lsm_l_joinent")
+lsm_l_joinent <- function(landscape,
+                          directions = 4,
+                          ordered = TRUE,
+                          base = "log2") UseMethod("lsm_l_joinent")
 
 #' @name lsm_l_joinent
 #' @export
-lsm_l_joinent.RasterLayer <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_joinent.RasterLayer <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_joinent_calc,
                    directions = directions,
@@ -47,7 +53,10 @@ lsm_l_joinent.RasterLayer <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_joinent
 #' @export
-lsm_l_joinent.RasterStack <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_joinent.RasterStack <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_joinent_calc,
                    directions = directions,
@@ -60,7 +69,10 @@ lsm_l_joinent.RasterStack <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_joinent
 #' @export
-lsm_l_joinent.RasterBrick <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_joinent.RasterBrick <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_joinent_calc,
                    directions = directions,
@@ -73,7 +85,10 @@ lsm_l_joinent.RasterBrick <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_joinent
 #' @export
-lsm_l_joinent.list <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_joinent.list <- function(landscape,
+                               directions = 4,
+                               ordered = TRUE,
+                               base = "log2") {
     purrr::map_dfr(landscape,
                    lsm_l_joinent_calc,
                    directions = directions,

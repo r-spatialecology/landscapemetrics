@@ -48,14 +48,16 @@ lsm_p_para <- function(landscape) UseMethod("lsm_p_para")
 #' @name lsm_p_para
 #' @export
 lsm_p_para.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_para_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_para_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_para
 #' @export
 lsm_p_para.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_para_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_para_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -63,7 +65,8 @@ lsm_p_para.RasterStack <- function(landscape) {
 #' @name lsm_p_para
 #' @export
 lsm_p_para.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_para_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_para_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -82,7 +85,8 @@ lsm_p_para_calc <- function(landscape){
 
     area_patch <- lsm_p_area_calc(landscape)
 
-    para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value / (value * 10000))
+    para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value /
+                                    (value * 10000))
 
     tibble::tibble(
         level = "patch",

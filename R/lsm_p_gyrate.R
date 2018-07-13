@@ -45,14 +45,16 @@ lsm_p_gyrate <- function(landscape) UseMethod("lsm_p_gyrate")
 #' @name lsm_p_gyrate
 #' @export
 lsm_p_gyrate.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_gyrate_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_gyrate
 #' @export
 lsm_p_gyrate.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_gyrate_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -60,7 +62,8 @@ lsm_p_gyrate.RasterStack <- function(landscape) {
 #' @name lsm_p_gyrate
 #' @export
 lsm_p_gyrate.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_gyrate_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_gyrate_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -95,7 +98,9 @@ lsm_p_gyrate_calc <- function(landscape) {
 
         full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
 
-        gyrate_class <-  dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2)) %>%
+        gyrate_class <-  dplyr::mutate(full_data, dist =
+                                           sqrt((x - x_centroid) ^ 2 +
+                                                    (y - y_centroid) ^ 2)) %>%
             dplyr::group_by(id) %>%
             dplyr::summarise(value = mean(dist, na.rm = TRUE))
 

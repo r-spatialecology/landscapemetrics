@@ -72,7 +72,8 @@ lsm_c_ai.list <- function(landscape) {
 
 lsm_c_ai_calc <- function(landscape) {
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
+    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                      directions = 4)
 
     like_adjacencies <- diag(tb) / 2
 

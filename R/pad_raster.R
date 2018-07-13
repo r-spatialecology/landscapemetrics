@@ -22,32 +22,45 @@ pad_raster <- function(landscape, pad_raster_value, pad_raster_cells) UseMethod(
 
 #' @name pad_raster
 #' @export
-pad_raster.RasterLayer <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+pad_raster.RasterLayer <- function(landscape,
+                                   pad_raster_value = -999,
+                                   pad_raster_cells = 1) {
     pad_raster_internal(landscape, pad_raster_value, pad_raster_cells)
 }
 
 #' @name pad_raster
 #' @export
-pad_raster.RasterStack <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+pad_raster.RasterStack <- function(landscape,
+                                   pad_raster_value = -999,
+                                   pad_raster_cells = 1) {
     purrr::map(raster::as.list(landscape), pad_raster_internal,
-               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
+               pad_raster_value = pad_raster_value,
+               pad_raster_cells = pad_raster_cells)
 }
 
 #' @name pad_raster
 #' @export
-pad_raster.RasterBrick <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+pad_raster.RasterBrick <- function(landscape,
+                                   pad_raster_value = -999,
+                                   pad_raster_cells = 1) {
     purrr::map(raster::as.list(landscape), pad_raster_internal,
-               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
+               pad_raster_value = pad_raster_value,
+               pad_raster_cells = pad_raster_cells)
 }
 
 #' @name pad_raster
 #' @export
-pad_raster.list <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1) {
+pad_raster.list <- function(landscape,
+                            pad_raster_value = -999,
+                            pad_raster_cells = 1) {
     purrr::map(landscape, pad_raster_internal,
-               pad_raster_value = pad_raster_value, pad_raster_cells = pad_raster_cells)
+               pad_raster_value = pad_raster_value,
+               pad_raster_cells = pad_raster_cells)
 }
 
-pad_raster_internal <- function(landscape, pad_raster_value, pad_raster_cells){
+pad_raster_internal <- function(landscape,
+                                pad_raster_value,
+                                pad_raster_cells){
 
     landscape_matrix <- raster::as.matrix(landscape)
 

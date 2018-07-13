@@ -49,14 +49,16 @@ lsm_l_gyrate_sd <- function(landscape) UseMethod("lsm_l_gyrate_sd")
 #' @name lsm_l_gyrate_sd
 #' @export
 lsm_l_gyrate_sd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_gyrate_sd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_gyrate_sd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_gyrate_sd
 #' @export
 lsm_l_gyrate_sd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_gyrate_sd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_gyrate_sd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -64,7 +66,8 @@ lsm_l_gyrate_sd.RasterStack <- function(landscape) {
 #' @name lsm_l_gyrate_sd
 #' @export
 lsm_l_gyrate_sd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_gyrate_sd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_gyrate_sd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

@@ -17,8 +17,12 @@ Authors@R: c(person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
                      email = "kwith@ksu.edu", 
                      comment = c(ORCID = "0000-0001-5570-1515")))
 Maintainer: Marco Sciaini <sciaini.marco@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Calculates landscape metrics for categorical landscape patterns in 
+    a tidy workflow. landscapemetrics reimplements the most common metrics from
+    FRAGSTATS and more from the current literature on landscape metrics.
+    This package supports raster spatial objects and takes 
+    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
+    'raster' package as input arguments.
 License: GPL-3
 URL: https://marcosci.github.io/landscapemetrics/
 BugReports: https://github.com/marcosci/landscapemetrics/issues

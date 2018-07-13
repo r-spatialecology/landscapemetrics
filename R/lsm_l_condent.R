@@ -33,11 +33,17 @@
 #' landscape complexity. DOI:
 #'
 #' @export
-lsm_l_condent <- function(landscape, directions = 4, ordered = TRUE, base = "log2") UseMethod("lsm_l_condent")
+lsm_l_condent <- function(landscape,
+                          directions = 4,
+                          ordered = TRUE,
+                          base = "log2") UseMethod("lsm_l_condent")
 
 #' @name lsm_l_condent
 #' @export
-lsm_l_condent.RasterLayer <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_condent.RasterLayer <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
                    directions = directions,
@@ -49,7 +55,10 @@ lsm_l_condent.RasterLayer <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_condent
 #' @export
-lsm_l_condent.RasterStack <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_condent.RasterStack <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
                    directions = directions,
@@ -62,7 +71,10 @@ lsm_l_condent.RasterStack <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_condent
 #' @export
-lsm_l_condent.RasterBrick <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_condent.RasterBrick <- function(landscape,
+                                      directions = 4,
+                                      ordered = TRUE,
+                                      base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
                    directions = directions,
@@ -75,7 +87,10 @@ lsm_l_condent.RasterBrick <- function(landscape, directions = 4, ordered = TRUE,
 
 #' @name lsm_l_condent
 #' @export
-lsm_l_condent.list <- function(landscape, directions = 4, ordered = TRUE, base = "log2") {
+lsm_l_condent.list <- function(landscape,
+                               directions = 4,
+                               ordered = TRUE,
+                               base = "log2") {
     purrr::map_dfr(landscape,
                    lsm_l_condent_calc,
                    directions = directions,

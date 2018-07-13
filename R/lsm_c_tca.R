@@ -46,21 +46,24 @@ lsm_c_tca <- function(landscape) UseMethod("lsm_c_tca")
 #' @name lsm_c_tca
 #' @export
 lsm_c_tca.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_tca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_tca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_tca
 #' @export
 lsm_c_tca.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_tca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_tca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_tca
 #' @export
 lsm_c_tca.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_tca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_tca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -68,7 +71,8 @@ lsm_c_tca.RasterBrick <- function(landscape) {
 #' @name lsm_c_tca
 #' @export
 lsm_c_tca.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_tca_calc, .id = "layer") %>%
+    purrr::map_dfr(landscape,
+                   lsm_c_tca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

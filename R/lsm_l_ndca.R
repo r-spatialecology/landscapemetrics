@@ -46,21 +46,24 @@ lsm_l_ndca <- function(landscape) UseMethod("lsm_l_ndca")
 #' @name lsm_l_ndca
 #' @export
 lsm_l_ndca.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ndca
 #' @export
 lsm_l_ndca.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ndca
 #' @export
 lsm_l_ndca.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ndca_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ndca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

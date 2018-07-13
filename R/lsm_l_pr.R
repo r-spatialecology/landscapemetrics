@@ -37,33 +37,33 @@ lsm_l_pr <- function(landscape) UseMethod("lsm_l_pr")
 
 #' @name lsm_l_pr
 #' @export
-lsm_l_pr.RasterLayer = function(landscape){
+lsm_l_pr.RasterLayer <- function(landscape){
     purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
-lsm_l_pr.RasterStack = function(landscape){
+lsm_l_pr.RasterStack <- function(landscape){
     purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
-lsm_l_pr.RasterBrick = function(landscape){
+lsm_l_pr.RasterBrick <- function(landscape){
     purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
-lsm_l_pr.list = function(landscape){
+lsm_l_pr.list <- function(landscape){
     purrr::map_dfr(landscape, lsm_l_pr_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_pr_calc = function(landscape){
+lsm_l_pr_calc <- function(landscape){
 
     richness <- landscape %>%
         raster::unique() %>%

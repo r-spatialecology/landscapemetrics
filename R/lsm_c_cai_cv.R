@@ -51,14 +51,16 @@ lsm_c_cai_cv <- function(landscape) UseMethod("lsm_c_cai_cv")
 #' @name lsm_c_cai_cv
 #' @export
 lsm_c_cai_cv.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_cai_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_cv
 #' @export
 lsm_c_cai_cv.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_cai_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -66,7 +68,8 @@ lsm_c_cai_cv.RasterStack <- function(landscape) {
 #' @name lsm_c_cai_cv
 #' @export
 lsm_c_cai_cv.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_cai_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_cai_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

@@ -57,21 +57,24 @@ lsm_p_contig <- function(landscape) UseMethod("lsm_p_contig")
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_contig_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_contig_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_contig_calc,.id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_contig_calc,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_contig_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_contig_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -95,11 +98,11 @@ lsm_p_contig_calc <- function(landscape) {
 
         diagonal_matrix <- matrix(c(1, NA, 1,
                                     NA, 0, NA,
-                                    1, NA, 1), 3, 3, byrow = T)
+                                    1, NA, 1), 3, 3, byrow = TRUE)
 
         straigth_matrix <- matrix(c(NA, 1, NA,
                                      1, 0, 1,
-                                    NA, 1, NA), 3, 3, byrow = T)
+                                    NA, 1, NA), 3, 3, byrow = TRUE)
 
         diagonal_neighbours <- raster::adjacent(patches_class,
                                                 cells = cells,

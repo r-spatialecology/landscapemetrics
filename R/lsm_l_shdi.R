@@ -40,33 +40,36 @@ lsm_l_shdi <- function(landscape)
 
 #' @name lsm_l_shdi
 #' @export
-lsm_l_shdi.RasterLayer = function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shdi_calc, .id = "layer") %>%
+lsm_l_shdi.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shdi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shdi
 #' @export
-lsm_l_shdi.RasterStack = function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shdi_calc, .id = "layer") %>%
+lsm_l_shdi.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shdi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shdi
 #' @export
-lsm_l_shdi.RasterBrick = function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_shdi_calc, .id = "layer") %>%
+lsm_l_shdi.RasterBrick<- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shdi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shdi
 #' @export
-lsm_l_shdi.list = function(landscape) {
+lsm_l_shdi.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_l_shdi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_shdi_calc = function(landscape) {
+lsm_l_shdi_calc <- function(landscape) {
     area <- raster::ncell(landscape)
 
     p <- landscape %>%

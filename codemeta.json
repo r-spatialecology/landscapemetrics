@@ -1,8 +1,11 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "landscapemetrics",
-  "description": "More about what it does (maybe more than one line)\n    Use four spaces when indenting paragraphs within the Description.",
+  "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. landscapemetrics reimplements the most common metrics from\n    FRAGSTATS and more from the current literature on landscape metrics.\n    This package supports raster spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
   "codeRepository": "https://marcosci.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/marcosci/landscapemetrics/issues",
@@ -214,7 +217,11 @@
   ],
   "releaseNotes": "https://github.com/marcosci/landscapemetrics/blob/master/NEWS.md",
   "readme": "https://github.com/marcosci/landscapemetrics/blob/master/README.md",
-  "fileSize": "956.908KB",
-  "contIntegration": ["https://travis-ci.org/marcosci/landscapemetrics", "https://ci.appveyor.com/project/marcosci/landscapemetrics", "https://codecov.io/github/marcosci/landscapemetrics?branch=master"],
+  "fileSize": "957.717KB",
+  "contIntegration": [
+    "https://travis-ci.org/marcosci/landscapemetrics",
+    "https://ci.appveyor.com/project/marcosci/landscapemetrics",
+    "https://codecov.io/github/marcosci/landscapemetrics?branch=master"
+  ],
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental"
 }

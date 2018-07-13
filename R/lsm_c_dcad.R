@@ -81,7 +81,8 @@ lsm_c_dcad_calc <- function(landscape){
 
     ndca_class <- lsm_c_ndca_calc(landscape)
 
-    dcad <- dplyr::mutate(ndca_class, value = (value / area_landscape$value) * 100)
+    dcad <- dplyr::mutate(ndca_class,
+                          value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
         level = "class",

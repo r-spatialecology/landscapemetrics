@@ -57,21 +57,24 @@ lsm_c_contig_sd <- function(landscape) UseMethod("lsm_c_contig_sd")
 #' @name lsm_c_contig_sd
 #' @export
 lsm_c_contig_sd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_contig_sd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_contig_sd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_sd
 #' @export
 lsm_c_contig_sd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_contig_sd_calc,.id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_contig_sd_calc,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_sd
 #' @export
 lsm_c_contig_sd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_contig_sd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_contig_sd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

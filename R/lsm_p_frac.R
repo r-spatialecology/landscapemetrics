@@ -49,14 +49,16 @@ lsm_p_frac <- function(landscape) UseMethod("lsm_p_frac")
 #' @name lsm_p_frac
 #' @export
 lsm_p_frac.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_frac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_frac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_frac
 #' @export
 lsm_p_frac.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_frac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_frac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -64,7 +66,8 @@ lsm_p_frac.RasterStack <- function(landscape) {
 #' @name lsm_p_frac
 #' @export
 lsm_p_frac.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_frac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_frac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

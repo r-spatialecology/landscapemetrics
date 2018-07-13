@@ -39,21 +39,24 @@ lsm_l_prd <- function(landscape) UseMethod("lsm_l_prd")
 #' @name lsm_l_prd
 #' @export
 lsm_l_prd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_prd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_prd
 #' @export
 lsm_l_prd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_prd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_prd
 #' @export
 lsm_l_prd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_prd_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_prd_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -70,7 +73,8 @@ lsm_l_prd_calc <- function(landscape) {
 
     pr_landscape <- lsm_l_pr_calc(landscape)
 
-    prd <- dplyr::mutate(pr_landscape, value = (value / area_landscape$value) * 100)
+    prd <- dplyr::mutate(pr_landscape,
+                         value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
         level = "landscape",

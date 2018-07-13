@@ -50,14 +50,16 @@ lsm_l_enn_cv <- function(landscape) UseMethod("lsm_l_enn_cv")
 #' @name lsm_l_enn_cv
 #' @export
 lsm_l_enn_cv.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_enn_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_enn_cv
 #' @export
 lsm_l_enn_cv.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_enn_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -65,7 +67,8 @@ lsm_l_enn_cv.RasterStack <- function(landscape) {
 #' @name lsm_l_enn_cv
 #' @export
 lsm_l_enn_cv.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_enn_cv_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_enn_cv_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }

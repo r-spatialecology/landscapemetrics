@@ -43,21 +43,24 @@ lsm_l_lpi <- function(landscape) UseMethod("lsm_l_lpi")
 #' @name lsm_l_lpi
 #' @export
 lsm_l_lpi.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lpi
 #' @export
 lsm_l_lpi.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_lpi
 #' @export
 lsm_l_lpi.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_lpi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

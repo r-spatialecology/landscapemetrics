@@ -48,14 +48,16 @@ lsm_p_shape <- function(landscape) UseMethod("lsm_p_shape")
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_shape_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_shape_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_shape_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_shape_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -63,7 +65,8 @@ lsm_p_shape.RasterStack <- function(landscape) {
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_shape_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_shape_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -86,9 +89,10 @@ lsm_p_shape_calc <- function(landscape){
                                  value = value * 10000,
                                  n = trunc(sqrt(value)),
                                  m = value - n^ 2,
-                                 minp = dplyr::case_when(m == 0 ~ n * 4,
-                                                         n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                                         value > n * (1 + n) ~ 4 * n + 4),
+                                 minp = dplyr::case_when(
+                             m == 0 ~ n * 4,
+                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                             value > n * (1 + n) ~ 4 * n + 4),
                                  value = perimeter_patch$value / minp)
 
     tibble::tibble(

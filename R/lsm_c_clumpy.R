@@ -43,14 +43,16 @@ lsm_c_clumpy <- function(landscape) UseMethod("lsm_c_clumpy")
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_clumpy_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_clumpy_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_clumpy_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_clumpy_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -58,7 +60,8 @@ lsm_c_clumpy.RasterStack <- function(landscape) {
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_clumpy_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_clumpy_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -75,7 +78,8 @@ lsm_c_clumpy_calc <- function(landscape){
 
     landscape_padded <- pad_raster(landscape)
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded), directions = 4)
+    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded),
+                                      directions = 4)
 
     like_adjacencies <- diag(tb)
     like_adjacencies <- like_adjacencies[2:length(like_adjacencies)]

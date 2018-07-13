@@ -61,7 +61,8 @@ show_patches_intern <- function(landscape) {
             raster::as.data.frame(xy = TRUE) %>%
             ggplot2::ggplot() +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer), colour = "white") +
+            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer),
+                               colour = "white") +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
             ggplot2::guides(fill = FALSE) +

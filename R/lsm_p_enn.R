@@ -49,14 +49,16 @@ lsm_p_enn <- function(landscape) UseMethod("lsm_p_enn")
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_enn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_enn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -64,7 +66,8 @@ lsm_p_enn.RasterStack <- function(landscape) {
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_enn_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -103,11 +106,14 @@ lsm_p_enn_calc <- function(landscape) {
         else{
             points_class <- raster::rasterToPoints(patches_class)
 
-            minimum_distance <- purrr::map_dbl(seq_len(np_class), function(patch_ij) {
+            minimum_distance <- purrr::map_dbl(seq_len(np_class),
+                                               function(patch_ij) {
 
-                patch_focal <- matrix(points_class[points_class[,3] == patch_ij,], ncol = 3)
+                patch_focal <- matrix(points_class[points_class[,3] ==
+                                                       patch_ij,], ncol = 3)
 
-                patch_others <- matrix(points_class[points_class[,3] != patch_ij,], ncol = 3)
+                patch_others <- matrix(points_class[points_class[,3] !=
+                                                        patch_ij,], ncol = 3)
 
                 minimum_distance <- raster::pointDistance(patch_focal[ ,1:2],
                                                           patch_others[,1:2],

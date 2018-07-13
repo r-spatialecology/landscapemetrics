@@ -43,21 +43,24 @@ lsm_c_division <- function(landscape) UseMethod("lsm_c_division")
 #' @name lsm_c_division
 #' @export
 lsm_c_division.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_division_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_division_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_division
 #' @export
 lsm_c_division.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_division_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_division_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_division
 #' @export
 lsm_c_division.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_division_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_division_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -74,7 +77,8 @@ lsm_c_division_calc <- function(landscape) {
 
     area_patch <- lsm_p_area_calc(landscape)
 
-    division <- dplyr::mutate(area_patch, value = (value / area_landscape$value) ^ 2) %>%
+    division <- dplyr::mutate(area_patch,
+                              value = (value / area_landscape$value) ^ 2) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = 1 - value)

@@ -44,21 +44,24 @@ lsm_c_mesh <- function(landscape) UseMethod("lsm_c_mesh")
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_mesh_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_mesh_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_mesh_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_mesh_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_mesh_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_mesh_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

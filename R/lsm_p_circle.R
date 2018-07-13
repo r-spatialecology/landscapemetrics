@@ -49,14 +49,16 @@ lsm_p_circle <- function(landscape) UseMethod("lsm_p_circle")
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_circle_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_circle_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_circle_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_circle_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -64,7 +66,8 @@ lsm_p_circle.RasterStack <- function(landscape) {
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_circle_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_circle_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -103,7 +106,8 @@ lsm_p_circle_calc <- function(landscape) {
             names() %>%
             sub("Class_", "", .)
 
-        points_class <- cbind(raster::xyFromCell(patches_class, 1:ncell(patches_class)),
+        points_class <- cbind(raster::xyFromCell(patches_class,
+                                                 1:ncell(patches_class)),
                               id = raster::values(patches_class)) %>%
             na.omit() %>%
             tibble::as.tibble()
@@ -117,7 +121,14 @@ lsm_p_circle_calc <- function(landscape) {
 
         circle <- points_corner %>%
             dplyr::group_by(id) %>%
-            dplyr::summarise(value = (max_diameter(x1, x2, x3, x4, y1, y2, y3, y4) / 2) ^ 2 * pi) # (diameter / 2) ^ 2  * pi
+            dplyr::summarise(value = (max_diameter(x1,
+                                                   x2,
+                                                   x3,
+                                                   x4,
+                                                   y1,
+                                                   y2,
+                                                   y3,
+                                                   y4) / 2) ^ 2 * pi) # (diameter / 2) ^ 2  * pi
 
         tibble::tibble(class = class,
                        value = circle$value)
@@ -125,7 +136,8 @@ lsm_p_circle_calc <- function(landscape) {
     })
 
     circle_patch <- dplyr::mutate(circle_patch,
-                                  value = 1 - ((area_patch$value * 10000) / value))
+                                  value = 1 - ((area_patch$value * 10000) /
+                                                   value))
 
     tibble::tibble(
         level = "patch",

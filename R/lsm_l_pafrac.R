@@ -46,14 +46,16 @@ lsm_l_pafrac <- function(landscape) UseMethod("lsm_l_pafrac")
 #' @name lsm_l_pafrac
 #' @export
 lsm_l_pafrac.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pafrac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_pafrac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pafrac
 #' @export
 lsm_l_pafrac.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pafrac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_pafrac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -61,7 +63,8 @@ lsm_l_pafrac.RasterStack <- function(landscape) {
 #' @name lsm_l_pafrac
 #' @export
 lsm_l_pafrac.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pafrac_calc, .id = "layer") %>%
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_pafrac_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -82,13 +85,14 @@ lsm_l_pafrac_calc <- function(landscape){
     np_landscape <- lsm_l_np_calc(landscape)
 
     if(np_landscape$value < 10){
-        pafrac = NA
+        pafrac <-  NA
         warning("PAFRAC = NA for NP < 10")
     }
 
     else{
-        regression_model <- stats::lm(log(area_patch$value) ~ log(perimeter_patch$value))
-        pafrac = 2 / regression_model$coefficients[[2]]
+        regression_model <- stats::lm(log(area_patch$value) ~
+                                          log(perimeter_patch$value))
+        pafrac <- 2 / regression_model$coefficients[[2]]
     }
 
     tibble::tibble(
