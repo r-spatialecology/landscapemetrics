@@ -121,90 +121,111 @@
 
     
     
+<p><strong>landscapemetrics</strong> re-implements landcsape metrics as they are described in the <strong>FRAGSTATS</strong> software. Therefore, we compared our results with the results of <strong>FRAGSTATS</strong>. In the process, we recognized a few differences between the results.</p>
+<p>Some metrics in <em>FRAGSTATS</em> are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.</p>
+<p>Unfortunatly, we do not have access to the source code of <strong>FRAGSTATS</strong>. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.</p>
 <div id="general-differences" class="section level1">
 <h1 class="hasAnchor">
 <a href="#general-differences" class="anchor"></a>General differences</h1>
-<p>There are a few important differences between <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong> that you should be aware of if you compare results between the two or use both of the tools:</p>
-<ul>
-<li>FRAGSTATS rounds after the 4th decimal place
-<ul>
-<li>That also affects the resolution, if your raster has a resolution with more than 4 decimal places the results for metrics that rely on that are wrong (e.g. AREA, xxx)</li>
-</ul>
-</li>
-<li>Error in FRAGSTATS for every metric summarized with the coefficient of variation (<em>metric</em>_CV)
-<ul>
-<li>Example based on AREA metric:</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># function to calculate coefficient of variation ((standard deviation divided by the mean) * 100)</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">cv &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  (<span class="kw">sd</span>(x, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">/</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">mean</span>(x, <span class="dt">na.rm=</span><span class="ot">TRUE</span>))<span class="op">*</span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># 'true' results based an patch level results from fragstats</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">fragstats_patch_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">  </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">CV =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">  </span><span class="kw">pull</span>(CV) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span><span class="kw">sort</span>()</a></code></pre></div>
-<pre><code>## [1] 165.0134 187.7700 242.4570</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># actual results from fragstats on class level</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">sort</span>(fragstats_class_landscape<span class="op">$</span>AREA_CV)</a></code></pre></div>
-<pre><code>## [1] 159.0109 162.6136 228.5906</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># results from landscapemetrics</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">sort</span>(<span class="kw">lsm_c_area_cv</span>(landscape)<span class="op">$</span>value)</a></code></pre></div>
-<pre><code>## [1] 165.0134 187.7700 242.4570</code></pre>
-</li>
-<li>Error in FRAGSTATS for every metric summarized with the standard deviation (<em>metric</em>_SD)
-<ul>
-<li>Example based on AREA metric:</li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># 'true' results based an patch level results from fragstats</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">fragstats_patch_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">CV =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw">pull</span>(CV) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">    </span><span class="kw">sort</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">    </span><span class="kw">round</span>(.,<span class="dv">4</span>)</a></code></pre></div>
-<pre><code>## [1] 0.0029 0.0048 0.0225</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># actual results from fragstats on class level</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">sort</span>(fragstats_class_landscape<span class="op">$</span>AREA_SD)</a></code></pre></div>
-<pre><code>## [1] 0.0027 0.0045 0.0195</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># results from landscapemetrics</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">round</span>(<span class="kw">sort</span>(<span class="kw">lsm_c_area_sd</span>(landscape)<span class="op">$</span>value),<span class="dv">4</span>)</a></code></pre></div>
-<pre><code>## [1] 0.0029 0.0048 0.0225</code></pre>
-</li>
-</ul>
+<p>Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong>. In order to match the results of the two softwares, we are going to order them from small to big in the following.</p>
+<p>All double precision floating point numbers are rounded after the 4th decimal place in <strong>FRAGSTATS</strong>. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.</p>
+<p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i). While the results are identical for the single patches and the mean of all patches, there are some slight differences between <strong>lanscapemetrics</strong> and <strong>FRAGSTATS</strong> for the standard deviation and the coefficent of variation.</p>
+<p>In the following, we are comparing the cv for the patch area. We are including the cv calculate from all patch areas and the acutal output of <strong>FRAGSTATS</strong> as well as the output of <strong>landscapemetrics</strong>. Interestingly, the cv calculated from all patches of <strong>FRAGSTATS</strong> is identical to the cv of <strong>landscapemetrics</strong>, but the actual result of <strong>FRAGSTATS</strong> is slightly different.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to calculate coefficient of variation</span>
+cv &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+    (<span class="kw">sd</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">/</span>
+<span class="st">         </span><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+}
+
+<span class="co"># CV calculated from patch values of FRAGSTATS </span>
+fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">cv =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(cv) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()
+
+<span class="co"># Output of FRAGSTATS</span>
+fragstats_output &lt;-<span class="st"> </span><span class="kw">sort</span>(fragstats_class_landscape<span class="op">$</span>AREA_CV)
+
+<span class="co"># Output of landscapemetrics</span>
+landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">lsm_c_area_cv</span>(landscape)<span class="op">$</span>value)</code></pre></div>
+<pre><code>##   fragstats_calculated fragstats_output landscapemetrics_output
+## 1             165.0134         159.0109                165.0134
+## 2             187.7700         162.6136                187.7700
+## 3             242.4570         228.5906                242.4570</code></pre>
+<p>As for the cv, the results for the sd are similiar. The result calculated from all patch areas of <strong>FRAGSTATS</strong> is identical to the result of <strong>landscapemetrics</strong>, but not the actual result of <strong>FRAGSTATS</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># SD calculated from patch values of FRAGSTATS</span>
+fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(sd) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()
+
+<span class="co"># Output of FRAGSTATS</span>
+fragstats_output &lt;-<span class="st"> </span><span class="kw">sort</span>(fragstats_class_landscape<span class="op">$</span>AREA_SD)
+
+<span class="co"># Output of landscapemetrics</span>
+landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sort</span>(<span class="kw">lsm_c_area_sd</span>(landscape)<span class="op">$</span>value), <span class="dv">4</span>)</code></pre></div>
+<pre><code>##   fragstats_calculated fragstats_output landscapemetrics_output
+## 1          0.002852375           0.0027                  0.0029
+## 2          0.004822200           0.0045                  0.0048
+## 3          0.022485458           0.0195                  0.0225</code></pre>
 </div>
 <div id="specific-differences" class="section level1">
 <h1 class="hasAnchor">
 <a href="#specific-differences" class="anchor"></a>Specific differences</h1>
-<p>We thoroughly compared each of our implemented landscape metrics against the results from FRAGSTATS and will give you here a list with why we think the differences in the results exist.</p>
-<p><strong>FRAGSTATS</strong> is unfortunately not an open-source project, so we can’t definitely say that some of the metrics have bugs. However, we try to explain our thinking based on several small examples.</p>
-<p>Some metrics in FRAGSTATS are interdependent and thus if there is an error starting at the patch level metric it propagates through every depending metric. We list these metrics that are different from their FRAGSTATS implementation here under the metric where the error propagation starts.</p>
 <div id="circle-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#circle-metric" class="anchor"></a>CIRCLE metric</h3>
-<p>Patches with 1 cell get a CIRCLE metric of 0, however, the definition of this metric is:</p>
+<p><strong>FRAGSTATS</strong> defines CIRCLE as following:</p>
 <blockquote>
-<p>CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. (…)</p>
+<p>[…] CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. […]</p>
 </blockquote>
-<p>The smallest circle around a quadrat should not have the same area as the quadrat, which is the case in FRAGSTATS:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
-<pre><code>##  [1] 0.0001 0.0001 0.0001 0.0001 0.0001 0.0001 0.0002 0.0002 0.0002 0.0003
-## [11] 0.0003 0.0003 0.0003 0.0003 0.0004 0.0005 0.0005 0.0007 0.0009 0.0010
-## [21] 0.0014 0.0024 0.0035 0.0057 0.0098 0.0148 0.0457</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape_circle &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>CIRCLE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
-<pre><code>##  [1] 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.3144 0.3634 0.4907 0.4907
-## [11] 0.4907 0.5103 0.5225 0.5225 0.5416 0.5520 0.5544 0.5796 0.6180 0.6180
-## [21] 0.6180 0.6255 0.6658 0.6817 0.6850 0.7783 0.8112</code></pre>
-<p>Further points:</p>
-<ul>
-<li>Sometimes the abbreviation in the FRAGSTATS manual is CIRCLE, sometimes SQUARE.</li>
-</ul>
-<div id="error-propagation-for-metrics-based-on-core-metric" class="section level4">
+<p>According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in <strong>FRAGSTATS</strong> patches containing only one cell equal CIRCLE = 0.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate patch area, patches with area = 0.0001 --&gt; 1 cell</span>
+<span class="co"># area &lt;- lsm_p_area(landscape) %&gt;%</span>
+<span class="co">#     pull(value) %&gt;%</span>
+<span class="co">#     sort()</span>
+
+<span class="co"># CIRCLE = 0 for patches containing only one cell</span>
+circle_fragstats &lt;-
+<span class="st">    </span><span class="kw">sort</span>(fragstats_patch_landscape_circle &lt;-
+<span class="st">             </span>fragstats_patch_landscape<span class="op">$</span>CIRCLE)
+
+circle_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_circle</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(value) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()</code></pre></div>
+<pre><code>##    circle_fragstats circle_landscapemetrics
+## 1            0.0000               0.3144095
+## 2            0.0000               0.3633802
+## 3            0.0000               0.3633802
+## 4            0.0000               0.3633802
+## 5            0.0000               0.3633802
+## 6            0.0000               0.3633802
+## 7            0.3144               0.3633802
+## 8            0.3634               0.3633802
+## 9            0.4907               0.4907042
+## 10           0.4907               0.4907042
+## 11           0.4907               0.4907042
+## 12           0.5103               0.5102925
+## 13           0.5225               0.5225352
+## 14           0.5225               0.5225352
+## 15           0.5416               0.5416338
+## 16           0.5520               0.5520083
+## 17           0.5544               0.5543662
+## 18           0.5796               0.5795907
+## 19           0.6180               0.6180281
+## 20           0.6180               0.6180281
+## 21           0.6180               0.6180281
+## 22           0.6255               0.6255178
+## 23           0.6658               0.6657838
+## 24           0.6817               0.6816901
+## 25           0.6850               0.6849717
+## 26           0.7783               0.7783065
+## 27           0.8112               0.8112292</code></pre>
+<div id="error-propagation-for-metrics-based-on-circle-metric" class="section level4">
 <h4 class="hasAnchor">
-<a href="#error-propagation-for-metrics-based-on-core-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CORE</strong> metric)</h4>
+<a href="#error-propagation-for-metrics-based-on-circle-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CIRCLE</strong> metric)</h4>
 <div id="class-level" class="section level5">
 <h5 class="hasAnchor">
 <a href="#class-level" class="anchor"></a>Class level</h5>
@@ -232,29 +253,21 @@
 <div id="core-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#core-metric" class="anchor"></a>CORE metric</h3>
-<p>The core metric is defined as:</p>
+<p>In <strong>FRAGSTATS</strong> the core metric is defined as:</p>
 <blockquote>
-<p>CORE equals the area (m<sup>2</sup>) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, […]</p>
+<p>[…] CORE equals the area (m<sup>2</sup>) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, […]</p>
 </blockquote>
-<p>This is a visual aid to help understand how we implemented the core metric:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="co"># class 1</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co"># core area of every patch in class 1, 1 = Edge, 0 = Core</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8">core &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/boundaries">boundaries</a></span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co"># the left plot is class 1 of our landscape, </span></a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co"># the right plot show the core area of these patches (blueish color)</span></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(class_<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb17-13" data-line-number="13">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(core)</a></code></pre></div>
-<p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>We look at each patch of every class and count the cells that have 4 neighbors with the value of the specific class. However, while we can prove that our method works as described in the FRAGSTATS manual, the results of the FRAGSTATS software itself cannot be replicated.</p>
-<div id="error-propagation-for-metrics-based-on-core-metric-1" class="section level4">
+<p>In <strong>landscapemetrics</strong> the depth-of-edge is fixed to one cell. In other words, all cells with four adjacent neighbours of the same class are defined as core cells. The implementation of the depth-of-edge distance seems to be slightly different in <strong>FRAGSTATS</strong>, leading to slightly different results for core metrics.</p>
+<p>This is a visual aid to help understand how we implemented the core metric. The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># All patches of class 1</span>
+class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]
+
+<span class="co"># Core area of all patches, 1 = Edge, 0 = Core</span>
+core &lt;-<span class="st"> </span><span class="kw">boundaries</span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</code></pre></div>
+<p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-8-1.png" width="700" style="display: block; margin: auto;"></p>
+<div id="error-propagation-for-metrics-based-on-core-metric" class="section level4">
 <h4 class="hasAnchor">
-<a href="#error-propagation-for-metrics-based-on-core-metric-1" class="anchor"></a>Error propagation (for metrics based on <strong>CORE</strong> metric)</h4>
+<a href="#error-propagation-for-metrics-based-on-core-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CORE</strong> metric)</h4>
 <div id="patch-level" class="section level5">
 <h5 class="hasAnchor">
 <a href="#patch-level" class="anchor"></a>Patch level</h5>
@@ -305,20 +318,52 @@
 <div id="gyrate-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gyrate-metric" class="anchor"></a>GYRATE metric</h3>
-<p>From the FRAGSTATS (2015) manual:</p>
+<p>According to <strong>FRAGSTATS</strong> the radius of gyration for a patch consisting of only a single cell should equal GYRATE = 0.</p>
 <blockquote>
-<p>GYRATE = 0 when the patch consists of a single cell</p>
+<p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
-<p>… however, FRAGSTATS returns values of 0.5 for patches with a single cell:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">sort</span>(<span class="kw">lsm_p_area</span>(landscape)<span class="op">$</span>value) <span class="co"># calculate cell size, 0.0001 == 1 cell</span></a></code></pre></div>
-<pre><code>##  [1] 0.0001 0.0001 0.0001 0.0001 0.0001 0.0001 0.0002 0.0002 0.0002 0.0003
-## [11] 0.0003 0.0003 0.0003 0.0003 0.0004 0.0005 0.0005 0.0007 0.0009 0.0010
-## [21] 0.0014 0.0024 0.0035 0.0057 0.0098 0.0148 0.0457</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">sort</span>(fragstats_patch_landscape<span class="op">$</span>GYRATE) <span class="co"># fragstats results for the gyrate metric in the landscape raster</span></a></code></pre></div>
-<pre><code>##  [1]  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000  0.5000
-##  [9]  0.6449  0.6449  0.6667  0.6667  0.6667  0.7071  0.7071  0.8493
-## [17]  0.9779  0.9921  1.2400  1.2531  1.6339  2.4917  2.5116  3.1784
-## [25]  6.2767  8.6143 11.2509</code></pre>
+<p>However, for patches containing a single cell <strong>FRAGSTATS</strong> returns a value of GYRATE = 0.5.</p>
+<p>In the following table, patches with an area of area = 0.0001 consist of only one cell.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Area of all patches, patches with area = 0.0001 consist of only one cell</span>
+area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(value) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()
+
+<span class="co"># Output of FRAGSTATS</span>
+gyrate_fragstats &lt;-<span class="st"> </span><span class="kw">sort</span>(fragstats_patch_landscape<span class="op">$</span>GYRATE) 
+
+<span class="co"># Output of landscapemetrics</span>
+gyrate_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_gyrate</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(value) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()</code></pre></div>
+<pre><code>##      area gyrate_fragstats gyrate_landscapemetrics
+## 1  0.0001           0.5000               0.0000000
+## 2  0.0001           0.5000               0.0000000
+## 3  0.0001           0.5000               0.0000000
+## 4  0.0001           0.5000               0.0000000
+## 5  0.0001           0.5000               0.0000000
+## 6  0.0001           0.5000               0.0000000
+## 7  0.0002           0.5000               0.5000000
+## 8  0.0002           0.5000               0.5000000
+## 9  0.0002           0.6449               0.6540388
+## 10 0.0003           0.6449               0.6540388
+## 11 0.0003           0.6667               0.6666667
+## 12 0.0003           0.6667               0.6666667
+## 13 0.0003           0.6667               0.6666667
+## 14 0.0003           0.7071               0.7071068
+## 15 0.0004           0.7071               0.7071068
+## 16 0.0005           0.8493               0.8478015
+## 17 0.0005           0.9779               0.9747933
+## 18 0.0007           0.9921               1.0001523
+## 19 0.0009           1.2400               1.2368243
+## 20 0.0010           1.2531               1.2420291
+## 21 0.0014           1.6339               1.6314858
+## 22 0.0024           2.4917               2.4954894
+## 23 0.0035           2.5116               2.5102819
+## 24 0.0057           3.1784               3.1706682
+## 25 0.0098           6.2767               6.3637330
+## 26 0.0148           8.6143               8.5519260
+## 27 0.0457          11.2509              11.2363838</code></pre>
 <div id="error-propagation-for-metrics-based-on-gyrate-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-gyrate-metric" class="anchor"></a>Error propagation (for metrics based on <strong>GYRATE</strong> metric)</h4>
@@ -345,19 +390,50 @@
 <div id="para-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#para-metric" class="anchor"></a>PARA metric</h3>
-<p>There is a mixup between hectare and meter in documentation and code of FRAGSTATS. The program uses hectare, whereas the documentation uses square meter in the formula.</p>
-<p>We implemented it with square meters, but the result is in principale correct:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># results from fragstats</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">fragstats_patch_landscape_para &lt;-<span class="st"> </span>fragstats_patch_landscape<span class="op">$</span>PARA</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#calculate para metrics</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">landscapemetrics_patch_landscape_para &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape)</a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="co"># compare and multiply by 10000 to get a hectare </span></a>
-<a class="sourceLine" id="cb22-8" data-line-number="8">fragstats_patch_landscape_para <span class="op">%in%</span></a>
-<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="st">                        </span><span class="kw">round</span>((landscapemetrics_patch_landscape_para<span class="op">$</span>value <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>), <span class="dv">4</span>)</a></code></pre></div>
-<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-## [15] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<p>The documentation of <strong>FRAGSTATS</strong> defines the perimeter-area ratio the following:</p>
+<blockquote>
+<p>[…] PARA equals the ratio of the patch perimeter (m) to area (m2). […]</p>
+</blockquote>
+<p>Contrastingly, the output of <strong>FRAGSTATS</strong> gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
+<p>We implemented PARA as documented in the <strong>FRAGSTATS</strong> manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the <strong>FRAGSTATS</strong> output to meters per square meters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Output of FRAGSTATS</span>
+para_fragstats &lt;-<span class="st"> </span><span class="kw">sort</span>(fragstats_patch_landscape<span class="op">$</span>PARA)
+
+<span class="co"># Output FRAGSTATS divided by 10000 (convert to m/sqm)</span>
+para_fragstats_ha &lt;-<span class="st"> </span>para_fragstats <span class="op">/</span><span class="st"> </span><span class="dv">10000</span>
+
+<span class="co"># Output of landscapemetrics</span>
+para_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">pull</span>(value) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">sort</span>()</code></pre></div>
+<pre><code>##    para_fragstats para_fragstats_ha para_landscapemetrics
+## 1        7017.544         0.7017544             0.7017544
+## 2        7614.880         0.7614880             0.7614880
+## 3        8367.347         0.8367347             0.8367347
+## 4        8783.784         0.8783784             0.8783784
+## 5       10857.143         1.0857143             1.0857143
+## 6       13333.333         1.3333333             1.3333333
+## 7       14285.714         1.4285714             1.4285714
+## 8       16000.000         1.6000000             1.6000000
+## 9       17142.857         1.7142857             1.7142857
+## 10      17777.778         1.7777778             1.7777778
+## 11      20000.000         2.0000000             2.0000000
+## 12      20000.000         2.0000000             2.0000000
+## 13      24000.000         2.4000000             2.4000000
+## 14      26666.667         2.6666667             2.6666667
+## 15      26666.667         2.6666667             2.6666667
+## 16      26666.667         2.6666667             2.6666667
+## 17      26666.667         2.6666667             2.6666667
+## 18      26666.667         2.6666667             2.6666667
+## 19      30000.000         3.0000000             3.0000000
+## 20      30000.000         3.0000000             3.0000000
+## 21      40000.000         4.0000000             4.0000000
+## 22      40000.000         4.0000000             4.0000000
+## 23      40000.000         4.0000000             4.0000000
+## 24      40000.000         4.0000000             4.0000000
+## 25      40000.000         4.0000000             4.0000000
+## 26      40000.000         4.0000000             4.0000000
+## 27      40000.000         4.0000000             4.0000000</code></pre>
 <div id="error-propagation-for-metrics-based-on-para-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-para-metric" class="anchor"></a>Error propagation (for metrics based on <strong>PARA</strong> metric)</h4>
@@ -370,6 +446,11 @@
 </ul>
 </div>
 </div>
+</div>
+<div id="references" class="section level3">
+<h3 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h3>
+<p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
 </div>
 </div>
   </div>
