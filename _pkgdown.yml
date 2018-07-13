@@ -27,6 +27,7 @@ reference:
     contents:
     - cclabel
     - pad_raster
+    - show_patches
   - title: Patch Level Metrics
     contents:
      - lsm_p_area

@@ -73,7 +73,7 @@ lsm_l_ai.list <- function(landscape) {
 
 lsm_l_ai_calc <- function(landscape) {
 
-    cai <- lsm_l_ai(landscape) %>% dplyr::pull(value)
+    cai <- lsm_c_ai(landscape) %>% dplyr::pull(value)
     prop_class <-
         (lsm_c_pland(landscape) %>% dplyr::pull(value)) / 100
 

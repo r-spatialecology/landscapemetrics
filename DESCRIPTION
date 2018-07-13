@@ -26,6 +26,7 @@ Depends:
     R (>= 3.1)
 Imports: 
     dplyr,
+    ggplot2,
     magrittr,
     purrr,
     raster,
