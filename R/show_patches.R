@@ -81,5 +81,22 @@ show_patches_intern <- function(landscape) {
                             "#994E95",
                             "#666666"
                         )
-        )
+        ) +
+        ggplot2::theme(axis.title = ggplot2::element_blank(),
+                       axis.line = ggplot2::element_blank(),
+                       axis.text.x = ggplot2::element_blank(),
+                       axis.text.y = ggplot2::element_blank(),
+                       axis.ticks = ggplot2::element_blank(),
+                       axis.title.x = ggplot2::element_blank(),
+                       axis.title.y = ggplot2::element_blank(),
+                       axis.ticks.length = ggplot2::unit(0, "lines"),
+                       legend.position = "none",
+                       panel.background = ggplot2::element_blank(),
+                       panel.border = ggplot2::element_blank(),
+                       panel.grid.major = ggplot2::element_blank(),
+                       panel.grid.minor = ggplot2::element_blank(),
+                       panel.spacing = ggplot2::unit(0, "lines"),
+                       plot.background = ggplot2::element_blank(),
+                       plot.margin = ggplot2::unit(c(-1, -1, -1.5, -1.5), "lines")) +
+        ggplot2::labs(x = NULL, y = NULL)
 }
