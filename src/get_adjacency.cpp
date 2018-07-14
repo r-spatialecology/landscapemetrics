@@ -9,25 +9,38 @@ using namespace Rcpp;
 //'
 //' @param x A matrix
 // [[Rcpp::export]]
-IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
+IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
     // get number of rows and columns
     int n_rows = x.n_rows;
     int n_cols = x.n_cols;
-    // calculate a number of cells
-    size_t len = n_rows * n_cols;
-    // create a vector with cells ids
-    IntegerVector cell = seq(1, len);
+    // init objects
+    size_t len;
+    IntegerVector cells;
+
+    if (cell.isNotNull()){
+        // calculate only for selected cells
+        // create a vector with cells ids
+        cells = IntegerVector(cell);
+        // calculate a number of cells
+        len = cells.size();
+    } else {
+        // calculate the whole matrix
+        // calculate a number of cells
+        len = n_rows * n_cols;
+        // create a vector with cells ids
+        cells = seq(1, len);
+    }
     // create a template two column matrix for a result
     IntegerMatrix result(len, 2);
     // for each cell...
     for (size_t i = 0; i < len; i++) {
         // ...get cell id
-        int c = cell[i] - 1;
+        int c = cells[i] - 1;
         // ...get column number
-        size_t col = fmod(c, n_cols);
+        size_t col = (c / n_rows);
         // ...get row number
-        size_t row = (c / n_cols);
+        size_t row = fmod(c, n_rows);
         // ...insert cols and rows
         result(i, 1) = col;
         result(i, 0) = row;
