@@ -5,9 +5,11 @@ using namespace Rcpp;
 
 //' Coordinates from a matrix
 //'
-//' These functions get coordinates (row and column numbers) of the matrix cells.
+//' This function gets coordinates (row and column numbers) of the matrix cells.
 //'
 //' @param x A matrix
+//' @param cell A vector of cell number.
+//' If NULL, the coordinates will be calculated for the whole matrix
 // [[Rcpp::export]]
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
@@ -80,6 +82,15 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     return result;
 }
 
+//' Create neighborhood coordinates
+//'
+//' This function creates a neighborhood coordinates matrix based on the directions parameter.
+//'
+//' @param directions The number of directions in which cells should be connected:
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
 // [[Rcpp::export]]
 IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
     if (directions.n_elem == 1){
@@ -98,10 +109,6 @@ IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
         neigh_coords(_, 1) = y_id;
         return neigh_coords;
     } else {
-        // directions should be a matrix with
-        // one and only one cell with value 0 (the focal cell),
-        // at least one cell with value 1 (the adjacent cells)
-        // cells with other values are ignored (not considered adjacent)
         IntegerVector center_position = as<IntegerVector>(wrap(find(directions == 0)));
         IntegerMatrix center_coords = rcpp_xy_from_matrix(directions, center_position);
 
@@ -123,12 +130,14 @@ IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case) or 8 (queen's case)
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     // extract coordinates from matrix
     IntegerMatrix xy = rcpp_xy_from_matrix(x);
-    // Rcpp::Rcout  << xy << std::endl;
 
     // get a number of rows
     int xy_nrows = xy.nrow();
@@ -144,8 +153,6 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     IntegerMatrix neighs(neigh_len * xy_nrows, 2);
     neighs(_, 0) = rep(as<IntegerVector>(wrap(xy(_, 0))), xy_nrows);
     neighs(_, 1) = rep(as<IntegerVector>(wrap(xy(_, 1))), xy_nrows);
-
-    // Rcpp::Rcout  << neighs << std::endl;
 
     // move coordinates (aka get neighbors)
     neighs(_, 0) = neighs(_, 0) + neigh_coords_rep(_, 0);
@@ -173,7 +180,10 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case) or 8 (queen's case)
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions) {
     // extract adjency pairs
