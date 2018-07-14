@@ -29,14 +29,14 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVect
         // calculate a number of cells
         len = n_rows * n_cols;
         // create a vector with cells ids
-        cells = seq(1, len);
+        cells = seq(1, len) - 1;
     }
     // create a template two column matrix for a result
     IntegerMatrix result(len, 2);
     // for each cell...
     for (size_t i = 0; i < len; i++) {
         // ...get cell id
-        int c = cells[i] - 1;
+        int c = cells[i];
         // ...get column number
         size_t col = (c / n_rows);
         // ...get row number
