@@ -128,7 +128,7 @@ IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
 IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     // extract coordinates from matrix
     IntegerMatrix xy = rcpp_xy_from_matrix(x);
-    Rcpp::Rcout  << xy << std::endl;
+    // Rcpp::Rcout  << xy << std::endl;
 
     // get a number of rows
     int xy_nrows = xy.nrow();
@@ -145,7 +145,7 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     neighs(_, 0) = rep(as<IntegerVector>(wrap(xy(_, 0))), xy_nrows);
     neighs(_, 1) = rep(as<IntegerVector>(wrap(xy(_, 1))), xy_nrows);
 
-    Rcpp::Rcout  << neighs << std::endl;
+    // Rcpp::Rcout  << neighs << std::endl;
 
     // move coordinates (aka get neighbors)
     neighs(_, 0) = neighs(_, 0) + neigh_coords_rep(_, 0);
