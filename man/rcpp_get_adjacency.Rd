@@ -10,7 +10,10 @@ rcpp_get_adjacency(x, directions)
 \item{x}{A matrix}
 
 \item{directions}{The number of directions in which cells should be connected:
-4 (rook's case) or 8 (queen's case)}
+4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+The neigborhood matrix should have one cell with value 0 (the focal cell),
+and at least one cell with value 1 (the adjacent cells).
+Cells with other values (e.g. NA) are ignored.}
 }
 \description{
 Identify cells that are adjacent to a set of cells on a matrix.
