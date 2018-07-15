@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
 library(raster)
-library(tidyverse)
+library(dplyr)
 ```
 
 # Using **landscapemetrics**
