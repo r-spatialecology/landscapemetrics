@@ -86,6 +86,7 @@ reference:
     - lsm_c_lsi
     - lsm_c_mesh
     - lsm_c_ndca
+    - lsm_c_nlsi
     - lsm_c_np
     - lsm_c_pafrac
     - lsm_c_para_cv

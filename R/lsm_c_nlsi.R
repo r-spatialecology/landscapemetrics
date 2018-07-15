@@ -72,42 +72,44 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     edge_class <- lsm_c_te_calc(landscape, count_boundary = T)
 
-    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = T) %>%
-        dplyr::pull(value)
+    ai <- rcpp_get_composition_vector(as.matrix(landscape))
 
-    number_cells <- length(na.omit(raster::values(landscape)))
+    pi <- prop.table(ai)
 
-    number_cells_boundary <- (raster::nrow(landscape) * 2) +
-        (raster::ncol(landscape) * 2)
+    A <- sum(ai)
+    # B <-  ???
+    Z <- (raster::ncol(landscape)*2)+(raster::nrow(landscape)*2)
 
-    area_class <- landscape %>%
-        lsm_c_ca_calc() %>%
-        dplyr::mutate(value = value * 10000)
+    nlsi <- tibble::tibble(ai = ai,
+                           pi = pi,
+                           A  = A,
+                           B  = Z,
+                           Z  = Z)
 
-    proportion_class <- lsm_c_pland(landscape) %>%
-        dplyr::mutate(value = value / 100)
-
-    dplyr::full_join(x = area_class, y = proportion_class, by = "class")
-
-    min_e <- dplyr::mutate(area_class,
-                         n = trunc(sqrt(value)),
-                         m = value - n^ 2,
+    min_e <- dplyr::mutate(nlsi,
+                         n = trunc(sqrt(ai)),
+                         m = ai - n^ 2,
                          min_e = dplyr::case_when(m == 0 ~ n * 4,
-                                                 n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                                 value > n * (1 + n) ~ 4 * n + 4))
+                                                 n ^ 2 < ai & ai <= n * (1 + n) ~ 4 * n + 2,
+                                                 ai > n * (1 + n) ~ 4 * n + 4))
 
 
-    max_e <- dplyr::mutate(proportion_class,
-                           max_e = dplyr::case_when(value <= 0.5 ~ 0,
-                                                    value > (0.5 * number_cells + 0.5 * number_cells_boundary) /
-                                                        number_cells ~ edge_landscape + 4 * (number_cells - a_i)))
+    max_e <- dplyr::mutate(nlsi,
+                           max_e = dplyr::case_when(pi <= 0.5 ~ 4 * ai,
+                                                    A %% 2 == 0 || .5 < pi && pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai,
+                                                    A %% 2 != 1 || .5 < pi && pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai + 3,
+                                                    pi >= (.5 * A + .5 * B)/A ~ Z + 4 * (A - ai)
+                           )
+    )
+
+    result <- (edge_class$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
 
     tibble::tibble(
         level = "patch",
         class = as.integer(edge_class$class),
-        id = as.integer(edge_class$id),
+        id = as.integer(NA),
         metric = "nlsi",
-        value = as.double(nlsi$value)
+        value = as.double(result)
     )
 
 }
