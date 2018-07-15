@@ -7,8 +7,10 @@ output:
     html_preview: false
 vignette: >
   %\VignetteIndexEntry{Get Started}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -19,34 +21,39 @@ knitr::opts_chunk$set(
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
+<<<<<<< HEAD
 library(ggplot2)
 library(patchwork)
 
 landscape_plot <- landscapetools::util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
+=======
+library(raster)
+library(tidyverse)
+>>>>>>> 95e9bc220f872215b1d4f538edd509d3763f2f53
 ```
 
 # Using **landscapemetrics**
 
-The functions in **landscapemetrics** starts with `lsm_` and next are named based on a combination of abbreviations describing the scale (patch - `p`, class - `c` or landscape - `l`) and metric they calculate:
+All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn`for the euclidean nearest-neighbor distance):
 
 ```
-# landscapemetrics
-lsm_"level"_"metric" example:
+# general structure
+lsm_"level"_"metric"
 
 # Patch level
-## lsm_p_"metric" example:
+## lsm_p_"metric"
 lsm_p_enn()
 
 # Class level
-## lsm_c_"metric" example:
+## lsm_c_"metric"
 lsm_c_enn()
 
 # Landscape level
-## lsm_p_"metric" example:
+## lsm_p_"metric"
 lsm_l_enn()
 ```
 
-...and they return a tibble with the same columns:
+All functions return an identical structured tibble:
 
 <p style="text-align:center;">
 
@@ -58,37 +65,47 @@ lsm_l_enn()
 
 </p>
 
-A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.
-
 ```{r, message=FALSE}
-# load packages
-library(landscapemetrics)
-library(raster)
-library(dplyr)
-
 # Import raster
 landscape_raster <- landscapemetrics::landscape
 # for local file: raster("pathtoyourraster/raster.asc")
 # ... or any other raster file type, geotiff, ...
 
-# Calculate all available landscape metrics 
-landscape_raster %>% 
-  lsm_p_perim()
+# Calculate e.g. perimeter of all patches
+lsm_p_perim(landscape_raster)
+```
+
+The metrics are encoded using abbreviations in the result tibble. In case you want to match the full name of each metric, we provide a tibble (`lsm_abbreciations_names`) you can join with the result tibble using the `metric` column. The this also adds the type of the metrics.
+
+```{r}
+# Calculate metric
+result <- lsm_c_dcad(landscape)
+
+# Left join with abbreviation tibble
+result_full_name <- dplyr::left_join(x = result, 
+                                     y = lsm_abbreviations_names, 
+                                     by = "metric")
+# Show results
+result_full_name
 ```
 
 ## Important information about using **landscapemetrics**
 
-- The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in a square "area" for some metrics.
+The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function.
 
 ## Using **landscapemetrics** in a tidy workflow
 
-### Pipe landscapes into the functions
-
-Every function in *landscapemetrics* accept data as its first argument, which makes piping a natural workflow:
+Every function in *landscapemetrics* accept data as its first argument, which makes piping a natural workflow. A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.
 
 ```{r} 
-landscape %>% 
-  lsm_p_enn()
+# All patch IDs of class 2 with an ENN > 2.5
+subsample_patches <- landscape %>% 
+    lsm_p_enn() %>%
+    dplyr::filter(class == 2 & value > 2.5) %>%
+    dplyr::pull(id)
+
+# Show results
+subsample_patches
 ``` 
 
 ### Use multiple metric functions
@@ -106,6 +123,12 @@ patch_metrics <- dplyr::bind_rows(
 patch_metrics 
 ```
 
+Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical tibble, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. `what = "patch"`
+
+```{r}
+lsm_calculate(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"))
+```
+
 ## Connected labelling 
 
 `landscapemetrics` makes internally heavy use of an implementatian of the connected labelling algorithm by Thell Fowler (https://github.com/Thell/ccloutline) and exports an reimplementation of this algorithm:
@@ -119,14 +142,20 @@ landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
 
 ## Visualizing patches
 
+<<<<<<< HEAD
 To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
 
 ```{r eval=FALSE}
 # show patch IDS
 landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
+=======
+To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the `show_patches` function.
+
+```{r eval=FALSE}
+show_patches(landscape)
+>>>>>>> 95e9bc220f872215b1d4f538edd509d3763f2f53
 ```
 <center>
 ![](showpatches.png){width=75%}
 </center>
 
-We think, this helps a lot to get a better understandment of the landscape metrics and composition and configuration of the landscape of interest.

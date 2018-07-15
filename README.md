@@ -54,33 +54,33 @@ software.
 
 You can install **landscapemetrics** from GitHub with:
 
-``` r
+```
 # install.packages("devtools")
 devtools::install_github("marcosci/landscapemetrics")
 ```
 
 ## Using landscapemetrics
 
-The functions in **landscapemetrics** starts with `lsm_` and next are
-named based on a combination of abbreviations describing the scale
-(patch - `p`, class - `c` or landscape - `l`) and metric they calculate:
+The functions in **landscapemetrics** start with `lsm_`. The next part of the function names are a combination level (patch - `p`, class - `c` or landscape - `l`) and the metric abbreviation metric (e.g. `enn` for the euclidean nearest-neighbor distance):    
 
-    # landscapemetrics
-    lsm_"level"_"metric" example:
-    
-    # Patch level
-    ## lsm_p_"metric" example:
-    lsm_p_enn()
-    
-    # Class level
-    ## lsm_c_"metric" example:
-    lsm_c_enn()
-    
-    # Landscape level
-    ## lsm_p_"metric" example:
-    lsm_l_enn()
+```
+# general structure
+lsm_"level"_"metric"
 
-…and returns a tibble with the same columns:
+# Patch level
+## lsm_p_"metric"
+lsm_p_enn()
+
+# Class level
+## lsm_c_"metric"
+lsm_c_enn()
+
+# Landscape level
+## lsm_p_"metric"
+lsm_l_enn()
+```
+
+All functions return a identical structured tibble:
 
 <p style="text-align:center;">
 
@@ -97,8 +97,9 @@ named based on a combination of abbreviations describing the scale
 Every function follows the same implementation design, so the usage is
 quite straight forward:
 
-``` r
+```{r}
 library(landscapemetrics)
+library(raster)
 library(tidyverse)
 
 # Landscape raster
@@ -112,9 +113,11 @@ landscape
 #> names       : clumps 
 #> values      : 1, 3  (min, max)
 
-# Calculate for example the Euclidean Nearest-Neighbor Distance on patch level
+# Calculate for example the euclidean nearest-neighbor distance on patch level
 landscape %>% 
   lsm_p_enn()
+
+
 #> # A tibble: 27 x 6
 #>    layer level class    id metric value
 #>    <int> <chr> <int> <int> <chr>  <dbl>

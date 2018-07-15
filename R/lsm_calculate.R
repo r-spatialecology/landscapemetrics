@@ -84,7 +84,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 # lsm_p_enn(landscape),
                 lsm_p_frac(landscape),
                 lsm_p_gyrate(landscape),
-                lsm_p_nca(landscape),
+                lsm_p_ncore(landscape),
                 lsm_p_para(landscape),
                 lsm_p_perim(landscape),
                 # lsm_p_prox(landscape),
@@ -214,7 +214,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
             # enn <- lsm_p_enn(landscape)
             frac <- lsm_p_frac(landscape)
             gyrate <- lsm_p_gyrate(landscape)
-            ncore <- lsm_p_nca(landscape)
+            ncore <- lsm_p_ncore(landscape)
             para <- lsm_p_para(landscape)
             perim <- lsm_p_perim(landscape)
             # prox <- lsm_p_prox(landscape)

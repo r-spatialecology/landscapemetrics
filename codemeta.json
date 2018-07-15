@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "landscapemetrics",
-  "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. landscapemetrics reimplements the most common metrics from\n    FRAGSTATS and more from the current literature on landscape metrics.\n    This package supports raster spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments.",
+  "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. 'landscapemetrics' reimplements the most common metrics from\n    FRAGSTATS and new ones from the current literature on landscape metrics.\n    This package supports raster spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
   "codeRepository": "https://marcosci.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/marcosci/landscapemetrics/issues",
@@ -217,7 +217,7 @@
   ],
   "releaseNotes": "https://github.com/marcosci/landscapemetrics/blob/master/NEWS.md",
   "readme": "https://github.com/marcosci/landscapemetrics/blob/master/README.md",
-  "fileSize": "957.717KB",
+  "fileSize": "943.683KB",
   "contIntegration": [
     "https://travis-ci.org/marcosci/landscapemetrics",
     "https://ci.appveyor.com/project/marcosci/landscapemetrics",
