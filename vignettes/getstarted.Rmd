@@ -28,8 +28,12 @@ library(patchwork)
 landscape_plot <- landscapetools::util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
 =======
 library(raster)
+<<<<<<< HEAD
 library(tidyverse)
 >>>>>>> 95e9bc220f872215b1d4f538edd509d3763f2f53
+=======
+library(dplyr)
+>>>>>>> 1c91444fcd64721a012b7820c883e48908a6e0aa
 ```
 
 # Using **landscapemetrics**

@@ -32,7 +32,7 @@ dimension.
 There are already software packages available to calculate landscape
 metrics, the most famous one probably being the stand-alone software
 FRAGSTATS (McGarigal *et al.* 2012). But also add-ons to GIS software
-are available, e.g. r.le (Baker & Cai 1992) or its successor r.li for
+are available, e.g. r.le (Baker & Cai 1992) or its successor r.li for
 GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal *et
 al.* 2014), can be used.
 
