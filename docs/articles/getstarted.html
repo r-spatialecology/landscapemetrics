@@ -56,7 +56,7 @@
       <a href="../articles/articles/general-background.html">
         <span class="fa fa-book"></span>
          
-        General background
+        General Background
       </a>
     </li>
     <li>
@@ -64,6 +64,13 @@
         <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
+      </a>
+    </li>
+    <li>
+      <a href="../articles/articles/visualize.html">
+        <span class="fa fa-comment"></span>
+         
+        Communicate landscapemetrics results
       </a>
     </li>
     <li>
@@ -273,24 +280,6 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 5     1 landscape    NA    NA te     364</span></a></code></pre></div>
 </div>
 </div>
-<div id="connected-labelling" class="section level2">
-<h2 class="hasAnchor">
-<a href="#connected-labelling" class="anchor"></a>Connected labelling</h2>
-<p><code>landscapemetrics</code> makes internally heavy use of an implementatian of the connected labelling algorithm by Thell Fowler (<a href="https://github.com/Thell/ccloutline" class="uri">https://github.com/Thell/ccloutline</a>) and exports an reimplementation of this algorithm:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cclabel_landscape &lt;-<span class="st"> </span>landscapemetrics<span class="op">::</span><span class="kw">cclabel</span>(landscape)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">landscapetools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_facetplot">util_facetplot</a></span>(cclabel_landscape, <span class="dt">nrow =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="cclabel.png" style="width:100.0%"></p>
-</div>
-<div id="visualizing-patches" class="section level2">
-<h2 class="hasAnchor">
-<a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h2>
-<p>To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function <code>show_patches()</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># show patch IDS</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">landscape_plot  <span class="op">+</span><span class="st"> </span><span class="kw">show_patches</span>(landscape) <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
-<center>
-<img src="showpatches.png" style="width:75.0%">
-</center>
-</div>
 </div>
   </div>
 
@@ -303,8 +292,6 @@ lsm_l_enn()</code></pre>
 <a href="#using-landscapemetrics">Using <strong>landscapemetrics</strong></a><ul class="nav nav-pills nav-stacked">
 <li><a href="#important-information-about-using-landscapemetrics">Important information about using <strong>landscapemetrics</strong></a></li>
       <li><a href="#using-landscapemetrics-in-a-tidy-workflow">Using <strong>landscapemetrics</strong> in a tidy workflow</a></li>
-      <li><a href="#connected-labelling">Connected labelling</a></li>
-      <li><a href="#visualizing-patches">Visualizing patches</a></li>
       </ul>
 </li>
       </ul>

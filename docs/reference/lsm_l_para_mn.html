@@ -89,7 +89,7 @@
       <a href="../articles/articles/general-background.html">
         <span class="fa fa-book"></span>
          
-        General background
+        General Background
       </a>
     </li>
     <li>
@@ -97,6 +97,13 @@
         <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
+      </a>
+    </li>
+    <li>
+      <a href="../articles/articles/visualize.html">
+        <span class="fa fa-comment"></span>
+         
+        Communicate landscapemetrics results
       </a>
     </li>
     <li>
@@ -219,7 +226,10 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_para_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='error'>Error in array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x),     NULL) else NULL): length of 'dimnames' [1] not equal to array extent</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_para_mn</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric  value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA para_mn  2.44</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

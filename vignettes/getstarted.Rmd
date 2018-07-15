@@ -125,27 +125,3 @@ Additionally, we provide a wrapper where the desired metrics can be specified as
 ```{r}
 lsm_calculate(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"))
 ```
-
-## Connected labelling 
-
-`landscapemetrics` makes internally heavy use of an implementatian of the connected labelling algorithm by Thell Fowler (https://github.com/Thell/ccloutline) and exports an reimplementation of this algorithm:
-
-```{r eval=FALSE}
-cclabel_landscape <- landscapemetrics::cclabel(landscape)
-landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
-```
-
-![](cclabel.png){width=100%}
-
-## Visualizing patches
-
-To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
-
-```{r eval=FALSE}
-# show patch IDS
-landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
-```
-<center>
-![](showpatches.png){width=75%}
-</center>
-

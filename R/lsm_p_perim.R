@@ -79,7 +79,7 @@ lsm_p_perim_calc <- function(landscape) {
 
             raster::values(patches_class)[target_na] <- -999
 
-            neighbour_matrix <- rcpp_get_coocurrence_matrix(as.matrix(patches_class),
+            neighbour_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                                             directions = as.matrix(4))
 
             neighbour_matrix <- neighbour_matrix[1 ,2:ncol(neighbour_matrix)]
