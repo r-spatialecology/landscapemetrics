@@ -136,28 +136,28 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install <strong>landscapemetrics</strong> from GitHub with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"marcosci/landscapemetrics"</span>)</code></pre></div>
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github"># install.packages("devtools")
+devtools::install_github("marcosci/landscapemetrics")</a></code></pre>
 </div>
 <div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
-<p>The functions in <strong>landscapemetrics</strong> starts with <code>lsm_</code> and next are named based on a combination of abbreviations describing the scale (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>) and metric they calculate:</p>
-<pre><code># landscapemetrics
-lsm_"level"_"metric" example:
+<p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code>for the euclidean nearest-neighbor distance):</p>
+<pre><code># general structure
+lsm_"level"_"metric"
 
 # Patch level
-## lsm_p_"metric" example:
+## lsm_p_"metric"
 lsm_p_enn()
 
 # Class level
-## lsm_c_"metric" example:
+## lsm_c_"metric"
 lsm_c_enn()
 
 # Landscape level
-## lsm_p_"metric" example:
+## lsm_p_"metric"
 lsm_l_enn()</code></pre>
-<p>…and returns a tibble with the same columns:</p>
+<p>All functions return an identical structured tibble:</p>
 <p style="text-align:center;">
 </p>
 <table class="table">
@@ -200,38 +200,44 @@ lsm_l_enn()</code></pre>
 <h3 class="hasAnchor">
 <a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(landscapemetrics)
-<span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; Warning: Paket 'dplyr' wurde unter R Version 3.5.1 erstellt</span>
-
-<span class="co"># Landscape raster</span>
-landscape
-<span class="co">#&gt; class       : RasterLayer </span>
-<span class="co">#&gt; dimensions  : 30, 30, 900  (nrow, ncol, ncell)</span>
-<span class="co">#&gt; resolution  : 1, 1  (x, y)</span>
-<span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; coord. ref. : NA </span>
-<span class="co">#&gt; data source : in memory</span>
-<span class="co">#&gt; names       : clumps </span>
-<span class="co">#&gt; values      : 1, 3  (min, max)</span>
-
-<span class="co"># Calculate for example the Euclidean Nearest-Neighbor Distance on patch level</span>
-landscape <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>()
-<span class="co">#&gt; # A tibble: 27 x 6</span>
-<span class="co">#&gt;    layer level class    id metric                                    value</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;                                     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1 patch     1     1 euclidean nearest neighbor distance dist…  7   </span>
-<span class="co">#&gt;  2     1 patch     1     2 euclidean nearest neighbor distance dist…  4   </span>
-<span class="co">#&gt;  3     1 patch     1     3 euclidean nearest neighbor distance dist…  2.83</span>
-<span class="co">#&gt;  4     1 patch     1     4 euclidean nearest neighbor distance dist…  2   </span>
-<span class="co">#&gt;  5     1 patch     1     5 euclidean nearest neighbor distance dist…  2   </span>
-<span class="co">#&gt;  6     1 patch     1     6 euclidean nearest neighbor distance dist…  2.83</span>
-<span class="co">#&gt;  7     1 patch     1     7 euclidean nearest neighbor distance dist…  4.12</span>
-<span class="co">#&gt;  8     1 patch     1     8 euclidean nearest neighbor distance dist…  4.12</span>
-<span class="co">#&gt;  9     1 patch     1     9 euclidean nearest neighbor distance dist…  4.24</span>
-<span class="co">#&gt; 10     1 patch     2    10 euclidean nearest neighbor distance dist…  4.47</span>
-<span class="co">#&gt; # ... with 17 more rows</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Landscape raster</span>
+landscape</code></pre></div>
+<pre><code>## class       : RasterLayer 
+## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
+## resolution  : 1, 1  (x, y)
+## extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)
+## coord. ref. : NA 
+## data source : in memory
+## names       : clumps 
+## values      : 1, 3  (min, max)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span>
+<span class="kw">lsm_p_enn</span>(landscape)</code></pre></div>
+<pre><code>## # A tibble: 27 x 6
+##    layer level class    id metric value
+##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1     1 patch     1     1 enn     7   
+##  2     1 patch     1     2 enn     4   
+##  3     1 patch     1     3 enn     2.83
+##  4     1 patch     1     4 enn     2   
+##  5     1 patch     1     5 enn     2   
+##  6     1 patch     1     6 enn     2.83
+##  7     1 patch     1     7 enn     4.12
+##  8     1 patch     1     8 enn     4.12
+##  9     1 patch     1     9 enn     4.24
+## 10     1 patch     2    10 enn     4.47
+## # ... with 17 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the total area and total class edge length</span>
+dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(
+    <span class="kw">lsm_l_ta</span>(landscape), 
+    <span class="kw">lsm_c_te</span>(landscape)
+)</code></pre></div>
+<pre><code>## # A tibble: 4 x 6
+##   layer level     class    id metric  value
+##   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1     1 landscape    NA    NA ta       0.09
+## 2     1 class         1    NA te     180   
+## 3     1 class         2    NA te     227   
+## 4     1 class         3    NA te     321</code></pre>
 </div>
 </div>
 <div id="contributing" class="section level2">
