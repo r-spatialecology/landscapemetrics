@@ -21,19 +21,12 @@ knitr::opts_chunk$set(
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
-<<<<<<< HEAD
 library(ggplot2)
 library(patchwork)
+library(raster)
+library(dplyr)
 
 landscape_plot <- landscapetools::util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
-=======
-library(raster)
-<<<<<<< HEAD
-library(tidyverse)
->>>>>>> 95e9bc220f872215b1d4f538edd509d3763f2f53
-=======
-library(dplyr)
->>>>>>> 1c91444fcd64721a012b7820c883e48908a6e0aa
 ```
 
 # Using **landscapemetrics**
@@ -146,18 +139,11 @@ landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
 
 ## Visualizing patches
 
-<<<<<<< HEAD
 To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
 
 ```{r eval=FALSE}
 # show patch IDS
 landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
-=======
-To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the `show_patches` function.
-
-```{r eval=FALSE}
-show_patches(landscape)
->>>>>>> 95e9bc220f872215b1d4f538edd509d3763f2f53
 ```
 <center>
 ![](showpatches.png){width=75%}
