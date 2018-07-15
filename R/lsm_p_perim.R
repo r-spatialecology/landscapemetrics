@@ -76,18 +76,13 @@ lsm_p_perim_calc <- function(landscape) {
         purrr::map_dfr(landscape_labelled, function(patches_class) {
 
             target_na <- raster::Which(is.na(patches_class), cells = TRUE)
-            target_value <- raster::Which(!is.na(patches_class), cells = TRUE)
 
-            adjacent_cells <- raster::adjacent(
-                x = patches_class,
-                cells = target_value,
-                target = target_na,
-                directions = 4,
-                pairs = TRUE
-            )
+            raster::values(patches_class)[target_na] <- -999
 
-            neighbour_matrix <-
-                table(patches_class[adjacent_cells[, 1]])
+            neighbour_matrix <- rcpp_get_coocurrence_matrix(as.matrix(patches_class),
+                                                            directions = as.matrix(4))
+
+            neighbour_matrix <- neighbour_matrix[1 ,2:ncol(neighbour_matrix)]
 
             perimeter_patch_ij <-
                 neighbour_matrix * raster::res(patches_class)[[1]]
