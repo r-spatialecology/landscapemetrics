@@ -10,15 +10,15 @@ editor_options:
   chunk_output_type: console
 ---
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
-library(tidyverse)
 library(DT)
 library(landscapemetrics)
 library(landscapetools)
 library(patchwork)
 library(raster)
+library(tidyverse)
 ```
 
-**landscapemetrics** re-implements landcsape metrics as they are described in the **FRAGSTATS** software. Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
+**landscapemetrics** re-implements landcsape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
 
 Some metrics in *FRAGSTATS* are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.
 
@@ -26,7 +26,7 @@ Unfortunatly, we do not have access to the source code of **FRAGSTATS**. Therefo
 
 # General differences
 
-Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for **FRAGSTATS** and **landscapemetrics**. In order to match the results of the two softwares, we are going to order them from small to big in the following.
+Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for **FRAGSTATS** and **landscapemetrics**.
 
 All double precision floating point numbers are rounded after the 4th decimal place in **FRAGSTATS**. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.
 
@@ -43,50 +43,78 @@ cv <- function(x) {
 
 # CV calculated from patch values of FRAGSTATS 
 fragstats_calculated <- fragstats_patch_landscape %>%
-    group_by(TYPE) %>%
-    summarise(cv = cv(AREA)) %>%
-    pull(cv) %>%
-    sort()
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarise(cv = cv(AREA)) %>%
+    purrr::set_names("class", "fragstats_calculated") %>%
+    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+                                                      class == "cls_2" ~ 2,
+                                                      class == "cls_3" ~ 3)))
 
 # Output of FRAGSTATS
-fragstats_output <- sort(fragstats_class_landscape$AREA_CV)
+fragstats_output <- fragstats_class_landscape %>% 
+    dplyr::select(TYPE, AREA_CV) %>%
+    purrr::set_names("class", "fragstats_output") %>%
+    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+                                                      class == "cls_2" ~ 2,
+                                                      class == "cls_3" ~ 3)))
 
 # Output of landscapemetrics
-landscapemetrics_output <- sort(lsm_c_area_cv(landscape)$value)
+landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
+    dplyr::select(class, value) %>%
+    purrr::set_names("class", "landscapemetrics")
 ```
 
 ```{r echo = FALSE}
-data.frame(
-    fragstats_calculated = fragstats_calculated,
-    fragstats_output = fragstats_output,
-    landscapemetrics_output = landscapemetrics_output
-    )
+fragstats <- dplyr::full_join(x = fragstats_calculated, 
+                              y = fragstats_output, 
+                              by = "class") 
+
+cv_full <- dplyr::full_join(x = fragstats, 
+                            y = landscapemetrics_output, 
+                            by = "class")
+
+print.data.frame(cv_full)
 ```
 
 As for the cv, the results for the sd are similiar. The result calculated from all patch areas of **FRAGSTATS** is identical to the result of **landscapemetrics**, but not the actual result of **FRAGSTATS**.
 
 ```{r}
-
 # SD calculated from patch values of FRAGSTATS
 fragstats_calculated <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%
     summarise(sd = sd(AREA)) %>%
-    pull(sd) %>%
-    sort()
+    purrr::set_names("class", "fragstats_calculated") %>%
+    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+                                                      class == "cls_2" ~ 2,
+                                                      class == "cls_3" ~ 3)))
 
+    
 # Output of FRAGSTATS
-fragstats_output <- sort(fragstats_class_landscape$AREA_SD)
+fragstats_output <- fragstats_class_landscape %>%
+    dplyr::select(TYPE, AREA_SD) %>%
+    purrr::set_names("class", "fragstats_calculated") %>%
+    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+                                                      class == "cls_2" ~ 2,
+                                                      class == "cls_3" ~ 3)))
+
 
 # Output of landscapemetrics
-landscapemetrics_output <- round(sort(lsm_c_area_sd(landscape)$value), 4)
+landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
+    dplyr::select(class, value) %>%
+    purrr::set_names("class", "landscapemetrics")
+    
 ```
 
 ```{r echo = FALSE}
-data.frame(
-    fragstats_calculated = fragstats_calculated,
-    fragstats_output = fragstats_output,
-    landscapemetrics_output = landscapemetrics_output
-    )
+fragstats <- dplyr::full_join(x = fragstats_calculated, 
+                              y = fragstats_output, 
+                              by = "class") 
+
+cv_full <- dplyr::full_join(x = fragstats, 
+                            y = landscapemetrics_output, 
+                            by = "class")
+
+print.data.frame(cv_full)
 ```
 
 # Specific differences
@@ -97,28 +125,41 @@ data.frame(
 
 > [...] CIRCLE equals 1 minus patch area (m^2^) divided by the area (m^2^) of the smallest circumscribing circle. [...]
 
-According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in **FRAGSTATS** patches containing only one cell equal CIRCLE = 0.
+According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in **FRAGSTATS** patches containing only one cell equal CIRCLE = 0. In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.
 
 ```{r}
-# Calculate patch area, patches with area = 0.0001 --> 1 cell
-# area <- lsm_p_area(landscape) %>%
-#     pull(value) %>%
-#     sort()
+# Calculate patch area
+fragstats_area <- fragstats_patch_landscape %>%
+    select(PID, AREA) %>%
+    purrr::set_names("id", "fragstats_area")
 
-# CIRCLE = 0 for patches containing only one cell
-circle_fragstats <-
-    sort(fragstats_patch_landscape_circle <-
-             fragstats_patch_landscape$CIRCLE)
+landscapemetrics_area <- lsm_p_area(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "landscapemetrics_area")
 
-circle_landscapemetrics <- lsm_p_circle(landscape) %>%
-    pull(value) %>%
-    sort()
+# Calculate CIRCLE
+fragstats_circle <- fragstats_patch_landscape %>%
+    select(PID, CIRCLE) %>%
+    purrr::set_names("id", "fragstats_circle")
 
+landscapemetrics_circle <- lsm_p_circle(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "landscapemetrics_circle")
 ```
 
 ```{r echo = FALSE}
-data.frame(circle_fragstats = circle_fragstats, 
-           circle_landscapemetrics = circle_landscapemetrics)
+fragstats <- dplyr::full_join(x = fragstats_area, 
+                              y = fragstats_circle, 
+                              by = "id") %>%
+    dplyr::arrange(fragstats_area)
+
+landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
+                                     y = landscapemetrics_circle, 
+                                     by = "id") %>%
+    dplyr::arrange(landscapemetrics_area)
+
+print.data.frame(fragstats)
+print.data.frame(landscapemetrics)
 ```
 
 #### Error propagation (for metrics based on **CIRCLE** metric)
@@ -148,7 +189,6 @@ In **landscapemetrics** the depth-of-edge is fixed to one cell. In other words, 
 This is a visual aid to help understand how we implemented the core metric. The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.
 
 ```{r}
-
 # All patches of class 1
 class_1 <- cclabel(landscape)[[1]]
 
@@ -205,29 +245,41 @@ According to **FRAGSTATS** the radius of gyration for a patch consisting of only
 
 > [...] GYRATE = 0 when the patch consists of a single cell [...]
 
-However, for patches containing a single cell **FRAGSTATS** returns a value of GYRATE = 0.5.
+However, for patches containing a single cell **FRAGSTATS** returns a value of GYRATE = 0.5. In the following table, patches with an area of area = 0.0001 consist of only one cell. 
 
-In the following table, patches with an area of area = 0.0001 consist of only one cell. 
 ```{r}
+# Calculate patch area
+fragstats_area <- fragstats_patch_landscape %>%
+    select(PID, AREA) %>%
+    purrr::set_names("id", "fragstats_area")
 
-# Area of all patches, patches with area = 0.0001 consist of only one cell
-area <- lsm_p_area(landscape) %>%
-    pull(value) %>%
-    sort()
+landscapemetrics_area <- lsm_p_area(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "landscapemetrics_area")
 
-# Output of FRAGSTATS
-gyrate_fragstats <- sort(fragstats_patch_landscape$GYRATE) 
+# Calculate GYRATE
+fragstats_circle <- fragstats_patch_landscape %>%
+    select(PID, GYRATE) %>%
+    purrr::set_names("id", "fragstats_gyrate")
 
-# Output of landscapemetrics
-gyrate_landscapemetrics <- lsm_p_gyrate(landscape) %>%
-    pull(value) %>%
-    sort()
+landscapemetrics_circle <- lsm_p_gyrate(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "landscapemetrics_gyrate")
 ```
 
 ```{r echo = FALSE}
-data.frame(area = area, 
-           gyrate_fragstats = gyrate_fragstats, 
-           gyrate_landscapemetrics = gyrate_landscapemetrics)
+fragstats <- dplyr::full_join(x = fragstats_area, 
+                              y = fragstats_circle, 
+                              by = "id") %>%
+    dplyr::arrange(fragstats_area)
+
+landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
+                                     y = landscapemetrics_circle, 
+                                     by = "id") %>%
+    dplyr::arrange(landscapemetrics_area)
+
+print.data.frame(fragstats)
+print.data.frame(landscapemetrics)
 ```
 
 #### Error propagation (for metrics based on **GYRATE** metric)
@@ -253,24 +305,42 @@ The documentation of **FRAGSTATS** defines the perimeter-area ratio the followin
 Contrastingly, the output of **FRAGSTATS** gives the result as the ratio of the patch perimeter in meters to area in hectares.
 
 We implemented PARA as documented in the **FRAGSTATS** manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the **FRAGSTATS** output to meters per square meters. 
+
 ```{r}
 # Output of FRAGSTATS
-para_fragstats <- sort(fragstats_patch_landscape$PARA)
-
-# Output FRAGSTATS divided by 10000 (convert to m/sqm)
-para_fragstats_ha <- para_fragstats / 10000
+fragstats <- fragstats_patch_landscape %>%
+    dplyr::select(PID, AREA, PERIM, PARA) %>%
+    purrr::set_names("id", "area", "perim", "para") %>%
+    dplyr::mutate(para_calculated_ha = perim / area, 
+                  para_calculated_m = perim / (area * 10000)) %>%
+    dplyr::arrange(area)
 
 # Output of landscapemetrics
+area_landscapmetrics <- lsm_p_area(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "area")
+
+perim_landscapmetrics <- lsm_p_perim(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "perim")
+
 para_landscapemetrics <- lsm_p_para(landscape) %>%
-    pull(value) %>%
-    sort()
+    dplyr::select(id, value) %>%
+    purrr::set_names("id", "para")
+
+landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
+                                     y = perim_landscapmetrics, 
+                                     by = "id") %>%
+    dplyr::full_join(para_landscapemetrics, 
+                     by = "id") %>%
+    dplyr::mutate(para_calculated_ha = perim / area, 
+                  para_calculated_m = perim / (area * 10000)) %>% 
+    dplyr::arrange(area)
 ```
 
-
 ```{r echo = FALSE}
-data.frame(para_fragstats = para_fragstats, 
-           para_fragstats_ha = para_fragstats_ha,
-           para_landscapemetrics = para_landscapemetrics)
+print.data.frame(fragstats)
+print.data.frame(landscapemetrics)
 ```
 
 #### Error propagation (for metrics based on **PARA** metric)

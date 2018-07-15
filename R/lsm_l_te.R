@@ -91,7 +91,7 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
     }
 
     tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                      directions = 4)
+                                      directions = as.matrix(4))
     te <- sum(tb[lower.tri(tb)]) * raster::res(landscape)[[1]]
 
     tibble::tibble(

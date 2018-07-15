@@ -38,76 +38,76 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-#' lsm_c_nlsi <- function(landscape) UseMethod("lsm_c_nlsi")
-#'
-#' #' @name lsm_c_nlsi
-#' #' @export
-#' lsm_c_nlsi.RasterLayer <- function(landscape) {
-#'     purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
-#'         dplyr::mutate(layer = as.integer(layer))
-#' }
-#'
-#' #' @name lsm_c_nlsi
-#' #' @export
-#' lsm_c_nlsi.RasterStack <- function(landscape) {
-#'     purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
-#'         dplyr::mutate(layer = as.integer(layer))
-#' }
-#'
-#' #' @name lsm_c_nlsi
-#' #' @export
-#' lsm_c_nlsi.RasterBrick <- function(landscape) {
-#'     purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
-#'         dplyr::mutate(layer = as.integer(layer))
-#' }
-#'
-#' #' @name lsm_c_nlsi
-#' #' @export
-#' lsm_c_nlsi.list <- function(landscape) {
-#'     purrr::map_dfr(landscape, lsm_c_nlsi_calc, .id = "layer") %>%
-#'         dplyr::mutate(layer = as.integer(layer))
-#' }
-#'
-#' lsm_c_nlsi_calc <- function(landscape) {
-#'
-#'     edge_class <- lsm_c_te_calc(landscape, count_boundary = T)
-#'
-#'     edge_landscape <- lsm_l_te_calc(landscape, count_boundary = T) %>%
-#'         dplyr::pull(value)
-#'
-#'     number_cells <- length(na.omit(raster::values(landscape)))
-#'
-#'     number_cells_boundary <- (raster::nrow(landscape) * 2) +
-#'         (raster::ncol(landscape) * 2)
-#'
-#'     area_class <- landscape %>%
-#'         lsm_c_ca_calc() %>%
-#'         dplyr::mutate(value = value * 10000)
-#'
-#'     proportion_class <- lsm_c_pland(landscape) %>%
-#'         dplyr::mutate(value = value / 100)
-#'
-#'     dplyr::full_join(x = area_class, y = proportion_class, by = "class")
-#'
-#'     min_e <- dplyr::mutate(area_class,
-#'                          n = trunc(sqrt(value)),
-#'                          m = value - n^ 2,
-#'                          min_e = dplyr::case_when(m == 0 ~ n * 4,
-#'                                                  n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-#'                                                  value > n * (1 + n) ~ 4 * n + 4))
-#'
-#'
-#'     max_e <- dplyr::mutate(proportion_class,
-#'                            max_e = dplyr::case_when(value <= 0.5 ~ 0,
-#'                                                     value > (0.5 * number_cells + 0.5 * number_cells_boundary) /
-#'                                                         number_cells ~ edge_landscape + 4 * (number_cells - a_i)))
-#'
-#'     tibble::tibble(
-#'         level = "patch",
-#'         class = as.integer(edge_class$class),
-#'         id = as.integer(edge_class$id),
-#'         metric = "nlsi",
-#'         value = as.double(nlsi$value)
-#'     )
-#'
-#' }
+lsm_c_nlsi <- function(landscape) UseMethod("lsm_c_nlsi")
+
+#' @name lsm_c_nlsi
+#' @export
+lsm_c_nlsi.RasterLayer <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_c_nlsi
+#' @export
+lsm_c_nlsi.RasterStack <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_c_nlsi
+#' @export
+lsm_c_nlsi.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_c_nlsi
+#' @export
+lsm_c_nlsi.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_c_nlsi_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+lsm_c_nlsi_calc <- function(landscape) {
+
+    edge_class <- lsm_c_te_calc(landscape, count_boundary = T)
+
+    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = T) %>%
+        dplyr::pull(value)
+
+    number_cells <- length(na.omit(raster::values(landscape)))
+
+    number_cells_boundary <- (raster::nrow(landscape) * 2) +
+        (raster::ncol(landscape) * 2)
+
+    area_class <- landscape %>%
+        lsm_c_ca_calc() %>%
+        dplyr::mutate(value = value * 10000)
+
+    proportion_class <- lsm_c_pland(landscape) %>%
+        dplyr::mutate(value = value / 100)
+
+    dplyr::full_join(x = area_class, y = proportion_class, by = "class")
+
+    min_e <- dplyr::mutate(area_class,
+                         n = trunc(sqrt(value)),
+                         m = value - n^ 2,
+                         min_e = dplyr::case_when(m == 0 ~ n * 4,
+                                                 n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                                 value > n * (1 + n) ~ 4 * n + 4))
+
+
+    max_e <- dplyr::mutate(proportion_class,
+                           max_e = dplyr::case_when(value <= 0.5 ~ 0,
+                                                    value > (0.5 * number_cells + 0.5 * number_cells_boundary) /
+                                                        number_cells ~ edge_landscape + 4 * (number_cells - a_i)))
+
+    tibble::tibble(
+        level = "patch",
+        class = as.integer(edge_class$class),
+        id = as.integer(edge_class$id),
+        metric = "nlsi",
+        value = as.double(nlsi$value)
+    )
+
+}

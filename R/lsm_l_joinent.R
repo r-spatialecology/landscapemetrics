@@ -102,7 +102,7 @@ lsm_l_joinent_calc <- function(landscape, directions, ordered, base){
 
     landscape_matrix <- raster::as.matrix(landscape)
     coh <- rcpp_get_coocurrence_vector(landscape_matrix,
-                                       directions = directions,
+                                       directions = as.matrix(directions),
                                        ordered = ordered)
     cplx <- rcpp_get_entropy(coh, base)
 

@@ -79,7 +79,7 @@ lsm_c_clumpy_calc <- function(landscape){
     landscape_padded <- pad_raster(landscape)
 
     tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded),
-                                      directions = 4)
+                                      directions = as.matrix(4))
 
     like_adjacencies <- diag(tb)
     like_adjacencies <- like_adjacencies[2:length(like_adjacencies)]

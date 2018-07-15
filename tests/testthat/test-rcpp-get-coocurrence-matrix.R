@@ -45,10 +45,10 @@ land_true4 <- structure(c(986L, 96L, 304L, 96L, 1306L, 424L, 304L, 424L, 2904L),
                                                   c("1", "2", "3")),
                                              .Names = c("", "")))
 
-land_result1 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 4)
-land_result2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = 4)
-land_result3 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = 4)
-land_result4 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = 8)
+land_result1 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(4))
+land_result2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = as.matrix(4))
+land_result3 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = as.matrix(4))
+land_result4 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(8))
 
 test_that("rcpp_get_coocurrence_matrix results are correct", {
     expect_equivalent(land_result1, land_true1)
@@ -66,8 +66,8 @@ context("coocurrence vector")
 land_true1_v <- as.vector(land_true1)
 land_true4_v <- as.vector(land_true4)
 
-land_result1_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 4)
-land_result4_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = 8)
+land_result1_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(4))
+land_result4_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(8))
 
 test_that("rcpp_get_coocurrence_vector results are correct", {
     expect_equivalent(land_result1_v, land_true1_v)
@@ -91,3 +91,4 @@ test_that("rcpp_get_composition_vector results are correct", {
 test_that("rcpp_get_composition_vector is typestable", {
     expect_is(land_result1_cv, "numeric")
 })
+
