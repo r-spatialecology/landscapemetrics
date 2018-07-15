@@ -6,7 +6,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
-IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, int directions = 4) {
+IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
         // get unique values
         arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
         // create a matrix of zeros of unique values size
@@ -46,7 +46,7 @@ int triangular_index(int r, int c) {
 }
 
 // [[Rcpp::export]]
-NumericVector rcpp_get_coocurrence_vector(arma::imat x, int directions = 8, bool ordered = true) {
+NumericVector rcpp_get_coocurrence_vector(arma::imat x, arma::imat directions, bool ordered = true) {
         NumericVector result;
         // calculate a coocurrence matrix
         x = as<arma::imat>(rcpp_get_coocurrence_matrix(x, directions));
@@ -75,7 +75,7 @@ NumericVector rcpp_get_coocurrence_vector(arma::imat x, int directions = 8, bool
 }
 
 // [[Rcpp::export]]
-NumericVector rcpp_get_offdiagonal_vector(arma::imat x, int directions = 8) {
+NumericVector rcpp_get_offdiagonal_vector(arma::imat x, arma::imat directions) {
         // calculate a coocurrence matrix
         x = as<arma::imat>(rcpp_get_coocurrence_matrix(x, directions));
         // extract off-diagonal

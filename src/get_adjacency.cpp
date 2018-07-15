@@ -5,29 +5,44 @@ using namespace Rcpp;
 
 //' Coordinates from a matrix
 //'
-//' These functions get coordinates (row and column numbers) of the matrix cells.
+//' This function gets coordinates (row and column numbers) of the matrix cells.
 //'
 //' @param x A matrix
+//' @param cell A vector of cell number.
+//' If NULL, the coordinates will be calculated for the whole matrix
 // [[Rcpp::export]]
-IntegerMatrix rcpp_xy_from_matrix(arma::imat x) {
+IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
     // get number of rows and columns
     int n_rows = x.n_rows;
     int n_cols = x.n_cols;
-    // calculate a number of cells
-    size_t len = n_rows * n_cols;
-    // create a vector with cells ids
-    IntegerVector cell = seq(1, len);
+    // init objects
+    size_t len;
+    IntegerVector cells;
+
+    if (cell.isNotNull()){
+        // calculate only for selected cells
+        // create a vector with cells ids
+        cells = IntegerVector(cell);
+        // calculate a number of cells
+        len = cells.size();
+    } else {
+        // calculate the whole matrix
+        // calculate a number of cells
+        len = n_rows * n_cols;
+        // create a vector with cells ids
+        cells = seq(1, len) - 1;
+    }
     // create a template two column matrix for a result
     IntegerMatrix result(len, 2);
     // for each cell...
     for (size_t i = 0; i < len; i++) {
         // ...get cell id
-        int c = cell[i] - 1;
+        int c = cells[i];
         // ...get column number
-        size_t col = fmod(c, n_cols);
+        size_t col = (c / n_rows);
         // ...get row number
-        size_t row = (c / n_cols);
+        size_t row = fmod(c, n_rows);
         // ...insert cols and rows
         result(i, 1) = col;
         result(i, 0) = row;
@@ -67,6 +82,46 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     return result;
 }
 
+//' Create neighborhood coordinates
+//'
+//' This function creates a neighborhood coordinates matrix based on the directions parameter.
+//'
+//' @param directions The number of directions in which cells should be connected:
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
+// [[Rcpp::export]]
+IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
+    if (directions.n_elem == 1){
+        int x = directions(0);
+        IntegerVector x_id(x);
+        IntegerVector y_id(x);
+        if (x == 4){
+            x_id = IntegerVector::create(0, -1, 1, 0);
+            y_id = IntegerVector::create(-1, 0, 0, 1);
+        } else if (x == 8){
+            x_id = IntegerVector::create(-1, 0, 1, -1, 1, -1, 0, 1);
+            y_id = IntegerVector::create(-1, -1, -1, 0, 0, 1, 1, 1);
+        }
+        IntegerMatrix neigh_coords(x_id.size(), 2);
+        neigh_coords(_, 0) = x_id;
+        neigh_coords(_, 1) = y_id;
+        return neigh_coords;
+    } else {
+        IntegerVector center_position = as<IntegerVector>(wrap(find(directions == 0)));
+        IntegerMatrix center_coords = rcpp_xy_from_matrix(directions, center_position);
+
+        IntegerVector neigh_position = as<IntegerVector>(wrap(find(directions == 1)));
+        IntegerMatrix neigh_coords = rcpp_xy_from_matrix(directions, neigh_position);
+
+        neigh_coords(_,0) = neigh_coords(_,0) - center_coords(0, 0);
+        neigh_coords(_,1) = neigh_coords(_,1) - center_coords(0, 1);
+
+        return neigh_coords;
+    }
+}
+
 //' Adjacent cells
 //'
 //' Identify cells that are adjacent to a set of cells on a matrix.
@@ -75,52 +130,43 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case) or 8 (queen's case)
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
 // [[Rcpp::export]]
-IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
+IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     // extract coordinates from matrix
     IntegerMatrix xy = rcpp_xy_from_matrix(x);
+
     // get a number of rows
     int xy_nrows = xy.nrow();
-    // initiate neighbors ids
-    IntegerVector x_id(directions);
-    IntegerVector y_id(directions);
-    if (directions == 4){
-        x_id = IntegerVector::create(0, -1, 1, 0);
-        y_id = IntegerVector::create(-1, 0, 0, 1);
-    } else if (directions == 8){
-        x_id = IntegerVector::create(-1, 0, 1, -1, 1, -1, 0, 1);
-        y_id = IntegerVector::create(-1, -1, -1, 0, 0, 1, 1, 1);
-    }
-    // replicate directions vectors
-    IntegerVector x_id_rep(directions * xy_nrows);
-    x_id_rep = rep_each(x_id, xy_nrows);
-    IntegerVector y_id_rep(directions * xy_nrows);
-    y_id_rep = rep_each(y_id, xy_nrows);
-    // get x and y coordinates
-    IntegerVector row_ids = wrap(xy(_, 0));
-    IntegerVector col_ids = wrap(xy(_, 1));
-    // replicate coordinates vectors
-    IntegerVector row_ids_rep(directions * xy_nrows);
-    row_ids_rep = rep(row_ids, directions);
-    IntegerVector col_ids_rep(directions * xy_nrows);
-    col_ids_rep = rep(col_ids, directions);
+    // create neighbots coordinates
+    IntegerMatrix neigh_coords = rcpp_create_neighborhood(directions);
+    int neigh_len = neigh_coords.nrow();
+    // repeat neighbots coordinates
+    IntegerMatrix neigh_coords_rep(neigh_len * xy_nrows, 2);
+    neigh_coords_rep(_, 0) = rep_each(neigh_coords(_, 0), xy_nrows);
+    neigh_coords_rep(_, 1) = rep_each(neigh_coords(_, 1), xy_nrows);
+
+    // repreat center cells coordinates
+    IntegerMatrix neighs(neigh_len * xy_nrows, 2);
+    neighs(_, 0) = rep(as<IntegerVector>(wrap(xy(_, 0))), xy_nrows);
+    neighs(_, 1) = rep(as<IntegerVector>(wrap(xy(_, 1))), xy_nrows);
+
     // move coordinates (aka get neighbors)
-    row_ids_rep = row_ids_rep + x_id_rep;
-    col_ids_rep = col_ids_rep + y_id_rep;
-    // create neighbors matrix
-    IntegerMatrix neighs(row_ids_rep.size(), 2);
-    neighs(_, 0) = row_ids_rep;
-    neighs(_, 1) = col_ids_rep;
+    neighs(_, 0) = neighs(_, 0) + neigh_coords_rep(_, 0);
+    neighs(_, 1) = neighs(_, 1) + neigh_coords_rep(_, 1);
+
     // extract center cells cell numbers
     IntegerVector center_cells_unrep = rcpp_cell_from_xy(x, xy);
     // repeat center cells cell numbers
-    IntegerVector center_cells(directions * xy_nrows);
-    center_cells = rep(center_cells_unrep, directions);
+    IntegerVector center_cells(neigh_len * xy_nrows);
+    center_cells = rep(center_cells_unrep, neigh_len);
     // extract neighbors cell numbers
     IntegerVector neighs_cells = rcpp_cell_from_xy(x, neighs);
     // combine the results
-    IntegerMatrix result(row_ids_rep.size(), 2);
+    IntegerMatrix result(center_cells.size(), 2);
     result(_, 0) = center_cells;
     result(_, 1) = neighs_cells;
     return result;
@@ -134,9 +180,12 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, int directions) {
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case) or 8 (queen's case)
+//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' and at least one cell with value 1 (the adjacent cells).
+//' Cells with other values (e.g. NA) are ignored.
 // [[Rcpp::export]]
-IntegerMatrix rcpp_get_pairs(arma::imat x, int directions = 4) {
+IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions) {
     // extract adjency pairs
     IntegerMatrix adjency_pairs = rcpp_get_adjacency(x, directions);
     // number of pairs
@@ -159,3 +208,17 @@ IntegerMatrix rcpp_get_pairs(arma::imat x, int directions = 4) {
     }
     return result;
 }
+
+/*** R
+mat = matrix(c(1, 1, 1, 2, 2, 1), ncol = 2)
+diagonal_matrix = matrix(c(1, NA, 1,
+                            NA, 0, NA,
+                            1, NA, 1), 3, 3, byrow = TRUE)
+rcpp_create_neighborhood(diagonal_matrix)
+a = rcpp_get_adjacency(mat, directions = as.matrix(4))
+
+b = landscapemetrics:::rcpp_get_adjacency(mat, directions = 4)
+
+an = na.omit(a)
+bn = na.omit(b)
+*/

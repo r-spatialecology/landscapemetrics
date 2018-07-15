@@ -30,11 +30,13 @@ ccl_borders <- function(m) {
 
 #' Coordinates from a matrix
 #'
-#' These functions get coordinates (row and column numbers) of the matrix cells.
+#' This function gets coordinates (row and column numbers) of the matrix cells.
 #'
 #' @param x A matrix
-rcpp_xy_from_matrix <- function(x) {
-    .Call('_landscapemetrics_rcpp_xy_from_matrix', PACKAGE = 'landscapemetrics', x)
+#' @param cell A vector of cell number.
+#' If NULL, the coordinates will be calculated for the whole matrix
+rcpp_xy_from_matrix <- function(x, cell = NULL) {
+    .Call('_landscapemetrics_rcpp_xy_from_matrix', PACKAGE = 'landscapemetrics', x, cell)
 }
 
 #' Get cell number
@@ -49,6 +51,19 @@ rcpp_cell_from_xy <- function(x, y) {
     .Call('_landscapemetrics_rcpp_cell_from_xy', PACKAGE = 'landscapemetrics', x, y)
 }
 
+#' Create neighborhood coordinates
+#'
+#' This function creates a neighborhood coordinates matrix based on the directions parameter.
+#'
+#' @param directions The number of directions in which cells should be connected:
+#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' and at least one cell with value 1 (the adjacent cells).
+#' Cells with other values (e.g. NA) are ignored.
+rcpp_create_neighborhood <- function(directions) {
+    .Call('_landscapemetrics_rcpp_create_neighborhood', PACKAGE = 'landscapemetrics', directions)
+}
+
 #' Adjacent cells
 #'
 #' Identify cells that are adjacent to a set of cells on a matrix.
@@ -57,7 +72,10 @@ rcpp_cell_from_xy <- function(x, y) {
 #'
 #' @param x A matrix
 #' @param directions The number of directions in which cells should be connected:
-#' 4 (rook's case) or 8 (queen's case)
+#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' and at least one cell with value 1 (the adjacent cells).
+#' Cells with other values (e.g. NA) are ignored.
 rcpp_get_adjacency <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_adjacency', PACKAGE = 'landscapemetrics', x, directions)
 }
@@ -70,8 +88,11 @@ rcpp_get_adjacency <- function(x, directions) {
 #'
 #' @param x A matrix
 #' @param directions The number of directions in which cells should be connected:
-#' 4 (rook's case) or 8 (queen's case)
-rcpp_get_pairs <- function(x, directions = 4L) {
+#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
+#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' and at least one cell with value 1 (the adjacent cells).
+#' Cells with other values (e.g. NA) are ignored.
+rcpp_get_pairs <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_pairs', PACKAGE = 'landscapemetrics', x, directions)
 }
 
@@ -79,7 +100,7 @@ rcpp_get_composition_vector <- function(x) {
     .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
-rcpp_get_coocurrence_matrix <- function(x, directions = 4L) {
+rcpp_get_coocurrence_matrix <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
 
@@ -87,11 +108,11 @@ triangular_index <- function(r, c) {
     .Call('_landscapemetrics_triangular_index', PACKAGE = 'landscapemetrics', r, c)
 }
 
-rcpp_get_coocurrence_vector <- function(x, directions = 8L, ordered = TRUE) {
+rcpp_get_coocurrence_vector <- function(x, directions, ordered = TRUE) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_vector', PACKAGE = 'landscapemetrics', x, directions, ordered)
 }
 
-rcpp_get_offdiagonal_vector <- function(x, directions = 8L) {
+rcpp_get_offdiagonal_vector <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_offdiagonal_vector', PACKAGE = 'landscapemetrics', x, directions)
 }
 

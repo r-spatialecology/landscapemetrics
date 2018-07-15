@@ -104,7 +104,7 @@ lsm_l_mutinf_calc <- function(landscape, directions, ordered, base){
     landscape_matrix <- raster::as.matrix(landscape)
     cmh  <- rcpp_get_composition_vector(landscape_matrix)
     coh <- rcpp_get_coocurrence_vector(landscape_matrix,
-                                       directions = directions,
+                                       directions = as.matrix(directions),
                                        ordered = ordered)
     comp <- rcpp_get_entropy(cmh, base)
     cplx <- rcpp_get_entropy(coh, base)

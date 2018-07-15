@@ -4,11 +4,14 @@
 \alias{rcpp_xy_from_matrix}
 \title{Coordinates from a matrix}
 \usage{
-rcpp_xy_from_matrix(x)
+rcpp_xy_from_matrix(x, cell = NULL)
 }
 \arguments{
 \item{x}{A matrix}
+
+\item{cell}{A vector of cell number.
+If NULL, the coordinates will be calculated for the whole matrix}
 }
 \description{
-These functions get coordinates (row and column numbers) of the matrix cells.
+This function gets coordinates (row and column numbers) of the matrix cells.
 }

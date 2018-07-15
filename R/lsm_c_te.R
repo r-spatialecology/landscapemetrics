@@ -104,7 +104,7 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
         }
 
         tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                          directions = 4)
+                                          directions = as.matrix(4))
 
         if(all(dim(tb) == 1)){
             te <- 0
