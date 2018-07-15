@@ -18,8 +18,8 @@ Authors@R: c(person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
                      comment = c(ORCID = "0000-0001-5570-1515")))
 Maintainer: Marco Sciaini <sciaini.marco@gmail.com>
 Description: Calculates landscape metrics for categorical landscape patterns in 
-    a tidy workflow. landscapemetrics reimplements the most common metrics from
-    FRAGSTATS and more from the current literature on landscape metrics.
+    a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
+    FRAGSTATS and new ones from the current literature on landscape metrics.
     This package supports raster spatial objects and takes 
     RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
     'raster' package as input arguments.
