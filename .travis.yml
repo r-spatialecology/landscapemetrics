@@ -24,7 +24,3 @@ notifications:
   on_success: change
   on_failure: change
 
-script:
-  - |
-    R CMD build .
-    R CMD check landscapemetrics*tar.gz
