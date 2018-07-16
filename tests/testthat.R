@@ -1,7 +1,7 @@
 library(testthat)
 library(landscapemetrics)
-library(dplyr)
 library(raster)
+library(dplyr)
 
 test_check("landscapemetrics")
 
