@@ -104,11 +104,11 @@ lsm_p_contig_calc <- function(landscape) {
         n_patches <- length(n_cells)
 
         diagonal_neighbours <-
-            rcpp_get_coocurrence_matrix(as.matrix(patches_class),
+            rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                         directions = as.matrix(diagonal_matrix))
 
         straigth_neighbours <-
-            rcpp_get_coocurrence_matrix(as.matrix(patches_class),
+            rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                         directions = as.matrix(straigth_matrix)) * 2
 
         contiguity <- (((diag(diagonal_neighbours) +
