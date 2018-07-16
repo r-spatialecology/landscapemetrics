@@ -77,7 +77,7 @@ lsm_c_nlsi_calc <- function(landscape) {
     pi <- prop.table(ai)
 
     A <- sum(ai)
-    B <- (raster::ncol(landscape)*2)+(raster::nrow(landscape)*2)
+    B <- (raster::ncol(landscape) * 2) + (raster::nrow(landscape) * 2)
     Z <- lsm_l_te_calc(landscape, count_boundary = TRUE) %>% dplyr::pull(value)
 
     nlsi <- tibble::tibble(ai = ai,
@@ -88,7 +88,7 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     min_e <- dplyr::mutate(nlsi,
                          n = trunc(sqrt(ai)),
-                         m = ai - n^ 2,
+                         m = ai - n ^ 2,
                          min_e = dplyr::case_when(m == 0 ~ n * 4,
                                                   n ^ 2 < ai & ai <= n * (1 + n) ~ 4 * n + 2,
                                                   ai > n * (1 + n) ~ 4 * n + 4))
@@ -96,8 +96,8 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     max_e <- dplyr::mutate(nlsi,
                            max_e = dplyr::case_when(pi <= 0.5 ~ 4 * ai,
-                                                    A %% 2 == 0 || .5 < pi && pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai,
-                                                    A %% 2 != 0 || .5 < pi && pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai + 3,
+                                                    A %% 2 == 0 & pi > .5 & pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai,
+                                                    A %% 2 != 0 & pi > .5 & pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai + 3,
                                                     pi >= (.5 * A + .5 * B)/A ~ Z + 4 * (A - ai)
                            )
     )
