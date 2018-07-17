@@ -141,3 +141,11 @@ ccl_labels <- function(m) {
     .Call('_landscapemetrics_ccl_labels', PACKAGE = 'landscapemetrics', m)
 }
 
+min_dist_fun <- function(point_a, point_b) {
+    .Call('_landscapemetrics_min_dist_fun', PACKAGE = 'landscapemetrics', point_a, point_b)
+}
+
+rcpp_get_nearest_neighbor <- function(points) {
+    .Call('_landscapemetrics_rcpp_get_nearest_neighbor', PACKAGE = 'landscapemetrics', points)
+}
+

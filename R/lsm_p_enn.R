@@ -86,15 +86,13 @@ lsm_p_enn_calc <- function(landscape) {
 
     enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-        class <- patches_class %>%
+        class_name <- patches_class %>%
             names() %>%
             sub("Class_", "", .)
 
         np_class <- patches_class %>%
             raster::values() %>%
-            unique() %>%
-            na.omit() %>%
-            length()
+            max(na.rm = TRUE)
 
         if(np_class == 1){
             minimum_distance <- as.double(NA)
@@ -104,28 +102,32 @@ lsm_p_enn_calc <- function(landscape) {
         }
 
         else{
-            points_class <- raster::rasterToPoints(patches_class)
 
-            minimum_distance <- purrr::map_dbl(seq_len(np_class),
-                                               function(patch_ij) {
+            class_boundaries <- raster::boundaries(patches_class, directions = 4,
+                                                   asNA = TRUE)
 
-                patch_focal <- matrix(points_class[points_class[,3] ==
-                                                       patch_ij,], ncol = 3)
+            raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
 
-                patch_others <- matrix(points_class[points_class[,3] !=
-                                                        patch_ij,], ncol = 3)
+            points_class <- raster::xyFromCell(class_boundaries,
+                                               cell = 1:raster::ncell(class_boundaries)) %>%
+                cbind(raster::values(class_boundaries)) %>%
+                stats::na.omit() %>%
+                tibble::as.tibble() %>%
+                purrr::set_names(c("x", "y", "id"))  %>%
+                dplyr::arrange(id, -y)
 
-                minimum_distance <- raster::pointDistance(patch_focal[ ,1:2],
-                                                          patch_others[,1:2],
-                                                          lonlat=FALSE) %>%
-                    min()
+            min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class[,]))
 
-            })
+            tbl <- tibble(cell = min_dist[,1],
+                          dist = min_dist[,2],
+                          id = min_dist[,3])
+
+            enn <- group_by(tbl, by = id) %>% summarise(value = min(dist))
+
+            tibble::tibble(class = class_name,
+                           value = enn$value)
+
         }
-
-        tibble::tibble(class = class,
-                       value = minimum_distance)
-
     })
 
     tibble::tibble(level = "patch",
@@ -134,75 +136,3 @@ lsm_p_enn_calc <- function(landscape) {
                    metric = "enn",
                    value = as.double(enn_patch$value))
 }
-
-# lsm_p_enn_calc_new <- function(landscape) {
-#
-#     landscape_labelled <- cclabel(landscape)
-#
-#     enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
-#
-#         class_name <- patches_class %>%
-#             names() %>%
-#             sub("Class_", "", .)
-#
-#         np_class <- patches_class %>%
-#             raster::values() %>%
-#             max(na.rm = TRUE)
-#
-#         if(np_class == 1){
-#             minimum_distance <- as.double(NA)
-#             warning(paste0("Class ", class,
-#                            ": ENN = NA for class with only 1 patch"),
-#                     call. = FALSE)
-#         }
-#
-#         else{
-#
-#             class_boundaries <- raster::boundaries(patches_class, directions = 4,
-#                                                    asNA = TRUE)
-#
-#             raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
-#
-#             points_class <- raster::xyFromCell(class_boundaries,
-#                                                cell = 1:raster::ncell(class_boundaries)) %>%
-#                 cbind(raster::values(class_boundaries)) %>%
-#                 stats::na.omit() %>%
-#                 tibble::as.tibble() %>%
-#                 purrr::set_names(c("x", "y", "id"))  %>%
-#                 dplyr::arrange(id, -y)
-#
-#             number_cells <- raster::values(class_boundaries) %>%
-#                 table()
-#
-#             # distance_matrix <- stats::dist(points_class[, 1:2]) %>%
-#             #     as.matrix()
-#
-#             # distance_matrix <- stats::dist(points_class[, 1:2]) %>% as.matrix()
-#
-#             distance_matrix <- geodist::geodist(points_class[, 1:2])
-#
-#             distance_tibble <- tibble::tibble(
-#                 id = rep(
-#                     x = rep(x = 1:np_class, times = number_cells),
-#                     times = ncol(distance_matrix)),
-#                 neighbour = rep(x = 1:np_class,
-#                                 times = (number_cells * ncol(distance_matrix))),
-#                 dist = as.vector(distance_matrix)
-#             )
-#
-#             enn <- dplyr::filter(distance_tibble, id != neighbour) %>%
-#                 dplyr::group_by(id) %>%
-#                 dplyr::summarise(value = min(dist))
-#
-#             tibble::tibble(class = class_name,
-#                            value = enn$value)
-#
-#         }
-#     })
-#
-#     tibble::tibble(level = "patch",
-#                    class = as.integer(enn_patch$class),
-#                    id = as.integer(seq_len(nrow(enn_patch))),
-#                    metric = "euclidean nearest neighbor distance distribution (mean)",
-#                    value = as.double(enn_patch$value))
-# }
