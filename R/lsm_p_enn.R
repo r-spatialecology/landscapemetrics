@@ -118,11 +118,12 @@ lsm_p_enn_calc <- function(landscape) {
 
             min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class[,]))
 
-            tbl <- tibble(cell = min_dist[,1],
+            tbl <- tibble::tibble(cell = min_dist[,1],
                           dist = min_dist[,2],
                           id = min_dist[,3])
 
-            enn <- group_by(tbl, by = id) %>% summarise(value = min(dist))
+            enn <- dplyr::group_by(tbl, by = id) %>%
+                dplyr::summarise(value = min(dist))
 
             tibble::tibble(class = class_name,
                            value = enn$value)

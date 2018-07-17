@@ -37,10 +37,10 @@
 #' @importFrom raster ncell
 #'
 #' @examples
-#' lsm_p_ncore(landscape)
+#' lsm_p_nca(landscape)
 #'
-#' @aliases lsm_p_ncore
-#' @rdname lsm_p_ncore
+#' @aliases lsm_p_nca
+#' @rdname lsm_p_nca
 #'
 #' @references
 #' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
@@ -49,43 +49,43 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_ncore <- function(landscape) UseMethod("lsm_p_ncore")
+lsm_p_nca <- function(landscape) UseMethod("lsm_p_nca")
 
-#' @name lsm_p_ncore
+#' @name lsm_p_nca
 #' @export
-lsm_p_ncore.RasterLayer <- function(landscape) {
+lsm_p_nca.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc, .id = "layer") %>%
+                   lsm_p_nca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_p_ncore
+#' @name lsm_p_nca
 #' @export
-lsm_p_ncore.RasterStack <- function(landscape) {
+lsm_p_nca.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc, .id = "layer") %>%
+                   lsm_p_nca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_p_ncore
+#' @name lsm_p_nca
 #' @export
-lsm_p_ncore.RasterBrick <- function(landscape) {
+lsm_p_nca.RasterBrick <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc, .id = "layer") %>%
+                   lsm_p_nca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_p_ncore
+#' @name lsm_p_nca
 #' @export
-lsm_p_ncore.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_ncore_calc, .id = "layer") %>%
+lsm_p_nca.list <- function(landscape) {
+    purrr::map_dfr(landscape, lsm_p_nca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_ncore_calc <- function(landscape){
+lsm_p_nca_calc <- function(landscape){
 
     landscape_labelled <- cclabel(landscape)
 
@@ -133,7 +133,7 @@ lsm_p_ncore_calc <- function(landscape){
         level = "patch",
         class = as.integer(core_class$class),
         id = as.integer(seq_len(nrow(core_class))),
-        metric = "ncore",
+        metric = "nca",
         value = as.double(core_class$value)
     )
 }

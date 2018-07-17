@@ -79,7 +79,7 @@ lsm_c_ndca.list <- function(landscape) {
 lsm_c_ndca_calc <- function(landscape){
 
     dcad <- landscape %>%
-        lsm_p_ncore_calc() %>%
+        lsm_p_nca_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 

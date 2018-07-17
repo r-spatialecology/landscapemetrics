@@ -77,7 +77,7 @@ lsm_l_ndca.list <- function(landscape) {
 lsm_l_ndca_calc <- function(landscape){
 
     ndca <- landscape %>%
-        lsm_p_ncore_calc() %>%
+        lsm_p_nca_calc() %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

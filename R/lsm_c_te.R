@@ -94,8 +94,8 @@ lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
             names() %>%
             sub("Class_", "", .)
 
-        raster::values(patches_class)[is.na(raster::values(
-            patches_class))] <- -999
+        # raster::values(patches_class)[is.na(raster::values(
+        #     patches_class))] <- -999
 
         if(isTRUE(count_boundary)){
             patches_class <- pad_raster(landscape = patches_class,

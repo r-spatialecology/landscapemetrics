@@ -39,7 +39,7 @@ reference:
      - lsm_p_enn
      - lsm_p_frac
      - lsm_p_gyrate
-     - lsm_p_ncore
+     - lsm_p_nca
      - lsm_p_para
      - lsm_p_perim
      - lsm_p_shape

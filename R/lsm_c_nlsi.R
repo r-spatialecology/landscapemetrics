@@ -20,8 +20,7 @@
 #' actual edges increases, i.e. the patches become less compact.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_shape}}, \cr
-#' \code{\link{lsm_l_nlsi}}
+#' \code{\link{lsm_p_shape}}
 #'
 #' @return tibble
 #'

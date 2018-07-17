@@ -171,6 +171,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// max_dist_fun
+double max_dist_fun(arma::mat point_a, arma::mat point_b);
+RcppExport SEXP _landscapemetrics_max_dist_fun(SEXP point_aSEXP, SEXP point_bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type point_a(point_aSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type point_b(point_bSEXP);
+    rcpp_result_gen = Rcpp::wrap(max_dist_fun(point_a, point_b));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_get_nearest_neighbor
 arma::mat rcpp_get_nearest_neighbor(arma::mat points);
 RcppExport SEXP _landscapemetrics_rcpp_get_nearest_neighbor(SEXP pointsSEXP) {
@@ -198,6 +210,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_ccl_labels", (DL_FUNC) &_landscapemetrics_ccl_labels, 1},
     {"_landscapemetrics_min_dist_fun", (DL_FUNC) &_landscapemetrics_min_dist_fun, 2},
+    {"_landscapemetrics_max_dist_fun", (DL_FUNC) &_landscapemetrics_max_dist_fun, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
     {NULL, NULL, 0}
 };
