@@ -159,6 +159,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_circle
+arma::mat rcpp_get_circle(arma::mat points, double resolution);
+RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolutionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< double >::type resolution(resolutionSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution));
+    return rcpp_result_gen;
+END_RCPP
+}
 // min_dist_fun
 double min_dist_fun(arma::mat point_a, arma::mat point_b);
 RcppExport SEXP _landscapemetrics_min_dist_fun(SEXP point_aSEXP, SEXP point_bSEXP) {
@@ -168,18 +180,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type point_a(point_aSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type point_b(point_bSEXP);
     rcpp_result_gen = Rcpp::wrap(min_dist_fun(point_a, point_b));
-    return rcpp_result_gen;
-END_RCPP
-}
-// max_dist_fun
-double max_dist_fun(arma::mat point_a, arma::mat point_b);
-RcppExport SEXP _landscapemetrics_max_dist_fun(SEXP point_aSEXP, SEXP point_bSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type point_a(point_aSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type point_b(point_bSEXP);
-    rcpp_result_gen = Rcpp::wrap(max_dist_fun(point_a, point_b));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -195,6 +195,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _landscapemetrics_rcpp_get_nearest_neighbor2(SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_ccl_borders", (DL_FUNC) &_landscapemetrics_ccl_borders, 1},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
@@ -209,9 +211,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_ccl_labels", (DL_FUNC) &_landscapemetrics_ccl_labels, 1},
+    {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_min_dist_fun", (DL_FUNC) &_landscapemetrics_min_dist_fun, 2},
-    {"_landscapemetrics_max_dist_fun", (DL_FUNC) &_landscapemetrics_max_dist_fun, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
+    {"_landscapemetrics_rcpp_get_nearest_neighbor2",  (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor2,  1},
     {NULL, NULL, 0}
 };
 

@@ -82,15 +82,6 @@ lsm_p_circle.list <- function(landscape) {
 
 lsm_p_circle_calc <- function(landscape) {
 
-    max_diameter <- function(x1, x2, x3, x4, y1, y2, y3, y4) {
-        matrix(c(
-            x = c(x1, x2, x3, x4),
-            y = c(y1, y2, y3, y4)),
-            ncol = 2) %>%
-            stats::dist() %>%
-            max()
-    }
-
     resolution <- landscape %>%
         raster::res() %>%
         magrittr::extract2(1) %>%
@@ -107,28 +98,15 @@ lsm_p_circle_calc <- function(landscape) {
             sub("Class_", "", .)
 
         points_class <- cbind(raster::xyFromCell(patches_class,
-                                                 1:ncell(patches_class)),
+                                                 1:raster::ncell(patches_class)),
                               id = raster::values(patches_class)) %>%
             na.omit() %>%
             tibble::as.tibble()
 
-        points_corner <- dplyr::mutate(points_class,
-                                       x1 = x - resolution, x2 = x - resolution,
-                                       x3 = x + resolution, x4 = x + resolution,
-                                       y1 = y - resolution, y2 = y + resolution,
-                                       y3 = y + resolution, y4 = y - resolution)
-
-
-        circle <- points_corner %>%
-            dplyr::group_by(id) %>%
-            dplyr::summarise(value = (max_diameter(x1,
-                                                   x2,
-                                                   x3,
-                                                   x4,
-                                                   y1,
-                                                   y2,
-                                                   y3,
-                                                   y4) / 2) ^ 2 * pi) # (diameter / 2) ^ 2  * pi
+        circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution) %>%
+            tibble::as.tibble() %>%
+            purrr::set_names("id", "value") %>%
+            dplyr::arrange(id)
 
         tibble::tibble(class = class,
                        value = circle$value)
