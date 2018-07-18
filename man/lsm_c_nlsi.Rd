@@ -57,6 +57,5 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
-\code{\link{lsm_p_shape}}, \cr
-\code{\link{lsm_l_nlsi}}
+\code{\link{lsm_p_shape}}
 }
