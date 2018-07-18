@@ -145,10 +145,6 @@ rcpp_get_circle <- function(points, resolution) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution)
 }
 
-min_dist_fun <- function(point_a, point_b) {
-    .Call('_landscapemetrics_min_dist_fun', PACKAGE = 'landscapemetrics', point_a, point_b)
-}
-
 rcpp_get_nearest_neighbor <- function(points) {
     .Call('_landscapemetrics_rcpp_get_nearest_neighbor', PACKAGE = 'landscapemetrics', points)
 }

@@ -2,7 +2,6 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
 double min_dist_fun(arma::mat point_a, arma::mat point_b) {
 
     double  dist = 0,
@@ -27,34 +26,6 @@ double min_dist_fun(arma::mat point_a, arma::mat point_b) {
 
     return dist;
 }
-
-// [[Rcpp::export]]
-double max_dist_fun(arma::mat point_a, arma::mat point_b) {
-
-    double  dist = 0,
-        dist_temp = 0;
-
-    for (int i = 0; i < point_a.n_rows; i++){
-
-        dist = std::sqrt(std::pow(point_a(i, 0) - point_b(0, 0), 2) +
-            std::pow(point_a(i, 1) - point_b(0, 1), 2));
-
-        for (int j = 1; j < point_b.n_rows; j++){
-
-            dist_temp = std::sqrt(std::pow(point_a(i, 0) - point_b(j, 0), 2) +
-                std::pow(point_a(i, 1) - point_b(j, 1), 2));
-
-            if(dist_temp > dist) {
-                dist = dist_temp;
-            }
-        }
-
-    }
-
-    return dist;
-}
-
-
 
 // [[Rcpp::export]]
 arma::mat rcpp_get_nearest_neighbor(arma::mat points) {
@@ -90,10 +61,8 @@ arma::mat rcpp_get_nearest_neighbor(arma::mat points) {
     return distance_mat;
 }
 
-
-
 /*** R
-landscape_labelled <- cclabel(podlasie_ccilc)
+landscape_labelled <- cclabel(landscape)
 
 patches_class <- landscape_labelled[[1]]
 
@@ -111,6 +80,6 @@ points_class <- raster::xyFromCell(class_boundaries,
     purrr::set_names(c("x", "y", "id"))  %>%
     dplyr::arrange(id, -y)
 
-min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class[,]))
+min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class))
 
 */
