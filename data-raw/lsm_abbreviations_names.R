@@ -37,9 +37,12 @@ lsm_abbreviations_names <- tibble::tibble(
         "circle_mn",
         "circle_sd",
         "circle_cv",
+        "contig_mn",
+        "contig_sd",
+        "contig_cv",
 
         "core",
-        "ncore",
+        "nca",
         "cai",
         "tca",
         "cpland",
@@ -58,6 +61,8 @@ lsm_abbreviations_names <- tibble::tibble(
 
         "enn",
         "pladj",
+        "ai",
+        "clumpy",
         "lsi",
         "cohesion",
         "np",
@@ -77,7 +82,12 @@ lsm_abbreviations_names <- tibble::tibble(
         "msidi",
         "shei",
         "siei",
-        "msiei"
+        "msiei",
+
+        "ent",
+        "joinent",
+        "mutinf",
+        "condent"
     ),
 
     full_name = c(
@@ -115,6 +125,9 @@ lsm_abbreviations_names <- tibble::tibble(
         "related circumscribing circle distribution (mean)",
         "related circumscribing circle distribution (standard deviation)",
         "related circumscribing circle distribution (coeffiecent of variation)",
+        "contiguity index distribution (mean)",
+        "contiguity index distribution (standard deviation)",
+        "contiguity index distribution (coeffiecent of variation)",
 
         "core area",
         "number of core areas",
@@ -136,6 +149,8 @@ lsm_abbreviations_names <- tibble::tibble(
 
         "euclidean nearest neighbor distance",
         "percentage of like adjacencies",
+        "aggregation index",
+        "clumpiness index",
         "landscape shape index",
         "patch cohesion index",
         "number of patches",
@@ -155,7 +170,12 @@ lsm_abbreviations_names <- tibble::tibble(
         "modified simpson's diversity index",
         "shannon's evenness index",
         "simspon's evenness index",
-        "modified simpson's evenness index"
+        "modified simpson's evenness index",
+
+        "shannon entropy",
+        "joint entropy",
+        "mutual information",
+        "conditional entropy"
         ),
 
 
@@ -194,6 +214,9 @@ lsm_abbreviations_names <- tibble::tibble(
         "shape metric",
         "shape metric",
         "shape metric",
+        "shape metric",
+        "shape metric",
+        "shape metric",
 
         "core area metric",
         "core area metric",
@@ -225,6 +248,8 @@ lsm_abbreviations_names <- tibble::tibble(
         "aggregation metric",
         "aggregation metric",
         "aggregation metric",
+        "aggregation metric",
+        "aggregation metric",
 
         "diversity metric",
         "diversity metric",
@@ -234,8 +259,13 @@ lsm_abbreviations_names <- tibble::tibble(
         "diversity metric",
         "diversity metric",
         "diversity metric",
-        "diversity metric"
+        "diversity metric",
+
+        "new metric",
+        "new metric",
+        "new metric",
+        "new metric"
     )
 )
 
-devtools::use_data(lsm_abbreviations_names)
+devtools::use_data(lsm_abbreviations_names, overwrite = TRUE)
