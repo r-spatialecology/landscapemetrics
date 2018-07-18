@@ -22,7 +22,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_ncore}},
+#' \code{\link{lsm_p_nca}},
 #' \code{\link{sd}}, \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_cv}}, \cr
@@ -83,7 +83,7 @@ lsm_c_dcore_sd.list <- function(landscape) {
 
 lsm_c_dcore_sd_calc <- function(landscape){
     dcore_sd <- landscape %>%
-        lsm_p_ncore_calc() %>%
+        lsm_p_nca_calc() %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sd(value, na.rm = TRUE))
 

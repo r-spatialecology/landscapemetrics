@@ -24,7 +24,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_c_tca}}, \cr
-#' \code{\link{lsm_p_ncore}},
+#' \code{\link{lsm_p_nca}},
 #' \code{\link{lsm_l_ndca}}
 #'
 #' @return tibble

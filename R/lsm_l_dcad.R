@@ -79,7 +79,7 @@ lsm_l_dcad_calc <- function(landscape){
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
-    ncore_patch <- lsm_p_ncore_calc(landscape)
+    ncore_patch <- lsm_p_nca_calc(landscape)
 
     dcad <- ncore_patch %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%

@@ -81,7 +81,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_p_circle(landscape),
                 lsm_p_contig(landscape),
                 lsm_p_core(landscape),
-                # lsm_p_enn(landscape),
+                lsm_p_enn(landscape),
                 lsm_p_frac(landscape),
                 lsm_p_gyrate(landscape),
                 lsm_p_nca(landscape),
@@ -91,6 +91,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_p_shape(landscape),
 
                 # list.files(paste0(getwd(), "/R"), pattern = "_c_")
+                lsm_c_ai(landscape),
                 lsm_c_area_cv(landscape),
                 lsm_c_area_mn(landscape),
                 lsm_c_area_sd(landscape),
@@ -101,6 +102,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_circle_cv(landscape),
                 lsm_c_circle_mn(landscape),
                 lsm_c_circle_sd(landscape),
+                lsm_c_clumpy(landscape),
                 lsm_c_cohesion(landscape),
                 lsm_c_contig_cv(landscape),
                 lsm_c_contig_mn(landscape),
@@ -115,20 +117,21 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_dcore_sd(landscape),
                 lsm_c_division(landscape),
                 lsm_c_ed(landscape, ...),
-                # lsm_c_enn_cv(landscape),
-                # lsm_c_enn_mn(landscape),
-                # lsm_c_enn_sd(landscape),
+                lsm_c_enn_cv(landscape),
+                lsm_c_enn_mn(landscape),
+                lsm_c_enn_sd(landscape),
                 lsm_c_frac_cv(landscape),
                 lsm_c_frac_mn(landscape),
                 lsm_c_frac_sd(landscape),
                 lsm_c_gyrate_cv(landscape),
                 lsm_c_gyrate_mn(landscape),
                 lsm_c_gyrate_sd(landscape),
-                # lsm_c_iji(landscape, ...),
+                # # lsm_c_iji(landscape, ...),
                 lsm_c_lpi(landscape),
                 lsm_c_lsi(landscape),
                 lsm_c_mesh(landscape),
                 lsm_c_ndca(landscape),
+                # lsm_c_nlsi(landscape),
                 lsm_c_np(landscape),
                 lsm_c_pafrac(landscape),
                 lsm_c_para_cv(landscape),
@@ -145,6 +148,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_te(landscape, ...),
 
                 # list.files(paste0(getwd(), "/R"), pattern = "_l_")
+                lsm_l_ai(landscape),
                 lsm_l_area_cv(landscape),
                 lsm_l_area_mn(landscape),
                 lsm_l_area_sd(landscape),
@@ -154,7 +158,8 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_l_circle_cv(landscape),
                 lsm_l_circle_mn(landscape),
                 lsm_l_circle_sd(landscape),
-                lsm_l_tca(landscape),
+                lsm_l_cohesion(landscape),
+                lsm_l_condent(landscape),
                 lsm_l_contig_cv(landscape),
                 lsm_l_contig_mn(landscape),
                 lsm_l_contig_sd(landscape),
@@ -162,25 +167,28 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_l_core_mn(landscape),
                 lsm_l_core_sd(landscape),
                 lsm_l_dcad(landscape),
-                lsm_l_division(landscape),
                 lsm_l_dcore_cv(landscape),
                 lsm_l_dcore_mn(landscape),
                 lsm_l_dcore_sd(landscape),
+                lsm_l_division(landscape),
                 lsm_l_ed(landscape, ...),
-                # lsm_l_enn_cv(landscape),
-                # lsm_l_enn_mn(landscape),
-                # lsm_l_enn_sd(landscape),
+                lsm_l_enn_cv(landscape),
+                lsm_l_enn_mn(landscape),
+                lsm_l_enn_sd(landscape),
+                lsm_l_ent(landscape),
                 lsm_l_frac_cv(landscape),
                 lsm_l_frac_mn(landscape),
                 lsm_l_frac_sd(landscape),
                 lsm_l_gyrate_cv(landscape),
                 lsm_l_gyrate_mn(landscape),
                 lsm_l_gyrate_sd(landscape),
+                lsm_l_joinent(landscape),
                 lsm_l_lpi(landscape),
                 lsm_l_lsi(landscape),
                 lsm_l_mesh(landscape),
                 lsm_l_msidi(landscape),
                 lsm_l_msiei(landscape),
+                lsm_l_mutinf(landscape),
                 lsm_l_ndca(landscape),
                 lsm_l_np(landscape),
                 lsm_l_pafrac(landscape),
@@ -201,41 +209,32 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_l_siei(landscape),
                 lsm_l_split(landscape),
                 lsm_l_ta(landscape),
+                lsm_l_tca(landscape),
                 lsm_l_te(landscape, ...)
             )
         }
 
         if (what == "patch") {
-            area <- lsm_p_area(landscape)
-            cai <- lsm_p_cai(landscape)
-            circle <- lsm_p_circle(landscape)
-            contig <- lsm_p_contig(landscape)
-            core <- lsm_p_core(landscape)
-            # enn <- lsm_p_enn(landscape)
-            frac <- lsm_p_frac(landscape)
-            gyrate <- lsm_p_gyrate(landscape)
-            ncore <- lsm_p_nca(landscape)
-            para <- lsm_p_para(landscape)
-            perim <- lsm_p_perim(landscape)
-            # prox <- lsm_p_prox(landscape)
-            shape <- lsm_p_shape(landscape)
-
-            result <- dplyr::bind_rows(area,
-                                       cai,
-                                       circle,
-                                       contig,
-                                       core,
-                                       # enn,
-                                       frac,
-                                       gyrate,
-                                       ncore,
-                                       para,
-                                       perim,
-                                       shape)
+            result <- dplyr::bind_rows(
+                lsm_p_area(landscape),
+                lsm_p_cai(landscape),
+                lsm_p_circle(landscape),
+                lsm_p_contig(landscape),
+                lsm_p_core(landscape),
+                lsm_p_enn(landscape),
+                lsm_p_frac(landscape),
+                lsm_p_gyrate(landscape),
+                lsm_p_nca(landscape),
+                lsm_p_para(landscape),
+                lsm_p_perim(landscape),
+                # lsm_p_prox(landscape),
+                lsm_p_shape(landscape)
+            )
         }
 
         else if (what == "class") {
             result <- dplyr::bind_rows(
+                lsm_c_ai(landscape),
                 lsm_c_area_cv(landscape),
                 lsm_c_area_mn(landscape),
                 lsm_c_area_sd(landscape),
@@ -246,6 +245,7 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_circle_cv(landscape),
                 lsm_c_circle_mn(landscape),
                 lsm_c_circle_sd(landscape),
+                lsm_c_clumpy(landscape),
                 lsm_c_cohesion(landscape),
                 lsm_c_contig_cv(landscape),
                 lsm_c_contig_mn(landscape),
@@ -260,20 +260,21 @@ lsm_calculate_internal <- function(landscape, what, ...) {
                 lsm_c_dcore_sd(landscape),
                 lsm_c_division(landscape),
                 lsm_c_ed(landscape, ...),
-                # lsm_c_enn_cv(landscape),
-                # lsm_c_enn_mn(landscape),
-                # lsm_c_enn_sd(landscape),
+                lsm_c_enn_cv(landscape),
+                lsm_c_enn_mn(landscape),
+                lsm_c_enn_sd(landscape),
                 lsm_c_frac_cv(landscape),
                 lsm_c_frac_mn(landscape),
                 lsm_c_frac_sd(landscape),
                 lsm_c_gyrate_cv(landscape),
                 lsm_c_gyrate_mn(landscape),
                 lsm_c_gyrate_sd(landscape),
-                # lsm_c_iji(landscape, ...),
+                # # lsm_c_iji(landscape, ...),
                 lsm_c_lpi(landscape),
                 lsm_c_lsi(landscape),
                 lsm_c_mesh(landscape),
                 lsm_c_ndca(landscape),
+                # lsm_c_nlsi(landscape),
                 lsm_c_np(landscape),
                 lsm_c_pafrac(landscape),
                 lsm_c_para_cv(landscape),

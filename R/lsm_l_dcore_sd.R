@@ -21,7 +21,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_ncore}},
+#' \code{\link{lsm_p_nca}},
 #' \code{\link{sd}}, \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_sd}}, \cr
@@ -80,7 +80,7 @@ lsm_l_dcore_sd.list <- function(landscape) {
 lsm_l_dcore_sd_calc <- function(landscape){
 
     dcore_sd <- landscape %>%
-        lsm_p_ncore_calc() %>%
+        lsm_p_nca_calc() %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
