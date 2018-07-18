@@ -1,116 +1,134 @@
-#include <RcppArmadillo.h>
-
+#include <Rcpp.h>
 using namespace Rcpp;
 
-// [[Rcpp::export]]
-double min_dist_fun(arma::mat point_a, arma::mat point_b) {
+inline double compute_d2(double x1, double y1, double x2, double y2) {
 
-    double  dist = 0,
-            dist_temp = 0;
+    double dx = x2 - x1;
+    double dy = y2 - y1;
 
-    for (int i = 0; i < point_a.n_rows; i++){
-
-        dist = std::sqrt(std::pow(point_a(i, 0) - point_b(0, 0), 2) +
-            std::pow(point_a(i, 1) - point_b(0, 1), 2));
-
-        for (int j = 1; j < point_b.n_rows; j++){
-
-            dist_temp = std::sqrt(std::pow(point_a(i, 0) - point_b(j, 0), 2) +
-                std::pow(point_a(i, 1) - point_b(j, 1), 2));
-
-            if(dist_temp < dist) {
-                dist = dist_temp;
-                }
-        }
-
-    }
-
-    return dist;
+    return dx * dx + dy * dy;
 }
 
-// [[Rcpp::export]]
-double max_dist_fun(arma::mat point_a, arma::mat point_b) {
+double find_min(const NumericMatrix& points, int i, int m) {
 
-    double  dist = 0,
-        dist_temp = 0;
+    double x_i = points(i, 0), y_i = points(i, 1), id_i = points(i, 2);;
 
-    for (int i = 0; i < point_a.n_rows; i++){
+    double x_k, x_min, x_max, d, d0 = R_PosInf;
+    int k;
 
-        dist = std::sqrt(std::pow(point_a(i, 0) - point_b(0, 0), 2) +
-            std::pow(point_a(i, 1) - point_b(0, 1), 2));
-
-        for (int j = 1; j < point_b.n_rows; j++){
-
-            dist_temp = std::sqrt(std::pow(point_a(i, 0) - point_b(j, 0), 2) +
-                std::pow(point_a(i, 1) - point_b(j, 1), 2));
-
-            if(dist_temp > dist) {
-                dist = dist_temp;
+    // Search before i
+    x_min = R_NegInf;
+    for (k = i - 1; k >= 0; k--) {
+        if (points(k, 2) == id_i) continue;
+        x_k = points(k, 0);
+        if (x_k > x_min) {
+            d = compute_d2(x_i, y_i, x_k, points(k, 1));
+            if (d < d0) {
+                d0 = d;
+                x_min = x_i - ::sqrt(d0);
             }
+        } else {
+            // No need to search further
+            break;
         }
-
+    }
+    // Search after i
+    x_max = R_PosInf;
+    for (k = i + 1; k < m; k++) {
+        if (points(k, 2) == id_i) continue;
+        x_k = points(k, 0);
+        if (x_k < x_max) {
+            d = compute_d2(x_i, y_i, x_k, points(k, 1));
+            if (d < d0) {
+                d0 = d;
+                x_max = x_i + ::sqrt(d0);
+            }
+        } else {
+            // No need to search further
+            break;
+        }
     }
 
-    return dist;
+    return ::sqrt(d0);
 }
 
 
-
+//' @title First nearest neighbor distance
+//'
+//' @description Efficiently calculate the distance to the first nearest neighbor.
+//' Quasi linear runtime.
+//'
+//' @param points A two numeric matrix, where the first two columns are x and y
+//'
+//' @return Vecotr
+//'
+//' @author Florian Privé \email{florian.prive.21@gmail.com}
+//'
+//' @keywords internal
+//'
+//' @name rcpp_get_nearest_neighbor
+//' @export
 // [[Rcpp::export]]
-arma::mat rcpp_get_nearest_neighbor(arma::mat points) {
+NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points) {
 
-    int nrows = points.n_rows;
-    int ncols = 3;
-    int id = 0;
+    int nrows = points.nrow();
+    NumericVector distances(nrows);
 
-    arma::mat points_temp;
-    arma::uvec keep_id;
-
-    arma::mat distance_mat(nrows, ncols);
-
-    // Fill with value
     for (int i = 0; i < nrows; i++) {
-
-        points_temp = points;
-        points_temp.shed_row(i);
-
-        id = points(i, 2);
-
-        keep_id = find(points_temp.col(2) != points(i, 2));
-
-        points_temp = points_temp.rows(keep_id);
-
-        distance_mat(i, 0) = i + 1;
-        distance_mat(i, 1) = min_dist_fun(points.row(i), points_temp);
-        distance_mat(i, 2) = id;
-
+        distances[i] = find_min(points, i, nrows);
     }
 
-
-    return distance_mat;
+    return distances;
 }
-
-
 
 /*** R
-landscape_labelled <- cclabel(podlasie_ccilc)
+landscape_labelled <- cclabel(landscape)
 
-patches_class <- landscape_labelled[[1]]
+    patches_class <- landscape_labelled[[1]]
 
-class_boundaries <- raster::boundaries(patches_class, directions = 4,
-                                       asNA = TRUE)
+class_boundaries <-
+    raster::boundaries(patches_class, directions = 4,
+                       asNA = TRUE)
 
-raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <-
-    raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
+    raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <-
+        raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
 
 points_class <- raster::xyFromCell(class_boundaries,
                                    cell = 1:raster::ncell(class_boundaries)) %>%
-    cbind(raster::values(class_boundaries)) %>%
-    stats::na.omit() %>%
-    tibble::as.tibble() %>%
-    purrr::set_names(c("x", "y", "id"))  %>%
-    dplyr::arrange(id, -y)
+cbind(raster::values(class_boundaries)) %>%
+stats::na.omit() %>%
+tibble::as.tibble() %>%
+purrr::set_names(c("x", "y", "id"))  %>%
+dplyr::arrange(id,-y)
 
-min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class[,]))
+    X2 <- as.matrix(points_class)
 
-*/
+    res <- landscapemetrics:::rcpp_get_nearest_neighbor(X2)
+
+    find_closest <- function(X) {
+        ord <- order(X[, 1])
+        num <- seq_along(ord)
+        rank <- match(num, ord)
+
+        res <- rcpp_get_nearest_neighbor2(X[ord,])
+
+        unname(cbind(num, res[rank], X[, 3]))
+    }
+res2 <- find_closest(X2)
+    stopifnot(identical(res[, 2], res2[, 2]))
+
+    microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_nearest_neighbor(X2),
+                                   find_closest(X2))
+
+    X3 <- X2[rep(seq_len(nrow(X2)), 50),]
+microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_nearest_neighbor(X3),
+                               find_closest(X3),
+                               times = 20)
+    stopifnot(identical(
+            landscapemetrics:::rcpp_get_nearest_neighbor(X3),
+            find_closest(X3)
+    ))
+
+# compute_d2(X2[1, 1], X2[1, 2], X2[1, 1], X2[1, 2])
+# compute_d2(X2[2, 1], X2[2, 2], X2[1, 1], X2[1, 2])
+    */

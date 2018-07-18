@@ -145,10 +145,21 @@ rcpp_get_circle <- function(points, resolution) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution)
 }
 
-min_dist_fun <- function(point_a, point_b) {
-    .Call('_landscapemetrics_min_dist_fun', PACKAGE = 'landscapemetrics', point_a, point_b)
-}
-
+#' @title First nearest neighbor distance
+#'
+#' @description Efficiently calculate the distance to the first nearest neighbor.
+#' Quasi linear runtime.
+#'
+#' @param points A two numeric matrix, where the first two columns are x and y
+#'
+#' @return Vecotr
+#'
+#' @author Florian Privé \email{florian.prive.21@gmail.com}
+#'
+#' @keywords internal
+#'
+#' @name rcpp_get_nearest_neighbor
+#' @export
 rcpp_get_nearest_neighbor <- function(points) {
     .Call('_landscapemetrics_rcpp_get_nearest_neighbor', PACKAGE = 'landscapemetrics', points)
 }
