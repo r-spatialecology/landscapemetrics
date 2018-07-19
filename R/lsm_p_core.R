@@ -92,9 +92,10 @@ lsm_p_core_calc <- function(landscape) {
                 raster::values() %>%
                 table()
 
-            boundary_patch <-
-                table(patches_class[raster::boundaries(patches_class,
-                                                       directions = 4)])
+            boundary <- raster::boundaries(patches_class,
+                                           directions = 4)
+
+            boundary_patch <- table(raster::values(patches_class)[raster::values(boundary) == 1])
 
             core_area <-
                 (cells_patch - boundary_patch) *

@@ -97,19 +97,14 @@ lsm_p_circle_calc <- function(landscape) {
             names() %>%
             sub("Class_", "", .)
 
-        points_class <- cbind(raster::xyFromCell(patches_class,
-                                                 1:raster::ncell(patches_class)),
-                              id = raster::values(patches_class)) %>%
-            na.omit() %>%
-            tibble::as.tibble()
+        points_class <- patches_class %>%
+            raster::rasterToPoints()
 
-        circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution) %>%
-            tibble::as.tibble() %>%
-            purrr::set_names("id", "value") %>%
-            dplyr::arrange(id)
+        circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution)
+        circle <- circle[order(circle[,1]),]
 
         tibble::tibble(class = class,
-                       value = circle$value)
+                       value = circle[,2])
 
     })
 

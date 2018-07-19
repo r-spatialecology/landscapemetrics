@@ -72,6 +72,7 @@ lsm_c_np_calc <- function(landscape){
     landscape_labelled <- cclabel(landscape)
 
     purrr::map_dfr(landscape_labelled, function(patches_class) {
+
         class <- patches_class %>%
             names() %>%
             sub("Class_", "", .)

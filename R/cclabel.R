@@ -67,14 +67,12 @@ cclabel_int <- function(landscape, what = "all") {
            stop(paste("There is no class", what, "in your raster"))
         }
 
-        # coerce to matrix for connected labeling algorithm
+
         landscape_matrix <- raster::as.matrix(landscape)
-        # ccl algorithm
+
         cclabel_matrix <-
             ccl_labels(landscape_matrix)[[1]]
 
-        # create filter matrix to only select connected regions that are
-        #
         filter_mat <-
             matrix(
                 FALSE,
@@ -110,14 +108,12 @@ cclabel_int <- function(landscape, what = "all") {
         return(cclabel_landscape)
     } else {
         cclabel_landscape <- purrr::map(raster::unique(landscape), function(x) {
-            # coerce to matrix for connected labeling algorithm
+
             landscape_matrix <- raster::as.matrix(landscape)
-            # ccl algorithm
+
             cclabel_matrix <-
                 ccl_labels(landscape_matrix)[[1]]
 
-            # create filter matrix to only select connected regions that are
-            #
             filter_mat <-
                 matrix(
                     FALSE,

@@ -85,11 +85,9 @@ lsm_p_area_calc <- function(landscape){
 
     area_patch <- purrr::map_dfr(landscape_labelled, function(patches_class){
 
-        area_patch_ij <- patches_class %>%
-            raster::values() %>%
-            table(useNA = "no") %>%
-            magrittr::multiply_by(prod(raster::res(patches_class))) %>%
-            magrittr::divide_by(10000)
+        area_patch_ij <- rcpp_get_composition_vector(
+            x = raster::as.matrix(patches_class)) *
+            prod(raster::res(patches_class)) / 10000
 
         class <- patches_class %>%
             names() %>%
