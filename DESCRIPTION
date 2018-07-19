@@ -48,7 +48,7 @@ LinkingTo:
     Rcpp,
     RcppArmadillo
 Remotes:
-    thomasp85/patchwork,
+    thomasp85/patchwork
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
