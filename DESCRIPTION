@@ -40,7 +40,8 @@ Suggests:
     covr,
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    patchwork
 LinkingTo: 
     Rcpp,
     RcppArmadillo
