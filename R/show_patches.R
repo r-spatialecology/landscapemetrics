@@ -44,44 +44,43 @@ show_patches.list <- function(landscape) {
 
 show_patches_intern <- function(landscape) {
 
-    labeled_landscape <- landscape %>%
-        cclabel()
+    landscape_labelled <- cclabel(landscape)
 
-    for(i in seq_len(length(labeled_landscape) - 1)){
-        max_patch_id <- labeled_landscape[[i]] %>%
+    for(i in seq_len(length(landscape_labelled) - 1)){
+        max_patch_id <- landscape_labelled[[i]] %>%
             raster::values() %>%
             max(na.rm = TRUE)
 
-        labeled_landscape[[i + 1]] <- labeled_landscape[[i + 1]] + max_patch_id
+        landscape_labelled[[i + 1]] <- landscape_labelled[[i + 1]] + max_patch_id
     }
 
-    labeled_landscape %>%
-            raster::stack() %>%
-            sum(na.rm = TRUE) %>%
-            raster::as.data.frame(xy = TRUE) %>%
-            ggplot2::ggplot() +
-            ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer),
-                               colour = "white") +
-            ggplot2::coord_equal() +
-            ggplot2::theme_void() +
-            ggplot2::guides(fill = FALSE) +
-            ggplot2::scale_fill_gradientn(
-                    colours = c(
-                            "#5F4690",
-                            "#1D6996",
-                            "#38A6A5",
-                            "#0F8554",
-                            "#73AF48",
-                            "#EDAD08",
-                            "#E17C05",
-                            "#CC503E",
-                            "#94346E",
-                            "#6F4070",
-                            "#994E95",
-                            "#666666"
-                        )
-        ) +
+    landscape_labelled_stack <- landscape_labelled %>%
+        raster::stack() %>%
+        sum(na.rm = TRUE) %>%
+        raster::as.data.frame(xy = TRUE)
+
+    plot <- ggplot2::ggplot(landscape_labelled_stack) +
+        ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
+        ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer),
+                           colour = "white") +
+        ggplot2::coord_equal() +
+        ggplot2::theme_void() +
+        ggplot2::guides(fill = FALSE) +
+        ggplot2::scale_fill_gradientn(
+            colours = c(
+                "#5F4690",
+                "#1D6996",
+                "#38A6A5",
+                "#0F8554",
+                "#73AF48",
+                "#EDAD08",
+                "#E17C05",
+                "#CC503E",
+                "#94346E",
+                "#6F4070",
+                "#994E95",
+                "#666666"
+                )) +
         ggplot2::theme(axis.title = ggplot2::element_blank(),
                        axis.line = ggplot2::element_blank(),
                        axis.text.x = ggplot2::element_blank(),
@@ -99,4 +98,6 @@ show_patches_intern <- function(landscape) {
                        plot.background = ggplot2::element_blank(),
                        plot.margin = ggplot2::unit(c(-1, -1, -1.5, -1.5), "lines")) +
         ggplot2::labs(x = NULL, y = NULL)
+
+    return(plot)
 }
