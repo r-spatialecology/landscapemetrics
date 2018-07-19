@@ -70,9 +70,9 @@ lsm_calculate.list <- function(landscape, what = "all", full_name = FALSE, ...) 
 
 lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
-    if (what %in% c("all", "patch", "class", "landscape")) {
-        if (what == "all") {
-            result <- dplyr::bind_rows(
+    if (any(what %in% c("all", "patch", "class", "landscape"))) {
+        if (any(what == "all")) {
+            result_all <- dplyr::bind_rows(
                 # list.files(paste0(getwd(), "/R"), pattern = "_p_")
                 lsm_p_area(landscape),
                 lsm_p_cai(landscape),
@@ -212,8 +212,8 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
             )
         }
 
-        if (what == "patch") {
-            result <- dplyr::bind_rows(
+        if (any(what == "patch")) {
+            result_patch <- dplyr::bind_rows(
                 lsm_p_area(landscape),
                 lsm_p_cai(landscape),
                 lsm_p_circle(landscape),
@@ -230,8 +230,8 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
             )
         }
 
-        else if (what == "class") {
-            result <- dplyr::bind_rows(
+        if (any(what == "class")) {
+            result_class <- dplyr::bind_rows(
                 lsm_c_ai(landscape),
                 lsm_c_area_cv(landscape),
                 lsm_c_area_mn(landscape),
@@ -290,8 +290,8 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
             )
         }
 
-        else if (what == "landscape") {
-            result <- dplyr::bind_rows(
+        if (any(what == "landscape")) {
+            result_landscape <- dplyr::bind_rows(
                 lsm_l_area_cv(landscape),
                 lsm_l_area_mn(landscape),
                 lsm_l_area_sd(landscape),
@@ -351,14 +351,33 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
                 lsm_l_te(landscape, ...)
             )
         }
+
+        if(!exists("result_all")){result_all <- tibble::tibble()}
+        if(!exists("result_patch")){result_patch <- tibble::tibble()}
+        if(!exists("result_class")){result_class <- tibble::tibble()}
+        if(!exists("result_landscape")){result_landscape <- tibble::tibble()}
+
+        result_level <- dplyr::bind_rows(result_all,
+                                   result_patch,
+                                   result_class,
+                                   result_landscape)
     }
 
-    else{
-        result <- purrr::map_dfr(what, function(current_function) {
+    if (any(!(what %in% c("all", "patch", "class", "landscape")))) {
+
+        what <- what[!(what %in% c("all", "patch", "class", "landscape"))]
+
+        result_metrics <- purrr::map_dfr(what, function(current_function) {
             foo <- match.fun(current_function)
             foo(landscape)
         })
     }
+
+    if(!exists("result_level")){result_level <- tibble::tibble()}
+    if(!exists("result_metrics")){result_metrics <- tibble::tibble()}
+
+    result <- dplyr::bind_rows(result_level,
+                               result_metrics)
 
     if(full_name == TRUE){
         result <- dplyr::left_join(x = result,
