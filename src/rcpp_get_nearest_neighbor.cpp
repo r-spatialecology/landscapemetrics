@@ -52,7 +52,6 @@ double find_min(const NumericMatrix& points, int i, int m) {
     return ::sqrt(d0);
 }
 
-
 //' @title First nearest neighbor distance
 //'
 //' @description Efficiently calculate the distance to the first nearest neighbor.
@@ -81,6 +80,7 @@ NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points) {
     return distances;
 }
 
+
 /*** R
 landscape_labelled <- cclabel(landscape)
 
@@ -101,7 +101,9 @@ tibble::as.tibble() %>%
 purrr::set_names(c("x", "y", "id"))  %>%
 dplyr::arrange(id,-y)
 
+
     X2 <- as.matrix(points_class)
+
 
     res <- landscapemetrics:::rcpp_get_nearest_neighbor(X2)
 

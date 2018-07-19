@@ -6,6 +6,7 @@
 #' @param what Selected level of metrics: either "all", "patch", "class", "landscape".
 #' The default is "all". It is also possible to specifiy functions as a vector of strings,
 #' e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
+#' @param full_name Should the full names of all functions be included in the tibble.
 #' @param ... Specific arguments for certain functions, if not provided they fall back to default.
 #'
 #' @return tibble
@@ -27,7 +28,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_calculate <- function(landscape, what, ...) UseMethod("lsm_calculate")
+lsm_calculate <- function(landscape, what, full_name = FALSE,  ...) UseMethod("lsm_calculate")
 
 #' @name lsm_calculate
 #' @export
@@ -39,11 +40,12 @@ lsm_calculate.RasterLayer <- function(landscape, what = "all", ...) {
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterStack <- function(landscape, what = "all", ...) {
+lsm_calculate.RasterStack <- function(landscape, what = "all", full_name = FALSE, ...) {
 
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_calculate_internal,
                    what = what,
+                   full_name = full_name,
                    .id = "layer2",
                    ...) %>%
         dplyr::mutate(layer = as.integer(layer2)) %>%
@@ -52,27 +54,23 @@ lsm_calculate.RasterStack <- function(landscape, what = "all", ...) {
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterBrick <- function(landscape, what = "all", ...) {
+lsm_calculate.RasterBrick <- function(landscape, what = "all", full_name = FALSE, ...) {
     purrr::map_dfr(raster::as.list(landscape), lsm_calculate_internal,
-                   what = what, ...) %>%
+                   what = what, full_name = full_name, ...) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.list <- function(landscape, what = "all", ...) {
+lsm_calculate.list <- function(landscape, what = "all", full_name = FALSE, ...) {
     purrr::map_dfr(landscape, lsm_calculate_internal,
-                   what = what, ...) %>%
+                   what = what, full_name = full_name, ...) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_calculate_internal <- function(landscape, what, ...) {
-    # level <- "lsm"
-    # lsf.str("package:landscapemetrics") %>%
-    #     grep(pattern = level, x = ., value = TRUE) %>%
-    #     grep(pattern = "\\.|calc", x = ., value = TRUE, invert = TRUE)
+lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
-    if (length(what) == 1) {
+    if (what %in% c("all", "patch", "class", "landscape")) {
         if (what == "all") {
             result <- dplyr::bind_rows(
                 # list.files(paste0(getwd(), "/R"), pattern = "_p_")
@@ -361,5 +359,12 @@ lsm_calculate_internal <- function(landscape, what, ...) {
             foo(landscape)
         })
     }
+
+    if(full_name == TRUE){
+        result <- dplyr::left_join(x = result,
+                                    y = lsm_abbreviations_names,
+                                    by = "metric")
+    }
+
     return(result)
 }
