@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DCORE_CV (landscape level) — lsm_l_dcore_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>NCORE (patch level) — lsm_p_nca • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="DCORE_CV (landscape level) — lsm_l_dcore_cv" />
+<meta property="og:title" content="NCORE (patch level) — lsm_p_nca" />
 
-<meta property="og:description" content="Coeffiecent of variation number of disjunct core areas (Core area metric)" />
+<meta property="og:description" content="Number of core areas (Core area metric)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -151,62 +151,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DCORE_CV (landscape level)</h1>
+    <h1>NCORE (patch level)</h1>
     
-    <div class="hidden name"><code>lsm_l_dcore_cv.Rd</code></div>
+    <div class="hidden name"><code>lsm_p_nca.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Coeffiecent of variation number of disjunct core areas (Core area metric)</p>
+    <p>Number of core areas (Core area metric)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p>
+<p>#' @details
+$$NCORE = n_{ij}^{core}$$
+where \(n_{ij}^{core}\) is the number of disjunct core areas.</p>
+<p>NCORE is a 'Core area metric'. A cell is defined as core if the cell has no
+neighbour with a different value than itself (rook's case). The metric counts the disjunct
+core areas, whereby a core area is a 'patch within the patch' containing only core cells.
+It describes patch area and shape simultaneously (more core area when the patch is large,
+however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+will contain less disjunct core areas than a more irregular patch.</p><h3>Units</h3>
+None
+<h3>Range</h3>
+NCORE &gt;= 0
+<h3>Behaviour</h3>
+NCORE = 0 when CORE = 0, i.e. every cell in patch is edge.
+Increases, without limit, as core area increases and patch shape allows disjunct core
+areas (i.e. patch shape becomes rather complex).</td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>tibble</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>$$DCORE_{CV} = cv(NCORE[patch_{ij}])$$
-where \(NCORE[patch_{ij}]\) is the number of core areas.</p>
-<p>DCORE_CV is an 'Core area metric'. It summarises the landscape as the coeffiecent
-of variation of all patches belonging to the landscape. A cell is defined as core if
-the cell has no neighbour with a different value than itself (rook's case). NCORE counts
-the disjunct core areas, whereby a core area is a 'patch within the patch' containing
-only core cells. The metric describes the differences among all patches in the landscape
-and is easily comparable because it is scaled to the mean.</p>
-<h3>Units</h3>
-None
-<h3>Range</h3>
-DCORE_CV &gt;= 0
-<h3>Behaviour</h3>
-Equals DCORE_CV = 0 if all patches have the same number of disjunct
-core areas. Increases, without limit, as the variation of number of disjunct corea areas
-increases.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -217,20 +214,31 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>lsm_p_nca</code>,
-<code>cv</code>, <br />
-<code>lsm_c_dcore_mn</code>,
+    <div class='dont-index'><p><code>lsm_c_dcore_mn</code>,
 <code>lsm_c_dcore_sd</code>,
-<code>lsm_c_dcore_cv</code>, <br />
+<code>lsm_c_dcore_cv</code>,
+<code>lsm_c_ndca</code>, <br />
 <code>lsm_l_dcore_mn</code>,
-<code>lsm_l_dcore_sd</code></p></div>
+<code>lsm_l_dcore_sd</code>,
+<code>lsm_l_dcore_cv</code>,
+<code>lsm_l_ndca</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
-#&gt;   layer level     class    id metric   value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
-#&gt; 1     1 landscape    NA    NA dcore_cv  211.</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_p_nca</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 27 x 6
+#&gt;    layer level class    id metric value
+#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+#&gt;  1     1 patch     1     1 nca        0
+#&gt;  2     1 patch     1     2 nca        1
+#&gt;  3     1 patch     1     3 nca        3
+#&gt;  4     1 patch     1     4 nca        0
+#&gt;  5     1 patch     1     5 nca        0
+#&gt;  6     1 patch     1     6 nca        2
+#&gt;  7     1 patch     1     7 nca        0
+#&gt;  8     1 patch     1     8 nca        0
+#&gt;  9     1 patch     1     9 nca        0
+#&gt; 10     1 patch     2    10 nca        1
+#&gt; # ... with 17 more rows</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -239,8 +247,6 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
 

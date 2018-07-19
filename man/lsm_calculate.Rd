@@ -12,15 +12,18 @@
 \alias{lsm_calculate.list}
 \title{Calculate metrics}
 \usage{
-lsm_calculate(landscape, what, ...)
+lsm_calculate(landscape, what, full_name = FALSE, ...)
 
 \method{lsm_calculate}{RasterLayer}(landscape, what = "all", ...)
 
-\method{lsm_calculate}{RasterStack}(landscape, what = "all", ...)
+\method{lsm_calculate}{RasterStack}(landscape, what = "all",
+  full_name = FALSE, ...)
 
-\method{lsm_calculate}{RasterBrick}(landscape, what = "all", ...)
+\method{lsm_calculate}{RasterBrick}(landscape, what = "all",
+  full_name = FALSE, ...)
 
-\method{lsm_calculate}{list}(landscape, what = "all", ...)
+\method{lsm_calculate}{list}(landscape, what = "all", full_name = FALSE,
+  ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -28,6 +31,8 @@ lsm_calculate(landscape, what, ...)
 \item{what}{Selected level of metrics: either "all", "patch", "class", "landscape".
 The default is "all". It is also possible to specifiy functions as a vector of strings,
 e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
+
+\item{full_name}{Should the full names of all functions be included in the tibble.}
 
 \item{...}{Specific arguments for certain functions, if not provided they fall back to default.}
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DCORE_CV (landscape level) — lsm_l_dcore_cv • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>Show correlation — show_correlation • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="DCORE_CV (landscape level) — lsm_l_dcore_cv" />
+<meta property="og:title" content="Show correlation — show_correlation" />
 
-<meta property="og:description" content="Coeffiecent of variation number of disjunct core areas (Core area metric)" />
+<meta property="og:description" content="Show correlation" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -151,86 +151,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DCORE_CV (landscape level)</h1>
+    <h1>Show correlation</h1>
     
-    <div class="hidden name"><code>lsm_l_dcore_cv.Rd</code></div>
+    <div class="hidden name"><code>show_correlation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Coeffiecent of variation number of disjunct core areas (Core area metric)</p>
+    <p>Show correlation</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)</pre>
+    <pre class="usage"><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='no'>level</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>15</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+      <th>metrics</th>
+      <td><p>tibble with results of as returned by the landscapemetrics package</p></td>
+    </tr>
+    <tr>
+      <th>level</th>
+      <td><p>level of the metrics (<code>patch</code>, <code>class</code>, <code>landscape</code>)</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>type of correlation. See <code>link{cor}</code> for details</p></td>
+    </tr>
+    <tr>
+      <th>text_size</th>
+      <td><p>Text size of the plot</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble</p>
+    <p>ggplot</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$DCORE_{CV} = cv(NCORE[patch_{ij}])$$
-where \(NCORE[patch_{ij}]\) is the number of core areas.</p>
-<p>DCORE_CV is an 'Core area metric'. It summarises the landscape as the coeffiecent
-of variation of all patches belonging to the landscape. A cell is defined as core if
-the cell has no neighbour with a different value than itself (rook's case). NCORE counts
-the disjunct core areas, whereby a core area is a 'patch within the patch' containing
-only core cells. The metric describes the differences among all patches in the landscape
-and is easily comparable because it is scaled to the mean.</p>
-<h3>Units</h3>
-None
-<h3>Range</h3>
-DCORE_CV &gt;= 0
-<h3>Behaviour</h3>
-Equals DCORE_CV = 0 if all patches have the same number of disjunct
-core areas. Increases, without limit, as the variation of number of disjunct corea areas
-increases.
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code>lsm_p_nca</code>,
-<code>cv</code>, <br />
-<code>lsm_c_dcore_mn</code>,
-<code>lsm_c_dcore_sd</code>,
-<code>lsm_c_dcore_cv</code>, <br />
-<code>lsm_l_dcore_mn</code>,
-<code>lsm_l_dcore_sd</code></p></div>
+    <p>The functions calculates the correlation between all metrics. All metrics
+of the input tibble must be from the same level. In order to calculate correlations,
+for the landscape level more than one landscape needs to be present. All input
+must be structured as returned by the landscapemetrics package.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_dcore_cv</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
-#&gt;   layer level     class    id metric   value
-#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
-#&gt; 1     1 landscape    NA    NA dcore_cv  211.</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>results</span> <span class='kw'>&lt;-</span> <span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"patch"</span>)
+<span class='fu'>show_correlation</span>(<span class='no'>results</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='st'>"patch"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)</div><div class='img'><img src='show_correlation-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -241,10 +210,6 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

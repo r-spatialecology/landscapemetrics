@@ -207,8 +207,8 @@ lsm_l_enn()</code></pre>
 <h3 class="hasAnchor">
 <a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Landscape raster</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">landscape</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Landscape raster</span>
+landscape</code></pre></div>
 <pre><code>## class       : RasterLayer 
 ## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
 ## resolution  : 1, 1  (x, y)
@@ -217,8 +217,8 @@ lsm_l_enn()</code></pre>
 ## data source : in memory
 ## names       : clumps 
 ## values      : 1, 3  (min, max)</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">lsm_p_enn</span>(landscape)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span>
+<span class="kw">lsm_p_enn</span>(landscape)</code></pre></div>
 <pre><code>## # A tibble: 27 x 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -233,11 +233,11 @@ lsm_l_enn()</code></pre>
 ##  9     1 patch     1     9 enn     4.24
 ## 10     1 patch     2    10 enn     4.47
 ## # ... with 17 more rows</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate the total area and total class edge length</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="kw">lsm_l_ta</span>(landscape), </a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="kw">lsm_c_te</span>(landscape)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the total area and total class edge length</span>
+dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(
+    <span class="kw">lsm_l_ta</span>(landscape), 
+    <span class="kw">lsm_c_te</span>(landscape)
+)</code></pre></div>
 <pre><code>## # A tibble: 4 x 6
 ##   layer level     class    id metric  value
 ##   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
