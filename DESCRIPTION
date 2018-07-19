@@ -35,7 +35,8 @@ Imports:
     purrr,
     raster,
     Rcpp (>= 0.12.1),
-    tibble
+    tibble,
+    tidyr
 Suggests: 
     covr,
     testthat,
