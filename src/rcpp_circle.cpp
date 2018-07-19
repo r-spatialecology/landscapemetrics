@@ -71,7 +71,9 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution) {
         }
 
         circle(i, 0) = class_id;
-        circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * 3.141593;
+        circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
+
+
     }
 
     return circle;
@@ -82,19 +84,20 @@ landscape_labelled <- cclabel(landscape)
 
     patches_class <- landscape_labelled[[1]]
 
-class_boundaries <- raster::boundaries(patches_class, directions = 4,
-                            asNA = TRUE)
+class_boundaries <-
+    raster::boundaries(patches_class, directions = 4,
+                       asNA = TRUE)
 
     raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <-
         raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
 
 points_class <- raster::xyFromCell(class_boundaries,
                                    cell = 1:raster::ncell(class_boundaries)) %>%
-    cbind(raster::values(class_boundaries)) %>%
-    stats::na.omit() %>%
-    tibble::as.tibble() %>%
-    purrr::set_names(c("x", "y", "id"))  %>%
-    dplyr::arrange(id, -y)
+cbind(raster::values(class_boundaries)) %>%
+stats::na.omit() %>%
+tibble::as.tibble() %>%
+purrr::set_names(c("x", "y", "id"))  %>%
+dplyr::arrange(id,-y)
 
 # mat <- matrix(c(
 #     x = c(21, 21, 22, 22),
