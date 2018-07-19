@@ -41,7 +41,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    patchwork
+    patchwork,
+    landscapetools
 LinkingTo: 
     Rcpp,
     RcppArmadillo
