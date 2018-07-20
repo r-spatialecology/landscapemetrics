@@ -2,14 +2,21 @@
  this code was is a 1 pass implementation of connected components labelling
 
  based on
- Chang, F., C.-J. Chen, and C.-J. Lu. 2004. A linear-time component-labeling algorithm using contour tracing technique. Comput. Vis. Image Underst. 93:206-220.
+ Chang, F., C.-J. Chen, and C.-J. Lu. 2004. A linear-time component-labeling
+ algorithm using contour tracing technique. Comput. Vis.
+ Image Underst. 93:206-220.
+
+@author Jeremy VanDerWal \email{jjvanderwal@@gmail.com}
+VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
+SDMTools: Species Distribution Modelling Tools: Tools for processing data
+associated with species distribution modelling exercises.
+R package version 1.1-221. <https://CRAN.R-project.org/package=SDMTools>
 
  */
 #include <R.h>
 #include <Rinternals.h>
 
 //global variables
-// static int SearchDirection[8][2] = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
 static int SearchDirection_4[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
 int nrow, ncol;
 int *out, *data;
