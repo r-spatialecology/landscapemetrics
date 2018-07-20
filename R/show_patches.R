@@ -44,7 +44,7 @@ show_patches.list <- function(landscape) {
 
 show_patches_intern <- function(landscape) {
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- foo(landscape)
 
     for(i in seq_len(length(landscape_labelled) - 1)){
         max_patch_id <- landscape_labelled[[i]] %>%

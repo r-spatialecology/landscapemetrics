@@ -78,7 +78,7 @@ lsm_l_ed.list <- function(landscape, count_boundary = FALSE) {
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary = FALSE) {
+lsm_l_ed_calc <- function(landscape, count_boundary) {
 
     area_landscape <- lsm_l_ta_calc(landscape)
 

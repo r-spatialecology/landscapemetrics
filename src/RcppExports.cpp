@@ -6,17 +6,6 @@
 
 using namespace Rcpp;
 
-// ccl_borders
-arma::mat ccl_borders(const arma::mat& m);
-RcppExport SEXP _landscapemetrics_ccl_borders(SEXP mSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(ccl_borders(m));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_xy_from_matrix
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell);
 RcppExport SEXP _landscapemetrics_rcpp_xy_from_matrix(SEXP xSEXP, SEXP cellSEXP) {
@@ -148,17 +137,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ccl_labels
-Rcpp::List ccl_labels(const arma::mat& m);
-RcppExport SEXP _landscapemetrics_ccl_labels(SEXP mSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type m(mSEXP);
-    rcpp_result_gen = Rcpp::wrap(ccl_labels(m));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_get_circle
 arma::mat rcpp_get_circle(arma::mat points, double resolution);
 RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolutionSEXP) {
@@ -183,8 +161,10 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP ccl_4(SEXP);
+RcppExport SEXP ccl_8(SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
-    {"_landscapemetrics_ccl_borders", (DL_FUNC) &_landscapemetrics_ccl_borders, 1},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
@@ -196,9 +176,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
-    {"_landscapemetrics_ccl_labels", (DL_FUNC) &_landscapemetrics_ccl_labels, 1},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
+    {"ccl_4",                                         (DL_FUNC) &ccl_4,                                         1},
+    {"ccl_8",                                         (DL_FUNC) &ccl_8,                                         1},
     {NULL, NULL, 0}
 };
 

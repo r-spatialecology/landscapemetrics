@@ -369,7 +369,9 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
         result_metrics <- purrr::map_dfr(what, function(current_function) {
             foo <- match.fun(current_function)
-            foo(landscape)
+            tryCatch({foo(landscape,  ...)},
+                     error = function(e) foo(landscape))
+
         })
     }
 

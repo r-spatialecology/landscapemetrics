@@ -3,6 +3,7 @@
 #' @description Connected components labeling
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #' @param what Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
 #'
@@ -61,50 +62,50 @@ cclabel.list <- function(landscape, what = "all") {
     purrr::map(landscape, .f = cclabel_int, what = what)
 }
 
-cclabel_int <- function(landscape, what = "all") {
+cclabel_int <- function(landscape,
+                        directions = 8,
+                        what = "all") {
+    if (directions != 4 && directions != 8) {
+        warning("You must specify a directions parameter. Defaulted to 8.",
+                call. = FALSE)
+        directions <- 8
+    }
 
     landscape_extent <- raster::extent(landscape)
-    landscape_empty <- raster::raster(x = landscape_extent,
-                        resolution = raster::res(landscape),
-                        crs = raster::crs(landscape))
+
+    landscape_empty <- raster::raster(
+        x = landscape_extent,
+        resolution = raster::res(landscape),
+        crs = raster::crs(landscape)
+    )
 
     filter_matrix <-
-        matrix(
-            FALSE,
-            nrow = raster::nrow(landscape),
-            ncol = raster::ncol(landscape)
-        )
+        matrix(FALSE,
+               nrow = raster::nrow(landscape),
+               ncol = raster::ncol(landscape))
 
     landscape_matrix <- raster::as.matrix(landscape)
 
-    cclabel_matrix <-
-        ccl_labels(landscape_matrix)[[1]]
+
 
     if (what != "all") {
-        if(!isTRUE(what %in% raster::unique(landscape))){
-           stop(paste("There is no class", what, "in your raster"))
+        if (!isTRUE(what %in% raster::unique(landscape))) {
+            stop(paste("There is no class", what, "in your raster"))
         }
 
-        filter_matrix[landscape_matrix == what] <- TRUE
+        filter_matrix[landscape_matrix != what] <- NA
+        filter_matrix[landscape_matrix == what] <- 1
 
-        filtered_cclabel <-
-            ifelse(test = filter_matrix,
-                   yes = cclabel_matrix,
-                   no = NA)
+        if (directions == 4) {
+            filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+        }
+
+        if (directions == 8) {
+            filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+        }
 
         cclabel_landscape <- raster::setValues(x = landscape_empty,
-                                               values = filtered_cclabel)
-
-        rcl <-  cbind(
-            raster::unique(cclabel_landscape),
-            raster::unique(cclabel_landscape),
-            seq_along(raster::unique(cclabel_landscape))
-        )
-
-        cclabel_landscape <-
-            raster::reclassify(x = cclabel_landscape,
-                               rcl = rcl,
-                               right = NA)
+                                               values = filter_raster)
 
         names(cclabel_landscape) <- paste0("Class_", what)
 
@@ -112,31 +113,27 @@ cclabel_int <- function(landscape, what = "all") {
     }
 
     else {
-        cclabel_landscape <- purrr::map(raster::unique(landscape), function(class) {
+        classes <- unique(as.vector(landscape_matrix))
+        cclabel_landscape <- purrr::map(classes, function(what) {
+            filter_matrix[landscape_matrix != what] <- NA
+            filter_matrix[landscape_matrix == what] <- 1
 
-            filter_matrix[landscape_matrix == class] <- TRUE
+            if (directions == 4) {
+                filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+            }
 
-            filtered_cclabel <-
-                ifelse(test = filter_matrix,
-                       yes = cclabel_matrix,
-                       no = NA)
+            if (directions == 8) {
+                filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+            }
+
+
 
             cclabel_landscape <- raster::setValues(x = landscape_empty,
-                                                   values = filtered_cclabel)
+                                                   values = filter_raster)
 
-            rcl <-  cbind(
-                raster::unique(cclabel_landscape),
-                raster::unique(cclabel_landscape),
-                seq_along(raster::unique(cclabel_landscape))
-            )
-
-            cclabel_landscape <-
-                raster::reclassify(x = cclabel_landscape,
-                                   rcl = rcl,
-                                   right = NA)
-
-            names(cclabel_landscape) <- paste0("Class_", class)
-            return(cclabel_landscape)
+            names(cclabel_landscape) <- paste0("Class_", what)
+            cclabel_landscape
         })
     }
+    return(cclabel_landscape)
 }
