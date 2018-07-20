@@ -2,14 +2,8 @@
 title: "Communicate landscapemetrics results"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
-    toc: true
+  github_document:
     html_preview: false
-vignette: >
-  %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -26,7 +20,7 @@ library(patchwork)
 library(raster)
 library(dplyr)
 
-landscape_plot <- landscapetools::util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
+landscape_plot <- util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
 ```
 
 ## Plot metrics
@@ -45,6 +39,17 @@ landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
 ![](showpatches.png){width=75%}
 </center>
 
+### Dissecting a landscape
+
+If you are interested in each class and want to get an impression of the spatial distribution of this class, 
+the [**landscapetools**](https://github.com/ropensci/landscapetools) package offers a function to plot 
+lists, stacks and bricks of rasters as facets:
+
+```{r fig.retina=2}
+# show patch IDS
+landscapetools::util
+```
+
 
 
 ## Connected labelling 
@@ -53,7 +58,7 @@ landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
 
 ```{r eval=FALSE}
 cclabel_landscape <- landscapemetrics::cclabel(landscape)
-landscapetools::util_facetplot(cclabel_landscape, nrow = 1)
+util_facetplot(cclabel_landscape, nrow = 1)
 ```
 
 ![](cclabel.png){width=100%}

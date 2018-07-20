@@ -21,12 +21,8 @@ knitr::opts_chunk$set(
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
-library(ggplot2)
-library(patchwork)
 library(raster)
 library(dplyr)
-
-landscape_plot <- landscapetools::util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
 ```
 
 # Using **landscapemetrics**
@@ -64,7 +60,7 @@ All functions return an identical structured tibble:
 
 ```{r, message=FALSE}
 # Import raster
-landscape_raster <- landscapemetrics::landscape
+landscape_raster <- landscape
 # for local file: raster("pathtoyourraster/raster.asc")
 # ... or any other raster file type, geotiff, ...
 
@@ -79,7 +75,7 @@ The metrics are encoded using abbreviations in the result tibble. In case you wa
 result <- lsm_c_dcad(landscape)
 
 # Left join with abbreviation tibble
-result_full_name <- dplyr::left_join(x = result, 
+result_full_name <- left_join(x = result, 
                                      y = lsm_abbreviations_names, 
                                      by = "metric")
 # Show results
@@ -111,7 +107,7 @@ As the result of every function always returns a tibble, combining the metrics t
 
 ```{r}
 # bind results from different metric functions
-patch_metrics <- dplyr::bind_rows(
+patch_metrics <- bind_rows(
   lsm_p_cai(landscape),
   lsm_p_circle(landscape),
   lsm_p_enn(landscape)

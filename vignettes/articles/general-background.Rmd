@@ -2,13 +2,8 @@
 title: "General background"
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette:
-    toc: true
+  github_document:
     html_preview: false
-vignette: >
-  %\VignetteIndexEntry{General background}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -75,6 +70,34 @@ Following, these metrics describe mainly the spatial configuration of the landsc
 5. **Diversity metrics** are only available on the landscape level.
 They describe the abundance and dominance/rareness of classes.
 Thereby, they show the diversity of present classes.
+
+## Other software to calculate landscape metrics
+
+There are already software packages available to calculate landscape
+metrics, the most famous one probably being the stand-alone software
+FRAGSTATS (McGarigal *et al.* 2012). But also add-ons to GIS software
+are available, e.g. r.le (Baker & Cai 1992) or its successor r.li for
+GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal *et
+al.* 2014), can be used.
+
+Nevertheless, we decided to reimplement most of the metrics available in
+[FRAGSTATS](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html).
+We wanted to provide a comprehensive collection of landscape metrics in
+R. While FRAGSTATS is an extensive collection it is only available for
+Windows. Note, that even though we tried to reimplement the metrics as
+described in the FRAGSTATS manual, there are some differences
+([Differences
+FRAGSTATS|landscapemetrics](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)).
+Further, SDMTools contains only a subset of metrics and does not cover
+all levels ([General
+background](https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html)).
+Lastly, we want to start a collection of landscape metrics being open
+source and easily extendable by new (future) landscape metrics (see
+[CONTRIBUTING](CONTRIBUTING.md)).
+
+Those were the main reasons we implemented **landscapemetrics**,
+however, we want to fully appreciate and acknowledge the already present
+software.
 
 ### References 
 

@@ -1,13 +1,9 @@
 ---
 title: "Differences FRAGSTATS|landscapemetrics"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Differences FRAGSTATS|landscapemetrics}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+output: 
+  github_document:
+    html_preview: false
 ---
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(DT)
@@ -43,33 +39,33 @@ cv <- function(x) {
 
 # CV calculated from patch values of FRAGSTATS 
 fragstats_calculated <- fragstats_patch_landscape %>%
-    dplyr::group_by(TYPE) %>%
-    dplyr::summarise(cv = cv(AREA)) %>%
-    purrr::set_names("class", "fragstats_calculated") %>%
-    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+    group_by(TYPE) %>%
+    summarise(cv = cv(AREA)) %>%
+    set_names("class", "fragstats_calculated") %>%
+    mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
                                                       class == "cls_2" ~ 2,
                                                       class == "cls_3" ~ 3)))
 
 # Output of FRAGSTATS
 fragstats_output <- fragstats_class_landscape %>% 
-    dplyr::select(TYPE, AREA_CV) %>%
-    purrr::set_names("class", "fragstats_output") %>%
-    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
+    select(TYPE, AREA_CV) %>%
+    set_names("class", "fragstats_output") %>%
+    mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
                                                       class == "cls_2" ~ 2,
                                                       class == "cls_3" ~ 3)))
 
 # Output of landscapemetrics
 landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
-    dplyr::select(class, value) %>%
-    purrr::set_names("class", "landscapemetrics")
+    select(class, value) %>%
+    set_names("class", "landscapemetrics")
 ```
 
 ```{r echo = FALSE}
-fragstats <- dplyr::full_join(x = fragstats_calculated, 
+fragstats <- full_join(x = fragstats_calculated, 
                               y = fragstats_output, 
                               by = "class") 
 
-cv_full <- dplyr::full_join(x = fragstats, 
+cv_full <- full_join(x = fragstats, 
                             y = landscapemetrics_output, 
                             by = "class")
 

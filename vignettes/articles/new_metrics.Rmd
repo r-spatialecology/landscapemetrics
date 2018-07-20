@@ -1,0 +1,23 @@
+---
+title: "New Metrics"
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
+library(landscapemetrics)
+```
+
+One of the reason for landscapemetrics was also to have a collection of metrics that are not included in FRAGSTATS.
+This vignette will highlight them and provide references for further reading on them.
+
+1. lsm_l_joinent

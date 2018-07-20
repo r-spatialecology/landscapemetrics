@@ -29,32 +29,6 @@ arguments. Every function can be used in a piped workflow, as it always
 takes the data as the first argument and returns a tibble of the same
 dimension.
 
-There are already software packages available to calculate landscape
-metrics, the most famous one probably being the stand-alone software
-FRAGSTATS (McGarigal *et al.* 2012). But also add-ons to GIS software
-are available, e.g. r.le (Baker & Cai 1992) or its successor r.li for
-GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal *et
-al.* 2014), can be used.
-
-Nevertheless, we decided to reimplement most of the metrics available in
-[FRAGSTATS](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html).
-We wanted to provide a comprehensive collection of landscape metrics in
-R. While FRAGSTATS is an extensive collection it is only available for
-Windows. Note, that even though we tried to reimplement the metrics as
-described in the FRAGSTATS manual, there are some differences
-([Differences
-FRAGSTATS|landscapemetrics](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)).
-Further, SDMTools contains only a subset of metrics and does not cover
-all levels ([General
-background](https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html)).
-Lastly, we want to start a collection of landscape metrics being open
-source and easily extendable by new (future) landscape metrics (see
-[CONTRIBUTING](CONTRIBUTING.md)).
-
-Those were the main reasons we implemented **landscapemetrics**,
-however, we want to fully appreciate and acknowledge the already present
-software.
-
 ## Installation
 
 You can install **landscapemetrics** from GitHub with:
@@ -102,13 +76,10 @@ All functions return an identical structured tibble:
 Every function follows the same implementation design, so the usage is
 quite straight forward:
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-library(landscapemetrics)
-library(raster)
-library(tidyverse)
-```
-
 ```{r}
+library(landscapemetrics)
+library(dplyr)
+
 # Landscape raster
 landscape
 
@@ -116,7 +87,7 @@ landscape
 lsm_p_enn(landscape)
 
 # Calculate the total area and total class edge length
-dplyr::bind_rows(
+bind_rows(
     lsm_l_ta(landscape), 
     lsm_c_te(landscape)
 )
