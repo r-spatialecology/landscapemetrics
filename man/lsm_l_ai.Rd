@@ -12,18 +12,21 @@
 \alias{lsm_l_ai.list}
 \title{AI (landscape level)}
 \usage{
-lsm_l_ai(landscape)
+lsm_l_ai(landscape, directions)
 
-\method{lsm_l_ai}{RasterLayer}(landscape)
+\method{lsm_l_ai}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_ai}{RasterStack}(landscape)
+\method{lsm_l_ai}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_ai}{RasterBrick}(landscape)
+\method{lsm_l_ai}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_ai}{list}(landscape)
+\method{lsm_l_ai}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
