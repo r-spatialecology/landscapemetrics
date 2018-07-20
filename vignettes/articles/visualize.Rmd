@@ -24,10 +24,6 @@ library(landscapetools)
 # landscape_plot <- util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
 ```
 
-## Plot metrics
-
-come up with ggplot wrapper for metrics to show metrics and compare landscapes
-
 ## Visualizing patches
 
 To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
@@ -67,3 +63,10 @@ In comparison, the entire landscape:
 ```{r fig.width=7, fig.align="center"}
 util_plot(podlasie_ccilc)
 ```
+
+
+## Plot metrics
+
+come up with ggplot wrapper for metrics to show metrics and compare landscapes
+
+## Show correlation
