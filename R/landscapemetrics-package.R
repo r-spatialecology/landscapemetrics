@@ -37,7 +37,11 @@ globalVariables(c(".",
                   "y2",
                   "y3",
                   "y4",
-                  "y_centroid"))
+                  "y_centroid",
+                  "lsm_abbreviations_names",
+                  "metric",
+                  "metric_1",
+                  "metric_2"))
 
 
 

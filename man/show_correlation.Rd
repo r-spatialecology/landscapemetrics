@@ -25,10 +25,10 @@ Show correlation
 The functions calculates the correlation between all metrics. All metrics
 of the input tibble must be from the same level. In order to calculate correlations,
 for the landscape level more than one landscape needs to be present. All input
-must be structured as returned by the landscapemetrics package.
+must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
-results <- lsm_calculate(landscape, what = "patch")
-show_correlation(results, level = "patch", method = "pearson")
+metrics <- lsm_calculate(landscape, what = "patch")
+show_correlation(metrics, level = "patch", method = "pearson")
 
 }

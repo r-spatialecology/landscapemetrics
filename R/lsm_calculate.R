@@ -381,8 +381,8 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
     if(full_name == TRUE){
         result <- dplyr::left_join(x = result,
-                                    y = lsm_abbreviations_names,
-                                    by = "metric")
+                                   y = lsm_abbreviations_names,
+                                   by = "metric")
     }
 
     return(result)

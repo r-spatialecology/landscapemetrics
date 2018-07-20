@@ -10,13 +10,13 @@
 #' @details The functions calculates the correlation between all metrics. All metrics
 #' of the input tibble must be from the same level. In order to calculate correlations,
 #' for the landscape level more than one landscape needs to be present. All input
-#' must be structured as returned by the landscapemetrics package.
+#' must be structured as returned by the **landscapemetrics** package.
 #'
 #' @return ggplot
 #'
 #' @examples
-#' results <- lsm_calculate(landscape, what = "patch")
-#' show_correlation(results, level = "patch", method = "pearson")
+#' metrics <- lsm_calculate(landscape, what = "patch")
+#' show_correlation(metrics, level = "patch", method = "pearson")
 #'
 #' @aliases show_correlation
 #' @rdname show_correlation
@@ -34,7 +34,12 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
                                       key = metric,
                                       value = value)
 
-        correlation_matrix <- stats::cor(metrics_wide[2:ncol(metrics_wide)],
+
+        metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(4:6)])
+        attr(metrics_wide, "class") <- NULL
+        attr(metrics_wide, "call") <- NULL
+
+        correlation_matrix <- stats::cor(metrics_wide[,2:ncol(metrics_wide)],
                                          method = method)
 
         correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
@@ -51,9 +56,9 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
 
     else if(level == "class") {
 
-        metrics_wide <- tidyr::spread(data = metrics[, c(3, 5:6)],
-                                      key = metric,
-                                      value = value)
+        metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(3, 5:6)])
+        attr(metrics_wide, "class") <- NULL
+        attr(metrics_wide, "call") <- NULL
 
         correlation_matrix <- stats::cor(metrics_wide[2:ncol(metrics_wide)],
                                          method = method)
@@ -77,9 +82,10 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
         }
 
         else{
-            metrics_wide <- tidyr::spread(data = metrics[, c(1, 5:6)],
-                                          key = metric,
-                                          value = value)
+
+            metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(1, 5:6)])
+            attr(metrics_wide, "class") <- NULL
+            attr(metrics_wide, "call") <- NULL
 
             correlation_matrix <- stats::cor(metrics_wide[2:ncol(metrics_wide)],
                                              method = method)
