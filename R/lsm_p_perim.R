@@ -3,18 +3,22 @@
 #' @description Perimeter (Area and edge metric))
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' #' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{PERIM = p_{ij}}
 #' where \eqn{p_{ij}} is the perimeter in meters.
 #'
-#' PERIM is an 'Area and edge metric'. It equals the perimeter of the patch including
-#' also the edge to the landscape boundary. The metric describes patch area (larger perimeter
-#' for larger patches), but also patch shape (large perimeter for irregular shapes).
+#' PERIM is an 'Area and edge metric'. It equals the perimeter of the patch
+#' including also the edge to the landscape boundary. The metric describes
+#' patch area (larger perimeter for larger patches), but also patch shape
+#' (large perimeter for irregular shapes).
 #'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{PERIM > 0}
-#' \subsection{Behaviour}{Increases, without limit, as patch size and complexity increases.}
+#' \subsection{Behaviour}{Increases, without limit, as patch size and
+#' complexity increases.}
 #'
 #' @return tibble
 #'
@@ -31,46 +35,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_perim <- function(landscape) UseMethod("lsm_p_perim")
+lsm_p_perim <- function(landscape, directions) UseMethod("lsm_p_perim")
 
 #' @name lsm_p_perim
 #' @export
-lsm_p_perim.RasterLayer <- function(landscape) {
+lsm_p_perim.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_perim_calc, .id = "layer") %>%
+                   lsm_p_perim_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_perim
 #' @export
-lsm_p_perim.RasterStack <- function(landscape) {
+lsm_p_perim.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_perim_calc, .id = "layer") %>%
+                   lsm_p_perim_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_perim
 #' @export
-lsm_p_perim.RasterBrick <- function(landscape) {
+lsm_p_perim.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_perim_calc, .id = "layer") %>%
+                   lsm_p_perim_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_perim
 #' @export
-lsm_p_perim.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_perim_calc, .id = "layer") %>%
+lsm_p_perim.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_perim_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_perim_calc <- function(landscape) {
+lsm_p_perim_calc <- function(landscape, directions) {
     # landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     perimeter_patch <-
         purrr::map_dfr(landscape_labelled, function(patches_class) {

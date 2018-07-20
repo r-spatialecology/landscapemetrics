@@ -3,20 +3,23 @@
 #' @description Perimeter-Area ratio (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' #' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{PARA = \frac{p_{ij}} {a_{ij}}}
 #' where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the
 #' area in square meters.
 #'
-#' PARA is a 'Shape metric'. It describes the patch complexity in a straightforward way.
-#' However, because it is not standarised to a certain shape (e.g. a square), it
-#' is not scale independent, meaning that increasing the patch size while not changing the
-#' patch form will change the ratio.
+#' PARA is a 'Shape metric'. It describes the patch complexity in a
+#' straightforward way. However, because it is not standarised to a certain
+#' shape (e.g. a square), it is not scale independent, meaning that increasing
+#' the patch size while not changing the patch form will change the ratio.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{PARA > 0}
-#' \subsection{Behaviour}{Increases, without limit, as the shape comlexity increases.}
+#' \subsection{Behaviour}{Increases, without limit, as the shape comlexity
+#' increases.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_area}},
@@ -43,47 +46,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_para <- function(landscape) UseMethod("lsm_p_para")
+lsm_p_para <- function(landscape, directions) UseMethod("lsm_p_para")
 
 #' @name lsm_p_para
 #' @export
-lsm_p_para.RasterLayer <- function(landscape) {
+lsm_p_para.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_para_calc, .id = "layer") %>%
+                   lsm_p_para_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_para
 #' @export
-lsm_p_para.RasterStack <- function(landscape) {
+lsm_p_para.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_para_calc, .id = "layer") %>%
+                   lsm_p_para_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_para
 #' @export
-lsm_p_para.RasterBrick <- function(landscape) {
+lsm_p_para.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_para_calc, .id = "layer") %>%
+                   lsm_p_para_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_para
 #' @export
-lsm_p_para.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_para_calc, .id = "layer") %>%
+lsm_p_para.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_p_para_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_para_calc <- function(landscape){
+lsm_p_para_calc <- function(landscape, directions){
 
-    perimeter_patch <- lsm_p_perim_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
     para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value /
                                     (value * 10000))

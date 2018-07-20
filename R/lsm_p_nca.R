@@ -3,23 +3,26 @@
 #' @description Number of core areas (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' #' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' #' @details
 #' \deqn{NCORE = n_{ij}^{core}}
 #' where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
 #'
 #' NCORE is a 'Core area metric'. A cell is defined as core if the cell has no
-#' neighbour with a different value than itself (rook's case). The metric counts the disjunct
-#' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
-#' It describes patch area and shape simultaneously (more core area when the patch is large,
-#' however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+#' neighbour with a different value than itself (rook's case). The metric
+#' counts the disjunct core areas, whereby a core area is a 'patch within the
+#' patch' containing only core cells. It describes patch area and shape
+#' simultaneously (more core area when the patch is large, however, the shape
+#' must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
 #' will contain less disjunct core areas than a more irregular patch.
 #
 #' \subsection{Units}{None}
 #' \subsection{Range}{NCORE >= 0}
-#' \subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patch is edge.
-#' Increases, without limit, as core area increases and patch shape allows disjunct core
-#' areas (i.e. patch shape becomes rather complex).}
+#' \subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patch is
+#' edge. Increases, without limit, as core area increases and patch shape
+#' allows disjunct core areas (i.e. patch shape becomes rather complex).}
 #'
 #' @seealso
 #' \code{\link{lsm_c_dcore_mn}},
@@ -49,45 +52,51 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_nca <- function(landscape) UseMethod("lsm_p_nca")
+lsm_p_nca <- function(landscape, directions) UseMethod("lsm_p_nca")
 
 #' @name lsm_p_nca
 #' @export
-lsm_p_nca.RasterLayer <- function(landscape) {
+lsm_p_nca.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_nca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_p_nca
+#' @export
+lsm_p_nca.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_nca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_nca
+#' @export
+lsm_p_nca.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_p_nca_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
-}
-
-#' @name lsm_p_nca
-#' @export
-lsm_p_nca.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_nca_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_nca
 #' @export
-lsm_p_nca.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_nca_calc, .id = "layer") %>%
+lsm_p_nca.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_p_nca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-#' @name lsm_p_nca
-#' @export
-lsm_p_nca.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_nca_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_p_nca_calc <- function(landscape, directions){
 
-}
-
-lsm_p_nca_calc <- function(landscape){
-
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     landscape_extent <- raster::extent(landscape)
     landscape_raster <- raster::raster(landscape_extent,
@@ -110,7 +119,8 @@ lsm_p_nca_calc <- function(landscape){
         raster::values(class_boundary)[raster::values(class_boundary) == 1 |
                             raster::values(is.na(class_boundary))] <- -999
 
-        cclabel_landscape <- cclabel(class_boundary)[[2]]
+        cclabel_landscape <- cclabel(class_boundary,
+                                     directions = directions)[[2]]
 
         points <- raster::rasterToPoints(cclabel_landscape)
         points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)

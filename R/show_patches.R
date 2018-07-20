@@ -3,6 +3,8 @@
 #' @description Show patches
 #'
 #' @param landscape *Raster object
+#' #' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details The functions plots the landscape with the patches labelled with the
 #' corresponding patch id.
@@ -16,35 +18,38 @@
 #' @rdname show_patches
 #'
 #' @export
-show_patches <- function(landscape)  UseMethod("show_patches")
+show_patches <- function(landscape, directions)  UseMethod("show_patches")
 
 #' @name show_patches
 #' @export
-show_patches.RasterLayer <- function(landscape) {
-    show_patches_intern(landscape)
+show_patches.RasterLayer <- function(landscape, directions = 8) {
+    show_patches_intern(landscape, directions = directions)
 }
 
 #' @name show_patches
 #' @export
-show_patches.RasterStack <- function(landscape) {
-    purrr::map(raster::as.list(landscape), show_patches_intern)
+show_patches.RasterStack <- function(landscape, directions = 8) {
+    purrr::map(raster::as.list(landscape), show_patches_intern,
+               directions = directions)
 }
 
 #' @name show_patches
 #' @export
-show_patches.RasterBrick <- function(landscape) {
-    purrr::map(raster::as.list(landscape), show_patches_intern)
+show_patches.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map(raster::as.list(landscape), show_patches_intern,
+               directions = directions)
 }
 
 #' @name show_patches
 #' @export
-show_patches.list <- function(landscape) {
-    purrr::map(landscape, show_patches_intern)
+show_patches.list <- function(landscape, directions = 8) {
+    purrr::map(landscape, show_patches_intern,
+               directions = directions)
 }
 
-show_patches_intern <- function(landscape) {
+show_patches_intern <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     for(i in seq_len(length(landscape_labelled) - 1)){
         max_patch_id <- landscape_labelled[[i]] %>%

@@ -3,6 +3,8 @@
 #' @description Shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' #' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{SHAPE = \frac{p_{ij}} {\min p_{ij}}}
@@ -43,47 +45,56 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_shape <- function(landscape) UseMethod("lsm_p_shape")
+lsm_p_shape <- function(landscape, directions) UseMethod("lsm_p_shape")
 
 #' @name lsm_p_shape
 #' @export
-lsm_p_shape.RasterLayer <- function(landscape) {
+lsm_p_shape.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc, .id = "layer") %>%
+                   lsm_p_shape_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_shape
 #' @export
-lsm_p_shape.RasterStack <- function(landscape) {
+lsm_p_shape.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc, .id = "layer") %>%
+                   lsm_p_shape_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_shape
 #' @export
-lsm_p_shape.RasterBrick <- function(landscape) {
+lsm_p_shape.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc, .id = "layer") %>%
+                   lsm_p_shape_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_shape
 #' @export
-lsm_p_shape.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_shape_calc, .id = "layer") %>%
+lsm_p_shape.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_shape_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_shape_calc <- function(landscape){
+lsm_p_shape_calc <- function(landscape, directions){
 
-    perimeter_patch <- lsm_p_perim_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
     shape_patch <- dplyr::mutate(area_patch,
                                  value = value * 10000,
