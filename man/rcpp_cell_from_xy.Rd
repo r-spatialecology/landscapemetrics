@@ -16,3 +16,4 @@ Get cell number(s) of a matrix from row and column numbers.
 Cell numbers start at 0 in the upper left corner,
 and increase from top to bottom, and then from left to right.
 }
+\keyword{internal}

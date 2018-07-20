@@ -35,6 +35,7 @@ ccl_borders <- function(m) {
 #' @param x A matrix
 #' @param cell A vector of cell number.
 #' If NULL, the coordinates will be calculated for the whole matrix
+#' @keywords internal
 rcpp_xy_from_matrix <- function(x, cell = NULL) {
     .Call('_landscapemetrics_rcpp_xy_from_matrix', PACKAGE = 'landscapemetrics', x, cell)
 }
@@ -47,6 +48,7 @@ rcpp_xy_from_matrix <- function(x, cell = NULL) {
 #'
 #' @param x A matrix
 #' @param y A matrix with two columns (row and column numbers)
+#' @keywords internal
 rcpp_cell_from_xy <- function(x, y) {
     .Call('_landscapemetrics_rcpp_cell_from_xy', PACKAGE = 'landscapemetrics', x, y)
 }
@@ -60,6 +62,7 @@ rcpp_cell_from_xy <- function(x, y) {
 #' The neigborhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
+#' @keywords internal
 rcpp_create_neighborhood <- function(directions) {
     .Call('_landscapemetrics_rcpp_create_neighborhood', PACKAGE = 'landscapemetrics', directions)
 }
@@ -76,6 +79,7 @@ rcpp_create_neighborhood <- function(directions) {
 #' The neigborhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
+#' @keywords internal
 rcpp_get_adjacency <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_adjacency', PACKAGE = 'landscapemetrics', x, directions)
 }
@@ -92,6 +96,7 @@ rcpp_get_adjacency <- function(x, directions) {
 #' The neigborhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
+#' @keywords internal
 rcpp_get_pairs <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_pairs', PACKAGE = 'landscapemetrics', x, directions)
 }

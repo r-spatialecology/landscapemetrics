@@ -20,3 +20,4 @@ Extract values of adjacent cells.
 An output is a two columns matrix, where the first column contains a
 main cell value and the second column contains an adjacent cell value.
 }
+\keyword{internal}

@@ -10,6 +10,7 @@ using namespace Rcpp;
 //' @param x A matrix
 //' @param cell A vector of cell number.
 //' If NULL, the coordinates will be calculated for the whole matrix
+//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
@@ -58,6 +59,7 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVect
 //'
 //' @param x A matrix
 //' @param y A matrix with two columns (row and column numbers)
+//' @keywords internal
 // [[Rcpp::export]]
 IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
     // adapted from raster::cellFromXY()
@@ -91,6 +93,7 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
 //' The neigborhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
+//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
     if (directions.n_elem == 1){
@@ -134,6 +137,7 @@ IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
 //' The neigborhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
+//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     // extract coordinates from matrix
@@ -184,6 +188,7 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
 //' The neigborhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
+//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions) {
     // extract adjency pairs

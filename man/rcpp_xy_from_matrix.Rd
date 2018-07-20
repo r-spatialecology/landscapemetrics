@@ -15,3 +15,4 @@ If NULL, the coordinates will be calculated for the whole matrix}
 \description{
 This function gets coordinates (row and column numbers) of the matrix cells.
 }
+\keyword{internal}

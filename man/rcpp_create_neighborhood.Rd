@@ -16,3 +16,4 @@ Cells with other values (e.g. NA) are ignored.}
 \description{
 This function creates a neighborhood coordinates matrix based on the directions parameter.
 }
+\keyword{internal}

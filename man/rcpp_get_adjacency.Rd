@@ -20,3 +20,4 @@ Identify cells that are adjacent to a set of cells on a matrix.
 An output is a two columns matrix, where the first column contains a
 main cell number and the second column contains an adjacent cell number.
 }
+\keyword{internal}
