@@ -68,12 +68,14 @@ lsm_p_perim.list <- function(landscape) {
 }
 
 lsm_p_perim_calc <- function(landscape) {
-    landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
+    # landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
 
-    landscape_labelled <- cclabel(landscape_padded)
+    landscape_labelled <- cclabel(landscape)
 
     perimeter_patch <-
         purrr::map_dfr(landscape_labelled, function(patches_class) {
+
+            patches_class <- pad_raster(patches_class, pad_raster_value = NA)
 
             target_na <- raster::Which(is.na(patches_class), cells = TRUE)
 

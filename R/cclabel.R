@@ -33,38 +33,55 @@
 #' @rdname cclabel
 #'
 #' @export
-cclabel <- function(landscape, what = "all")  UseMethod("cclabel")
+cclabel <- function(landscape, what, directions)  UseMethod("cclabel")
 
 
 #' @name cclabel
 #' @export
-cclabel.RasterLayer <- function(landscape, what = "all") {
-    cclabel_int(landscape, what) %>%
+cclabel.RasterLayer <- function(landscape,
+                                what = "all",
+                                directions = 8) {
+    cclabel_int(landscape,
+                what = what,
+                directions = directions) %>%
         raster::as.list()
 }
 
 #' @name cclabel
 #' @export
-cclabel.RasterStack <- function(landscape, what = "all") {
-    purrr::map(raster::as.list(landscape_stack), .f = cclabel_int, what = what)
+cclabel.RasterStack <- function(landscape,
+                                what = "all",
+                                directions = 8) {
+    purrr::map(raster::as.list(landscape_stack),
+               .f = cclabel_int,
+               what = what,
+               directions = directions)
 
 }
 
 #' @name cclabel
 #' @export
-cclabel.RasterBrick <- function(landscape, what = "all") {
-    purrr::map(raster::as.list(landscape), .f = cclabel_int, what = what)
+cclabel.RasterBrick <- function(landscape,
+                                what = "all",
+                                directions = 8) {
+    purrr::map(raster::as.list(landscape),
+               .f = cclabel_int,
+               what = what,
+               directions = directions)
 }
 
 #' @name cclabel
 #' @export
-cclabel.list <- function(landscape, what = "all") {
-    purrr::map(landscape, .f = cclabel_int, what = what)
+cclabel.list <- function(landscape,
+                         what = "all",
+                         directions = 8) {
+    purrr::map(landscape,
+               .f = cclabel_int,
+               what = what,
+               directions = directions)
 }
 
-cclabel_int <- function(landscape,
-                        directions = 8,
-                        what = "all") {
+cclabel_int <- function(landscape, what, directions) {
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)
@@ -80,20 +97,17 @@ cclabel_int <- function(landscape,
     )
 
     filter_matrix <-
-        matrix(FALSE,
+        matrix(NA,
                nrow = raster::nrow(landscape),
                ncol = raster::ncol(landscape))
 
     landscape_matrix <- raster::as.matrix(landscape)
-
-
 
     if (what != "all") {
         if (!isTRUE(what %in% raster::unique(landscape))) {
             stop(paste("There is no class", what, "in your raster"))
         }
 
-        filter_matrix[landscape_matrix != what] <- NA
         filter_matrix[landscape_matrix == what] <- 1
 
         if (directions == 4) {
@@ -113,9 +127,8 @@ cclabel_int <- function(landscape,
     }
 
     else {
-        classes <- unique(as.vector(landscape_matrix))
+        classes <- na.omit(unique(as.vector(landscape_matrix)))
         cclabel_landscape <- purrr::map(classes, function(what) {
-            filter_matrix[landscape_matrix != what] <- NA
             filter_matrix[landscape_matrix == what] <- 1
 
             if (directions == 4) {
@@ -126,14 +139,14 @@ cclabel_int <- function(landscape,
                 filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
-
-
             cclabel_landscape <- raster::setValues(x = landscape_empty,
                                                    values = filter_raster)
 
             names(cclabel_landscape) <- paste0("Class_", what)
+
             cclabel_landscape
         })
+        return(cclabel_landscape)
+
     }
-    return(cclabel_landscape)
 }

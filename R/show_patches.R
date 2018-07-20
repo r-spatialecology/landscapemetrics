@@ -44,7 +44,7 @@ show_patches.list <- function(landscape) {
 
 show_patches_intern <- function(landscape) {
 
-    landscape_labelled <- foo(landscape)
+    landscape_labelled <- cclabel(landscape)
 
     for(i in seq_len(length(landscape_labelled) - 1)){
         max_patch_id <- landscape_labelled[[i]] %>%
@@ -57,11 +57,13 @@ show_patches_intern <- function(landscape) {
     landscape_labelled_stack <- landscape_labelled %>%
         raster::stack() %>%
         sum(na.rm = TRUE) %>%
-        raster::as.data.frame(xy = TRUE)
+        raster::as.data.frame(xy = TRUE) %>%
+        purrr::set_names("x", "y", "values") %>%
+        dplyr::mutate(values = replace(values, values == 0, NA))
 
     plot <- ggplot2::ggplot(landscape_labelled_stack) +
-        ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = layer)) +
-        ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = layer),
+        ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = values)) +
+        ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = values),
                            colour = "white") +
         ggplot2::coord_equal() +
         ggplot2::theme_void() +
@@ -80,7 +82,8 @@ show_patches_intern <- function(landscape) {
                 "#6F4070",
                 "#994E95",
                 "#666666"
-                )) +
+                ),
+            na.value = "grey75") +
         ggplot2::theme(axis.title = ggplot2::element_blank(),
                        axis.line = ggplot2::element_blank(),
                        axis.text.x = ggplot2::element_blank(),

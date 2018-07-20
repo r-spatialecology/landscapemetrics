@@ -12,21 +12,23 @@
 \alias{cclabel.list}
 \title{cclabel}
 \usage{
-cclabel(landscape, what = "all")
+cclabel(landscape, what, directions)
 
-\method{cclabel}{RasterLayer}(landscape, what = "all")
+\method{cclabel}{RasterLayer}(landscape, what = "all", directions = 8)
 
-\method{cclabel}{RasterStack}(landscape, what = "all")
+\method{cclabel}{RasterStack}(landscape, what = "all", directions = 8)
 
-\method{cclabel}{RasterBrick}(landscape, what = "all")
+\method{cclabel}{RasterBrick}(landscape, what = "all", directions = 8)
 
-\method{cclabel}{list}(landscape, what = "all")
+\method{cclabel}{list}(landscape, what = "all", directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{what}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 List

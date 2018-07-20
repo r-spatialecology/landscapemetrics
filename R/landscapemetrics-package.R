@@ -41,7 +41,8 @@ globalVariables(c(".",
                   "lsm_abbreviations_names",
                   "metric",
                   "metric_1",
-                  "metric_2"))
+                  "metric_2",
+                  "values"))
 
 
 

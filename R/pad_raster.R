@@ -84,6 +84,8 @@ pad_raster_internal <- function(landscape,
 
     landscape_padded <- raster::setValues(landscape_padded, landscape_matrix)
 
+    names(landscape_padded) <- names(landscape)
+
 
     return(landscape_padded)
 
