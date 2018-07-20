@@ -119,7 +119,7 @@
     <div class="page-header toc-ignore">
       <h1>General background</h1>
             
-            <h4 class="date">2018-07-19</h4>
+            <h4 class="date">2018-07-20</h4>
       
       
       <div class="hidden name"><code>general-background.Rmd</code></div>
@@ -158,10 +158,21 @@
 <li>
 <strong>Diversity metrics</strong> are only available on the landscape level. They describe the abundance and dominance/rareness of classes. Thereby, they show the diversity of present classes.</li>
 </ol>
+</div>
+<div id="other-software-to-calculate-landscape-metrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-software-to-calculate-landscape-metrics" class="anchor"></a>Other software to calculate landscape metrics</h2>
+<p>There are already software packages available to calculate landscape metrics, the most famous one probably being the stand-alone software FRAGSTATS (McGarigal <em>et al.</em> 2012). But also add-ons to GIS software are available, e.g. r.le (Baker &amp; Cai 1992) or its successor r.li for GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal <em>et al.</em> 2014), can be used.</p>
+<p>Nevertheless, we decided to reimplement most of the metrics available in <a href="https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html">FRAGSTATS</a>. We wanted to provide a comprehensive collection of landscape metrics in R. While FRAGSTATS is an extensive collection it is only available for Windows. Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html">Differences FRAGSTATS|landscapemetrics</a>). Further, SDMTools contains only a subset of metrics and does not cover all levels (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html">General background</a>). Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see <a href="CONTRIBUTING.html">CONTRIBUTING</a>).</p>
+<p>Those were the main reasons we implemented <strong>landscapemetrics</strong>, however, we want to fully appreciate and acknowledge the already present software.</p>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
-<p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
+<ul>
+<li><p>Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.</p></li>
+<li><p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
+<li><p>VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014. SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="uri">https://CRAN.R-project.org/package=SDMTools</a></p></li>
+</ul>
 </div>
 </div>
 </div>
@@ -176,6 +187,7 @@
 <a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#levels-of-landscape-metrics">Levels of landscape metrics</a></li>
       <li><a href="#classes-of-landscape-metrics">Classes of landscape metrics</a></li>
+      <li><a href="#other-software-to-calculate-landscape-metrics">Other software to calculate landscape metrics</a></li>
       </ul>
 </li>
       </ul>

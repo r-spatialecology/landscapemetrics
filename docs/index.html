@@ -134,10 +134,8 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. This package supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension.</p>
-<p>There are already software packages available to calculate landscape metrics, the most famous one probably being the stand-alone software FRAGSTATS (McGarigal <em>et al.</em> 2012). But also add-ons to GIS software are available, e.g. r.le (Baker &amp; Cai 1992) or its successor r.li for GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal <em>et al.</em> 2014), can be used.</p>
-<p>Nevertheless, we decided to reimplement most of the metrics available in <a href="https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html">FRAGSTATS</a>. We wanted to provide a comprehensive collection of landscape metrics in R. While FRAGSTATS is an extensive collection it is only available for Windows. Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html">Differences FRAGSTATS|landscapemetrics</a>). Further, SDMTools contains only a subset of metrics and does not cover all levels (<a href="https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html">General background</a>). Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see <a href="CONTRIBUTING.html">CONTRIBUTING</a>).</p>
-<p>Those were the main reasons we implemented <strong>landscapemetrics</strong>, however, we want to fully appreciate and acknowledge the already present software.</p>
+<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment.</p>
+<p><strong>landscapemetrics</strong> supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble of the same dimension. It further provides functions to visualize landscapes as labelled patches and functions to select and analyse metrics you calculated with the package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -207,8 +205,18 @@ lsm_l_enn()</code></pre>
 <h3 class="hasAnchor">
 <a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Landscape raster</span>
-landscape</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(landscapemetrics)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: 'dplyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Landscape raster</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">landscape</a></code></pre></div>
 <pre><code>## class       : RasterLayer 
 ## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
 ## resolution  : 1, 1  (x, y)
@@ -217,8 +225,8 @@ landscape</code></pre></div>
 ## data source : in memory
 ## names       : clumps 
 ## values      : 1, 3  (min, max)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span>
-<span class="kw">lsm_p_enn</span>(landscape)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>(landscape)</a></code></pre></div>
 <pre><code>## # A tibble: 27 x 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -233,11 +241,11 @@ landscape</code></pre></div>
 ##  9     1 patch     1     9 enn     4.24
 ## 10     1 patch     2    10 enn     4.47
 ## # ... with 17 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the total area and total class edge length</span>
-dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(
-    <span class="kw">lsm_l_ta</span>(landscape), 
-    <span class="kw">lsm_c_te</span>(landscape)
-)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Calculate the total area and total class edge length</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_l_ta">lsm_l_ta</a></span>(landscape), </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_c_te">lsm_c_te</a></span>(landscape)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 6
 ##   layer level     class    id metric  value
 ##   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
@@ -255,9 +263,10 @@ dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
-<p>Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.</p>
-<p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
-<p>VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014. SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="uri">https://CRAN.R-project.org/package=SDMTools</a></p>
+<ul>
+<li>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a>
+</li>
+</ul>
 </div>
 </div>
 </div>

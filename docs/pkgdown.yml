@@ -1,9 +1,10 @@
-pandoc: 1.19.2.1
+pandoc: 2.2.1
 pkgdown: 1.1.0.9000
 pkgdown_sha: 98bfe0fdfd59b33ef1a88ef6896cd60f805f0e81
 articles:
   comparing_fragstats_landscapemetrics: articles/comparing_fragstats_landscapemetrics.html
   general-background: articles/general-background.html
+  new_metrics: articles/new_metrics.html
   publication_record: articles/publication_record.html
   visualize: articles/visualize.html
   getstarted: getstarted.html

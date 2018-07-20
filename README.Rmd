@@ -1,5 +1,7 @@
 ---
-output: html_document
+output:
+  github_document:
+    html_preview: false
 editor_options: 
   chunk_output_type: console
 ---
@@ -22,12 +24,18 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 ## Overview
 
 **landscapemetrics** is an R package for calculating landscape metrics
-for categorical landscape patterns in a tidy workflow. This package
-supports `raster` spatial objects and takes `RasterLayer`,
+for categorical landscape patterns in a tidy workflow. The package can be
+used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it
+offers a reproducible workflow for landscape analysis in a single environment.
+
+
+**landscapemetrics** supports `raster` spatial objects and takes `RasterLayer`,
 `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input
 arguments. Every function can be used in a piped workflow, as it always
 takes the data as the first argument and returns a tibble of the same
-dimension.
+dimension. It further provides functions to visualize landscapes
+as labelled patches and functions to select and analyse metrics you
+calculated with the package.
 
 ## Installation
 
@@ -40,7 +48,10 @@ devtools::install_github("marcosci/landscapemetrics")
 
 ## Using landscapemetrics
 
-All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn`for the euclidean nearest-neighbor distance):   
+All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). 
+The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`).
+The last part of the function name is the abbreviation of the corresponding metric 
+(e.g. `enn`for the euclidean nearest-neighbor distance):   
 
 ```
 # general structure
@@ -107,18 +118,4 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis
-of landscape structure using the GRASS geographical information system.
-Landscape Ecology 7(4):291-302.
-
-McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
-Pattern Analysis Program for Categorical and Continuous Maps. Computer
-software program produced by the authors at the University of
-Massachusetts, Amherst. Available at the following website:
-<http://www.umass.edu/landeco/research/fragstats/fragstats.html>
-
-VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C.
-2014. SDMTools: Species Distribution Modelling Tools: Tools for
-processing data associated with species distribution modelling
-exercises. R package version 1.1-221.
-<https://CRAN.R-project.org/package=SDMTools>
+- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>

@@ -17,70 +17,50 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 ## Overview
 
 **landscapemetrics** is an R package for calculating landscape metrics
-for categorical landscape patterns in a tidy workflow. This package
-supports `raster` spatial objects and takes `RasterLayer`,
-`RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input
-arguments. Every function can be used in a piped workflow, as it always
-takes the data as the first argument and returns a tibble of the same
-dimension.
+for categorical landscape patterns in a tidy workflow. The package can
+be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
+2012), as it offers a reproducible workflow for landscape analysis in a
+single environment.
 
-There are already software packages available to calculate landscape
-metrics, the most famous one probably being the stand-alone software
-FRAGSTATS (McGarigal *et al.* 2012). But also add-ons to GIS software
-are available, e.g. r.le (Baker & Cai 1992) or its successor r.li for
-GRASS GIS. Lastly, also an R package, namely SDMTools (VanDerWal *et
-al.* 2014), can be used.
-
-Nevertheless, we decided to reimplement most of the metrics available in
-[FRAGSTATS](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html).
-We wanted to provide a comprehensive collection of landscape metrics in
-R. While FRAGSTATS is an extensive collection it is only available for
-Windows. Note, that even though we tried to reimplement the metrics as
-described in the FRAGSTATS manual, there are some differences
-([Differences
-FRAGSTATS|landscapemetrics](https://marcosci.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)).
-Further, SDMTools contains only a subset of metrics and does not cover
-all levels ([General
-background](https://marcosci.github.io/landscapemetrics/articles/articles/general-background.html)).
-Lastly, we want to start a collection of landscape metrics being open
-source and easily extendable by new (future) landscape metrics (see
-[CONTRIBUTING](CONTRIBUTING.md)).
-
-Those were the main reasons we implemented **landscapemetrics**,
-however, we want to fully appreciate and acknowledge the already present
-software.
+**landscapemetrics** supports `raster` spatial objects and takes
+`RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
+as input arguments. Every function can be used in a piped workflow, as
+it always takes the data as the first argument and returns a tibble of
+the same dimension. It further provides functions to visualize
+landscapes as labelled patches and functions to select and analyse
+metrics you calculated with the package.
 
 ## Installation
 
 You can install **landscapemetrics** from GitHub with:
 
-```
-# install.packages("devtools")
-devtools::install_github("marcosci/landscapemetrics")
-```
+    # install.packages("devtools")
+    devtools::install_github("marcosci/landscapemetrics")
 
 ## Using landscapemetrics
 
-The functions in **landscapemetrics** start with `lsm_`. The next part of the function names are a combination level (patch - `p`, class - `c` or landscape - `l`) and the metric abbreviation metric (e.g. `enn` for the euclidean nearest-neighbor distance):    
+All functions in **landscapemetrics** start with `lsm_` (for
+landscapemetrics). The second part of the name specifies the level
+(patch - `p`, class - `c` or landscape - `l`). The last part of the
+function name is the abbreviation of the corresponding metric (e.g.
+`enn`for the euclidean nearest-neighbor distance):
 
-```
-# general structure
-lsm_"level"_"metric"
+    # general structure
+    lsm_"level"_"metric"
+    
+    # Patch level
+    ## lsm_p_"metric"
+    lsm_p_enn()
+    
+    # Class level
+    ## lsm_c_"metric"
+    lsm_c_enn()
+    
+    # Landscape level
+    ## lsm_p_"metric"
+    lsm_l_enn()
 
-# Patch level
-## lsm_p_"metric"
-lsm_p_enn()
-
-# Class level
-## lsm_c_"metric"
-lsm_c_enn()
-
-# Landscape level
-## lsm_p_"metric"
-lsm_l_enn()
-```
-
-All functions return a identical structured tibble:
+All functions return an identical structured tibble:
 
 <p style="text-align:center;">
 
@@ -97,42 +77,71 @@ All functions return a identical structured tibble:
 Every function follows the same implementation design, so the usage is
 quite straight forward:
 
-```{r}
+``` r
 library(landscapemetrics)
-library(raster)
-library(tidyverse)
+library(dplyr)
+```
 
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
 # Landscape raster
 landscape
-#> class       : RasterLayer 
-#> dimensions  : 30, 30, 900  (nrow, ncol, ncell)
-#> resolution  : 1, 1  (x, y)
-#> extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NA 
-#> data source : in memory
-#> names       : clumps 
-#> values      : 1, 3  (min, max)
-
-# Calculate for example the euclidean nearest-neighbor distance on patch level
-landscape %>% 
-  lsm_p_enn()
-
-
-#> # A tibble: 27 x 6
-#>    layer level class    id metric value
-#>    <int> <chr> <int> <int> <chr>  <dbl>
-#>  1     1 patch     1     1 enn     7   
-#>  2     1 patch     1     2 enn     4   
-#>  3     1 patch     1     3 enn     2.83
-#>  4     1 patch     1     4 enn     2   
-#>  5     1 patch     1     5 enn     2   
-#>  6     1 patch     1     6 enn     2.83
-#>  7     1 patch     1     7 enn     4.12
-#>  8     1 patch     1     8 enn     4.12
-#>  9     1 patch     1     9 enn     4.24
-#> 10     1 patch     2    10 enn     4.47
-#> # ... with 17 more rows
 ```
+
+    ## class       : RasterLayer 
+    ## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
+    ## resolution  : 1, 1  (x, y)
+    ## extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : NA 
+    ## data source : in memory
+    ## names       : clumps 
+    ## values      : 1, 3  (min, max)
+
+``` r
+# Calculate for example the euclidean nearest-neighbor distance on patch level
+lsm_p_enn(landscape)
+```
+
+    ## # A tibble: 27 x 6
+    ##    layer level class    id metric value
+    ##    <int> <chr> <int> <int> <chr>  <dbl>
+    ##  1     1 patch     1     1 enn     7   
+    ##  2     1 patch     1     2 enn     4   
+    ##  3     1 patch     1     3 enn     2.83
+    ##  4     1 patch     1     4 enn     2   
+    ##  5     1 patch     1     5 enn     2   
+    ##  6     1 patch     1     6 enn     2.83
+    ##  7     1 patch     1     7 enn     4.12
+    ##  8     1 patch     1     8 enn     4.12
+    ##  9     1 patch     1     9 enn     4.24
+    ## 10     1 patch     2    10 enn     4.47
+    ## # ... with 17 more rows
+
+``` r
+# Calculate the total area and total class edge length
+bind_rows(
+    lsm_l_ta(landscape), 
+    lsm_c_te(landscape)
+)
+```
+
+    ## # A tibble: 4 x 6
+    ##   layer level     class    id metric  value
+    ##   <int> <chr>     <int> <int> <chr>   <dbl>
+    ## 1     1 landscape    NA    NA ta       0.09
+    ## 2     1 class         1    NA te     180   
+    ## 3     1 class         2    NA te     227   
+    ## 4     1 class         3    NA te     321
 
 ## Contributing
 
@@ -148,18 +157,8 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis
-of landscape structure using the GRASS geographical information system.
-Landscape Ecology 7(4):291-302.
-
-McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
-Pattern Analysis Program for Categorical and Continuous Maps. Computer
-software program produced by the authors at the University of
-Massachusetts, Amherst. Available at the following website:
-<http://www.umass.edu/landeco/research/fragstats/fragstats.html>
-
-VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C.
-2014. SDMTools: Species Distribution Modelling Tools: Tools for
-processing data associated with species distribution modelling
-exercises. R package version 1.1-221.
-<https://CRAN.R-project.org/package=SDMTools>
+  - McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
+    Pattern Analysis Program for Categorical and Continuous Maps.
+    Computer software program produced by the authors at the University
+    of Massachusetts, Amherst. Available at the following website:
+    <http://www.umass.edu/landeco/research/fragstats/fragstats.html>

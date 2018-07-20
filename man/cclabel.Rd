@@ -38,6 +38,8 @@ Connected components labeling
 Searches for connected patches (neighbouring cells of the same class i). The 8-neighbours
 rule is used ('queen's case). Returns a list with raster. For each class the connected
 patches have the value 1 - n. All cells not belonging to the class are \code{NA}.
+The underlying C++ code comes from Thell Fowler \email{thell@tbfowler.name} and we
+appreciate his effort for implementing this efficient connected labeling algorithm.
 }
 \examples{
 # check for patches of class 1
