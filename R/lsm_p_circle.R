@@ -44,52 +44,53 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_circle <- function(landscape) UseMethod("lsm_p_circle")
+lsm_p_circle <- function(landscape, directions) UseMethod("lsm_p_circle")
 
 #' @name lsm_p_circle
 #' @export
-lsm_p_circle.RasterLayer <- function(landscape) {
+lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, .id = "layer") %>%
+                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
 #' @export
-lsm_p_circle.RasterStack <- function(landscape) {
+lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, .id = "layer") %>%
+                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_circle
 #' @export
-lsm_p_circle.RasterBrick <- function(landscape) {
+lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, .id = "layer") %>%
+                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_circle
 #' @export
-lsm_p_circle.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_circle_calc, .id = "layer") %>%
+lsm_p_circle.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_circle_calc <- function(landscape) {
+lsm_p_circle_calc <- function(landscape, directions) {
 
     resolution <- landscape %>%
         raster::res() %>%
         magrittr::extract2(1) %>%
         magrittr::divide_by(2)
 
-    area_patch <- lsm_p_area_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     circle_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 

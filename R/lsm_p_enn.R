@@ -44,45 +44,46 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_enn <- function(landscape) UseMethod("lsm_p_enn")
+lsm_p_enn <- function(landscape, directions) UseMethod("lsm_p_enn")
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.RasterLayer <- function(landscape) {
+lsm_p_enn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, .id = "layer") %>%
+                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.RasterStack <- function(landscape) {
+lsm_p_enn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, .id = "layer") %>%
+                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.RasterBrick <- function(landscape) {
+lsm_p_enn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, .id = "layer") %>%
+                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_enn_calc, .id = "layer") %>%
+lsm_p_enn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_enn_calc <- function(landscape) {
+lsm_p_enn_calc <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 

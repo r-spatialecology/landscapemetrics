@@ -44,47 +44,51 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_frac <- function(landscape) UseMethod("lsm_p_frac")
+lsm_p_frac <- function(landscape, directions) UseMethod("lsm_p_frac")
 
 #' @name lsm_p_frac
 #' @export
-lsm_p_frac.RasterLayer <- function(landscape) {
+lsm_p_frac.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_frac_calc, .id = "layer") %>%
+                   lsm_p_frac_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_frac
 #' @export
-lsm_p_frac.RasterStack <- function(landscape) {
+lsm_p_frac.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_frac_calc, .id = "layer") %>%
+                   lsm_p_frac_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_frac
 #' @export
-lsm_p_frac.RasterBrick <- function(landscape) {
+lsm_p_frac.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_frac_calc, .id = "layer") %>%
+                   lsm_p_frac_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_frac
 #' @export
-lsm_p_frac.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_frac_calc, .id = "layer") %>%
+lsm_p_frac.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_p_frac_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_frac_calc <- function(landscape){
+lsm_p_frac_calc <- function(landscape, directions){
 
-    perimeter_patch <- lsm_p_perim_calc(landscape)
+    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
     frac_patch <- dplyr::mutate(area_patch,
                                 value = 2 * log (0.25 * perimeter_patch$value) /

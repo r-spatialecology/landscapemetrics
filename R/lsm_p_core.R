@@ -47,43 +47,44 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_core <- function(landscape) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape) {
+lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc, .id = "layer") %>%
+                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape) {
+lsm_p_core.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc,.id = "layer") %>%
+                   lsm_p_core_calc, directions = directions,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterBrick <- function(landscape) {
+lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc, .id = "layer") %>%
+                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_core_calc, .id = "layer") %>%
+lsm_p_core.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_p_core_calc <- function(landscape) {
-    landscape_labelled <- cclabel(landscape)
+lsm_p_core_calc <- function(landscape, directions) {
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     core <-
         purrr::map_dfr(landscape_labelled, function(patches_class) {

@@ -43,45 +43,46 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_area <- function(landscape) UseMethod("lsm_p_area")
+lsm_p_area <- function(landscape, directions) UseMethod("lsm_p_area")
 
 #' @name lsm_p_area
 #' @export
-lsm_p_area.RasterLayer <- function(landscape) {
+lsm_p_area.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_area_calc, .id = "layer") %>%
+                   lsm_p_area_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_area
 #' @export
-lsm_p_area.RasterStack <- function(landscape) {
+lsm_p_area.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_area_calc, .id = "layer") %>%
+                   lsm_p_area_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_area
 #' @export
-lsm_p_area.RasterBrick <- function(landscape) {
+lsm_p_area.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_area_calc, .id = "layer") %>%
+                   lsm_p_area_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_area
 #' @export
-lsm_p_area.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_area_calc, .id = "layer") %>%
+lsm_p_area.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_area_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_area_calc <- function(landscape){
+lsm_p_area_calc <- function(landscape, directions){
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     area_patch <- purrr::map_dfr(landscape_labelled, function(patches_class){
 

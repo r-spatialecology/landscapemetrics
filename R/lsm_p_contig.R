@@ -52,43 +52,44 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_contig <- function(landscape) UseMethod("lsm_p_contig")
+lsm_p_contig <- function(landscape, directions) UseMethod("lsm_p_contig")
 
 #' @name lsm_p_contig
 #' @export
-lsm_p_contig.RasterLayer <- function(landscape) {
+lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc, .id = "layer") %>%
+                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
-lsm_p_contig.RasterStack <- function(landscape) {
+lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc,.id = "layer") %>%
+                   lsm_p_contig_calc, directions = directions,.id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
-lsm_p_contig.RasterBrick <- function(landscape) {
+lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc, .id = "layer") %>%
+                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
-lsm_p_contig.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_p_contig_calc, .id = "layer") %>%
+lsm_p_contig.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 
-lsm_p_contig_calc <- function(landscape) {
+lsm_p_contig_calc <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape)
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
