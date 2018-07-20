@@ -112,9 +112,9 @@ cclabel_int <- function(landscape, what = "all") {
     }
 
     else {
-        cclabel_landscape <- purrr::map(raster::unique(landscape), function(x) {
+        cclabel_landscape <- purrr::map(raster::unique(landscape), function(class) {
 
-            filter_matrix[landscape_matrix == x] <- TRUE
+            filter_matrix[landscape_matrix == class] <- TRUE
 
             filtered_cclabel <-
                 ifelse(test = filter_matrix,
@@ -135,7 +135,7 @@ cclabel_int <- function(landscape, what = "all") {
                                    rcl = rcl,
                                    right = NA)
 
-            names(cclabel_landscape) <- paste0("Class_", x)
+            names(cclabel_landscape) <- paste0("Class_", class)
             return(cclabel_landscape)
         })
     }
