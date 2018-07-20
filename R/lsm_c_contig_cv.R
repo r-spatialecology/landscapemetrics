@@ -3,6 +3,7 @@
 #' @description Coefficient of variation of Contiguity index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CONTIG_{CV} =  cv(CONTIG[patch_{ij}])}

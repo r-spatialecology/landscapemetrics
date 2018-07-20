@@ -3,6 +3,7 @@
 #' @description Mean of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{AREA_{MN} = mean(AREA[patch_{ij}])}
@@ -43,46 +44,50 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_area_mn <- function(landscape) UseMethod("lsm_c_area_mn")
+lsm_c_area_mn <- function(landscape, directions) UseMethod("lsm_c_area_mn")
 
 #' @name lsm_c_area_mn
 #' @export
-lsm_c_area_mn.RasterLayer <- function(landscape) {
+lsm_c_area_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_area_mn_calc, .id = "layer") %>%
+                   lsm_c_area_mn_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_area_mn
 #' @export
-lsm_c_area_mn.RasterStack <- function(landscape) {
+lsm_c_area_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_area_mn_calc, .id = "layer") %>%
+                   lsm_c_area_mn_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_area_mn
 #' @export
-lsm_c_area_mn.RasterBrick <- function(landscape) {
+lsm_c_area_mn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_area_mn_calc, .id = "layer") %>%
+                   lsm_c_area_mn_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_area_mn
 #' @export
-lsm_c_area_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_area_mn_calc, .id = "layer") %>%
+lsm_c_area_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_c_area_mn_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_area_mn_calc <- function(landscape){
+lsm_c_area_mn_calc <- function(landscape, directions){
 
     area_mean <- landscape %>%
-        lsm_p_area_calc() %>%
+        lsm_p_area_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

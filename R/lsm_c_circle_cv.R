@@ -3,6 +3,7 @@
 #' @description Coeffiecient of variation of related circumscribing circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CIRCLE_{CV} = cv(CIRCLE[patch_{ij}])}
@@ -45,46 +46,50 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_circle_cv <- function(landscape) UseMethod("lsm_c_circle_cv")
+lsm_c_circle_cv <- function(landscape, directions) UseMethod("lsm_c_circle_cv")
 
 #' @name lsm_c_circle_cv
 #' @export
-lsm_c_circle_cv.RasterLayer <- function(landscape) {
+lsm_c_circle_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_cv_calc, .id = "layer") %>%
+                   lsm_c_circle_cv_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_circle_cv
 #' @export
-lsm_c_circle_cv.RasterStack <- function(landscape) {
+lsm_c_circle_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_cv_calc, .id = "layer") %>%
+                   lsm_c_circle_cv_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_circle_cv
 #' @export
-lsm_c_circle_cv.RasterBrick <- function(landscape) {
+lsm_c_circle_cv.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_cv_calc, .id = "layer") %>%
+                   lsm_c_circle_cv_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_circle_cv
 #' @export
-lsm_c_circle_cv.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_circle_cv_calc, .id = "layer") %>%
+lsm_c_circle_cv.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_c_circle_cv_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_circle_cv_calc <- function(landscape) {
+lsm_c_circle_cv_calc <- function(landscape, directions) {
 
     circle_mn  <- landscape %>%
-        lsm_p_circle_calc() %>%
+        lsm_p_circle_calc(., directions = directions) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 
