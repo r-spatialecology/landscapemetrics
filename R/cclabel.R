@@ -3,16 +3,29 @@
 #' @description Connected components labeling
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
 #'
 #' @details
-#' Searches for connected patches (neighbouring cells of the same class i). The 8-neighbours
-#' rule is used ('queen's case). Returns a list with raster. For each class the connected
-#' patches have the value 1 - n. All cells not belonging to the class are \code{NA}.
-#' The underlying C++ code comes from Thell Fowler \email{thell@tbfowler.name} and we
-#' appreciate his effort for implementing this efficient connected labeling algorithm.
+#' Searches for connected patches (neighbouring cells of the same class i).
+#' The 8-neighbours rule ('queen's case) or 4-neighbours rule (rook's case) is
+#' used. Returns a list with raster. For each class the connected patches have
+#' the value 1 - n. All cells not belonging to the class are \code{NA}.
+#' The underlying C code comes from the \code{SDMTools} package
+#' (VanDerWal *et al.* 2014) and we appreciate their effort for implementing
+#' this efficient connected labeling algorithm.
+#'
+#' @references
+#' VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
+#' SDMTools: Species Distribution Modelling Tools: Tools for processing data
+#' associated with species distribution modelling exercises.
+#' R package version 1.1-221. <https://CRAN.R-project.org/package=SDMTools>
+#'
+#' Chang, F., C.-J. Chen, and C.-J. Lu. 2004. A linear-time
+#' component-labeling algorithm using contour tracing technique. Comput. Vis.
+#' Image Underst. 93:206-220.
 #'
 #' @return List
 #'
