@@ -3,6 +3,7 @@
 #' @description Clumpiness index (Contagion/Interspersion metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{Given G_{i} = \Bigg(\frac{g_{ii}}{ (\sum\limits_{k=1}^m g_{ik}) - min e_{i}} \Bigg)}

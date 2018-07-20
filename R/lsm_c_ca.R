@@ -3,6 +3,7 @@
 #' @description Total (class) area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CA = sum(AREA[patch_{ij}])}
@@ -40,39 +41,43 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_ca <- function(landscape) UseMethod("lsm_c_ca")
+lsm_c_ca <- function(landscape, directions) UseMethod("lsm_c_ca")
 
 #' @name lsm_c_ca
 #' @export
-lsm_c_ca.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc, .id = "layer") %>%
+lsm_c_ca.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ca
 #' @export
-lsm_c_ca.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc, .id = "layer") %>%
+lsm_c_ca.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ca
 #' @export
-lsm_c_ca.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc, .id = "layer") %>%
+lsm_c_ca.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_c_ca_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_ca
 #' @export
-lsm_c_ca.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_ca_calc, .id = "layer") %>%
+lsm_c_ca.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_c_ca_calc,
+                   directions = directions, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_ca_calc <- function(landscape) {
+lsm_c_ca_calc <- function(landscape, directions) {
     total_area <- landscape %>%
-        lsm_p_area_calc() %>%
+        lsm_p_area_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
