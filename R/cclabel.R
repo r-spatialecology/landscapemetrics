@@ -63,36 +63,37 @@ cclabel.list <- function(landscape, what = "all") {
 
 cclabel_int <- function(landscape, what = "all") {
 
-    if (what != "all") {
+    landscape_extent <- raster::extent(landscape)
+    landscape_empty <- raster::raster(x = landscape_extent,
+                        resolution = raster::res(landscape),
+                        crs = raster::crs(landscape))
 
+    filter_matrix <-
+        matrix(
+            FALSE,
+            nrow = raster::nrow(landscape),
+            ncol = raster::ncol(landscape)
+        )
+
+    landscape_matrix <- raster::as.matrix(landscape)
+
+    cclabel_matrix <-
+        ccl_labels(landscape_matrix)[[1]]
+
+    if (what != "all") {
         if(!isTRUE(what %in% raster::unique(landscape))){
            stop(paste("There is no class", what, "in your raster"))
         }
 
-
-        landscape_matrix <- raster::as.matrix(landscape)
-
-        cclabel_matrix <-
-            ccl_labels(landscape_matrix)[[1]]
-
-        filter_mat <-
-            matrix(
-                FALSE,
-                nrow = raster::nrow(landscape),
-                ncol = raster::ncol(landscape)
-            )
-        filter_mat[landscape_matrix == what] <- TRUE
-
+        filter_matrix[landscape_matrix == what] <- TRUE
 
         filtered_cclabel <-
-            ifelse(filter_mat, cclabel_matrix, NA)
+            ifelse(test = filter_matrix,
+                   yes = cclabel_matrix,
+                   no = NA)
 
-        e <- raster::extent(landscape)
-        r <- raster::raster(e,
-                            resolution = raster::res(landscape),
-                            crs = raster::crs(landscape))
-
-        cclabel_landscape <- raster::setValues(r, filtered_cclabel)
+        cclabel_landscape <- raster::setValues(x = landscape_empty,
+                                               values = filtered_cclabel)
 
         rcl <-  cbind(
             raster::unique(cclabel_landscape),
@@ -101,43 +102,27 @@ cclabel_int <- function(landscape, what = "all") {
         )
 
         cclabel_landscape <-
-            raster::reclassify(cclabel_landscape,
+            raster::reclassify(x = cclabel_landscape,
                                rcl = rcl,
                                right = NA)
 
         names(cclabel_landscape) <- paste0("Class_", what)
 
         return(cclabel_landscape)
-    } else {
+    }
+
+    else {
         cclabel_landscape <- purrr::map(raster::unique(landscape), function(x) {
 
-            landscape_matrix <- raster::as.matrix(landscape)
-
-            cclabel_matrix <-
-                ccl_labels(landscape_matrix)[[1]]
-
-            filter_mat <-
-                matrix(
-                    FALSE,
-                    nrow = raster::nrow(landscape),
-                    ncol = raster::ncol(landscape)
-                )
-            filter_mat[landscape_matrix == x] <- TRUE
-
+            filter_matrix[landscape_matrix == x] <- TRUE
 
             filtered_cclabel <-
-                ifelse(filter_mat, cclabel_matrix, NA)
+                ifelse(test = filter_matrix,
+                       yes = cclabel_matrix,
+                       no = NA)
 
-
-            filtered_cclabel <-
-                ifelse(filter_mat, cclabel_matrix, NA)
-
-            e <- raster::extent(landscape)
-            r <- raster::raster(e,
-                                resolution = raster::res(landscape),
-                                crs = raster::crs(landscape))
-
-            cclabel_landscape <- raster::setValues(r, filtered_cclabel)
+            cclabel_landscape <- raster::setValues(x = landscape_empty,
+                                                   values = filtered_cclabel)
 
             rcl <-  cbind(
                 raster::unique(cclabel_landscape),
@@ -146,17 +131,12 @@ cclabel_int <- function(landscape, what = "all") {
             )
 
             cclabel_landscape <-
-                raster::reclassify(cclabel_landscape,
+                raster::reclassify(x = cclabel_landscape,
                                    rcl = rcl,
                                    right = NA)
 
             names(cclabel_landscape) <- paste0("Class_", x)
             return(cclabel_landscape)
         })
-
-
-
     }
-
-
 }
