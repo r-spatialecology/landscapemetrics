@@ -12,34 +12,38 @@
 \alias{lsm_p_nca.list}
 \title{NCORE (patch level)}
 \usage{
-lsm_p_nca(landscape)
+lsm_p_nca(landscape, directions)
 
-\method{lsm_p_nca}{RasterLayer}(landscape)
+\method{lsm_p_nca}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_nca}{RasterStack}(landscape)
+\method{lsm_p_nca}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_nca}{RasterBrick}(landscape)
+\method{lsm_p_nca}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_nca}{list}(landscape)
+\method{lsm_p_nca}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).
 
 #' @details
 \deqn{NCORE = n_{ij}^{core}}
 where \eqn{n_{ij}^{core}} is the number of disjunct core areas.
 
 NCORE is a 'Core area metric'. A cell is defined as core if the cell has no
-neighbour with a different value than itself (rook's case). The metric counts the disjunct
-core areas, whereby a core area is a 'patch within the patch' containing only core cells.
-It describes patch area and shape simultaneously (more core area when the patch is large,
-however, the shape must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
+neighbour with a different value than itself (rook's case). The metric
+counts the disjunct core areas, whereby a core area is a 'patch within the
+patch' containing only core cells. It describes patch area and shape
+simultaneously (more core area when the patch is large, however, the shape
+must allow disjunct core areas). Thereby, a compact shape (e.g. a square)
 will contain less disjunct core areas than a more irregular patch.
 \subsection{Units}{None}
 \subsection{Range}{NCORE >= 0}
-\subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patch is edge.
-Increases, without limit, as core area increases and patch shape allows disjunct core
-areas (i.e. patch shape becomes rather complex).}}
+\subsection{Behaviour}{NCORE = 0 when CORE = 0, i.e. every cell in patch is
+edge. Increases, without limit, as core area increases and patch shape
+allows disjunct core areas (i.e. patch shape becomes rather complex).}}
 }
 \value{
 tibble

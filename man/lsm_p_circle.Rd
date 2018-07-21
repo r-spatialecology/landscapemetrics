@@ -12,15 +12,15 @@
 \alias{lsm_p_circle.list}
 \title{CIRCLE (patch level)}
 \usage{
-lsm_p_circle(landscape)
+lsm_p_circle(landscape, directions)
 
-\method{lsm_p_circle}{RasterLayer}(landscape)
+\method{lsm_p_circle}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_circle}{RasterStack}(landscape)
+\method{lsm_p_circle}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_circle}{RasterBrick}(landscape)
+\method{lsm_p_circle}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_circle}{list}(landscape)
+\method{lsm_p_circle}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

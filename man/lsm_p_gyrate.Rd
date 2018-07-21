@@ -12,18 +12,20 @@
 \alias{lsm_p_gyrate.list}
 \title{GYRATE (patch level)}
 \usage{
-lsm_p_gyrate(landscape)
+lsm_p_gyrate(landscape, directions)
 
-\method{lsm_p_gyrate}{RasterLayer}(landscape)
+\method{lsm_p_gyrate}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_gyrate}{RasterStack}(landscape)
+\method{lsm_p_gyrate}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_gyrate}{RasterBrick}(landscape)
+\method{lsm_p_gyrate}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_gyrate}{list}(landscape)
+\method{lsm_p_gyrate}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -33,17 +35,18 @@ Radius of Gyration (Area and edge metric)
 }
 \details{
 \deqn{GYRATE = \sum \limits_{r = 1}^{z} \frac{h_{ijr}} {z}}
-where \eqn{h_{ijr}} is the distance from each cell to the centroid of the patch
-and \eqn{z} is the number of cells.
+where \eqn{h_{ijr}} is the distance from each cell to the centroid of the
+patch and \eqn{z} is the number of cells.
 
-GYRATE is an 'Area and edge metric'. The distance from each cell to the patch
-centroid is based on cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness.
+GYRATE is an 'Area and edge metric'. The distance from each cell to the
+patch
+centroid is based on cell center-to-cell center distances. The metrics
+characterises both the patch area and compactness.
 
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE >= 0}
-\subsection{Behaviour}{Approaches GYRATE = 0 if patch is a single cell. Increases,
-without limit, when only one patch is present.}
+\subsection{Behaviour}{Approaches GYRATE = 0 if patch is a single cell.
+Increases, without limit, when only one patch is present.}
 }
 \examples{
 lsm_p_gyrate(landscape)

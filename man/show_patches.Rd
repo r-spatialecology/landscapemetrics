@@ -12,18 +12,20 @@
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
-show_patches(landscape)
+show_patches(landscape, directions)
 
-\method{show_patches}{RasterLayer}(landscape)
+\method{show_patches}{RasterLayer}(landscape, directions = 8)
 
-\method{show_patches}{RasterStack}(landscape)
+\method{show_patches}{RasterStack}(landscape, directions = 8)
 
-\method{show_patches}{RasterBrick}(landscape)
+\method{show_patches}{RasterBrick}(landscape, directions = 8)
 
-\method{show_patches}{list}(landscape)
+\method{show_patches}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{*Raster object}
+\item{landscape}{*Raster object
+#' @param directions The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 ggplot

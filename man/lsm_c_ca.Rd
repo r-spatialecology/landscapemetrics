@@ -12,18 +12,20 @@
 \alias{lsm_c_ca.list}
 \title{CA (class level)}
 \usage{
-lsm_c_ca(landscape)
+lsm_c_ca(landscape, directions)
 
-\method{lsm_c_ca}{RasterLayer}(landscape)
+\method{lsm_c_ca}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_ca}{RasterStack}(landscape)
+\method{lsm_c_ca}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_ca}{RasterBrick}(landscape)
+\method{lsm_c_ca}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_ca}{list}(landscape)
+\method{lsm_c_ca}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

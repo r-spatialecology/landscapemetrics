@@ -12,18 +12,20 @@
 \alias{lsm_p_perim.list}
 \title{PERIM (patch level)}
 \usage{
-lsm_p_perim(landscape)
+lsm_p_perim(landscape, directions)
 
-\method{lsm_p_perim}{RasterLayer}(landscape)
+\method{lsm_p_perim}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_perim}{RasterStack}(landscape)
+\method{lsm_p_perim}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_perim}{RasterBrick}(landscape)
+\method{lsm_p_perim}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_perim}{list}(landscape)
+\method{lsm_p_perim}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -35,13 +37,15 @@ Perimeter (Area and edge metric))
 \deqn{PERIM = p_{ij}}
 where \eqn{p_{ij}} is the perimeter in meters.
 
-PERIM is an 'Area and edge metric'. It equals the perimeter of the patch including
-also the edge to the landscape boundary. The metric describes patch area (larger perimeter
-for larger patches), but also patch shape (large perimeter for irregular shapes).
+PERIM is an 'Area and edge metric'. It equals the perimeter of the patch
+including also the edge to the landscape boundary. The metric describes
+patch area (larger perimeter for larger patches), but also patch shape
+(large perimeter for irregular shapes).
 
 \subsection{Units}{Meters}
 \subsection{Range}{PERIM > 0}
-\subsection{Behaviour}{Increases, without limit, as patch size and complexity increases.}
+\subsection{Behaviour}{Increases, without limit, as patch size and
+complexity increases.}
 }
 \examples{
 lsm_p_perim(landscape)

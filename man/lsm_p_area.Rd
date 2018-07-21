@@ -12,15 +12,15 @@
 \alias{lsm_p_area.list}
 \title{AREA (patch level)}
 \usage{
-lsm_p_area(landscape)
+lsm_p_area(landscape, directions)
 
-\method{lsm_p_area}{RasterLayer}(landscape)
+\method{lsm_p_area}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_area}{RasterStack}(landscape)
+\method{lsm_p_area}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_area}{RasterBrick}(landscape)
+\method{lsm_p_area}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_area}{list}(landscape)
+\method{lsm_p_area}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

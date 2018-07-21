@@ -12,15 +12,15 @@
 \alias{lsm_p_enn.list}
 \title{ENN (patch level)}
 \usage{
-lsm_p_enn(landscape)
+lsm_p_enn(landscape, directions)
 
-\method{lsm_p_enn}{RasterLayer}(landscape)
+\method{lsm_p_enn}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_enn}{RasterStack}(landscape)
+\method{lsm_p_enn}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_enn}{RasterBrick}(landscape)
+\method{lsm_p_enn}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_enn}{list}(landscape)
+\method{lsm_p_enn}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

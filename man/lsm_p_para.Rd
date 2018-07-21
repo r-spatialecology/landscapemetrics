@@ -12,18 +12,20 @@
 \alias{lsm_p_para.list}
 \title{PARA (patch level)}
 \usage{
-lsm_p_para(landscape)
+lsm_p_para(landscape, directions)
 
-\method{lsm_p_para}{RasterLayer}(landscape)
+\method{lsm_p_para}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_para}{RasterStack}(landscape)
+\method{lsm_p_para}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_para}{RasterBrick}(landscape)
+\method{lsm_p_para}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_para}{list}(landscape)
+\method{lsm_p_para}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -36,14 +38,15 @@ Perimeter-Area ratio (Shape metric)
 where \eqn{p_{ij}} is the perimeter in meters and \eqn{a_{ij}} is the
 area in square meters.
 
-PARA is a 'Shape metric'. It describes the patch complexity in a straightforward way.
-However, because it is not standarised to a certain shape (e.g. a square), it
-is not scale independent, meaning that increasing the patch size while not changing the
-patch form will change the ratio.
+PARA is a 'Shape metric'. It describes the patch complexity in a
+straightforward way. However, because it is not standarised to a certain
+shape (e.g. a square), it is not scale independent, meaning that increasing
+the patch size while not changing the patch form will change the ratio.
 
 \subsection{Units}{None}
 \subsection{Range}{PARA > 0}
-\subsection{Behaviour}{Increases, without limit, as the shape comlexity increases.}
+\subsection{Behaviour}{Increases, without limit, as the shape comlexity
+increases.}
 }
 \examples{
 lsm_p_para(landscape)

@@ -17,6 +17,4 @@
 ^appveyor\.yml$
 ^vignettes/articles$
 ^codemeta\.json$
-\.o$
-\.so$
-\.dll$
+^tic\.R$

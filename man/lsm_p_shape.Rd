@@ -12,18 +12,20 @@
 \alias{lsm_p_shape.list}
 \title{SHAPE (patch level)}
 \usage{
-lsm_p_shape(landscape)
+lsm_p_shape(landscape, directions)
 
-\method{lsm_p_shape}{RasterLayer}(landscape)
+\method{lsm_p_shape}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_shape}{RasterStack}(landscape)
+\method{lsm_p_shape}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_shape}{RasterBrick}(landscape)
+\method{lsm_p_shape}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_shape}{list}(landscape)
+\method{lsm_p_shape}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

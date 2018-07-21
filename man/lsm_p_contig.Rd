@@ -12,15 +12,15 @@
 \alias{lsm_p_contig.list}
 \title{CONTIG (patch level)}
 \usage{
-lsm_p_contig(landscape)
+lsm_p_contig(landscape, directions)
 
-\method{lsm_p_contig}{RasterLayer}(landscape)
+\method{lsm_p_contig}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_contig}{RasterStack}(landscape)
+\method{lsm_p_contig}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_contig}{RasterBrick}(landscape)
+\method{lsm_p_contig}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_contig}{list}(landscape)
+\method{lsm_p_contig}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

@@ -12,15 +12,15 @@
 \alias{lsm_p_frac.list}
 \title{FRAC (patch level)}
 \usage{
-lsm_p_frac(landscape)
+lsm_p_frac(landscape, directions)
 
-\method{lsm_p_frac}{RasterLayer}(landscape)
+\method{lsm_p_frac}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_p_frac}{RasterStack}(landscape)
+\method{lsm_p_frac}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_p_frac}{RasterBrick}(landscape)
+\method{lsm_p_frac}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_p_frac}{list}(landscape)
+\method{lsm_p_frac}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
