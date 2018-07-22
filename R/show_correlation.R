@@ -30,11 +30,6 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
 
     if(level == "patch") {
 
-        metrics_wide <- tidyr::spread(data = metrics[, c(4:6)],
-                                      key = metric,
-                                      value = value)
-
-
         metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(4:6)])
         attr(metrics_wide, "class") <- NULL
         attr(metrics_wide, "call") <- NULL
