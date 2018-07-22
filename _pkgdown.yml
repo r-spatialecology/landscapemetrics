@@ -188,8 +188,8 @@ navbar:
        - text: "Communicate landscapemetrics results"
          icon: fa-comment
          href: articles/articles/visualize.html
-       - text: "Communicate landscapemetrics results"
-         icon: fa-comment
+       - text: "Metrics outside FRAGSTATS"
+         icon: fa-newspaper
          href: articles/articles/new_metrics.html
        - text: "Publication Record"
          icon: fa-file-text-o
