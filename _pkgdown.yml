@@ -176,7 +176,7 @@ navbar:
     - text: "Get Started"
       icon: fa fa-magic
       href: articles/getstarted.html
-    - text: "Background"
+    - text: "More"
       icon: fa-graduation-cap
       menu:
        - text: "General Background"
@@ -189,7 +189,7 @@ navbar:
          icon: fa-comment
          href: articles/articles/visualize.html
        - text: "Metrics outside FRAGSTATS"
-         icon: fa-newspaper
+         icon: fa-sticky-note
          href: articles/articles/new_metrics.html
        - text: "Publication Record"
          icon: fa-file-text-o

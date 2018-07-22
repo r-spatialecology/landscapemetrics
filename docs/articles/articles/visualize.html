@@ -47,7 +47,7 @@
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-graduation-cap"></span>
      
-    Background
+    More
      
     <span class="caret"></span>
   </a>
@@ -71,6 +71,13 @@
         <span class="fa fa-comment"></span>
          
         Communicate landscapemetrics results
+      </a>
+    </li>
+    <li>
+      <a href="../../articles/articles/new_metrics.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
@@ -119,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Communicate landscapemetrics results</h1>
             
-            <h4 class="date">2018-07-20</h4>
+            <h4 class="date">2018-07-22</h4>
       
       
       <div class="hidden name"><code>visualize.Rmd</code></div>
@@ -128,11 +135,6 @@
 
     
     
-<div id="plot-metrics" class="section level2">
-<h2 class="hasAnchor">
-<a href="#plot-metrics" class="anchor"></a>Plot metrics</h2>
-<p>come up with ggplot wrapper for metrics to show metrics and compare landscapes</p>
-</div>
 <div id="visualizing-patches" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h2>
@@ -165,6 +167,15 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(podlasie_ccilc)</a></code></pre></div>
 <p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
+<div id="plot-metrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-metrics" class="anchor"></a>Plot metrics</h2>
+<p>come up with ggplot wrapper for metrics to show metrics and compare landscapes</p>
+</div>
+<div id="show-correlation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#show-correlation" class="anchor"></a>Show correlation</h2>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -172,9 +183,10 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#plot-metrics">Plot metrics</a></li>
-      <li><a href="#visualizing-patches">Visualizing patches</a></li>
+<li><a href="#visualizing-patches">Visualizing patches</a></li>
       <li><a href="#connected-labeling">Connected labeling</a></li>
+      <li><a href="#plot-metrics">Plot metrics</a></li>
+      <li><a href="#show-correlation">Show correlation</a></li>
       </ul>
 </div>
       </div>

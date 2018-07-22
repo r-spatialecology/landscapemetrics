@@ -80,7 +80,7 @@
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-graduation-cap"></span>
      
-    Background
+    More
      
     <span class="caret"></span>
   </a>
@@ -104,6 +104,13 @@
         <span class="fa fa-comment"></span>
          
         Communicate landscapemetrics results
+      </a>
+    </li>
+    <li>
+      <a href="../articles/articles/new_metrics.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
@@ -162,19 +169,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_p_circle</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,14 +237,14 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
 #&gt;    layer level class    id metric value
 #&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
 #&gt;  1     1 patch     1     1 circle 0.363
-#&gt;  2     1 patch     1     2 circle 0.626
-#&gt;  3     1 patch     1     3 circle 0.778
-#&gt;  4     1 patch     1     4 circle 0.363
+#&gt;  2     1 patch     1     2 circle 0.778
+#&gt;  3     1 patch     1     3 circle 0.626
+#&gt;  4     1 patch     1     4 circle 0.554
 #&gt;  5     1 patch     1     5 circle 0.363
-#&gt;  6     1 patch     1     6 circle 0.554
-#&gt;  7     1 patch     1     7 circle 0.618
-#&gt;  8     1 patch     1     8 circle 0.510
-#&gt;  9     1 patch     1     9 circle 0.363
+#&gt;  6     1 patch     1     6 circle 0.510
+#&gt;  7     1 patch     1     7 circle 0.363
+#&gt;  8     1 patch     1     8 circle 0.363
+#&gt;  9     1 patch     1     9 circle 0.618
 #&gt; 10     1 patch     2    10 circle 0.580
 #&gt; # ... with 17 more rows</div><div class='input'>
 </div></pre>

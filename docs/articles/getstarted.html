@@ -47,7 +47,7 @@
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-graduation-cap"></span>
      
-    Background
+    More
      
     <span class="caret"></span>
   </a>
@@ -71,6 +71,13 @@
         <span class="fa fa-comment"></span>
          
         Communicate landscapemetrics results
+      </a>
+    </li>
+    <li>
+      <a href="../articles/articles/new_metrics.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
@@ -119,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Get Started with landscapemetrics</h1>
             
-            <h4 class="date">2018-07-20</h4>
+            <h4 class="date">2018-07-22</h4>
       
       
       <div class="hidden name"><code>getstarted.Rmd</code></div>
@@ -217,23 +224,12 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb3-7" data-line-number="7">                                     <span class="dt">by =</span> <span class="st">"metric"</span>)</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># Show results</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">result_full_name</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; # A tibble: 14 x 8</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;    layer level class    id metric  value full_name            type        </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;       </span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  1     1 class     1    NA dcad   15556. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  2     1 class     2    NA dcad    2222. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;  3     1 class     3    NA dcad    3333. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;  4     1 class     4    NA dcad    3333. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;  5     1 class     5    NA dcad       0  disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt;  6     1 class     6    NA dcad    2222. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt;  7     1 class     7    NA dcad    3333. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt;  8     1 class     8    NA dcad       0  disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt;  9     1 class     9    NA dcad       0  disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; 10     1 class    10    NA dcad       0  disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; 11     1 class    11    NA dcad    1111. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; 12     1 class    12    NA dcad       0  disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; 13     1 class    13    NA dcad    1111. disjunct core area … core area m…</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; 14     1 class    14    NA dcad       0  disjunct core area … core area m…</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   layer level class    id metric  value full_name             type        </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; 1     1 class     1    NA dcad    6667. disjunct core area d… core area m…</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; 2     1 class     2    NA dcad    8889. disjunct core area d… core area m…</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 3     1 class     3    NA dcad   13333. disjunct core area d… core area m…</span></a></code></pre></div>
 <div id="important-information-about-using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#important-information-about-using-landscapemetrics" class="anchor"></a>Important information about using <strong>landscapemetrics</strong>
