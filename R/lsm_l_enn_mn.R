@@ -3,6 +3,7 @@
 #' @description Mean of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{ENN_{MN} = cv(mean[patch_{ij}])}
@@ -45,45 +46,54 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_enn_mn <- function(landscape) UseMethod("lsm_l_enn_mn")
+lsm_l_enn_mn <- function(landscape, directions) UseMethod("lsm_l_enn_mn")
 
 #' @name lsm_l_enn_mn
 #' @export
-lsm_l_enn_mn.RasterLayer <- function(landscape) {
+lsm_l_enn_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_enn_mn_calc, .id = "layer") %>%
+                   lsm_l_enn_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_enn_mn
 #' @export
-lsm_l_enn_mn.RasterStack <- function(landscape) {
+lsm_l_enn_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_enn_mn_calc, .id = "layer") %>%
+                   lsm_l_enn_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_enn_mn
 #' @export
-lsm_l_enn_mn.RasterBrick <- function(landscape) {
+lsm_l_enn_mn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_enn_mn_calc, .id = "layer") %>%
+                   lsm_l_enn_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_enn_mn
 #' @export
-lsm_l_enn_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_enn_mn_calc, .id = "layer") %>%
+lsm_l_enn_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_enn_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_enn_mn_calc <- function(landscape) {
+lsm_l_enn_mn_calc <- function(landscape, directions) {
 
     enn_mn  <- landscape %>%
-        lsm_p_enn_calc() %>%
+        lsm_p_enn_calc(., directions = directions) %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(

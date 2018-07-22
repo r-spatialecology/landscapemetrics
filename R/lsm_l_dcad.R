@@ -3,6 +3,7 @@
 #' @description Disjunct core area density (Corea area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 
 #' @details
 #' \deqn{DCAD = (\frac{\sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} n_{ij}^{core}} {A}) * 10000 * 100}
@@ -41,45 +42,53 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_dcad <- function(landscape) UseMethod("lsm_l_dcad")
+lsm_l_dcad <- function(landscape, directions) UseMethod("lsm_l_dcad")
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                    .id = "layer") %>%
+lsm_l_dcad.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_dcad_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                    .id = "layer") %>%
+lsm_l_dcad.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_dcad_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_dcad_calc,
-                    .id = "layer") %>%
+lsm_l_dcad.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_dcad_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcad
 #' @export
-lsm_l_dcad.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_dcad_calc,
-                    .id = "layer") %>%
+lsm_l_dcad.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_dcad_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_dcad_calc <- function(landscape){
+lsm_l_dcad_calc <- function(landscape, directions){
 
     area_landscape <- lsm_l_ta_calc(landscape)
 
-    ncore_patch <- lsm_p_nca_calc(landscape)
+    ncore_patch <- lsm_p_nca_calc(landscape, directions = directions)
 
     dcad <- ncore_patch %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%

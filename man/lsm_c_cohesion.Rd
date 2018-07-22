@@ -12,15 +12,15 @@
 \alias{lsm_c_cohesion.list}
 \title{COHESION (class level)}
 \usage{
-lsm_c_cohesion(landscape)
+lsm_c_cohesion(landscape, directions)
 
-\method{lsm_c_cohesion}{RasterLayer}(landscape)
+\method{lsm_c_cohesion}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_cohesion}{RasterStack}(landscape)
+\method{lsm_c_cohesion}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_cohesion}{RasterBrick}(landscape)
+\method{lsm_c_cohesion}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_cohesion}{list}(landscape)
+\method{lsm_c_cohesion}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

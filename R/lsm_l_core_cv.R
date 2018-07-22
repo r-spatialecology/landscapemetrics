@@ -3,6 +3,7 @@
 #' @description Coeffiecent of variation of core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CORE_{CV} = cv(CORE[patch_{ij}])}
@@ -43,44 +44,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_core_cv <- function(landscape) UseMethod("lsm_l_core_cv")
+lsm_l_core_cv <- function(landscape, directions) UseMethod("lsm_l_core_cv")
 
 #' @name lsm_l_core_cv
 #' @export
-lsm_l_core_cv.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_cv_calc,
+lsm_l_core_cv.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_core_cv_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_core_cv
 #' @export
-lsm_l_core_cv.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_cv_calc,
+lsm_l_core_cv.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_core_cv_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_core_cv
 #' @export
-lsm_l_core_cv.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_core_cv_calc,
+lsm_l_core_cv.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_core_cv_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_core_cv
 #' @export
-lsm_l_core_cv.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_core_cv_calc,
+lsm_l_core_cv.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_core_cv_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_core_cv_calc <- function(landscape){
+lsm_l_core_cv_calc <- function(landscape, directions){
 
     core_cv <- landscape %>%
-        lsm_p_core_calc() %>%
+        lsm_p_core_calc(., directions = directions) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(

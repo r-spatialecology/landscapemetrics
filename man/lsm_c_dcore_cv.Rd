@@ -12,18 +12,20 @@
 \alias{lsm_c_dcore_cv.list}
 \title{DCORE_CV (class level)}
 \usage{
-lsm_c_dcore_cv(landscape)
+lsm_c_dcore_cv(landscape, directions)
 
-\method{lsm_c_dcore_cv}{RasterLayer}(landscape)
+\method{lsm_c_dcore_cv}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_dcore_cv}{RasterStack}(landscape)
+\method{lsm_c_dcore_cv}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_dcore_cv}{RasterBrick}(landscape)
+\method{lsm_c_dcore_cv}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_dcore_cv}{list}(landscape)
+\method{lsm_c_dcore_cv}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

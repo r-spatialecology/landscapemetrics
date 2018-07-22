@@ -3,6 +3,7 @@
 #' @description Standard deviation of core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CAI_{SD} = sd(CAI[patch_{ij}]}
@@ -45,44 +46,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_cai_sd <- function(landscape) UseMethod("lsm_l_cai_sd")
+lsm_l_cai_sd <- function(landscape, directions) UseMethod("lsm_l_cai_sd")
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
+lsm_l_cai_sd.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_cai_sd_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
+lsm_l_cai_sd.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_cai_sd_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_cai_sd_calc,
+lsm_l_cai_sd.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_cai_sd_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_cai_sd
 #' @export
-lsm_l_cai_sd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_cai_sd_calc,
+lsm_l_cai_sd.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_cai_sd_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_cai_sd_calc <- function(landscape){
+lsm_l_cai_sd_calc <- function(landscape, directions){
 
     cai_sd <- landscape %>%
-        lsm_p_cai() %>%
+        lsm_p_cai(., directions = directions) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(

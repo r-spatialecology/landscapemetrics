@@ -12,24 +12,24 @@
 \alias{lsm_l_condent.list}
 \title{Conditional entropy (landscape level)}
 \usage{
-lsm_l_condent(landscape, directions = 4, ordered = TRUE, base = "log2")
+lsm_l_condent(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_condent}{RasterLayer}(landscape, directions = 4,
+\method{lsm_l_condent}{RasterLayer}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_condent}{RasterStack}(landscape, directions = 4,
+\method{lsm_l_condent}{RasterStack}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_condent}{RasterBrick}(landscape, directions = 4,
+\method{lsm_l_condent}{RasterBrick}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_condent}{list}(landscape, directions = 4, ordered = TRUE,
+\method{lsm_l_condent}{list}(landscape, neighbourhood = 4, ordered = TRUE,
   base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which cells should be connected:
+\item{neighbourhood}{The number of neighbourhood in which cells should be connected:
 4 (rook's case) or 8 (queen's case).
 The default is 4.}
 

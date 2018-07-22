@@ -24,8 +24,6 @@ lsm_c_clumpy(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
-
-\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -47,7 +45,7 @@ the proportion of like adjacencies involving the corresponding class from that e
 under a spatially random distribution. The metric is based on he adjacency matrix and the
 the double-count method.
 
-\subsection{Units}{None}
+\subsection{Units}{None}, directions = directions
 \subsection{Range}{-1 <= CLUMPY <= 1}
 \subsection{Behaviour}{Equals -1 for maximally disaggregated, 0 for randomly distributed
 and 1 for maximally aggregated classes.}

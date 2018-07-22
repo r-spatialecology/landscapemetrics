@@ -40,33 +40,23 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_cohesion <- function(landscape)
+lsm_c_cohesion <- function(landscape, directions)
     UseMethod("lsm_c_cohesion")
 
 #' @name lsm_c_cohesion
 #' @export
-lsm_c_cohesion.RasterLayer <- function(landscape) {
+lsm_c_cohesion.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_c_cohesion_calc, directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_cohesion
 #' @export
-lsm_c_cohesion.RasterStack <- function(landscape) {
+lsm_c_cohesion.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_c_cohesion_calc, directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -74,9 +64,19 @@ lsm_c_cohesion.RasterBrick <- function(landscape) {
 
 #' @name lsm_c_cohesion
 #' @export
-lsm_c_cohesion.list <- function(landscape) {
+lsm_c_cohesion.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_cohesion_calc,
+                   .f = lsm_c_cohesion_calc, directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_cohesion
+#' @export
+lsm_c_cohesion.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_cohesion_calc, directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -89,11 +89,11 @@ lsm_c_cohesion_calc <- function(landscape) {
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
 
     ncells_patch <- landscape %>%
-        lsm_p_area_calc() %>%
+        lsm_p_area_calc(., directions = directions) %>%
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
 
     perim_patch <- landscape %>%
-        lsm_p_perim_calc()
+        lsm_p_perim_calc(., directions = directions)
 
     denominator <- perim_patch %>%
         dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%

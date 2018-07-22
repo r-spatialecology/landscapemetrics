@@ -20,10 +20,12 @@ lsm_l_cohesion(landscape)
 
 \method{lsm_l_cohesion}{RasterBrick}(landscape)
 
-\method{lsm_l_cohesion}{list}(landscape)
+\method{lsm_l_cohesion}{list}(landscape, directions = directions)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

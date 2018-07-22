@@ -3,7 +3,6 @@
 #' @description Clumpiness index (Contagion/Interspersion metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
-#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{Given G_{i} = \Bigg(\frac{g_{ii}}{ (\sum\limits_{k=1}^m g_{ik}) - min e_{i}} \Bigg)}
@@ -19,7 +18,7 @@
 #' under a spatially random distribution. The metric is based on he adjacency matrix and the
 #' the double-count method.
 #'
-#' \subsection{Units}{None}
+#' \subsection{Units}{None}, directions = directions
 #' \subsection{Range}{-1 <= CLUMPY <= 1}
 #' \subsection{Behaviour}{Equals -1 for maximally disaggregated, 0 for randomly distributed
 #' and 1 for maximally aggregated classes.}

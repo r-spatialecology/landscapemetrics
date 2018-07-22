@@ -26,6 +26,8 @@ lsm_l_ed(landscape, count_boundary)
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{count_boundary}{Count landscape boundary as edge}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

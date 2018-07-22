@@ -12,20 +12,25 @@
 \alias{lsm_c_ed.list}
 \title{ED (class level)}
 \usage{
-lsm_c_ed(landscape, count_boundary)
+lsm_c_ed(landscape, count_boundary, directions)
 
-\method{lsm_c_ed}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_c_ed}{RasterLayer}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_ed}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_c_ed}{RasterStack}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE)
+\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{count_boundary}{Count landscape boundary as edge}
+\item{count_boundary}{Count landscape boundary as edge.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

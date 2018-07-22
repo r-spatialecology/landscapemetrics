@@ -12,18 +12,20 @@
 \alias{lsm_l_core_sd.list}
 \title{CORE_SD (landscape level)}
 \usage{
-lsm_l_core_sd(landscape)
+lsm_l_core_sd(landscape, directions)
 
-\method{lsm_l_core_sd}{RasterLayer}(landscape)
+\method{lsm_l_core_sd}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_core_sd}{RasterStack}(landscape)
+\method{lsm_l_core_sd}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_core_sd}{RasterBrick}(landscape)
+\method{lsm_l_core_sd}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_core_sd}{list}(landscape)
+\method{lsm_l_core_sd}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

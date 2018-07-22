@@ -3,6 +3,7 @@
 #' @description Landscape division index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{DIVISON = (1 - \sum \limits_{j = 1}^{n} (\frac{a_{ij}} {A}) ^ 2)}
@@ -38,44 +39,53 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_division <- function(landscape) UseMethod("lsm_c_division")
+lsm_c_division <- function(landscape, directions) UseMethod("lsm_c_division")
 
 #' @name lsm_c_division
 #' @export
-lsm_c_division.RasterLayer <- function(landscape) {
+lsm_c_division.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_division_calc, .id = "layer") %>%
+                   lsm_c_division_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_division
 #' @export
-lsm_c_division.RasterStack <- function(landscape) {
+lsm_c_division.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_division_calc, .id = "layer") %>%
+                   lsm_c_division_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_division
 #' @export
-lsm_c_division.RasterBrick <- function(landscape) {
+lsm_c_division.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_division_calc, .id = "layer") %>%
+                   lsm_c_division_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_division
 #' @export
-lsm_c_division.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_division_calc, .id = "layer") %>%
+lsm_c_division.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_division_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_division_calc <- function(landscape) {
+lsm_c_division_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
     division <- dplyr::mutate(area_patch,
                               value = (value / area_landscape$value) ^ 2) %>%

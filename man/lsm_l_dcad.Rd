@@ -12,18 +12,20 @@
 \alias{lsm_l_dcad.list}
 \title{DCAD (landscape level)}
 \usage{
-lsm_l_dcad(landscape)
+lsm_l_dcad(landscape, directions)
 
-\method{lsm_l_dcad}{RasterLayer}(landscape)
+\method{lsm_l_dcad}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_dcad}{RasterStack}(landscape)
+\method{lsm_l_dcad}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_dcad}{RasterBrick}(landscape)
+\method{lsm_l_dcad}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_dcad}{list}(landscape)
+\method{lsm_l_dcad}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

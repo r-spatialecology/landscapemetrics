@@ -1,6 +1,7 @@
 #' DCORE_MN (class level)
 #'
 #' @description Mean number of disjunct core areas (Core area metric)
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
@@ -42,43 +43,51 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_dcore_mn <- function(landscape) UseMethod("lsm_c_dcore_mn")
+lsm_c_dcore_mn <- function(landscape, directions) UseMethod("lsm_c_dcore_mn")
 
 #' @name lsm_c_dcore_mn
 #' @export
-lsm_c_dcore_mn.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_dcore_mn_calc,
-                    .id = "layer") %>%
+lsm_c_dcore_mn.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_dcore_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
-lsm_c_dcore_mn.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_dcore_mn_calc,
-                    .id = "layer") %>%
+lsm_c_dcore_mn.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_dcore_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
-lsm_c_dcore_mn.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_dcore_mn_calc,
-                    .id = "layer") %>%
+lsm_c_dcore_mn.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_dcore_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
-lsm_c_dcore_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_dcore_mn_calc,
-                    .id = "layer") %>%
+lsm_c_dcore_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_dcore_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_dcore_mn_calc <- function(landscape){
+lsm_c_dcore_mn_calc <- function(landscape, directions){
     dcore_mean <- landscape %>%
-        lsm_p_nca_calc() %>%
+        lsm_p_nca_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

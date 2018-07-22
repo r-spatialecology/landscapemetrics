@@ -12,18 +12,20 @@
 \alias{lsm_l_circle_mn.list}
 \title{CIRCLE_MN (landscape level)}
 \usage{
-lsm_l_circle_mn(landscape)
+lsm_l_circle_mn(landscape, directions)
 
-\method{lsm_l_circle_mn}{RasterLayer}(landscape)
+\method{lsm_l_circle_mn}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_circle_mn}{RasterStack}(landscape)
+\method{lsm_l_circle_mn}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_circle_mn}{RasterBrick}(landscape)
+\method{lsm_l_circle_mn}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_circle_mn}{list}(landscape)
+\method{lsm_l_circle_mn}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

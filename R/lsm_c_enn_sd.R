@@ -3,6 +3,7 @@
 #' @description Standard deviation of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{ENN_{SD} = sd(ENN[patch_{ij}])}
@@ -45,47 +46,56 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_enn_sd <- function(landscape) UseMethod("lsm_c_enn_sd")
+lsm_c_enn_sd <- function(landscape, directions) UseMethod("lsm_c_enn_sd")
 
 #' @name lsm_c_enn_sd
 #' @export
-lsm_c_enn_sd.RasterLayer <- function(landscape) {
+lsm_c_enn_sd.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc, .id = "layer") %>%
+                   lsm_c_enn_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_sd
 #' @export
-lsm_c_enn_sd.RasterStack <- function(landscape) {
+lsm_c_enn_sd.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc, .id = "layer") %>%
+                   lsm_c_enn_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_enn_sd
 #' @export
-lsm_c_enn_sd.RasterBrick <- function(landscape) {
+lsm_c_enn_sd.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc, .id = "layer") %>%
+                   lsm_c_enn_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_enn_sd
 #' @export
-lsm_c_enn_sd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_enn_sd_calc, .id = "layer") %>%
+lsm_c_enn_sd.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_enn_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 
-lsm_c_enn_sd_calc <- function(landscape) {
+lsm_c_enn_sd_calc <- function(landscape, directions) {
 
     enn_sd  <- landscape %>%
-        lsm_p_enn_calc() %>%
+        lsm_p_enn_calc(., directions = directions) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 

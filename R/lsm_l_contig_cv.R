@@ -3,6 +3,7 @@
 #' @description Coefficient of variation of Contiguity index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CONTIG_{CV} =  cv(CONTIG[patch_{ij}])}
@@ -52,43 +53,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_contig_cv <- function(landscape) UseMethod("lsm_l_contig_cv")
+lsm_l_contig_cv <- function(landscape, directions) UseMethod("lsm_l_contig_cv")
 
 #' @name lsm_l_contig_cv
 #' @export
-lsm_l_contig_cv.RasterLayer <- function(landscape) {
+lsm_l_contig_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_contig_cv_calc, .id = "layer") %>%
+                   lsm_l_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_contig_cv
 #' @export
-lsm_l_contig_cv.RasterStack <- function(landscape) {
+lsm_l_contig_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_contig_cv_calc,.id = "layer") %>%
+                   lsm_l_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_contig_cv
 #' @export
-lsm_l_contig_cv.RasterBrick <- function(landscape) {
+lsm_l_contig_cv.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_contig_cv_calc, .id = "layer") %>%
+                   lsm_l_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_contig_cv
 #' @export
-lsm_l_contig_cv.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_contig_cv_calc, .id = "layer") %>%
+lsm_l_contig_cv.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_contig_cv_calc <- function(landscape) {
+lsm_l_contig_cv_calc <- function(landscape, directions) {
 
     contig_cv  <- landscape %>%
-        lsm_p_contig_calc() %>%
+        lsm_p_contig_calc(., directions = directions) %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
