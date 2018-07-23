@@ -12,18 +12,21 @@
 \alias{lsm_c_split.list}
 \title{SPLIT (class level)}
 \usage{
-lsm_c_split(landscape)
+lsm_c_split(landscape, directions)
 
-\method{lsm_c_split}{RasterLayer}(landscape)
+\method{lsm_c_split}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_split}{RasterStack}(landscape)
+\method{lsm_c_split}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_split}{RasterBrick}(landscape)
+\method{lsm_c_split}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_split}{list}(landscape)
+\method{lsm_c_split}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

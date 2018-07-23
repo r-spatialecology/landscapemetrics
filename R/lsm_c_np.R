@@ -3,6 +3,8 @@
 #' @description Number of patches (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{NP = n_{i}}
@@ -34,42 +36,53 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_np <- function(landscape) UseMethod("lsm_c_np")
+lsm_c_np <- function(landscape, directions) UseMethod("lsm_c_np")
 
 #' @name lsm_c_np
 #' @export
-lsm_c_np.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_np_calc, .id = "layer") %>%
+lsm_c_np.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_np_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_np
 #' @export
-lsm_c_np.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_np_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_np
-#' @export
-lsm_c_np.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_np_calc, .id = "layer") %>%
+lsm_c_np.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_np_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_np
 #' @export
-lsm_c_np.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_np_calc, .id = "layer") %>%
+lsm_c_np.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_np_calc, directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_np_calc <- function(landscape){
+#' @name lsm_c_np
+#' @export
+lsm_c_np.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_np_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    landscape_labelled <- cclabel(landscape)
+}
+
+lsm_c_np_calc <- function(landscape, directions){
+
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     purrr::map_dfr(landscape_labelled, function(patches_class) {
 

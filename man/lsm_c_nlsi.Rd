@@ -12,18 +12,21 @@
 \alias{lsm_c_nlsi.list}
 \title{nlsi (class level)}
 \usage{
-lsm_c_nlsi(landscape)
+lsm_c_nlsi(landscape, directions)
 
-\method{lsm_c_nlsi}{RasterLayer}(landscape)
+\method{lsm_c_nlsi}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_nlsi}{RasterStack}(landscape)
+\method{lsm_c_nlsi}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_nlsi}{RasterBrick}(landscape)
+\method{lsm_c_nlsi}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_nlsi}{list}(landscape)
+\method{lsm_c_nlsi}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

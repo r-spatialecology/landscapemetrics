@@ -3,6 +3,8 @@
 #' @description Landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{nlsi = \frac{e_{i}} {\min e_{i}}}
@@ -37,39 +39,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_nlsi <- function(landscape) UseMethod("lsm_c_nlsi")
+lsm_c_nlsi <- function(landscape, directions) UseMethod("lsm_c_nlsi")
 
 #' @name lsm_c_nlsi
 #' @export
-lsm_c_nlsi.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+lsm_c_nlsi.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_nlsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
-lsm_c_nlsi.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+lsm_c_nlsi.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_nlsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
-lsm_c_nlsi.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_nlsi_calc, .id = "layer") %>%
+lsm_c_nlsi.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_nlsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
-lsm_c_nlsi.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_nlsi_calc, .id = "layer") %>%
+lsm_c_nlsi.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_nlsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_nlsi_calc <- function(landscape) {
+lsm_c_nlsi_calc <- function(landscape, directions) {
 
-    edge_class <- lsm_c_te_calc(landscape, count_boundary = T)
+    edge_class <- lsm_c_te_calc(landscape,
+                                count_boundary = T, directions = directions)
 
     ai <- rcpp_get_composition_vector(raster::as.matrix(landscape))
 

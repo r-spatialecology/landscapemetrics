@@ -63,7 +63,7 @@ lsm_l_te.RasterStack <- function(landscape,  count_boundary = FALSE) {
 
 #' @name lsm_l_te
 #' @export
-lsm_l_te.RasterBrick <- function(landscape,  count_boundary = FALSE) {
+lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_te_calc,
                    count_boundary = count_boundary,

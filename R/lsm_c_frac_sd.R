@@ -3,6 +3,8 @@
 #' @description Standard deviation fractal dimension index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{FRAC_{SD} = sd(FRAC[patch_{ij}])}
@@ -43,46 +45,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_frac_sd <- function(landscape) UseMethod("lsm_c_frac_sd")
+lsm_c_frac_sd <- function(landscape, directions) UseMethod("lsm_c_frac_sd")
 
 #' @name lsm_c_frac_sd
 #' @export
-lsm_c_frac_sd.RasterLayer <- function(landscape) {
+lsm_c_frac_sd.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc, .id = "layer") %>%
+                   lsm_c_frac_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_frac_sd
 #' @export
-lsm_c_frac_sd.RasterStack <- function(landscape) {
+lsm_c_frac_sd.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc, .id = "layer") %>%
+                   lsm_c_frac_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_frac_sd
 #' @export
-lsm_c_frac_sd.RasterBrick <- function(landscape) {
+lsm_c_frac_sd.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc, .id = "layer") %>%
+                   lsm_c_frac_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_frac_sd
 #' @export
-lsm_c_frac_sd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_frac_sd_calc, .id = "layer") %>%
+lsm_c_frac_sd.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_frac_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_frac_sd_calc <- function(landscape){
+lsm_c_frac_sd_calc <- function(landscape, directions){
 
     frac_sd <- landscape %>%
-        lsm_p_frac_calc() %>%
+        lsm_p_frac_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 

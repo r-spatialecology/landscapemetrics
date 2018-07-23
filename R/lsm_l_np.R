@@ -3,6 +3,8 @@
 #' @description Number of patches (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{NP = N}
@@ -35,23 +37,25 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_np <- function(landscape) UseMethod("lsm_l_np")
+lsm_l_np <- function(landscape, directions) UseMethod("lsm_l_np")
 
 #' @name lsm_l_np
 #' @export
-lsm_l_np.RasterLayer <- function(landscape) {
+lsm_l_np.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_np_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_np
 #' @export
-lsm_l_np.RasterStack <- function(landscape) {
+lsm_l_np.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(
         raster::as.list(landscape),
         .f = lsm_l_np_calc,
+        directions = directions,
         .id = "layer"
     ) %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -60,10 +64,11 @@ lsm_l_np.RasterStack <- function(landscape) {
 
 #' @name lsm_l_np
 #' @export
-lsm_l_np.RasterBrick <- function(landscape) {
+lsm_l_np.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(
         raster::as.list(landscape),
         .f = lsm_l_np_calc,
+        directions = directions,
         .id = "layer"
     ) %>%
         dplyr::mutate(layer = as.integer(layer))
@@ -72,20 +77,21 @@ lsm_l_np.RasterBrick <- function(landscape) {
 
 #' @name lsm_l_np
 #' @export
-lsm_l_np.list <- function(landscape) {
+lsm_l_np.list <- function(landscape, directions = 8) {
     purrr::map_dfr(
         raster::as.list(landscape),
         .f = lsm_l_np_calc,
+        directions = directions,
         .id = "layer"
     ) %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_np_calc <- function(landscape) {
+lsm_l_np_calc <- function(landscape, directions) {
 
     n_patches <- landscape %>%
-        lsm_c_np_calc() %>%
+        lsm_c_np_calc(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

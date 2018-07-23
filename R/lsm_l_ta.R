@@ -3,6 +3,8 @@
 #' @description Total area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CA = sum(AREA[patch_{ij}])}
@@ -36,44 +38,56 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_ta <- function(landscape) UseMethod("lsm_l_ta")
+lsm_l_ta <- function(landscape, directions) UseMethod("lsm_l_ta")
 
 
 #' @name lsm_l_ta
 #' @export
-lsm_l_ta.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
+lsm_l_ta.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ta_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ta
 #' @export
-lsm_l_ta.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_ta
-#' @export
-lsm_l_ta.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ta_calc, .id = "layer") %>%
+lsm_l_ta.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ta_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_ta
 #' @export
-lsm_l_ta.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_ta_calc, .id = "layer") %>%
+lsm_l_ta.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ta_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_ta_calc <- function(landscape) {
+#' @name lsm_l_ta
+#' @export
+lsm_l_ta.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_ta_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_l_ta_calc <- function(landscape, directions) {
 
     total_area <- landscape %>%
-        lsm_p_area_calc() %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

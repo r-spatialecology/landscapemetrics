@@ -3,6 +3,8 @@
 #' @description Mean shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{SHAPE_{MN} = mean(SHAPE[patch_{ij}])}
@@ -42,46 +44,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_shape_mn <- function(landscape) UseMethod("lsm_l_shape_mn")
+lsm_l_shape_mn <- function(landscape, directions) UseMethod("lsm_l_shape_mn")
 
 #' @name lsm_l_shape_mn
 #' @export
-lsm_l_shape_mn.RasterLayer <- function(landscape) {
+lsm_l_shape_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shape_mn_calc, .id = "layer") %>%
+                   lsm_l_shape_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_shape_mn
 #' @export
-lsm_l_shape_mn.RasterStack <- function(landscape) {
+lsm_l_shape_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shape_mn_calc, .id = "layer") %>%
+                   lsm_l_shape_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_shape_mn
 #' @export
-lsm_l_shape_mn.RasterBrick <- function(landscape) {
+lsm_l_shape_mn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shape_mn_calc, .id = "layer") %>%
+                   lsm_l_shape_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_shape_mn
 #' @export
-lsm_l_shape_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_shape_mn_calc, .id = "layer") %>%
+lsm_l_shape_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_shape_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_shape_mn_calc <- function(landscape){
+lsm_l_shape_mn_calc <- function(landscape, directions){
 
     shape_mn <- landscape %>%
-        lsm_p_shape_calc() %>%
+        lsm_p_shape_calc(directions = directions) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(

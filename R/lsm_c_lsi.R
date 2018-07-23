@@ -3,6 +3,8 @@
 #' @description Landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{LSI = \frac{e_{i}} {\min e_{i}}}
@@ -38,45 +40,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_lsi <- function(landscape) UseMethod("lsm_c_lsi")
+lsm_c_lsi <- function(landscape, directions) UseMethod("lsm_c_lsi")
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterLayer <- function(landscape) {
+lsm_c_lsi.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc, .id = "layer") %>%
+                   lsm_c_lsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterStack <- function(landscape) {
+lsm_c_lsi.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc, .id = "layer") %>%
+                   lsm_c_lsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.RasterBrick <- function(landscape) {
+lsm_c_lsi.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc, .id = "layer") %>%
+                   lsm_c_lsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
-lsm_c_lsi.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_lsi_calc, .id = "layer") %>%
+lsm_c_lsi.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_lsi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_lsi_calc <- function(landscape) {
+lsm_c_lsi_calc <- function(landscape, directions) {
 
-    edge_class <- lsm_c_te_calc(landscape, count_boundary = TRUE)
+    edge_class <- lsm_c_te_calc(landscape,
+                                count_boundary = TRUE, directions = directions)
 
     area_class <- landscape %>%
-        lsm_c_ca_calc() %>%
+        lsm_c_ca_calc(directions = directions) %>%
         dplyr::mutate(value = value * 10000)
 
     lsi <- dplyr::mutate(area_class,

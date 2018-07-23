@@ -12,18 +12,21 @@
 \alias{lsm_c_pd.list}
 \title{PD (class level)}
 \usage{
-lsm_c_pd(landscape)
+lsm_c_pd(landscape, directions)
 
-\method{lsm_c_pd}{RasterLayer}(landscape)
+\method{lsm_c_pd}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_pd}{RasterStack}(landscape)
+\method{lsm_c_pd}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_pd}{RasterBrick}(landscape)
+\method{lsm_c_pd}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_pd}{list}(landscape)
+\method{lsm_c_pd}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

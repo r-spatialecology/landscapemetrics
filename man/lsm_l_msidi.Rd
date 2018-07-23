@@ -12,18 +12,21 @@
 \alias{lsm_l_msidi.list}
 \title{MSIDI (landscape level)}
 \usage{
-lsm_l_msidi(landscape)
+lsm_l_msidi(landscape, directions)
 
-\method{lsm_l_msidi}{RasterLayer}(landscape)
+\method{lsm_l_msidi}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_msidi}{RasterStack}(landscape)
+\method{lsm_l_msidi}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_msidi}{RasterBrick}(landscape)
+\method{lsm_l_msidi}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_msidi}{list}(landscape)
+\method{lsm_l_msidi}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

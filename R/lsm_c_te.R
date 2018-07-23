@@ -4,6 +4,8 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{TE = \sum \limits_{k = 1}^{m} e_{ik}}
@@ -39,35 +41,29 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_te <- function(landscape, count_boundary) UseMethod("lsm_c_te")
+lsm_c_te <- function(landscape,
+                     count_boundary, directions) UseMethod("lsm_c_te")
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterLayer <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterLayer <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
                    count_boundary = count_boundary,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.RasterStack <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterStack <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
                    count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -75,18 +71,33 @@ lsm_c_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
 
 #' @name lsm_c_te
 #' @export
-lsm_c_te.list <- function(landscape, count_boundary = FALSE) {
+lsm_c_te.RasterBrick <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_te_calc,
                    count_boundary = count_boundary,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary = FALSE) {
+#' @name lsm_c_te
+#' @export
+lsm_c_te.list <- function(landscape,
+                          count_boundary = FALSE, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_te_calc,
+                   count_boundary = count_boundary,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
 
-    landscape_labelled <- cclabel(landscape)
+}
+
+lsm_c_te_calc <- function(landscape, count_boundary, directions) {
+
+    landscape_labelled <- cclabel(landscape, directions = directions)
 
     purrr::map_dfr(landscape_labelled, function(patches_class) {
 

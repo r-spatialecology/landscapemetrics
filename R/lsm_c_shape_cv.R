@@ -3,6 +3,8 @@
 #' @description Covariance of variation shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{SHAPE_{CV} = cv(SHAPE[patch_{ij}])}
@@ -42,46 +44,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_shape_cv <- function(landscape) UseMethod("lsm_c_shape_cv")
+lsm_c_shape_cv <- function(landscape, directions) UseMethod("lsm_c_shape_cv")
 
 #' @name lsm_c_shape_cv
 #' @export
-lsm_c_shape_cv.RasterLayer <- function(landscape) {
+lsm_c_shape_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc, .id = "layer") %>%
+                   lsm_c_shape_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_shape_cv
 #' @export
-lsm_c_shape_cv.RasterStack <- function(landscape) {
+lsm_c_shape_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc, .id = "layer") %>%
+                   lsm_c_shape_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_shape_cv
 #' @export
-lsm_c_shape_cv.RasterBrick <- function(landscape) {
+lsm_c_shape_cv.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc, .id = "layer") %>%
+                   lsm_c_shape_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_shape_cv
 #' @export
-lsm_c_shape_cv.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_shape_cv_calc, .id = "layer") %>%
+lsm_c_shape_cv.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_shape_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_shape_cv_calc <- function(landscape){
+lsm_c_shape_cv_calc <- function(landscape, directions){
 
     shape_cv <- landscape %>%
-        lsm_p_shape_calc() %>%
+        lsm_p_shape_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 

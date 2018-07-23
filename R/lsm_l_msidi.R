@@ -3,6 +3,8 @@
 #' @description Modified Simpson's diversity index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{MSIDI = -\ln \sum \limits_{i = 1}^{m} P_{i}^{2}}
@@ -33,43 +35,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_msidi <- function(landscape) UseMethod("lsm_l_msidi")
+lsm_l_msidi <- function(landscape, directions) UseMethod("lsm_l_msidi")
 
 #' @name lsm_l_msidi
 #' @export
-lsm_l_msidi.RasterLayer <- function(landscape) {
+lsm_l_msidi.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc, .id = "layer") %>%
+                   lsm_l_msidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
-lsm_l_msidi.RasterStack <- function(landscape) {
+lsm_l_msidi.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc, .id = "layer") %>%
+                   lsm_l_msidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
-lsm_l_msidi.RasterBrick <- function(landscape) {
+lsm_l_msidi.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc, .id = "layer") %>%
+                   lsm_l_msidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
-lsm_l_msidi.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_msidi_calc, .id = "layer") %>%
+lsm_l_msidi.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_msidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_msidi_calc <- function(landscape) {
+lsm_l_msidi_calc <- function(landscape, directions) {
 
     msidi <- landscape %>%
-        lsm_p_area_calc() %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
         dplyr::mutate(value = (value / sum(value, na.rm = TRUE)) ^ 2) %>%

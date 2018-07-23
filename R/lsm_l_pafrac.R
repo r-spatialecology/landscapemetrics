@@ -3,6 +3,8 @@
 #' @description Perimeter-Area Fractal Dimension (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{PAFRAC = \frac{2}{\beta}}
@@ -41,48 +43,57 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_pafrac <- function(landscape) UseMethod("lsm_l_pafrac")
+lsm_l_pafrac <- function(landscape, directions) UseMethod("lsm_l_pafrac")
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.RasterLayer <- function(landscape) {
+lsm_l_pafrac.RasterLayer <- function(landscape, directions= 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_pafrac_calc, .id = "layer") %>%
+                   lsm_l_pafrac_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.RasterStack <- function(landscape) {
+lsm_l_pafrac.RasterStack <- function(landscape, directions= 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_pafrac_calc, .id = "layer") %>%
+                   lsm_l_pafrac_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.RasterBrick <- function(landscape) {
+lsm_l_pafrac.RasterBrick <- function(landscape, directions= 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_pafrac_calc, .id = "layer") %>%
+                   lsm_l_pafrac_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_pafrac_calc, .id = "layer") %>%
+lsm_l_pafrac.list <- function(landscape, directions= 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_pafrac_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_pafrac_calc <- function(landscape){
+lsm_l_pafrac_calc <- function(landscape, directions){
 
-    area_patch <- lsm_p_area_calc(landscape)
-    perimeter_patch <- lsm_p_perim_calc(landscape)
+    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
 
-    np_landscape <- lsm_l_np_calc(landscape)
+    np_landscape <- lsm_l_np_calc(landscape, directions = directions)
 
     if(np_landscape$value < 10){
         pafrac <-  NA

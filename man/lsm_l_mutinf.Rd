@@ -12,26 +12,25 @@
 \alias{lsm_l_mutinf.list}
 \title{Mutual information (landscape level)}
 \usage{
-lsm_l_mutinf(landscape, directions = 4, ordered = TRUE, base = "log2")
+lsm_l_mutinf(landscape, neighbourhood, ordered, base)
 
-\method{lsm_l_mutinf}{RasterLayer}(landscape, directions = 4,
+\method{lsm_l_mutinf}{RasterLayer}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{RasterStack}(landscape, directions = 4,
+\method{lsm_l_mutinf}{RasterStack}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{RasterBrick}(landscape, directions = 4,
+\method{lsm_l_mutinf}{RasterBrick}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{list}(landscape, directions = 4, ordered = TRUE,
+\method{lsm_l_mutinf}{list}(landscape, neighbourhood = 4, ordered = TRUE,
   base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which cells should be connected:
-4 (rook's case) or 8 (queen's case).
-The default is 4.}
+\item{neighbourhood}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case). The default is 4.}
 
 \item{ordered}{The type of pairs considered.
 Either ordered (TRUE) or unordered (FALSE).

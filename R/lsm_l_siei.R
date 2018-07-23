@@ -3,6 +3,8 @@
 #' @description Simpson's evenness index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{SIEI = \frac{1 - \sum \limits_{i = 1}^{m} P_{i}^{2}} {1 - \frac{1} {m}}}
@@ -38,42 +40,51 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_siei <- function(landscape) UseMethod("lsm_l_siei")
+lsm_l_siei <- function(landscape, directions) UseMethod("lsm_l_siei")
 
 #' @name lsm_l_siei
 #' @export
-lsm_l_siei.RasterLayer <- function(landscape) {
+lsm_l_siei.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_siei_calc, .id = "layer") %>%
+                   lsm_l_siei_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_siei
 #' @export
-lsm_l_siei.RasterStack <- function(landscape) {
+lsm_l_siei.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_siei_calc, .id = "layer") %>%
+                   lsm_l_siei_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_siei
 #' @export
-lsm_l_siei.RasterBrick <- function(landscape) {
+lsm_l_siei.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_siei_calc, .id = "layer") %>%
+                   lsm_l_siei_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_siei
 #' @export
-lsm_l_siei.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_siei_calc, .id = "layer") %>%
+lsm_l_siei.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_siei_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_siei_calc <- function(landscape) {
+lsm_l_siei_calc <- function(landscape, directions) {
 
-    sidi <- lsm_l_sidi_calc(landscape)
+    sidi <- lsm_l_sidi_calc(landscape, directions = directions)
     pr <- lsm_l_pr_calc(landscape)
 
     siei <- sidi$value / (1 - (1 / pr$value))

@@ -12,18 +12,21 @@
 \alias{lsm_l_gyrate_cv.list}
 \title{GYRATE_CV (landscape level)}
 \usage{
-lsm_l_gyrate_cv(landscape)
+lsm_l_gyrate_cv(landscape, directions)
 
-\method{lsm_l_gyrate_cv}{RasterLayer}(landscape)
+\method{lsm_l_gyrate_cv}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_gyrate_cv}{RasterStack}(landscape)
+\method{lsm_l_gyrate_cv}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_gyrate_cv}{RasterBrick}(landscape)
+\method{lsm_l_gyrate_cv}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_gyrate_cv}{list}(landscape)
+\method{lsm_l_gyrate_cv}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

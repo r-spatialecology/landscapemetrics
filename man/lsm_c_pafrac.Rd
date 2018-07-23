@@ -12,18 +12,21 @@
 \alias{lsm_c_pafrac.list}
 \title{PAFRAC  (class level)}
 \usage{
-lsm_c_pafrac(landscape)
+lsm_c_pafrac(landscape, directions)
 
-\method{lsm_c_pafrac}{RasterLayer}(landscape)
+\method{lsm_c_pafrac}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_pafrac}{RasterStack}(landscape)
+\method{lsm_c_pafrac}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_pafrac}{RasterBrick}(landscape)
+\method{lsm_c_pafrac}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_pafrac}{list}(landscape)
+\method{lsm_c_pafrac}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
