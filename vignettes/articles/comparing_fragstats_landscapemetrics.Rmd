@@ -77,38 +77,41 @@ As for the cv, the results for the sd are similiar. The result calculated from a
 ```{r}
 # SD calculated from patch values of FRAGSTATS
 fragstats_calculated <- fragstats_patch_landscape %>%
-    group_by(TYPE) %>%
-    summarise(sd = sd(AREA)) %>%
-    purrr::set_names("class", "fragstats_calculated") %>%
-    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                                      class == "cls_2" ~ 2,
-                                                      class == "cls_3" ~ 3)))
+  group_by(TYPE) %>%
+  summarise(sd = sd(AREA)) %>%
+  set_names("class", "fragstats_calculated") %>%
+  mutate(class = as.integer(
+    case_when(class == "cls_1" ~ 1,
+              class == "cls_2" ~ 2,
+              class == "cls_3" ~ 3)
+  ))
 
-    
+
 # Output of FRAGSTATS
 fragstats_output <- fragstats_class_landscape %>%
-    dplyr::select(TYPE, AREA_SD) %>%
-    purrr::set_names("class", "fragstats_calculated") %>%
-    dplyr::mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                                      class == "cls_2" ~ 2,
-                                                      class == "cls_3" ~ 3)))
+  select(TYPE, AREA_SD) %>%
+  set_names("class", "fragstats_calculated") %>%
+  mutate(class = as.integer(
+    case_when(class == "cls_1" ~ 1,
+              class == "cls_2" ~ 2,
+              class == "cls_3" ~ 3)
+  ))
 
 
 # Output of landscapemetrics
 landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
-    dplyr::select(class, value) %>%
-    purrr::set_names("class", "landscapemetrics")
-    
+  select(class, value) %>%
+  set_names("class", "landscapemetrics")
 ```
 
 ```{r echo = FALSE}
-fragstats <- dplyr::full_join(x = fragstats_calculated, 
-                              y = fragstats_output, 
-                              by = "class") 
+fragstats <- full_join(x = fragstats_calculated,
+                       y = fragstats_output,
+                       by = "class")
 
-cv_full <- dplyr::full_join(x = fragstats, 
-                            y = landscapemetrics_output, 
-                            by = "class")
+cv_full <- full_join(x = fragstats,
+                     y = landscapemetrics_output,
+                     by = "class")
 
 print.data.frame(cv_full)
 ```
@@ -126,33 +129,33 @@ According to the definition, for a squared patch the metric should equal CIRCLE 
 ```{r}
 # Calculate patch area
 fragstats_area <- fragstats_patch_landscape %>%
-    select(PID, AREA) %>%
-    purrr::set_names("id", "fragstats_area")
+  select(PID, AREA) %>%
+  set_names("id", "fragstats_area")
 
 landscapemetrics_area <- lsm_p_area(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "landscapemetrics_area")
+  select(id, value) %>%
+  set_names("id", "landscapemetrics_area")
 
 # Calculate CIRCLE
 fragstats_circle <- fragstats_patch_landscape %>%
-    select(PID, CIRCLE) %>%
-    purrr::set_names("id", "fragstats_circle")
+  select(PID, CIRCLE) %>%
+  set_names("id", "fragstats_circle")
 
 landscapemetrics_circle <- lsm_p_circle(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "landscapemetrics_circle")
+  select(id, value) %>%
+  set_names("id", "landscapemetrics_circle")
 ```
 
 ```{r echo = FALSE}
-fragstats <- dplyr::full_join(x = fragstats_area, 
+fragstats <- full_join(x = fragstats_area, 
                               y = fragstats_circle, 
                               by = "id") %>%
-    dplyr::arrange(fragstats_area)
+    arrange(fragstats_area)
 
-landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
+landscapemetrics <- full_join(x = landscapemetrics_area, 
                                      y = landscapemetrics_circle, 
                                      by = "id") %>%
-    dplyr::arrange(landscapemetrics_area)
+   arrange(landscapemetrics_area)
 
 print.data.frame(fragstats)
 print.data.frame(landscapemetrics)
@@ -246,36 +249,37 @@ However, for patches containing a single cell **FRAGSTATS** returns a value of G
 ```{r}
 # Calculate patch area
 fragstats_area <- fragstats_patch_landscape %>%
-    select(PID, AREA) %>%
-    purrr::set_names("id", "fragstats_area")
+  select(PID, AREA) %>%
+  set_names("id", "fragstats_area")
 
 landscapemetrics_area <- lsm_p_area(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "landscapemetrics_area")
+  select(id, value) %>%
+  set_names("id", "landscapemetrics_area")
 
 # Calculate GYRATE
 fragstats_circle <- fragstats_patch_landscape %>%
-    select(PID, GYRATE) %>%
-    purrr::set_names("id", "fragstats_gyrate")
+  select(PID, GYRATE) %>%
+  set_names("id", "fragstats_gyrate")
 
 landscapemetrics_circle <- lsm_p_gyrate(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "landscapemetrics_gyrate")
+  select(id, value) %>%
+  set_names("id", "landscapemetrics_gyrate")
 ```
 
 ```{r echo = FALSE}
-fragstats <- dplyr::full_join(x = fragstats_area, 
-                              y = fragstats_circle, 
-                              by = "id") %>%
-    dplyr::arrange(fragstats_area)
+fragstats <- full_join(x = fragstats_area,
+                       y = fragstats_circle,
+                       by = "id") %>%
+  arrange(fragstats_area)
 
-landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
-                                     y = landscapemetrics_circle, 
-                                     by = "id") %>%
-    dplyr::arrange(landscapemetrics_area)
+landscapemetrics <- full_join(x = landscapemetrics_area,
+                              y = landscapemetrics_circle,
+                              by = "id") %>%
+  arrange(landscapemetrics_area)
 
 print.data.frame(fragstats)
 print.data.frame(landscapemetrics)
+
 ```
 
 #### Error propagation (for metrics based on **GYRATE** metric)
