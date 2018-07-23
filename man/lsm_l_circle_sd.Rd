@@ -12,15 +12,15 @@
 \alias{lsm_l_circle_sd.list}
 \title{CIRCLE_SD (landscape level)}
 \usage{
-lsm_l_circle_sd(landscape)
+lsm_l_circle_sd(landscape, directions)
 
-\method{lsm_l_circle_sd}{RasterLayer}(landscape)
+\method{lsm_l_circle_sd}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_circle_sd}{RasterStack}(landscape)
+\method{lsm_l_circle_sd}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_circle_sd}{RasterBrick}(landscape)
+\method{lsm_l_circle_sd}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_circle_sd}{list}(landscape)
+\method{lsm_l_circle_sd}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

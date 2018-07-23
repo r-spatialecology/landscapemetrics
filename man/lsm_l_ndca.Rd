@@ -64,6 +64,6 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 }
 \seealso{
 \code{\link{lsm_c_tca}}, \cr
-\code{\link{lsm_p_nca}},
+\code{\link{lsm_p_ncore}},
 \code{\link{lsm_c_ndca}}
 }

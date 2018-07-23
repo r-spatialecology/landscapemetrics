@@ -16,7 +16,7 @@ lsm_l_area_cv(landscape, directions)
 
 \method{lsm_l_area_cv}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_area_cv}{RasterStack}(landscape)
+\method{lsm_l_area_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_area_cv}{RasterBrick}(landscape, directions = 8)
 

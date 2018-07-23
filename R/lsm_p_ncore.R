@@ -40,10 +40,10 @@
 #' @importFrom raster ncell
 #'
 #' @examples
-#' lsm_p_nca(landscape)
+#' lsm_p_ncore(landscape)
 #'
-#' @aliases lsm_p_nca
-#' @rdname lsm_p_nca
+#' @aliases lsm_p_ncore
+#' @rdname lsm_p_ncore
 #'
 #' @references
 #' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
@@ -52,49 +52,49 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_nca <- function(landscape, directions) UseMethod("lsm_p_nca")
+lsm_p_ncore <- function(landscape, directions) UseMethod("lsm_p_ncore")
 
-#' @name lsm_p_nca
+#' @name lsm_p_ncore
 #' @export
-lsm_p_nca.RasterLayer <- function(landscape, directions = 8) {
+lsm_p_ncore.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_nca_calc,
+                   lsm_p_ncore_calc,
                    directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#' @name lsm_p_nca
+#' @name lsm_p_ncore
 #' @export
-lsm_p_nca.RasterStack <- function(landscape, directions = 8) {
+lsm_p_ncore.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_nca_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_nca
-#' @export
-lsm_p_nca.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_nca_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_nca
-#' @export
-lsm_p_nca.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape, lsm_p_nca_calc,
+                   lsm_p_ncore_calc,
                    directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_nca_calc <- function(landscape, directions){
+#' @name lsm_p_ncore
+#' @export
+lsm_p_ncore.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_ncore_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_ncore
+#' @export
+lsm_p_ncore.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape, lsm_p_ncore_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_p_ncore_calc <- function(landscape, directions){
 
     landscape_labelled <- cclabel(landscape, directions = directions)
 
@@ -143,7 +143,7 @@ lsm_p_nca_calc <- function(landscape, directions){
         level = "patch",
         class = as.integer(core_class$class),
         id = as.integer(seq_len(nrow(core_class))),
-        metric = "nca",
+        metric = "ncore",
         value = as.double(core_class$value)
     )
 }
