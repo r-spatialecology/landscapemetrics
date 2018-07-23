@@ -373,7 +373,8 @@ fragstats_patch_metrics <- gather(fragstats_patch_landscape, metric, value, AREA
                   class_fragstats == "cls_3" ~ 3)
     ))
 
-fragstats_patch_metrics$metric_fragstats <- recode(fragstats_patch_metrics$metric_fragstats, ncore = "nca")
+fragstats_patch_metrics <- fragstats_patch_metrics[fragstats_patch_metrics$metric_fragstats %in% unique(landscapemetrics_patch_metrics$metric),]
+
 
 fragstats_patch_metrics %<>% arrange(metric_fragstats, class_fragstats)
 landscapemetrics_patch_metrics  %<>% arrange(metric, class)
