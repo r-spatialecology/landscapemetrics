@@ -43,7 +43,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_area_cv <- function(landscape, direction) UseMethod("lsm_c_area_cv")
+lsm_c_area_cv <- function(landscape, directions) UseMethod("lsm_c_area_cv")
 
 #' @name lsm_c_area_cv
 #' @export
@@ -85,7 +85,7 @@ lsm_c_area_cv.list <- function(landscape, directions = 8) {
 
 lsm_c_area_cv_calc <- function(landscape, directions){
     area_cv <- landscape %>%
-        lsm_p_area_calc(.,directions = directions) %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 

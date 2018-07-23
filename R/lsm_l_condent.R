@@ -46,7 +46,7 @@ lsm_l_condent.RasterLayer <- function(landscape,
                                       base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
-                   directions = neighbourhood,
+                   neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
                    .id = "layer") %>%
@@ -61,7 +61,7 @@ lsm_l_condent.RasterStack <- function(landscape,
                                       base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
-                   directions = neighbourhood,
+                   neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
                    .id = "layer") %>%
@@ -77,7 +77,7 @@ lsm_l_condent.RasterBrick <- function(landscape,
                                       base = "log2") {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_condent_calc,
-                   directions = neighbourhood,
+                   neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
                    .id = "layer") %>%
@@ -93,7 +93,7 @@ lsm_l_condent.list <- function(landscape,
                                base = "log2") {
     purrr::map_dfr(landscape,
                    lsm_l_condent_calc,
-                   directions = neighbourhood,
+                   neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
                    .id = "layer") %>%

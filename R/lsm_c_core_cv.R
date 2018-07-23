@@ -44,7 +44,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_core_cv <- function(landscape, direction) UseMethod("lsm_c_core_cv")
+lsm_c_core_cv <- function(landscape, directions) UseMethod("lsm_c_core_cv")
 
 #' @name lsm_c_core_cv
 #' @export

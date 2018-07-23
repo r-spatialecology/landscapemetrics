@@ -47,8 +47,7 @@ lsm_l_area_cv <- function(landscape, directions) UseMethod("lsm_l_area_cv")
 
 #' @name lsm_l_area_cv
 #' @export
-lsm_l_area_cv.RasterLayer <- function(landscape,
-                                      directions = 8) {
+lsm_l_area_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_area_cv_calc,
                    directions = directions,
@@ -58,7 +57,7 @@ lsm_l_area_cv.RasterLayer <- function(landscape,
 
 #' @name lsm_l_area_cv
 #' @export
-lsm_l_area_cv.RasterStack <- function(landscape) {
+lsm_l_area_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_area_cv_calc,
                    directions = directions,
@@ -90,9 +89,9 @@ lsm_l_area_cv.list <- function(landscape, directions = 8) {
 }
 
 # Not working yet!
-lsm_l_area_cv_calc <- function(landscape){
+lsm_l_area_cv_calc <- function(landscape, directions){
     area_cv <- landscape %>%
-        lsm_p_area_calc(., directions = directions) %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(

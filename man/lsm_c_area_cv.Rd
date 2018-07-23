@@ -12,7 +12,7 @@
 \alias{lsm_c_area_cv.list}
 \title{AREA_CV (class level)}
 \usage{
-lsm_c_area_cv(landscape, direction)
+lsm_c_area_cv(landscape, directions)
 
 \method{lsm_c_area_cv}{RasterLayer}(landscape, directions = 8)
 

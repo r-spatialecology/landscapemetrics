@@ -229,7 +229,7 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
                 lsm_p_para(landscape, ...),
                 lsm_p_perim(landscape, ...),
                 # lsm_p_prox(landscape, ...),
-                lsm_p_shape(landscape)
+                lsm_p_shape(landscape, ...)
             )
         }
 
@@ -295,6 +295,7 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
         if (any(what == "landscape")) {
             result_landscape <- dplyr::bind_rows(
+                lsm_l_ai(landscape, ...),
                 lsm_l_area_cv(landscape, ...),
                 lsm_l_area_mn(landscape, ...),
                 lsm_l_area_sd(landscape, ...),
@@ -304,7 +305,8 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
                 lsm_l_circle_cv(landscape, ...),
                 lsm_l_circle_mn(landscape, ...),
                 lsm_l_circle_sd(landscape, ...),
-                lsm_l_tca(landscape, ...),
+                lsm_l_cohesion(landscape, ...),
+                lsm_l_condent(landscape, ...),
                 lsm_l_contig_cv(landscape, ...),
                 lsm_l_contig_mn(landscape, ...),
                 lsm_l_contig_sd(landscape, ...),
@@ -312,25 +314,28 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
                 lsm_l_core_mn(landscape, ...),
                 lsm_l_core_sd(landscape, ...),
                 lsm_l_dcad(landscape, ...),
-                lsm_l_division(landscape, ...),
                 lsm_l_dcore_cv(landscape, ...),
                 lsm_l_dcore_mn(landscape, ...),
                 lsm_l_dcore_sd(landscape, ...),
+                lsm_l_division(landscape, ...),
                 lsm_l_ed(landscape, ...),
-                # lsm_l_enn_cv(landscape, ...),
-                # lsm_l_enn_mn(landscape, ...),
-                # lsm_l_enn_sd(landscape, ...),
+                lsm_l_enn_cv(landscape, ...),
+                lsm_l_enn_mn(landscape, ...),
+                lsm_l_enn_sd(landscape, ...),
+                lsm_l_ent(landscape, ...),
                 lsm_l_frac_cv(landscape, ...),
                 lsm_l_frac_mn(landscape, ...),
                 lsm_l_frac_sd(landscape, ...),
                 lsm_l_gyrate_cv(landscape, ...),
                 lsm_l_gyrate_mn(landscape, ...),
                 lsm_l_gyrate_sd(landscape, ...),
+                lsm_l_joinent(landscape, ...),
                 lsm_l_lpi(landscape, ...),
                 lsm_l_lsi(landscape, ...),
                 lsm_l_mesh(landscape, ...),
                 lsm_l_msidi(landscape, ...),
                 lsm_l_msiei(landscape, ...),
+                lsm_l_mutinf(landscape, ...),
                 lsm_l_ndca(landscape, ...),
                 lsm_l_np(landscape, ...),
                 lsm_l_pafrac(landscape, ...),
@@ -351,6 +356,7 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
                 lsm_l_siei(landscape, ...),
                 lsm_l_split(landscape, ...),
                 lsm_l_ta(landscape, ...),
+                lsm_l_tca(landscape, ...),
                 lsm_l_te(landscape, ...)
             )
         }

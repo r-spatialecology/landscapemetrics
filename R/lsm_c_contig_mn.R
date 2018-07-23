@@ -3,6 +3,7 @@
 #' @description Mean of Contiguity index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CONTIG_{MN} =  mean(CONTIG[patch_{ij}])}
@@ -51,43 +52,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_contig_mn <- function(landscape) UseMethod("lsm_c_contig_mn")
+lsm_c_contig_mn <- function(landscape, directions) UseMethod("lsm_c_contig_mn")
 
 #' @name lsm_c_contig_mn
 #' @export
-lsm_c_contig_mn.RasterLayer <- function(landscape) {
+lsm_c_contig_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_mn_calc, .id = "layer") %>%
+                   lsm_c_contig_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_mn
 #' @export
-lsm_c_contig_mn.RasterStack <- function(landscape) {
+lsm_c_contig_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_mn_calc,.id = "layer") %>%
+                   lsm_c_contig_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_mn
 #' @export
-lsm_c_contig_mn.RasterBrick <- function(landscape) {
+lsm_c_contig_mn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_mn_calc, .id = "layer") %>%
+                   lsm_c_contig_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_mn
 #' @export
-lsm_c_contig_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_contig_mn_calc, .id = "layer") %>%
+lsm_c_contig_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_contig_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_contig_mn_calc <- function(landscape) {
+lsm_c_contig_mn_calc <- function(landscape, directions) {
 
     contig_mn  <- landscape %>%
-        lsm_p_contig_calc() %>%
+        lsm_p_contig_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = mean(value, na.rm = TRUE))
 

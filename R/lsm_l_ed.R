@@ -45,45 +45,61 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_ed <- function(landscape, count_boundary) UseMethod("lsm_l_ed")
+lsm_l_ed <- function(landscape, count_boundary, directions) UseMethod("lsm_l_ed")
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterLayer <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_l_ed.RasterLayer <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ed_calc,
+                   count_boundary = count_boundary,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterStack <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_l_ed.RasterStack <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ed_calc,
+                   count_boundary = count_boundary,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_ed_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+lsm_l_ed.RasterBrick <- function(landscape,
+                                 count_boundary = FALSE, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ed_calc,
+                   count_boundary = count_boundary,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ed
 #' @export
-lsm_l_ed.list <- function(landscape, count_boundary = FALSE) {
+lsm_l_ed.list <- function(landscape,
+                          count_boundary = FALSE, directions = 8) {
     purrr::map_dfr(landscape, lsm_l_ed_calc,
-                   count_boundary = count_boundary, .id = "layer") %>%
+                   count_boundary = count_boundary,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary) {
+lsm_l_ed_calc <- function(landscape, count_boundary, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    edge_landscape <- lsm_l_te_calc(landscape, count_boundary = count_boundary)
+    edge_landscape <- lsm_l_te_calc(landscape,
+                                    count_boundary = count_boundary)
 
     ed <- dplyr::mutate(edge_landscape, value = value / area_landscape$value)
 

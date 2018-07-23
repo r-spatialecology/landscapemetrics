@@ -80,9 +80,9 @@ lsm_c_cpland.list <- function(landscape, directions = 8) {
 
 lsm_c_cpland_calc <- function(landscape, directions){
 
-    area_landscape <- lsm_l_ta_calc(landscape., directions = directions)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    core_area_class <- lsm_c_tca_calc(landscape., directions = directions)
+    core_area_class <- lsm_c_tca_calc(landscape, directions = directions)
 
     cpland <- dplyr::mutate(core_area_class,
                             value = value / area_landscape$value * 100)
