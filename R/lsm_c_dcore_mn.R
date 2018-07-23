@@ -20,7 +20,7 @@
 #' without limit, as the number of disjunct corea areas increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_nca}},
+#' \code{\link{lsm_p_ncore}},
 #' \code{\link{mean}}, \cr
 #' \code{\link{lsm_c_dcore_sd}},
 #' \code{\link{lsm_c_dcore_cv}}, \cr
@@ -87,7 +87,7 @@ lsm_c_dcore_mn.list <- function(landscape, directions = 8) {
 
 lsm_c_dcore_mn_calc <- function(landscape, directions){
     dcore_mean <- landscape %>%
-        lsm_p_nca_calc(., directions = directions) %>%
+        lsm_p_ncore_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 

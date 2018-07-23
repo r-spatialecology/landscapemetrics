@@ -23,7 +23,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_nca}},
+#' \code{\link{lsm_p_ncore}},
 #' \code{\link{cv}}, \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_sd}},
@@ -92,7 +92,7 @@ lsm_l_dcore_cv.list <- function(landscape, directions = 8) {
 lsm_l_dcore_cv_calc <- function(landscape, directions){
 
     dcore_cv <- landscape %>%
-        lsm_p_nca_calc(., directions = directions) %>%
+        lsm_p_ncore_calc(., directions = directions) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(

@@ -26,7 +26,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_c_tca}}, \cr
-#' \code{\link{lsm_p_nca}},
+#' \code{\link{lsm_p_ncore}},
 #' \code{\link{lsm_c_ndca}}
 #' @return tibble
 #'
@@ -88,7 +88,7 @@ lsm_l_ndca.list <- function(landscape, directions = 8) {
 lsm_l_ndca_calc <- function(landscape, directions){
 
     ndca <- landscape %>%
-        lsm_p_nca_calc(directions = directions) %>%
+        lsm_p_ncore_calc(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

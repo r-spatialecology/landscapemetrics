@@ -12,7 +12,7 @@
 \alias{lsm_c_circle_mn.list}
 \title{CIRCLE_MN (Class level)}
 \usage{
-lsm_c_circle_mn(landscape)
+lsm_c_circle_mn(landscape, directions)
 
 \method{lsm_c_circle_mn}{RasterLayer}(landscape, directions = 8)
 

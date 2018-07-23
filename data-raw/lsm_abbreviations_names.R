@@ -42,7 +42,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "contig_cv",
 
         "core",
-        "nca",
+        "ncore",
         "cai",
         "tca",
         "cpland",
