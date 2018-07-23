@@ -121,7 +121,11 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
+      </header><script src="comparing_fragstats_landscapemetrics_files/htmlwidgets-1.2/htmlwidgets.js"></script><script src="comparing_fragstats_landscapemetrics_files/jquery-1.12.4/jquery.min.js"></script><link href="comparing_fragstats_landscapemetrics_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="comparing_fragstats_landscapemetrics_files/datatables-binding-0.4/datatables.js"></script><link href="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/js/jquery.dataTables.min.js"></script><link href="comparing_fragstats_landscapemetrics_files/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet">
+<script src="comparing_fragstats_landscapemetrics_files/crosstalk-1.0.0/js/crosstalk.min.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics</h1>
@@ -596,10 +600,31 @@
 </div>
 </div>
 </div>
+<div id="overview-of-deviation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview-of-deviation" class="anchor"></a>Overview of deviation</h2>
+<div id="patch-level-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#patch-level-1" class="anchor"></a>Patch level</h3>
+<pre><code>## 
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from 'package:tidyr':
+## 
+##     extract</code></pre>
+<pre><code>## The following object is masked from 'package:raster':
+## 
+##     extract</code></pre>
+<div id="htmlwidget-79be2ce55239a91352fa" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-79be2ce55239a91352fa">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["area","cai","circle","contig","core","enn","frac","gyrate","nca","para","perim","shape"],[1,4,3,1,1,1,1,3,1,10,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>metric<\/th>\n      <th>interval<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":25,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':value == '1' ? '#3B4CC0' : value == '4' ? '#A9C5FC' : value == '3' ? '#5C7BE4' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '3' ? '#5C7BE4' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : ''});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
 <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
+</div>
 </div>
 </div>
   </div>
@@ -610,7 +635,11 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#general-differences">General differences</a></li>
-      <li><a href="#specific-differences">Specific differences</a></li>
+      <li>
+<a href="#specific-differences">Specific differences</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#overview-of-deviation">Overview of deviation</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
