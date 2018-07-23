@@ -3,8 +3,6 @@
 #' @description Aggregation index (Contagion/Interspersion metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
-#' @param directions The number of directions in which cells should be
-#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
@@ -40,35 +38,22 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_ai <- function(landscape, directions) UseMethod("lsm_l_ai")
+lsm_l_ai <- function(landscape) UseMethod("lsm_l_ai")
 
 #' @name lsm_l_ai
 #' @export
-lsm_l_ai.RasterLayer <- function(landscape, directions = 8) {
+lsm_l_ai.RasterLayer <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_ai_calc,
-                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_ai
 #' @export
-lsm_l_ai.RasterStack <- function(landscape, directions = 8) {
+lsm_l_ai.RasterStack <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_ai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ai_calc,
-                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -76,18 +61,27 @@ lsm_l_ai.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_l_ai
 #' @export
-lsm_l_ai.list <- function(landscape, directions = 8) {
+lsm_l_ai.RasterBrick <- function(landscape) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ai_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_ai
+#' @export
+lsm_l_ai.list <- function(landscape) {
     purrr::map_dfr(landscape,
                    lsm_l_ai_calc,
-                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_ai_calc <- function(landscape, directions) {
+lsm_l_ai_calc <- function(landscape) {
 
-    cai <- lsm_c_ai(landscape, directions = directions) %>%
+    cai <- lsm_c_ai(landscape) %>%
         dplyr::pull(value)
 
     prop_class <- (lsm_c_pland(landscape) %>%

@@ -45,46 +45,55 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_circle_sd <- function(landscape) UseMethod("lsm_c_circle_sd")
+lsm_c_circle_sd <- function(landscape, directions) UseMethod("lsm_c_circle_sd")
 
 #' @name lsm_c_circle_sd
 #' @export
-lsm_c_circle_sd.RasterLayer <- function(landscape) {
+lsm_c_circle_sd.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_sd_calc, .id = "layer") %>%
+                   lsm_c_circle_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_circle_sd
 #' @export
-lsm_c_circle_sd.RasterStack <- function(landscape) {
+lsm_c_circle_sd.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_sd_calc, .id = "layer") %>%
+                   lsm_c_circle_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_circle_sd
 #' @export
-lsm_c_circle_sd.RasterBrick <- function(landscape) {
+lsm_c_circle_sd.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_circle_sd_calc, .id = "layer") %>%
+                   lsm_c_circle_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_c_circle_sd
 #' @export
-lsm_c_circle_sd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_circle_sd_calc, .id = "layer") %>%
+lsm_c_circle_sd.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_circle_sd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_c_circle_sd_calc <- function(landscape) {
+lsm_c_circle_sd_calc <- function(landscape, directions) {
 
     circle_sd  <- landscape %>%
-        lsm_p_circle_calc() %>%
+        lsm_p_circle_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
 

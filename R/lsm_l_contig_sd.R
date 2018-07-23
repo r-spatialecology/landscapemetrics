@@ -98,7 +98,7 @@ lsm_l_contig_sd.list <- function(landscape, directions = 8) {
 lsm_l_contig_sd_calc <- function(landscape, directions) {
 
     contig_cv  <- landscape %>%
-        lsm_p_contig_calc() %>%
+        lsm_p_contig_calc(directions = directions) %>%
         dplyr::summarize(value = sd(value, na.rm = TRUE))
 
     tibble::tibble(

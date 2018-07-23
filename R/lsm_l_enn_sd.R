@@ -54,7 +54,6 @@ lsm_l_enn_sd.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_enn_sd_calc,
                    directions = directions,
-                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }

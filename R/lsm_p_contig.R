@@ -3,6 +3,8 @@
 #' @description Contiguity index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CONTIG =  \frac{\Bigg[\frac{\sum\limits_{r=1}^z  c_{ijr}}{a_{ij}}\Bigg] - 1 }{ v - 1} }
@@ -58,7 +60,9 @@ lsm_p_contig <- function(landscape, directions) UseMethod("lsm_p_contig")
 #' @export
 lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
+                   lsm_p_contig_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -66,7 +70,9 @@ lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
 #' @export
 lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc, directions = directions,.id = "layer") %>%
+                   lsm_p_contig_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -74,7 +80,9 @@ lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
 #' @export
 lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
+                   lsm_p_contig_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -82,7 +90,9 @@ lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
 #' @export
 lsm_p_contig.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
-                   lsm_p_contig_calc, directions = directions, .id = "layer") %>%
+                   lsm_p_contig_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

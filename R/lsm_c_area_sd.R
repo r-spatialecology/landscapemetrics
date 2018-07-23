@@ -84,7 +84,7 @@ lsm_c_area_sd.list <- function(landscape, directions = 8) {
 
 lsm_c_area_sd_calc <- function(landscape, directions){
     area_sd <- landscape %>%
-        lsm_p_area_calc(., directions = directions) %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 

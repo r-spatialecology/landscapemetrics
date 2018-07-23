@@ -82,18 +82,18 @@ lsm_c_cohesion.list <- function(landscape, directions = 8) {
 
 }
 
-lsm_c_cohesion_calc <- function(landscape) {
+lsm_c_cohesion_calc <- function(landscape, directions) {
 
     ncells_landscape <- landscape %>%
-        lsm_l_ta_calc() %>%
+        lsm_l_ta_calc(directions = directions) %>%
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
 
     ncells_patch <- landscape %>%
-        lsm_p_area_calc(., directions = directions) %>%
+        lsm_p_area_calc(directions = directions) %>%
         dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
 
     perim_patch <- landscape %>%
-        lsm_p_perim_calc(., directions = directions)
+        lsm_p_perim_calc(directions = directions)
 
     denominator <- perim_patch %>%
         dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%

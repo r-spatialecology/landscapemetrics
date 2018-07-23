@@ -86,7 +86,7 @@ lsm_l_dcad.list <- function(landscape, directions = 8) {
 
 lsm_l_dcad_calc <- function(landscape, directions){
 
-    area_landscape <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
     ncore_patch <- lsm_p_nca_calc(landscape, directions = directions)
 

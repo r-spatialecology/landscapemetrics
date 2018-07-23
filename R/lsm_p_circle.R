@@ -3,6 +3,8 @@
 #' @description Related Circumscribing Circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CIRCLE = 1 - (\frac{a_{ij}} {a_{ij}^{circle}})}

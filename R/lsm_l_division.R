@@ -83,7 +83,7 @@ lsm_l_division.list <- function(landscape, directions = 8) {
 
 lsm_l_division_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 

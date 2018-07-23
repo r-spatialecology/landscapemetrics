@@ -53,43 +53,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_contig_cv <- function(landscape) UseMethod("lsm_c_contig_cv")
+lsm_c_contig_cv <- function(landscape, directions) UseMethod("lsm_c_contig_cv")
 
 #' @name lsm_c_contig_cv
 #' @export
-lsm_c_contig_cv.RasterLayer <- function(landscape) {
+lsm_c_contig_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_cv_calc, .id = "layer") %>%
+                   lsm_c_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_cv
 #' @export
-lsm_c_contig_cv.RasterStack <- function(landscape) {
+lsm_c_contig_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_cv_calc,.id = "layer") %>%
+                   lsm_c_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_cv
 #' @export
-lsm_c_contig_cv.RasterBrick <- function(landscape) {
+lsm_c_contig_cv.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_contig_cv_calc, .id = "layer") %>%
+                   lsm_c_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_contig_cv
 #' @export
-lsm_c_contig_cv.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_contig_cv_calc, .id = "layer") %>%
+lsm_c_contig_cv.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_contig_cv_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_contig_cv_calc <- function(landscape) {
+lsm_c_contig_cv_calc <- function(landscape, directions) {
 
     contig_cv  <- landscape %>%
-        lsm_p_contig_calc() %>%
+        lsm_p_contig_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 

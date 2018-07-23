@@ -54,7 +54,8 @@ lsm_c_cai_cv <- function(landscape, directions) UseMethod("lsm_c_cai_cv")
 lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_cai_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -63,7 +64,8 @@ lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8) {
 lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_cai_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -73,7 +75,8 @@ lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
 lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_cai_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
@@ -82,14 +85,15 @@ lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
 #' @export
 lsm_c_cai_cv.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape, lsm_c_cai_cv_calc,
-                   directions = directions, .id = "layer") %>%
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 lsm_c_cai_cv_calc <- function(landscape, directions){
     cai_cv <- landscape %>%
-        lsm_p_cai_calc() %>%
+        lsm_p_cai_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
