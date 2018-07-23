@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics</h1>
             
-            <h4 class="date">2018-07-22</h4>
+            <h4 class="date">2018-07-23</h4>
       
       
       <div class="hidden name"><code>comparing_fragstats_landscapemetrics.Rmd</code></div>
@@ -135,7 +135,7 @@
 
     
     
-<p><strong>landscapemetrics</strong> re-implements landcsape metrics as they are described in the <strong>FRAGSTATS</strong> software (McGarigal et al. 2012). Therefore, we compared our results with the results of <strong>FRAGSTATS</strong>. In the process, we recognized a few differences between the results.</p>
+<p><strong>landscapemetrics</strong> re-implements landcsape metrics as they are described in the <strong>FRAGSTATS</strong> software (McGarigal et al. 2012). Therefore, we compared our results with the results of <strong>FRAGSTATS</strong>. In the process, we recognized a few differences between the results.</p>
 <p>Some metrics in <em>FRAGSTATS</em> are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.</p>
 <p>Unfortunatly, we do not have access to the source code of <strong>FRAGSTATS</strong>. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.</p>
 <div id="general-differences" class="section level1">
@@ -145,61 +145,61 @@
 <p>All double precision floating point numbers are rounded after the 4th decimal place in <strong>FRAGSTATS</strong>. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.</p>
 <p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i). While the results are identical for the single patches and the mean of all patches, there are some slight differences between <strong>lanscapemetrics</strong> and <strong>FRAGSTATS</strong> for the standard deviation and the coefficent of variation.</p>
 <p>In the following, we are comparing the cv for the patch area. We are including the cv calculate from all patch areas and the acutal output of <strong>FRAGSTATS</strong> as well as the output of <strong>landscapemetrics</strong>. Interestingly, the cv calculated from all patches of <strong>FRAGSTATS</strong> is identical to the cv of <strong>landscapemetrics</strong>, but the actual result of <strong>FRAGSTATS</strong> is slightly different.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># function to calculate coefficient of variation</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">cv &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">    (<span class="kw">sd</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">/</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">         </span><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># CV calculated from patch values of FRAGSTATS </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">cv =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="st">    </span><span class="kw">select</span>(TYPE, AREA_CV) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb1-21" data-line-number="21">                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb1-22" data-line-number="22">                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))</a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_cv</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="st">    </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to calculate coefficient of variation</span>
+cv &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+    (<span class="kw">sd</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">/</span>
+<span class="st">         </span><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+}
+
+<span class="co"># CV calculated from patch values of FRAGSTATS </span>
+fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">cv =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))
+
+<span class="co"># Output of FRAGSTATS</span>
+fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(TYPE, AREA_CV) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))
+
+<span class="co"># Output of landscapemetrics</span>
+landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_cv</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</code></pre></div>
 <pre><code>##   class fragstats_calculated fragstats_output landscapemetrics
 ## 1     1             242.4570         228.5906         242.4570
 ## 2     2             165.0134         159.0109         165.0134
 ## 3     3             187.7700         162.6136         187.7700</code></pre>
 <p>As for the cv, the results for the sd are similiar. The result calculated from all patch areas of <strong>FRAGSTATS</strong> is identical to the result of <strong>landscapemetrics</strong>, but not the actual result of <strong>FRAGSTATS</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># SD calculated from patch values of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">    </a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_SD) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))</a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_sd</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># SD calculated from patch values of FRAGSTATS</span>
+fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))
+
+    
+<span class="co"># Output of FRAGSTATS</span>
+fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_SD) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">class =</span> <span class="kw">as.integer</span>(dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(class <span class="op">==</span><span class="st"> "cls_1"</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_2"</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,
+                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))
+
+
+<span class="co"># Output of landscapemetrics</span>
+landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_sd</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</code></pre></div>
 <pre><code>##   class fragstats_calculated.x fragstats_calculated.y landscapemetrics
 ## 1     1            0.004822200                 0.0045      0.004822200
 ## 2     2            0.002852375                 0.0027      0.002852375
@@ -216,23 +216,23 @@
 <p>[…] CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. […]</p>
 </blockquote>
 <p>According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in <strong>FRAGSTATS</strong> patches containing only one cell equal CIRCLE = 0. In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Calculate CIRCLE</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">    </span><span class="kw">select</span>(PID, CIRCLE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_circle</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate patch area</span>
+fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)
+
+landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)
+
+<span class="co"># Calculate CIRCLE</span>
+fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(PID, CIRCLE) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)
+
+landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_circle</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</code></pre></div>
 <pre><code>##    id fragstats_area fragstats_circle
 ## 1   1         0.0001           0.0000
 ## 2  19         0.0001           0.0000
@@ -263,32 +263,32 @@
 ## 27  4         0.0457           0.6658</code></pre>
 <pre><code>##    id landscapemetrics_area landscapemetrics_circle
 ## 1   1                0.0001               0.3633802
-## 2   4                0.0001               0.3633802
-## 3   5                0.0001               0.3633802
-## 4   9                0.0001               0.3633802
-## 5  15                0.0001               0.3633802
-## 6  17                0.0001               0.3633802
-## 7  11                0.0002               0.4907042
-## 8  12                0.0002               0.6816901
-## 9  14                0.0002               0.4907042
-## 10  7                0.0003               0.6180281
-## 11 18                0.0003               0.5225352
-## 12 19                0.0003               0.5225352
-## 13 23                0.0003               0.6180281
-## 14 26                0.0003               0.6180281
-## 15 21                0.0004               0.3633802
-## 16  2                0.0005               0.6255178
-## 17  8                0.0005               0.5102925
-## 18 22                0.0007               0.3144095
-## 19 25                0.0009               0.5416338
-## 20 27                0.0010               0.4907042
-## 21  6                0.0014               0.5543662
-## 22 16                0.0024               0.6849717
+## 2   5                0.0001               0.3633802
+## 3   7                0.0001               0.3633802
+## 4   8                0.0001               0.3633802
+## 5  14                0.0001               0.3633802
+## 6  22                0.0001               0.3633802
+## 7  13                0.0002               0.4907042
+## 8  15                0.0002               0.4907042
+## 9  19                0.0002               0.6816901
+## 10  9                0.0003               0.6180281
+## 11 16                0.0003               0.6180281
+## 12 17                0.0003               0.5225352
+## 13 21                0.0003               0.5225352
+## 14 27                0.0003               0.6180281
+## 15 18                0.0004               0.3633802
+## 16  3                0.0005               0.6255178
+## 17  6                0.0005               0.5102925
+## 18 23                0.0007               0.3144095
+## 19 24                0.0009               0.5416338
+## 20 26                0.0010               0.4907042
+## 21  4                0.0014               0.5543662
+## 22 12                0.0024               0.6849717
 ## 23 10                0.0035               0.5795907
-## 24 20                0.0057               0.5520083
-## 25 13                0.0098               0.8112292
-## 26  3                0.0148               0.7783065
-## 27 24                0.0457               0.6657838</code></pre>
+## 24 11                0.0057               0.5520083
+## 25 20                0.0098               0.8112292
+## 26  2                0.0148               0.7783065
+## 27 25                0.0457               0.6657838</code></pre>
 <div id="error-propagation-for-metrics-based-on-circle-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-circle-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CIRCLE</strong> metric)</h4>
@@ -325,11 +325,11 @@
 </blockquote>
 <p>In <strong>landscapemetrics</strong> the depth-of-edge is fixed to one cell. In other words, all cells with four adjacent neighbours of the same class are defined as core cells. The implementation of the depth-of-edge distance seems to be slightly different in <strong>FRAGSTATS</strong>, leading to slightly different results for core metrics.</p>
 <p>This is a visual aid to help understand how we implemented the core metric. The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># All patches of class 1</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># Core area of all patches, 1 = Edge, 0 = Core</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">core &lt;-<span class="st"> </span><span class="kw">boundaries</span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># All patches of class 1</span>
+class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]
+
+<span class="co"># Core area of all patches, 1 = Edge, 0 = Core</span>
+core &lt;-<span class="st"> </span><span class="kw">boundaries</span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</code></pre></div>
 <p><img src="comparing_fragstats_landscapemetrics_files/figure-html/unnamed-chunk-8-1.png" width="700" style="display: block; margin: auto;"></p>
 <div id="error-propagation-for-metrics-based-on-core-metric" class="section level4">
 <h4 class="hasAnchor">
@@ -389,23 +389,23 @@
 <p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
 <p>However, for patches containing a single cell <strong>FRAGSTATS</strong> returns a value of GYRATE = 0.5. In the following table, patches with an area of area = 0.0001 consist of only one cell.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">    </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co"># Calculate GYRATE</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">    </span><span class="kw">select</span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_gyrate</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate patch area</span>
+fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)
+
+landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)
+
+<span class="co"># Calculate GYRATE</span>
+fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(PID, GYRATE) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)
+
+landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_gyrate</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</code></pre></div>
 <pre><code>##    id fragstats_area fragstats_gyrate
 ## 1   1         0.0001           0.5000
 ## 2  19         0.0001           0.5000
@@ -436,32 +436,32 @@
 ## 27  4         0.0457          11.2509</code></pre>
 <pre><code>##    id landscapemetrics_area landscapemetrics_gyrate
 ## 1   1                0.0001               0.0000000
-## 2   4                0.0001               0.0000000
-## 3   5                0.0001               0.0000000
-## 4   9                0.0001               0.0000000
-## 5  15                0.0001               0.0000000
-## 6  17                0.0001               0.0000000
-## 7  11                0.0002               0.5000000
-## 8  12                0.0002               0.7071068
-## 9  14                0.0002               0.5000000
-## 10  7                0.0003               0.6666667
-## 11 18                0.0003               0.6540388
-## 12 19                0.0003               0.6540388
-## 13 23                0.0003               0.6666667
-## 14 26                0.0003               0.6666667
-## 15 21                0.0004               0.7071068
-## 16  2                0.0005               1.0001523
-## 17  8                0.0005               0.8478015
-## 18 22                0.0007               0.9747933
-## 19 25                0.0009               1.2368243
-## 20 27                0.0010               1.2420291
-## 21  6                0.0014               1.6314858
-## 22 16                0.0024               2.5102819
+## 2   5                0.0001               0.0000000
+## 3   7                0.0001               0.0000000
+## 4   8                0.0001               0.0000000
+## 5  14                0.0001               0.0000000
+## 6  22                0.0001               0.0000000
+## 7  13                0.0002               0.5000000
+## 8  15                0.0002               0.5000000
+## 9  19                0.0002               0.7071068
+## 10  9                0.0003               0.6666667
+## 11 16                0.0003               0.6666667
+## 12 17                0.0003               0.6540388
+## 13 21                0.0003               0.6540388
+## 14 27                0.0003               0.6666667
+## 15 18                0.0004               0.7071068
+## 16  3                0.0005               1.0001523
+## 17  6                0.0005               0.8478015
+## 18 23                0.0007               0.9747933
+## 19 24                0.0009               1.2368243
+## 20 26                0.0010               1.2420291
+## 21  4                0.0014               1.6314858
+## 22 12                0.0024               2.5102819
 ## 23 10                0.0035               2.4954894
-## 24 20                0.0057               3.1706682
-## 25 13                0.0098               6.3637330
-## 26  3                0.0148               8.5519260
-## 27 24                0.0457              11.2363838</code></pre>
+## 24 11                0.0057               3.1706682
+## 25 20                0.0098               6.3637330
+## 26  2                0.0148               8.5519260
+## 27 25                0.0457              11.2363838</code></pre>
 <div id="error-propagation-for-metrics-based-on-gyrate-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-gyrate-metric" class="anchor"></a>Error propagation (for metrics based on <strong>GYRATE</strong> metric)</h4>
@@ -494,35 +494,35 @@
 </blockquote>
 <p>Contrastingly, the output of <strong>FRAGSTATS</strong> gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
 <p>We implemented PARA as documented in the <strong>FRAGSTATS</strong> manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the <strong>FRAGSTATS</strong> output to meters per square meters.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_perim</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb12-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
-<a class="sourceLine" id="cb12-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb12-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
-<a class="sourceLine" id="cb12-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
-<a class="sourceLine" id="cb12-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(para_landscapemetrics, </a>
-<a class="sourceLine" id="cb12-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-27" data-line-number="27"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb12-28" data-line-number="28">                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-29" data-line-number="29"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Output of FRAGSTATS</span>
+fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, 
+                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)
+
+<span class="co"># Output of landscapemetrics</span>
+area_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>)
+
+perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_perim</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)
+
+para_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"para"</span>)
+
+landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, 
+                                     <span class="dt">y =</span> perim_landscapmetrics, 
+                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(para_landscapemetrics, 
+                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, 
+                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)</code></pre></div>
 <pre><code>##    id   area perim      para para_calculated_ha para_calculated_m
 ## 1   1 0.0001     4 40000.000          40000.000         4.0000000
 ## 2  19 0.0001     4 40000.000          40000.000         4.0000000
@@ -553,32 +553,32 @@
 ## 27  4 0.0457   348  7614.880           7614.880         0.7614880</code></pre>
 <pre><code>##    id   area perim      para para_calculated_ha para_calculated_m
 ## 1   1 0.0001     4 4.0000000          40000.000         4.0000000
-## 2   4 0.0001     4 4.0000000          40000.000         4.0000000
-## 3   5 0.0001     4 4.0000000          40000.000         4.0000000
-## 4   9 0.0001     4 4.0000000          40000.000         4.0000000
-## 5  15 0.0001     4 4.0000000          40000.000         4.0000000
-## 6  17 0.0001     4 4.0000000          40000.000         4.0000000
-## 7  11 0.0002     6 3.0000000          30000.000         3.0000000
-## 8  12 0.0002     8 4.0000000          40000.000         4.0000000
-## 9  14 0.0002     6 3.0000000          30000.000         3.0000000
-## 10  7 0.0003     8 2.6666667          26666.667         2.6666667
-## 11 18 0.0003     8 2.6666667          26666.667         2.6666667
-## 12 19 0.0003     8 2.6666667          26666.667         2.6666667
-## 13 23 0.0003     8 2.6666667          26666.667         2.6666667
-## 14 26 0.0003     8 2.6666667          26666.667         2.6666667
-## 15 21 0.0004     8 2.0000000          20000.000         2.0000000
-## 16  2 0.0005    12 2.4000000          24000.000         2.4000000
-## 17  8 0.0005    10 2.0000000          20000.000         2.0000000
-## 18 22 0.0007    12 1.7142857          17142.857         1.7142857
-## 19 25 0.0009    16 1.7777778          17777.778         1.7777778
-## 20 27 0.0010    16 1.6000000          16000.000         1.6000000
-## 21  6 0.0014    20 1.4285714          14285.714         1.4285714
-## 22 16 0.0024    32 1.3333333          13333.333         1.3333333
+## 2   5 0.0001     4 4.0000000          40000.000         4.0000000
+## 3   7 0.0001     4 4.0000000          40000.000         4.0000000
+## 4   8 0.0001     4 4.0000000          40000.000         4.0000000
+## 5  14 0.0001     4 4.0000000          40000.000         4.0000000
+## 6  22 0.0001     4 4.0000000          40000.000         4.0000000
+## 7  13 0.0002     6 3.0000000          30000.000         3.0000000
+## 8  15 0.0002     6 3.0000000          30000.000         3.0000000
+## 9  19 0.0002     8 4.0000000          40000.000         4.0000000
+## 10  9 0.0003     8 2.6666667          26666.667         2.6666667
+## 11 16 0.0003     8 2.6666667          26666.667         2.6666667
+## 12 17 0.0003     8 2.6666667          26666.667         2.6666667
+## 13 21 0.0003     8 2.6666667          26666.667         2.6666667
+## 14 27 0.0003     8 2.6666667          26666.667         2.6666667
+## 15 18 0.0004     8 2.0000000          20000.000         2.0000000
+## 16  3 0.0005    12 2.4000000          24000.000         2.4000000
+## 17  6 0.0005    10 2.0000000          20000.000         2.0000000
+## 18 23 0.0007    12 1.7142857          17142.857         1.7142857
+## 19 24 0.0009    16 1.7777778          17777.778         1.7777778
+## 20 26 0.0010    16 1.6000000          16000.000         1.6000000
+## 21  4 0.0014    20 1.4285714          14285.714         1.4285714
+## 22 12 0.0024    32 1.3333333          13333.333         1.3333333
 ## 23 10 0.0035    38 1.0857143          10857.143         1.0857143
-## 24 20 0.0057    40 0.7017544           7017.544         0.7017544
-## 25 13 0.0098    82 0.8367347           8367.347         0.8367347
-## 26  3 0.0148   130 0.8783784           8783.784         0.8783784
-## 27 24 0.0457   348 0.7614880           7614.880         0.7614880</code></pre>
+## 24 11 0.0057    40 0.7017544           7017.544         0.7017544
+## 25 20 0.0098    82 0.8367347           8367.347         0.8367347
+## 26  2 0.0148   130 0.8783784           8783.784         0.8783784
+## 27 25 0.0457   348 0.7614880           7614.880         0.7614880</code></pre>
 <div id="error-propagation-for-metrics-based-on-para-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-para-metric" class="anchor"></a>Error propagation (for metrics based on <strong>PARA</strong> metric)</h4>

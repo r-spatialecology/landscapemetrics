@@ -169,19 +169,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,6 +189,11 @@
     <tr>
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
+    </tr>
+    <tr>
+      <th>directions</th>
+      <td><p>The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
     </table>
     
@@ -225,7 +230,10 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='error'>Error in cclabel(landscape, directions = directions): argument "directions" is missing, with no default</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_ta</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA ta      0.09</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

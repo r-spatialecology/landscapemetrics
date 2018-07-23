@@ -12,18 +12,21 @@
 \alias{lsm_l_frac_mn.list}
 \title{FRAC_MN (landscape level)}
 \usage{
-lsm_l_frac_mn(landscape)
+lsm_l_frac_mn(landscape, directions)
 
-\method{lsm_l_frac_mn}{RasterLayer}(landscape)
+\method{lsm_l_frac_mn}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_frac_mn}{RasterStack}(landscape)
+\method{lsm_l_frac_mn}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_frac_mn}{RasterBrick}(landscape)
+\method{lsm_l_frac_mn}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_frac_mn}{list}(landscape)
+\method{lsm_l_frac_mn}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

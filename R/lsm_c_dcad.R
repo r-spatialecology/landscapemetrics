@@ -84,7 +84,7 @@ lsm_c_dcad.list <- function(landscape, directions = 8) {
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_dcad_calc <- function(landscapedirections){
+lsm_c_dcad_calc <- function(landscape, directions){
 
     area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 

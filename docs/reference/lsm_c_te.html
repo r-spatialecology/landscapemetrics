@@ -169,19 +169,22 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='no'>count_boundary</span>)
+    <pre class="usage"><span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='no'>count_boundary</span>, <span class='no'>directions</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>lsm_c_te</span>(<span class='no'>landscape</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,6 +196,11 @@
     <tr>
       <th>count_boundary</th>
       <td><p>Include landscape boundary in edge length</p></td>
+    </tr>
+    <tr>
+      <th>directions</th>
+      <td><p>The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
     </table>
     

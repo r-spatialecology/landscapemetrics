@@ -3,6 +3,8 @@
 #' @description Patch density (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{PD = \frac{n_{i}} {A} * 10000 * 100}
@@ -39,41 +41,53 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_pd <- function(landscape) UseMethod("lsm_c_pd")
+lsm_c_pd <- function(landscape, directions) UseMethod("lsm_c_pd")
 
 #' @name lsm_c_pd
 #' @export
-lsm_c_pd.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_pd_calc, .id = "layer") %>%
+lsm_c_pd.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_pd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_pd
 #' @export
-lsm_c_pd.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_pd_calc, .id = "layer") %>%
+lsm_c_pd.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_pd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_pd
 #' @export
-lsm_c_pd.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_c_pd_calc, .id = "layer") %>%
+lsm_c_pd.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_pd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_pd
 #' @export
-lsm_c_pd.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_pd_calc, .id = "layer") %>%
+lsm_c_pd.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_c_pd_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_c_pd_calc <- function(landscape) {
+lsm_c_pd_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape)
+    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    np_class <- lsm_c_np_calc(landscape)
+    np_class <- lsm_c_np_calc(landscape, directions = directions)
 
     patch_density <- dplyr::mutate(np_class,
                                    value = (value / area_landscape$value) * 100)

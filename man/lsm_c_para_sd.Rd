@@ -12,18 +12,21 @@
 \alias{lsm_c_para_sd.list}
 \title{PARA_SD (class level)}
 \usage{
-lsm_c_para_sd(landscape)
+lsm_c_para_sd(landscape, directions)
 
-\method{lsm_c_para_sd}{RasterLayer}(landscape)
+\method{lsm_c_para_sd}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_para_sd}{RasterStack}(landscape)
+\method{lsm_c_para_sd}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_para_sd}{RasterBrick}(landscape)
+\method{lsm_c_para_sd}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_para_sd}{list}(landscape)
+\method{lsm_c_para_sd}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

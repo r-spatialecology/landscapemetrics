@@ -12,20 +12,26 @@
 \alias{lsm_c_iji.list}
 \title{Interspersion and Juxtaposition index (class level)}
 \usage{
-lsm_c_iji(landscape, count_boundary)
+lsm_c_iji(landscape, count_boundary, directions)
 
-\method{lsm_c_iji}{RasterLayer}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterLayer}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_iji}{RasterStack}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterStack}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_iji}{RasterBrick}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{RasterBrick}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_iji}{list}(landscape, count_boundary = FALSE)
+\method{lsm_c_iji}{list}(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{count_boundary}{???}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

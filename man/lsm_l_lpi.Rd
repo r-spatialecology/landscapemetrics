@@ -12,18 +12,21 @@
 \alias{lsm_l_lpi.list}
 \title{LPI (landscape level)}
 \usage{
-lsm_l_lpi(landscape)
+lsm_l_lpi(landscape, directions)
 
-\method{lsm_l_lpi}{RasterLayer}(landscape)
+\method{lsm_l_lpi}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_lpi}{RasterStack}(landscape)
+\method{lsm_l_lpi}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_lpi}{RasterBrick}(landscape)
+\method{lsm_l_lpi}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_lpi}{list}(landscape)
+\method{lsm_l_lpi}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

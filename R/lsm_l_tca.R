@@ -3,6 +3,8 @@
 #' @description Total core area (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{TCA = \sum \limits_{j = 1}^{n} a_{ij}^{core} * (\frac{1} {10000})}
@@ -40,45 +42,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_tca <- function(landscape) UseMethod("lsm_l_tca")
-
+lsm_l_tca <- function(landscape, directions) UseMethod("lsm_l_tca")
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
-                    .id = "layer") %>%
+lsm_l_tca.RasterLayer <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_tca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
-                    .id = "layer") %>%
+lsm_l_tca.RasterStack <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_tca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_tca_calc,
-                    .id = "layer") %>%
+lsm_l_tca.RasterBrick <- function(landscape, directions = 8) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_tca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_tca_calc,
-                    .id = "layer") %>%
+lsm_l_tca.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_tca_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_tca_calc <- function(landscape) {
+lsm_l_tca_calc <- function(landscape, directions) {
 
     total_core_area <- landscape %>%
-        lsm_p_core_calc() %>%
+        lsm_p_core_calc(directions = directions) %>%
         dplyr::summarise(value = sum(value, na.rm = TRUE))
 
     tibble::tibble(

@@ -12,18 +12,21 @@
 \alias{lsm_l_sidi.list}
 \title{SIDI (landscape level)}
 \usage{
-lsm_l_sidi(landscape)
+lsm_l_sidi(landscape, directions)
 
-\method{lsm_l_sidi}{RasterLayer}(landscape)
+\method{lsm_l_sidi}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_l_sidi}{RasterStack}(landscape)
+\method{lsm_l_sidi}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_l_sidi}{RasterBrick}(landscape)
+\method{lsm_l_sidi}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_l_sidi}{list}(landscape)
+\method{lsm_l_sidi}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

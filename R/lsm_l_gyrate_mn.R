@@ -3,6 +3,8 @@
 #' @description Mean radius of gyration (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{GYRATE_{MN} = mean(GYRATE[patch_{ij}])}
@@ -44,47 +46,56 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_gyrate_mn <- function(landscape) UseMethod("lsm_l_gyrate_mn")
+lsm_l_gyrate_mn <- function(landscape, directions) UseMethod("lsm_l_gyrate_mn")
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterLayer <- function(landscape) {
+lsm_l_gyrate_mn.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_gyrate_mn_calc, .id = "layer") %>%
+                   lsm_l_gyrate_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterStack <- function(landscape) {
+lsm_l_gyrate_mn.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_gyrate_mn_calc, .id = "layer") %>%
+                   lsm_l_gyrate_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterBrick <- function(landscape) {
+lsm_l_gyrate_mn.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_gyrate_mn_calc, .id = "layer") %>%
+                   lsm_l_gyrate_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_gyrate_mn_calc, .id = "layer") %>%
+lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_gyrate_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_gyrate_mn_calc <- function(landscape) {
+lsm_l_gyrate_mn_calc <- function(landscape, directions) {
 
     gyrate_mn <- landscape %>%
-        lsm_p_gyrate_calc() %>%
-        dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
+        lsm_p_gyrate_calc(directions = directions) %>%
+        dplyr::summarize(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
         level = "landscape",

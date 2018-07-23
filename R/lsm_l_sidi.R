@@ -3,6 +3,8 @@
 #' @description Simpson's diversity index (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{SIDI = 1 - \sum \limits_{i = 1}^{m} P_{i}^{2}}
@@ -36,43 +38,52 @@
 #' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
 #'  PNW-351.
 #' @export
-lsm_l_sidi <- function(landscape) UseMethod("lsm_l_sidi")
+lsm_l_sidi <- function(landscape, directions) UseMethod("lsm_l_sidi")
 
 #' @name lsm_l_sidi
 #' @export
-lsm_l_sidi.RasterLayer <- function(landscape) {
+lsm_l_sidi.RasterLayer <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc, .id = "layer") %>%
+                   lsm_l_sidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
-lsm_l_sidi.RasterStack <- function(landscape) {
+lsm_l_sidi.RasterStack <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc, .id = "layer") %>%
+                   lsm_l_sidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
-lsm_l_sidi.RasterBrick <- function(landscape) {
+lsm_l_sidi.RasterBrick <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc, .id = "layer") %>%
+                   lsm_l_sidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
-lsm_l_sidi.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_l_sidi_calc, .id = "layer") %>%
+lsm_l_sidi.list <- function(landscape, directions = 8) {
+    purrr::map_dfr(landscape,
+                   lsm_l_sidi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_sidi_calc <- function(landscape) {
+lsm_l_sidi_calc <- function(landscape, directions) {
 
     sidi <- landscape %>%
-        lsm_c_pland_calc() %>%
+        lsm_c_pland_calc(directions = directions) %>%
         dplyr::mutate(value = (value / 100) ^ 2) %>%
         dplyr::summarise(value = 1 - sum(value, na.rm = TRUE))
 

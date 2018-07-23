@@ -12,18 +12,21 @@
 \alias{lsm_c_pland.list}
 \title{PLAND (class level)}
 \usage{
-lsm_c_pland(landscape)
+lsm_c_pland(landscape, directions)
 
-\method{lsm_c_pland}{RasterLayer}(landscape)
+\method{lsm_c_pland}{RasterLayer}(landscape, directions = 8)
 
-\method{lsm_c_pland}{RasterStack}(landscape)
+\method{lsm_c_pland}{RasterStack}(landscape, directions = 8)
 
-\method{lsm_c_pland}{RasterBrick}(landscape)
+\method{lsm_c_pland}{RasterBrick}(landscape, directions = 8)
 
-\method{lsm_c_pland}{list}(landscape)
+\method{lsm_c_pland}{list}(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
