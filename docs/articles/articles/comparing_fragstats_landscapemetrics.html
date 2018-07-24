@@ -121,11 +121,7 @@
 <!--/.navbar -->
 
       
-      </header><script src="comparing_fragstats_landscapemetrics_files/htmlwidgets-1.2/htmlwidgets.js"></script><script src="comparing_fragstats_landscapemetrics_files/jquery-1.12.4/jquery.min.js"></script><link href="comparing_fragstats_landscapemetrics_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="comparing_fragstats_landscapemetrics_files/datatables-binding-0.4/datatables.js"></script><link href="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="comparing_fragstats_landscapemetrics_files/dt-core-1.10.16/js/jquery.dataTables.min.js"></script><link href="comparing_fragstats_landscapemetrics_files/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet">
-<script src="comparing_fragstats_landscapemetrics_files/crosstalk-1.0.0/js/crosstalk.min.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics</h1>
@@ -504,33 +500,33 @@
 <p>We implemented PARA as documented in the <strong>FRAGSTATS</strong> manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the <strong>FRAGSTATS</strong> output to meters per square meters.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">    </span><span class="kw">select</span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
 <a class="sourceLine" id="cb12-6" data-line-number="6">                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
 <a class="sourceLine" id="cb12-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
 <a class="sourceLine" id="cb12-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
 <a class="sourceLine" id="cb12-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb12-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_perim</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
 <a class="sourceLine" id="cb12-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb12-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
 <a class="sourceLine" id="cb12-21" data-line-number="21"></a>
 <a class="sourceLine" id="cb12-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
 <a class="sourceLine" id="cb12-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
 <a class="sourceLine" id="cb12-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(para_landscapemetrics, </a>
+<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="st">    </span><span class="kw">full_join</span>(para_landscapemetrics, </a>
 <a class="sourceLine" id="cb12-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-27" data-line-number="27"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb12-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
 <a class="sourceLine" id="cb12-28" data-line-number="28">                  <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-29" data-line-number="29"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(area)</a></code></pre></div>
+<a class="sourceLine" id="cb12-29" data-line-number="29"><span class="st">    </span><span class="kw">arrange</span>(area)</a></code></pre></div>
 <pre><code>##    id   area perim      para para_calculated_ha para_calculated_m
 ## 1   1 0.0001     4 40000.000          40000.000         4.0000000
 ## 2  19 0.0001     4 40000.000          40000.000         4.0000000
@@ -600,37 +596,10 @@
 </div>
 </div>
 </div>
-<div id="overview-of-deviation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview-of-deviation" class="anchor"></a>Overview of deviation</h2>
-<div id="patch-level-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#patch-level-1" class="anchor"></a>Patch level</h3>
-<div id="htmlwidget-337765a218865ece5c3b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-337765a218865ece5c3b">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12"],["area","cai","circle","contig","core","enn","frac","gyrate","ncore","para","perim","shape"],[1,4,3,1,1,1,1,3,1,10,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>metric<\/th>\n      <th>interval<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":25,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':value == '1' ? '#3B4CC0' : value == '4' ? '#A9C5FC' : value == '3' ? '#82A5FA' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '3' ? '#82A5FA' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : ''});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
-</div>
-<div id="class-level-4" class="section level3">
-<h3 class="hasAnchor">
-<a href="#class-level-4" class="anchor"></a>Class level</h3>
-<pre><code>## Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</code></pre>
-<pre><code>## Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</code></pre>
-<pre><code>## Warning in evalq(as.numeric(value_fragstats), &lt;environment&gt;): NAs
-## introduced by coercion</code></pre>
-<div id="htmlwidget-487d8626bb353d8a1c08" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-487d8626bb353d8a1c08">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55"],["ai","area_cv","area_mn","area_sd","ca","cai_cv","cai_mn","cai_sd","circle_cv","circle_mn","circle_sd","clumpy","cohesion","contig_cv","contig_mn","contig_sd","core_cv","core_mn","core_sd","cpland","dcad","dcore_cv","dcore_mn","dcore_sd","division","ed","enn_cv","enn_mn","enn_sd","frac_cv","frac_mn","frac_sd","gyrate_cv","gyrate_mn","gyrate_sd","iji","lpi","lsi","mesh","ndca","nlsi","np","pafrac","para_cv","para_mn","para_sd","pd","pladj","pland","shape_cv","shape_mn","shape_sd","split","tca","te"],[1,10,1,1,1,10,10,10,10,7,10,1,1,10,1,10,10,1,1,10,7,10,10,10,1,1,7,1,7,10,1,10,10,10,10,10,1,1,1,7,4,1,1,10,10,10,1,1,1,10,1,10,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>metric<\/th>\n      <th>interval<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":25,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '7' ? '#F6B69B' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '7' ? '#F6B69B' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '7' ? '#F6B69B' : value == '1' ? '#3B4CC0' : value == '7' ? '#F6B69B' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '7' ? '#F6B69B' : value == '4' ? '#A9C5FC' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : ''});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
-</div>
-<div id="landscape-level-4" class="section level3">
-<h3 class="hasAnchor">
-<a href="#landscape-level-4" class="anchor"></a>Landscape level</h3>
-<pre><code>## Warning: RPR = NA for classes_max=NULL</code></pre>
-<div id="htmlwidget-9553fde536c8b6741b88" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9553fde536c8b6741b88">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"],["ai","area_cv","area_mn","area_sd","cai_cv","cai_mn","cai_sd","circle_cv","circle_mn","circle_sd","cohesion","contig_cv","contig_mn","contig_sd","core_cv","core_mn","core_sd","dcad","dcore_cv","dcore_mn","dcore_sd","division","ed","enn_cv","enn_mn","enn_sd","frac_cv","frac_mn","frac_sd","gyrate_cv","gyrate_mn","gyrate_sd","lpi","lsi","mesh","msidi","msiei","ndca","np","pafrac","para_cv","para_mn","para_sd","pd","pladj","pr","prd","rpr","shape_cv","shape_mn","shape_sd","shdi","shei","sidi","siei","split","ta","tca","te"],[1,10,1,1,10,10,10,10,10,10,1,10,1,10,10,1,1,10,10,10,10,1,1,10,1,10,10,1,1,10,10,10,1,1,1,1,1,10,1,1,10,10,10,1,1,1,1,1,10,1,10,1,1,1,1,1,1,10,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>metric<\/th>\n      <th>interval<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":25,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'background-color':value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '1' ? '#3B4CC0' : value == '10' ? '#B40426' : value == '1' ? '#3B4CC0' : ''});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
-</div>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
 <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
-</div>
 </div>
 </div>
   </div>
@@ -641,11 +610,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#general-differences">General differences</a></li>
-      <li>
-<a href="#specific-differences">Specific differences</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#overview-of-deviation">Overview of deviation</a></li>
-      </ul>
-</li>
+      <li><a href="#specific-differences">Specific differences</a></li>
       </ul>
 </div>
       </div>
