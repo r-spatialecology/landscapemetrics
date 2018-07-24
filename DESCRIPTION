@@ -34,7 +34,7 @@ Imports:
     magrittr,
     purrr,
     raster,
-    Rcpp (>= 0.12.1),
+    Rcpp,
     tibble
 Suggests: 
     covr,
