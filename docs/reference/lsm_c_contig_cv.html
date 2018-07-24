@@ -169,19 +169,19 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,7 +241,12 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='error'>Error in cclabel_int(landscape, what = what, directions = directions): argument "directions" is missing, with no default</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_contig_cv</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+#&gt;   layer level class    id metric    value
+#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
+#&gt; 1     1 class     1    NA contig_cv 111. 
+#&gt; 2     1 class     2    NA contig_cv  77.6
+#&gt; 3     1 class     3    NA contig_cv  44.9</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

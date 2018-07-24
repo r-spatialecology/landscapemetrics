@@ -119,7 +119,7 @@ patch_metrics
 Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical tibble, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. `what = "patch"`
 
 ```{r}
-lsm_calculate(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"))
+calculate_metrics(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"))
 ```
 
 All metrics are abbreviated in the result `tibble`. Therefore, we provide a `tibble` containing the full metric names, as well as the class of each metric (`lsm_abbreviations_names`). Using e.g. the `left_join()` function of the `dplyr` package (Hadley *et al.* 2018) one could join a result `tibble` and the abbrevations `tibble`.
@@ -139,10 +139,10 @@ patch_metrics_full_names <- dplyr::left_join(x = patch_metrics,
 patch_metrics_full_names
 ```
 
-In `lsm_calculate` this exists as option(`full_name = TRUE`).
+In `calculate_metrics` this exists as option(`full_name = TRUE`).
 
 ```{r}
-lsm_calculate(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"), 
+calculate_metrics(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"), 
               full_name = TRUE)
 
 ```

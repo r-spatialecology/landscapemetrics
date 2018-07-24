@@ -66,6 +66,6 @@ not highly correlated, you can use the function `show_correlation` to get insigh
 into the correlation of the metrics you calculated:
 
 ```{r fig.width=7, fig.height=7, fig.align="center"}
-metrics <- lsm_calculate(landscape, what = "patch")
+metrics <- calculate_metrics(landscape, what = "patch")
 show_correlation(metrics, level = "patch", method = "pearson")
 ```

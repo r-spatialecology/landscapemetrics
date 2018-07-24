@@ -28,7 +28,7 @@ for the landscape level more than one landscape needs to be present. All input
 must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
-metrics <- lsm_calculate(landscape, what = "patch")
+metrics <- calculate_metrics(landscape, what = "patch")
 show_correlation(metrics, level = "patch", method = "pearson")
 
 }

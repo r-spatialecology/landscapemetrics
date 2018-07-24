@@ -15,7 +15,7 @@
 #' @return ggplot
 #'
 #' @examples
-#' metrics <- lsm_calculate(landscape, what = "patch")
+#' metrics <- calculate_metrics(landscape, what = "patch")
 #' show_correlation(metrics, level = "patch", method = "pearson")
 #'
 #' @aliases show_correlation

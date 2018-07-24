@@ -169,22 +169,28 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>count_boundary</span>, <span class='no'>classes_max</span>,
+  <span class='no'>neighbourhood</span>, <span class='no'>ordered</span>, <span class='no'>base</span>, <span class='no'>full_name</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>lsm_calculate</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,14 +206,37 @@
 as a vector of strings, e.g. <code>what = c("lsm_c_ca", "lsm_l_ta")</code>.</p></td>
     </tr>
     <tr>
+      <th>directions</th>
+      <td><p>The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).</p></td>
+    </tr>
+    <tr>
+      <th>count_boundary</th>
+      <td><p>Include landscape boundary in edge length</p></td>
+    </tr>
+    <tr>
+      <th>classes_max</th>
+      <td><p>Potential maximum number of present classes</p></td>
+    </tr>
+    <tr>
+      <th>neighbourhood</th>
+      <td><p>The number of directions in which cell adjacencies are considered as neighbours:
+4 (rook's case) or 8 (queen's case). The default is 4.</p></td>
+    </tr>
+    <tr>
+      <th>ordered</th>
+      <td><p>The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
+The default is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>base</th>
+      <td><p>The unit in which entropy is measured. The default is "log2",
+which compute entropy in "bits". "log" and "log10" can be also used.</p></td>
+    </tr>
+    <tr>
       <th>full_name</th>
       <td><p>Should the full names of all functions be included in the
 tibble.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Specific arguments for certain functions, if not provided they
-fall back to default.</p></td>
     </tr>
     </table>
     

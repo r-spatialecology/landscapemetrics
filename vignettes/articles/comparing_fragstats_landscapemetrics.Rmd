@@ -361,7 +361,7 @@ library(magrittr)
 ### the following is ugly and on the long run probably not a good idea, 
 ### but then again ... it s monday.
 
-landscapemetrics_patch_metrics <- lsm_calculate(landscape, what = "patch", directions = 8)
+landscapemetrics_patch_metrics <- calculate_metrics(landscape, what = "patch", directions = 8)
 
 fragstats_patch_metrics <- gather(fragstats_patch_landscape, metric, value, AREA:ENN) %>% 
     mutate(metric = tolower(metric)) %>% 

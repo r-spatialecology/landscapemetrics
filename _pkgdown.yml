@@ -168,7 +168,7 @@ reference:
     - lsm_l_te
   - title: All Level Metrics
     contents:
-    - lsm_calculate
+    - calculate_metrics
 
 navbar:
   title: landscapemetrics
