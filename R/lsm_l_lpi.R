@@ -75,7 +75,10 @@ lsm_l_lpi.RasterBrick <- function(landscape, directions = 8) {
 #' @name lsm_l_lpi
 #' @export
 lsm_l_lpi.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape, lsm_l_lpi_calc, .id = "layer") %>%
+    purrr::map_dfr(landscape,
+                   lsm_l_lpi_calc,
+                   directions = directions,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 

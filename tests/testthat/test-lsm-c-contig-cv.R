@@ -8,7 +8,7 @@ fragstats_patch_landscape_contig_cv <- fragstats_patch_landscape %>%
 
 #### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
 landscape_contig_cv <- landscape %>%
-    lsm_p_contig_calc() %>%
+    lsm_p_contig() %>%
     dplyr::group_by(class)  %>%
     dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
 
