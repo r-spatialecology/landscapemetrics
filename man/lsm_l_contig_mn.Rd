@@ -12,7 +12,7 @@
 \alias{lsm_l_contig_mn.list}
 \title{CONTIG_MN (landscape level)}
 \usage{
-lsm_l_contig_mn(landscape, directions = 8)
+lsm_l_contig_mn(landscape, directions)
 
 \method{lsm_l_contig_mn}{RasterLayer}(landscape, directions = 8)
 

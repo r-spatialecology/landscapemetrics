@@ -6,10 +6,18 @@
 #' @param what Selected level of metrics: either "all", "patch", "class",
 #' "landscape". The default is "all". It is also possible to specifiy functions
 #' as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' @param count_boundary Include landscape boundary in edge length
+#' @param classes_max Potential maximum number of present classes
+#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
+#' 4 (rook's case) or 8 (queen's case). The default is 4.
+#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
+#' The default is TRUE.
 #' @param full_name Should the full names of all functions be included in the
 #' tibble.
-#' @param ... Specific arguments for certain functions, if not provided they
-#' fall back to default.
+#' @param base The unit in which entropy is measured. The default is "log2",
+#' which compute entropy in "bits". "log" and "log10" can be also used.
 #'
 #' @return tibble
 #'
@@ -30,341 +38,213 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_calculate <- function(landscape, what,
-                          full_name = FALSE,  ...) UseMethod("lsm_calculate")
+lsm_calculate <- function(landscape,
+                          what,
+                          directions,
+                          count_boundary,
+                          classes_max,
+                          neighbourhood,
+                          ordered,
+                          base,
+                          full_name) UseMethod("lsm_calculate")
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterLayer <- function(landscape, what = "all", ...) {
+lsm_calculate.RasterLayer <- function(landscape,
+                                      what = "all",
+                                      directions = 8,
+                                      count_boundary = FALSE,
+                                      classes_max = NULL,
+                                      neighbourhood = 4,
+                                      ordered = TRUE,
+                                      base = "log2",
+                                      full_name = FALSE) {
 
-    lsm_calculate_internal(landscape, what = what, ...)
+    lsm_calculate_internal(landscape,
+                           what = what,
+                           directions = directions,
+                           count_boundary = count_boundary,
+                           classes_max = classes_max,
+                           neighbourhood = neighbourhood,
+                           ordered = ordered,
+                           base = base,
+                           full_name = full_name)
 
 }
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterStack <- function(landscape, what = "all", full_name = FALSE, ...) {
+lsm_calculate.RasterStack <- function(landscape,
+                                      what = "all",
+                                      directions = 8,
+                                      count_boundary = FALSE,
+                                      classes_max = NULL,
+                                      neighbourhood = 4,
+                                      ordered = TRUE,
+                                      base = "log2",
+                                      full_name = FALSE) {
 
-    purrr::map_dfr(raster::as.list(landscape, ...),
-                   .f = lsm_calculate_internal,
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_calculate_internal,
                    what = what,
+                   directions = directions,
+                   count_boundary = count_boundary,
+                   classes_max = classes_max,
+                   neighbourhood = neighbourhood,
+                   ordered = ordered,
+                   base = base,
                    full_name = full_name,
-                   .id = "layer2",
-                   ...) %>%
+                   .id = "layer2") %>%
         dplyr::mutate(layer = as.integer(layer2)) %>%
         dplyr::select(-layer2)
 }
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.RasterBrick <- function(landscape, what = "all", full_name = FALSE, ...) {
-    purrr::map_dfr(raster::as.list(landscape, ...), lsm_calculate_internal,
-                   what = what, full_name = full_name, ...) %>%
+lsm_calculate.RasterBrick <- function(landscape,
+                                      what = "all",
+                                      directions = 8,
+                                      count_boundary = FALSE,
+                                      classes_max = NULL,
+                                      neighbourhood = 4,
+                                      ordered = TRUE,
+                                      base = "log2",
+                                      full_name = FALSE) {
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_calculate_internal,
+                   what = what,
+                   directions = directions,
+                   count_boundary = count_boundary,
+                   classes_max = classes_max,
+                   neighbourhood = neighbourhood,
+                   ordered = ordered,
+                   base = base,
+                   full_name = full_name) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_calculate
 #' @export
-lsm_calculate.list <- function(landscape, what = "all", full_name = FALSE, ...) {
-    purrr::map_dfr(landscape, lsm_calculate_internal,
-                   what = what, full_name = full_name, ...) %>%
+lsm_calculate.list <- function(landscape,
+                               what = "all",
+                               directions = 8,
+                               count_boundary = FALSE,
+                               classes_max = NULL,
+                               neighbourhood = 4,
+                               ordered = TRUE,
+                               base = "log2",
+                               full_name = FALSE) {
+
+    purrr::map_dfr(landscape,
+                   lsm_calculate_internal,
+                   what = what,
+                   directions = directions,
+                   count_boundary = count_boundary,
+                   classes_max = classes_max,
+                   neighbourhood = neighbourhood,
+                   ordered = ordered,
+                   base = base,
+                   full_name = full_name) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
+lsm_calculate_internal <- function(landscape,
+                                   what,
+                                   directions,
+                                   count_boundary,
+                                   classes_max,
+                                   neighbourhood,
+                                   ordered,
+                                   base,
+                                   full_name) {
 
     if (any(what %in% c("all", "patch", "class", "landscape"))) {
+
         if (any(what == "all")) {
-            result_all <- dplyr::bind_rows(
-                # list.files(paste0(getwd(), "/R"), pattern = "_p_")
-                lsm_p_area(landscape, ...),
-                lsm_p_cai(landscape, ...),
-                lsm_p_circle(landscape, ...),
-                lsm_p_contig(landscape, ...),
-                lsm_p_core(landscape, ...),
-                lsm_p_enn(landscape, ...),
-                lsm_p_frac(landscape, ...),
-                lsm_p_gyrate(landscape, ...),
-                lsm_p_ncore(landscape, ...),
-                lsm_p_para(landscape, ...),
-                lsm_p_perim(landscape, ...),
-                # lsm_p_prox(landscape, ...),
-                lsm_p_shape(landscape, ...),
 
-                # list.files(paste0(getwd(), "/R"), pattern = "_c_")
-                lsm_c_ai(landscape, ...),
-                lsm_c_area_cv(landscape, ...),
-                lsm_c_area_mn(landscape, ...),
-                lsm_c_area_sd(landscape, ...),
-                lsm_c_ca(landscape, ...),
-                lsm_c_cai_cv(landscape, ...),
-                lsm_c_cai_mn(landscape, ...),
-                lsm_c_cai_sd(landscape, ...),
-                lsm_c_circle_cv(landscape, ...),
-                lsm_c_circle_mn(landscape, ...),
-                lsm_c_circle_sd(landscape, ...),
-                lsm_c_clumpy(landscape, ...),
-                lsm_c_cohesion(landscape, ...),
-                lsm_c_contig_cv(landscape, ...),
-                lsm_c_contig_mn(landscape, ...),
-                lsm_c_contig_sd(landscape, ...),
-                lsm_c_core_cv(landscape, ...),
-                lsm_c_core_mn(landscape, ...),
-                lsm_c_core_sd(landscape, ...),
-                lsm_c_cpland(landscape, ...),
-                lsm_c_dcad(landscape, ...),
-                lsm_c_dcore_cv(landscape, ...),
-                lsm_c_dcore_mn(landscape, ...),
-                lsm_c_dcore_sd(landscape, ...),
-                lsm_c_division(landscape, ...),
-                lsm_c_ed(landscape, ...),
-                lsm_c_enn_cv(landscape, ...),
-                lsm_c_enn_mn(landscape, ...),
-                lsm_c_enn_sd(landscape, ...),
-                lsm_c_frac_cv(landscape, ...),
-                lsm_c_frac_mn(landscape, ...),
-                lsm_c_frac_sd(landscape, ...),
-                lsm_c_gyrate_cv(landscape, ...),
-                lsm_c_gyrate_mn(landscape, ...),
-                lsm_c_gyrate_sd(landscape, ...),
-                # # lsm_c_iji(landscape, ...),
-                lsm_c_lpi(landscape, ...),
-                lsm_c_lsi(landscape, ...),
-                lsm_c_mesh(landscape, ...),
-                lsm_c_ndca(landscape, ...),
-                # lsm_c_nlsi(landscape, ...),
-                lsm_c_np(landscape, ...),
-                lsm_c_pafrac(landscape, ...),
-                lsm_c_para_cv(landscape, ...),
-                lsm_c_para_mn(landscape, ...),
-                lsm_c_para_sd(landscape, ...),
-                lsm_c_pd(landscape, ...),
-                lsm_c_pladj(landscape, ...),
-                lsm_c_pland(landscape, ...),
-                lsm_c_shape_cv(landscape, ...),
-                lsm_c_shape_mn(landscape, ...),
-                lsm_c_shape_sd(landscape, ...),
-                lsm_c_split(landscape, ...),
-                lsm_c_tca(landscape, ...),
-                lsm_c_te(landscape, ...),
+            namespace_all <- getNamespaceExports("landscapemetrics")
+            namespace_all <- namespace_all[namespace_all %in%
+                                                   grep("lsm_", namespace_all,
+                                                        value = TRUE)]
+            namespace_all <-
+                namespace_all[!grepl("\\.|calc", namespace_all)]
 
-                # list.files(paste0(getwd(), "/R"), pattern = "_l_")
-                lsm_l_ai(landscape, ...),
-                lsm_l_area_cv(landscape, ...),
-                lsm_l_area_mn(landscape, ...),
-                lsm_l_area_sd(landscape, ...),
-                lsm_l_cai_cv(landscape, ...),
-                lsm_l_cai_mn(landscape, ...),
-                lsm_l_cai_sd(landscape, ...),
-                lsm_l_circle_cv(landscape, ...),
-                lsm_l_circle_mn(landscape, ...),
-                lsm_l_circle_sd(landscape, ...),
-                lsm_l_cohesion(landscape, ...),
-                lsm_l_condent(landscape, ...),
-                lsm_l_contig_cv(landscape, ...),
-                lsm_l_contig_mn(landscape, ...),
-                lsm_l_contig_sd(landscape, ...),
-                lsm_l_core_cv(landscape, ...),
-                lsm_l_core_mn(landscape, ...),
-                lsm_l_core_sd(landscape, ...),
-                lsm_l_dcad(landscape, ...),
-                lsm_l_dcore_cv(landscape, ...),
-                lsm_l_dcore_mn(landscape, ...),
-                lsm_l_dcore_sd(landscape, ...),
-                lsm_l_division(landscape, ...),
-                lsm_l_ed(landscape, ...),
-                lsm_l_enn_cv(landscape, ...),
-                lsm_l_enn_mn(landscape, ...),
-                lsm_l_enn_sd(landscape, ...),
-                lsm_l_ent(landscape, ...),
-                lsm_l_frac_cv(landscape, ...),
-                lsm_l_frac_mn(landscape, ...),
-                lsm_l_frac_sd(landscape, ...),
-                lsm_l_gyrate_cv(landscape, ...),
-                lsm_l_gyrate_mn(landscape, ...),
-                lsm_l_gyrate_sd(landscape, ...),
-                lsm_l_joinent(landscape, ...),
-                lsm_l_lpi(landscape, ...),
-                lsm_l_lsi(landscape, ...),
-                lsm_l_mesh(landscape, ...),
-                lsm_l_msidi(landscape, ...),
-                lsm_l_msiei(landscape, ...),
-                lsm_l_mutinf(landscape, ...),
-                lsm_l_ndca(landscape, ...),
-                lsm_l_np(landscape, ...),
-                lsm_l_pafrac(landscape, ...),
-                lsm_l_para_cv(landscape, ...),
-                lsm_l_para_mn(landscape, ...),
-                lsm_l_para_sd(landscape, ...),
-                lsm_l_pd(landscape, ...),
-                lsm_l_pladj(landscape, ...),
-                lsm_l_pr(landscape, ...),
-                lsm_l_prd(landscape, ...),
-                lsm_l_rpr(landscape, ...),
-                lsm_l_shape_cv(landscape, ...),
-                lsm_l_shape_mn(landscape, ...),
-                lsm_l_shape_sd(landscape, ...),
-                lsm_l_shdi(landscape, ...),
-                lsm_l_shei(landscape, ...),
-                lsm_l_sidi(landscape, ...),
-                lsm_l_siei(landscape, ...),
-                lsm_l_split(landscape, ...),
-                lsm_l_ta(landscape, ...),
-                lsm_l_tca(landscape, ...),
-                lsm_l_te(landscape, ...)
-            )
+            result_all <-
+                purrr::map_dfr(namespace_all, function(current_function) {
+
+                    foo <- match.fun(current_function)
+                    arguments <- names(formals(foo))
+                    do.call(what = foo,
+                            args = mget(arguments,
+                                        envir = parent.env(environment())))
+                })
         }
 
         if (any(what == "patch")) {
-            result_patch <- dplyr::bind_rows(
-                lsm_p_area(landscape, ...),
-                lsm_p_cai(landscape, ...),
-                lsm_p_circle(landscape, ...),
-                lsm_p_contig(landscape, ...),
-                lsm_p_core(landscape, ...),
-                lsm_p_enn(landscape, ...),
-                lsm_p_frac(landscape, ...),
-                lsm_p_gyrate(landscape, ...),
-                lsm_p_ncore(landscape, ...),
-                lsm_p_para(landscape, ...),
-                lsm_p_perim(landscape, ...),
-                # lsm_p_prox(landscape, ...),
-                lsm_p_shape(landscape, ...)
-            )
+
+            namespace_patch <- getNamespaceExports("landscapemetrics")
+            namespace_patch <- namespace_patch[namespace_patch %in%
+                                                   grep("_p_", namespace_patch,
+                                                        value = TRUE)]
+            namespace_patch <-
+                namespace_patch[!grepl("\\.|calc", namespace_patch)]
+
+            result_patch <-
+                purrr::map_dfr(namespace_patch, function(current_function) {
+
+                    foo <- match.fun(current_function)
+                    arguments <- names(formals(foo))
+                    do.call(what = foo,
+                            args = mget(arguments,
+                                        envir = parent.env(environment())))
+                })
         }
 
         if (any(what == "class")) {
-            result_class <- dplyr::bind_rows(
-                lsm_c_ai(landscape, ...),
-                lsm_c_area_cv(landscape, ...),
-                lsm_c_area_mn(landscape, ...),
-                lsm_c_area_sd(landscape, ...),
-                lsm_c_ca(landscape, ...),
-                lsm_c_cai_cv(landscape, ...),
-                lsm_c_cai_mn(landscape, ...),
-                lsm_c_cai_sd(landscape, ...),
-                lsm_c_circle_cv(landscape, ...),
-                lsm_c_circle_mn(landscape, ...),
-                lsm_c_circle_sd(landscape, ...),
-                lsm_c_clumpy(landscape, ...),
-                lsm_c_cohesion(landscape, ...),
-                lsm_c_contig_cv(landscape, ...),
-                lsm_c_contig_mn(landscape, ...),
-                lsm_c_contig_sd(landscape, ...),
-                lsm_c_core_cv(landscape, ...),
-                lsm_c_core_mn(landscape, ...),
-                lsm_c_core_sd(landscape, ...),
-                lsm_c_cpland(landscape, ...),
-                lsm_c_dcad(landscape, ...),
-                lsm_c_dcore_cv(landscape, ...),
-                lsm_c_dcore_mn(landscape, ...),
-                lsm_c_dcore_sd(landscape, ...),
-                lsm_c_division(landscape, ...),
-                lsm_c_ed(landscape, ...),
-                lsm_c_enn_cv(landscape, ...),
-                lsm_c_enn_mn(landscape, ...),
-                lsm_c_enn_sd(landscape, ...),
-                lsm_c_frac_cv(landscape, ...),
-                lsm_c_frac_mn(landscape, ...),
-                lsm_c_frac_sd(landscape, ...),
-                lsm_c_gyrate_cv(landscape, ...),
-                lsm_c_gyrate_mn(landscape, ...),
-                lsm_c_gyrate_sd(landscape, ...),
-                # # lsm_c_iji(landscape, ...),
-                lsm_c_lpi(landscape, ...),
-                lsm_c_lsi(landscape, ...),
-                lsm_c_mesh(landscape, ...),
-                lsm_c_ndca(landscape, ...),
-                # lsm_c_nlsi(landscape, ...),
-                lsm_c_np(landscape, ...),
-                lsm_c_pafrac(landscape, ...),
-                lsm_c_para_cv(landscape, ...),
-                lsm_c_para_mn(landscape, ...),
-                lsm_c_para_sd(landscape, ...),
-                lsm_c_pd(landscape, ...),
-                lsm_c_pladj(landscape, ...),
-                lsm_c_pland(landscape, ...),
-                lsm_c_shape_cv(landscape, ...),
-                lsm_c_shape_mn(landscape, ...),
-                lsm_c_shape_sd(landscape, ...),
-                lsm_c_split(landscape, ...),
-                lsm_c_tca(landscape, ...),
-                lsm_c_te(landscape, ...)
-            )
+            namespace_class <- getNamespaceExports("landscapemetrics")
+            namespace_class <- namespace_class[namespace_class %in%
+                                                   grep("_c_", namespace_class,
+                                                        value = TRUE)]
+            namespace_class <-
+                namespace_class[!grepl("\\.|calc", namespace_class)]
+
+            result_class <-
+                purrr::map_dfr(namespace_class, function(current_function) {
+
+                    foo <- match.fun(current_function)
+                    arguments <- names(formals(foo))
+                    do.call(what = foo,
+                            args = mget(arguments,
+                                        envir = parent.env(environment())))
+                })
         }
 
         if (any(what == "landscape")) {
-            result_landscape <- dplyr::bind_rows(
-                lsm_l_ai(landscape, ...),
-                lsm_l_area_cv(landscape, ...),
-                lsm_l_area_mn(landscape, ...),
-                lsm_l_area_sd(landscape, ...),
-                lsm_l_cai_cv(landscape, ...),
-                lsm_l_cai_mn(landscape, ...),
-                lsm_l_cai_sd(landscape, ...),
-                lsm_l_circle_cv(landscape, ...),
-                lsm_l_circle_mn(landscape, ...),
-                lsm_l_circle_sd(landscape, ...),
-                lsm_l_cohesion(landscape, ...),
-                lsm_l_condent(landscape, ...),
-                lsm_l_contig_cv(landscape, ...),
-                lsm_l_contig_mn(landscape, ...),
-                lsm_l_contig_sd(landscape, ...),
-                lsm_l_core_cv(landscape, ...),
-                lsm_l_core_mn(landscape, ...),
-                lsm_l_core_sd(landscape, ...),
-                lsm_l_dcad(landscape, ...),
-                lsm_l_dcore_cv(landscape, ...),
-                lsm_l_dcore_mn(landscape, ...),
-                lsm_l_dcore_sd(landscape, ...),
-                lsm_l_division(landscape, ...),
-                lsm_l_ed(landscape, ...),
-                lsm_l_enn_cv(landscape, ...),
-                lsm_l_enn_mn(landscape, ...),
-                lsm_l_enn_sd(landscape, ...),
-                lsm_l_ent(landscape, ...),
-                lsm_l_frac_cv(landscape, ...),
-                lsm_l_frac_mn(landscape, ...),
-                lsm_l_frac_sd(landscape, ...),
-                lsm_l_gyrate_cv(landscape, ...),
-                lsm_l_gyrate_mn(landscape, ...),
-                lsm_l_gyrate_sd(landscape, ...),
-                lsm_l_joinent(landscape, ...),
-                lsm_l_lpi(landscape, ...),
-                lsm_l_lsi(landscape, ...),
-                lsm_l_mesh(landscape, ...),
-                lsm_l_msidi(landscape, ...),
-                lsm_l_msiei(landscape, ...),
-                lsm_l_mutinf(landscape, ...),
-                lsm_l_ndca(landscape, ...),
-                lsm_l_np(landscape, ...),
-                lsm_l_pafrac(landscape, ...),
-                lsm_l_para_cv(landscape, ...),
-                lsm_l_para_mn(landscape, ...),
-                lsm_l_para_sd(landscape, ...),
-                lsm_l_pd(landscape, ...),
-                lsm_l_pladj(landscape, ...),
-                lsm_l_pr(landscape, ...),
-                lsm_l_prd(landscape, ...),
-                lsm_l_rpr(landscape, ...),
-                lsm_l_shape_cv(landscape, ...),
-                lsm_l_shape_mn(landscape, ...),
-                lsm_l_shape_sd(landscape, ...),
-                lsm_l_shdi(landscape, ...),
-                lsm_l_shei(landscape, ...),
-                lsm_l_sidi(landscape, ...),
-                lsm_l_siei(landscape, ...),
-                lsm_l_split(landscape, ...),
-                lsm_l_ta(landscape, ...),
-                lsm_l_tca(landscape, ...),
-                lsm_l_te(landscape, ...)
-            )
+            namespace_landscape <-
+                getNamespaceExports("landscapemetrics")
+            namespace_landscape <-
+                namespace_landscape[namespace_landscape %in%
+                                        grep("_l_", namespace_landscape,
+                                             value = TRUE)]
+            namespace_landscape <-
+                namespace_landscape[!grepl("\\.|calc", namespace_landscape)]
+
+            result_landscape <-
+                purrr::map_dfr(namespace_landscape, function(current_function) {
+
+                    foo <- match.fun(current_function)
+                    arguments <- names(formals(foo))
+                    do.call(what = foo,
+                            args = mget(arguments,
+                                        envir = parent.env(environment())))
+                })
         }
 
-        if(!exists("result_all")){result_all <- tibble::tibble()}
-        if(!exists("result_patch")){result_patch <- tibble::tibble()}
-        if(!exists("result_class")){result_class <- tibble::tibble()}
-        if(!exists("result_landscape")){result_landscape <- tibble::tibble()}
+        if(!exists("result_all", inherits = FALSE)){result_all <- tibble::tibble()}
+        if(!exists("result_patch", inherits = FALSE)){result_patch <- tibble::tibble()}
+        if(!exists("result_class", inherits = FALSE)){result_class <- tibble::tibble()}
+        if(!exists("result_landscape", inherits = FALSE)){result_landscape <- tibble::tibble()}
 
         result_level <- dplyr::bind_rows(result_all,
                                    result_patch,
@@ -376,16 +256,19 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
         what <- what[!(what %in% c("all", "patch", "class", "landscape"))]
 
-        result_metrics <- purrr::map_dfr(what, function(current_function) {
-            foo <- match.fun(current_function)
-            tryCatch({foo(landscape,  ...)},
-                     error = function(e) foo(landscape))
+        result_metrics <-
+            purrr::map(what, function(current_function) {
 
-        })
+                foo <- match.fun(current_function)
+                arguments <- names(formals(foo))
+                do.call(what = foo,
+                        args = mget(arguments,
+                                    envir = parent.env(environment())))
+            })
     }
 
-    if(!exists("result_level")){result_level <- tibble::tibble()}
-    if(!exists("result_metrics")){result_metrics <- tibble::tibble()}
+    if(!exists("result_level", inherits = FALSE)){result_level <- tibble::tibble()}
+    if(!exists("result_metrics", inherits = FALSE)){result_metrics <- tibble::tibble()}
 
     result <- dplyr::bind_rows(result_level,
                                result_metrics)
@@ -398,3 +281,4 @@ lsm_calculate_internal <- function(landscape, what, full_name = FALSE, ...) {
 
     return(result)
 }
+

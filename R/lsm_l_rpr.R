@@ -3,7 +3,7 @@
 #' @description Relative patch richness (Diversity metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param classes_max ???
+#' @param classes_max Potential maximum number of present classes
 #'
 #' @details
 #' \deqn{RPR = \frac{m} {m_{max}} * 100}

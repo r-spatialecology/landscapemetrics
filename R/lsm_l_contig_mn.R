@@ -52,7 +52,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_contig_mn <- function(landscape, directions = 8) UseMethod("lsm_l_contig_mn")
+lsm_l_contig_mn <- function(landscape, directions) UseMethod("lsm_l_contig_mn")
 
 #' @name lsm_l_contig_mn
 #' @export

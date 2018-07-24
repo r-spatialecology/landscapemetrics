@@ -29,8 +29,8 @@ lsm_l_mutinf(landscape, neighbourhood, ordered, base)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{neighbourhood}{The number of directions in which cells should be
-connected: 4 (rook's case) or 8 (queen's case). The default is 4.}
+\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
+4 (rook's case) or 8 (queen's case). The default is 4.}
 
 \item{ordered}{The type of pairs considered.
 Either ordered (TRUE) or unordered (FALSE).

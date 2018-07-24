@@ -21,7 +21,7 @@ lsm_l_rpr(landscape, classes_max)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{classes_max}{???}
+\item{classes_max}{Potential maximum number of present classes}
 }
 \value{
 tibble

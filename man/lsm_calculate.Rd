@@ -12,18 +12,24 @@
 \alias{lsm_calculate.list}
 \title{Calculate metrics}
 \usage{
-lsm_calculate(landscape, what, full_name = FALSE, ...)
+lsm_calculate(landscape, what, directions, count_boundary, classes_max,
+  neighbourhood, ordered, base, full_name)
 
-\method{lsm_calculate}{RasterLayer}(landscape, what = "all", ...)
+\method{lsm_calculate}{RasterLayer}(landscape, what = "all", directions = 8,
+  count_boundary = FALSE, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE)
 
-\method{lsm_calculate}{RasterStack}(landscape, what = "all",
-  full_name = FALSE, ...)
+\method{lsm_calculate}{RasterStack}(landscape, what = "all", directions = 8,
+  count_boundary = FALSE, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE)
 
-\method{lsm_calculate}{RasterBrick}(landscape, what = "all",
-  full_name = FALSE, ...)
+\method{lsm_calculate}{RasterBrick}(landscape, what = "all", directions = 8,
+  count_boundary = FALSE, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE)
 
-\method{lsm_calculate}{list}(landscape, what = "all", full_name = FALSE,
-  ...)
+\method{lsm_calculate}{list}(landscape, what = "all", directions = 8,
+  count_boundary = FALSE, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -32,11 +38,24 @@ lsm_calculate(landscape, what, full_name = FALSE, ...)
 "landscape". The default is "all". It is also possible to specifiy functions
 as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
+\item{directions}{The number of directions in which cells should be
+connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{count_boundary}{Include landscape boundary in edge length}
+
+\item{classes_max}{Potential maximum number of present classes}
+
+\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
+4 (rook's case) or 8 (queen's case). The default is 4.}
+
+\item{ordered}{The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
+The default is TRUE.}
+
+\item{base}{The unit in which entropy is measured. The default is "log2",
+which compute entropy in "bits". "log" and "log10" can be also used.}
+
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
-
-\item{...}{Specific arguments for certain functions, if not provided they
-fall back to default.}
 }
 \value{
 tibble

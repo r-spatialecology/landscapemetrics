@@ -5,9 +5,8 @@
 #' of a landscape pattern.
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param neighbourhood The number of neighbourhood in which cells should be connected:
-#' 4 (rook's case) or 8 (queen's case).
-#' The default is 4.
+#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
+#' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param ordered The type of pairs considered.
 #' Either ordered (TRUE) or unordered (FALSE).
 #' The default is TRUE.
