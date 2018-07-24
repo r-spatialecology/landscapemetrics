@@ -3,7 +3,7 @@
 #' @description Perimeter-Area ratio (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' #' @param directions The number of directions in which cells should be
+#' @param directions The number of directions in which cells should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details

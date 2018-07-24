@@ -3,7 +3,9 @@
 #' @description Core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-
+#' @param directions The number of directions in which cells should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#'
 #' @details
 #' \deqn{CAI = (\frac{a_{ij}^{core}} {a_{ij}}) * 100}
 #' where \eqn{a_{ij}^{core}} is the core area in square meters and \eqn{a_{ij}}

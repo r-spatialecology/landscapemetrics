@@ -23,8 +23,9 @@ lsm_p_perim(landscape, directions)
 \method{lsm_p_perim}{list}(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which cells should be
+\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{directions}{The number of directions in which cells should be
 connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
