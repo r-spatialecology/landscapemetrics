@@ -80,20 +80,7 @@ quite straight forward:
 ``` r
 library(landscapemetrics)
 library(dplyr)
-```
 
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 # Landscape raster
 landscape
 ```
@@ -116,14 +103,14 @@ lsm_p_enn(landscape)
     ##    layer level class    id metric value
     ##    <int> <chr> <int> <int> <chr>  <dbl>
     ##  1     1 patch     1     1 enn     7   
-    ##  2     1 patch     1     2 enn     4   
-    ##  3     1 patch     1     3 enn     2.83
-    ##  4     1 patch     1     4 enn     2   
-    ##  5     1 patch     1     5 enn     2   
-    ##  6     1 patch     1     6 enn     2.83
-    ##  7     1 patch     1     7 enn     4.12
-    ##  8     1 patch     1     8 enn     4.12
-    ##  9     1 patch     1     9 enn     4.24
+    ##  2     1 patch     1     2 enn     2.83
+    ##  3     1 patch     1     3 enn     4   
+    ##  4     1 patch     1     4 enn     2.83
+    ##  5     1 patch     1     5 enn     4.24
+    ##  6     1 patch     1     6 enn     4.12
+    ##  7     1 patch     1     7 enn     2   
+    ##  8     1 patch     1     8 enn     2   
+    ##  9     1 patch     1     9 enn     4.12
     ## 10     1 patch     2    10 enn     4.47
     ## # ... with 17 more rows
 
