@@ -18,3 +18,4 @@
 vignettes/articles
 ^codemeta\.json$
 ^tic\.R$
+^vignettes/articles$
