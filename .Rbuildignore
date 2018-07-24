@@ -15,6 +15,6 @@
 ^LICENSE.*$
 ^data-raw$
 ^appveyor\.yml$
-^vignettes/articles$
+vignettes/articles
 ^codemeta\.json$
 ^tic\.R$
