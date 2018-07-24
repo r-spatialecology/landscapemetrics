@@ -35,15 +35,6 @@ env:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
 
-matrix:
-  include:
-    - os: linux
-    - os: osx
-      osx_image: xcode9.2
-      before_install:
-        - brew install curl
-        - brew link --force curl
-
 after_success:
   - Rscript -e 'covr::codecov()'
 
