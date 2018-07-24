@@ -10,7 +10,8 @@ library(landscapemetrics)
 library(landscapetools)
 library(patchwork)
 library(raster)
-library(tidyverse)
+library(dplyr)
+library(purrr)
 ```
 
 **landscapemetrics** re-implements landcsape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
@@ -308,33 +309,33 @@ We implemented PARA as documented in the **FRAGSTATS** manual using square meter
 ```{r}
 # Output of FRAGSTATS
 fragstats <- fragstats_patch_landscape %>%
-    dplyr::select(PID, AREA, PERIM, PARA) %>%
-    purrr::set_names("id", "area", "perim", "para") %>%
-    dplyr::mutate(para_calculated_ha = perim / area, 
+    select(PID, AREA, PERIM, PARA) %>%
+    set_names("id", "area", "perim", "para") %>%
+    mutate(para_calculated_ha = perim / area, 
                   para_calculated_m = perim / (area * 10000)) %>%
-    dplyr::arrange(area)
+    arrange(area)
 
 # Output of landscapemetrics
 area_landscapmetrics <- lsm_p_area(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "area")
+    select(id, value) %>%
+    set_names("id", "area")
 
 perim_landscapmetrics <- lsm_p_perim(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "perim")
+    select(id, value) %>%
+    set_names("id", "perim")
 
 para_landscapemetrics <- lsm_p_para(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "para")
+    select(id, value) %>%
+    set_names("id", "para")
 
 landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
                                      y = perim_landscapmetrics, 
                                      by = "id") %>%
-    dplyr::full_join(para_landscapemetrics, 
+    full_join(para_landscapemetrics, 
                      by = "id") %>%
-    dplyr::mutate(para_calculated_ha = perim / area, 
+    mutate(para_calculated_ha = perim / area, 
                   para_calculated_m = perim / (area * 10000)) %>% 
-    dplyr::arrange(area)
+    arrange(area)
 ```
 
 ```{r echo = FALSE}
