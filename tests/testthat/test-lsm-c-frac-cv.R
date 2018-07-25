@@ -8,7 +8,7 @@ fragstats_class_landscape_frac_cv <- fragstats_patch_landscape %>%
 
 #### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
 landscape_frac_cv <-  landscape %>%
-    lsm_p_frac_calc() %>%
+    lsm_p_frac() %>%
     dplyr::group_by(class)  %>%
     dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
 

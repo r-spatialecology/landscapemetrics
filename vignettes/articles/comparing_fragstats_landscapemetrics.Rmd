@@ -6,12 +6,12 @@ output:
     html_preview: false
 ---
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
-library(DT)
 library(landscapemetrics)
 library(landscapetools)
 library(patchwork)
 library(raster)
-library(tidyverse)
+library(dplyr)
+library(purrr)
 ```
 
 **landscapemetrics** re-implements landcsape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
@@ -309,33 +309,33 @@ We implemented PARA as documented in the **FRAGSTATS** manual using square meter
 ```{r}
 # Output of FRAGSTATS
 fragstats <- fragstats_patch_landscape %>%
-    dplyr::select(PID, AREA, PERIM, PARA) %>%
-    purrr::set_names("id", "area", "perim", "para") %>%
-    dplyr::mutate(para_calculated_ha = perim / area, 
+    select(PID, AREA, PERIM, PARA) %>%
+    set_names("id", "area", "perim", "para") %>%
+    mutate(para_calculated_ha = perim / area, 
                   para_calculated_m = perim / (area * 10000)) %>%
-    dplyr::arrange(area)
+    arrange(area)
 
 # Output of landscapemetrics
 area_landscapmetrics <- lsm_p_area(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "area")
+    select(id, value) %>%
+    set_names("id", "area")
 
 perim_landscapmetrics <- lsm_p_perim(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "perim")
+    select(id, value) %>%
+    set_names("id", "perim")
 
 para_landscapemetrics <- lsm_p_para(landscape) %>%
-    dplyr::select(id, value) %>%
-    purrr::set_names("id", "para")
+    select(id, value) %>%
+    set_names("id", "para")
 
 landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
                                      y = perim_landscapmetrics, 
                                      by = "id") %>%
-    dplyr::full_join(para_landscapemetrics, 
+    full_join(para_landscapemetrics, 
                      by = "id") %>%
-    dplyr::mutate(para_calculated_ha = perim / area, 
+    mutate(para_calculated_ha = perim / area, 
                   para_calculated_m = perim / (area * 10000)) %>% 
-    dplyr::arrange(area)
+    arrange(area)
 ```
 
 ```{r echo = FALSE}
@@ -348,219 +348,6 @@ print.data.frame(landscapemetrics)
 ##### Class level
 - PARA_MN (`lsm_c_para_mn`)
 - PARA_SD (`lsm_c_para_sd`)
-
-
-## Overview of deviation
-
-### Patch level
-
-```{r message=FALSE, echo=FALSE}
-library(dplyr)
-library(magrittr)
-
-### the following is ugly and on the long run probably not a good idea, 
-### but then again ... it s monday.
-
-landscapemetrics_patch_metrics <- calculate_metrics(landscape, what = "patch", directions = 8)
-
-fragstats_patch_metrics <- gather(fragstats_patch_landscape, metric, value, AREA:ENN) %>% 
-    mutate(metric = tolower(metric)) %>% 
-    select(TYPE, metric, value) %>%
-    purrr::set_names("class_fragstats", "metric_fragstats", "value_fragstats") %>% 
-    mutate(class_fragstats = as.integer(
-        case_when(class_fragstats == "cls_1" ~ 1,
-                  class_fragstats == "cls_2" ~ 2,
-                  class_fragstats == "cls_3" ~ 3)
-    ))
-
-fragstats_patch_metrics <- fragstats_patch_metrics[fragstats_patch_metrics$metric_fragstats %in% unique(landscapemetrics_patch_metrics$metric),]
-
-fragstats_patch_metrics %<>% arrange(metric_fragstats, class_fragstats)
-landscapemetrics_patch_metrics  %<>% arrange(metric, class)
-
-
-patch_results <- bind_cols(landscapemetrics_patch_metrics, fragstats_patch_metrics)
-
-
-deviance_metrics <- round(abs(landscapemetrics_patch_metrics$value - fragstats_patch_metrics$value_fragstats),2) 
-deviance_metrics <- round(deviance_metrics / landscapemetrics_patch_metrics$value * 100, 2)
-deviance_metrics[is.nan(deviance_metrics)] <- 0
-deviance_metrics[is.infinite(deviance_metrics)] <- 0
-patch_results$deviation <- deviance_metrics
-
-patch_results %<>% 
-    group_by(metric) %>%
-    summarise(count = (sum(deviation != 0) / 27) * 100)
-
-
-library(DT)
-options(DT.options = list(pageLength = 25))
-
-patch_results$interval <- findInterval(patch_results$count,
-                                       seq(0, 100, by = 10),
-                                       rightmost.closed = TRUE)
-
-
-patch_results %<>% 
-    mutate(color = case_when(interval == 1 ~ pals::coolwarm(10)[[1]],
-                             interval == 2 ~ pals::coolwarm(10)[[2]],
-                             interval == 3 ~ pals::coolwarm(10)[[3]],
-                             interval == 4 ~ pals::coolwarm(10)[[4]],
-                             interval == 5 ~ pals::coolwarm(10)[[5]],
-                             interval == 6 ~ pals::coolwarm(10)[[6]],
-                             interval == 7 ~ pals::coolwarm(10)[[7]],
-                             interval == 8 ~ pals::coolwarm(10)[[8]],
-                             interval == 9 ~ pals::coolwarm(10)[[9]],
-                             interval == 10 ~ pals::coolwarm(10)[[10]]))
-
-patch_table <- patch_results %>% 
-    select(metric, interval)
-
-datatable(patch_table) %>% formatStyle(
-    'interval',
-    backgroundColor = styleEqual(patch_results$interval, patch_results$color)
-)
-```
-
-### Class level
-
-```{r message=FALSE, echo=FALSE}
-library(dplyr)
-library(magrittr)
-
-### the following is ugly and on the long run probably not a good idea, 
-### but then again ... it s monday.
-
-landscapemetrics_class_metrics <- calculate_metrics(landscape, what = "class", directions = 8)
-
-fragstats_class_metrics <- gather(fragstats_class_landscape, metric, value, CA:NLSI, convert = F) %>% 
-    mutate(metric = tolower(metric)) %>% 
-    select(TYPE, metric, value) %>%
-    purrr::set_names("class_fragstats", "metric_fragstats", "value_fragstats") %>% 
-    mutate(class_fragstats = as.integer(
-        case_when(class_fragstats == "cls_1" ~ 1,
-                  class_fragstats == "cls_2" ~ 2,
-                  class_fragstats == "cls_3" ~ 3)),
-        value_fragstats = as.numeric(value_fragstats))
-
-fragstats_class_metrics <- fragstats_class_metrics[fragstats_class_metrics$metric_fragstats %in% unique(landscapemetrics_class_metrics$metric),]
-
-
-fragstats_class_metrics %<>% arrange(metric_fragstats, class_fragstats)
-landscapemetrics_class_metrics  %<>% arrange(metric, class)
-
-
-patch_results <- bind_cols(landscapemetrics_class_metrics, fragstats_class_metrics)
-
-
-deviance_metrics <- round(abs(patch_results$value - patch_results$value_fragstats),2) 
-deviance_metrics <- round(deviance_metrics / landscapemetrics_class_metrics$value * 100, 2)
-deviance_metrics[is.na(deviance_metrics)] <- 0
-patch_results$deviation <- deviance_metrics
-
-patch_results %<>% 
-    group_by(metric) %>%
-    summarise(count = (sum(deviation != 0) / 3) * 100)
-
-
-library(DT)
-options(DT.options = list(pageLength = 25))
-
-patch_results$interval <- findInterval(patch_results$count,
-                                       seq(0, 100, by = 10),
-                                       rightmost.closed = TRUE)
-
-
-patch_results %<>% 
-    mutate(color = case_when(interval == 1 ~ pals::coolwarm(10)[[1]],
-                             interval == 2 ~ pals::coolwarm(10)[[2]],
-                             interval == 3 ~ pals::coolwarm(10)[[3]],
-                             interval == 4 ~ pals::coolwarm(10)[[4]],
-                             interval == 5 ~ pals::coolwarm(10)[[5]],
-                             interval == 6 ~ pals::coolwarm(10)[[6]],
-                             interval == 7 ~ pals::coolwarm(10)[[7]],
-                             interval == 8 ~ pals::coolwarm(10)[[8]],
-                             interval == 9 ~ pals::coolwarm(10)[[9]],
-                             interval == 10 ~ pals::coolwarm(10)[[10]]))
-
-patch_table <- patch_results %>% 
-    select(metric, interval)
-
-datatable(patch_table) %>% formatStyle(
-    'interval',
-    backgroundColor = styleEqual(patch_results$interval, patch_results$color)
-)
-```
-
-
-### Landscape level
-
-```{r message=FALSE, echo=FALSE}
-library(dplyr)
-library(magrittr)
-
-### the following is ugly and on the long run probably not a good idea, 
-### but then again ... it s monday.
-
-landscapemetrics_class_metrics <- calculate_metrics(landscape, what = "landscape", directions = 8)
-landscapemetrics_class_metrics <- landscapemetrics_class_metrics[!landscapemetrics_class_metrics$metric == "condent",] 
-landscapemetrics_class_metrics <- landscapemetrics_class_metrics[!landscapemetrics_class_metrics$metric == "ent",] 
-landscapemetrics_class_metrics <- landscapemetrics_class_metrics[!landscapemetrics_class_metrics$metric == "joinent",] 
-landscapemetrics_class_metrics <- landscapemetrics_class_metrics[!landscapemetrics_class_metrics$metric == "mutinf",] 
-
-fragstats_class_metrics <- gather(fragstats_landscape_landscape, metric, value, TA:AI, convert = F) %>% 
-    mutate(metric = tolower(metric)) %>% 
-    select(metric, value) %>%
-    purrr::set_names("metric_fragstats", "value_fragstats") %>% 
-    mutate(value_fragstats = as.numeric(value_fragstats))
-
-fragstats_class_metrics <- fragstats_class_metrics[fragstats_class_metrics$metric_fragstats %in% unique(landscapemetrics_class_metrics$metric),]
-
-fragstats_class_metrics %<>% arrange(metric_fragstats)
-landscapemetrics_class_metrics  %<>% arrange(metric)
-
-
-patch_results <- bind_cols(landscapemetrics_class_metrics, fragstats_class_metrics)
-
-
-deviance_metrics <- round(abs(patch_results$value - patch_results$value_fragstats),2) 
-deviance_metrics <- round(deviance_metrics / landscapemetrics_class_metrics$value * 100, 2)
-deviance_metrics[is.na(deviance_metrics)] <- 0
-patch_results$deviation <- deviance_metrics
-
-patch_results %<>% 
-    group_by(metric) %>%
-    summarise(count = (sum(deviation != 0)) * 100)
-
-
-library(DT)
-options(DT.options = list(pageLength = 25))
-
-patch_results$interval <- findInterval(patch_results$count,
-                                       seq(0, 100, by = 10),
-                                       rightmost.closed = TRUE)
-
-
-patch_results %<>% 
-    mutate(color = case_when(interval == 1 ~ pals::coolwarm(10)[[1]],
-                             interval == 2 ~ pals::coolwarm(10)[[2]],
-                             interval == 3 ~ pals::coolwarm(10)[[3]],
-                             interval == 4 ~ pals::coolwarm(10)[[4]],
-                             interval == 5 ~ pals::coolwarm(10)[[5]],
-                             interval == 6 ~ pals::coolwarm(10)[[6]],
-                             interval == 7 ~ pals::coolwarm(10)[[7]],
-                             interval == 8 ~ pals::coolwarm(10)[[8]],
-                             interval == 9 ~ pals::coolwarm(10)[[9]],
-                             interval == 10 ~ pals::coolwarm(10)[[10]]))
-
-patch_table <- patch_results %>% 
-    select(metric, interval)
-
-datatable(patch_table) %>% formatStyle(
-    'interval',
-    backgroundColor = styleEqual(patch_results$interval, patch_results$color)
-)
-```
 
 
 ### References 

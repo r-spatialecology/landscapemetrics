@@ -85,6 +85,7 @@ lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8) {
 lsm_c_enn_cv.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_c_enn_cv_calc,
+                   directions = directions,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 

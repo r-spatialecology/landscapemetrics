@@ -7,7 +7,7 @@ fragstats_landscape_landscape_shape_cv <- fragstats_patch_landscape %>%
 
 #### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
 landscape_shape_cv <- landscape %>%
-    lsm_p_shape_calc() %>%
+    lsm_p_shape() %>%
     dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
 
 test_that("lsm_l_shape_cv results are equal to fragstats", {
