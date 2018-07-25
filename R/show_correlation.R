@@ -51,11 +51,11 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
 
     else if(level == "class") {
 
-        metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(3, 5:6)])
+        metrics_wide <- stats::xtabs(value ~ class + metric, data = metrics[, c(3, 5:6)])
         attr(metrics_wide, "class") <- NULL
         attr(metrics_wide, "call") <- NULL
 
-        correlation_matrix <- stats::cor(metrics_wide[2:ncol(metrics_wide)],
+        correlation_matrix <- stats::cor(metrics_wide[, 2:ncol(metrics_wide)],
                                          method = method)
 
         correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
@@ -78,11 +78,11 @@ show_correlation <- function(metrics, level, method = "pearson", text_size = 15)
 
         else{
 
-            metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(1, 5:6)])
+            metrics_wide <- stats::xtabs(value ~ layer + metric, data = metrics[, c(1, 5:6)])
             attr(metrics_wide, "class") <- NULL
             attr(metrics_wide, "call") <- NULL
 
-            correlation_matrix <- stats::cor(metrics_wide[2:ncol(metrics_wide)],
+            correlation_matrix <- stats::cor(metrics_wide[, 2:ncol(metrics_wide)],
                                              method = method)
 
             correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
