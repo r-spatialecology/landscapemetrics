@@ -97,7 +97,7 @@ lsm_l_frac_sd_calc <- function(landscape, directions){
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
-        level = "patch",
+        level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "frac_sd",

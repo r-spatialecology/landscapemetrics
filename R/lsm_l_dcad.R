@@ -95,7 +95,7 @@ lsm_l_dcad_calc <- function(landscape, directions){
         dplyr::mutate(value = (value / area_landscape$value) * 100)
 
     tibble::tibble(
-        level = "class",
+        level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "dcad",

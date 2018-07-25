@@ -97,7 +97,7 @@ lsm_c_shape_mn_calc <- function(landscape, directions){
         dplyr::summarise(value = mean(value, na.rm = TRUE))
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = as.integer(shape_mn$class),
         id = as.integer(NA),
         metric = "shape_mn",

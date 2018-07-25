@@ -101,7 +101,7 @@ lsm_l_lsi_calc <- function(landscape, directions) {
                          value = edge_landscape$value / minp)
 
     tibble::tibble(
-        level = "patch",
+        level = "landscape",
         class = as.integer(edge_landscape$class),
         id = as.integer(edge_landscape$id),
         metric = "lsi",

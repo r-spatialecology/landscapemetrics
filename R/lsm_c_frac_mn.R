@@ -96,7 +96,7 @@ lsm_c_frac_mn_calc <- function(landscape, directions){
         dplyr::summarise(value = mean(value))
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = as.integer(frac_mean$class),
         id = as.integer(NA),
         metric = "frac_mn",

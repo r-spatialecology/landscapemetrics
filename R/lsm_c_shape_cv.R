@@ -97,7 +97,7 @@ lsm_c_shape_cv_calc <- function(landscape, directions){
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = as.integer(shape_cv$class),
         id = as.integer(NA),
         metric = "shape_cv",

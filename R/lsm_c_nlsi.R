@@ -119,7 +119,7 @@ lsm_c_nlsi_calc <- function(landscape, directions) {
     result <- (edge_class$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = as.integer(edge_class$class),
         id = as.integer(NA),
         metric = "nlsi",

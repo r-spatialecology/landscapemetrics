@@ -98,7 +98,7 @@ lsm_l_frac_cv_calc <- function(landscape, directions){
         dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
 
     tibble::tibble(
-        level = "patch",
+        level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "frac_cv",

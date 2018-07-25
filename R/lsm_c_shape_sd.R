@@ -97,7 +97,7 @@ lsm_c_shape_sd_calc <- function(landscape, directions){
         dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
 
     tibble::tibble(
-        level = "patch",
+        level = "class",
         class = as.integer(shape_sd$class),
         id = as.integer(NA),
         metric = "shape_sd",
