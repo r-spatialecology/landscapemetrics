@@ -3,7 +3,6 @@
 #' @description Show correlation
 #'
 #' @param metrics tibble with results of as returned by the landscapemetrics package
-#' @param level level of the metrics (`patch`, `class`, `landscape`)
 #' @param method type of correlation. See \code{link{cor}} for details
 #' @param text_size Text size of the plot
 
@@ -24,98 +23,167 @@
 #' @export
 show_correlation <- function(metrics, level, method = "pearson", text_size = 15) {
 
-    if(length(unique(metrics$metric)) == 1){
-        stop("Please provide input with more than one metric")
+    present_levels <- unique(metrics$level)
+
+    if("patch" %in% present_levels) {
+
+        metrics_patch <- dplyr::filter(metrics, level == "patch")
+
+        if(length(unique(metrics_patch$metric)) == 1){
+            stop("Please provide input with more than one metric")
         }
 
-    if(level == "patch") {
+        metrics_patch_wide <- stats::xtabs(value ~ id + metric,
+                                           data = metrics_patch[, c(4:6)])
+        attr(metrics_patch_wide, "class") <- NULL
+        attr(metrics_patch_wide, "call") <- NULL
 
-        metrics_wide <- stats::xtabs(value ~ id + metric, data = metrics[, c(4:6)])
-        attr(metrics_wide, "class") <- NULL
-        attr(metrics_wide, "call") <- NULL
+        correlation_matrix_patch <-
+            stats::cor(metrics_patch_wide[,2:ncol(metrics_patch_wide)],
+                       method = method)
 
-        correlation_matrix <- stats::cor(metrics_wide[,2:ncol(metrics_wide)],
-                                         method = method)
+        correlation_matrix_patch[upper.tri(correlation_matrix_patch,
+                                           diag = TRUE)] <- NA
 
-        correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
-
-        correlation_matrix_df <-
+        correlation_matrix_patch_df <-
             data.frame(
-                metric_1 = rownames(correlation_matrix)[row(correlation_matrix)],
-                metric_2 = colnames(correlation_matrix)[col(correlation_matrix)],
-                value = c(correlation_matrix)
+                metric_1 = rownames(correlation_matrix_patch)[row(correlation_matrix_patch)],
+                metric_2 = colnames(correlation_matrix_patch)[col(correlation_matrix_patch)],
+                value = c(correlation_matrix_patch)
             )
 
-        correlation_matrix_df <- correlation_matrix_df[stats::complete.cases(correlation_matrix_df),]
+        correlation_matrix_patch_df <- correlation_matrix_patch_df[stats::complete.cases(correlation_matrix_patch_df),]
+
+        plot_patch <- ggplot2::ggplot(data = correlation_matrix_patch_df,
+                                      ggplot2::aes(x = metric_1, y = metric_2,
+                                                   fill = value)) +
+            ggplot2::geom_tile() +
+            ggplot2::geom_tile(color = "white")+
+            ggplot2::scale_fill_gradient2(low = "blue", high = "red",
+                                          mid = "white", midpoint = 0,
+                                          limit = c(-1,1),
+                                          name=paste0("Correlation\n(Method: ",
+                                                      method, ")")) +
+            ggplot2::theme_minimal()+
+            ggplot2::labs(x = "", y = "", title = "Patch level") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                               vjust = 1,
+                                                               size = 12,
+                                                               hjust = 1),
+                           text = ggplot2::element_text(size = text_size)) +
+            ggplot2::coord_fixed()
     }
 
-    else if(level == "class") {
+    if("class" %in% present_levels) {
 
-        metrics_wide <- stats::xtabs(value ~ class + metric, data = metrics[, c(3, 5:6)])
-        attr(metrics_wide, "class") <- NULL
-        attr(metrics_wide, "call") <- NULL
+        metrics_class <- dplyr::filter(metrics, level == "class")
 
-        correlation_matrix <- stats::cor(metrics_wide[, 2:ncol(metrics_wide)],
-                                         method = method)
+        if(length(unique(metrics_class$metric)) == 1){
+            stop("Please provide input with more than one metric")
+        }
 
-        correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
+        metrics_class_wide <- stats::xtabs(value ~ class + metric,
+                                           data = metrics_class[, c(3, 5:6)])
+        attr(metrics_class_wide, "class") <- NULL
+        attr(metrics_class_wide, "call") <- NULL
 
-        correlation_matrix_df <-
+        correlation_matrix_class <-
+            stats::cor(metrics_class_wide[,2:ncol(metrics_class_wide)],
+                       method = method)
+
+        correlation_matrix_class[upper.tri(correlation_matrix_class,
+                                           diag = TRUE)] <- NA
+
+        correlation_matrix_class_df <-
             data.frame(
-                metric_1 = rownames(correlation_matrix)[row(correlation_matrix)],
-                metric_2 = colnames(correlation_matrix)[col(correlation_matrix)],
-                value = c(correlation_matrix)
+                metric_1 = rownames(correlation_matrix_class)[row(correlation_matrix_class)],
+                metric_2 = colnames(correlation_matrix_class)[col(correlation_matrix_class)],
+                value = c(correlation_matrix_class)
             )
 
-        correlation_matrix_df <- correlation_matrix_df[stats::complete.cases(correlation_matrix_df),]
+        correlation_matrix_class_df <- correlation_matrix_class_df[stats::complete.cases(correlation_matrix_class_df),]
+
+        plot_class <- ggplot2::ggplot(data = correlation_matrix_class_df,
+                                      ggplot2::aes(x = metric_1, y = metric_2,
+                                                   fill = value)) +
+            ggplot2::geom_tile() +
+            ggplot2::geom_tile(color = "white")+
+            ggplot2::scale_fill_gradient2(low = "blue", high = "red",
+                                          mid = "white", midpoint = 0,
+                                          limit = c(-1,1),
+                                          name=paste0("Correlation\n(Method: ",
+                                                      method, ")")) +
+            ggplot2::theme_minimal()+
+            ggplot2::labs(x = "", y = "", title = "Class level") +
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                               vjust = 1,
+                                                               size = 12,
+                                                               hjust = 1),
+                           text = ggplot2::element_text(size = text_size)) +
+            ggplot2::coord_fixed()
     }
 
-    else if(level == "landscape") {
+    if("landscape" %in% present_levels) {
 
-        if(length(unique(metrics$layer)) == 1) {
+        metrics_landscape <- dplyr::filter(metrics, level == "landscape")
+
+        if(length(unique(metrics_landscape$layer)) == 1) {
             stop("Correlation on landscape level only possible for several landscapes")
         }
 
         else{
 
-            metrics_wide <- stats::xtabs(value ~ layer + metric, data = metrics[, c(1, 5:6)])
-            attr(metrics_wide, "class") <- NULL
-            attr(metrics_wide, "call") <- NULL
+            if(length(unique(metrics_landscape$metric)) == 1){
+                stop("Please provide input with more than one metric")
+            }
 
-            correlation_matrix <- stats::cor(metrics_wide[, 2:ncol(metrics_wide)],
-                                             method = method)
+            metrics_landscape_wide <- stats::xtabs(value ~ layer + metric,
+                                               data = metrics_landscape[, c(1, 5:6)])
+            attr(metrics_landscape_wide, "landscape") <- NULL
+            attr(metrics_landscape_wide, "call") <- NULL
 
-            correlation_matrix[upper.tri(correlation_matrix, diag = TRUE)] <- NA
+            correlation_matrix_landscape <-
+                stats::cor(metrics_landscape_wide[,2:ncol(metrics_landscape_wide)],
+                           method = method)
 
-            correlation_matrix_df <-
+            correlation_matrix_landscape[upper.tri(correlation_matrix_landscape,
+                                               diag = TRUE)] <- NA
+
+            correlation_matrix_landscape_df <-
                 data.frame(
-                    metric_1 = rownames(correlation_matrix)[row(correlation_matrix)],
-                    metric_2 = colnames(correlation_matrix)[col(correlation_matrix)],
-                    value = c(correlation_matrix)
+                    metric_1 = rownames(correlation_matrix_landscape)[row(correlation_matrix_landscape)],
+                    metric_2 = colnames(correlation_matrix_landscape)[col(correlation_matrix_landscape)],
+                    value = c(correlation_matrix_landscape)
                 )
 
-            correlation_matrix_df <- correlation_matrix_df[stats::complete.cases(correlation_matrix_df),]
+            correlation_matrix_landscape_df <- correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df),]
+
+            plot_landscape <- ggplot2::ggplot(data = correlation_matrix_landscape_df,
+                                          ggplot2::aes(x = metric_1, y = metric_2,
+                                                       fill = value)) +
+                ggplot2::geom_tile() +
+                ggplot2::geom_tile(color = "white")+
+                ggplot2::scale_fill_gradient2(low = "blue", high = "red",
+                                              mid = "white", midpoint = 0,
+                                              limit = c(-1,1),
+                                              name=paste0("Correlation\n(Method: ",
+                                                          method, ")")) +
+                ggplot2::theme_minimal()+
+                ggplot2::labs(x = "", y = "", title = "landscape level") +
+                ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                                   vjust = 1,
+                                                                   size = 12,
+                                                                   hjust = 1),
+                               text = ggplot2::element_text(size = text_size)) +
+                ggplot2::coord_fixed()
 
         }
 
     }
 
-    else{stop("Please select 'patch', 'class' or 'landscape' as level")}
+    plot_list <- mget(x = c("plot_patch", "plot_class", "plot_landscape"),
+                      ifnotfound = list(NA))
 
-    plot <- ggplot2::ggplot(data = correlation_matrix_df,
-                           ggplot2::aes(x = metric_1, y = metric_2, fill = value)) +
-        ggplot2::geom_tile() +
-        ggplot2::geom_tile(color = "white")+
-        ggplot2::scale_fill_gradient2(low = "blue", high = "red", mid = "white",
-                                     midpoint = 0, limit = c(-1,1),
-                                     name=paste0("Correlation\n(Method: ", method, ")")) +
-        ggplot2::theme_minimal()+
-        ggplot2::labs(x = "", y = "") +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
-                                                 size = 12, hjust = 1),
-                      text = ggplot2::element_text(size = text_size)) +
-        ggplot2::coord_fixed()
-
-    return(plot)
+    return(plot_list)
 
 }
