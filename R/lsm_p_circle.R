@@ -104,7 +104,7 @@ lsm_p_circle_calc <- function(landscape, directions) {
             raster::rasterToPoints()
 
         circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution)
-        circle <- circle[order(circle[,1]),]
+        circle <- matrix(circle[order(circle[,1]),], ncol = 2)
 
         tibble::tibble(class = class,
                        value = circle[,2])
