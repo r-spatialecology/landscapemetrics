@@ -62,29 +62,23 @@ lsm_c_iji.list <- function(landscape) {
 
 lsm_c_iji_calc <- function(landscape) {
 
-    adj <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                       as.matrix(4))
+    adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                               as.matrix(4))
 
-    diag(adj) <- 0
+    diag(adjacencies) <- 0
 
-    iji <- purrr::map(seq_len(ncol(adj)), function(row_ind) {
-        purrr::map_dbl(seq_len(ncol(adj)), function(col_ind) {
-            (adj[row_ind, col_ind] / sum(adj[row_ind, ])) *
-                log((adj[row_ind, col_ind] / sum(adj[row_ind, ])))
-        })
-    })
+    edge_ratio <- adjacencies / rowSums(adjacencies, na.rm = TRUE) *
+        log(adjacencies / rowSums(adjacencies, na.rm = TRUE))
 
+    class_sums <- -rowSums(edge_ratio, na.rm = TRUE)
 
-    iji <- purrr::map_dbl(iji, sum, na.rm = TRUE)
+    iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-    iji <- -(iji / log(ncol(adj) - 1)) * 100
-
-
- tibble::tibble(
-     level = "class",
-     class = as.integer(raster::unique(landscape)),
-     id = as.integer(NA),
-     metric = "iji",
-     value = as.double(iji)
- )
+    tibble::tibble(
+        level = "class",
+        class = as.integer(raster::unique(landscape)),
+        id = as.integer(NA),
+        metric = "iji",
+        value = as.double(iji)
+    )
 }
