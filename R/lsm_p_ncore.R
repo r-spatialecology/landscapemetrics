@@ -105,7 +105,7 @@ lsm_p_ncore_calc <- function(landscape, directions){
 
     core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
-        patches_landscape <- patches_class %>%
+        patches_id <- patches_class %>%
             raster::values() %>%
             stats::na.omit() %>%
             unique()
@@ -122,7 +122,8 @@ lsm_p_ncore_calc <- function(landscape, directions){
         n_boundary <- length(unique(raster::values(class_boundary)))
 
         if(n_boundary == 1){
-            n_core_area <- 0
+            result <- c(rep(0, length(patches_id)))
+            names(result)  <- patches_id
         }
 
         else{
@@ -136,16 +137,16 @@ lsm_p_ncore_calc <- function(landscape, directions){
                                                  y = matrix(points[, 1:2],
                                                             ncol = 2)))
 
-            result <- c(rep(0, length(patches_landscape)))
-            names(result)  <- patches_landscape
+            result <- c(rep(0, length(patches_id)))
+            names(result)  <- patches_id
 
             result[as.numeric(names(n_core_area))] <- n_core_area
-
-            (tibble::tibble(
-                class = class_name,
-                value = result
-            ))
         }
+
+        (tibble::tibble(
+            class = class_name,
+            value = result
+        ))
     })
 
     tibble::tibble(
