@@ -100,8 +100,8 @@ lsm_p_ncore_calc <- function(landscape, directions){
 
     landscape_extent <- raster::extent(landscape)
     landscape_raster <- raster::raster(landscape_extent,
-                        resolution = raster::res(landscape),
-                        crs = raster::crs(landscape))
+                                       resolution = raster::res(landscape),
+                                       crs = raster::crs(landscape))
 
     core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 
@@ -117,26 +117,35 @@ lsm_p_ncore_calc <- function(landscape, directions){
         class_boundary <- raster::boundaries(patches_class, directions = 4)
 
         raster::values(class_boundary)[raster::values(class_boundary) == 1 |
-                            raster::values(is.na(class_boundary))] <- -999
+                                           raster::values(is.na(class_boundary))] <- -999
 
-        cclabel_landscape <- cclabel(class_boundary,
-                                     directions = directions)[[2]]
+        n_boundary <- length(unique(raster::values(class_boundary)))
 
-        points <- raster::rasterToPoints(cclabel_landscape)
-        points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
+        if(n_boundary == 1){
+            n_core_area <- 0
+        }
 
-        n_core_area <- table(raster::extract(x = patches_class,
-                                             y = points[, 1:2]))
+        else{
+            cclabel_core <- cclabel(class_boundary,
+                                    directions = directions)[[2]]
 
-        result <- c(rep(0, length(patches_landscape)))
-        names(result)  <- patches_landscape
+            points <- raster::rasterToPoints(cclabel_core)
+            points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
 
-        result[as.numeric(names(n_core_area))] <- n_core_area
+            n_core_area <- table(raster::extract(x = patches_class,
+                                                 y = matrix(points[, 1:2],
+                                                            ncol = 2)))
 
-        (tibble::tibble(
-            class = class_name,
-            value = result
-        ))
+            result <- c(rep(0, length(patches_landscape)))
+            names(result)  <- patches_landscape
+
+            result[as.numeric(names(n_core_area))] <- n_core_area
+
+            (tibble::tibble(
+                class = class_name,
+                value = result
+            ))
+        }
     })
 
     tibble::tibble(
