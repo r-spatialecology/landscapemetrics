@@ -3,9 +3,6 @@
 #' @description Interspersion and Juxtaposition index (class level)
 #
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param count_boundary ???
-#' @param directions The number of directions in which cells should be
-#' connected: 4 (rook's case) or 8 (queen's case).
 #
 #' @details
 #' ???
