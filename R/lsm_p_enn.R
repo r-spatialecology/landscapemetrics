@@ -98,8 +98,10 @@ lsm_p_enn_calc <- function(landscape, directions) {
             max(na.rm = TRUE)
 
         if(np_class == 1){
-            minimum_distance <- as.double(NA)
-            warning(paste0("Class ", class,
+            enn <-  tibble::tibble(class = class_name,
+                                   value = as.double(NA))
+
+            warning(paste0("Class ", class_name,
                            ": ENN = NA for class with only 1 patch"),
                     call. = FALSE)
         }
@@ -111,13 +113,15 @@ lsm_p_enn_calc <- function(landscape, directions) {
 
             raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
 
-            points_class <- raster::xyFromCell(class_boundaries,
-                                               cell = 1:raster::ncell(class_boundaries)) %>%
-                cbind(raster::values(class_boundaries)) %>%
-                stats::na.omit() %>%
-                tibble::as.tibble() %>%
-                purrr::set_names(c("x", "y", "id"))  %>%
-                dplyr::arrange(id, -y)
+            # points_class <- raster::xyFromCell(class_boundaries,
+            #                                    cell = 1:raster::ncell(class_boundaries)) %>%
+            #     cbind(raster::values(class_boundaries)) %>%
+            #     stats::na.omit() %>%
+            #     tibble::as.tibble() %>%
+            #     purrr::set_names(c("x", "y", "id"))  %>%
+            #     dplyr::arrange(id, -y)
+
+            points_class <- raster::rasterToPoints(class_boundaries)
 
             ord <- order(as.matrix(points_class)[, 1])
             num <- seq_along(ord)
@@ -135,11 +139,12 @@ lsm_p_enn_calc <- function(landscape, directions) {
 
             enn <- dplyr::group_by(tbl, by = id) %>%
                 dplyr::summarise(value = min(dist))
+        }
 
             tibble::tibble(class = class_name,
                            value = enn$value)
 
-        }
+
     })
 
     tibble::tibble(level = "patch",
