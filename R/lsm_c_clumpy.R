@@ -107,19 +107,25 @@ lsm_c_clumpy_calc <- function(landscape){
         (lsm_c_pland(landscape) %>% dplyr::pull(value)) / 100
 
     clumpy <- purrr::map_dbl(seq_along(g), function(row_ind) {
-        if (g[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
+
+        if (is.nan(g[row_ind]) || is.na(g[row_ind])) {
+            clumpy <- NA
+        }
+
+        else if (g[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
             clumpy <-
                 (g[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
-        } else{
+        }
+
+        else {
             clumpy <-
                 (g[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
         }
-
     })
 
     tibble::tibble(
         level = "class",
-        class = as.integer(seq_along(clumpy)),
+        class = names(g),
         id = as.integer(NA),
         metric = "clumpy",
         value = as.double(clumpy)
