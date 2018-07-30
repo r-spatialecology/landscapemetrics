@@ -97,7 +97,8 @@ lsm_l_pafrac_calc <- function(landscape, directions){
 
     if(np_landscape$value < 10){
         pafrac <-  NA
-        warning("PAFRAC = NA for NP < 10")
+        warning("PAFRAC = NA for NP < 10",
+                call. = FALSE)
     }
 
     else{
