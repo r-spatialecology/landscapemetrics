@@ -85,8 +85,8 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,
-                             pad_raster_value = max(raster::values(landscape)) +
-                                 1,
+                             pad_raster_value = max(raster::values(landscape),
+                                                    na.rm = TRUE) + 1,
                              pad_raster_cells = 1)
     }
 

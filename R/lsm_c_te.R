@@ -117,12 +117,22 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
         tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                           directions = as.matrix(4))
 
+        number_patches <-
+            length(unique(raster::getValues(patches_class)[raster::getValues(patches_class) != -999]))
+
         if(all(dim(tb) == 1)){
             te <- 0
         }
 
         else{
-            te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+
+            if(number_patches == 1 && isFALSE(count_boundary)){
+                te <- 0
+            }
+
+            else{
+                te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+            }
         }
 
         tibble::tibble(
