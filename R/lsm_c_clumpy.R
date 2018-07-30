@@ -125,7 +125,7 @@ lsm_c_clumpy_calc <- function(landscape){
 
     tibble::tibble(
         level = "class",
-        class = names(g),
+        class = as.integer(names(g)),
         id = as.integer(NA),
         metric = "clumpy",
         value = as.double(clumpy)
