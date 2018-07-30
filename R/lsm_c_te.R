@@ -97,50 +97,50 @@ lsm_c_te.list <- function(landscape,
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    number_classes <- lsm_l_pr_calc(landscape) %>% dplyr::pull(value)
 
-    purrr::map_dfr(landscape_labelled, function(patches_class) {
+    if(number_classes == 1 && isFALSE(count_boundary)) {
 
-        class_name <- patches_class %>%
-            names() %>%
-            sub("Class_", "", .)
-
-        raster::values(patches_class)[is.na(raster::values(
-            patches_class))] <- -999
-
-        if(isTRUE(count_boundary)){
-            patches_class <- pad_raster(landscape = patches_class,
-                                        pad_raster_value = -999,
-                                        pad_raster_cells = 1)
-        }
-
-        tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                          directions = as.matrix(4))
-
-        number_patches <-
-            length(unique(raster::getValues(patches_class)[raster::getValues(patches_class) != -999]))
-
-        if(all(dim(tb) == 1)){
-            te <- 0
-        }
-
-        else{
-
-            if(number_patches == 1 && isFALSE(count_boundary)){
-                te <- 0
-            }
-
-            else{
-                te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
-            }
-        }
+        class_name <- raster::unique(landscape)
 
         tibble::tibble(
             level = "class",
             class = as.integer(class_name),
             id = as.integer(NA),
             metric = "te",
-            value = as.double(te))
-    })
+            value = as.double(0))
+    }
 
+    else {
+
+        landscape_labelled <- cclabel(landscape, directions = directions)
+
+        purrr::map_dfr(landscape_labelled, function(patches_class) {
+
+            class_name <- patches_class %>%
+                names() %>%
+                sub("Class_", "", .)
+
+            raster::values(patches_class)[is.na(raster::values(
+                patches_class))] <- -999
+
+            if(isTRUE(count_boundary)){
+                patches_class <- pad_raster(landscape = patches_class,
+                                            pad_raster_value = -999,
+                                            pad_raster_cells = 1)
+            }
+
+            tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                              directions = as.matrix(4))
+
+            te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+
+            tibble::tibble(
+                level = "class",
+                class = as.integer(class_name),
+                id = as.integer(NA),
+                metric = "te",
+                value = as.double(te))
+        })
+    }
 }
