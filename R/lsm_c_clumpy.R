@@ -83,7 +83,7 @@ lsm_c_clumpy_calc <- function(landscape){
 
     like_adjacencies <- diag(tb)
     like_adjacencies <- like_adjacencies[2:length(like_adjacencies)]
-    other_adjacencies <- tb[,2:ncol(tb)]
+    other_adjacencies <- as.matrix(tb[, 2:ncol(tb)])
 
     area_class <- tibble::as.tibble(raster::freq(landscape, useNA = "no"))
 
@@ -108,7 +108,9 @@ lsm_c_clumpy_calc <- function(landscape){
 
     clumpy <- purrr::map_dbl(seq_along(g), function(row_ind) {
 
-        if (is.nan(g[row_ind]) || is.na(g[row_ind])) {
+        if (is.nan(g[row_ind]) ||
+            is.na(g[row_ind]) ||
+            prop_class[row_ind] == 1) {
             clumpy <- NA
         }
 
