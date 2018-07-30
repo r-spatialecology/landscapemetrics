@@ -75,6 +75,8 @@ pad_raster_internal <- function(landscape,
                                   deparse.level = 0)
     }
 
+    landscape_matrix[is.na(landscape_matrix)] <- pad_raster_value
+
     landscape_padded_extent <- raster::extent(landscape) +
         (pad_raster_cells * 2 * raster::res(landscape))
 
