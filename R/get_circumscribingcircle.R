@@ -33,7 +33,7 @@ get_circumscribingcircle <- function(landscape, resolution) UseMethod("get_circu
 
 #' @name get_circumscribingcircle
 #' @export
-get_circumscribingcircle.RasterLayer <- function(landscape) {
+get_circumscribingcircle.RasterLayer <- function(landscape, resolution) {
     points_mat <- raster::rasterToPoints(landscape)
 
     resol <- raster::res(landscape)

@@ -10,7 +10,7 @@
 \usage{
 get_circumscribingcircle(landscape, resolution)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape)
+\method{get_circumscribingcircle}{RasterLayer}(landscape, resolution)
 
 \method{get_circumscribingcircle}{matrix}(landscape, resolution = NULL)
 }
