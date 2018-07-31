@@ -89,7 +89,7 @@ lsm_l_contag_calc <- function(landscape) {
 
     t <- lsm_l_pr(landscape)$value
 
-    if (ncol(adjacencies) < 2) {
+    if (t < 2) {
         warning("Number of classes must be >= 2, CONTAG metric returned as NA.", call. = FALSE)
 
         tibble::tibble(

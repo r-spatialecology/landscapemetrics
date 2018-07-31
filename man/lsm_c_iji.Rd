@@ -34,11 +34,17 @@ Interspersion and Juxtaposition index (class level)
 \details{
 \deqn{IJI = \frac{- \sum \limits_{k = 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) ln \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) \Bigg]}{ln(m - 1)}  * 100}
 
-"salt and pepper" metric.
-\deqn{???}
+where \eqn{e_{ik}} are the unique adjacencies of all classes (lower/upper triangle of
+the adjacency table - without the diagonal) and \eqn{m} is the number of classes.
+
+IJI is an 'Aggregation metric'. It is a so called "salt and pepper" metric and
+describes the intermixing of classes (i.e. without considering like adjacencies - the
+diagonal of the adjacency table). The number of classes to calculate IJI must be >= than 3.
+
 \subsection{Units}{Percent}
 \subsection{Range}{0 < IJI ≤ 100}
-\subsection{Behaviour}{???}
+\subsection{Behaviour}{Approaches 0 if a class is only adjacent to a single other class
+and equals 100 when a class is equally adjacent to all other classes.}
 }
 \examples{
 lsm_c_iji(landscape)

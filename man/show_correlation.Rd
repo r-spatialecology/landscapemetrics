@@ -4,13 +4,10 @@
 \alias{show_correlation}
 \title{Show correlation}
 \usage{
-show_correlation(metrics, level, method = "pearson", text_size = 15)
+show_correlation(metrics, method = "pearson", text_size = 15)
 }
 \arguments{
 \item{metrics}{tibble with results of as returned by the landscapemetrics package}
-
-\item{level}{Selected level of metrics: either "patch", "class",
-"landscape" or any combination of them.}
 
 \item{method}{type of correlation. See \code{link{cor}} for details}
 
@@ -23,13 +20,12 @@ ggplot
 Show correlation
 }
 \details{
-The functions calculates the correlation between all metrics. All metrics
-of the input tibble must be from the same level. In order to calculate correlations,
+The functions calculates the correlation between all metrics. In order to calculate correlations,
 for the landscape level more than one landscape needs to be present. All input
 must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
-metrics <- calculate_metrics(landscape, what = "patch")
-show_correlation(metrics, level = "patch", method = "pearson")
+metrics <- calculate_metrics(landscape, what = c("patch", "class"))
+show_correlation(metrics, method = "pearson")
 
 }

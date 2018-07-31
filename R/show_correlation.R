@@ -3,21 +3,18 @@
 #' @description Show correlation
 #'
 #' @param metrics tibble with results of as returned by the landscapemetrics package
-#' @param level Selected level of metrics: either "patch", "class",
-#' "landscape" or any combination of them.
 #' @param method type of correlation. See \code{link{cor}} for details
 #' @param text_size Text size of the plot
 #'
-#' @details The functions calculates the correlation between all metrics. All metrics
-#' of the input tibble must be from the same level. In order to calculate correlations,
+#' @details The functions calculates the correlation between all metrics. In order to calculate correlations,
 #' for the landscape level more than one landscape needs to be present. All input
 #' must be structured as returned by the **landscapemetrics** package.
 #'
 #' @return ggplot
 #'
 #' @examples
-#' metrics <- calculate_metrics(landscape, what = "patch")
-#' show_correlation(metrics, level = "patch", method = "pearson")
+#' metrics <- calculate_metrics(landscape, what = c("patch", "class"))
+#' show_correlation(metrics, method = "pearson")
 #'
 #' @aliases show_correlation
 #' @rdname show_correlation
@@ -25,9 +22,9 @@
 #' @export
 show_correlation <-
     function(metrics,
-             level,
              method = "pearson",
              text_size = 15) {
+
         present_levels <- unique(metrics$level)
 
         if ("patch" %in% present_levels) {
@@ -140,8 +137,8 @@ show_correlation <-
             )
 
 
-        if (length(level) == 1) {
-            plot_corrs <- ggplot2::ggplot(data = plot_list[[level]],
+        if (length(present_levels) == 1) {
+            plot_corrs <- ggplot2::ggplot(data = plot_list[[present_levels]],
                                           ggplot2::aes(
                                               x = metric_1,
                                               y = metric_2,
@@ -161,8 +158,8 @@ show_correlation <-
                 ggplot2::theme_minimal() +
                 ggplot2::labs(x = "",
                               y = "",
-                              title = paste(toupper(substr(level, 1, 1)),
-                                            substr(level, 2, nchar(level))
+                              title = paste(toupper(substr(present_levels, 1, 1)),
+                                            substr(present_levels, 2, nchar(present_levels))
                                             , " Level", sep="")) +
                 ggplot2::theme(
                     axis.text.x = ggplot2::element_text(

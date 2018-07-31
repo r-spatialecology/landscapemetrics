@@ -45,6 +45,8 @@ of classes. E.g., low class dispersion (= high proportion of like adjacencies) a
 low interspersion (= uneven distribution of pairwise adjacencies) lead to a high
 contagion value.
 
+The number of classes to calculate CONTAG must be >= than 2.
+
 \subsection{Units}{Percent}
 \subsection{Range}{0 < Contag <=100}
 \subsection{Behaviour}{Approaches CONTAG = 0 if all cells are unevenly distributed

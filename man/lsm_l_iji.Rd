@@ -32,11 +32,20 @@ tibble
 Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
 }
 \details{
-???
-\deqn{???}
-\subsection{Units}{???}
-\subsection{Range}{???}
-\subsection{Behaviour}{???}
+\deqn{IJI = \frac{- \sum \limits_{i = 1}^{m} \sum \limits_{k = i + 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{E} \Bigg) ln \Bigg( \frac{e_{ik}}{E} \Bigg) \Bigg]}{ln(0.5[m(m - 1)])}  * 100}
+
+where \eqn{e_{ik}} are the unique adjacencies of all classes (lower/upper triangle of
+the adjacency table - without the diagonal), \eqn{E} is the total length of edges in the landscape
+and \eqn{m} is the number of classes.
+
+IJI is an 'Aggregation metric'. It is a so called "salt and pepper" metric and
+describes the intermixing of classes (i.e. without considering like adjacencies - the
+diagonal of the adjacency table). The number of classes to calculate IJI must be >= than 3.
+
+\subsection{Units}{Percent}
+\subsection{Range}{0 < IJI ≤ 100}
+\subsection{Behaviour}{Approaches 0 if a class is only adjacent to a single other class
+and equals 100 when a class is equally adjacent to all other classes.}
 }
 \examples{
 lsm_l_iji(landscape)
