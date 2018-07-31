@@ -67,5 +67,5 @@ into the correlation of the metrics you calculated:
 
 ```{r fig.width=7, fig.height=7, fig.align="center"}
 metrics <- calculate_metrics(landscape, what = "patch")
-show_correlation(metrics, level = "patch", method = "pearson")
+show_correlation(metrics, method = "pearson")
 ```
