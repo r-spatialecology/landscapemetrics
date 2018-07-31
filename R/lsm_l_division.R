@@ -3,7 +3,7 @@
 #' @description Landscape division index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{DIVISON = (1 - \sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} (\frac{a_{ij}} {A}) ^ 2) }

@@ -38,7 +38,7 @@ calculate_metrics(landscape, what, directions, count_boundary, classes_max,
 "landscape". The default is "all". It is also possible to specifiy functions
 as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
-\item{directions}{The number of directions in which cells should be
+\item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{count_boundary}{Include landscape boundary in edge length}

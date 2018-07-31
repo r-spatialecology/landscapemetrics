@@ -3,7 +3,7 @@
 #' @description Mean of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{ENN_{MN} = cv(mean[patch_{ij}])}

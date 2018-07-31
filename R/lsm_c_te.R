@@ -4,7 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
-#' @param directions The number of directions in which cells should be
+#' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details

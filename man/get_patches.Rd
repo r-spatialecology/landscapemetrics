@@ -28,7 +28,7 @@ get_patches(landscape, what, directions)
 \item{what}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
 
-\item{directions}{The number of directions in which cells should be
+\item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{

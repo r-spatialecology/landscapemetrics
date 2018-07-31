@@ -30,7 +30,7 @@ lsm_c_ed(landscape, count_boundary, directions)
 
 \item{count_boundary}{Count landscape boundary as edge.}
 
-\item{directions}{The number of directions in which cells should be connected: 4 (rook's case) or 8 (queen's case).}
+\item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

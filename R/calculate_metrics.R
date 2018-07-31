@@ -6,7 +6,7 @@
 #' @param what Selected level of metrics: either "all", "patch", "class",
 #' "landscape". The default is "all". It is also possible to specifiy functions
 #' as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param directions The number of directions in which cells should be
+#' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
 #' @param classes_max Potential maximum number of present classes

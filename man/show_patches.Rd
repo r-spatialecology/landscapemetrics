@@ -25,7 +25,7 @@ show_patches(landscape, directions)
 \arguments{
 \item{landscape}{*Raster object}
 
-\item{directions}{The number of directions in which cells should be
+\item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{

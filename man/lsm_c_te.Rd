@@ -30,7 +30,7 @@ lsm_c_te(landscape, count_boundary, directions)
 
 \item{count_boundary}{Include landscape boundary in edge length}
 
-\item{directions}{The number of directions in which cells should be
+\item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
