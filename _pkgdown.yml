@@ -27,6 +27,8 @@ reference:
   - title: Auxiliary/Utility functions
     contents:
     - get_adjacencies
+    - get_circumscribingcircle
+    - get_nearestneighbour
     - get_patches
   - title: Visualisation functions
     contents:
