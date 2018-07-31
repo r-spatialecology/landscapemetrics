@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_contig_mn.R
 \name{lsm_c_contig_mn}
 \alias{lsm_c_contig_mn}
-\alias{lsm_c_contig_mn}
 \alias{lsm_c_contig_mn.RasterLayer}
-\alias{lsm_c_contig_mn}
 \alias{lsm_c_contig_mn.RasterStack}
-\alias{lsm_c_contig_mn}
 \alias{lsm_c_contig_mn.RasterBrick}
-\alias{lsm_c_contig_mn}
 \alias{lsm_c_contig_mn.list}
 \title{CONTIG_MN (class level)}
 \usage{

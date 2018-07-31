@@ -330,7 +330,7 @@
 <p>In <strong>landscapemetrics</strong> the depth-of-edge is fixed to one cell. In other words, all cells with four adjacent neighbours of the same class are defined as core cells. The implementation of the depth-of-edge distance seems to be slightly different in <strong>FRAGSTATS</strong>, leading to slightly different results for core metrics.</p>
 <p>This is a visual aid to help understand how we implemented the core metric. The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># All patches of class 1</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cclabel</span>(landscape)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">class_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">get_patches</span>(landscape)[[<span class="dv">1</span>]]</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># Core area of all patches, 1 = Edge, 0 = Core</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">core &lt;-<span class="st"> </span><span class="kw">boundaries</span>(class_<span class="dv">1</span>, <span class="dt">directions =</span> <span class="dv">4</span>)</a></code></pre></div>

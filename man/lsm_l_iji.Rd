@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_iji.R
 \name{lsm_l_iji}
 \alias{lsm_l_iji}
-\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterLayer}
-\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterStack}
-\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterBrick}
-\alias{lsm_l_iji}
 \alias{lsm_l_iji.list}
 \title{Interspersion and Juxtaposition index (landscape level)}
 \usage{

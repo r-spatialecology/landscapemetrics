@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_enn.R
 \name{lsm_p_enn}
 \alias{lsm_p_enn}
-\alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterLayer}
-\alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterStack}
-\alias{lsm_p_enn}
 \alias{lsm_p_enn.RasterBrick}
-\alias{lsm_p_enn}
 \alias{lsm_p_enn.list}
 \title{ENN (patch level)}
 \usage{

@@ -198,13 +198,20 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>???
-$$???$$</p><h3>Units</h3>
-???
+    <p>$$IJI = \frac{- \sum \limits_{i = 1}^{m} \sum \limits_{k = i + 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{E} \Bigg) ln \Bigg( \frac{e_{ik}}{E} \Bigg) \Bigg]}{ln(0.5[m(m - 1)])}  * 100$$</p>
+<p>where \(e_{ik}\) are the unique adjacencies of all classes (lower/upper triangle of
+the adjacency table - without the diagonal), \(E\) is the total length of edges in the landscape
+and \(m\) is the number of classes.</p>
+<p>IJI is an 'Aggregation metric'. It is a so called "salt and pepper" metric and
+describes the intermixing of classes (i.e. without considering like adjacencies - the
+diagonal of the adjacency table). The number of classes to calculate IJI must be &gt;= than 3.</p>
+<h3>Units</h3>
+Percent
 <h3>Range</h3>
-???
+0 &lt; IJI ≤ 100
 <h3>Behaviour</h3>
-???
+Approaches 0 if a class is only adjacent to a single other class
+and equals 100 when a class is equally adjacent to all other classes.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

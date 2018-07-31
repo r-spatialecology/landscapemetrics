@@ -169,7 +169,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='no'>level</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>15</span>)</pre>
+    <pre class="usage"><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>15</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,11 +177,6 @@
     <tr>
       <th>metrics</th>
       <td><p>tibble with results of as returned by the landscapemetrics package</p></td>
-    </tr>
-    <tr>
-      <th>level</th>
-      <td><p>Selected level of metrics: either "patch", "class",
-"landscape" or any combination of them.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -199,15 +194,13 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The functions calculates the correlation between all metrics. All metrics
-of the input tibble must be from the same level. In order to calculate correlations,
+    <p>The functions calculates the correlation between all metrics. In order to calculate correlations,
 for the landscape level more than one landscape needs to be present. All input
 must be structured as returned by the <strong>landscapemetrics</strong> package.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"patch"</span>)
-<span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='st'>"patch"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)</div><div class='img'><img src='show_correlation-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='input'><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)</div><div class='img'><img src='show_correlation-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

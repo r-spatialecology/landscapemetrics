@@ -2,9 +2,7 @@
 % Please edit documentation in R/get_nearestneighbour.R
 \name{get_nearestneighbour}
 \alias{get_nearestneighbour}
-\alias{get_nearestneighbour}
 \alias{get_nearestneighbour.RasterLayer}
-\alias{get_nearestneighbour}
 \alias{get_nearestneighbour.matrix}
 \title{get_nearestneighbour}
 \usage{
