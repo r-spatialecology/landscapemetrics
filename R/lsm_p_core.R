@@ -86,7 +86,7 @@ lsm_p_core.list <- function(landscape, directions = 8) {
 }
 
 lsm_p_core_calc <- function(landscape, directions) {
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     core <-
         purrr::map_dfr(landscape_labelled, function(patches_class) {

@@ -99,7 +99,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,

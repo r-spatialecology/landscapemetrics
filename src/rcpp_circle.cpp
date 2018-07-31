@@ -80,7 +80,7 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution) {
 }
 
 /*** R
-landscape_labelled <- cclabel(landscape)
+landscape_labelled <- get_patches(landscape)
 
     patches_class <- landscape_labelled[[1]]
 

@@ -85,7 +85,7 @@ lsm_p_enn.list <- function(landscape, directions = 8) {
 
 lsm_p_enn_calc <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 

@@ -92,7 +92,7 @@ lsm_p_area.list <- function(landscape, directions = 8) {
 
 lsm_p_area_calc <- function(landscape, directions){
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     area_patch <- purrr::map_dfr(landscape_labelled, function(patches_class){
 

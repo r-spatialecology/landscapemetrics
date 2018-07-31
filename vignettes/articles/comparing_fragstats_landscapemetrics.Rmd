@@ -189,7 +189,7 @@ This is a visual aid to help understand how we implemented the core metric. The 
 
 ```{r}
 # All patches of class 1
-class_1 <- cclabel(landscape)[[1]]
+class_1 <- get_patches(landscape)[[1]]
 
 # Core area of all patches, 1 = Edge, 0 = Core
 core <- boundaries(class_1, directions = 4)

@@ -82,7 +82,7 @@ NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points) {
 
 
 /*** R
-landscape_labelled <- cclabel(landscape)
+landscape_labelled <- get_patches(landscape)
 
     patches_class <- landscape_labelled[[1]]
 

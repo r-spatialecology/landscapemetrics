@@ -49,7 +49,7 @@ to look at patterns in your landscape:
 
 ```{r fig.width=9, fig.height=4, fig.align="center"}
 # run connected labeling for podlasie raster
-patches <- cclabel(landscape)
+patches <- get_patches(landscape)
 
 # show landscape and a single facet with every patch for all classes in podlasie
 util_facetplot(patches) 

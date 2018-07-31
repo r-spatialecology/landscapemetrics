@@ -26,8 +26,8 @@ reference:
     - fragstats_landscape_podlasie
   - title: Auxiliary/Utility functions
     contents:
-    - cclabel
     - get_adjacencies
+    - get_patches
   - title: Visualisation functions
     contents:
     - show_patches

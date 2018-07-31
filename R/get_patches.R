@@ -1,6 +1,6 @@
-#' cclabel
+#' get_patches
 #'
-#' @description Connected components labeling
+#' @description Connected components labeling to derive patches in a landscape.
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which cells should be
@@ -31,70 +31,67 @@
 #'
 #' @examples
 #' # check for patches of class 1
-#' cclabeled_raster  <-  cclabel(landscape, 1)
+#' cclabeled_raster  <-  get_patches(landscape, 1)
 #'
 #' # count patches
 #' length(raster::unique(cclabeled_raster[[1]]))
 #'
 #' # check for patches of every class
-#' cclabeled_raster <-  cclabel(landscape)
+#' cclabeled_raster <-  get_patches(landscape)
 #'
-#' #label a rasterstack
-#' cclabeled_rasterstack <-  cclabel(landscape_stack)
-#'
-#' @aliases cclabel
-#' @rdname cclabel
+#' @aliases get_patches
+#' @rdname get_patches
 #'
 #' @export
-cclabel <- function(landscape, what, directions)  UseMethod("cclabel")
+get_patches <- function(landscape, what, directions)  UseMethod("get_patches")
 
 
-#' @name cclabel
+#' @name get_patches
 #' @export
-cclabel.RasterLayer <- function(landscape,
+get_patches.RasterLayer <- function(landscape,
                                 what = "all",
                                 directions = 8) {
-    cclabel_int(landscape,
+    get_patches_int(landscape,
                 what = what,
                 directions = directions) %>%
         raster::as.list()
 }
 
-#' @name cclabel
+#' @name get_patches
 #' @export
-cclabel.RasterStack <- function(landscape,
+get_patches.RasterStack <- function(landscape,
                                 what = "all",
                                 directions = 8) {
     purrr::map(raster::as.list(landscape_stack),
-               .f = cclabel_int,
+               .f = get_patches_int,
                what = what,
                directions = directions)
 
 }
 
-#' @name cclabel
+#' @name get_patches
 #' @export
-cclabel.RasterBrick <- function(landscape,
+get_patches.RasterBrick <- function(landscape,
                                 what = "all",
                                 directions = 8) {
     purrr::map(raster::as.list(landscape),
-               .f = cclabel_int,
+               .f = get_patches_int,
                what = what,
                directions = directions)
 }
 
-#' @name cclabel
+#' @name get_patches
 #' @export
-cclabel.list <- function(landscape,
+get_patches.list <- function(landscape,
                          what = "all",
                          directions = 8) {
     purrr::map(landscape,
-               .f = cclabel_int,
+               .f = get_patches_int,
                what = what,
                directions = directions)
 }
 
-cclabel_int <- function(landscape, what, directions) {
+get_patches_int <- function(landscape, what, directions) {
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)

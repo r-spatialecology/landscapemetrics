@@ -96,7 +96,7 @@ lsm_p_ncore.list <- function(landscape, directions = 8) {
 
 lsm_p_ncore_calc <- function(landscape, directions){
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     landscape_extent <- raster::extent(landscape)
     landscape_raster <- raster::raster(landscape_extent,
@@ -127,7 +127,7 @@ lsm_p_ncore_calc <- function(landscape, directions){
         }
 
         else{
-            cclabel_core <- cclabel(class_boundary,
+            cclabel_core <- get_patches(class_boundary,
                                     directions = directions)[[2]]
 
             points <- raster::rasterToPoints(cclabel_core)

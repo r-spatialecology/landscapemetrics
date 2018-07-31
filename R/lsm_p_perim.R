@@ -83,7 +83,7 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
 lsm_p_perim_calc <- function(landscape, directions) {
     # landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     perimeter_patch <-
         purrr::map_dfr(landscape_labelled, function(patches_class) {

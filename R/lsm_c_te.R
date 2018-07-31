@@ -113,7 +113,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     else {
 
-        landscape_labelled <- cclabel(landscape, directions = directions)
+        landscape_labelled <- get_patches(landscape, directions = directions)
 
         purrr::map_dfr(landscape_labelled, function(patches_class) {
 

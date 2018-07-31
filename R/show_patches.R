@@ -49,7 +49,7 @@ show_patches.list <- function(landscape, directions = 8) {
 
 show_patches_intern <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     for(i in seq_len(length(landscape_labelled) - 1)){
         max_patch_id <- landscape_labelled[[i]] %>%

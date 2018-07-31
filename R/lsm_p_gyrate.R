@@ -88,7 +88,7 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
 
 lsm_p_gyrate_calc <- function(landscape, directions) {
 
-    landscape_labelled <- cclabel(landscape, directions = directions)
+    landscape_labelled <- get_patches(landscape, directions = directions)
 
     gyrate <- purrr::map_dfr(landscape_labelled, function(patches_class) {
 

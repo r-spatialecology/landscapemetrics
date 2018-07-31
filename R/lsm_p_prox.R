@@ -1,6 +1,6 @@
 # prox_radius = 15
 #
-# cclabeled_raster <- cclabel(landscape)
+# cclabeled_raster <- get_patches(landscape)
 #
 # cclabel_points <- purrr::map(seq_along(cclabeled_raster),
 #                              function(x) {

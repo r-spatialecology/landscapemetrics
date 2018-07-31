@@ -42,7 +42,8 @@ globalVariables(c(".",
                   "metric",
                   "metric_1",
                   "metric_2",
-                  "values"))
+                  "values",
+                  "level"))
 
 
 

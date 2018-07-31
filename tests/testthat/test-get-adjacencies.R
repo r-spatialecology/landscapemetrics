@@ -1,4 +1,4 @@
-context("class level cai_mn metric")
+context("get_adjacencies")
 
 
 adjacencies_full <- get_adjacencies(landscape, 4, what = "full")
