@@ -5,9 +5,10 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{CONTAG = 1 + \fract{\sum \limits_{q = 1}^{n_{a}} p_{q} ln(p_{q})}{2ln(t)}}
+#' \deqn{CONTAG = 1 + \frac{\sum \limits_{q = 1}^{n_{a}} p_{q} ln(p_{q})}{2ln(t)}}
 #'
-#' where \eqn{p_{q}} the adjacency table for all classes divided by the sum of that table.
+#' where \eqn{p_{q}} the adjacency table for all classes divided by the sum of that table and
+#' \eqn{t} the number of classes in the landscape.
 #'
 #' CONTAG is an 'Aggregation metric'. It is based on cell adjacencies and describes
 #' the probability of two random cells belonging to the same class. \eqn{p_{q}} is
@@ -16,6 +17,8 @@
 #' of classes. E.g., low class dispersion (= high proportion of like adjacencies) and
 #' low interspersion (= uneven distribution of pairwise adjacencies) lead to a high
 #' contagion value.
+#'
+#' The number of classes to calculate CONTAG must be >= than 2.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{0 < Contag <=100}
@@ -39,6 +42,8 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
 #'
 #' @export
 lsm_l_contag <- function(landscape) UseMethod("lsm_l_contag")
@@ -84,24 +89,41 @@ lsm_l_contag_calc <- function(landscape) {
 
     t <- lsm_l_pr(landscape)$value
 
-    adjacencies <-
-        rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                    as.matrix(4))
+    if (ncol(adjacencies) < 2) {
+        warning("Number of classes must be >= 2, CONTAG metric returned as NA.", call. = FALSE)
 
-    esum <- sum(adjacencies / sum(adjacencies) *
-                    log(adjacencies / sum(adjacencies)),
-                na.rm = TRUE)
+        tibble::tibble(
+            level = "class",
+            class = as.integer(raster::unique(landscape)),
+            id = as.integer(NA),
+            metric = "iji",
+            value = as.double(NA)
+        )
+    } else {
 
-    emax <- 2 * log(t)
+        adjacencies <-
+            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                        as.matrix(4))
+
+        esum <- sum(adjacencies / sum(adjacencies) *
+                        log(adjacencies / sum(adjacencies)),
+                    na.rm = TRUE)
+
+        emax <- 2 * log(t)
 
 
-    contag <- (1 + esum / emax) * 100
+        contag <- (1 + esum / emax) * 100
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "contag",
-        value = as.double(contag)
-    )
+        tibble::tibble(
+            level = "landscape",
+            class = as.integer(NA),
+            id = as.integer(NA),
+            metric = "contag",
+            value = as.double(contag)
+        )
+
+    }
+
+
+
 }

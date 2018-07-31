@@ -32,10 +32,12 @@ tibble
 Interspersion and Juxtaposition index (class level)
 }
 \details{
-???
+\deqn{IJI = \frac{- \sum \limits_{k = 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) ln \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) \Bigg]}{ln(m - 1)}  * 100}
+
+"salt and pepper" metric.
 \deqn{???}
-\subsection{Units}{???}
-\subsection{Range}{???}
+\subsection{Units}{Percent}
+\subsection{Range}{0 < IJI ≤ 100}
 \subsection{Behaviour}{???}
 }
 \examples{

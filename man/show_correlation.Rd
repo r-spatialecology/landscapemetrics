@@ -9,6 +9,9 @@ show_correlation(metrics, level, method = "pearson", text_size = 15)
 \arguments{
 \item{metrics}{tibble with results of as returned by the landscapemetrics package}
 
+\item{level}{Selected level of metrics: either "patch", "class",
+"landscape" or any combination of them.}
+
 \item{method}{type of correlation. See \code{link{cor}} for details}
 
 \item{text_size}{Text size of the plot}

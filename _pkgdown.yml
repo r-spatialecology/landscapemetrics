@@ -40,7 +40,7 @@ reference:
      - lsm_p_enn
      - lsm_p_frac
      - lsm_p_gyrate
-     - lsm_p_nca
+     - lsm_p_ncore
      - lsm_p_para
      - lsm_p_perim
      - lsm_p_shape
@@ -139,6 +139,7 @@ reference:
     - lsm_l_gyrate_cv
     - lsm_l_gyrate_mn
     - lsm_l_gyrate_sd
+    - lsm_l_iji
     - lsm_l_joinent
     - lsm_l_lpi
     - lsm_l_lsi

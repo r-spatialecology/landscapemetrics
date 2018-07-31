@@ -10,7 +10,7 @@
 \alias{lsm_c_nlsi.RasterBrick}
 \alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.list}
-\title{nlsi (class level)}
+\title{NLSI (class level)}
 \usage{
 lsm_c_nlsi(landscape, directions)
 

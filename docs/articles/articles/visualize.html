@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Communicate landscapemetrics results</h1>
             
-            <h4 class="date">2018-07-25</h4>
+            <h4 class="date">2018-07-31</h4>
       
       
       <div class="hidden name"><code>visualize.Rmd</code></div>
@@ -168,8 +168,15 @@
 <p>Selecting meaningful landscape metrics for your field of research is difficult, as many landscape metrics are very abstract and the common approach is often simply to calculate as many as possible.</p>
 <p>To select at the least that ones for your landscape and research question that are not highly correlated, you can use the function <code>show_correlation</code> to get insight into the correlation of the metrics you calculated:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw">calculate_metrics</span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../../reference/show_correlation.html">show_correlation</a></span>(metrics, <span class="dt">level =</span> <span class="st">"patch"</span>, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../../reference/show_correlation.html">show_correlation</a></span>(metrics, <span class="dt">level =</span> <span class="st">"patch"</span>, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; $plot_patch</span></a></code></pre></div>
 <p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
+<pre><code>#&gt; 
+#&gt; $plot_class
+#&gt; [1] NA
+#&gt; 
+#&gt; $plot_landscape
+#&gt; [1] NA</code></pre>
 </div>
   </div>
 

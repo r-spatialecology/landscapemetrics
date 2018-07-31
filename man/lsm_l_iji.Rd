@@ -29,7 +29,7 @@ lsm_l_iji(landscape)
 tibble
 }
 \description{
-Interspersion and Juxtaposition index (landscape level)
+Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
 }
 \details{
 ???

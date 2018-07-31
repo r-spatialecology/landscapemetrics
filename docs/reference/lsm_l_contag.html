@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Interspersion and Juxtaposition index (class level) — lsm_c_iji • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>CONTAG (landscape level) — lsm_l_contag • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Interspersion and Juxtaposition index (class level) — lsm_c_iji" />
+<meta property="og:title" content="CONTAG (landscape level) — lsm_l_contag" />
 
-<meta property="og:description" content="Interspersion and Juxtaposition index (class level)" />
+<meta property="og:description" content="Contagion (Contagion and Interspersion metrics)" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -158,30 +158,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Interspersion and Juxtaposition index (class level)</h1>
+    <h1>CONTAG (landscape level)</h1>
     
-    <div class="hidden name"><code>lsm_c_iji.Rd</code></div>
+    <div class="hidden name"><code>lsm_l_contag.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Interspersion and Juxtaposition index (class level)</p>
+    <p>Contagion (Contagion and Interspersion metrics)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)
+    <pre class="usage"><span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)
+<span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)</pre>
+<span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,14 +198,23 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$IJI = \frac{- \sum \limits_{k = 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) ln \Bigg( \frac{e_{ik}}{\sum \limits_{k = 1}^{m} e_{ik}} \Bigg) \Bigg]}{ln(m - 1)}  * 100$$</p>
-<p>"salt and pepper" metric.
-$$???$$</p><h3>Units</h3>
+    <p>$$CONTAG = 1 + \frac{\sum \limits_{q = 1}^{n_{a}} p_{q} ln(p_{q})}{2ln(t)}$$</p>
+<p>where \(p_{q}\) the adjacency table for all classes divided by the sum of that table and
+\(t\) the number of classes in the landscape.</p>
+<p>CONTAG is an 'Aggregation metric'. It is based on cell adjacencies and describes
+the probability of two random cells belonging to the same class. \(p_{q}\) is
+the cell adjacency table, where the order is preserved and pairs of adjacent cells
+are counted twice. Contagion is affected by both the dispersion and interspersion
+of classes. E.g., low class dispersion (= high proportion of like adjacencies) and
+low interspersion (= uneven distribution of pairwise adjacencies) lead to a high
+contagion value.</p>
+<h3>Units</h3>
 Percent
 <h3>Range</h3>
-0 &lt; IJI ≤ 100
+0 &lt; Contag &lt;=100
 <h3>Behaviour</h3>
-???
+Approaches CONTAG = 0 if all cells are unevenly distributed
+and 100 indicates that all cells are equally adjacent to all other classes.
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -213,15 +222,20 @@ Percent
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
+<p>Riitters, K.H., O’Neill, R.V., Wickham, J.D. &amp; Jones, K.B. (1996). A note on contagion indices for landscape analysis. Landscape ecology, 11, 197–202.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>lsm_p_perim</code>
+<code>lsm_l_contag</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_iji</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
-#&gt;   layer level class    id metric value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
-#&gt; 1     1 class     1    NA iji     79.3
-#&gt; 2     1 class     2    NA iji     70.0
-#&gt; 3     1 class     3    NA iji     98.4</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_l_contag</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+#&gt;   layer level     class    id metric value
+#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
+#&gt; 1     1 landscape    NA    NA contag  25.2</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -233,6 +247,8 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
