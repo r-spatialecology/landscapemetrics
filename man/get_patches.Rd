@@ -35,7 +35,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 List
 }
 \description{
-Connected components labeling
+Connected components labeling to derive patches in a landscape.
 }
 \details{
 Searches for connected patches (neighbouring cells of the same class i).

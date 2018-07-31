@@ -112,7 +112,7 @@ dplyr::arrange(id,-y)
         num <- seq_along(ord)
         rank <- match(num, ord)
 
-        res <- rcpp_get_nearest_neighbor2(X[ord,])
+        res <- rcpp_get_nearest_neighbor(X[ord,])
 
         unname(cbind(num, res[rank], X[, 3]))
     }
