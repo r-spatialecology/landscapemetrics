@@ -1,6 +1,6 @@
 #'Interspersion and Juxtaposition index (landscape level)
 #
-#' @description Interspersion and Juxtaposition index (landscape level)
+#' @description Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
 #
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #

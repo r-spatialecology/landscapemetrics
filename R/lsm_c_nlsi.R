@@ -1,4 +1,4 @@
-#' nlsi (class level)
+#' NLSI (class level)
 #'
 #' @description Landscape shape index (Aggregation metric)
 #'

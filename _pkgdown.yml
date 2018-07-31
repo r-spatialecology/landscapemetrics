@@ -115,6 +115,7 @@ reference:
     - lsm_l_circle_sd
     - lsm_l_cohesion
     - lsm_l_condent
+    - lsm_l_contag
     - lsm_l_contig_cv
     - lsm_l_contig_mn
     - lsm_l_contig_sd
