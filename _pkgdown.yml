@@ -24,10 +24,12 @@ reference:
     - fragstats_landscape_landscapestack
     - fragstats_landscape_augusta_nlcd
     - fragstats_landscape_podlasie
-  - title: Auxiliary functions
+  - title: Auxiliary/Utility functions
     contents:
     - cclabel
-    - pad_raster
+    - get_adjacencies
+  - title: Visualisation functions
+    contents:
     - show_patches
     - show_correlation
   - title: Patch Level Metrics
