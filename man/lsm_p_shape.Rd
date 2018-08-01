@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_shape.R
 \name{lsm_p_shape}
 \alias{lsm_p_shape}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterLayer}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterStack}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterBrick}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.list}
 \title{SHAPE (patch level)}
 \usage{

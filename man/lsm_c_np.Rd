@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_np.R
 \name{lsm_c_np}
 \alias{lsm_c_np}
-\alias{lsm_c_np}
 \alias{lsm_c_np.RasterLayer}
-\alias{lsm_c_np}
 \alias{lsm_c_np.RasterStack}
-\alias{lsm_c_np}
 \alias{lsm_c_np.RasterBrick}
-\alias{lsm_c_np}
 \alias{lsm_c_np.list}
 \title{NP (class level)}
 \usage{

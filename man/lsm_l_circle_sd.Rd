@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_circle_sd.R
 \name{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd}
-\alias{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd.RasterLayer}
-\alias{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd.RasterStack}
-\alias{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd.RasterBrick}
-\alias{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd.list}
 \title{CIRCLE_SD (landscape level)}
 \usage{

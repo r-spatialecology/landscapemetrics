@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_cai.R
 \name{lsm_p_cai}
 \alias{lsm_p_cai}
-\alias{lsm_p_cai}
 \alias{lsm_p_cai.RasterLayer}
-\alias{lsm_p_cai}
 \alias{lsm_p_cai.RasterStack}
-\alias{lsm_p_cai}
 \alias{lsm_p_cai.RasterBrick}
-\alias{lsm_p_cai}
 \alias{lsm_p_cai.list}
 \title{CAI (patch level)}
 \usage{

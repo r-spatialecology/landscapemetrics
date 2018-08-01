@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_cai_mn.R
 \name{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn}
-\alias{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn.RasterLayer}
-\alias{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn.RasterStack}
-\alias{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn.RasterBrick}
-\alias{lsm_l_cai_mn}
 \alias{lsm_l_cai_mn.list}
 \title{CAI_MN (landscape level)}
 \usage{
