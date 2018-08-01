@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_msidi.R
 \name{lsm_l_msidi}
 \alias{lsm_l_msidi}
+\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterLayer}
+\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterStack}
+\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterBrick}
+\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.list}
 \title{MSIDI (landscape level)}
 \usage{

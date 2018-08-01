@@ -95,12 +95,13 @@ lsm_c_iji_calc <- function(landscape, verbose) {
         )
 
     } else {
+
         diag(adjacencies) <- 0
 
         edge_ratio <- adjacencies / rowSums(adjacencies) *
             log(adjacencies / rowSums(adjacencies))
 
-        class_sums <- -rowSums(edge_ratio)
+        class_sums <- -rowSums(edge_ratio, na.rm = TRUE)
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 

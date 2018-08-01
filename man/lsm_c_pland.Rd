@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_pland.R
 \name{lsm_c_pland}
 \alias{lsm_c_pland}
+\alias{lsm_c_pland}
 \alias{lsm_c_pland.RasterLayer}
+\alias{lsm_c_pland}
 \alias{lsm_c_pland.RasterStack}
+\alias{lsm_c_pland}
 \alias{lsm_c_pland.RasterBrick}
+\alias{lsm_c_pland}
 \alias{lsm_c_pland.list}
 \title{PLAND (class level)}
 \usage{

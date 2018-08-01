@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_core_mn.R
 \name{lsm_c_core_mn}
 \alias{lsm_c_core_mn}
+\alias{lsm_c_core_mn}
 \alias{lsm_c_core_mn.RasterLayer}
+\alias{lsm_c_core_mn}
 \alias{lsm_c_core_mn.RasterStack}
+\alias{lsm_c_core_mn}
 \alias{lsm_c_core_mn.RasterBrick}
+\alias{lsm_c_core_mn}
 \alias{lsm_c_core_mn.list}
 \title{CORE_MN (class level)}
 \usage{

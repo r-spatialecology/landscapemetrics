@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_mesh.R
 \name{lsm_l_mesh}
 \alias{lsm_l_mesh}
+\alias{lsm_l_mesh}
 \alias{lsm_l_mesh.RasterLayer}
+\alias{lsm_l_mesh}
 \alias{lsm_l_mesh.RasterStack}
+\alias{lsm_l_mesh}
 \alias{lsm_l_mesh.RasterBrick}
+\alias{lsm_l_mesh}
 \alias{lsm_l_mesh.list}
 \title{MESH (landscape level)}
 \usage{

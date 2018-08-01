@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_te.R
 \name{lsm_l_te}
 \alias{lsm_l_te}
+\alias{lsm_l_te}
 \alias{lsm_l_te.RasterLayer}
+\alias{lsm_l_te}
 \alias{lsm_l_te.RasterStack}
+\alias{lsm_l_te}
 \alias{lsm_l_te.RasterBrick}
+\alias{lsm_l_te}
 \alias{lsm_l_te.list}
 \title{TE (landscape level)}
 \usage{
