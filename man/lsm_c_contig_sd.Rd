@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_contig_sd.R
 \name{lsm_c_contig_sd}
 \alias{lsm_c_contig_sd}
-\alias{lsm_c_contig_sd}
 \alias{lsm_c_contig_sd.RasterLayer}
-\alias{lsm_c_contig_sd}
 \alias{lsm_c_contig_sd.RasterStack}
-\alias{lsm_c_contig_sd}
 \alias{lsm_c_contig_sd.RasterBrick}
-\alias{lsm_c_contig_sd}
 \alias{lsm_c_contig_sd.list}
 \title{CONTIG_SD (class level)}
 \usage{

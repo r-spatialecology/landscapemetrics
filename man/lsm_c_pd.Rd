@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_pd.R
 \name{lsm_c_pd}
 \alias{lsm_c_pd}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.RasterLayer}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.RasterStack}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.RasterBrick}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.list}
 \title{PD (class level)}
 \usage{

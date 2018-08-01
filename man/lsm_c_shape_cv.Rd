@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_shape_cv.R
 \name{lsm_c_shape_cv}
 \alias{lsm_c_shape_cv}
-\alias{lsm_c_shape_cv}
 \alias{lsm_c_shape_cv.RasterLayer}
-\alias{lsm_c_shape_cv}
 \alias{lsm_c_shape_cv.RasterStack}
-\alias{lsm_c_shape_cv}
 \alias{lsm_c_shape_cv.RasterBrick}
-\alias{lsm_c_shape_cv}
 \alias{lsm_c_shape_cv.list}
 \title{SHAPE_CV (class level)}
 \usage{
