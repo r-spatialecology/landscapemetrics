@@ -65,8 +65,6 @@ function name is the abbreviation of the corresponding metric (e.g.
 
 All functions return an identical structured tibble:
 
-<center>
-
 <p style="text-align:center;">
 
 | layer | level     | class | id | metric           | value |
@@ -76,8 +74,6 @@ All functions return an identical structured tibble:
 | 1     | landscape | NA    | NA | landscape metric | x     |
 
 </p>
-
-</center>
 
 ### Using metric functions
 
@@ -160,19 +156,29 @@ calculate_metrics(landscape, what = "patch")
     ## 10     1 patch     2    10 area   0.0035  
     ## # ... with 314 more rows
 
-### Utility functions
+### Visualisitation functions
 
 **landscapemetrics** further provides functions to visualize landscapes
 as labelled patches and functions to select and analyse metrics you
-calculated with the package.
+calculated with the package (see [Communicate landscapemetrics
+vignette](https://marcosci.github.io/landscapemetrics/articles/articles/visualize.html)).
+
+### Utility functions
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
 prefix `get_`. All of them are implemented with Rcpp and have either
 memory or perfomance advantages compared to raster functions.
 
-For more details, see the [utility function
-vignette](https://marcosci.github.io/landscapemetrics/articles/articles/utility.html).
+``` r
+# calculate the adjacency table of a raster
+get_adjacencies(landscape)
+```
+
+    ##     1   2    3
+    ## 1 520  43  137
+    ## 2  43 704  184
+    ## 3 137 184 1528
 
 ## Contributing
 
