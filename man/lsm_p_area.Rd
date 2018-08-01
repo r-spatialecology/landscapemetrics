@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_area.R
 \name{lsm_p_area}
 \alias{lsm_p_area}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterLayer}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterStack}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterBrick}
-\alias{lsm_p_area}
 \alias{lsm_p_area.list}
 \title{AREA (patch level)}
 \usage{

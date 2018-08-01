@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_ndca.R
 \name{lsm_l_ndca}
 \alias{lsm_l_ndca}
-\alias{lsm_l_ndca}
 \alias{lsm_l_ndca.RasterLayer}
-\alias{lsm_l_ndca}
 \alias{lsm_l_ndca.RasterStack}
-\alias{lsm_l_ndca}
 \alias{lsm_l_ndca.RasterBrick}
-\alias{lsm_l_ndca}
 \alias{lsm_l_ndca.list}
 \title{NDCA (landscape level)}
 \usage{

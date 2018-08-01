@@ -2,13 +2,9 @@
 % Please edit documentation in R/pad_raster.R
 \name{pad_raster}
 \alias{pad_raster}
-\alias{pad_raster}
 \alias{pad_raster.RasterLayer}
-\alias{pad_raster}
 \alias{pad_raster.RasterStack}
-\alias{pad_raster}
 \alias{pad_raster.RasterBrick}
-\alias{pad_raster}
 \alias{pad_raster.list}
 \title{pad_raster}
 \usage{
