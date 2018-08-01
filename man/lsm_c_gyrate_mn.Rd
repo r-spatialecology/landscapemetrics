@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_gyrate_mn.R
 \name{lsm_c_gyrate_mn}
 \alias{lsm_c_gyrate_mn}
-\alias{lsm_c_gyrate_mn}
 \alias{lsm_c_gyrate_mn.RasterLayer}
-\alias{lsm_c_gyrate_mn}
 \alias{lsm_c_gyrate_mn.RasterStack}
-\alias{lsm_c_gyrate_mn}
 \alias{lsm_c_gyrate_mn.RasterBrick}
-\alias{lsm_c_gyrate_mn}
 \alias{lsm_c_gyrate_mn.list}
 \title{GYRATE_MN (class level)}
 \usage{

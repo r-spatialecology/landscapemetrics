@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_enn_mn.R
 \name{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn}
-\alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.RasterLayer}
-\alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.RasterStack}
-\alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.RasterBrick}
-\alias{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn.list}
 \title{ENN_MN (class level)}
 \usage{
