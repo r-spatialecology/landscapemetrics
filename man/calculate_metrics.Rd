@@ -2,34 +2,37 @@
 % Please edit documentation in R/calculate_metrics.R
 \name{calculate_metrics}
 \alias{calculate_metrics}
+\alias{calculate_metrics}
 \alias{calculate_metrics.RasterLayer}
+\alias{calculate_metrics}
 \alias{calculate_metrics.RasterStack}
+\alias{calculate_metrics}
 \alias{calculate_metrics.RasterBrick}
+\alias{calculate_metrics}
 \alias{calculate_metrics.list}
 \title{Calculate metrics}
 \usage{
 calculate_metrics(landscape, what, directions, count_boundary, classes_max,
-  neighbourhood, ordered, base, full_name)
+  neighbourhood, ordered, base, full_name, verbose)
 
 \method{calculate_metrics}{RasterLayer}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE)
+  neighbourhood = 4, ordered = TRUE, base = "log2", full_name = FALSE,
+  verbose = TRUE)
 
 \method{calculate_metrics}{RasterStack}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE)
+  neighbourhood = 4, ordered = TRUE, base = "log2", full_name = FALSE,
+  verbose = TRUE)
 
 \method{calculate_metrics}{RasterBrick}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE)
+  neighbourhood = 4, ordered = TRUE, base = "log2", full_name = FALSE,
+  verbose = TRUE)
 
-\method{calculate_metrics}{list}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE)
+\method{calculate_metrics}{list}(landscape, what = "all", directions = 8,
+  count_boundary = FALSE, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -56,6 +59,8 @@ which compute entropy in "bits". "log" and "log10" can be also used.}
 
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
+
+\item{verbose}{Print warning message if not sufficient patches are present}
 }
 \value{
 tibble

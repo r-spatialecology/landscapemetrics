@@ -3,6 +3,7 @@
 #' @description Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
 #
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param verbose Print warning message if not sufficient patches are present
 #
 #' @details
 #' \deqn{IJI = \frac{- \sum \limits_{i = 1}^{m} \sum \limits_{k = i + 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{E} \Bigg) ln \Bigg( \frac{e_{ik}}{E} \Bigg) \Bigg]}{ln(0.5[m(m - 1)])}  * 100}
@@ -35,49 +36,57 @@
 #'web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #
 #' @export
-lsm_l_iji <- function(landscape) UseMethod("lsm_l_iji")
+lsm_l_iji <- function(landscape, verbose) UseMethod("lsm_l_iji")
 #' @name lsm_l_iji
 #' @export
-lsm_l_iji.RasterLayer <- function(landscape) {
+lsm_l_iji.RasterLayer <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_iji_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 #' @name lsm_l_iji
 #' @export
-lsm_l_iji.RasterStack <- function(landscape) {
+lsm_l_iji.RasterStack <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_iji_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 #' @name lsm_l_iji
 #' @export
-lsm_l_iji.RasterBrick <- function(landscape) {
+lsm_l_iji.RasterBrick <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_iji_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 #' @name lsm_l_iji
 #' @export
-lsm_l_iji.list <- function(landscape) {
+lsm_l_iji.list <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_iji_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_iji_calc <- function(landscape) {
+lsm_l_iji_calc <- function(landscape, verbose) {
 
     adjacencies <-
         rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
                                     as.matrix(4))
 
     if (ncol(adjacencies) < 3) {
-        warning("Number of classes must be >= 3, IJI metric returned as NA.",
-                call. = FALSE)
+
+        if(isTRUE(verbose)) {
+            warning("Number of classes must be >= 3,
+                    IJI = NA.",
+                    call. = FALSE)
+        }
 
         tibble::tibble(
             level = "class",

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_p_gyrate.R
 \name{lsm_p_gyrate}
 \alias{lsm_p_gyrate}
+\alias{lsm_p_gyrate}
 \alias{lsm_p_gyrate.RasterLayer}
+\alias{lsm_p_gyrate}
 \alias{lsm_p_gyrate.RasterStack}
+\alias{lsm_p_gyrate}
 \alias{lsm_p_gyrate.RasterBrick}
+\alias{lsm_p_gyrate}
 \alias{lsm_p_gyrate.list}
 \title{GYRATE (patch level)}
 \usage{

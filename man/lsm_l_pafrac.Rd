@@ -2,27 +2,36 @@
 % Please edit documentation in R/lsm_l_pafrac.R
 \name{lsm_l_pafrac}
 \alias{lsm_l_pafrac}
+\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterLayer}
+\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterStack}
+\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterBrick}
+\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.list}
 \title{PAFRAC  (landscape level)}
 \usage{
-lsm_l_pafrac(landscape, directions)
+lsm_l_pafrac(landscape, directions, verbose)
 
-\method{lsm_l_pafrac}{RasterLayer}(landscape, directions = 8)
+\method{lsm_l_pafrac}{RasterLayer}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_l_pafrac}{RasterStack}(landscape, directions = 8)
+\method{lsm_l_pafrac}{RasterStack}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_l_pafrac}{RasterBrick}(landscape, directions = 8)
+\method{lsm_l_pafrac}{RasterBrick}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_l_pafrac}{list}(landscape, directions = 8)
+\method{lsm_l_pafrac}{list}(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{verbose}{Print warning message if not sufficient patches are present}
 }
 \value{
 tibble

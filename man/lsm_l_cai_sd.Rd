@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_cai_sd.R
 \name{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd}
+\alias{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd.RasterLayer}
+\alias{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd.RasterStack}
+\alias{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd.RasterBrick}
+\alias{lsm_l_cai_sd}
 \alias{lsm_l_cai_sd.list}
 \title{CAI_SD (landscape level)}
 \usage{

@@ -14,10 +14,11 @@
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
 #' The default is TRUE.
-#' @param full_name Should the full names of all functions be included in the
-#' tibble.
 #' @param base The unit in which entropy is measured. The default is "log2",
 #' which compute entropy in "bits". "log" and "log10" can be also used.
+#' @param full_name Should the full names of all functions be included in the
+#' tibble.
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @return tibble
 #'
@@ -46,7 +47,8 @@ calculate_metrics <- function(landscape,
                           neighbourhood,
                           ordered,
                           base,
-                          full_name) UseMethod("calculate_metrics")
+                          full_name,
+                          verbose) UseMethod("calculate_metrics")
 
 #' @name calculate_metrics
 #' @export
@@ -58,7 +60,8 @@ calculate_metrics.RasterLayer <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2",
-                                      full_name = FALSE) {
+                                      full_name = FALSE,
+                                      verbose = TRUE) {
 
     calculate_metrics_internal(landscape,
                            what = what,
@@ -68,7 +71,8 @@ calculate_metrics.RasterLayer <- function(landscape,
                            neighbourhood = neighbourhood,
                            ordered = ordered,
                            base = base,
-                           full_name = full_name)
+                           full_name = full_name,
+                           verbose = verbose)
 
 }
 
@@ -82,7 +86,8 @@ calculate_metrics.RasterStack <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2",
-                                      full_name = FALSE) {
+                                      full_name = FALSE,
+                                      verbose = TRUE) {
 
     purrr::map_dfr(raster::as.list(landscape),
                    calculate_metrics_internal,
@@ -94,6 +99,7 @@ calculate_metrics.RasterStack <- function(landscape,
                    ordered = ordered,
                    base = base,
                    full_name = full_name,
+                   verbose = verbose,
                    .id = "layer2") %>%
         dplyr::mutate(layer = as.integer(layer2)) %>%
         dplyr::select(-layer2)
@@ -109,7 +115,8 @@ calculate_metrics.RasterBrick <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2",
-                                      full_name = FALSE) {
+                                      full_name = FALSE,
+                                      verbose = TRUE) {
 
     purrr::map_dfr(raster::as.list(landscape),
                    calculate_metrics_internal,
@@ -120,7 +127,8 @@ calculate_metrics.RasterBrick <- function(landscape,
                    neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
-                   full_name = full_name) %>%
+                   full_name = full_name,
+                   verbose = verbose) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -134,7 +142,8 @@ calculate_metrics.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2",
-                               full_name = FALSE) {
+                               full_name = FALSE,
+                               verbose = TRUE) {
 
     purrr::map_dfr(landscape,
                    calculate_metrics_internal,
@@ -145,7 +154,8 @@ calculate_metrics.list <- function(landscape,
                    neighbourhood = neighbourhood,
                    ordered = ordered,
                    base = base,
-                   full_name = full_name) %>%
+                   full_name = full_name,
+                   verbose = verbose) %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
@@ -157,7 +167,8 @@ calculate_metrics_internal <- function(landscape,
                                    neighbourhood,
                                    ordered,
                                    base,
-                                   full_name) {
+                                   full_name,
+                                   verbose) {
 
     if (any(what %in% c("all", "patch", "class", "landscape"))) {
 

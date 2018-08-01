@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_dcad.R
 \name{lsm_l_dcad}
 \alias{lsm_l_dcad}
+\alias{lsm_l_dcad}
 \alias{lsm_l_dcad.RasterLayer}
+\alias{lsm_l_dcad}
 \alias{lsm_l_dcad.RasterStack}
+\alias{lsm_l_dcad}
 \alias{lsm_l_dcad.RasterBrick}
+\alias{lsm_l_dcad}
 \alias{lsm_l_dcad.list}
 \title{DCAD (landscape level)}
 \usage{

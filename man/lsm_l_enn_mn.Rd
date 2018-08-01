@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_enn_mn.R
 \name{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn}
+\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterLayer}
+\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterStack}
+\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterBrick}
+\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.list}
 \title{ENN_MN (landscape level)}
 \usage{

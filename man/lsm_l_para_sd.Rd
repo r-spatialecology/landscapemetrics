@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_para_sd.R
 \name{lsm_l_para_sd}
 \alias{lsm_l_para_sd}
+\alias{lsm_l_para_sd}
 \alias{lsm_l_para_sd.RasterLayer}
+\alias{lsm_l_para_sd}
 \alias{lsm_l_para_sd.RasterStack}
+\alias{lsm_l_para_sd}
 \alias{lsm_l_para_sd.RasterBrick}
+\alias{lsm_l_para_sd}
 \alias{lsm_l_para_sd.list}
 \title{PARA_SD (landscape level)}
 \usage{

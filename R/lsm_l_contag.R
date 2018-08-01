@@ -3,6 +3,7 @@
 #' @description Contagion (Contagion and Interspersion metrics)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
 #' \deqn{CONTAG = 1 + \frac{\sum \limits_{q = 1}^{n_{a}} p_{q} ln(p_{q})}{2ln(t)}}
@@ -46,11 +47,11 @@
 #' Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
 #'
 #' @export
-lsm_l_contag <- function(landscape) UseMethod("lsm_l_contag")
+lsm_l_contag <- function(landscape, verbose) UseMethod("lsm_l_contag")
 
 #' @name lsm_l_contag
 #' @export
-lsm_l_contag.RasterLayer <- function(landscape) {
+lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
                    .id = "layer") %>%
@@ -59,7 +60,7 @@ lsm_l_contag.RasterLayer <- function(landscape) {
 
 #' @name lsm_l_contag
 #' @export
-lsm_l_contag.RasterStack <- function(landscape) {
+lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
                    .id = "layer") %>%
@@ -68,7 +69,7 @@ lsm_l_contag.RasterStack <- function(landscape) {
 
 #' @name lsm_l_contag
 #' @export
-lsm_l_contag.RasterBrick <- function(landscape) {
+lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
                    .id = "layer") %>%
@@ -78,19 +79,23 @@ lsm_l_contag.RasterBrick <- function(landscape) {
 
 #' @name lsm_l_contag
 #' @export
-lsm_l_contag.list <- function(landscape) {
+lsm_l_contag.list <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_contag_calc <- function(landscape) {
+lsm_l_contag_calc <- function(landscape, verbose) {
 
     t <- lsm_l_pr(landscape)$value
 
     if (t < 2) {
-        warning("Number of classes must be >= 2, CONTAG metric returned as NA.", call. = FALSE)
+        if(isTRUE(verbose)) {
+            warning("Number of classes must be >= 2:
+                    CONTAG = NA.",
+                    call. = FALSE)
+        }
 
         tibble::tibble(
             level = "class",

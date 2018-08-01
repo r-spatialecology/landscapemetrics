@@ -4,6 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param classes_max Potential maximum number of present classes
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
 #' \deqn{RPR = \frac{m} {m_{max}} * 100}
@@ -35,46 +36,57 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_rpr <- function(landscape, classes_max) UseMethod("lsm_l_rpr")
+lsm_l_rpr <- function(landscape, classes_max, verbose) UseMethod("lsm_l_rpr")
 
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   classes_max = classes_max,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   classes_max = classes_max,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
-lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   classes_max = classes_max,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #" @name lsm_l_rpr
 #" @export
-lsm_l_rpr.list <- function(landscape, classes_max = NULL) {
+lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max, .id = "layer") %>%
+                   classes_max = classes_max,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
-lsm_l_rpr_calc <- function(landcape, classes_max = NULL) {
+lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
 
 
     if(is.null(classes_max)) {
-        warning("RPR = NA for classes_max=NULL", call. = FALSE)
+
+        if(isTRUE(verbose)) {
+            warning("No maximum number of classes provided: RPR = NA", call. = FALSE)
+        }
         rpr <- NA
     }
 

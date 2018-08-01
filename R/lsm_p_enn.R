@@ -5,6 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
 #' \deqn{ENN = h_{ij}}
@@ -46,44 +47,52 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_enn <- function(landscape, directions) UseMethod("lsm_p_enn")
+lsm_p_enn <- function(landscape, directions, verbose) UseMethod("lsm_p_enn")
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
+lsm_p_enn.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
+lsm_p_enn.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 #' @name lsm_p_enn
 #' @export
-lsm_p_enn.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_enn_calc, directions = directions, .id = "layer") %>%
+lsm_p_enn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_p_enn_calc <- function(landscape, directions) {
+#' @name lsm_p_enn
+#' @export
+lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(landscape, lsm_p_enn_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
     landscape_labelled <- get_patches(landscape, directions = directions)
 
@@ -101,9 +110,11 @@ lsm_p_enn_calc <- function(landscape, directions) {
             enn <-  tibble::tibble(class = class_name,
                                    value = as.double(NA))
 
-            warning(paste0("Class ", class_name,
-                           ": ENN = NA for class with only 1 patch"),
-                    call. = FALSE)
+            if(isTRUE(verbose)){
+                warning(paste0("Class ", class_name,
+                               ": ENN = NA for class with only 1 patch"),
+                        call. = FALSE)
+            }
         }
 
         else{

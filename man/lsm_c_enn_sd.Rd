@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_enn_sd.R
 \name{lsm_c_enn_sd}
 \alias{lsm_c_enn_sd}
+\alias{lsm_c_enn_sd}
 \alias{lsm_c_enn_sd.RasterLayer}
+\alias{lsm_c_enn_sd}
 \alias{lsm_c_enn_sd.RasterStack}
+\alias{lsm_c_enn_sd}
 \alias{lsm_c_enn_sd.RasterBrick}
+\alias{lsm_c_enn_sd}
 \alias{lsm_c_enn_sd.list}
 \title{ENN_SD (class level)}
 \usage{

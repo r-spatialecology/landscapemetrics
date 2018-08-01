@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_prd.R
 \name{lsm_l_prd}
 \alias{lsm_l_prd}
+\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterLayer}
+\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterStack}
+\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterBrick}
+\alias{lsm_l_prd}
 \alias{lsm_l_prd.list}
 \title{PRD (landscape level)}
 \usage{

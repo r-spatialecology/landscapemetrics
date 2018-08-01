@@ -5,6 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
 #' \deqn{PAFRAC = \frac{2}{\beta}}
@@ -43,35 +44,26 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_pafrac <- function(landscape, directions) UseMethod("lsm_l_pafrac")
+lsm_l_pafrac <- function(landscape, directions, verbose) UseMethod("lsm_l_pafrac")
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.RasterLayer <- function(landscape, directions= 8) {
+lsm_l_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_pafrac_calc,
                    directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.RasterStack <- function(landscape, directions= 8) {
+lsm_l_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_l_pafrac_calc,
                    directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.RasterBrick <- function(landscape, directions= 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_pafrac_calc,
-                   directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -79,16 +71,29 @@ lsm_l_pafrac.RasterBrick <- function(landscape, directions= 8) {
 
 #' @name lsm_l_pafrac
 #' @export
-lsm_l_pafrac.list <- function(landscape, directions= 8) {
+lsm_l_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_pafrac_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_pafrac
+#' @export
+lsm_l_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(landscape,
                    lsm_l_pafrac_calc,
                    directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
-lsm_l_pafrac_calc <- function(landscape, directions){
+lsm_l_pafrac_calc <- function(landscape, directions, verbose){
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
     perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
@@ -96,9 +101,13 @@ lsm_l_pafrac_calc <- function(landscape, directions){
     np_landscape <- lsm_l_np_calc(landscape, directions = directions)
 
     if(np_landscape$value < 10){
+
         pafrac <-  NA
-        warning("PAFRAC = NA for NP < 10",
-                call. = FALSE)
+
+        if(isTRUE(verbose)){
+            warning("PAFRAC = NA for NP < 10",
+                    call. = FALSE)
+        }
     }
 
     else{

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_dcad.R
 \name{lsm_c_dcad}
 \alias{lsm_c_dcad}
+\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterLayer}
+\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterStack}
+\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterBrick}
+\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.list}
 \title{DCAD (class level)}
 \usage{
