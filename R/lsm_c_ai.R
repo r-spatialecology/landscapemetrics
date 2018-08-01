@@ -106,7 +106,7 @@ lsm_c_ai_calc <- function(landscape) {
 
     tibble::tibble(
         level = "class",
-        class = as.integer(seq_along(ai)),
+        class = as.integer(sort(unique(raster::values(landscape)))),
         id = as.integer(NA),
         metric = "ai",
         value = as.double(ai)
