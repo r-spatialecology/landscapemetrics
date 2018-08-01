@@ -169,19 +169,22 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
+    <pre class="usage"><span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>, <span class='no'>verbose</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+<span class='fu'>lsm_c_enn_mn</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,6 +196,10 @@
     <tr>
       <th>directions</th>
       <td><p>The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Print warning message if not sufficient patches are present</p></td>
     </tr>
     </table>
     
@@ -228,13 +235,13 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>lsm_p_enn</code>,
+    <div class='dont-index'><p><code><a href='lsm_p_enn.html'>lsm_p_enn</a></code>,
 <code>mean</code>, <br />
-<code>lsm_c_enn_sd</code>,
-<code>lsm_c_enn_cv</code>, <br />
-<code>lsm_l_enn_mn</code>,
-<code>lsm_l_enn_sd</code>,
-<code>lsm_l_enn_cv</code></p></div>
+<code><a href='lsm_c_enn_sd.html'>lsm_c_enn_sd</a></code>,
+<code><a href='lsm_c_enn_cv.html'>lsm_c_enn_cv</a></code>, <br />
+<code><a href='lsm_l_enn_mn.html'>lsm_l_enn_mn</a></code>,
+<code><a href='lsm_l_enn_sd.html'>lsm_l_enn_sd</a></code>,
+<code><a href='lsm_l_enn_cv.html'>lsm_l_enn_cv</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

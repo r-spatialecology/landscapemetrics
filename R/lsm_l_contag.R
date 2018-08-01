@@ -111,8 +111,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
                                         as.matrix(4))
 
         esum <- sum(adjacencies / sum(adjacencies) *
-                        log(adjacencies / sum(adjacencies)),
-                    na.rm = TRUE)
+                        log(adjacencies / sum(adjacencies)), na.rm = TRUE)
 
         emax <- 2 * log(t)
 
