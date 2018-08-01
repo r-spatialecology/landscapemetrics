@@ -4,7 +4,6 @@
 \name{landscapemetrics}
 \alias{landscapemetrics}
 \alias{landscapemetrics-package}
-\alias{landscapemetrics-package}
 \title{landscapemetrics}
 \description{
 xxx

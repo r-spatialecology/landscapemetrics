@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_frac_mn.R
 \name{lsm_l_frac_mn}
 \alias{lsm_l_frac_mn}
-\alias{lsm_l_frac_mn}
 \alias{lsm_l_frac_mn.RasterLayer}
-\alias{lsm_l_frac_mn}
 \alias{lsm_l_frac_mn.RasterStack}
-\alias{lsm_l_frac_mn}
 \alias{lsm_l_frac_mn.RasterBrick}
-\alias{lsm_l_frac_mn}
 \alias{lsm_l_frac_mn.list}
 \title{FRAC_MN (landscape level)}
 \usage{
