@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_circle_cv.R
 \name{lsm_c_circle_cv}
 \alias{lsm_c_circle_cv}
-\alias{lsm_c_circle_cv}
 \alias{lsm_c_circle_cv.RasterLayer}
-\alias{lsm_c_circle_cv}
 \alias{lsm_c_circle_cv.RasterStack}
-\alias{lsm_c_circle_cv}
 \alias{lsm_c_circle_cv.RasterBrick}
-\alias{lsm_c_circle_cv}
 \alias{lsm_c_circle_cv.list}
 \title{CIRCLE_CV (Class level)}
 \usage{

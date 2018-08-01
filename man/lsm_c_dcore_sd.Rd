@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_dcore_sd.R
 \name{lsm_c_dcore_sd}
 \alias{lsm_c_dcore_sd}
-\alias{lsm_c_dcore_sd}
 \alias{lsm_c_dcore_sd.RasterLayer}
-\alias{lsm_c_dcore_sd}
 \alias{lsm_c_dcore_sd.RasterStack}
-\alias{lsm_c_dcore_sd}
 \alias{lsm_c_dcore_sd.RasterBrick}
-\alias{lsm_c_dcore_sd}
 \alias{lsm_c_dcore_sd.list}
 \title{DCORE_SD (class level)}
 \usage{
