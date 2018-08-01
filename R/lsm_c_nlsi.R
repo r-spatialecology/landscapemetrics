@@ -117,6 +117,7 @@ lsm_c_nlsi_calc <- function(landscape, directions) {
     )
 
     result <- (edge_class$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
+    result[is.nan(result)] <- NA
 
     tibble::tibble(
         level = "class",

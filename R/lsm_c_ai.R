@@ -98,11 +98,12 @@ lsm_c_ai_calc <- function(landscape) {
             m <= n ~ 2 * n * (n - 1) + 2 * m - 1,
             m > n ~ 2 * n * (n - 1) + 2 * m - 2
         )
-    ) %>%
-        dplyr::pull(min_e)
+    )
+
+    min_e <- dplyr::pull(min_e, min_e)
 
     ai <- (like_adjacencies / min_e) * 100
-
+    ai[is.nan(ai)] <- NA
 
     tibble::tibble(
         level = "class",

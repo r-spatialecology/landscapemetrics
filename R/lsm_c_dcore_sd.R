@@ -92,9 +92,9 @@ lsm_c_dcore_sd.list <- function(landscape, directions = 8) {
 
 lsm_c_dcore_sd_calc <- function(landscape, directions){
     dcore_sd <- landscape %>%
-        lsm_p_ncore_calc(., directions = directions) %>%
+        lsm_p_ncore_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sd(value))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_division.R
 \name{lsm_c_division}
 \alias{lsm_c_division}
+\alias{lsm_c_division}
 \alias{lsm_c_division.RasterLayer}
+\alias{lsm_c_division}
 \alias{lsm_c_division.RasterStack}
+\alias{lsm_c_division}
 \alias{lsm_c_division.RasterBrick}
+\alias{lsm_c_division}
 \alias{lsm_c_division.list}
 \title{DIVISION (class level)}
 \usage{

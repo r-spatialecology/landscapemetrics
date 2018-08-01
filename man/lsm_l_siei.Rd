@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_siei.R
 \name{lsm_l_siei}
 \alias{lsm_l_siei}
+\alias{lsm_l_siei}
 \alias{lsm_l_siei.RasterLayer}
+\alias{lsm_l_siei}
 \alias{lsm_l_siei.RasterStack}
+\alias{lsm_l_siei}
 \alias{lsm_l_siei.RasterBrick}
+\alias{lsm_l_siei}
 \alias{lsm_l_siei.list}
 \title{SIEI (landscape level)}
 \usage{
