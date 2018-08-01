@@ -113,6 +113,16 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     else {
 
+        if(isFALSE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
+            top_bottom_matrix <- matrix(c(NA, NA, NA,
+                                          1,  0, 1,
+                                          NA, NA, NA), 3, 3, byrow = TRUE)
+
+            left_right_matrix <- matrix(c(NA, 1, NA,
+                                          NA, 0, NA,
+                                          NA, 1, NA), 3, 3, byrow = TRUE)
+        }
+
         landscape_labelled <- get_patches(landscape, directions = directions)
 
         purrr::map_dfr(landscape_labelled, function(patches_class) {
@@ -130,17 +140,42 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
                                             pad_raster_cells = 1)
             }
 
-            tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                              directions = as.matrix(4))
+            if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
 
-            te <- (sum(tb[2:ncol(tb),1])) * raster::res(landscape)[[1]]
+                neighbor_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                  directions = as.matrix(4))
+
+                edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) *
+                    raster::res(landscape)[[1]]
+            }
+
+            else {
+
+                left_right_neighbours <-
+                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                directions = as.matrix(left_right_matrix))
+
+                edge_ik_left_right <-
+                    sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) *
+                    raster::res(patches_class)[[1]]
+
+                top_bottom_neighbours <-
+                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                directions = as.matrix(top_bottom_matrix))
+
+                edge_ik_top_bottom <-
+                    sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) *
+                    raster::res(patches_class)[[2]]
+
+                edge_ik <- edge_ik_left_right + edge_ik_top_bottom
+            }
 
             tibble::tibble(
                 level = "class",
                 class = as.integer(class_name),
                 id = as.integer(NA),
                 metric = "te",
-                value = as.double(te))
+                value = as.double(edge_ik))
         })
     }
 }

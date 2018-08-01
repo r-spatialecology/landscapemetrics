@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_contig.R
 \name{lsm_p_contig}
 \alias{lsm_p_contig}
-\alias{lsm_p_contig}
 \alias{lsm_p_contig.RasterLayer}
-\alias{lsm_p_contig}
 \alias{lsm_p_contig.RasterStack}
-\alias{lsm_p_contig}
 \alias{lsm_p_contig.RasterBrick}
-\alias{lsm_p_contig}
 \alias{lsm_p_contig.list}
 \title{CONTIG (patch level)}
 \usage{

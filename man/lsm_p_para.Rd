@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_para.R
 \name{lsm_p_para}
 \alias{lsm_p_para}
-\alias{lsm_p_para}
 \alias{lsm_p_para.RasterLayer}
-\alias{lsm_p_para}
 \alias{lsm_p_para.RasterStack}
-\alias{lsm_p_para}
 \alias{lsm_p_para.RasterBrick}
-\alias{lsm_p_para}
 \alias{lsm_p_para.list}
 \title{PARA (patch level)}
 \usage{
