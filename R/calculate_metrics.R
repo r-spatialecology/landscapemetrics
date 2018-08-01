@@ -279,6 +279,8 @@ calculate_metrics_internal <- function(landscape,
                                    by = "metric")
     }
 
+    result <- dplyr::arrange(result, layer, level, metric, class)
+
     return(result)
 }
 
