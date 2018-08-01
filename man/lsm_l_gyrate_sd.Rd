@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_gyrate_sd.R
 \name{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd}
+\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterLayer}
+\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterStack}
+\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterBrick}
+\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.list}
 \title{GYRATE_SD (landscape level)}
 \usage{

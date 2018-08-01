@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_division.R
 \name{lsm_l_division}
 \alias{lsm_l_division}
+\alias{lsm_l_division}
 \alias{lsm_l_division.RasterLayer}
+\alias{lsm_l_division}
 \alias{lsm_l_division.RasterStack}
+\alias{lsm_l_division}
 \alias{lsm_l_division.RasterBrick}
+\alias{lsm_l_division}
 \alias{lsm_l_division.list}
 \title{DIVISION (landscape level)}
 \usage{

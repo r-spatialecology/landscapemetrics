@@ -2,7 +2,9 @@
 % Please edit documentation in R/get_circumscribingcircle.R
 \name{get_circumscribingcircle}
 \alias{get_circumscribingcircle}
+\alias{get_circumscribingcircle}
 \alias{get_circumscribingcircle.RasterLayer}
+\alias{get_circumscribingcircle}
 \alias{get_circumscribingcircle.matrix}
 \title{get_circumscribingcircle}
 \usage{

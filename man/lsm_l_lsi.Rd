@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_lsi.R
 \name{lsm_l_lsi}
 \alias{lsm_l_lsi}
+\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterLayer}
+\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterStack}
+\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterBrick}
+\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.list}
 \title{LSI (landscape level)}
 \usage{

@@ -26,9 +26,7 @@ single environment.
 `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
 as input arguments. Every function can be used in a piped workflow, as
 it always takes the data as the first argument and returns a tibble of
-the same dimension. It further provides functions to visualize
-landscapes as labelled patches and functions to select and analyse
-metrics you calculated with the package.
+the same dimension.
 
 ## Installation
 
@@ -38,6 +36,11 @@ You can install **landscapemetrics** from GitHub with:
     devtools::install_github("marcosci/landscapemetrics")
 
 ## Using landscapemetrics
+
+The resolution of a raster cell has to be in **meters**, as the package
+converts units internally and returns results in either meters, square
+meters or hectares. Before using landscapemetrics, be sure to check your
+projection.
 
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
@@ -129,6 +132,53 @@ bind_rows(
     ## 2     1 class         1    NA te     180   
     ## 3     1 class         2    NA te     227   
     ## 4     1 class         3    NA te     321
+
+There is also a wrapper around every metric in the package to quickly
+calculate a bunch of metrics:
+
+``` r
+# calculate all metrics on patch level
+calculate_metrics(landscape, what = "patch")
+```
+
+    ## # A tibble: 324 x 6
+    ##    layer level class    id metric    value
+    ##    <int> <chr> <int> <int> <chr>     <dbl>
+    ##  1     1 patch     1     1 area   0.0001  
+    ##  2     1 patch     1     2 area   0.0148  
+    ##  3     1 patch     1     3 area   0.0005  
+    ##  4     1 patch     1     4 area   0.0014  
+    ##  5     1 patch     1     5 area   0.0001  
+    ##  6     1 patch     1     6 area   0.0005  
+    ##  7     1 patch     1     7 area   0.0001  
+    ##  8     1 patch     1     8 area   0.0001  
+    ##  9     1 patch     1     9 area   0.000300
+    ## 10     1 patch     2    10 area   0.0035  
+    ## # ... with 314 more rows
+
+### Visualisitation functions
+
+**landscapemetrics** further provides functions to visualize landscapes
+as labelled patches and functions to select and analyse metrics you
+calculated with the package (see [Communicate landscapemetrics
+vignette](https://marcosci.github.io/landscapemetrics/articles/articles/visualize.html)).
+
+### Utility functions
+
+Important building blocks of the package are exported to help facilitate
+analysis or the development of new metrics. They all start with the
+prefix `get_`. All of them are implemented with Rcpp and have either
+memory or perfomance advantages compared to raster functions.
+
+``` r
+# calculate the adjacency table of a raster
+get_adjacencies(landscape)
+```
+
+    ##     1   2    3
+    ## 1 520  43  137
+    ## 2  43 704  184
+    ## 3 137 184 1528
 
 ## Contributing
 

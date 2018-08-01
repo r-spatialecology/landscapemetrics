@@ -191,9 +191,9 @@ navbar:
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
          href: articles/articles/comparing_fragstats_landscapemetrics.html
-       - text: "Communicate landscapemetrics results"
+       - text: "Utility functions"
          icon: fa-comment
-         href: articles/articles/visualize.html
+         href: articles/articles/utility.html
        - text: "Metrics outside FRAGSTATS"
          icon: fa-sticky-note
          href: articles/articles/new_metrics.html

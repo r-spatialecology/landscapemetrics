@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_ai.R
 \name{lsm_c_ai}
 \alias{lsm_c_ai}
+\alias{lsm_c_ai}
 \alias{lsm_c_ai.RasterLayer}
+\alias{lsm_c_ai}
 \alias{lsm_c_ai.RasterStack}
+\alias{lsm_c_ai}
 \alias{lsm_c_ai.RasterBrick}
+\alias{lsm_c_ai}
 \alias{lsm_c_ai.list}
 \title{AI (class level)}
 \usage{

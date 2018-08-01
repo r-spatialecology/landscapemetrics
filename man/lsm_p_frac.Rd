@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_p_frac.R
 \name{lsm_p_frac}
 \alias{lsm_p_frac}
+\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterLayer}
+\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterStack}
+\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterBrick}
+\alias{lsm_p_frac}
 \alias{lsm_p_frac.list}
 \title{FRAC (patch level)}
 \usage{

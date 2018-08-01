@@ -1,5 +1,5 @@
 ---
-title: "Communicate landscapemetrics results"
+title: "Utility functions"
 date: "`r Sys.Date()`"
 output:
   github_document:

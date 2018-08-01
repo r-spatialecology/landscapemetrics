@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_p_core.R
 \name{lsm_p_core}
 \alias{lsm_p_core}
+\alias{lsm_p_core}
 \alias{lsm_p_core.RasterLayer}
+\alias{lsm_p_core}
 \alias{lsm_p_core.RasterStack}
+\alias{lsm_p_core}
 \alias{lsm_p_core.RasterBrick}
+\alias{lsm_p_core}
 \alias{lsm_p_core.list}
 \title{CORE (patch level)}
 \usage{

@@ -33,9 +33,7 @@ offers a reproducible workflow for landscape analysis in a single environment.
 `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input
 arguments. Every function can be used in a piped workflow, as it always
 takes the data as the first argument and returns a tibble of the same
-dimension. It further provides functions to visualize landscapes
-as labelled patches and functions to select and analyse metrics you
-calculated with the package.
+dimension. 
 
 ## Installation
 
@@ -47,6 +45,9 @@ devtools::install_github("marcosci/landscapemetrics")
 ```
 
 ## Using landscapemetrics
+
+The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns
+results in either meters, square meters or hectares. Before using landscapemetrics, be sure to check your projection.
 
 All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). 
 The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`).
@@ -72,6 +73,7 @@ lsm_l_enn()
 
 All functions return an identical structured tibble:
 
+<center>
 <p style="text-align:center;">
 
 | layer | level     | class | id | metric           | value |
@@ -81,6 +83,7 @@ All functions return an identical structured tibble:
 | 1     | landscape | NA    | NA | landscape metric | x     |
 
 </p>
+</center>
 
 ### Using metric functions
 
@@ -103,6 +106,27 @@ bind_rows(
     lsm_c_te(landscape)
 )
 ```
+
+There is also a wrapper around every metric in the package to quickly calculate
+a bunch of metrics:
+
+```{r , message=FALSE}
+# calculate all metrics on patch level
+calculate_metrics(landscape, what = "patch")
+```
+
+### Utility functions
+
+**landscapemetrics** further provides functions to visualize landscapes
+as labelled patches and functions to select and analyse metrics you
+calculated with the package.
+
+Important building blocks of the package are exported to help facilitate analysis
+or the development of new metrics. They all start with the prefix `get_`.
+All of them are implemented with Rcpp and have either memory or perfomance advantages
+compared to raster functions.
+
+For more details, see the [utility function vignette](https://marcosci.github.io/landscapemetrics/articles/articles/utility.html).
 
 ## Contributing
 
