@@ -96,7 +96,7 @@ lsm_l_gyrate_cv_calc <- function(landscape, directions) {
 
     gyrate_cv <- landscape %>%
         lsm_p_gyrate_calc(directions = directions) %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

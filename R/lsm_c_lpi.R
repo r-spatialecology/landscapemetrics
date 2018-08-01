@@ -91,7 +91,7 @@ lsm_c_lpi_calc <- function(landscape, directions) {
     lpi <- dplyr::mutate(area_patch,
                          value = value / area_landscape$value * 100) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = max(value, na.rm = TRUE))
+        dplyr::summarise(value = max(value))
 
     tibble::tibble(
         level = "class",

@@ -91,7 +91,7 @@ lsm_l_mesh_calc <- function(landscape, directions) {
 
     mesh <- area_patch %>%
         dplyr::mutate(value = value ^ 2) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = (value / area_landscape$value))
 
     tibble::tibble(

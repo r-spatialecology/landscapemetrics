@@ -90,7 +90,7 @@ lsm_l_dcore_mn_calc <- function(landscape, directions){
 
     dcore_mean <- landscape %>%
         lsm_p_ncore_calc(., directions = directions) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "landscape",

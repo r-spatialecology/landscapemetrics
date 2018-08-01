@@ -89,7 +89,7 @@ lsm_c_split_calc <- function(landscape, directions) {
 
     split <- dplyr::mutate(area_patch, value = value ^ 2) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = (area_landscape$value ^ 2) / value)
 
     tibble::tibble(

@@ -91,7 +91,7 @@ lsm_c_ndca_calc <- function(landscape, directions){
     dcad <- landscape %>%
         lsm_p_ncore_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     tibble::tibble(
         level = "class",

@@ -92,7 +92,7 @@ lsm_l_np_calc <- function(landscape, directions) {
 
     n_patches <- landscape %>%
         lsm_c_np_calc(directions = directions) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     tibble::tibble(
         level = "landscape",

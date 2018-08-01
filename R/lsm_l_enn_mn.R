@@ -94,7 +94,7 @@ lsm_l_enn_mn_calc <- function(landscape, directions) {
 
     enn_mn  <- landscape %>%
         lsm_p_enn_calc(., directions = directions) %>%
-        dplyr::summarize(value = mean(value, na.rm = TRUE))
+        dplyr::summarize(value = mean(value))
 
     tibble::tibble(
         level = "landscape",

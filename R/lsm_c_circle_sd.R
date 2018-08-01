@@ -95,7 +95,7 @@ lsm_c_circle_sd_calc <- function(landscape, directions) {
     circle_sd  <- landscape %>%
         lsm_p_circle_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarize(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

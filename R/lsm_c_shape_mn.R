@@ -94,7 +94,7 @@ lsm_c_shape_mn_calc <- function(landscape, directions){
     shape_mn <- landscape %>%
         lsm_p_shape_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "class",

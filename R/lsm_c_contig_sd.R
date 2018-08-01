@@ -100,7 +100,7 @@ lsm_c_contig_sd_calc <- function(landscape, directions) {
     contig_sd  <- landscape %>%
         lsm_p_contig_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarize(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

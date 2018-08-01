@@ -92,7 +92,7 @@ lsm_l_cai_sd_calc <- function(landscape, directions){
 
     cai_sd <- landscape %>%
         lsm_p_cai(., directions = directions) %>%
-        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "landscape",

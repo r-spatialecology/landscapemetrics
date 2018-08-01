@@ -88,7 +88,7 @@ lsm_l_tca_calc <- function(landscape, directions) {
 
     total_core_area <- landscape %>%
         lsm_p_core_calc(directions = directions) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     tibble::tibble(
         level = "landscape",

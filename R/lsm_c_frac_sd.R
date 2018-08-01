@@ -95,7 +95,7 @@ lsm_c_frac_sd_calc <- function(landscape, directions){
     frac_sd <- landscape %>%
         lsm_p_frac_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

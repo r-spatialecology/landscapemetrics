@@ -90,7 +90,7 @@ lsm_l_lpi_calc <- function(landscape, directions) {
 
     lpi <- area_patch %>%
         dplyr::mutate(lpi = (value / area_landscape$value) * 100) %>%
-        dplyr::summarise(value = max(lpi, na.rm = TRUE))
+        dplyr::summarise(value = max(lpi))
 
     tibble::tibble(
         level = "landscape",

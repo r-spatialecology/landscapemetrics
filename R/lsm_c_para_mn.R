@@ -96,7 +96,7 @@ lsm_c_para_mn_calc <- function(landscape, directions){
     para_mn <- landscape %>%
         lsm_p_para_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "class",

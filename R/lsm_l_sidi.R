@@ -85,7 +85,7 @@ lsm_l_sidi_calc <- function(landscape, directions) {
     sidi <- landscape %>%
         lsm_c_pland_calc(directions = directions) %>%
         dplyr::mutate(value = (value / 100) ^ 2) %>%
-        dplyr::summarise(value = 1 - sum(value, na.rm = TRUE))
+        dplyr::summarise(value = 1 - sum(value))
 
     tibble::tibble(
         level = "landscape",

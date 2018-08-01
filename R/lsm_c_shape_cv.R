@@ -94,7 +94,7 @@ lsm_c_shape_cv_calc <- function(landscape, directions){
     shape_cv <- landscape %>%
         lsm_p_shape_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

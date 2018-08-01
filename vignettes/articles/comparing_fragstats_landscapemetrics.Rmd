@@ -33,8 +33,8 @@ In the following, we are comparing the cv for the patch area. We are including t
 ```{r}
 # function to calculate coefficient of variation
 cv <- function(x) {
-    (sd(x, na.rm = TRUE) /
-         mean(x, na.rm = TRUE)) * 100
+    (sd(x) /
+         mean(x)) * 100
 }
 
 # CV calculated from patch values of FRAGSTATS 

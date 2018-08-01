@@ -99,7 +99,7 @@ lsm_c_contig_mn_calc <- function(landscape, directions) {
     contig_mn  <- landscape %>%
         lsm_p_contig_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = mean(value, na.rm = TRUE))
+        dplyr::summarize(value = mean(value))
 
     tibble::tibble(
         level = "class",

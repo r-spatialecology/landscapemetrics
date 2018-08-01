@@ -97,7 +97,7 @@ lsm_l_cohesion_calc <- function(landscape, directions) {
 
     denominator <- perim_patch %>%
         dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     cohesion <- perim_patch %>%
         dplyr::summarise(value = sum(value)) %>%

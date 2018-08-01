@@ -89,7 +89,7 @@ lsm_l_ndca_calc <- function(landscape, directions){
 
     ndca <- landscape %>%
         lsm_p_ncore_calc(directions = directions) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     tibble::tibble(
         level = "landscape",

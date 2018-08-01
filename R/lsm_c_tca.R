@@ -92,7 +92,7 @@ lsm_c_tca_calc <- function(landscape, directions){
     core_area <- landscape %>%
         lsm_p_core_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE))
+        dplyr::summarise(value = sum(value))
 
     tibble::tibble(
         level = "class",

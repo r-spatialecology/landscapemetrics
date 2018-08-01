@@ -93,7 +93,7 @@ lsm_l_circle_mn_calc <- function(landscape, directions) {
 
     circle_mn <- landscape %>%
         lsm_p_circle_calc(., directions = directions) %>%
-        dplyr::summarize(value = mean(value, na.rm = TRUE))
+        dplyr::summarize(value = mean(value))
 
     tibble::tibble(
         level = "landscape",

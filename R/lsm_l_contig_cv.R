@@ -99,7 +99,7 @@ lsm_l_contig_cv_calc <- function(landscape, directions) {
 
     contig_cv  <- landscape %>%
         lsm_p_contig_calc(., directions = directions) %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

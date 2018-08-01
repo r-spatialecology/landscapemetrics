@@ -89,7 +89,7 @@ lsm_l_division_calc <- function(landscape, directions) {
 
     division <- area_patch %>%
         dplyr::mutate(value = (value / area_landscape$value) ^ 2) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = 1 - value)
 
     tibble::tibble(

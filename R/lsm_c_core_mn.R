@@ -81,7 +81,7 @@ lsm_c_core_mn_calc <- function(landscape, directions){
     core_mean <- landscape %>%
         lsm_p_core_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "class",

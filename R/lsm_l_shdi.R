@@ -81,6 +81,6 @@ lsm_l_shdi_calc <- function(landscape) {
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shdi",
-        value = as.double(sum(-p * log(p, exp(1)), na.rm = TRUE))
+        value = as.double(sum(-p * log(p, exp(1))))
     )
 }

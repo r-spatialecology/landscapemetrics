@@ -100,7 +100,7 @@ lsm_c_contig_cv_calc <- function(landscape, directions) {
     contig_cv  <- landscape %>%
         lsm_p_contig_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

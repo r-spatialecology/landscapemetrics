@@ -91,7 +91,7 @@ lsm_l_dcad_calc <- function(landscape, directions){
     ncore_patch <- lsm_p_ncore_calc(landscape, directions = directions)
 
     dcad <- ncore_patch %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = (value / area_landscape$value) * 100)
 
     tibble::tibble(

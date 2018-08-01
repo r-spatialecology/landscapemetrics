@@ -112,7 +112,7 @@ lsm_p_gyrate_calc <- function(landscape, directions) {
                                            sqrt((x - x_centroid) ^ 2 +
                                                     (y - y_centroid) ^ 2)) %>%
             dplyr::group_by(id) %>%
-            dplyr::summarise(value = mean(dist, na.rm = TRUE))
+            dplyr::summarise(value = mean(dist))
 
         tibble::tibble(class = as.integer(class),
                        value = as.double(gyrate_class$value))

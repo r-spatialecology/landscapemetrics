@@ -105,7 +105,7 @@ lsm_l_iji_calc <- function(landscape, verbose) {
             (adjacencies / e_total) * log(adjacencies / e_total)
         edge_ratio <- edge_ratio[lower.tri(edge_ratio)]
 
-        landscape_sum <- -sum(edge_ratio, na.rm = TRUE)
+        landscape_sum <- -sum(edge_ratio)
 
         iji <-
             (landscape_sum /

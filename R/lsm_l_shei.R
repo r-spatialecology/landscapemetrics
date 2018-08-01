@@ -80,7 +80,7 @@ lsm_l_shei_calc <- function(landscape){
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shei",
-        value = as.double(sum(-p * log(p, exp(1)), na.rm = TRUE) /
+        value = as.double(sum(-p * log(p, exp(1))) /
                               log(length(p), exp(1)))
     )
     E

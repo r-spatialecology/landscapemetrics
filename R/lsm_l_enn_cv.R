@@ -94,7 +94,7 @@ lsm_l_enn_cv_calc <- function(landscape, directions) {
 
     enn_cv  <- landscape %>%
         lsm_p_enn_calc(., directions = directions) %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

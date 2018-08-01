@@ -103,7 +103,7 @@ lsm_c_enn_mn_calc <- function(landscape, directions, verbose) {
         lsm_p_enn(., directions = directions,
                   verbose = verbose) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = mean(value, na.rm = TRUE))
+        dplyr::summarize(value = mean(value))
 
     tibble::tibble(
         level = "class",

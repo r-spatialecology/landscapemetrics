@@ -96,7 +96,7 @@ lsm_c_gyrate_mn_calc <- function(landscape, directions) {
     gyrate_mn  <- landscape %>%
         lsm_p_gyrate_calc(directions = directions) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = mean(value, na.rm = TRUE))
+        dplyr::summarize(value = mean(value))
 
     tibble::tibble(
         level = "class",

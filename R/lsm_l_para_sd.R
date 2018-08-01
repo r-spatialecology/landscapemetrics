@@ -95,7 +95,7 @@ lsm_l_para_sd_calc <- function(landscape, directions){
 
     para_sd <- landscape %>%
         lsm_p_para_calc(directions = directions) %>%
-        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "landscape",

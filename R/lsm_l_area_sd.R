@@ -91,7 +91,7 @@ lsm_l_area_sd.list <- function(landscape, directions = 8) {
 lsm_l_area_sd_calc <- function(landscape, directions){
     area_sd <- landscape %>%
         lsm_p_area_calc(., directions = directions) %>%
-        dplyr::summarise(value = stats::sd(value, na.rm = TRUE))
+        dplyr::summarise(value = stats::sd(value))
 
     tibble::tibble(
         level = "landscape",

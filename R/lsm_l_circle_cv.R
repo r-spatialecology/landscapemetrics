@@ -94,7 +94,7 @@ lsm_l_circle_cv_calc <- function(landscape, directions) {
 
     circle_mn <- landscape %>%
         lsm_p_circle_calc(., directions = directions) %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

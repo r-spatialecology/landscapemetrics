@@ -95,7 +95,7 @@ lsm_c_cai_cv_calc <- function(landscape, directions){
     cai_cv <- landscape %>%
         lsm_p_cai_calc(directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

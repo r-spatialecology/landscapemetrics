@@ -90,7 +90,7 @@ lsm_l_cai_mn_calc <- function(landscape, directions){
 
     cai_mean <- landscape %>%
         lsm_p_cai(., directions = directions) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "landscape",

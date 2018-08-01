@@ -84,7 +84,7 @@ lsm_c_cai_mn_calc <- function(landscape, directions = 8){
     cai_mean <- landscape %>%
         lsm_p_cai_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "class",

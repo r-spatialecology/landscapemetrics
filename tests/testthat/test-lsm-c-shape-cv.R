@@ -10,7 +10,7 @@ fragstats_class_landscape_shape_cv <- fragstats_patch_landscape %>%
 landscape_shape_cv <-  landscape %>%
     lsm_p_shape() %>%
     dplyr::group_by(class)  %>%
-    dplyr::summarize(metric = raster::cv(round(value,4), na.rm = TRUE))
+    dplyr::summarize(metric = raster::cv(round(value,4)))
 
 test_that("lsm_c_shape_cv results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_shape_cv %in%

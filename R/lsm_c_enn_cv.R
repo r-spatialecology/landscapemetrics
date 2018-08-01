@@ -103,7 +103,7 @@ lsm_c_enn_cv_calc <- function(landscape, directions, verbose) {
         lsm_p_enn_calc(directions = directions,
                        verbose = verbose) %>%
         dplyr::group_by(class)  %>%
-        dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarize(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

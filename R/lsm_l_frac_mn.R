@@ -94,7 +94,7 @@ lsm_l_frac_mn_calc <- function(landscape, directions){
 
     frac_mean <- landscape %>%
         lsm_p_frac(directions = directions) %>%
-        dplyr::summarise(value = mean(value, na.rm = TRUE))
+        dplyr::summarise(value = mean(value))
 
     tibble::tibble(
         level = "landscape",

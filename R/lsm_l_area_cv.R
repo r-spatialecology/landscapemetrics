@@ -92,7 +92,7 @@ lsm_l_area_cv.list <- function(landscape, directions = 8) {
 lsm_l_area_cv_calc <- function(landscape, directions){
     area_cv <- landscape %>%
         lsm_p_area_calc(directions = directions) %>%
-        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

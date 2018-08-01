@@ -95,7 +95,7 @@ lsm_c_dcore_cv_calc <- function(landscape, directions){
     dcore_sd <- landscape %>%
         lsm_p_ncore_calc(., directions = directions) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value, na.rm = TRUE))
+        dplyr::summarise(value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

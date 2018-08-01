@@ -93,7 +93,7 @@ lsm_c_mesh_calc <- function(landscape, directions) {
 
     mesh <- dplyr::mutate(area_patch, value = (value * 10000) ^ 2) %>%
         dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value, na.rm = TRUE)) %>%
+        dplyr::summarise(value = sum(value)) %>%
         dplyr::mutate(value = (value / area_landscape$value) * (1 / 10000))
 
     tibble::tibble(
