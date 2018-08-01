@@ -90,16 +90,50 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
                              pad_raster_cells = 1)
     }
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                      directions = as.matrix(4))
-    te <- sum(tb[lower.tri(tb)]) * raster::res(landscape)[[1]]
+    if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
+
+        neighbor_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                          directions = as.matrix(4))
+
+        edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) *
+            raster::res(landscape)[[1]]
+    }
+
+    else {
+
+        top_bottom_matrix <- matrix(c(NA, NA, NA,
+                                      1,  0, 1,
+                                      NA, NA, NA), 3, 3, byrow = TRUE)
+
+        left_right_matrix <- matrix(c(NA, 1, NA,
+                                      NA, 0, NA,
+                                      NA, 1, NA), 3, 3, byrow = TRUE)
+
+        left_right_neighbours <-
+            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                        directions = as.matrix(left_right_matrix))
+
+        edge_left_right <-
+            sum(left_right_neighbours[lower.tri(left_right_neighbours)]) *
+            raster::res(landscape)[[1]]
+
+        top_bottom_neighbours <-
+            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                        directions = as.matrix(top_bottom_matrix))
+
+        edge_top_bottom <-
+            sum(top_bottom_neighbours[lower.tri(top_bottom_neighbours)]) *
+            raster::res(landscape)[[2]]
+
+        edge_total <- edge_left_right + edge_top_bottom
+    }
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "te",
-        value = as.double(te)
+        value = as.double(edge_total)
     )
 
 }

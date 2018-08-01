@@ -1,11 +1,11 @@
 context("class level pafrac metric")
 
-fragstats_class_landscape_pafrac <- as.numeric(fragstats_class_landscape$PAFRAC[[3]])
+fragstats_class_landscape_pafrac <- as.numeric(fragstats_class_landscape$PAFRAC)
 landscapemetrics_class_landscape_pafrac <- lsm_c_pafrac(landscape)
 
 test_that("lsm_c_pafrac results are equal to fragstats", {
     expect_true(all(fragstats_class_landscape_pafrac %in%
-                        max(round(landscapemetrics_class_landscape_pafrac$value, 4))))
+                        round(landscapemetrics_class_landscape_pafrac$value, 4)))
 })
 
 test_that("lsm_c_pafrac is typestable", {

@@ -81,7 +81,16 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
 }
 
 lsm_p_perim_calc <- function(landscape, directions) {
-    # landscape_padded <- pad_raster(landscape, pad_raster_value = NA)
+
+    if(isFALSE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
+       top_bottom_matrix <- matrix(c(NA, NA, NA,
+                                      1,  0, 1,
+                                     NA, NA, NA), 3, 3, byrow = TRUE)
+
+        left_right_matrix <- matrix(c(NA, 1, NA,
+                                      NA, 0, NA,
+                                      NA, 1, NA), 3, 3, byrow = TRUE)
+    }
 
     landscape_labelled <- get_patches(landscape, directions = directions)
 
@@ -94,13 +103,39 @@ lsm_p_perim_calc <- function(landscape, directions) {
 
             raster::values(patches_class)[target_na] <- -999
 
-            neighbour_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                                            directions = as.matrix(4))
+            if(isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
 
-            neighbour_matrix <- neighbour_matrix[1 ,2:ncol(neighbour_matrix)]
+                neighbour_matrix <-
+                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                directions = as.matrix(4))
+                neighbour_matrix <-
+                    neighbour_matrix[1 ,2:ncol(neighbour_matrix)]
 
-            perimeter_patch_ij <-
-                neighbour_matrix * raster::res(patches_class)[[1]]
+                perimeter_patch_ij <-
+                    neighbour_matrix * raster::res(patches_class)[[1]]
+            }
+
+            else{
+
+                left_right_neighbours <-
+                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                directions = as.matrix(left_right_matrix))
+
+                perimeter_patch_ij_left_right <-
+                    left_right_neighbours[1 ,2:ncol(left_right_neighbours)] *
+                    raster::res(patches_class)[[1]]
+
+                top_bottom_neighbours <-
+                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                directions = as.matrix(top_bottom_matrix))
+
+                perimeter_patch_ij_top_bottom <-
+                    top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)] *
+                    raster::res(patches_class)[[2]]
+
+                perimeter_patch_ij <- perimeter_patch_ij_top_bottom +
+                    perimeter_patch_ij_left_right
+            }
 
             class_name <- patches_class %>%
                 names() %>%
