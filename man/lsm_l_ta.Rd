@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_ta.R
 \name{lsm_l_ta}
 \alias{lsm_l_ta}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterLayer}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterStack}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterBrick}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.list}
 \title{TA (landscape level)}
 \usage{
