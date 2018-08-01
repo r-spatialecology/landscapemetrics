@@ -226,7 +226,7 @@ lsm_l_enn()</code></pre>
 ## names       : clumps 
 ## values      : 1, 3  (min, max)</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>(landscape)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span>(landscape)</a></code></pre></div>
 <pre><code>## # A tibble: 27 x 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -243,8 +243,8 @@ lsm_l_enn()</code></pre>
 ## # ... with 17 more rows</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate the total area and total class edge length</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_l_ta">lsm_l_ta</a></span>(landscape), </a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_c_te">lsm_c_te</a></span>(landscape)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="kw"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span>(landscape), </a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="kw"><a href="reference/lsm_c_te.html">lsm_c_te</a></span>(landscape)</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 6
 ##   layer level     class    id metric  value
