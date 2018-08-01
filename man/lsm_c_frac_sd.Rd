@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_frac_sd.R
 \name{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd}
+\alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.RasterLayer}
+\alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.RasterStack}
+\alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.RasterBrick}
+\alias{lsm_c_frac_sd}
 \alias{lsm_c_frac_sd.list}
 \title{FRAC_SD (class level)}
 \usage{

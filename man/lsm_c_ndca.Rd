@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_ndca.R
 \name{lsm_c_ndca}
 \alias{lsm_c_ndca}
+\alias{lsm_c_ndca}
 \alias{lsm_c_ndca.RasterLayer}
+\alias{lsm_c_ndca}
 \alias{lsm_c_ndca.RasterStack}
+\alias{lsm_c_ndca}
 \alias{lsm_c_ndca.RasterBrick}
+\alias{lsm_c_ndca}
 \alias{lsm_c_ndca.list}
 \title{NDCA (class level)}
 \usage{

@@ -2,26 +2,35 @@
 % Please edit documentation in R/lsm_c_enn_cv.R
 \name{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv}
+\alias{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv.RasterLayer}
+\alias{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv.RasterStack}
+\alias{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv.RasterBrick}
+\alias{lsm_c_enn_cv}
 \alias{lsm_c_enn_cv.list}
 \title{ENN_CV (class level)}
 \usage{
-lsm_c_enn_cv(landscape, directions)
+lsm_c_enn_cv(landscape, directions, verbose)
 
-\method{lsm_c_enn_cv}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_enn_cv}{RasterLayer}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_c_enn_cv}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_enn_cv}{RasterStack}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_c_enn_cv}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_enn_cv}{RasterBrick}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_c_enn_cv}{list}(landscape, directions = 8)
+\method{lsm_c_enn_cv}{list}(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{verbose}{Print warning message if not sufficient patches are present}
 }
 \value{
 tibble

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_dcore_mn.R
 \name{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn}
+\alias{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn.RasterLayer}
+\alias{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn.RasterStack}
+\alias{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn.RasterBrick}
+\alias{lsm_c_dcore_mn}
 \alias{lsm_c_dcore_mn.list}
 \title{DCORE_MN (class level)}
 \usage{

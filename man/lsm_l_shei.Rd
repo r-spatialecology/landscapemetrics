@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_shei.R
 \name{lsm_l_shei}
 \alias{lsm_l_shei}
+\alias{lsm_l_shei}
 \alias{lsm_l_shei.RasterLayer}
+\alias{lsm_l_shei}
 \alias{lsm_l_shei.RasterStack}
+\alias{lsm_l_shei}
 \alias{lsm_l_shei.RasterBrick}
+\alias{lsm_l_shei}
 \alias{lsm_l_shei.list}
 \title{SHEI (landscape level)}
 \usage{

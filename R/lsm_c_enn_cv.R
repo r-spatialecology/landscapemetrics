@@ -4,6 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
 #' \deqn{ENN_{CV} = cv(ENN[patch_{ij}])}
@@ -46,35 +47,26 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_enn_cv <- function(landscape, directions) UseMethod("lsm_c_enn_cv")
+lsm_c_enn_cv <- function(landscape, directions, verbose) UseMethod("lsm_c_enn_cv")
 
 #' @name lsm_c_enn_cv
 #' @export
-lsm_c_enn_cv.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_enn_cv.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_enn_cv_calc,
                    directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_cv
 #' @export
-lsm_c_enn_cv.RasterStack <- function(landscape, directions = 8) {
+lsm_c_enn_cv.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_enn_cv_calc,
                    directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
-
-}
-
-#' @name lsm_c_enn_cv
-#' @export
-lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -82,20 +74,34 @@ lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_enn_cv
 #' @export
-lsm_c_enn_cv.list <- function(landscape, directions = 8) {
+lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_enn_cv_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_enn_cv
+#' @export
+lsm_c_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(landscape,
                    lsm_c_enn_cv_calc,
                    directions = directions,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
 }
 
 
-lsm_c_enn_cv_calc <- function(landscape, directions) {
+lsm_c_enn_cv_calc <- function(landscape, directions, verbose) {
 
     enn_cv  <- landscape %>%
-        lsm_p_enn_calc(., directions = directions) %>%
+        lsm_p_enn_calc(directions = directions,
+                       verbose = verbose) %>%
         dplyr::group_by(class)  %>%
         dplyr::summarize(value = raster::cv(value, na.rm = TRUE))
 
