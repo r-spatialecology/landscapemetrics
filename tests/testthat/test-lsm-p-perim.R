@@ -27,4 +27,9 @@ test_that("lsm_p_perim returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_perim$value, "double")
 })
 
-
+test_that("lsm_p_perim can also handle irregular sized cells", {
+    landscape_irr <- raster::raster(resolution = c(50, 100))
+    landscape_irr[] <- sample(1:14, 14, replace = TRUE)
+    landscapemetrics_patch_landscape_perim <- lsm_p_perim(landscape_irr)
+    expect_is(landscapemetrics_patch_landscape_perim, "tbl_df")
+})

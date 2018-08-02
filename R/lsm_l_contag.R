@@ -51,6 +51,7 @@ lsm_l_contag <- function(landscape, verbose) UseMethod("lsm_l_contag")
 lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
@@ -60,6 +61,7 @@ lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
 lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
@@ -69,6 +71,7 @@ lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
 lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
@@ -79,6 +82,7 @@ lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
 lsm_l_contag.list <- function(landscape, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_contag_calc,
+                   verbose = verbose,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }

@@ -21,3 +21,8 @@ test_that("lsm_p_contag returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_contag$value, "double")
 })
 
+test_that("lsm_p_contag returns a warning for < 3 classes", {
+    rast_mat <- matrix(c(NA,1,NA,1,1,1,NA,1,NA), ncol = 3, byrow = TRUE)
+    rast_rast <- raster::raster(rast_mat)
+    expect_warning(lsm_l_contag(rast_rast))
+})
