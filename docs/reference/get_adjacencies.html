@@ -188,7 +188,7 @@ where the ones define the neighbourhood. The default is 4.</p></td>
     <tr>
       <th>what</th>
       <td><p>Which adjacencies to calculate: "full" for a full adjacency matrix,
-"like" for the diagonal, "unlike" for the offdiagonal part of the matrix and
+"like" for the diagonal, "unlike" for the off diagonal part of the matrix and
 "triangle" for a triangular matrix counting adjacencies only once.</p></td>
     </tr>
     <tr>
@@ -204,7 +204,7 @@ should be returned (default FALSE).</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A fast implementation with Rcpp to calculate the adjacency matrix for raser.
+    <p>A fast implementation with Rcpp to calculate the adjacency matrix for raster.
 The adjacency matrix is most often used in landscape metrics to describe
 the configuration of landscapes, is it is a cellwise count of edges between classes.</p>
 <p>The "full" adjacency matrix is double-count method, as it contains the pairwise

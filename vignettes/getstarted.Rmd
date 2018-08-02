@@ -122,7 +122,7 @@ Additionally, we provide a wrapper where the desired metrics can be specified as
 calculate_metrics(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"))
 ```
 
-All metrics are abbreviated in the result `tibble`. Therefore, we provide a `tibble` containing the full metric names, as well as the class of each metric (`lsm_abbreviations_names`). Using e.g. the `left_join()` function of the `dplyr` package (Hadley *et al.* 2018) one could join a result `tibble` and the abbrevations `tibble`.
+All metrics are abbreviated in the result `tibble`. Therefore, we provide a `tibble` containing the full metric names, as well as the class of each metric (`lsm_abbreviations_names`). Using e.g. the `left_join()` function of the `dplyr` package one could join a result `tibble` and the abbrevations `tibble`.
 
 ```{r, message=FALSE}
 
@@ -146,12 +146,3 @@ calculate_metrics(landscape, what = c("lsm_c_pland", "lsm_l_ta", "lsm_l_te"),
               full_name = TRUE)
 
 ```
-
-#### References
-Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2018). 
-dplyr: A Grammar of Data Manipulation. R package version 0.7.6.
-https://CRAN.R-project.org/package=dplyr
-
-
-
-

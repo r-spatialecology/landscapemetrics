@@ -40,7 +40,7 @@ i.e. AREA can't be smaller than the resolution squared (in hectares). It is one 
 the most basic, but also most important metrics, to characterise a landscape. The
 metric is the simplest measure of composition.
 
-\subsection{Units}{hectares}
+\subsection{Units}{Hectares}
 \subsection{Range}{AREA > 0}
 \subsection{Behaviour}{Increases, without limit, as the patch size increases.}
 }

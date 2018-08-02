@@ -172,7 +172,7 @@ reference:
     - lsm_l_split
     - lsm_l_ta
     - lsm_l_te
-  - title: All Level Metrics
+  - title: Wrapper around all metrics
     contents:
     - calculate_metrics
 
@@ -194,7 +194,7 @@ navbar:
        - text: "Utility functions"
          icon: fa-comment
          href: articles/articles/utility.html
-       - text: "Metrics outside FRAGSTATS"
+       - text: "New Metrics outside FRAGSTATS"
          icon: fa-sticky-note
          href: articles/articles/new_metrics.html
        - text: "Publication Record"

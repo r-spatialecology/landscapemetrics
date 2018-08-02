@@ -1,5 +1,5 @@
 ---
-title: "New Metrics"
+title: "New Metrics outside FRAGSTATS"
 date: "`r Sys.Date()`"
 output:
   github_document:
@@ -20,7 +20,9 @@ library(landscapemetrics)
 One of the reason to start landscapemetrics was also to have a collection of metrics that are not included in FRAGSTATS.
 This vignette will highlight them and provide references for further reading on them.
 
-1. lsm_l_joinent
-1. lsm_l_condent
-1. lsm_l_ent
-1. lsm_l_mutinf
+> Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. DOI:
+
+1. [lsm_l_joinent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_joinent.html)
+1. [lsm_l_condent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_condent.html)
+1. [lsm_l_ent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_ent.html)
+1. [lsm_l_mutinf](https://marcosci.github.io/landscapemetrics/reference/lsm_l_mutinf.html)

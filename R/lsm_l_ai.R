@@ -11,7 +11,7 @@
 #' \eqn{max-g_{ii}} is the classwise maximum number of like adjacencies of class i and \eqn{P_{i}}
 #' the proportion of landscape compromised of class i.
 #'
-#' CLUMPY is an 'Contagion/Interspersion metric'. It equals the number of like adjacencies divided
+#' AI is an 'Contagion/Interspersion metric'. It equals the number of like adjacencies divided
 #' by the theoretical maximum possible number of like adjacencies for that class summed over each
 #' class for the entire landscape.
 #' The metric is based on he adjacency matrix and the the single-count method.
