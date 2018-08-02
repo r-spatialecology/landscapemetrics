@@ -3,7 +3,8 @@
 #' @description Coeffiecient of variation of related circumscribing circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CIRCLE_{CV} = cv(CIRCLE[patch_{ij}])}
@@ -44,6 +45,10 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
+#' landscape structure using the GRASS geographical information system.
+#' Landscape Ecology 7: 291-302.
 #'
 #' @export
 lsm_c_circle_cv <- function(landscape, directions) UseMethod("lsm_c_circle_cv")

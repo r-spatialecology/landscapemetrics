@@ -61,6 +61,9 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+LaGro, J. 1991. Assessing patch shape in landscape mosaics.
+Photogrammetric Engineering and Remote Sensing, 57(3), 285-293
 }
 \seealso{
 \code{\link{lsm_p_contig}},

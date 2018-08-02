@@ -35,6 +35,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Schumaker, N. H. 1996. Using landscape indices to predict habitat
+#' connectivity. Ecology, 77(4), 1210-1225.
+#'
 #' @export
 lsm_l_cohesion <- function(landscape, directions)
     UseMethod("lsm_l_cohesion")

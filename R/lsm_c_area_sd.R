@@ -3,14 +3,16 @@
 #' @description Standard deviation of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{AREA_{SD} = sd(AREA[patch_{ij}])}
 #' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 #'
 #' AREA_SD is an 'Area and Edge metric'. The metric summarises each class
-#' as the standard deviation of all patch areas belonging to class i. The metric describes the differences among patches of the same class i in
+#' as the standard deviation of all patch areas belonging to class i.
+#' The metric describes the differences among patches of the same class i in
 #' the landscape.
 #'
 #' \subsection{Units}{Hectares}

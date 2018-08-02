@@ -34,9 +34,13 @@
 #' @rdname lsm_l_sidi
 #'
 #' @references
-#' McGarigal, K., and B. J. Marks. 1995. FRAGSTATS: spatial pattern analysis
-#' program for quantifying landscape structure. USDA For. Serv. Gen. Tech. Rep.
-#'  PNW-351.
+#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' Simpson, E. H. 1949. Measurement of diversity. Nature 163:688
+#'
 #' @export
 lsm_l_sidi <- function(landscape, directions) UseMethod("lsm_l_sidi")
 

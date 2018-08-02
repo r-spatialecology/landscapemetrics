@@ -27,7 +27,7 @@ lsm_l_contag(landscape, verbose)
 tibble
 }
 \description{
-Contagion (Contagion and Interspersion metrics)
+Contagion (Aggregation metric)
 }
 \details{
 \deqn{CONTAG = 1 + \frac{\sum \limits_{q = 1}^{n_{a}} p_{q} ln(p_{q})}{2ln(t)}}
@@ -60,9 +60,6 @@ Program for Categorical and Continuous Maps. Computer software program produced 
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 
-Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
-}
-\seealso{
-\code{\link{lsm_p_perim}}
-\code{\link{lsm_l_contag}}
+Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
+contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
 }

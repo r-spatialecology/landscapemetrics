@@ -1,6 +1,6 @@
 #' AI (landscape level)
 #'
-#' @description Aggregation index (Contagion/Interspersion metric)
+#' @description Aggregation index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
@@ -36,6 +36,9 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
+#' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
 lsm_l_ai <- function(landscape) UseMethod("lsm_l_ai")

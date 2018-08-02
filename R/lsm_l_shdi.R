@@ -34,6 +34,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Shannon, C., and W. Weaver. 1949. The mathematical theory of
+#' communication. Univ. IllinoisPress, Urbana
+#'
 #' @export
 lsm_l_shdi <- function(landscape)
     UseMethod("lsm_l_shdi")

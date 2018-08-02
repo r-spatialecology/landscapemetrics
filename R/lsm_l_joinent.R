@@ -1,6 +1,6 @@
-#' Joint entropy (landscape level)
+#' JOINENT (landscape level)
 #'
-#' @description Complexity of a landscape pattern. An overall spatio-thematic complexity metric.
+#' @description Joint entropy
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
@@ -11,6 +11,9 @@
 #' @param base The unit in which entropy is measured.
 #' The default is "log2", which compute entropy in "bits".
 #' "log" and "log10" can be also used.
+#'
+#' @details
+#' Complexity of a landscape pattern. An overall spatio-thematic complexity metric.
 #'
 #' @seealso
 #' \code{\link{lsm_l_ent}},

@@ -1,11 +1,14 @@
-#' Shannon entropy (landscape level)
+#' ENT (landscape level)
 #'
-#' @description It measures a diversity (thematic complexity) of landscape classes.
+#' @description Shannon entropy
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param base The unit in which entropy is measured.
 #' The default is "log2", which compute entropy in "bits".
 #' "log" and "log10" can be also used.
+#'
+#' @details
+#' It measures a diversity (thematic complexity) of landscape classes.
 #'
 #' @seealso
 #' \code{\link{lsm_l_condent}},

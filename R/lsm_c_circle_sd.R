@@ -44,6 +44,10 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
+#' landscape structure using the GRASS geographical information system.
+#' Landscape Ecology 7: 291-302.
+#'
 #' @export
 lsm_c_circle_sd <- function(landscape, directions) UseMethod("lsm_c_circle_sd")
 

@@ -6,7 +6,7 @@
 \alias{calculate_metrics.RasterStack}
 \alias{calculate_metrics.RasterBrick}
 \alias{calculate_metrics.list}
-\title{Calculate metrics}
+\title{calculate_metrics}
 \usage{
 calculate_metrics(landscape, what, directions, count_boundary, classes_max,
   neighbourhood, ordered, base, full_name, verbose)

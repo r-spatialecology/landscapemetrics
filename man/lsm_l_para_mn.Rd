@@ -28,7 +28,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Mean perimeter-area ratio (class level)
+Mean perimeter-area ratio (Shape metric)
 }
 \details{
 \deqn{PARA_{MN} = mean(PARA[patch_{ij}]}

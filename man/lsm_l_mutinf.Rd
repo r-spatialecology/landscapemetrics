@@ -6,7 +6,7 @@
 \alias{lsm_l_mutinf.RasterStack}
 \alias{lsm_l_mutinf.RasterBrick}
 \alias{lsm_l_mutinf.list}
-\title{Mutual information (landscape level)}
+\title{MUTINF (landscape level)}
 \usage{
 lsm_l_mutinf(landscape, neighbourhood, ordered, base)
 
@@ -40,6 +40,9 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
+Mutual information
+}
+\details{
 It disambiguates landscape pattern types characterize
 by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 }

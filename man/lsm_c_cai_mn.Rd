@@ -21,7 +21,8 @@ lsm_c_cai_mn(landscape, directions)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -41,8 +42,8 @@ value than itself (rook's case).
 
 \subsection{Units}{Percent}
 \subsection{Range}{CAI_MN >= 0}
-\subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches. Increases,
-without limit, as the core area indices increase.}
+\subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches.
+Increases, without limit, as the core area indices increase.}
 }
 \examples{
 lsm_c_cai_mn(landscape)

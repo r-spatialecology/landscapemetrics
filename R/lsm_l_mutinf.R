@@ -1,7 +1,6 @@
-#' Mutual information (landscape level)
+#' MUTINF (landscape level)
 #'
-#' @description It disambiguates landscape pattern types characterize
-#' by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
+#' @description Mutual information
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
@@ -12,6 +11,10 @@
 #' @param base The unit in which entropy is measured.
 #' The default is "log2", which compute entropy in "bits".
 #' "log" and "log10" can be also used.
+#'
+#' @details
+#' It disambiguates landscape pattern types characterize
+#' by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 #'
 #' @seealso
 #' \code{\link{lsm_l_ent}},

@@ -54,6 +54,10 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+Jaeger, J. A. 2000. Landscape division, splitting index, and effective mesh
+size: new measures of landscape fragmentation.
+Landscape ecology, 15(2), 115-130.
 }
 \seealso{
 \code{\link{lsm_p_area}},

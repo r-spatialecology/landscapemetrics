@@ -1,4 +1,4 @@
-#' Calculate metrics
+#' calculate_metrics
 #'
 #' @description Calculate a selected group of metrics
 #'

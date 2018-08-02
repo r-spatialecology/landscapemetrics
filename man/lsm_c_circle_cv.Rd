@@ -21,7 +21,8 @@ lsm_c_circle_cv(landscape, directions)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -55,6 +56,10 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
+landscape structure using the GRASS geographical information system.
+Landscape Ecology 7: 291-302.
 }
 \seealso{
 \code{\link{lsm_p_circle}},

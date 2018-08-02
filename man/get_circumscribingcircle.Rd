@@ -41,3 +41,6 @@ class_1_matrix <- raster::rasterToPoints(class_1)
 get_circumscribingcircle(class_1_matrix, 1)
 
 }
+\references{
+Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
+}

@@ -14,6 +14,9 @@
 #'
 #' If one uses this functions with a matrix the resolution of the underlying data must be provided.#'
 #'
+#' @references
+#' Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
+#'
 #' @examples
 #' # get patches for class 1 from testdata as raster
 #' class_1 <- get_patches(landscape,1)[[1]]

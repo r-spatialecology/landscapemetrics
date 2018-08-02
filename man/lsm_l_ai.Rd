@@ -25,7 +25,7 @@ lsm_l_ai(landscape)
 tibble
 }
 \description{
-Aggregation index (Contagion/Interspersion metric)
+Aggregation index (Aggregation metric)
 }
 \details{
 \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
@@ -53,6 +53,9 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
+to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 }
 \seealso{
 \code{\link{lsm_c_ai}}

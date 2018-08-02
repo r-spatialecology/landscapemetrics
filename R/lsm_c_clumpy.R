@@ -1,6 +1,6 @@
 #' CLUMPY (class level)
 #'
-#' @description Clumpiness index (Contagion/Interspersion metric)
+#' @description Clumpiness index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
@@ -13,7 +13,7 @@
 #' minimum perimeter of the total class in terms of cell surfaces assuming total clumping and
 #' \eqn{P_{i}} is the proportion of landscape occupied by each class.
 #'
-#' CLUMPY is an 'Contagion/Interspersion metric'. It equals the proportional deviation of
+#' CLUMPY is an 'Aggregation metric'. It equals the proportional deviation of
 #' the proportion of like adjacencies involving the corresponding class from that expected
 #' under a spatially random distribution. The metric is based on he adjacency matrix and the
 #' the double-count method.

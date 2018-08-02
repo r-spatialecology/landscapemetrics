@@ -6,7 +6,7 @@
 \alias{lsm_c_nlsi.RasterStack}
 \alias{lsm_c_nlsi.RasterBrick}
 \alias{lsm_c_nlsi.list}
-\title{NLSI (class level)}
+\title{nLSI (class level)}
 \usage{
 lsm_c_nlsi(landscape, directions)
 
@@ -28,7 +28,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Landscape shape index (Aggregation metric)
+Normalized landscape shape index (Aggregation metric)
 }
 \details{
 \deqn{nlsi = \frac{e_{i}} {\min e_{i}}}
@@ -54,6 +54,9 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
+Wildl. Soc.Bull. 3:171-173.
 }
 \seealso{
 \code{\link{lsm_p_shape}}
