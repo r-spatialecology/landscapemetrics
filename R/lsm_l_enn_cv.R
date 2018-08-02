@@ -46,6 +46,10 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' McGarigal, K., and McComb, W. C. (1995). Relationships between landscape
+#' structure and breeding birds in the Oregon Coast Range.
+#' Ecological monographs, 65(3), 235-260.
+#'
 #' @export
 lsm_l_enn_cv <- function(landscape, directions, verbose) UseMethod("lsm_l_enn_cv")
 

@@ -45,6 +45,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Mandelbrot, B. B. 1977. Fractals: Form, Chance, and Dimension.
+#' San Francisco. W. H. Freeman and Company.
+#'
 #' @export
 lsm_p_frac <- function(landscape, directions) UseMethod("lsm_p_frac")
 

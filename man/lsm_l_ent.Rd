@@ -6,7 +6,7 @@
 \alias{lsm_l_ent.RasterStack}
 \alias{lsm_l_ent.RasterBrick}
 \alias{lsm_l_ent.list}
-\title{Shannon entropy (landscape level)}
+\title{ENT (landscape level)}
 \usage{
 lsm_l_ent(landscape, base = "log2")
 
@@ -29,6 +29,9 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
+Shannon entropy
+}
+\details{
 It measures a diversity (thematic complexity) of landscape classes.
 }
 \examples{

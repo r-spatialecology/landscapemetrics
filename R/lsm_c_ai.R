@@ -1,6 +1,6 @@
 #' AI (class level)
 #'
-#' @description Aggregation index (Contagion/Interspersion metric)
+#' @description Aggregation index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #'
@@ -10,7 +10,7 @@
 #' where \eqn{g_{ii}} is the number of like adjacencies based on the single-count method and
 #' \eqn{max-g_{ii}} is the classwise maximum number of like adjacencies of class i.
 #'
-#' AI is an 'Contagion/Interspersion metric'. It equals the number of like adjacencies divided
+#' AI is an 'Aggregation metric'. It equals the number of like adjacencies divided
 #' by the theoretical maximum possible number of like adjacencies for that class.
 #' The metric is based on he adjacency matrix and the the single-count method.
 #'
@@ -35,6 +35,9 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
+#' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
 lsm_c_ai <- function(landscape) UseMethod("lsm_c_ai")

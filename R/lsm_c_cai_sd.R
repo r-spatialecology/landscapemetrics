@@ -3,7 +3,8 @@
 #' @description Standard deviation of core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CAI_{SD} = sd(CAI[patch_{ij}]}
@@ -18,8 +19,8 @@
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{CAI_SD >= 0}
-#' \subsection{Behaviour}{Equals CAI_SD = 0 if the core area index is identical for
-#' all patches. Increases, without limit, as the variation of core area
+#' \subsection{Behaviour}{Equals CAI_SD = 0 if the core area index is identical
+#' for all patches. Increases, without limit, as the variation of core area
 #' indices increases.}
 #'
 #' @seealso

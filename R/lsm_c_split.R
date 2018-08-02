@@ -38,6 +38,10 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Jaeger, J. A. 2000. Landscape division, splitting index, and effective mesh
+#' size: new measures of landscape fragmentation.
+#' Landscape ecology, 15(2), 115-130.
+#'
 #' @export
 lsm_c_split <- function(landscape, directions) UseMethod("lsm_c_split")
 

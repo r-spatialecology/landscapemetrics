@@ -6,7 +6,7 @@
 \alias{lsm_l_joinent.RasterStack}
 \alias{lsm_l_joinent.RasterBrick}
 \alias{lsm_l_joinent.list}
-\title{Joint entropy (landscape level)}
+\title{JOINENT (landscape level)}
 \usage{
 lsm_l_joinent(landscape, neighbourhood, ordered, base)
 
@@ -40,6 +40,9 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
+Joint entropy
+}
+\details{
 Complexity of a landscape pattern. An overall spatio-thematic complexity metric.
 }
 \examples{

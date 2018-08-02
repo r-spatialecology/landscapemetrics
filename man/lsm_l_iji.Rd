@@ -27,7 +27,7 @@ lsm_l_iji(landscape, verbose)
 tibble
 }
 \description{
-Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
+Interspersion and Juxtaposition index (Aggregation metric)
 }
 \details{
 \deqn{IJI = \frac{- \sum \limits_{i = 1}^{m} \sum \limits_{k = i + 1}^{m} \Bigg[ \Bigg( \frac{e_{ik}}{E} \Bigg) ln \Bigg( \frac{e_{ik}}{E} \Bigg) \Bigg]}{ln(0.5[m(m - 1)])}  * 100}
@@ -53,4 +53,12 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+McGarigal, K., & Marks, B. J. 1995. FRAGSTATS: spatial pattern analysis
+program for quantifying landscape structure. Gen. Tech. Rep. PNW-GTR-351.
+Portland, OR: US Department of Agriculture, Forest Service, Pacific Northwest
+Research Station. 122 p, 351.
+}
+\seealso{
+\code{\link{lsm_c_iji}}
 }

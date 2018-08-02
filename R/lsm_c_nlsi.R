@@ -1,6 +1,6 @@
-#' NLSI (class level)
+#' nLSI (class level)
 #'
-#' @description Landscape shape index (Aggregation metric)
+#' @description Normalized landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
@@ -37,6 +37,9 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
+#' Wildl. Soc.Bull. 3:171-173.
 #'
 #' @export
 lsm_c_nlsi <- function(landscape, directions) UseMethod("lsm_c_nlsi")

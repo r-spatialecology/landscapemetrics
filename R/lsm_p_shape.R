@@ -44,6 +44,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
+#' Wildl. Soc.Bull. 3:171-173.
+#'
 #' @export
 lsm_p_shape <- function(landscape, directions) UseMethod("lsm_p_shape")
 

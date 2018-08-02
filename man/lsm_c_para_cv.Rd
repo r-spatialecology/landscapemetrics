@@ -28,7 +28,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Coeffiecent of variation perimeter-area ratio (class level)
+Coeffiecent of variation perimeter-area ratio (Shape metric)
 }
 \details{
 \deqn{PARA_{CV} = cv(PARA[patch_{ij}]}

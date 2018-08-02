@@ -34,6 +34,13 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Simpson, E. H. 1949. Measurement of diversity. Nature 163:688
+#'
+#' Pielou, E. C. 1975. Ecological Diversity. Wiley-Interscience, New York.
+#'
+#' Romme, W. H. 1982. Fire and landscapediversity in subalpine forestsof
+#' Yellowstone National Park.Ecol.Monogr. 52:199-221
+#'
 #' @export
 lsm_l_msidi <- function(landscape, directions) UseMethod("lsm_l_msidi")
 

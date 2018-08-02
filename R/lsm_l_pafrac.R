@@ -43,6 +43,10 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Burrough, P. A. 1986. Principles of Geographical Information Systems for
+#' Land Resources Assessment. Monographs on Soil and Resources Survey No. 12.
+#' Clarendon Press, Oxford
+#'
 #' @export
 lsm_l_pafrac <- function(landscape, directions, verbose) UseMethod("lsm_l_pafrac")
 

@@ -35,6 +35,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Romme, W. H. 1982. Fire and landscapediversity in subalpine forestsof
+#' Yellowstone National Park.Ecol.Monogr. 52:199-221
+#'
 #' @export
 lsm_l_rpr <- function(landscape, classes_max, verbose) UseMethod("lsm_l_rpr")
 

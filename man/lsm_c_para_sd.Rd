@@ -28,7 +28,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Standard deviation perimeter-area ratio (class level)
+Standard deviation perimeter-area ratio (Shape metric)
 }
 \details{
 \deqn{PARA_{SD} = sd(PARA[patch_{ij}]}

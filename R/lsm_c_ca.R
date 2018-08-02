@@ -3,7 +3,8 @@
 #' @description Total (class) area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CA = sum(AREA[patch_{ij}])}
@@ -12,14 +13,15 @@
 #' CA is an 'Area and egdge metric' and a measure of composition.
 #' The total (class) area sums the area of all patches belonging to class i.
 #' It shows if the landcsape is e.g. dominated by one class or if all classes
-#' are equally present. CA is an absolute measure, making comparisons among landscapes with different
+#' are equally present. CA is an absolute measure, making comparisons among
+#' landscapes with different
 #' total areas difficult.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CA > 0}
-#' \subsection{Behaviour}{Aprroaches CA > 0 as the patch areas of class i become small.
-#' Increases, without limit, as the patch areas of class i become large. CA = TA if only
-#' one class is present.}
+#' \subsection{Behaviour}{Aprroaches CA > 0 as the patch areas of class i
+#' become small. Increases, without limit, as the patch areas of class i become
+#' large. CA = TA if only one class is present.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_area}},

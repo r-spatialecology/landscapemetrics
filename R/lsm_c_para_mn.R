@@ -1,6 +1,6 @@
 #' PARA_MN (class level)
 #'
-#' @description Mean perimeter-area ratio (class level)
+#' @description Mean perimeter-area ratio (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be

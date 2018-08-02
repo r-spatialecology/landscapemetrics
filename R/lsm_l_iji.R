@@ -1,6 +1,6 @@
 #'Interspersion and Juxtaposition index (landscape level)
 #
-#' @description Interspersion and Juxtaposition index (Contagion and Interspersion metrics)
+#' @description Interspersion and Juxtaposition index (Aggregation metric)
 #
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param verbose Print warning message if not sufficient patches are present
@@ -21,6 +21,9 @@
 #' \subsection{Behaviour}{Approaches 0 if a class is only adjacent to a single other class
 #' and equals 100 when a class is equally adjacent to all other classes.}
 #
+#' @seealso
+#' \code{\link{lsm_c_iji}}
+#'
 #' @return tibble
 #
 #' @examples
@@ -34,6 +37,11 @@
 #'Program for Categorical and Continuous Maps. Computer software program produced by
 #'the authors at the University of Massachusetts, Amherst. Available at the following
 #'web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#'McGarigal, K., & Marks, B. J. 1995. FRAGSTATS: spatial pattern analysis
+#'program for quantifying landscape structure. Gen. Tech. Rep. PNW-GTR-351.
+#'Portland, OR: US Department of Agriculture, Forest Service, Pacific Northwest
+#'Research Station. 122 p, 351.
 #
 #' @export
 lsm_l_iji <- function(landscape, verbose) UseMethod("lsm_l_iji")

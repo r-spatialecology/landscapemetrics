@@ -21,7 +21,8 @@ lsm_c_cai_cv(landscape, directions)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -43,8 +44,8 @@ the landscape. Because it is scaled to the mean, it is easily comparable.
 
 \subsection{Units}{Percent}
 \subsection{Range}{CAI_CV >= 0}
-\subsection{Behaviour}{Equals CAI_CV = 0 if the core area index is identical for
-all patches. Increases, without limit, as the variation of the core area
+\subsection{Behaviour}{Equals CAI_CV = 0 if the core area index is identical
+for all patches. Increases, without limit, as the variation of the core area
 indices increases.}
 }
 \examples{

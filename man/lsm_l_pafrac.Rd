@@ -61,6 +61,10 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+Burrough, P. A. 1986. Principles of Geographical Information Systems for
+Land Resources Assessment. Monographs on Soil and Resources Survey No. 12.
+Clarendon Press, Oxford
 }
 \seealso{
 \code{\link{lsm_p_area}},

@@ -3,7 +3,8 @@
 #' @description Patch Cohesion Index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{COHESION = 1 - (\frac{\sum \limits_{j = 1}^{n} p_{ij}} {\sum \limits_{j = 1}^{n} p_{ij} \sqrt{a_{ij}}}) * (1 - \frac{1} {\sqrt{Z}}) ^ {-1} * 100}
@@ -38,6 +39,9 @@
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+#'
+#' Schumaker, N. H. 1996. Using landscape indices to predict habitat
+#' connectivity. Ecology, 77(4), 1210-1225.
 #'
 #' @export
 lsm_c_cohesion <- function(landscape, directions)

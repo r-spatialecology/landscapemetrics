@@ -25,7 +25,7 @@ lsm_c_ai(landscape)
 tibble
 }
 \description{
-Aggregation index (Contagion/Interspersion metric)
+Aggregation index (Aggregation metric)
 }
 \details{
 \deqn{AI = \Bigg[\frac{g_{ii}}{max-g_{ii}} \Bigg](100) }
@@ -33,7 +33,7 @@ Aggregation index (Contagion/Interspersion metric)
 where \eqn{g_{ii}} is the number of like adjacencies based on the single-count method and
 \eqn{max-g_{ii}} is the classwise maximum number of like adjacencies of class i.
 
-AI is an 'Contagion/Interspersion metric'. It equals the number of like adjacencies divided
+AI is an 'Aggregation metric'. It equals the number of like adjacencies divided
 by the theoretical maximum possible number of like adjacencies for that class.
 The metric is based on he adjacency matrix and the the single-count method.
 
@@ -51,6 +51,9 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+
+He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
+to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 }
 \seealso{
 \code{\link{lsm_l_ai}}

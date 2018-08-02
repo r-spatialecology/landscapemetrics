@@ -1,6 +1,6 @@
 #' CONTAG (landscape level)
 #'
-#' @description Contagion (Contagion and Interspersion metrics)
+#' @description Contagion (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param verbose Print warning message if not sufficient patches are present
@@ -26,10 +26,6 @@
 #' \subsection{Behaviour}{Approaches CONTAG = 0 if all cells are unevenly distributed
 #' and 100 indicates that all cells are equally adjacent to all other classes.}
 #'
-#' @seealso
-#' \code{\link{lsm_p_perim}}
-#' \code{\link{lsm_l_contag}}
-#'
 #' @return tibble
 #'
 #' @examples
@@ -44,7 +40,8 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
-#' Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
+#' Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
+#' contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
 #'
 #' @export
 lsm_l_contag <- function(landscape, verbose) UseMethod("lsm_l_contag")

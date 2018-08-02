@@ -3,7 +3,8 @@
 #' @description Mean of core area index (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{CAI_{MN} = mean(CAI[patch_{ij}]}
@@ -17,8 +18,8 @@
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{CAI_MN >= 0}
-#' \subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches. Increases,
-#' without limit, as the core area indices increase.}
+#' \subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches.
+#' Increases, without limit, as the core area indices increase.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_cai}},

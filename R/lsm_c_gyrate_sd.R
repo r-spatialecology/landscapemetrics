@@ -45,6 +45,9 @@
 #' the authors at the University of Massachusetts, Amherst. Available at the following
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
+#' Keitt, T. H., Urban, D. L., & Milne, B. T. 1997. Detecting critical scales
+#' in fragmented landscapes. Conservation ecology, 1(1).
+#'
 #' @export
 lsm_c_gyrate_sd <- function(landscape, directions) UseMethod("lsm_c_gyrate_sd")
 

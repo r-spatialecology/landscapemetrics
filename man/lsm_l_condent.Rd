@@ -41,6 +41,9 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
+Conditional entropy
+}
+\details{
 Complexity of a landscape pattern configuration.
 It measures a only a geometric intricacy (configurational complexity)
 of a landscape pattern.
