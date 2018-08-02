@@ -24,15 +24,19 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maximillian Hesselbarth \email{maximillian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
   \item Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
   \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
-  \item Laura J. Graham (0000-0002-1057-3721)
-  \item Jeffrey Hollister (0000-0002-3611-7281)
-  \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515)
+}
+
+Other contributors:
+\itemize{
+  \item Laura J. Graham (0000-0002-1057-3721) [contributor]
+  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
+  \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515) [contributor]
 }
 
 }
