@@ -124,14 +124,6 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
             raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
 
-            # points_class <- raster::xyFromCell(class_boundaries,
-            #                                    cell = 1:raster::ncell(class_boundaries)) %>%
-            #     cbind(raster::values(class_boundaries)) %>%
-            #     stats::na.omit() %>%
-            #     tibble::as.tibble() %>%
-            #     purrr::set_names(c("x", "y", "id"))  %>%
-            #     dplyr::arrange(id, -y)
-
             points_class <- raster::rasterToPoints(class_boundaries)
 
             ord <- order(as.matrix(points_class)[, 1])
@@ -141,8 +133,6 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
             res <- rcpp_get_nearest_neighbor(as.matrix(points_class)[ord,])
 
             min_dist <- unname(cbind(num, res[rank], as.matrix(points_class)[, 3]))
-
-            # min_dist <- rcpp_get_nearest_neighbor(as.matrix(points_class[,]))
 
             tbl <- tibble::tibble(cell = min_dist[,1],
                           dist = min_dist[,2],
