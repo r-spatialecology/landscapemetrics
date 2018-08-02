@@ -89,8 +89,8 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
 //' This function creates a neighborhood coordinates matrix based on the directions parameter.
 //'
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
 //' @keywords internal
@@ -133,8 +133,8 @@ IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
 //' @keywords internal
@@ -184,8 +184,8 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
 //'
 //' @param x A matrix
 //' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-//' The neigborhood matrix should have one cell with value 0 (the focal cell),
+//' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 //' and at least one cell with value 1 (the adjacent cells).
 //' Cells with other values (e.g. NA) are ignored.
 //' @keywords internal

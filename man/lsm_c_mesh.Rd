@@ -36,7 +36,7 @@ where \eqn{a_{ij}} is the patch area in square meters and \eqn{A} is the
 total landscape area in square meters.
 
 The effective mesh size is an 'Aggregation metric'. Because each patch is squared
-before the sums for each group i are calculated and the sum is standardised by the
+before the sums for each group i are calculated and the sum is standardized by the
 total landscape area, MESH is a relative measure of patch structure. MESH is
 perfectly, negatively correlated to \code{\link{lsm_c_division}}.
 

@@ -12,7 +12,7 @@
 #' total landscape area in square meters.
 #'
 #' The effective mesh size is an 'Aggregation metric'. Because each patch is squared
-#' before the sum is calculated and the sum is standardised by the
+#' before the sum is calculated and the sum is standardized by the
 #' total landscape area, MESH is a relative measure of patch structure. MESH is
 #' perfectly, negatively correlated to \code{\link{lsm_c_division}}.
 #'

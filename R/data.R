@@ -150,7 +150,7 @@
 #' reimplemented in landscapemetrics and its corrosponding full name
 #' in the literature.
 #'
-#' Can be used ofter calculating the metric(s) with a join to have
+#' Can be used after calculating the metric(s) with a join to have
 #' a more readable results tibble or for visualizing your results.
 #'
 #' @examples

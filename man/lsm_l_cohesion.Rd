@@ -37,8 +37,8 @@ meters and \eqn{Z} is the number of cells.
 COHESION is an 'Aggregation metric'.
 
 \subsection{Units}{Percent}
-\subsection{Ranges}{Unkown}
-\subsection{Behaviour}{Unkown}
+\subsection{Ranges}{Unknown}
+\subsection{Behaviour}{Unknown}
 }
 \examples{
 lsm_l_cohesion(landscape)

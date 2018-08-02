@@ -4,7 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param what Selected level of metrics: either "all", "patch", "class",
-#' "landscape". The default is "all". It is also possible to specifiy functions
+#' "landscape". The default is "all". It is also possible to specify functions
 #' as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).

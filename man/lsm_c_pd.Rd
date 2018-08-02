@@ -37,7 +37,7 @@ area in square meters.
 
 PD is an 'Aggregation metric'. It describes the fragmentation of a class, however, does not
 necessarily contain information about the configuration or composition of the class. In
-contrast to \code{\link{lsm_c_np}} it is standardised to the area and comparisons among
+contrast to \code{\link{lsm_c_np}} it is standardized to the area and comparisons among
 landscapes with different total area are possible.
 
 \subsection{Units}{Number per 100 hectares}
