@@ -17,12 +17,18 @@ knitr::opts_chunk$set(
 library(landscapemetrics)
 ```
 
-One of the reason to start landscapemetrics was also to have a collection of metrics that are not included in FRAGSTATS.
+One of the reason to start **landscapemetrics** was also to have a collection of metrics that are not included in FRAGSTATS.
 This vignette will highlight them and provide references for further reading on them.
 
-> Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. DOI:
+## Landscape complexity metrics
 
-1. [lsm_l_joinent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_joinent.html)
-1. [lsm_l_condent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_condent.html)
-1. [lsm_l_ent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_ent.html)
-1. [lsm_l_mutinf](https://marcosci.github.io/landscapemetrics/reference/lsm_l_mutinf.html)
+> Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. https://doi.org/10.1101/383281
+
+The standard set of landscape metrics lacks the bona fide indicator of complexity. 
+Information-theoretical framework can be applied to derive four metrics of landscape complexity: `H(x,y)` -- an overall spatio-thematic complexity metric; `H(x)` -- a thematic complexity of landscape classes; `H(y|x)` -- a configurational complexity of landscape pattern; and `I(y;x)` -- a metric disambiguating landscape pattern types having the same value of an overall complexity.
+All of these metrics are implemented in **landscapemetrics**:
+
+- [lsm_l_joinent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_joinent.html): an overall spatio-thematic complexity metric.
+- [lsm_l_ent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_ent.html): a diversity (thematic complexity) of landscape classes
+- [lsm_l_condent](https://marcosci.github.io/landscapemetrics/reference/lsm_l_condent.html): a complexity of a landscape pattern configuration. It measures a only a geometric intricacy (configurational complexity) of a landscape pattern.
+- [lsm_l_mutinf](https://marcosci.github.io/landscapemetrics/reference/lsm_l_mutinf.html):  disambiguates landscape pattern types characterize by the same value of an overall complexity.
