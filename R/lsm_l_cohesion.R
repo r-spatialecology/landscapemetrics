@@ -13,8 +13,8 @@
 #' COHESION is an 'Aggregation metric'.
 #'
 #' \subsection{Units}{Percent}
-#' \subsection{Ranges}{Unkown}
-#' \subsection{Behaviour}{Unkown}
+#' \subsection{Ranges}{Unknown}
+#' \subsection{Behaviour}{Unknown}
 #'
 #' @seealso
 #' \code{\link{lsm_p_perim}},

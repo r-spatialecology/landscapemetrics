@@ -7,13 +7,13 @@
 #' considered as neighbours: 4 (rook's case), 8 (queen's case) or a binary matrix
 #'  where the ones define the neighbourhood. The default is 4.
 #' @param what Which adjacencies to calculate: "full" for a full adjacency matrix,
-#' "like" for the diagonal, "unlike" for the offdiagonal part of the matrix and
+#' "like" for the diagonal, "unlike" for the off diagonal part of the matrix and
 #'  "triangle" for a triangular matrix counting adjacencies only once.
 #' @param upper Logical value indicating whether the upper triangle of the adjacency matrix
 #' should be returned (default FALSE).
 #'
 #' @details
-#' A fast implementation with Rcpp to calculate the adjacency matrix for raser.
+#' A fast implementation with Rcpp to calculate the adjacency matrix for raster.
 #' The adjacency matrix is most often used in landscape metrics to describe
 #' the configuration of landscapes, is it is a cellwise count of edges between classes.
 #'

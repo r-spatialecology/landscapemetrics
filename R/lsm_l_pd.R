@@ -13,7 +13,7 @@
 #'
 #' PD is an 'Aggregation metric'. It describes the fragmentation the landscape, however,
 #' does not necessarily contain information about the configuration or composition of the
-#' landscape. In contrast to \code{\link{lsm_l_np}} it is standardised to the area and
+#' landscape. In contrast to \code{\link{lsm_l_np}} it is standardized to the area and
 #' comparisons among landscapes with different total area are possible.
 #'
 #' \subsection{Units}{Number per 100 hectares}

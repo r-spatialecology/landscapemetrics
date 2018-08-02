@@ -59,7 +59,7 @@ double find_min(const NumericMatrix& points, int i, int m) {
 //'
 //' @param points A two numeric matrix, where the first two columns are x and y
 //'
-//' @return Vecotr
+//' @return Vector
 //'
 //' @author Florian Privé \email{florian.prive.21@gmail.com}
 //'
