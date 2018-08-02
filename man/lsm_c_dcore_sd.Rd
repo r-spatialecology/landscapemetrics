@@ -43,7 +43,7 @@ the landscape.
 \subsection{Units}{None}
 \subsection{Range}{DCORE_SD >= 0}
 \subsection{Behaviour}{Equals DCORE_SD = 0 if all patches have the same number of disjunct
-core areas. Increases, without limit, as the variation of number of disjunct corea areas
+core areas. Increases, without limit, as the variation of number of disjunct core areas
 increases.}
 }
 \examples{

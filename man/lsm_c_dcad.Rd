@@ -27,7 +27,7 @@ lsm_c_dcad(landscape, directions)
 tibble
 }
 \description{
-Disjunct core area density (Corea area metric)
+Disjunct core area density (core area metric)
 }
 \details{
 \deqn{DCAD = (\frac{\sum \limits_{j = 1}^{n} n_{ij}^{core}} {A}) * 10000 * 100}

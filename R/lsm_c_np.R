@@ -82,9 +82,9 @@ lsm_c_np.list <- function(landscape, directions = 8) {
 
 lsm_c_np_calc <- function(landscape, directions){
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
-    purrr::map_dfr(landscape_labelled, function(patches_class) {
+    purrr::map_dfr(landscape_labeled, function(patches_class) {
 
         class <- patches_class %>%
             names() %>%

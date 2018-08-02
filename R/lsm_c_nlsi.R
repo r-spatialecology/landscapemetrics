@@ -7,11 +7,11 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
-#' \deqn{nlsi = \frac{e_{i}} {\min e_{i}}}
+#' \deqn{nLSI = \frac{e_{i}} {\min e_{i}}}
 #' where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
 #' is the minimum total edge length in cell surfaces
 #'
-#' nlsi is an 'Aggregation metric'. It is the ratio between the actual edge length of
+#' nLSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
 #' class i and the hypothetical minimum edge length of class i. The minimum edge length equals
 #' the edge length if class i would be maximally aggregated.
 #'

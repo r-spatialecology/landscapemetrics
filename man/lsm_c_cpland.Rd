@@ -42,7 +42,7 @@ a relative measure, it is comparable among landscapes with different total areas
 \subsection{Units}{Percentage}
 \subsection{Range}{0 <= CPLAND < 100}
 \subsection{Behaviour}{Approaches CPLAND = 0 if CORE = 0 for all patches. Increases as
-the amount of core area increases, i.e. patches become larger while beiing rather simple
+the amount of core area increases, i.e. patches become larger while being rather simple
 in shape.}
 }
 \examples{

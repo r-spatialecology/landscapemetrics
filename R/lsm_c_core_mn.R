@@ -16,7 +16,7 @@
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CORE_MN >= 0}
 #' \subsection{Behaviour}{Equals CORE_MN = 0 if CORE = 0 for all patches. Increases,
-#' without limit, as the corea area indices increase.}
+#' without limit, as the core area indices increase.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_core}},

@@ -27,14 +27,14 @@ lsm_l_area_cv(landscape, directions)
 tibble
 }
 \description{
-Coeffiecent of variation of patch area (Area and edge metric)
+Coefficient of variation of patch area (Area and edge metric)
 }
 \details{
 \deqn{AREA_{CV} = cv(AREA[patch_{ij}])}
 where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 
 AREA_CV is an 'Area and Edge metric'. The metric summarises the landscape
-as the coeffiecent of variation of all patches in the landscape.
+as the Coefficient of variation of all patches in the landscape.
 The metric describes the differences among patches in the landscape and is
 easily comparable because it is scaled to the mean.
 

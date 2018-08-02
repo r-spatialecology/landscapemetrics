@@ -92,10 +92,10 @@ lsm_p_perim_calc <- function(landscape, directions) {
                                       NA, 1, NA), 3, 3, byrow = TRUE)
     }
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
     perimeter_patch <-
-        purrr::map_dfr(landscape_labelled, function(patches_class) {
+        purrr::map_dfr(landscape_labeled, function(patches_class) {
 
             patches_class <- pad_raster(patches_class, pad_raster_value = NA)
 

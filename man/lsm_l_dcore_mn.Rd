@@ -41,7 +41,7 @@ whereby a core area is a 'patch within the patch' containing only core cells.
 \subsection{Units}{None}
 \subsection{Range}{DCORE_MN > 0}
 \subsection{Behaviour}{Equals DCORE_MN = 0 if NCORE = 0 for all patches. Increases,
-without limit, as the number of disjunct corea areas increases.}
+without limit, as the number of disjunct core areas increases.}
 }
 \examples{
 lsm_l_dcore_mn(landscape)

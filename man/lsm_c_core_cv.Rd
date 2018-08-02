@@ -27,13 +27,13 @@ lsm_c_core_cv(landscape, directions)
 tibble
 }
 \description{
-Coeffiecent of variation of core area (Core area metric)
+Coefficient of variation of core area (Core area metric)
 }
 \details{
 \deqn{CORE_{CV} = cv(CORE[patch_{ij}])}
 where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
 
-CORE_CV is a 'Core area metric'. It equals the coeffiecent of variation of the core area
+CORE_CV is a 'Core area metric'. It equals the Coefficient of variation of the core area
 of each patch belonging to class i. The core area is defined as all cells that have no
 neighbour with a different value than themselves (rook's case). The metric describes the
 differences among patches of the same class i in the landscape and is easily comparable

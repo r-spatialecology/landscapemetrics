@@ -14,7 +14,7 @@
 #' as the mean of the radius of gyration of all patches belonging to class i.
 #' GYRATE measures the distance from each cell to the patch centroid and is based on
 #' cell center-to-cell center distances. The metrics characterises
-#' both the patch area and compactness. The coeffiecent of variation is
+#' both the patch area and compactness. The Coefficient of variation is
 #' scaled to the mean and comparable among different landscapes.
 #'
 #' \subsection{Units}{Meters}

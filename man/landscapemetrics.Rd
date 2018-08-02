@@ -24,11 +24,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
+\strong{Maintainer}: Maximillian Hesselbarth \email{maximillian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
-  \item Maximillian Hesselbarth (0000-0003-1125-9918)
+  \item Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
   \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
   \item Laura J. Graham (0000-0002-1057-3721)
   \item Jeffrey Hollister (0000-0002-3611-7281)

@@ -34,7 +34,7 @@ Covariance of variation shape index (Shape metric)
 \deqn{SHAPE_{CV} = cv(SHAPE[patch_{ij}])}
 where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
 
-SHAPE_CV is a 'Shape metric'. The landscape is summarised as the coeffiecent of variation
+SHAPE_CV is a 'Shape metric'. The landscape is summarised as the Coefficient of variation
 of all patches in the landscape. SHAPE describes the ratio between the actual perimeter
 of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
 equals the perimeter if the patch would be maximally compact.

@@ -7,7 +7,7 @@
 #' @param pad_raster_cells Number of rows and columns added
 #'
 #' @details
-#' Addes equally (in all four directions) additionall cells around the raster
+#' Adds equally (in all four directions) additional cells around the raster
 #'
 #' @return raster
 #'

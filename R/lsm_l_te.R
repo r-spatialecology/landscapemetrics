@@ -10,7 +10,7 @@
 #' where \eqn{e_{ik}} is the edge lengths in meters.
 
 #' TE is an 'Area and edge metric'. Total edge includes all edges. It measures the
-#' configuration of the landscape because a highly fragmentated landscape will have many
+#' configuration of the landscape because a highly fragmented landscape will have many
 #' edges. However, total edge is an absolute measure, making comparisons among landscapes
 #' with different total areas difficult. If \code{cound_boundary = TRUE} also edges to the
 #' landscape boundary are included.
@@ -18,7 +18,7 @@
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{TE >= 0}
 #' \subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,
-#' as landscape becomes more fragmentated}
+#' as landscape becomes more fragmented}
 #'
 #' @seealso
 #' \code{\link{lsm_p_perim}}

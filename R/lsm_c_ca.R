@@ -10,16 +10,16 @@
 #' \deqn{CA = sum(AREA[patch_{ij}])}
 #' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 #'
-#' CA is an 'Area and egdge metric' and a measure of composition.
+#' CA is an 'Area and edge metric' and a measure of composition.
 #' The total (class) area sums the area of all patches belonging to class i.
-#' It shows if the landcsape is e.g. dominated by one class or if all classes
+#' It shows if the landscape is e.g. dominated by one class or if all classes
 #' are equally present. CA is an absolute measure, making comparisons among
 #' landscapes with different
 #' total areas difficult.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CA > 0}
-#' \subsection{Behaviour}{Aprroaches CA > 0 as the patch areas of class i
+#' \subsection{Behaviour}{Approaches CA > 0 as the patch areas of class i
 #' become small. Increases, without limit, as the patch areas of class i become
 #' large. CA = TA if only one class is present.}
 #'

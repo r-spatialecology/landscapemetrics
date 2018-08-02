@@ -96,14 +96,14 @@ lsm_p_ncore.list <- function(landscape, directions = 8) {
 
 lsm_p_ncore_calc <- function(landscape, directions){
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
     landscape_extent <- raster::extent(landscape)
     landscape_raster <- raster::raster(landscape_extent,
                                        resolution = raster::res(landscape),
                                        crs = raster::crs(landscape))
 
-    core_class <- purrr::map_dfr(landscape_labelled, function(patches_class) {
+    core_class <- purrr::map_dfr(landscape_labeled, function(patches_class) {
 
         patches_id <- patches_class %>%
             raster::values() %>%

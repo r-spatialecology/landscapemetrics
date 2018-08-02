@@ -10,12 +10,12 @@
 #' and \eqn{g_{ik}} is the number of adjacencies between cells of class i and k.
 #'
 #' PLADJ is an 'Aggregation metric'. It calculates the frequency how often patches of
-#' different classes i (focal class) and k are next to eacht other, and following is a
+#' different classes i (focal class) and k are next to each other, and following is a
 #' measure of class aggregation. The adjacencies are counted using the double-count method.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Ranges}{0 <= PLADJ <= 100}
-#' \subsection{Behaviour}{Equals PLADJ = 0 if class i is maximal dissagregated,
+#' \subsection{Behaviour}{Equals PLADJ = 0 if class i is maximal disaggregated,
 #' i.e. every cell is a different patch. Equals PLADJ = 100 when the only one patch
 #' is present.}
 #'

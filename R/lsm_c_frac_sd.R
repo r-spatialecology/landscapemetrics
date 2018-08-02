@@ -12,7 +12,7 @@
 #'
 #' FRAC_SD is a 'Shape metric'. The metric summarises each class
 #' as the standard deviation of the fractal dimension index of all patches
-#' belonging to class i. The fractal dimenstion index is based on the patch perimeter and
+#' belonging to class i. The fractal dimension index is based on the patch perimeter and
 #' the patch area and describes the patch complexity.
 #'
 #' \subsection{Units}{None}

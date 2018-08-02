@@ -36,7 +36,7 @@ raster
 Adding padding to raster
 }
 \details{
-Addes equally (in all four directions) additionall cells around the raster
+Adds equally (in all four directions) additional cells around the raster
 }
 \examples{
 pad_raster(landscape)

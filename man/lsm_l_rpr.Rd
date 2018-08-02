@@ -56,6 +56,6 @@ Program for Categorical and Continuous Maps. Computer software program produced 
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 
-Romme, W. H. 1982. Fire and landscapediversity in subalpine forestsof
+Romme, W. H. 1982. Fire and landscapediversity in subalpine forests of
 Yellowstone National Park.Ecol.Monogr. 52:199-221
 }

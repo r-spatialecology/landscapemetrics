@@ -1,6 +1,6 @@
 #' DCORE_CV (class level)
 #'
-#' @description Coeffiecent of variation number of disjunct core areas (Core area metric)
+#' @description Coefficient of variation number of disjunct core areas (Core area metric)
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
@@ -9,7 +9,7 @@
 #' \deqn{DCORE_{CV} = cv(NCORE[patch_{ij}])}
 #' where \eqn{NCORE[patch_{ij}]} is the number of core areas.
 #'
-#' DCORE_CV is an 'Core area metric'. It summarises each class as the coeffiecent
+#' DCORE_CV is an 'Core area metric'. It summarises each class as the Coefficient
 #' of variation of all patch areas belonging to class i. A cell is defined as core if the cell
 #' has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
 #' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
@@ -19,7 +19,7 @@
 #' \subsection{Units}{None}
 #' \subsection{Range}{DCORE_CV >= 0}
 #' \subsection{Behaviour}{Equals DCORE_CV = 0 if all patches have the same number of disjunct
-#' core areas. Increases, without limit, as the variation of number of disjunct corea areas
+#' core areas. Increases, without limit, as the variation of number of disjunct core areas
 #' increases.}
 #'
 #' @seealso

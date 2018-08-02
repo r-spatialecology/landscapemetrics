@@ -1,6 +1,6 @@
 #' PARA_CV (class level)
 #'
-#' @description Coeffiecent of variation perimeter-area ratio (Shape metric)
+#' @description Coefficient of variation perimeter-area ratio (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
@@ -10,7 +10,7 @@
 #' \deqn{PARA_{CV} = cv(PARA[patch_{ij}]}
 #' where \eqn{PARA[patch_{ij}]} is the perimeter area ratio of each patch.
 #'
-#' PARA_CV is a 'Shape metric'. It summarises each class as the coeffiecent of variation of
+#' PARA_CV is a 'Shape metric'. It summarises each class as the Coefficient of variation of
 #' each patch belonging to class i. The perimeter-area ratio describes the patch complexity
 #' in a straightforward way. However, because it is not standarised to a certain shape
 #' (e.g. a square), it is not scale independent, meaning that increasing the patch size

@@ -49,8 +49,8 @@ total landscape area, and therefore comparisons among landscapes with different 
 areas are possible.
 \subsection{Units}{Meters per hectare}
 \subsection{Range}{ED >= 0}
-\subsection{Behaviour}{Equals ED = 0 if only one patch is present (and the landcape
-boundary is not included) and increases, without limit, as the landcapes becomes more
+\subsection{Behaviour}{Equals ED = 0 if only one patch is present (and the landscape
+boundary is not included) and increases, without limit, as the landscapes becomes more
 patchy}
 }
 \examples{

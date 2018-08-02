@@ -36,7 +36,7 @@ where \eqn{a_{ij}} is the area of each patch and \eqn{A} is the total
 landscape area.
 
 PLAND is an 'Area and edge metric'. It is the percentage of the landscape
-belonging to class i. It is a measure of compostion and because of the relative
+belonging to class i. It is a measure of composition and because of the relative
 character directly comparable among landscapes with different total areas.
 
 \subsection{Units}{Percentage}

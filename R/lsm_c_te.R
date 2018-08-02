@@ -13,14 +13,14 @@
 
 #' TE is an 'Area and edge metric'. Total (class) edge includes all edges between class i and
 #' all other classes k. It measures the configuration of the landscape because a highly
-#' fragmentated landscape will have many edges. However, total edge is an absolute measure,
+#' fragmented landscape will have many edges. However, total edge is an absolute measure,
 #' making comparisons among landscapes with different total areas difficult. If
 #' \code{cound_boundary = TRUE} also edges to the landscape boundary are included.
 #'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{TE >= 0}
 #' \subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,
-#' as landscape becomes more fragmentated}
+#' as landscape becomes more fragmented}
 #'
 #' @seealso
 #' \code{\link{lsm_p_perim}}
@@ -123,9 +123,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
                                           NA, 1, NA), 3, 3, byrow = TRUE)
         }
 
-        landscape_labelled <- get_patches(landscape, directions = directions)
+        landscape_labeled <- get_patches(landscape, directions = directions)
 
-        purrr::map_dfr(landscape_labelled, function(patches_class) {
+        purrr::map_dfr(landscape_labeled, function(patches_class) {
 
             class_name <- patches_class %>%
                 names() %>%

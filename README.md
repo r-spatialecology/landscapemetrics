@@ -9,7 +9,7 @@ status](https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master)](http
 status](https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics)
 [![Coverage
 status](https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/marcosci/landscapemetrics?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
@@ -25,8 +25,7 @@ single environment.
 **landscapemetrics** supports `raster` spatial objects and takes
 `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
 as input arguments. Every function can be used in a piped workflow, as
-it always takes the data as the first argument and returns a tibble of
-the same dimension.
+it always takes the data as the first argument and returns a tibble.
 
 ## Installation
 
@@ -163,7 +162,7 @@ calculate_metrics(landscape, what = "patch")
 ### Utility functions
 
 **landscapemetrics** further provides functions to visualize landscapes
-as labelled patches and functions to select and analyse metrics you
+as labeled patches and functions to select and analyse metrics you
 calculated with the package.
 
 Important building blocks of the package are exported to help facilitate

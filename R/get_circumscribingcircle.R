@@ -6,7 +6,7 @@
 #' @param resolution Resolution of the landscape (only needed if matrix as input is used)
 #'
 #' @details
-#' Fast and memory safe Rcpp implementation for calcuting maximum euclidian distances between
+#' Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
 #' cells of the same class in a raster or matrix. Uses the edge boundary of cells,
 #' not the cell center. Using the edge boundary and the maximum distance between
 #' the 4 cell corners around each cell center of the patch derives in the diameter of

@@ -11,7 +11,7 @@
 #' where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
 #' meters and \eqn{Z} is the number of cells.
 #'
-#' COHESION is an 'Aggregation metric'. It characterises the conncectedness of patches
+#' COHESION is an 'Aggregation metric'. It characterises the connectedness of patches
 #' belonging to class i. It can be used to asses if patches of the same class are located
 #' aggregated or rather isolated and thereby COHESION gives information about the
 #' configuration of the landscape.

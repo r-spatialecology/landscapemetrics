@@ -28,16 +28,16 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Coeffiecent of variation fractal dimension index (Shape metric)
+Coefficient of variation fractal dimension index (Shape metric)
 }
 \details{
 \deqn{FRAC_{CV} = cv(FRAC[patch_{ij}])}
 where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
 
 FRAC_CV is a 'Shape metric'. The metric summarises each class
-as the coeffiecent of variation of the fractal dimension index of all patches
-belonging to class i. The fractal dimenstion index is based on the patch perimeter and
-the patch area and describes the patch complexity. The coeffiecent of variation is
+as the Coefficient of variation of the fractal dimension index of all patches
+belonging to class i. The fractal dimension index is based on the patch perimeter and
+the patch area and describes the patch complexity. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
 
 \subsection{Units}{None}

@@ -12,7 +12,7 @@
 #' where \eqn{\beta} is the slope of the regression of the area against the perimeter
 #' (logarithm) \eqn{n_{i}\sum \limits_{j = 1}^{n} \ln a_{ij} = a + \beta n_{i}\sum \limits_{j = 1}^{n} \ln p_{ij}}
 #'
-#' PAFRAC is a 'Shape metric'. It describes the patch complexity of class i while beeing
+#' PAFRAC is a 'Shape metric'. It describes the patch complexity of class i while being
 #' scale independent. This means that increasing the patch size while not changing the
 #' patch form will not change the metric. However, it is only meaningful if the relationship
 #' between the area and perimeter is linear on a logarithmic scale. Furthermore, if there

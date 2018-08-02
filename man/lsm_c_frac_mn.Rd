@@ -33,8 +33,8 @@ where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
 
 FRAC_MN is a 'Shape metric'. The metric summarises each class
 as the mean of the fractal dimension index of all patches belonging to class i.
-The fractal dimenstion index is based on the patch perimeter and
-the patch area and describes the patch complexity. The coeffiecent of variation is
+The fractal dimension index is based on the patch perimeter and
+the patch area and describes the patch complexity. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
 
 \subsection{Units}{None}

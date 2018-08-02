@@ -36,7 +36,7 @@ where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
 
 FRAC_SD is a 'Shape metric'. The metric summarises the landscape
 as the standard deviation of the fractal dimension index of all patches
-in the landscape. The fractal dimenstion index is based on the patch perimeter and
+in the landscape. The fractal dimension index is based on the patch perimeter and
 the patch area and describes the patch complexity.
 
 \subsection{Units}{None}

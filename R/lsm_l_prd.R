@@ -13,7 +13,7 @@
 #'
 #' PRD is a 'Diversity metric'. It is one of the simplest diversity and composition measures.
 #' In contrast to \code{\link{lsm_l_pr}}, it is a relative measure and following, comparable
-#' amoing landscapes with different total landscape areas.
+#' among landscapes with different total landscape areas.
 #'
 #' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Range}{PR > 0}

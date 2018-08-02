@@ -147,7 +147,7 @@
 #' Tibble of abbreviations coming from FRAGSTATS
 #'
 #' A single tibble for every abbreviation of every metric that is
-#' reimplemented in landscapemetrics and its corrosponding full name
+#' reimplemented in landscapemetrics and its corresponding full name
 #' in the literature.
 #'
 #' Can be used after calculating the metric(s) with a join to have

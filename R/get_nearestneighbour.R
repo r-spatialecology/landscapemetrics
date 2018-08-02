@@ -1,11 +1,11 @@
 #' get_nearestneighbour
 #'
-#' @description Calculates the minimal euclidian distance between classes for a raster/matrix.
+#' @description Calculates the minimal euclidean distance between classes for a raster/matrix.
 #'
 #' @param landscape RasterLayer or matrix (with x,y,id columns)
 #'
 #' @details
-#' Fast and memory safe Rcpp implementation for calcuting minimal euclidian distances between
+#' Fast and memory safe Rcpp implementation for calculating minimal euclidean distances between
 #' classes in a raster or matrix.
 #'
 #' @examples

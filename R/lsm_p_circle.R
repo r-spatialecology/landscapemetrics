@@ -96,9 +96,9 @@ lsm_p_circle_calc <- function(landscape, directions) {
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
-    circle_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
+    circle_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
 
         class <- patches_class %>%
             names() %>%

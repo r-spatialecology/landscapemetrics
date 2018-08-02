@@ -1,6 +1,6 @@
 #' CORE_CV (class level)
 #'
-#' @description Coeffiecent of variation of core area (Core area metric)
+#' @description Coefficient of variation of core area (Core area metric)
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
@@ -9,7 +9,7 @@
 #' \deqn{CORE_{CV} = cv(CORE[patch_{ij}])}
 #' where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
 #'
-#' CORE_CV is a 'Core area metric'. It equals the coeffiecent of variation of the core area
+#' CORE_CV is a 'Core area metric'. It equals the Coefficient of variation of the core area
 #' of each patch belonging to class i. The core area is defined as all cells that have no
 #' neighbour with a different value than themselves (rook's case). The metric describes the
 #' differences among patches of the same class i in the landscape and is easily comparable

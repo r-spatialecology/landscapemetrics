@@ -27,13 +27,13 @@ lsm_c_dcore_cv(landscape, directions)
 tibble
 }
 \description{
-Coeffiecent of variation number of disjunct core areas (Core area metric)
+Coefficient of variation number of disjunct core areas (Core area metric)
 }
 \details{
 \deqn{DCORE_{CV} = cv(NCORE[patch_{ij}])}
 where \eqn{NCORE[patch_{ij}]} is the number of core areas.
 
-DCORE_CV is an 'Core area metric'. It summarises each class as the coeffiecent
+DCORE_CV is an 'Core area metric'. It summarises each class as the Coefficient
 of variation of all patch areas belonging to class i. A cell is defined as core if the cell
 has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
 core areas, whereby a core area is a 'patch within the patch' containing only core cells.
@@ -43,7 +43,7 @@ the landscape and is easily comparable because it is scaled to the mean.
 \subsection{Units}{None}
 \subsection{Range}{DCORE_CV >= 0}
 \subsection{Behaviour}{Equals DCORE_CV = 0 if all patches have the same number of disjunct
-core areas. Increases, without limit, as the variation of number of disjunct corea areas
+core areas. Increases, without limit, as the variation of number of disjunct core areas
 increases.}
 }
 \examples{

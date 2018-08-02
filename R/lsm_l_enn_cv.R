@@ -1,6 +1,6 @@
 #' ENN_CV (landscape level)
 #'
-#' @description Coeffiecent of variation of euclidean nearest-neighbor distance (Aggregation metric)
+#' @description Coefficient of variation of euclidean nearest-neighbor distance (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
@@ -11,7 +11,7 @@
 #' where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
 #' of each patch.
 #'
-#' ENN_CV is an 'Aggregation metric'. It summarises the landscape as the coeffiecent
+#' ENN_CV is an 'Aggregation metric'. It summarises the landscape as the Coefficient
 #' of variation of all patches in the landscape. ENN measures the distance to the  nearest
 #' neighbouring patch of the same class i. The distance is measured from edge-to-edge.
 #' The range is limited by the cell resolution on the lower limit and the landscape extent

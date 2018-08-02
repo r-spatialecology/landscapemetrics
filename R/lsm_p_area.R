@@ -92,9 +92,9 @@ lsm_p_area.list <- function(landscape, directions = 8) {
 
 lsm_p_area_calc <- function(landscape, directions){
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
-    area_patch <- purrr::map_dfr(landscape_labelled, function(patches_class){
+    area_patch <- purrr::map_dfr(landscape_labeled, function(patches_class){
 
         area_patch_ij <- rcpp_get_composition_vector(
             x = raster::as.matrix(patches_class)) *

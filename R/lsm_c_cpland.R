@@ -18,7 +18,7 @@
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 <= CPLAND < 100}
 #' \subsection{Behaviour}{Approaches CPLAND = 0 if CORE = 0 for all patches. Increases as
-#' the amount of core area increases, i.e. patches become larger while beiing rather simple
+#' the amount of core area increases, i.e. patches become larger while being rather simple
 #' in shape.}
 #'
 #' @seealso \code{\link{lsm_p_core}} and \code{\link{lsm_l_ta}}

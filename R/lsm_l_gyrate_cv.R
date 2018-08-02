@@ -1,6 +1,6 @@
 #' GYRATE_CV (landscape level)
 #'
-#' @description Coeffiecent of variation radius of gyration (Area and edge metric)
+#' @description Coefficient of variation radius of gyration (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
@@ -11,10 +11,10 @@
 #' where \eqn{GYRATE[patch_{ij}]} equals the radius of gyration of each patch.
 #'
 #' GYRATE_CV is an 'Area and edge metric'. The metric summarises the landscape
-#' as the coeffiecent of variation of the radius of gyration of all patches
+#' as the Coefficient of variation of the radius of gyration of all patches
 #' in the landscape. GYRATE measures the distance from each cell to the patch
 #' centroid and is based on cell center-to-cell center distances. The metrics characterises
-#' both the patch area and compactness. The coeffiecent of variation is
+#' both the patch area and compactness. The Coefficient of variation is
 #' scaled to the mean and comparable among different landscapes.
 #'
 #' \subsection{Units}{Meters}

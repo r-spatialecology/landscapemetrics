@@ -34,7 +34,7 @@ Total area (Area and edge metric)
 \deqn{CA = sum(AREA[patch_{ij}])}
 where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 
-TA is an 'Area and egdge metric'. The total (class) area sums the area of all patches
+TA is an 'Area and edge metric'. The total (class) area sums the area of all patches
 in the landscape. It is the area of the observation area.
 
 \subsection{Units}{Hectares}

@@ -31,7 +31,7 @@ ggplot
 Show patches
 }
 \details{
-The functions plots the landscape with the patches labelled with the
+The functions plots the landscape with the patches labeled with the
 corresponding patch id.
 }
 \examples{

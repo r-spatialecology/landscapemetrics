@@ -14,7 +14,7 @@ library(dplyr)
 library(purrr)
 ```
 
-**landscapemetrics** re-implements landcsape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
+**landscapemetrics** re-implements landscape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
 
 Some metrics in *FRAGSTATS* are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.
 

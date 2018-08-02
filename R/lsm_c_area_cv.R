@@ -1,6 +1,6 @@
 #' AREA_CV (class level)
 #'
-#' @description Coeffiecent of variation of patch area (Area and edge metric)
+#' @description Coefficient of variation of patch area (Area and edge metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
@@ -10,7 +10,7 @@
 #' where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 #'
 #' AREA_CV is an 'Area and Edge metric'. The metric summarises each class
-#' as the coeffiecent of variation of all patch areas belonging to class i.
+#' as the Coefficient of variation of all patch areas belonging to class i.
 #' The metric describes the differences among patches of the same class i in
 #' the landscape and is easily comparable because it is scaled to the mean.
 #'

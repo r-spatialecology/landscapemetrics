@@ -28,17 +28,17 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Coeffiecent of variation radius of gyration (Area and edge metric)
+Coefficient of variation radius of gyration (Area and edge metric)
 }
 \details{
 \deqn{GYRATE_{CV} = cv(GYRATE[patch_{ij}])}
 where \eqn{GYRATE[patch_{ij}]} equals the radius of gyration of each patch.
 
 GYRATE_CV is an 'Area and edge metric'. The metric summarises each class
-as the coeffiecent of variation of the radius of gyration of all patches
+as the Coefficient of variation of the radius of gyration of all patches
 belonging to class i. GYRATE measures the distance from each cell to the patch
 centroid and is based on cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness. The coeffiecent of variation is
+both the patch area and compactness. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
 
 \subsection{Units}{Meters}

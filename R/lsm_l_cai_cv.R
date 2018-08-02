@@ -10,7 +10,7 @@
 #' where \eqn{CAI[patch_{ij}]} is the core area index of each patch.
 #'
 #' CAI_CV is a 'Core area metric'. The metric summarises the landscape
-#' as the coeffiecent of variation of the core area index of all patches
+#' as the Coefficient of variation of the core area index of all patches
 #' in the landscape. The core area index is the percentage of core area
 #' in relation to patch area. A cell is defined as core area if the cell has
 #' no neighbour with a different value than itself (rook's case). The metric

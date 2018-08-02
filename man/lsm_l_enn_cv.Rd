@@ -32,14 +32,14 @@ lsm_l_enn_cv(landscape, directions, verbose)
 tibble
 }
 \description{
-Coeffiecent of variation of euclidean nearest-neighbor distance (Aggregation metric)
+Coefficient of variation of euclidean nearest-neighbor distance (Aggregation metric)
 }
 \details{
 \deqn{ENN_{CV} = cv(ENN[patch_{ij}])}
 where \eqn{ENN[patch_{ij}]} is the euclidean nearest-neighbor distance
 of each patch.
 
-ENN_CV is an 'Aggregation metric'. It summarises the landscape as the coeffiecent
+ENN_CV is an 'Aggregation metric'. It summarises the landscape as the Coefficient
 of variation of all patches in the landscape. ENN measures the distance to the  nearest
 neighbouring patch of the same class i. The distance is measured from edge-to-edge.
 The range is limited by the cell resolution on the lower limit and the landscape extent

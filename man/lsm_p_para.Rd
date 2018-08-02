@@ -42,7 +42,7 @@ the patch size while not changing the patch form will change the ratio.
 
 \subsection{Units}{None}
 \subsection{Range}{PARA > 0}
-\subsection{Behaviour}{Increases, without limit, as the shape comlexity
+\subsection{Behaviour}{Increases, without limit, as the shape complexity
 increases.}
 }
 \examples{

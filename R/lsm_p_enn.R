@@ -98,9 +98,9 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
-    enn_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
+    enn_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
 
         class_name <- patches_class %>%
             names() %>%

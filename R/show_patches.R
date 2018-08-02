@@ -6,7 +6,7 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
-#' @details The functions plots the landscape with the patches labelled with the
+#' @details The functions plots the landscape with the patches labeled with the
 #' corresponding patch id.
 #'
 #' @return ggplot
@@ -49,24 +49,24 @@ show_patches.list <- function(landscape, directions = 8) {
 
 show_patches_intern <- function(landscape, directions) {
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labelled) - 1)){
-        max_patch_id <- landscape_labelled[[i]] %>%
+    for(i in seq_len(length(landscape_labeled) - 1)){
+        max_patch_id <- landscape_labeled[[i]] %>%
             raster::values() %>%
             max(na.rm = TRUE)
 
-        landscape_labelled[[i + 1]] <- landscape_labelled[[i + 1]] + max_patch_id
+        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
 
-    landscape_labelled_stack <- landscape_labelled %>%
+    landscape_labeled_stack <- landscape_labeled %>%
         raster::stack() %>%
         sum(na.rm = TRUE) %>%
         raster::as.data.frame(xy = TRUE) %>%
         purrr::set_names("x", "y", "values") %>%
         dplyr::mutate(values = replace(values, values == 0, NA))
 
-    plot <- ggplot2::ggplot(landscape_labelled_stack) +
+    plot <- ggplot2::ggplot(landscape_labeled_stack) +
         ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = values)) +
         ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = values),
                            colour = "white") +

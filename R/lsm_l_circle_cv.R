@@ -1,6 +1,6 @@
 #' CIRCLE_CV (landscape level)
 #'
-#' @description Coeffiecient of variation of related circumscribing circle (Shape metric)
+#' @description Coefficient of variation of related circumscribing circle (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
@@ -9,7 +9,7 @@
 #' \deqn{CIRCLE_{CV} = cv(CIRCLE[patch_{ij}])}
 #' where \eqn{CIRCLE[patch_{ij}]} is the related circumscribing circle of each patch.
 #'
-#' CIRCLE_CV is a 'Shape metric' and summarises the landscape as the coeffiecent of variation
+#' CIRCLE_CV is a 'Shape metric' and summarises the landscape as the Coefficient of variation
 #' of the related circumscribing circle of all patches in the landscape. CIRCLE describes
 #' the ratio between the patch area and the smallest circumscribing circle of the patch
 #' and characterises the compactness of the patch. CIRCLE_CV describes the differences among

@@ -82,9 +82,9 @@ NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points) {
 
 
 /*** R
-landscape_labelled <- get_patches(landscape)
+landscape_labeled <- get_patches(landscape)
 
-    patches_class <- landscape_labelled[[1]]
+    patches_class <- landscape_labeled[[1]]
 
 class_boundaries <-
     raster::boundaries(patches_class, directions = 4,

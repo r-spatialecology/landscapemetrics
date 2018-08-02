@@ -38,7 +38,7 @@
 #'
 #' Pielou, E. C. 1975. Ecological Diversity. Wiley-Interscience, New York.
 #'
-#' Romme, W. H. 1982. Fire and landscapediversity in subalpine forestsof
+#' Romme, W. H. 1982. Fire and landscapediversity in subalpine forests of
 #' Yellowstone National Park.Ecol.Monogr. 52:199-221
 #'
 #' @export

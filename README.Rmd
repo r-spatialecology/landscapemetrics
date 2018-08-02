@@ -117,7 +117,7 @@ calculate_metrics(landscape, what = "patch")
 ### Utility functions
 
 **landscapemetrics** further provides functions to visualize landscapes
-as labelled patches and functions to select and analyse metrics you
+as labeled patches and functions to select and analyse metrics you
 calculated with the package.
 
 Important building blocks of the package are exported to help facilitate analysis

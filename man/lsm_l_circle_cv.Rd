@@ -27,13 +27,13 @@ lsm_l_circle_cv(landscape, directions)
 tibble
 }
 \description{
-Coeffiecient of variation of related circumscribing circle (Shape metric)
+Coefficient of variation of related circumscribing circle (Shape metric)
 }
 \details{
 \deqn{CIRCLE_{CV} = cv(CIRCLE[patch_{ij}])}
 where \eqn{CIRCLE[patch_{ij}]} is the related circumscribing circle of each patch.
 
-CIRCLE_CV is a 'Shape metric' and summarises the landscape as the coeffiecent of variation
+CIRCLE_CV is a 'Shape metric' and summarises the landscape as the Coefficient of variation
 of the related circumscribing circle of all patches in the landscape. CIRCLE describes
 the ratio between the patch area and the smallest circumscribing circle of the patch
 and characterises the compactness of the patch. CIRCLE_CV describes the differences among

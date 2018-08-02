@@ -102,7 +102,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    landscape_labelled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
@@ -112,7 +112,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
-    contig_patch <- purrr::map_dfr(landscape_labelled, function(patches_class) {
+    contig_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
 
         n_cells <- table(raster::values(patches_class))
         n_patches <- length(n_cells)

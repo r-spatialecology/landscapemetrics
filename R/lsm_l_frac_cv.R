@@ -1,6 +1,6 @@
 #' FRAC_CV (landscape level)
 #'
-#' @description Coeffiecent of variation fractal dimension index (Shape metric)
+#' @description Coefficient of variation fractal dimension index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
@@ -11,9 +11,9 @@
 #' where \eqn{FRAC[patch_{ij}]} equals the fractal dimension index of each patch.
 #'
 #' FRAC_CV is a 'Shape metric'. The metric summarises the landscape
-#' as the coeffiecent of variation of the fractal dimension index of all patches
-#' in the landscape. The fractal dimenstion index is based on the patch perimeter and
-#' the patch area and describes the patch complexity. The coeffiecent of variation is
+#' as the Coefficient of variation of the fractal dimension index of all patches
+#' in the landscape. The fractal dimension index is based on the patch perimeter and
+#' the patch area and describes the patch complexity. The Coefficient of variation is
 #' scaled to the mean and comparable among different landscapes.
 #'
 #' \subsection{Units}{None}

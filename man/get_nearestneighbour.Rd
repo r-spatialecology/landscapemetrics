@@ -16,10 +16,10 @@ get_nearestneighbour(landscape)
 \item{landscape}{RasterLayer or matrix (with x,y,id columns)}
 }
 \description{
-Calculates the minimal euclidian distance between classes for a raster/matrix.
+Calculates the minimal euclidean distance between classes for a raster/matrix.
 }
 \details{
-Fast and memory safe Rcpp implementation for calcuting minimal euclidian distances between
+Fast and memory safe Rcpp implementation for calculating minimal euclidean distances between
 classes in a raster or matrix.
 }
 \examples{
