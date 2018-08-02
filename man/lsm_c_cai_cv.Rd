@@ -35,7 +35,7 @@ where \eqn{CAI[patch_{ij}]} is the core area index of each patch.
 
 CAI_CV is a 'Core area metric'. The metric summarises each class
 as the coeffiecent of variation of the core area index of all patches
-belonging to class i. The core area index is the percentag of core area
+belonging to class i. The core area index is the percentage of core area
 in relation to patch area. A cell is defined as core area if the cell has
 no neighbour with a different value than itself (rook's case). The metric
 describes the differences among patches of the same class i in

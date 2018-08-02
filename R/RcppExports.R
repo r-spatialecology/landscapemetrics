@@ -31,8 +31,8 @@ rcpp_cell_from_xy <- function(x, y) {
 #' This function creates a neighborhood coordinates matrix based on the directions parameter.
 #'
 #' @param directions The number of directions in which cells should be connected:
-#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+#' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
 #' @keywords internal
@@ -48,8 +48,8 @@ rcpp_create_neighborhood <- function(directions) {
 #'
 #' @param x A matrix
 #' @param directions The number of directions in which cells should be connected:
-#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+#' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
 #' @keywords internal
@@ -65,8 +65,8 @@ rcpp_get_adjacency <- function(x, directions) {
 #'
 #' @param x A matrix
 #' @param directions The number of directions in which cells should be connected:
-#' 4 (rook's case), 8 (queen's case), or a neigborhood matrix.
-#' The neigborhood matrix should have one cell with value 0 (the focal cell),
+#' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
+#' The neighbourhood matrix should have one cell with value 0 (the focal cell),
 #' and at least one cell with value 1 (the adjacent cells).
 #' Cells with other values (e.g. NA) are ignored.
 #' @keywords internal
@@ -109,7 +109,7 @@ rcpp_get_circle <- function(points, resolution) {
 #'
 #' @param points A two numeric matrix, where the first two columns are x and y
 #'
-#' @return Vecotr
+#' @return Vector
 #'
 #' @author Florian Privé \email{florian.prive.21@gmail.com}
 #'

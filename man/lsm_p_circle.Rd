@@ -33,7 +33,7 @@ Related Circumscribing Circle (Shape metric)
 \details{
 \deqn{CIRCLE = 1 - (\frac{a_{ij}} {a_{ij}^{circle}})}
 where \eqn{a_{ij}} is the area in square meters and \eqn{a_{ij}^{circle}} the area of
-the smalles circumscribing circle.
+the smallest circumscribing circle.
 
 CIRCLE is a 'Shape metric'. The metric is the ratio between the patch area and the smallest
 circumscribing circle of the patch. The diameter of the smallest circumscribing circle is

@@ -10,7 +10,7 @@ rcpp_get_nearest_neighbor(points)
 \item{points}{A two numeric matrix, where the first two columns are x and y}
 }
 \value{
-Vecotr
+Vector
 }
 \description{
 Efficiently calculate the distance to the first nearest neighbor.

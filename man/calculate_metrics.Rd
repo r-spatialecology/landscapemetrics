@@ -35,7 +35,7 @@ calculate_metrics(landscape, what, directions, count_boundary, classes_max,
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{what}{Selected level of metrics: either "all", "patch", "class",
-"landscape". The default is "all". It is also possible to specifiy functions
+"landscape". The default is "all". It is also possible to specify functions
 as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
 \item{directions}{The number of directions in which patches should be

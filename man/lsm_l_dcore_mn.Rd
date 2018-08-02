@@ -34,7 +34,7 @@ Mean number of disjunct core areas (Core area metric)
 where \eqn{NCORE[patch_{ij}]} is the number of core areas.
 
 DCORE_MN is an 'Core area metric'. It summarises the landscape as the mean of all
-patches in the landscpe. A cell is defined as core if the cell has no neighbour with
+patches in the landscape. A cell is defined as core if the cell has no neighbour with
 a different value than itself (rook's case). NCORE counts the disjunct core areas,
 whereby a core area is a 'patch within the patch' containing only core cells.
 

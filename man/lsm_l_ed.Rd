@@ -44,7 +44,7 @@ ED is an 'Area and Edge metric'. The edge density equals all edges in the landsc
 in relation to the landcape area. The boundary of the landscape is only included in the
 corresponding total class edge length if \code{count_boundary = TRUE}.
 The metric describes the configuration of the landscape, e.g. because an overall aggregation
-of  classes will result in a low edge density. The metric is standarized to the
+of  classes will result in a low edge density. The metric is standardized to the
 total landscape area, and therefore comparisons among landscapes with different total
 areas are possible.
 \subsection{Units}{Meters per hectare}
