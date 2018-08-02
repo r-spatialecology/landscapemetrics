@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_p_ncore.R
 \name{lsm_p_ncore}
 \alias{lsm_p_ncore}
+\alias{lsm_p_ncore}
 \alias{lsm_p_ncore.RasterLayer}
+\alias{lsm_p_ncore}
 \alias{lsm_p_ncore.RasterStack}
+\alias{lsm_p_ncore}
 \alias{lsm_p_ncore.RasterBrick}
+\alias{lsm_p_ncore}
 \alias{lsm_p_ncore.list}
 \title{NCORE (patch level)}
 \usage{

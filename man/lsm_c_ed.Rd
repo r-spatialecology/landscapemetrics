@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_ed.R
 \name{lsm_c_ed}
 \alias{lsm_c_ed}
+\alias{lsm_c_ed}
 \alias{lsm_c_ed.RasterLayer}
+\alias{lsm_c_ed}
 \alias{lsm_c_ed.RasterStack}
+\alias{lsm_c_ed}
 \alias{lsm_c_ed.RasterBrick}
+\alias{lsm_c_ed}
 \alias{lsm_c_ed.list}
 \title{ED (class level)}
 \usage{
@@ -19,8 +23,7 @@ lsm_c_ed(landscape, count_boundary, directions)
 \method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE,
   directions = 8)
 
-\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

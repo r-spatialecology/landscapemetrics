@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_iji.R
 \name{lsm_l_iji}
 \alias{lsm_l_iji}
+\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterLayer}
+\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterStack}
+\alias{lsm_l_iji}
 \alias{lsm_l_iji.RasterBrick}
+\alias{lsm_l_iji}
 \alias{lsm_l_iji.list}
 \title{Interspersion and Juxtaposition index (landscape level)}
 \usage{
@@ -41,7 +45,7 @@ describes the intermixing of classes (i.e. without considering like adjacencies 
 diagonal of the adjacency table). The number of classes to calculate IJI must be >= than 3.
 
 \subsection{Units}{Percent}
-\subsection{Range}{0 < IJI ≤ 100}
+\subsection{Range}{0 < IJI <= 100}
 \subsection{Behaviour}{Approaches 0 if a class is only adjacent to a single other class
 and equals 100 when a class is equally adjacent to all other classes.}
 }

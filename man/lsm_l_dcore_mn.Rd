@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_dcore_mn.R
 \name{lsm_l_dcore_mn}
 \alias{lsm_l_dcore_mn}
+\alias{lsm_l_dcore_mn}
 \alias{lsm_l_dcore_mn.RasterLayer}
+\alias{lsm_l_dcore_mn}
 \alias{lsm_l_dcore_mn.RasterStack}
+\alias{lsm_l_dcore_mn}
 \alias{lsm_l_dcore_mn.RasterBrick}
+\alias{lsm_l_dcore_mn}
 \alias{lsm_l_dcore_mn.list}
 \title{DCORE_MN (landscape level)}
 \usage{

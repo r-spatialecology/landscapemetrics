@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_para_cv.R
 \name{lsm_c_para_cv}
 \alias{lsm_c_para_cv}
+\alias{lsm_c_para_cv}
 \alias{lsm_c_para_cv.RasterLayer}
+\alias{lsm_c_para_cv}
 \alias{lsm_c_para_cv.RasterStack}
+\alias{lsm_c_para_cv}
 \alias{lsm_c_para_cv.RasterBrick}
+\alias{lsm_c_para_cv}
 \alias{lsm_c_para_cv.list}
 \title{PARA_CV (class level)}
 \usage{

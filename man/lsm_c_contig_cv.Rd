@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_contig_cv.R
 \name{lsm_c_contig_cv}
 \alias{lsm_c_contig_cv}
+\alias{lsm_c_contig_cv}
 \alias{lsm_c_contig_cv.RasterLayer}
+\alias{lsm_c_contig_cv}
 \alias{lsm_c_contig_cv.RasterStack}
+\alias{lsm_c_contig_cv}
 \alias{lsm_c_contig_cv.RasterBrick}
+\alias{lsm_c_contig_cv}
 \alias{lsm_c_contig_cv.list}
 \title{CONTIG_CV (class level)}
 \usage{

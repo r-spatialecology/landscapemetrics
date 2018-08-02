@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_np.R
 \name{lsm_l_np}
 \alias{lsm_l_np}
+\alias{lsm_l_np}
 \alias{lsm_l_np.RasterLayer}
+\alias{lsm_l_np}
 \alias{lsm_l_np.RasterStack}
+\alias{lsm_l_np}
 \alias{lsm_l_np.RasterBrick}
+\alias{lsm_l_np}
 \alias{lsm_l_np.list}
 \title{NP (landscape level)}
 \usage{

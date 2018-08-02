@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_ca.R
 \name{lsm_c_ca}
 \alias{lsm_c_ca}
+\alias{lsm_c_ca}
 \alias{lsm_c_ca.RasterLayer}
+\alias{lsm_c_ca}
 \alias{lsm_c_ca.RasterStack}
+\alias{lsm_c_ca}
 \alias{lsm_c_ca.RasterBrick}
+\alias{lsm_c_ca}
 \alias{lsm_c_ca.list}
 \title{CA (class level)}
 \usage{

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_mesh.R
 \name{lsm_c_mesh}
 \alias{lsm_c_mesh}
+\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterLayer}
+\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterStack}
+\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterBrick}
+\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.list}
 \title{MESH (class level)}
 \usage{

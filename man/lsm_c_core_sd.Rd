@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_core_sd.R
 \name{lsm_c_core_sd}
 \alias{lsm_c_core_sd}
+\alias{lsm_c_core_sd}
 \alias{lsm_c_core_sd.RasterLayer}
+\alias{lsm_c_core_sd}
 \alias{lsm_c_core_sd.RasterStack}
+\alias{lsm_c_core_sd}
 \alias{lsm_c_core_sd.RasterBrick}
+\alias{lsm_c_core_sd}
 \alias{lsm_c_core_sd.list}
 \title{CORE_SD (class level)}
 \usage{

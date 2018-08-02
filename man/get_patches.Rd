@@ -2,22 +2,23 @@
 % Please edit documentation in R/get_patches.R
 \name{get_patches}
 \alias{get_patches}
+\alias{get_patches}
 \alias{get_patches.RasterLayer}
+\alias{get_patches}
 \alias{get_patches.RasterStack}
+\alias{get_patches}
 \alias{get_patches.RasterBrick}
+\alias{get_patches}
 \alias{get_patches.list}
 \title{get_patches}
 \usage{
 get_patches(landscape, what, directions)
 
-\method{get_patches}{RasterLayer}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterLayer}(landscape, what = "all", directions = 8)
 
-\method{get_patches}{RasterStack}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterStack}(landscape, what = "all", directions = 8)
 
-\method{get_patches}{RasterBrick}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterBrick}(landscape, what = "all", directions = 8)
 
 \method{get_patches}{list}(landscape, what = "all", directions = 8)
 }

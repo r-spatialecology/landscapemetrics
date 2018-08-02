@@ -5,8 +5,10 @@ This package is a new release to CRAN.
 ## Test environments
 * local OS X install, R 3.5.1
 * ubuntu 18.04, R 3.5.1
+* macOS High Sierra, R 3.5.1
 * ubuntu 14.04 (on travis-ci), R 3.5.1
 * win-builder (devel and release)
+* Debian Linux, R-devel, GCC ASAN/UBSAN
 
 ## R CMD check results
 
