@@ -25,7 +25,7 @@
 #'
 #' @references
 #' Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure
-#' landscape complexity. DOI:
+#' landscape complexity. https://doi.org/10.1101/383281
 #'
 #' @export
 lsm_l_ent <- function(landscape, base = "log2") UseMethod("lsm_l_ent")
