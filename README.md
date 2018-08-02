@@ -20,7 +20,11 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 for categorical landscape patterns in a tidy workflow. The package can
 be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
 2012), as it offers a reproducible workflow for landscape analysis in a
-single environment.
+single environment. It also allows for calculations of four theoretical
+metrics of landscape complexity: an overall spatio-thematic complexity,
+a thematic complexity, a configurational complexity, and a disambiguator
+of pattern types having the same overall complexity (Nowosad and
+Stepinski 2018).
 
 **landscapemetrics** supports `raster` spatial objects and takes
 `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
@@ -192,3 +196,5 @@ CONDUCT](CODE_OF_CONDUCT.md).
     Computer software program produced by the authors at the University
     of Massachusetts, Amherst. Available at the following website:
     <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+  - Nowosad J., TF Stepinski. 2018. Information-theoretical approach to
+    measure landscape complexity. <https://doi.org/10.1101/383281>
