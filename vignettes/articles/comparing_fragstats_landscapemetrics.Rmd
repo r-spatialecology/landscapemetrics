@@ -14,21 +14,31 @@ library(dplyr)
 library(purrr)
 ```
 
-**landscapemetrics** re-implements landscape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012). Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
+**landscapemetrics** re-implements landscape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012).
+Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
 
-Some metrics in *FRAGSTATS* are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.
+Some metrics in *FRAGSTATS* are interdependent across scales. 
+Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. 
+We list the metrics with deviations at the lowest level.
 
-Unfortunatly, we do not have access to the source code of **FRAGSTATS**. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.
+Unfortunatly, we do not have access to the source code of **FRAGSTATS**. 
+Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.
 
 # General differences
 
-Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for **FRAGSTATS** and **landscapemetrics**.
+Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified).
+Therefore, one has to pay attention comparing the results on patch level for **FRAGSTATS** and **landscapemetrics**.
 
-All double precision floating point numbers are rounded after the 4th decimal place in **FRAGSTATS**. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.
+All double precision floating point numbers are rounded after the 4th decimal place in **FRAGSTATS**. 
+Contrastingly, we do not round the numbers. 
+Naturally, this can lead to small deviations between the results.
 
-There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i). While the results are identical for the single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and **FRAGSTATS** for the standard deviation and the coefficent of variation.
+There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i).
+While the results are identical for the single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and **FRAGSTATS** for the standard deviation and the coefficent of variation.
 
-In the following, we are comparing the cv for the patch area. We are including the cv calculate from all patch areas and the acutal output of **FRAGSTATS** as well as the output of **landscapemetrics**. Interestingly, the cv calculated from all patches of **FRAGSTATS** is identical to the cv of **landscapemetrics**, but the actual result of **FRAGSTATS** is slightly different.
+In the following, we are comparing the cv for the patch area. 
+We are including the cv calculate from all patch areas and the actual output of **FRAGSTATS** as well as the output of **landscapemetrics**. 
+Interestingly, the cv calculated from all patches of **FRAGSTATS** is identical to the cv of **landscapemetrics**, but the actual result of **FRAGSTATS** is slightly different.
 
 ```{r}
 # function to calculate coefficient of variation
@@ -72,7 +82,8 @@ cv_full <- full_join(x = fragstats,
 print.data.frame(cv_full)
 ```
 
-As for the cv, the results for the sd are similiar. The result calculated from all patch areas of **FRAGSTATS** is identical to the result of **landscapemetrics**, but not the actual result of **FRAGSTATS**.
+As for the cv, the results for the sd are similiar. 
+The result calculated from all patch areas of **FRAGSTATS** is identical to the result of **landscapemetrics**, but not the actual result of **FRAGSTATS**.
 
 ```{r}
 # SD calculated from patch values of FRAGSTATS
@@ -124,7 +135,9 @@ print.data.frame(cv_full)
 
 > [...] CIRCLE equals 1 minus patch area (m^2^) divided by the area (m^2^) of the smallest circumscribing circle. [...]
 
-According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in **FRAGSTATS** patches containing only one cell equal CIRCLE = 0. In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.
+According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). 
+However, in **FRAGSTATS** patches containing only one cell equal CIRCLE = 0. 
+In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.
 
 ```{r}
 # Calculate patch area
@@ -183,9 +196,12 @@ In **FRAGSTATS** the core metric is defined as:
 
 > [...] CORE equals the area (m^2^) within the patch that is further than the specified depth-of-edge distance from the patch perimeter, [...]
 
-In **landscapemetrics** the depth-of-edge is fixed to one cell. In other words, all cells with four adjacent neighbours of the same class are defined as core cells. The implementation of the depth-of-edge distance seems to be slightly different in **FRAGSTATS**, leading to slightly different results for core metrics. 
+In **landscapemetrics** the depth-of-edge is fixed to one cell. 
+In other words, all cells with four adjacent neighbours of the same class are defined as core cells. 
+The implementation of the depth-of-edge distance seems to be slightly different in **FRAGSTATS**, leading to slightly different results for core metrics. 
 
-This is a visual aid to help understand how we implemented the core metric. The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.
+This is a visual aid to help understand how we implemented the core metric. 
+The left plot shows all patches of class 1, the right plot the core area (violet cells) in each patch.
 
 ```{r}
 # All patches of class 1
@@ -244,7 +260,8 @@ According to **FRAGSTATS** the radius of gyration for a patch consisting of only
 
 > [...] GYRATE = 0 when the patch consists of a single cell [...]
 
-However, for patches containing a single cell **FRAGSTATS** returns a value of GYRATE = 0.5. In the following table, patches with an area of area = 0.0001 consist of only one cell. 
+However, for patches containing a single cell **FRAGSTATS** returns a value of GYRATE = 0.5.
+In the following table, patches with an area of area = 0.0001 consist of only one cell. 
 
 ```{r}
 # Calculate patch area
@@ -304,7 +321,8 @@ The documentation of **FRAGSTATS** defines the perimeter-area ratio the followin
 
 Contrastingly, the output of **FRAGSTATS** gives the result as the ratio of the patch perimeter in meters to area in hectares.
 
-We implemented PARA as documented in the **FRAGSTATS** manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the **FRAGSTATS** output to meters per square meters. 
+We implemented PARA as documented in the **FRAGSTATS** manual using square meters. 
+Nevertheless, the differences between the softwares are only based on different units, as shown by converting the **FRAGSTATS** output to meters per square meters. 
 
 ```{r}
 # Output of FRAGSTATS
