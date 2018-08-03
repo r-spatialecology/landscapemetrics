@@ -42,3 +42,4 @@ Adds equally (in all four directions) additional cells around the raster
 pad_raster(landscape)
 
 }
+\keyword{internal}

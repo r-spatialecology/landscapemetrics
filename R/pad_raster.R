@@ -17,6 +17,8 @@
 #' @aliases pad_raster
 #' @rdname pad_raster
 #'
+#' @keywords internal
+#'
 #' @export
 pad_raster <- function(landscape, pad_raster_value, pad_raster_cells) UseMethod("pad_raster")
 
