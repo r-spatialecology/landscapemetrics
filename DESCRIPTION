@@ -11,11 +11,11 @@ Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesse
              comment = c(ORCID = "0000-0002-1057-3721")),
              person("Laura J.", "Graham", role = "ctb", 
              comment = c(ORCID = "0000-0002-1057-3721")),
-             person("Jeffrey", "Hollister", role = "ctb", 
-             comment = c(ORCID = "0000-0002-3611-7281")),
              person("Kimberly A.", "With", role = "ctb",
              email = "kwith@ksu.edu", 
-             comment = c(ORCID = "0000-0001-5570-1515")))
+             comment = c(ORCID = "0000-0001-5570-1515")),
+             person("Jeffrey", "Hollister", role = "ctb", 
+             comment = c(ORCID = "0000-0002-3611-7281")))
 Maintainer: Maximillian H.K. Hesselbarth <maximilian.hesselbarth@uni-goettingen.de>
 Description: Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from

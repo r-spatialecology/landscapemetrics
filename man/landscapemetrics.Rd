@@ -35,8 +35,8 @@ Authors:
 Other contributors:
 \itemize{
   \item Laura J. Graham (0000-0002-1057-3721) [contributor]
-  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
   \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515) [contributor]
+  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
 }
 
 }
