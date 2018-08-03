@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_sidi.R
 \name{lsm_l_sidi}
 \alias{lsm_l_sidi}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterLayer}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterStack}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterBrick}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.list}
 \title{SIDI (landscape level)}
 \usage{

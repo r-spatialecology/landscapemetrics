@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_shape_mn.R
 \name{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn}
-\alias{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn.RasterLayer}
-\alias{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn.RasterStack}
-\alias{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn.RasterBrick}
-\alias{lsm_c_shape_mn}
 \alias{lsm_c_shape_mn.list}
 \title{SHAPE_MN (class level)}
 \usage{

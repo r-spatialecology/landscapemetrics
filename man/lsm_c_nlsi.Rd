@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_nlsi.R
 \name{lsm_c_nlsi}
 \alias{lsm_c_nlsi}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterLayer}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterStack}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterBrick}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.list}
 \title{nLSI (class level)}
 \usage{

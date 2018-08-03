@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_core_cv.R
 \name{lsm_c_core_cv}
 \alias{lsm_c_core_cv}
-\alias{lsm_c_core_cv}
 \alias{lsm_c_core_cv.RasterLayer}
-\alias{lsm_c_core_cv}
 \alias{lsm_c_core_cv.RasterStack}
-\alias{lsm_c_core_cv}
 \alias{lsm_c_core_cv.RasterBrick}
-\alias{lsm_c_core_cv}
 \alias{lsm_c_core_cv.list}
 \title{CORE_CV (class level)}
 \usage{

@@ -206,15 +206,15 @@ the smallest circumscribing circle around a patch.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get patches for class 1 from testdata as raster</span>
-<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'>get_patches</span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
 
 <span class='co'># calculate the max distance between cell edges of each class</span>
 <span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 2
 #&gt;      id   dist
 #&gt;   &lt;dbl&gt;  &lt;dbl&gt;
 #&gt; 1     1   6.28
-#&gt; 2     2 732.  
-#&gt; 3     3  22.8 
+#&gt; 2     3  22.8 
+#&gt; 3     2 732.  
 #&gt; 4     4  45.6 
 #&gt; 5     5   6.28
 #&gt; 6     6  19.6 
@@ -227,8 +227,8 @@ the smallest circumscribing circle around a patch.</p>
 #&gt;      id   dist
 #&gt;   &lt;dbl&gt;  &lt;dbl&gt;
 #&gt; 1     1   6.28
-#&gt; 2     2 732.  
-#&gt; 3     3  22.8 
+#&gt; 2     3  22.8 
+#&gt; 3     2 732.  
 #&gt; 4     4  45.6 
 #&gt; 5     5   6.28
 #&gt; 6     6  19.6 
@@ -254,7 +254,7 @@ the smallest circumscribing circle around a patch.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Maximillian Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
 </div>
 
 <div class="pkgdown">
