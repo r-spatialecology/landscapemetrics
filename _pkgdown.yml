@@ -209,6 +209,6 @@ navbar:
       href: reference/index.html
     - icon: fa-github fa-lg
       text: "github"
-      href: https://github.com/marcosci/landscapemetrics
+      href: https://github.com/landscapeecology/landscapemetrics
 
 

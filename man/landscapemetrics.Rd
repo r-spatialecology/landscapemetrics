@@ -18,13 +18,13 @@ metrics.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://marcosci.github.io/landscapemetrics/}
-  \item Report bugs at \url{https://github.com/marcosci/landscapemetrics/issues}
+  \item \url{https://landscapeecology.github.io/landscapemetrics/}
+  \item Report bugs at \url{https://github.com/landscapeecology/landscapemetrics/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Maximillian Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
@@ -35,8 +35,8 @@ Authors:
 Other contributors:
 \itemize{
   \item Laura J. Graham (0000-0002-1057-3721) [contributor]
-  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
   \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515) [contributor]
+  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
 }
 
 }
