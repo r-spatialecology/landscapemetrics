@@ -143,7 +143,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment.</p>
+<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).</p>
 <p><strong>landscapemetrics</strong> supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble.</p>
 </div>
 <div id="installation" class="section level2">
@@ -176,7 +176,7 @@ lsm_l_enn()</code></pre>
 <center>
 <p style="text-align:center;">
 </p>
-<table class="table">
+<table class="table table">
 <thead><tr class="header">
 <th>layer</th>
 <th>level</th>
@@ -218,10 +218,10 @@ lsm_l_enn()</code></pre>
 <a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
 <p>Every function follows the same implementation design, so the usage is quite straight forward:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(landscapemetrics)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
-<pre><code>## Warning: Paket 'dplyr' wurde unter R Version 3.5.1 erstellt</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Landscape raster</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">landscape</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Landscape raster</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">landscape</a></code></pre></div>
 <pre><code>## class       : RasterLayer 
 ## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
 ## resolution  : 1, 1  (x, y)
@@ -230,8 +230,8 @@ lsm_l_enn()</code></pre>
 ## data source : in memory
 ## names       : clumps 
 ## values      : 1, 3  (min, max)</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_p_enn">lsm_p_enn</a></span>(landscape)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate for example the euclidean nearest-neighbor distance on patch level</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span>(landscape)</a></code></pre></div>
 <pre><code>## # A tibble: 27 x 6
 ##    layer level class    id metric value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
@@ -246,11 +246,11 @@ lsm_l_enn()</code></pre>
 ##  9     1 patch     1     9 enn     4.12
 ## 10     1 patch     2    10 enn     4.47
 ## # ... with 17 more rows</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Calculate the total area and total class edge length</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_l_ta">lsm_l_ta</a></span>(landscape), </a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">    <span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/lsm_c_te">lsm_c_te</a></span>(landscape)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate the total area and total class edge length</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="kw"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span>(landscape), </a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="kw"><a href="reference/lsm_c_te.html">lsm_c_te</a></span>(landscape)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 6
 ##   layer level     class    id metric  value
 ##   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
@@ -259,8 +259,8 @@ lsm_l_enn()</code></pre>
 ## 3     1 class         2    NA te     227   
 ## 4     1 class         3    NA te     321</code></pre>
 <p>There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># calculate all metrics on patch level</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/calculate_metrics">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># calculate all metrics on patch level</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 324 x 6
 ##    layer level class    id metric    value
 ##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
@@ -294,6 +294,8 @@ lsm_l_enn()</code></pre>
 <a href="#references" class="anchor"></a>References</h3>
 <ul>
 <li>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a>
+</li>
+<li>Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. <a href="https://doi.org/10.1101/383281" class="uri">https://doi.org/10.1101/383281</a>
 </li>
 </ul>
 </div>
@@ -332,7 +334,7 @@ lsm_l_enn()</code></pre>
 <li><a href="https://travis-ci.org/marcosci/landscapemetrics"><img src="https://travis-ci.org/marcosci/landscapemetrics.svg?branch=master" alt="Travis build status"></a></li>
 <li><a href="https://ci.appveyor.com/project/marcosci/landscapemetrics"><img src="https://ci.appveyor.com/api/projects/status/github/marcosci/landscapemetrics?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/github/marcosci/landscapemetrics?branch=master"><img src="https://codecov.io/gh/marcosci/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
 <li><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
 </ul>
 </div>

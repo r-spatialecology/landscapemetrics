@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_frac_cv.R
 \name{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv}
-\alias{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv.RasterLayer}
-\alias{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv.RasterStack}
-\alias{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv.RasterBrick}
-\alias{lsm_l_frac_cv}
 \alias{lsm_l_frac_cv.list}
 \title{FRAC_CV (landscape level)}
 \usage{

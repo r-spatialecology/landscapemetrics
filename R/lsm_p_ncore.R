@@ -127,10 +127,10 @@ lsm_p_ncore_calc <- function(landscape, directions){
         }
 
         else{
-            cclabel_core <- get_patches(class_boundary,
+            patch_core <- get_patches(class_boundary,
                                     directions = directions)[[2]]
 
-            points <- raster::rasterToPoints(cclabel_core)
+            points <- raster::rasterToPoints(patch_core)
             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
 
             n_core_area <- table(raster::extract(x = patches_class,

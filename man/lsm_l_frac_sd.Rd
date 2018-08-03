@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_frac_sd.R
 \name{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd}
-\alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.RasterLayer}
-\alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.RasterStack}
-\alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.RasterBrick}
-\alias{lsm_l_frac_sd}
 \alias{lsm_l_frac_sd.list}
 \title{FRAC_SD (landscape level)}
 \usage{

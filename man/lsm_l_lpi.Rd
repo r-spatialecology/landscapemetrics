@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_lpi.R
 \name{lsm_l_lpi}
 \alias{lsm_l_lpi}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterLayer}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterStack}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterBrick}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.list}
 \title{LPI (landscape level)}
 \usage{

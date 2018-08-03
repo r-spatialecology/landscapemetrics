@@ -31,13 +31,13 @@
 #'
 #' @examples
 #' # check for patches of class 1
-#' cclabeled_raster  <-  get_patches(landscape, 1)
+#' patched_raster  <-  get_patches(landscape, 1)
 #'
 #' # count patches
-#' length(raster::unique(cclabeled_raster[[1]]))
+#' length(raster::unique(patched_raster[[1]]))
 #'
 #' # check for patches of every class
-#' cclabeled_raster <-  get_patches(landscape)
+#' patched_raster <-  get_patches(landscape)
 #'
 #' @aliases get_patches
 #' @rdname get_patches
@@ -128,17 +128,17 @@ get_patches_int <- function(landscape, what, directions) {
             filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
         }
 
-        cclabel_landscape <- raster::setValues(x = landscape_empty,
+        patch_landscape <- raster::setValues(x = landscape_empty,
                                                values = filter_raster)
 
-        names(cclabel_landscape) <- paste0("Class_", what)
+        names(patch_landscape) <- paste0("Class_", what)
 
-        return(cclabel_landscape)
+        return(patch_landscape)
     }
 
     else {
         classes <- na.omit(unique(as.vector(landscape_matrix)))
-        cclabel_landscape <- purrr::map(classes, function(what) {
+        patch_landscape <- purrr::map(classes, function(what) {
             filter_matrix[landscape_matrix == what] <- 1
 
             if (directions == 4) {
@@ -149,14 +149,14 @@ get_patches_int <- function(landscape, what, directions) {
                 filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
-            cclabel_landscape <- raster::setValues(x = landscape_empty,
+            patch_landscape <- raster::setValues(x = landscape_empty,
                                                    values = filter_raster)
 
-            names(cclabel_landscape) <- paste0("Class_", what)
+            names(patch_landscape) <- paste0("Class_", what)
 
-            cclabel_landscape
+            patch_landscape
         })
-        return(cclabel_landscape)
+        return(patch_landscape)
 
     }
 }

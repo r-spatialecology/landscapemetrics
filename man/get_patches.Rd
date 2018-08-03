@@ -2,23 +2,22 @@
 % Please edit documentation in R/get_patches.R
 \name{get_patches}
 \alias{get_patches}
-\alias{get_patches}
 \alias{get_patches.RasterLayer}
-\alias{get_patches}
 \alias{get_patches.RasterStack}
-\alias{get_patches}
 \alias{get_patches.RasterBrick}
-\alias{get_patches}
 \alias{get_patches.list}
 \title{get_patches}
 \usage{
 get_patches(landscape, what, directions)
 
-\method{get_patches}{RasterLayer}(landscape, what = "all", directions = 8)
+\method{get_patches}{RasterLayer}(landscape, what = "all",
+  directions = 8)
 
-\method{get_patches}{RasterStack}(landscape, what = "all", directions = 8)
+\method{get_patches}{RasterStack}(landscape, what = "all",
+  directions = 8)
 
-\method{get_patches}{RasterBrick}(landscape, what = "all", directions = 8)
+\method{get_patches}{RasterBrick}(landscape, what = "all",
+  directions = 8)
 
 \method{get_patches}{list}(landscape, what = "all", directions = 8)
 }
@@ -48,13 +47,13 @@ this efficient connected labeling algorithm.
 }
 \examples{
 # check for patches of class 1
-cclabeled_raster  <-  get_patches(landscape, 1)
+patched_raster  <-  get_patches(landscape, 1)
 
 # count patches
-length(raster::unique(cclabeled_raster[[1]]))
+length(raster::unique(patched_raster[[1]]))
 
 # check for patches of every class
-cclabeled_raster <-  get_patches(landscape)
+patched_raster <-  get_patches(landscape)
 
 }
 \references{
