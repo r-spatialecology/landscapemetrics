@@ -51,7 +51,7 @@ lsm_l_joinent(landscape)
 }
 \references{
 Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure
-landscape complexity. DOI:
+landscape complexity. https://doi.org/10.1101/383281
 }
 \seealso{
 \code{\link{lsm_l_ent}},

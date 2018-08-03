@@ -47,13 +47,13 @@ this efficient connected labeling algorithm.
 }
 \examples{
 # check for patches of class 1
-cclabeled_raster  <-  get_patches(landscape, 1)
+patched_raster  <-  get_patches(landscape, 1)
 
 # count patches
-length(raster::unique(cclabeled_raster[[1]]))
+length(raster::unique(patched_raster[[1]]))
 
 # check for patches of every class
-cclabeled_raster <-  get_patches(landscape)
+patched_raster <-  get_patches(landscape)
 
 }
 \references{

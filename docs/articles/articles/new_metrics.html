@@ -135,19 +135,35 @@
 
     
     
-<p>One of the reason to start landscapemetrics was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.</p>
+<p>One of the reason to start <strong>landscapemetrics</strong> was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.</p>
+<div id="landscape-complexity-metrics" class="section level2">
+<h2 class="hasAnchor">
+<a href="#landscape-complexity-metrics" class="anchor"></a>Landscape complexity metrics</h2>
 <blockquote>
-<p>Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. DOI:</p>
+<p>Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. <a href="https://doi.org/10.1101/383281" class="uri">https://doi.org/10.1101/383281</a></p>
 </blockquote>
-<ol style="list-style-type: decimal">
-<li><a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_joinent.html">lsm_l_joinent</a></li>
-<li><a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_condent.html">lsm_l_condent</a></li>
-<li><a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_ent.html">lsm_l_ent</a></li>
-<li><a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_mutinf.html">lsm_l_mutinf</a></li>
-</ol>
+<p>The standard set of landscape metrics lacks the bona fide indicator of complexity. Information-theoretical framework can be applied to derive four metrics of landscape complexity: <code>H(x,y)</code> – an overall spatio-thematic complexity metric; <code>H(x)</code> – a thematic complexity of landscape classes; <code>H(y|x)</code> – a configurational complexity of landscape pattern; and <code>I(y;x)</code> – a metric disambiguating landscape pattern types having the same value of an overall complexity. All of these metrics are implemented in <strong>landscapemetrics</strong>:</p>
+<ul>
+<li>
+<a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_joinent.html">lsm_l_joinent</a>: an overall spatio-thematic complexity metric.</li>
+<li>
+<a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_ent.html">lsm_l_ent</a>: a diversity (thematic complexity) of landscape classes</li>
+<li>
+<a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_condent.html">lsm_l_condent</a>: a complexity of a landscape pattern configuration. It measures a only a geometric intricacy (configurational complexity) of a landscape pattern.</li>
+<li>
+<a href="https://marcosci.github.io/landscapemetrics/reference/lsm_l_mutinf.html">lsm_l_mutinf</a>: disambiguates landscape pattern types characterize by the same value of an overall complexity.</li>
+</ul>
 </div>
+  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#landscape-complexity-metrics">Landscape complexity metrics</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

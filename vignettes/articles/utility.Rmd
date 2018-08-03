@@ -45,7 +45,7 @@ landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
 
 ### Connected labeling 
 
-`landscapemetrics` makes internally heavy use of an connected labeling algorithm and exports an reimplementation of this algorithm (`cclabel`). You can use this function to look at patches of classes, but you can also use it to "dissect" your landscape
+**landscapemetrics** makes internally heavy use of an connected labeling algorithm and exports an reimplementation of this algorithm (`get_patches`). You can use this function to look at patches of classes, but you can also use it to "dissect" your landscape
 visually and get an impression of the spatial distribution of the classes and number of patches. The [**landscapetools**](https://github.com/ropensci/landscapetools) package offers a function to plot lists, stacks and bricks of rasters as facets. As `get_patches` returns a list with RasterLayer elements for each class, this is a convienent way
 to look at patterns in your landscape:
 
