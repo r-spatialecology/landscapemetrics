@@ -18,8 +18,8 @@ metrics.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://marcosci.github.io/landscapemetrics/}
-  \item Report bugs at \url{https://github.com/marcosci/landscapemetrics/issues}
+  \item \url{https://landscapeecology.github.io/landscapemetrics/}
+  \item Report bugs at \url{https://github.com/landscapeecology/landscapemetrics/issues}
 }
 
 }

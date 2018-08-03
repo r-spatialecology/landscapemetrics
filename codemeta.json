@@ -7,8 +7,8 @@
   "identifier": "landscapemetrics",
   "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. 'landscapemetrics' reimplements the most common metrics from\n    FRAGSTATS and new ones from the current literature on landscape metrics.\n    This package supports raster spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
-  "codeRepository": "https://marcosci.github.io/landscapemetrics/",
-  "issueTracker": "https://github.com/marcosci/landscapemetrics/issues",
+  "codeRepository": "https://landscapeecology.github.io/landscapemetrics/",
+  "issueTracker": "https://github.com/landscapeecology/landscapemetrics/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "0.1.0",
   "programmingLanguage": {
@@ -215,13 +215,13 @@
       "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
-  "releaseNotes": "https://github.com/marcosci/landscapemetrics/blob/master/NEWS.md",
-  "readme": "https://github.com/marcosci/landscapemetrics/blob/master/README.md",
+  "releaseNotes": "https://github.com/landscapeecology/landscapemetrics/blob/master/NEWS.md",
+  "readme": "https://github.com/landscapeecology/landscapemetrics/blob/master/README.md",
   "fileSize": "943.683KB",
   "contIntegration": [
-    "https://travis-ci.org/marcosci/landscapemetrics",
-    "https://ci.appveyor.com/project/marcosci/landscapemetrics",
-    "https://codecov.io/github/marcosci/landscapemetrics?branch=master"
+    "https://travis-ci.org/landscapeecology/landscapemetrics",
+    "https://ci.appveyor.com/project/landscapeecology/landscapemetrics",
+    "https://codecov.io/github/landscapeecology/landscapemetrics?branch=master"
   ],
   "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental"
 }
