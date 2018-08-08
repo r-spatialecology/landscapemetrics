@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_split.R
 \name{lsm_c_split}
 \alias{lsm_c_split}
+\alias{lsm_c_split}
 \alias{lsm_c_split.RasterLayer}
+\alias{lsm_c_split}
 \alias{lsm_c_split.RasterStack}
+\alias{lsm_c_split}
 \alias{lsm_c_split.RasterBrick}
+\alias{lsm_c_split}
 \alias{lsm_c_split.list}
 \title{SPLIT (class level)}
 \usage{

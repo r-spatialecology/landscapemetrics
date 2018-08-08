@@ -4,6 +4,7 @@
 \name{landscapemetrics}
 \alias{landscapemetrics}
 \alias{landscapemetrics-package}
+\alias{landscapemetrics-package}
 \title{landscapemetrics}
 \description{
 Calculates landscape metrics for categorical landscape patterns in
@@ -24,7 +25,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian, H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
@@ -35,8 +36,10 @@ Authors:
 Other contributors:
 \itemize{
   \item Laura J. Graham (0000-0002-1057-3721) [contributor]
-  \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515) [contributor]
+  \item Kimberly A. With (0000-0001-5570-1515) [contributor]
   \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
+  \item Jeremy VanDerWal [contributor]
+  \item Florian Privé [contributor]
 }
 
 }

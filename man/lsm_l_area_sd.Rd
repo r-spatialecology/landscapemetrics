@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_area_sd.R
 \name{lsm_l_area_sd}
 \alias{lsm_l_area_sd}
+\alias{lsm_l_area_sd}
 \alias{lsm_l_area_sd.RasterLayer}
+\alias{lsm_l_area_sd}
 \alias{lsm_l_area_sd.RasterStack}
+\alias{lsm_l_area_sd}
 \alias{lsm_l_area_sd.RasterBrick}
+\alias{lsm_l_area_sd}
 \alias{lsm_l_area_sd.list}
 \title{AREA_SD (landscape level)}
 \usage{

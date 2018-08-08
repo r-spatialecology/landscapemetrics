@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_frac_cv.R
 \name{lsm_c_frac_cv}
 \alias{lsm_c_frac_cv}
+\alias{lsm_c_frac_cv}
 \alias{lsm_c_frac_cv.RasterLayer}
+\alias{lsm_c_frac_cv}
 \alias{lsm_c_frac_cv.RasterStack}
+\alias{lsm_c_frac_cv}
 \alias{lsm_c_frac_cv.RasterBrick}
+\alias{lsm_c_frac_cv}
 \alias{lsm_c_frac_cv.list}
 \title{FRAC_CV (class level)}
 \usage{

@@ -2,8 +2,11 @@
 % Please edit documentation in R/lsm_l_rpr.R
 \name{lsm_l_rpr}
 \alias{lsm_l_rpr}
+\alias{lsm_l_rpr}
 \alias{lsm_l_rpr.RasterLayer}
+\alias{lsm_l_rpr}
 \alias{lsm_l_rpr.RasterStack}
+\alias{lsm_l_rpr}
 \alias{lsm_l_rpr.RasterBrick}
 \title{RPD (landscape level)}
 \usage{
