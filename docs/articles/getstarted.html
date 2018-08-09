@@ -228,7 +228,7 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # A tibble: 3 x 8</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;   layer level class    id metric  value full_name             type        </span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;       </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 1     1 class     1    NA dcad    6667. disjunct core area d~ core area m~</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 1     1 class     1    NA dcad    5556. disjunct core area d~ core area m~</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 2     1 class     2    NA dcad    8889. disjunct core area d~ core area m~</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; 3     1 class     3    NA dcad   13333. disjunct core area d~ core area m~</span></a></code></pre></div>
 <div id="important-information-about-using-landscapemetrics" class="section level2">
@@ -266,15 +266,15 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;    layer level class    id metric value</span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;  1     1 patch     1     1 cai      0  </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  2     1 patch     1     2 cai     48.6</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  3     1 patch     1     3 cai     20  </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt;  2     1 patch     1     2 cai     48.0</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;  3     1 patch     1     3 cai      0  </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;  4     1 patch     1     4 cai     14.3</span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;  5     1 patch     1     5 cai      0  </span></a>
 <a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt;  6     1 patch     1     6 cai      0  </span></a>
 <a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt;  7     1 patch     1     7 cai      0  </span></a>
 <a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;  8     1 patch     1     8 cai      0  </span></a>
 <a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt;  9     1 patch     1     9 cai      0  </span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 10     1 patch     2    10 cai     42.9</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 10     1 patch     2    10 cai     31.4</span></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; # ... with 71 more rows</span></a></code></pre></div>
 <p>Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical tibble, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. <code>what = "patch"</code></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>))</a>
@@ -303,15 +303,15 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;    layer level class    id metric value full_name       type            </span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;           </span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;  1     1 patch     1     1 cai      0   core area index core area metric</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  2     1 patch     1     2 cai     48.6 core area index core area metric</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  3     1 patch     1     3 cai     20   core area index core area metric</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt;  2     1 patch     1     2 cai     48.0 core area index core area metric</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;  3     1 patch     1     3 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;  4     1 patch     1     4 cai     14.3 core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt;  5     1 patch     1     5 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt;  6     1 patch     1     6 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt;  7     1 patch     1     7 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;  8     1 patch     1     8 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;  9     1 patch     1     9 cai      0   core area index core area metric</span></a>
-<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 10     1 patch     2    10 cai     42.9 core area index core area metric</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 10     1 patch     2    10 cai     31.4 core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; # ... with 71 more rows</span></a></code></pre></div>
 <p>In <code>calculate_metrics</code> this exists as option (<code>full_name = TRUE</code>).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>), </a>
