@@ -12,7 +12,8 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Landscape Metrics for Categorical Map Patterns">
 <meta property="og:description" content="Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
-    FRAGSTATS and new ones from the current literature on landscape metrics.
+    'FRAGSTATS' (&lt;https://www.umass.edu/landeco/research/fragstats/fragstats.html&gt;) 
+    and new ones from the current literature on landscape metrics.
     This package supports 'raster' spatial objects and takes 
     RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
     'raster' package as input arguments. It further provides utility functions
@@ -113,7 +114,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/landscapeecology/landscapemetrics">
+  <a href="https://github.com/r-spatialecology/landscapemetrics">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -151,7 +152,7 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install <strong>landscapemetrics</strong> from GitHub with:</p>
 <pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github"># install.packages("devtools")
-devtools::install_github("landscapeecology/landscapemetrics")</a></code></pre>
+devtools::install_github("r-spatialecology/landscapemetrics")</a></code></pre>
 </div>
 <div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
@@ -281,7 +282,7 @@ lsm_l_enn()</code></pre>
 <a href="#utility-functions" class="anchor"></a>Utility functions</h3>
 <p><strong>landscapemetrics</strong> further provides functions to visualize landscapes as labeled patches and functions to select and analyse metrics you calculated with the package.</p>
 <p>Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix <code>get_</code>. All of them are implemented with Rcpp and have either memory or perfomance advantages compared to raster functions.</p>
-<p>For more details, see the <a href="https://landscapeecology.github.io/landscapemetrics/articles/articles/utility.html">utility function vignette</a>.</p>
+<p>For more details, see the <a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html">utility function vignette</a>.</p>
 </div>
 </div>
 <div id="contributing" class="section level2">
@@ -307,7 +308,7 @@ lsm_l_enn()</code></pre>
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="https://github.com/landscapeecology/landscapemetrics/issues">https://​github.com/​landscapeecology/​landscapemetrics/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/r-spatialecology/landscapemetrics/issues">https://​github.com/​r-spatialecology/​landscapemetrics/​issues</a>
 </li>
 </ul>
 </div>
@@ -321,7 +322,7 @@ lsm_l_enn()</code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Maximillian H.K. Hesselbarth <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1125-9918" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
+<li>Maximillian, H.K. Hesselbarth <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1125-9918" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 <li>Marco Sciaini <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3042-5435" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 <li>Jakub Nowosad <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1057-3721" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 <li><a href="authors.html">All authors...</a></li>
@@ -331,9 +332,9 @@ lsm_l_enn()</code></pre>
       <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/landscapeecology/landscapemetrics"><img src="https://travis-ci.org/landscapeecology/landscapemetrics.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://ci.appveyor.com/project/landscapeecology/landscapemetrics"><img src="https://ci.appveyor.com/api/projects/status/github/landscapeecology/landscapemetrics?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
-<li><a href="https://codecov.io/github/landscapeecology/landscapemetrics?branch=master"><img src="https://codecov.io/gh/landscapeecology/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://travis-ci.org/r-spatialecology/landscapemetrics"><img src="https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://ci.appveyor.com/project/r-spatialecology/landscapemetrics"><img src="https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
+<li><a href="https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master"><img src="https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
 <li><a href="https://cran.r-project.org/package=landscapemetrics"><img src="https://www.r-pkg.org/badges/version/landscapemetrics" alt="CRAN status"></a></li>
 <li><a href="http://cran.rstudio.com/web/packages/landscapemetrics/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics"></a></li>
@@ -346,7 +347,7 @@ lsm_l_enn()</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian, H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
 </div>
 
 <div class="pkgdown">
