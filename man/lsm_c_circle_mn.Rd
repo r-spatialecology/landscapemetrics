@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_circle_mn.R
 \name{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn}
-\alias{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn.RasterLayer}
-\alias{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn.RasterStack}
-\alias{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn.RasterBrick}
-\alias{lsm_c_circle_mn}
 \alias{lsm_c_circle_mn.list}
 \title{CIRCLE_MN (Class level)}
 \usage{

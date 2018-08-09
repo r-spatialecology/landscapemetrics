@@ -4,7 +4,6 @@
 \name{landscapemetrics}
 \alias{landscapemetrics}
 \alias{landscapemetrics-package}
-\alias{landscapemetrics-package}
 \title{landscapemetrics}
 \description{
 Calculates landscape metrics for categorical landscape patterns in
@@ -38,8 +37,10 @@ Other contributors:
   \item Laura J. Graham (0000-0002-1057-3721) [contributor]
   \item Kimberly A. With (0000-0001-5570-1515) [contributor]
   \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
-  \item Jeremy VanDerWal [contributor]
-  \item Florian Privé [contributor]
+  \item Jeremy VanDerWal (Original author of underlying C code for 
+             get_patches() function) [contributor]
+  \item Florian Privé (Original author of underlying C++ code for 
+             get_nearestneighbour() function) [contributor]
 }
 
 }

@@ -15,12 +15,17 @@ Authors@R: c(person(c("Maximillian, H.K."), "Hesselbarth", email = "maximilian.h
              comment = c(ORCID = "0000-0001-5570-1515")),
              person("Jeffrey", "Hollister", role = "ctb", 
              comment = c(ORCID = "0000-0002-3611-7281")),
-             person("Jeremy", "VanDerWal", role = "ctb"),
-             person("Florian", "Privé", role = "ctb"))
+             person("Jeremy", "VanDerWal", role = "ctb", 
+             comment = "Original author of underlying C code for 
+             get_patches() function"),
+             person("Florian", "Privé", role = "ctb", 
+             comment = "Original author of underlying C++ code for 
+             get_nearestneighbour() function"))
 Maintainer: Maximillian H.K. Hesselbarth <maximilian.hesselbarth@uni-goettingen.de>
 Description: Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
-    ['FRAGSTATS'] <https://www.umass.edu/landeco/research/fragstats/fragstats.html> and new ones from the current literature on landscape metrics.
+    'FRAGSTATS' (<https://www.umass.edu/landeco/research/fragstats/fragstats.html>) 
+    and new ones from the current literature on landscape metrics.
     This package supports 'raster' spatial objects and takes 
     RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
     'raster' package as input arguments. It further provides utility functions

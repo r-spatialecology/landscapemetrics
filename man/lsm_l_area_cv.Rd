@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_area_cv.R
 \name{lsm_l_area_cv}
 \alias{lsm_l_area_cv}
-\alias{lsm_l_area_cv}
 \alias{lsm_l_area_cv.RasterLayer}
-\alias{lsm_l_area_cv}
 \alias{lsm_l_area_cv.RasterStack}
-\alias{lsm_l_area_cv}
 \alias{lsm_l_area_cv.RasterBrick}
-\alias{lsm_l_area_cv}
 \alias{lsm_l_area_cv.list}
 \title{AREA_CV (landscape level)}
 \usage{

@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_ai.R
 \name{lsm_l_ai}
 \alias{lsm_l_ai}
-\alias{lsm_l_ai}
 \alias{lsm_l_ai.RasterLayer}
-\alias{lsm_l_ai}
 \alias{lsm_l_ai.RasterStack}
-\alias{lsm_l_ai}
 \alias{lsm_l_ai.RasterBrick}
-\alias{lsm_l_ai}
 \alias{lsm_l_ai.list}
 \title{AI (landscape level)}
 \usage{

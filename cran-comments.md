@@ -1,3 +1,21 @@
+## Resubmission to CRAN
+
+* Thanks, please write package names, software names and API names in 
+single quotes (e.g. 'FRAGSTATS') in your Description.
+    * Done as suggested.
+
+* Please add an URL for 'FRAGSTATS' in your Description text in the form
+<http:...> or <https:...>
+with angle brackets for auto-linking and no space after 'http:' and 
+'https:'.
+    * Done as suggested.
+
+* We also see code lines such as: author Jeremy VanDerWal \email{jjvanderwal@@gmail.com} [...] 
+author Florian Privé \email{florian.prive.21@gmail.com} [...] Please add all authors 
+and copyright holders in the Authors@R field with.
+the appropriate roles.
+    * Done as suggested.
+
 ## New release
 
 This package is a new release to CRAN.

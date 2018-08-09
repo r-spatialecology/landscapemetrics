@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_msiei.R
 \name{lsm_l_msiei}
 \alias{lsm_l_msiei}
-\alias{lsm_l_msiei}
 \alias{lsm_l_msiei.RasterLayer}
-\alias{lsm_l_msiei}
 \alias{lsm_l_msiei.RasterStack}
-\alias{lsm_l_msiei}
 \alias{lsm_l_msiei.RasterBrick}
-\alias{lsm_l_msiei}
 \alias{lsm_l_msiei.list}
 \title{MSIEI (landscape level)}
 \usage{

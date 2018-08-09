@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_lpi.R
 \name{lsm_c_lpi}
 \alias{lsm_c_lpi}
-\alias{lsm_c_lpi}
 \alias{lsm_c_lpi.RasterLayer}
-\alias{lsm_c_lpi}
 \alias{lsm_c_lpi.RasterStack}
-\alias{lsm_c_lpi}
 \alias{lsm_c_lpi.RasterBrick}
-\alias{lsm_c_lpi}
 \alias{lsm_c_lpi.list}
 \title{LPI (class level)}
 \usage{
