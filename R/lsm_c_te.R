@@ -99,7 +99,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     number_classes <- lsm_l_pr_calc(landscape) %>% dplyr::pull(value)
 
-    if(number_classes == 1 && isFALSE(count_boundary)) {
+    if(number_classes == 1 && !isTRUE(count_boundary)) {
 
         class_name <- raster::unique(landscape)
 
@@ -113,7 +113,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     else {
 
-        if(isFALSE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
+        if(!isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
             top_bottom_matrix <- matrix(c(NA, NA, NA,
                                           1,  0, 1,
                                           NA, NA, NA), 3, 3, byrow = TRUE)
