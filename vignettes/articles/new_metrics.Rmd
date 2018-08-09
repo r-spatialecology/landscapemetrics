@@ -28,7 +28,7 @@ The standard set of landscape metrics lacks the bona fide indicator of complexit
 Information-theoretical framework can be applied to derive four metrics of landscape complexity: `H(x,y)` -- an overall spatio-thematic complexity metric; `H(x)` -- a thematic complexity of landscape classes; `H(y|x)` -- a configurational complexity of landscape pattern; and `I(y;x)` -- a metric disambiguating landscape pattern types having the same value of an overall complexity.
 All of these metrics are implemented in **landscapemetrics**:
 
-- [lsm_l_joinent](https://landscapeecology.github.io/landscapemetrics/reference/lsm_l_joinent.html): an overall spatio-thematic complexity metric.
-- [lsm_l_ent](https://landscapeecology.github.io/landscapemetrics/reference/lsm_l_ent.html): a diversity (thematic complexity) of landscape classes
-- [lsm_l_condent](https://landscapeecology.github.io/landscapemetrics/reference/lsm_l_condent.html): a complexity of a landscape pattern configuration. It measures a only a geometric intricacy (configurational complexity) of a landscape pattern.
-- [lsm_l_mutinf](https://landscapeecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html):  disambiguates landscape pattern types characterize by the same value of an overall complexity.
+- [lsm_l_joinent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_joinent.html): an overall spatio-thematic complexity metric.
+- [lsm_l_ent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html): a diversity (thematic complexity) of landscape classes
+- [lsm_l_condent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_condent.html): a complexity of a landscape pattern configuration. It measures a only a geometric intricacy (configurational complexity) of a landscape pattern.
+- [lsm_l_mutinf](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html):  disambiguates landscape pattern types characterize by the same value of an overall complexity.

@@ -80,8 +80,8 @@ Lastly, also an R package, namely SDMTools (VanDerWal *et al.* 2014), can be use
 Nevertheless, we decided to reimplement most of the metrics available in [FRAGSTATS](https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html).
 We wanted to provide a comprehensive collection of landscape metrics in R.
 While FRAGSTATS is an extensive collection it is only available for Windows. 
-Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences ([Differences FRAGSTATS|landscapemetrics](https://landscapeecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)).
-Further, SDMTools contains only a subset of metrics and does not cover all levels ([General background](https://landscapeecology.github.io/landscapemetrics/articles/articles/general-background.html)).
+Note, that even though we tried to reimplement the metrics as described in the FRAGSTATS manual, there are some differences ([Differences FRAGSTATS|landscapemetrics](https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html)).
+Further, SDMTools contains only a subset of metrics and does not cover all levels ([General background](https://r-spatialecology.github.io/landscapemetrics/articles/articles/general-background.html)).
 Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see [CONTRIBUTING](CONTRIBUTING.md)).
 
 Those were the main reasons we implemented **landscapemetrics**, however, we want to fully appreciate and acknowledge the already present software.

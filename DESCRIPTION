@@ -32,8 +32,8 @@ Description: Calculates landscape metrics for categorical landscape patterns in
     to visualize patches, select metrics and building blocks to develop new 
     metrics.
 License: GPL-3
-URL: https://landscapeecology.github.io/landscapemetrics/
-BugReports: https://github.com/landscapeecology/landscapemetrics/issues
+URL: https://r-spatialecology.github.io/landscapemetrics/
+BugReports: https://github.com/r-spatialecology/landscapemetrics/issues
 Depends: 
     R (>= 3.1)
 Imports: 
