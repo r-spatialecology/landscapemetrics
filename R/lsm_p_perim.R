@@ -82,7 +82,7 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
 
 lsm_p_perim_calc <- function(landscape, directions) {
 
-    if(isFALSE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
+    if(!isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
        top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,
                                      NA, NA, NA), 3, 3, byrow = TRUE)

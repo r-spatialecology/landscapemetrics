@@ -8,19 +8,19 @@
 \alias{pad_raster.list}
 \title{pad_raster}
 \usage{
-pad_raster(landscape, pad_raster_value, pad_raster_cells)
+pad_raster(landscape, pad_raster_value, pad_raster_cells, global)
 
 \method{pad_raster}{RasterLayer}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1)
+  pad_raster_cells = 1, global = FALSE)
 
 \method{pad_raster}{RasterStack}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1)
+  pad_raster_cells = 1, global = FALSE)
 
 \method{pad_raster}{RasterBrick}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1)
+  pad_raster_cells = 1, global = FALSE)
 
 \method{pad_raster}{list}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1)
+  pad_raster_cells = 1, global = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -28,6 +28,8 @@ pad_raster(landscape, pad_raster_value, pad_raster_cells)
 \item{pad_raster_value}{Value of cells added}
 
 \item{pad_raster_cells}{Number of rows and columns added}
+
+\item{global}{Only pad around the raster extent or also NA holes "inside"}
 }
 \value{
 raster
