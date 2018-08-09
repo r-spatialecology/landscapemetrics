@@ -18,13 +18,13 @@ metrics.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://landscapeecology.github.io/landscapemetrics/}
-  \item Report bugs at \url{https://github.com/landscapeecology/landscapemetrics/issues}
+  \item \url{https://r-spatialecology.github.io/landscapemetrics/}
+  \item Report bugs at \url{https://github.com/r-spatialecology/landscapemetrics/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian, H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
@@ -35,8 +35,12 @@ Authors:
 Other contributors:
 \itemize{
   \item Laura J. Graham (0000-0002-1057-3721) [contributor]
-  \item Kimberly A. With \email{kwith@ksu.edu} (0000-0001-5570-1515) [contributor]
+  \item Kimberly A. With (0000-0001-5570-1515) [contributor]
   \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
+  \item Jeremy VanDerWal (Original author of underlying C code for 
+             get_patches() function) [contributor]
+  \item Florian Privé (Original author of underlying C++ code for 
+             get_nearestneighbour() function) [contributor]
 }
 
 }

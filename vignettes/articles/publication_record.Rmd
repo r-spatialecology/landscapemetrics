@@ -6,7 +6,7 @@ output:
 
 We try to maintain a list of publications that have used the `landscapemetrics` package.
 If you have used `landscapemetrics` in your own work, we would love to hear from you.
-Please [file an issue on GitHub](https://github.com/landscapeecology/landscapemetrics/issues/new/) so we can add your work to this list.
+Please [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/) so we can add your work to this list.
 
 ## A list of publications
 

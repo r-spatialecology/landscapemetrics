@@ -4,11 +4,11 @@
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 [![Travis build
-status](https://travis-ci.org/landscapeecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/landscapeecology/landscapemetrics)
+status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/landscapeecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/landscapeecology/landscapemetrics)
+status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/landscapemetrics)
 [![Coverage
-status](https://codecov.io/gh/landscapeecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/landscapeecology/landscapemetrics?branch=master)
+status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
@@ -39,7 +39,7 @@ it always takes the data as the first argument and returns a tibble.
 You can install **landscapemetrics** from GitHub with:
 
     # install.packages("devtools")
-    devtools::install_github("landscapeecology/landscapemetrics")
+    devtools::install_github("r-spatialecology/landscapemetrics")
 
 ## Using landscapemetrics
 
@@ -178,7 +178,7 @@ prefix `get_`. All of them are implemented with Rcpp and have either
 memory or perfomance advantages compared to raster functions.
 
 For more details, see the [utility function
-vignette](https://landscapeecology.github.io/landscapemetrics/articles/articles/utility.html).
+vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html).
 
 ## Contributing
 
