@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Utility functions</h1>
             
-            <h4 class="date">2018-08-05</h4>
+            <h4 class="date">2018-08-09</h4>
       
       
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -232,8 +232,8 @@
 <a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
 <a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
 <a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; 1 get_adjac…   1     1      1     1        41.5       1     NaN  1.12</span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; 2 adj_raste…  38.3  41.5   40.4  47.7       1        26.1   Inf  1   </span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; 1 get_adjac…   1     1      1     1        37.7       1     NaN  1.12</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; 2 adj_raste…  38.4  37.7   36.8  38.7       1        26.1   Inf  1   </span></a>
 <a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-39" data-line-number="39"></a>
 <a class="sourceLine" id="cb4-40" data-line-number="40"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
@@ -302,8 +302,8 @@
 <a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
 <a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
 <a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; 1 get_neare…   1     1      1     1        43.1       1     1       1</span></a>
-<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; 2 nearest_r…  55.0  43.1   48.7  15.1       1        51.5  40.1     1</span></a>
+<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; 1 get_neare…   1     1      1     1        46.0       1     1       1</span></a>
+<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; 2 nearest_r…  54.0  46.0   51.8  16.6       1        51.5  41.2     1</span></a>
 <a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb5-59" data-line-number="59"></a>
 <a class="sourceLine" id="cb5-60" data-line-number="60"><span class="kw">all</span>(<span class="kw">round</span>(<span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches)<span class="op">$</span>distance, <span class="dv">9</span>) <span class="op">==</span></a>
@@ -329,7 +329,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian, H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
 </div>
 
 <div class="pkgdown">
