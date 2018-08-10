@@ -2,6 +2,7 @@ Type: Package
 Package: landscapemetrics
 Title: Landscape Metrics for Categorical Map Patterns
 Version: 0.1.1
+Date: 2018-10-08
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
