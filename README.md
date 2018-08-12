@@ -36,10 +36,16 @@ it always takes the data as the first argument and returns a tibble.
 
 ## Installation
 
-You can install **landscapemetrics** from GitHub with:
+There are several ways to install `landscapemetrics`:
 
-    # install.packages("devtools")
-    devtools::install_github("r-spatialecology/landscapemetrics")
+``` r
+# The easiest way is to install landscapemetrics is from CRAN
+install.packages("landscapemetrics")
+
+# Alternatively, you can install the stable development version from Github
+# install.packages("devtools")
+devtools::install_github("r-spatialecology/landscapemetrics")
+```
 
 ## Using landscapemetrics
 
@@ -93,7 +99,11 @@ quite straight forward:
 ``` r
 library(landscapemetrics)
 library(dplyr)
+```
 
+    ## Warning: package 'dplyr' was built under R version 3.5.1
+
+``` r
 # Landscape raster
 landscape
 ```
