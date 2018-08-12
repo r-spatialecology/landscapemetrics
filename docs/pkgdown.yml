@@ -1,6 +1,6 @@
 pandoc: 2.2.1
-pkgdown: 1.1.0.9000
-pkgdown_sha: 98bfe0fdfd59b33ef1a88ef6896cd60f805f0e81
+pkgdown: 1.1.0
+pkgdown_sha: ~
 articles:
   comparing_fragstats_landscapemetrics: articles/comparing_fragstats_landscapemetrics.html
   general-background: articles/general-background.html

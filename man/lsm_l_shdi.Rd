@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_shdi.R
 \name{lsm_l_shdi}
 \alias{lsm_l_shdi}
+\alias{lsm_l_shdi}
 \alias{lsm_l_shdi.RasterLayer}
+\alias{lsm_l_shdi}
 \alias{lsm_l_shdi.RasterStack}
+\alias{lsm_l_shdi}
 \alias{lsm_l_shdi.RasterBrick}
+\alias{lsm_l_shdi}
 \alias{lsm_l_shdi.list}
 \title{SHDI (landscape level)}
 \usage{

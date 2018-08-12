@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_shape_mn.R
 \name{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn}
+\alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.RasterLayer}
+\alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.RasterStack}
+\alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.RasterBrick}
+\alias{lsm_l_shape_mn}
 \alias{lsm_l_shape_mn.list}
 \title{SHAPE_MN (landscape level)}
 \usage{

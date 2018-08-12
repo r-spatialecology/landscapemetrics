@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_te.R
 \name{lsm_c_te}
 \alias{lsm_c_te}
+\alias{lsm_c_te}
 \alias{lsm_c_te.RasterLayer}
+\alias{lsm_c_te}
 \alias{lsm_c_te.RasterStack}
+\alias{lsm_c_te}
 \alias{lsm_c_te.RasterBrick}
+\alias{lsm_c_te}
 \alias{lsm_c_te.list}
 \title{TE (class level)}
 \usage{
@@ -19,8 +23,7 @@ lsm_c_te(landscape, count_boundary, directions)
 \method{lsm_c_te}{RasterBrick}(landscape, count_boundary = FALSE,
   directions = 8)
 
-\method{lsm_c_te}{list}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_te}{list}(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_core_sd.R
 \name{lsm_l_core_sd}
 \alias{lsm_l_core_sd}
+\alias{lsm_l_core_sd}
 \alias{lsm_l_core_sd.RasterLayer}
+\alias{lsm_l_core_sd}
 \alias{lsm_l_core_sd.RasterStack}
+\alias{lsm_l_core_sd}
 \alias{lsm_l_core_sd.RasterBrick}
+\alias{lsm_l_core_sd}
 \alias{lsm_l_core_sd.list}
 \title{CORE_SD (landscape level)}
 \usage{

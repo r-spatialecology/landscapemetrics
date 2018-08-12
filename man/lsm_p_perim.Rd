@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_p_perim.R
 \name{lsm_p_perim}
 \alias{lsm_p_perim}
+\alias{lsm_p_perim}
 \alias{lsm_p_perim.RasterLayer}
+\alias{lsm_p_perim}
 \alias{lsm_p_perim.RasterStack}
+\alias{lsm_p_perim}
 \alias{lsm_p_perim.RasterBrick}
+\alias{lsm_p_perim}
 \alias{lsm_p_perim.list}
 \title{PERIM (patch level)}
 \usage{

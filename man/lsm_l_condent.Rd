@@ -2,14 +2,17 @@
 % Please edit documentation in R/lsm_l_condent.R
 \name{lsm_l_condent}
 \alias{lsm_l_condent}
+\alias{lsm_l_condent}
 \alias{lsm_l_condent.RasterLayer}
+\alias{lsm_l_condent}
 \alias{lsm_l_condent.RasterStack}
+\alias{lsm_l_condent}
 \alias{lsm_l_condent.RasterBrick}
+\alias{lsm_l_condent}
 \alias{lsm_l_condent.list}
 \title{Conditional entropy (landscape level)}
 \usage{
-lsm_l_condent(landscape, neighbourhood = 4, ordered = TRUE,
-  base = "log2")
+lsm_l_condent(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
 \method{lsm_l_condent}{RasterLayer}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
@@ -20,8 +23,8 @@ lsm_l_condent(landscape, neighbourhood = 4, ordered = TRUE,
 \method{lsm_l_condent}{RasterBrick}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_condent}{list}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_condent}{list}(landscape, neighbourhood = 4, ordered = TRUE,
+  base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

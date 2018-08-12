@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_lsi.R
 \name{lsm_c_lsi}
 \alias{lsm_c_lsi}
+\alias{lsm_c_lsi}
 \alias{lsm_c_lsi.RasterLayer}
+\alias{lsm_c_lsi}
 \alias{lsm_c_lsi.RasterStack}
+\alias{lsm_c_lsi}
 \alias{lsm_c_lsi.RasterBrick}
+\alias{lsm_c_lsi}
 \alias{lsm_c_lsi.list}
 \title{LSI (class level)}
 \usage{

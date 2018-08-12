@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_l_contig_sd.R
 \name{lsm_l_contig_sd}
 \alias{lsm_l_contig_sd}
+\alias{lsm_l_contig_sd}
 \alias{lsm_l_contig_sd.RasterLayer}
+\alias{lsm_l_contig_sd}
 \alias{lsm_l_contig_sd.RasterStack}
+\alias{lsm_l_contig_sd}
 \alias{lsm_l_contig_sd.RasterBrick}
+\alias{lsm_l_contig_sd}
 \alias{lsm_l_contig_sd.list}
 \title{CONTIG_SD (landscape level)}
 \usage{

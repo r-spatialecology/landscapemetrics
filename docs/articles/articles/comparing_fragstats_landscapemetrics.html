@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics</h1>
             
-            <h4 class="date">2018-08-10</h4>
+            <h4 class="date">2018-08-12</h4>
       
       
       <div class="hidden name"><code>comparing_fragstats_landscapemetrics.Rmd</code></div>
@@ -169,7 +169,7 @@
 <a class="sourceLine" id="cb1-22" data-line-number="22">                                                      class <span class="op">==</span><span class="st"> "cls_3"</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>)))</a>
 <a class="sourceLine" id="cb1-23" data-line-number="23"></a>
 <a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_cv</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-26" data-line-number="26"><span class="st">    </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-27" data-line-number="27"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
 <pre><code>##   class fragstats_calculated fragstats_output landscapemetrics
@@ -201,7 +201,7 @@
 <a class="sourceLine" id="cb3-22" data-line-number="22"></a>
 <a class="sourceLine" id="cb3-23" data-line-number="23"></a>
 <a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw">lsm_c_area_sd</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="st">  </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
 <pre><code>##   class fragstats_calculated.x fragstats_calculated.y landscapemetrics
@@ -225,7 +225,7 @@
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"></a>
@@ -234,7 +234,7 @@
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span><span class="kw">select</span>(PID, CIRCLE) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)</a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_circle.html">lsm_p_circle</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_circle</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a></code></pre></div>
 <pre><code>##    id fragstats_area fragstats_circle
@@ -329,7 +329,7 @@
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(PID, AREA) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"></a>
@@ -338,7 +338,7 @@
 <a class="sourceLine" id="cb8-12" data-line-number="12"><span class="st">  </span><span class="kw">select</span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
 <a class="sourceLine" id="cb8-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw">lsm_p_gyrate</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="st">  </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a></code></pre></div>
 <pre><code>##    id fragstats_area fragstats_gyrate
@@ -438,15 +438,15 @@
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_area</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-11" data-line-number="11"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
 <a class="sourceLine" id="cb11-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_perim.html">lsm_p_perim</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_perim</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-15" data-line-number="15"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
 <a class="sourceLine" id="cb11-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_para.html">lsm_p_para</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw">lsm_p_para</span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-19" data-line-number="19"><span class="st">    </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-20" data-line-number="20"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
 <a class="sourceLine" id="cb11-21" data-line-number="21"></a>

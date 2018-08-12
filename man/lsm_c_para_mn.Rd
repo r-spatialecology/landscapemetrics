@@ -2,9 +2,13 @@
 % Please edit documentation in R/lsm_c_para_mn.R
 \name{lsm_c_para_mn}
 \alias{lsm_c_para_mn}
+\alias{lsm_c_para_mn}
 \alias{lsm_c_para_mn.RasterLayer}
+\alias{lsm_c_para_mn}
 \alias{lsm_c_para_mn.RasterStack}
+\alias{lsm_c_para_mn}
 \alias{lsm_c_para_mn.RasterBrick}
+\alias{lsm_c_para_mn}
 \alias{lsm_c_para_mn.list}
 \title{PARA_MN (class level)}
 \usage{

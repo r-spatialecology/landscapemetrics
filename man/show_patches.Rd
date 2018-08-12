@@ -2,9 +2,13 @@
 % Please edit documentation in R/show_patches.R
 \name{show_patches}
 \alias{show_patches}
+\alias{show_patches}
 \alias{show_patches.RasterLayer}
+\alias{show_patches}
 \alias{show_patches.RasterStack}
+\alias{show_patches}
 \alias{show_patches.RasterBrick}
+\alias{show_patches}
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
