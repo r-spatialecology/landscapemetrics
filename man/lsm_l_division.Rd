@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_division.R
 \name{lsm_l_division}
 \alias{lsm_l_division}
-\alias{lsm_l_division}
 \alias{lsm_l_division.RasterLayer}
-\alias{lsm_l_division}
 \alias{lsm_l_division.RasterStack}
-\alias{lsm_l_division}
 \alias{lsm_l_division.RasterBrick}
-\alias{lsm_l_division}
+\alias{lsm_l_division.stars}
 \alias{lsm_l_division.list}
 \title{DIVISION (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_division(landscape, directions)
 \method{lsm_l_division}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_division}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_division}{stars}(landscape, directions = 8)
 
 \method{lsm_l_division}{list}(landscape, directions = 8)
 }

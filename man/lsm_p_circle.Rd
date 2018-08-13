@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_p_circle.R
 \name{lsm_p_circle}
 \alias{lsm_p_circle}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterLayer}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterStack}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterBrick}
-\alias{lsm_p_circle}
+\alias{lsm_p_circle.stars}
 \alias{lsm_p_circle.list}
 \title{CIRCLE (patch level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_p_circle(landscape, directions)
 \method{lsm_p_circle}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_circle}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_circle}{stars}(landscape, directions = 8)
 
 \method{lsm_p_circle}{list}(landscape, directions = 8)
 }

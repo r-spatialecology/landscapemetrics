@@ -78,6 +78,20 @@ lsm_c_cohesion.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_cohesion
 #' @export
+lsm_c_cohesion.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_c_cohesion_calc, directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+
+#' @name lsm_c_cohesion
+#' @export
 lsm_c_cohesion.list <- function(landscape, directions = 8) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_c_cohesion_calc, directions = directions,

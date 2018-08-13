@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_p_area.R
 \name{lsm_p_area}
 \alias{lsm_p_area}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterLayer}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterStack}
-\alias{lsm_p_area}
 \alias{lsm_p_area.RasterBrick}
-\alias{lsm_p_area}
+\alias{lsm_p_area.stars}
 \alias{lsm_p_area.list}
 \title{AREA (patch level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_p_area(landscape, directions)
 \method{lsm_p_area}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_area}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_area}{stars}(landscape, directions = 8)
 
 \method{lsm_p_area}{list}(landscape, directions = 8)
 }

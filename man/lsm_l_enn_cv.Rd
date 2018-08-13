@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_enn_cv.R
 \name{lsm_l_enn_cv}
 \alias{lsm_l_enn_cv}
-\alias{lsm_l_enn_cv}
 \alias{lsm_l_enn_cv.RasterLayer}
-\alias{lsm_l_enn_cv}
 \alias{lsm_l_enn_cv.RasterStack}
-\alias{lsm_l_enn_cv}
 \alias{lsm_l_enn_cv.RasterBrick}
-\alias{lsm_l_enn_cv}
+\alias{lsm_l_enn_cv.stars}
 \alias{lsm_l_enn_cv.list}
 \title{ENN_CV (landscape level)}
 \usage{
@@ -22,6 +19,8 @@ lsm_l_enn_cv(landscape, directions, verbose)
 
 \method{lsm_l_enn_cv}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_l_enn_cv}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_l_enn_cv}{list}(landscape, directions = 8, verbose = TRUE)
 }

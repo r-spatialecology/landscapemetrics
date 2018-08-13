@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_gyrate_sd.R
 \name{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd}
-\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterLayer}
-\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterStack}
-\alias{lsm_l_gyrate_sd}
 \alias{lsm_l_gyrate_sd.RasterBrick}
-\alias{lsm_l_gyrate_sd}
+\alias{lsm_l_gyrate_sd.stars}
 \alias{lsm_l_gyrate_sd.list}
 \title{GYRATE_SD (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_gyrate_sd(landscape, directions)
 \method{lsm_l_gyrate_sd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_gyrate_sd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_gyrate_sd}{stars}(landscape, directions = 8)
 
 \method{lsm_l_gyrate_sd}{list}(landscape, directions = 8)
 }

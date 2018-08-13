@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_dcad.R
 \name{lsm_c_dcad}
 \alias{lsm_c_dcad}
-\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterLayer}
-\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterStack}
-\alias{lsm_c_dcad}
 \alias{lsm_c_dcad.RasterBrick}
-\alias{lsm_c_dcad}
+\alias{lsm_c_dcad.stars}
 \alias{lsm_c_dcad.list}
 \title{DCAD (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_dcad(landscape, directions)
 \method{lsm_c_dcad}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_dcad}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_dcad}{stars}(landscape, directions = 8)
 
 \method{lsm_c_dcad}{list}(landscape, directions = 8)
 }

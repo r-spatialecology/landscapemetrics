@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_frac_mn.R
 \name{lsm_c_frac_mn}
 \alias{lsm_c_frac_mn}
-\alias{lsm_c_frac_mn}
 \alias{lsm_c_frac_mn.RasterLayer}
-\alias{lsm_c_frac_mn}
 \alias{lsm_c_frac_mn.RasterStack}
-\alias{lsm_c_frac_mn}
 \alias{lsm_c_frac_mn.RasterBrick}
-\alias{lsm_c_frac_mn}
+\alias{lsm_c_frac_mn.stars}
 \alias{lsm_c_frac_mn.list}
 \title{FRAC_MN (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_frac_mn(landscape, directions)
 \method{lsm_c_frac_mn}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_frac_mn}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_frac_mn}{stars}(landscape, directions = 8)
 
 \method{lsm_c_frac_mn}{list}(landscape, directions = 8)
 }

@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_p_shape.R
 \name{lsm_p_shape}
 \alias{lsm_p_shape}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterLayer}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterStack}
-\alias{lsm_p_shape}
 \alias{lsm_p_shape.RasterBrick}
-\alias{lsm_p_shape}
+\alias{lsm_p_shape.stars}
 \alias{lsm_p_shape.list}
 \title{SHAPE (patch level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_p_shape(landscape, directions)
 \method{lsm_p_shape}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_shape}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_shape}{stars}(landscape, directions = 8)
 
 \method{lsm_p_shape}{list}(landscape, directions = 8)
 }

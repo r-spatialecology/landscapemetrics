@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_pladj.R
 \name{lsm_c_pladj}
 \alias{lsm_c_pladj}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterLayer}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterStack}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterBrick}
-\alias{lsm_c_pladj}
+\alias{lsm_c_pladj.stars}
 \alias{lsm_c_pladj.list}
 \title{PLADJ (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_pladj(landscape)
 \method{lsm_c_pladj}{RasterStack}(landscape)
 
 \method{lsm_c_pladj}{RasterBrick}(landscape)
+
+\method{lsm_c_pladj}{stars}(landscape)
 
 \method{lsm_c_pladj}{list}(landscape)
 }

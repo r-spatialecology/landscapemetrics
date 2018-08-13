@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_cai_cv.R
 \name{lsm_l_cai_cv}
 \alias{lsm_l_cai_cv}
-\alias{lsm_l_cai_cv}
 \alias{lsm_l_cai_cv.RasterLayer}
-\alias{lsm_l_cai_cv}
 \alias{lsm_l_cai_cv.RasterStack}
-\alias{lsm_l_cai_cv}
 \alias{lsm_l_cai_cv.RasterBrick}
-\alias{lsm_l_cai_cv}
+\alias{lsm_l_cai_cv.stars}
 \alias{lsm_l_cai_cv.list}
 \title{CAI_CV (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_cai_cv(landscape, directions)
 \method{lsm_l_cai_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_cai_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_cai_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_l_cai_cv}{list}(landscape, directions = 8)
 }

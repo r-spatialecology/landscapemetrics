@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_sidi.R
 \name{lsm_l_sidi}
 \alias{lsm_l_sidi}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterLayer}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterStack}
-\alias{lsm_l_sidi}
 \alias{lsm_l_sidi.RasterBrick}
-\alias{lsm_l_sidi}
+\alias{lsm_l_sidi.stars}
 \alias{lsm_l_sidi.list}
 \title{SIDI (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_sidi(landscape, directions)
 \method{lsm_l_sidi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_sidi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_sidi}{stars}(landscape, directions = 8)
 
 \method{lsm_l_sidi}{list}(landscape, directions = 8)
 }

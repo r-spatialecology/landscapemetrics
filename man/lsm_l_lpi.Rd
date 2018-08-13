@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_lpi.R
 \name{lsm_l_lpi}
 \alias{lsm_l_lpi}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterLayer}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterStack}
-\alias{lsm_l_lpi}
 \alias{lsm_l_lpi.RasterBrick}
-\alias{lsm_l_lpi}
+\alias{lsm_l_lpi.stars}
 \alias{lsm_l_lpi.list}
 \title{LPI (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_lpi(landscape, directions)
 \method{lsm_l_lpi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_lpi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_lpi}{stars}(landscape, directions = 8)
 
 \method{lsm_l_lpi}{list}(landscape, directions = 8)
 }

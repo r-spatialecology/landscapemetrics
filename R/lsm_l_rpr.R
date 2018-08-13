@@ -72,8 +72,21 @@ lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE)
         dplyr::mutate(layer = as.integer(layer))
 }
 
-#" @name lsm_l_rpr
-#" @export
+#' @name lsm_l_rpr
+#' @export
+lsm_l_rpr.stars <- function(landscape, classes_max = NULL, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
+                   classes_max = classes_max,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_rpr
+#' @export
 lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
     purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
                    classes_max = classes_max,

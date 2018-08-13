@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_nlsi.R
 \name{lsm_c_nlsi}
 \alias{lsm_c_nlsi}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterLayer}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterStack}
-\alias{lsm_c_nlsi}
 \alias{lsm_c_nlsi.RasterBrick}
-\alias{lsm_c_nlsi}
+\alias{lsm_c_nlsi.stars}
 \alias{lsm_c_nlsi.list}
 \title{nLSI (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_nlsi(landscape, directions)
 \method{lsm_c_nlsi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_nlsi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_nlsi}{stars}(landscape, directions = 8)
 
 \method{lsm_c_nlsi}{list}(landscape, directions = 8)
 }

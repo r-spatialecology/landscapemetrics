@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_pr.R
 \name{lsm_l_pr}
 \alias{lsm_l_pr}
-\alias{lsm_l_pr}
 \alias{lsm_l_pr.RasterLayer}
-\alias{lsm_l_pr}
 \alias{lsm_l_pr.RasterStack}
-\alias{lsm_l_pr}
 \alias{lsm_l_pr.RasterBrick}
-\alias{lsm_l_pr}
+\alias{lsm_l_pr.stars}
 \alias{lsm_l_pr.list}
 \title{PR (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_pr(landscape)
 \method{lsm_l_pr}{RasterStack}(landscape)
 
 \method{lsm_l_pr}{RasterBrick}(landscape)
+
+\method{lsm_l_pr}{stars}(landscape)
 
 \method{lsm_l_pr}{list}(landscape)
 }

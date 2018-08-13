@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_mesh.R
 \name{lsm_c_mesh}
 \alias{lsm_c_mesh}
-\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterLayer}
-\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterStack}
-\alias{lsm_c_mesh}
 \alias{lsm_c_mesh.RasterBrick}
-\alias{lsm_c_mesh}
+\alias{lsm_c_mesh.stars}
 \alias{lsm_c_mesh.list}
 \title{MESH (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_mesh(landscape, directions)
 \method{lsm_c_mesh}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_mesh}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_mesh}{stars}(landscape, directions = 8)
 
 \method{lsm_c_mesh}{list}(landscape, directions = 8)
 }

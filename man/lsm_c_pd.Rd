@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_pd.R
 \name{lsm_c_pd}
 \alias{lsm_c_pd}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.RasterLayer}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.RasterStack}
-\alias{lsm_c_pd}
+\alias{lsm_c_pd.stars}
 \alias{lsm_c_pd.RasterBrick}
-\alias{lsm_c_pd}
 \alias{lsm_c_pd.list}
 \title{PD (class level)}
 \usage{
@@ -17,6 +14,8 @@ lsm_c_pd(landscape, directions)
 \method{lsm_c_pd}{RasterLayer}(landscape, directions = 8)
 
 \method{lsm_c_pd}{RasterStack}(landscape, directions = 8)
+
+\method{lsm_c_pd}{stars}(landscape, directions = 8)
 
 \method{lsm_c_pd}{RasterBrick}(landscape, directions = 8)
 

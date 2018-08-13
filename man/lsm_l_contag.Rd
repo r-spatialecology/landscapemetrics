@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_contag.R
 \name{lsm_l_contag}
 \alias{lsm_l_contag}
-\alias{lsm_l_contag}
 \alias{lsm_l_contag.RasterLayer}
-\alias{lsm_l_contag}
 \alias{lsm_l_contag.RasterStack}
-\alias{lsm_l_contag}
 \alias{lsm_l_contag.RasterBrick}
-\alias{lsm_l_contag}
+\alias{lsm_l_contag.stars}
 \alias{lsm_l_contag.list}
 \title{CONTAG (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_contag(landscape, verbose)
 \method{lsm_l_contag}{RasterStack}(landscape, verbose = TRUE)
 
 \method{lsm_l_contag}{RasterBrick}(landscape, verbose = TRUE)
+
+\method{lsm_l_contag}{stars}(landscape, verbose = TRUE)
 
 \method{lsm_l_contag}{list}(landscape, verbose = TRUE)
 }

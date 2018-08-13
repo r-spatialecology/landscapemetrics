@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_ent.R
 \name{lsm_l_ent}
 \alias{lsm_l_ent}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterLayer}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterStack}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterBrick}
-\alias{lsm_l_ent}
+\alias{lsm_l_ent.stars}
 \alias{lsm_l_ent.list}
 \title{ENT (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_ent(landscape, base = "log2")
 \method{lsm_l_ent}{RasterStack}(landscape, base = "log2")
 
 \method{lsm_l_ent}{RasterBrick}(landscape, base = "log2")
+
+\method{lsm_l_ent}{stars}(landscape, base = "log2")
 
 \method{lsm_l_ent}{list}(landscape, base = "log2")
 }

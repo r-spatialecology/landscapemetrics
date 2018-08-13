@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_tca.R
 \name{lsm_c_tca}
 \alias{lsm_c_tca}
-\alias{lsm_c_tca}
 \alias{lsm_c_tca.RasterLayer}
-\alias{lsm_c_tca}
 \alias{lsm_c_tca.RasterStack}
-\alias{lsm_c_tca}
 \alias{lsm_c_tca.RasterBrick}
-\alias{lsm_c_tca}
+\alias{lsm_c_tca.stars}
 \alias{lsm_c_tca.list}
 \title{TCA (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_tca(landscape, directions)
 \method{lsm_c_tca}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_tca}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_tca}{stars}(landscape, directions = 8)
 
 \method{lsm_c_tca}{list}(landscape, directions = 8)
 }

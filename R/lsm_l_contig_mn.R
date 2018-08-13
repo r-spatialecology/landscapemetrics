@@ -89,6 +89,20 @@ lsm_l_contig_mn.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_l_contig_mn
 #' @export
+lsm_l_contig_mn.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_contig_mn_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_contig_mn
+#' @export
 lsm_l_contig_mn.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_l_contig_mn_calc,

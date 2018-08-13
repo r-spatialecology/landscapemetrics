@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_area_cv.R
 \name{lsm_c_area_cv}
 \alias{lsm_c_area_cv}
-\alias{lsm_c_area_cv}
 \alias{lsm_c_area_cv.RasterLayer}
-\alias{lsm_c_area_cv}
 \alias{lsm_c_area_cv.RasterStack}
-\alias{lsm_c_area_cv}
 \alias{lsm_c_area_cv.RasterBrick}
-\alias{lsm_c_area_cv}
+\alias{lsm_c_area_cv.stars}
 \alias{lsm_c_area_cv.list}
 \title{AREA_CV (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_area_cv(landscape, directions)
 \method{lsm_c_area_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_area_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_area_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_c_area_cv}{list}(landscape, directions = 8)
 }

@@ -64,6 +64,20 @@ lsm_l_ent.RasterBrick <- function(landscape, base = "log2") {
 
 #' @name lsm_l_ent
 #' @export
+lsm_l_ent.stars <- function(landscape, base = "log2") {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_ent_calc,
+                   base = base,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_ent
+#' @export
 lsm_l_ent.list <- function(landscape, base = "log2") {
     purrr::map_dfr(landscape,
                    lsm_l_ent_calc,

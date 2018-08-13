@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_pafrac.R
 \name{lsm_l_pafrac}
 \alias{lsm_l_pafrac}
-\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterLayer}
-\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterStack}
-\alias{lsm_l_pafrac}
 \alias{lsm_l_pafrac.RasterBrick}
-\alias{lsm_l_pafrac}
+\alias{lsm_l_pafrac.stars}
 \alias{lsm_l_pafrac.list}
 \title{PAFRAC  (landscape level)}
 \usage{
@@ -22,6 +19,8 @@ lsm_l_pafrac(landscape, directions, verbose)
 
 \method{lsm_l_pafrac}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_l_pafrac}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_l_pafrac}{list}(landscape, directions = 8, verbose = TRUE)
 }

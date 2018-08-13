@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_p_frac.R
 \name{lsm_p_frac}
 \alias{lsm_p_frac}
-\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterLayer}
-\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterStack}
-\alias{lsm_p_frac}
 \alias{lsm_p_frac.RasterBrick}
-\alias{lsm_p_frac}
+\alias{lsm_p_frac.stars}
 \alias{lsm_p_frac.list}
 \title{FRAC (patch level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_p_frac(landscape, directions)
 \method{lsm_p_frac}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_frac}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_frac}{stars}(landscape, directions = 8)
 
 \method{lsm_p_frac}{list}(landscape, directions = 8)
 }

@@ -86,6 +86,20 @@ lsm_c_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
 
 #' @name lsm_c_pafrac
 #' @export
+lsm_c_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_pafrac_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_pafrac
+#' @export
 lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(landscape,
                    lsm_c_pafrac_calc,

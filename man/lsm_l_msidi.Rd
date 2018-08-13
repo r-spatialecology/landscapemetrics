@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_msidi.R
 \name{lsm_l_msidi}
 \alias{lsm_l_msidi}
-\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterLayer}
-\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterStack}
-\alias{lsm_l_msidi}
 \alias{lsm_l_msidi.RasterBrick}
-\alias{lsm_l_msidi}
+\alias{lsm_l_msidi.stars}
 \alias{lsm_l_msidi.list}
 \title{MSIDI (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_msidi(landscape, directions)
 \method{lsm_l_msidi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_msidi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_msidi}{stars}(landscape, directions = 8)
 
 \method{lsm_l_msidi}{list}(landscape, directions = 8)
 }

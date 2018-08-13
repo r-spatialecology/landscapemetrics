@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_cai_sd.R
 \name{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd}
-\alias{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd.RasterLayer}
-\alias{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd.RasterStack}
-\alias{lsm_c_cai_sd}
 \alias{lsm_c_cai_sd.RasterBrick}
-\alias{lsm_c_cai_sd}
+\alias{lsm_c_cai_sd.stars}
 \alias{lsm_c_cai_sd.list}
 \title{CAI_SD (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_cai_sd(landscape, directions)
 \method{lsm_c_cai_sd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_cai_sd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_cai_sd}{stars}(landscape, directions = 8)
 
 \method{lsm_c_cai_sd}{list}(landscape, directions = 8)
 }

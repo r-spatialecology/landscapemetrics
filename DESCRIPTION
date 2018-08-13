@@ -41,6 +41,7 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    methods,
     purrr,
     raster,
     Rcpp,

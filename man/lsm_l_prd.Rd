@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_prd.R
 \name{lsm_l_prd}
 \alias{lsm_l_prd}
-\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterLayer}
-\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterStack}
-\alias{lsm_l_prd}
 \alias{lsm_l_prd.RasterBrick}
-\alias{lsm_l_prd}
+\alias{lsm_l_prd.stars}
 \alias{lsm_l_prd.list}
 \title{PRD (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_prd(landscape, directions)
 \method{lsm_l_prd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_prd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_prd}{stars}(landscape, directions = 8)
 
 \method{lsm_l_prd}{list}(landscape, directions = 8)
 }

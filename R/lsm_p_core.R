@@ -79,6 +79,20 @@ lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_p_core
 #' @export
+lsm_p_core.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_core_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_core
+#' @export
 lsm_p_core.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_p_core_calc, directions = directions, .id = "layer") %>%

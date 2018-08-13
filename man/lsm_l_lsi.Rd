@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_lsi.R
 \name{lsm_l_lsi}
 \alias{lsm_l_lsi}
-\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterLayer}
-\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterStack}
-\alias{lsm_l_lsi}
 \alias{lsm_l_lsi.RasterBrick}
-\alias{lsm_l_lsi}
+\alias{lsm_l_lsi.stars}
 \alias{lsm_l_lsi.list}
 \title{LSI (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_lsi(landscape, directions)
 \method{lsm_l_lsi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_lsi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_lsi}{stars}(landscape, directions = 8)
 
 \method{lsm_l_lsi}{list}(landscape, directions = 8)
 }

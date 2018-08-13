@@ -68,6 +68,20 @@ lsm_l_pladj.RasterBrick <- function(landscape) {
 
 #' @name lsm_l_pladj
 #' @export
+lsm_l_pladj.stars <- function(landscape) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_pladj_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+
+#' @name lsm_l_pladj
+#' @export
 lsm_l_pladj.list <- function(landscape) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_pladj_calc,

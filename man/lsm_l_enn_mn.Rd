@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_enn_mn.R
 \name{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn}
-\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterLayer}
-\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterStack}
-\alias{lsm_l_enn_mn}
 \alias{lsm_l_enn_mn.RasterBrick}
-\alias{lsm_l_enn_mn}
+\alias{lsm_l_enn_mn.stars}
 \alias{lsm_l_enn_mn.list}
 \title{ENN_MN (landscape level)}
 \usage{
@@ -22,6 +19,8 @@ lsm_l_enn_mn(landscape, directions, verbose)
 
 \method{lsm_l_enn_mn}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_l_enn_mn}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_l_enn_mn}{list}(landscape, directions = 8, verbose = TRUE)
 }

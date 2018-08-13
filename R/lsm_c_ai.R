@@ -75,7 +75,7 @@ lsm_c_ai.RasterBrick <- function(landscape) {
 #' @export
 lsm_c_ai.stars <- function(landscape) {
 
-    landscape <- as(landscape, "Raster")
+    landscape <- methods::as(landscape, "Raster")
 
     purrr::map_dfr(raster::as.list(landscape),
                    lsm_c_ai_calc,

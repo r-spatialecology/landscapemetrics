@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_c_iji.R
 \name{lsm_c_iji}
 \alias{lsm_c_iji}
-\alias{lsm_c_iji}
 \alias{lsm_c_iji.RasterLayer}
-\alias{lsm_c_iji}
 \alias{lsm_c_iji.RasterStack}
-\alias{lsm_c_iji}
 \alias{lsm_c_iji.RasterBrick}
-\alias{lsm_c_iji}
+\alias{lsm_c_iji.stars}
 \alias{lsm_c_iji.list}
 \title{Interspersion and Juxtaposition index (class level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_c_iji(landscape, verbose)
 \method{lsm_c_iji}{RasterStack}(landscape, verbose = TRUE)
 
 \method{lsm_c_iji}{RasterBrick}(landscape, verbose = TRUE)
+
+\method{lsm_c_iji}{stars}(landscape, verbose = TRUE)
 
 \method{lsm_c_iji}{list}(landscape, verbose = TRUE)
 }

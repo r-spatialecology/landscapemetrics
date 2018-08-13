@@ -2,13 +2,10 @@
 % Please edit documentation in R/lsm_l_ta.R
 \name{lsm_l_ta}
 \alias{lsm_l_ta}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterLayer}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterStack}
-\alias{lsm_l_ta}
 \alias{lsm_l_ta.RasterBrick}
-\alias{lsm_l_ta}
+\alias{lsm_l_ta.stars}
 \alias{lsm_l_ta.list}
 \title{TA (landscape level)}
 \usage{
@@ -19,6 +16,8 @@ lsm_l_ta(landscape, directions)
 \method{lsm_l_ta}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_ta}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_ta}{stars}(landscape, directions = 8)
 
 \method{lsm_l_ta}{list}(landscape, directions = 8)
 }
