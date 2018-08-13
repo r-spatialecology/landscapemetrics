@@ -43,7 +43,7 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVect
         // ...get column number
         size_t col = (c / n_rows);
         // ...get row number
-        size_t row = fmod(c, n_rows);
+        size_t row = std::fmod(c, n_rows);
         // ...insert cols and rows
         result(i, 1) = col;
         result(i, 0) = row;
