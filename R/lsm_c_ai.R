@@ -73,6 +73,19 @@ lsm_c_ai.RasterBrick <- function(landscape) {
 
 #' @name lsm_c_ai
 #' @export
+lsm_c_ai.stars <- function(landscape) {
+
+    landscape <- as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_ai_calc,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_ai
+#' @export
 lsm_c_ai.list <- function(landscape) {
     purrr::map_dfr(landscape,
                    lsm_c_ai_calc,
