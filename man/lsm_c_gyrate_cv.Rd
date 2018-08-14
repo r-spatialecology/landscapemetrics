@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_gyrate_cv.R
 \name{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv}
-\alias{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv.RasterLayer}
-\alias{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv.RasterStack}
-\alias{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv.RasterBrick}
-\alias{lsm_c_gyrate_cv}
 \alias{lsm_c_gyrate_cv.list}
 \title{GYRATE_CV (class level)}
 \usage{

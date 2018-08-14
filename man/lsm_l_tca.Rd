@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_tca.R
 \name{lsm_l_tca}
 \alias{lsm_l_tca}
-\alias{lsm_l_tca}
 \alias{lsm_l_tca.RasterLayer}
-\alias{lsm_l_tca}
 \alias{lsm_l_tca.RasterStack}
-\alias{lsm_l_tca}
 \alias{lsm_l_tca.RasterBrick}
-\alias{lsm_l_tca}
 \alias{lsm_l_tca.list}
 \title{TCA (landscape level)}
 \usage{

@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_cpland.R
 \name{lsm_c_cpland}
 \alias{lsm_c_cpland}
-\alias{lsm_c_cpland}
 \alias{lsm_c_cpland.RasterLayer}
-\alias{lsm_c_cpland}
 \alias{lsm_c_cpland.RasterStack}
-\alias{lsm_c_cpland}
 \alias{lsm_c_cpland.RasterBrick}
-\alias{lsm_c_cpland}
 \alias{lsm_c_cpland.list}
 \title{CPLAND (class level)}
 \usage{

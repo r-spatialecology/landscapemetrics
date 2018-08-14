@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_pd.R
 \name{lsm_l_pd}
 \alias{lsm_l_pd}
-\alias{lsm_l_pd}
 \alias{lsm_l_pd.RasterLayer}
-\alias{lsm_l_pd}
 \alias{lsm_l_pd.RasterStack}
-\alias{lsm_l_pd}
 \alias{lsm_l_pd.RasterBrick}
-\alias{lsm_l_pd}
 \alias{lsm_l_pd.list}
 \title{PD (landscape level)}
 \usage{

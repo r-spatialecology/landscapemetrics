@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_core_mn.R
 \name{lsm_l_core_mn}
 \alias{lsm_l_core_mn}
-\alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.RasterLayer}
-\alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.RasterStack}
-\alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.RasterBrick}
-\alias{lsm_l_core_mn}
 \alias{lsm_l_core_mn.list}
 \title{CORE_MN (landscape level)}
 \usage{

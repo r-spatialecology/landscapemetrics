@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_cohesion.R
 \name{lsm_c_cohesion}
 \alias{lsm_c_cohesion}
-\alias{lsm_c_cohesion}
 \alias{lsm_c_cohesion.RasterLayer}
-\alias{lsm_c_cohesion}
 \alias{lsm_c_cohesion.RasterStack}
-\alias{lsm_c_cohesion}
 \alias{lsm_c_cohesion.RasterBrick}
-\alias{lsm_c_cohesion}
 \alias{lsm_c_cohesion.list}
 \title{COHESION (class level)}
 \usage{

@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_ent.R
 \name{lsm_l_ent}
 \alias{lsm_l_ent}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterLayer}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterStack}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.RasterBrick}
-\alias{lsm_l_ent}
 \alias{lsm_l_ent.list}
 \title{ENT (landscape level)}
 \usage{

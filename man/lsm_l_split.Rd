@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_split.R
 \name{lsm_l_split}
 \alias{lsm_l_split}
-\alias{lsm_l_split}
 \alias{lsm_l_split.RasterLayer}
-\alias{lsm_l_split}
 \alias{lsm_l_split.RasterStack}
-\alias{lsm_l_split}
 \alias{lsm_l_split.RasterBrick}
-\alias{lsm_l_split}
 \alias{lsm_l_split.list}
 \title{SPLIT (landscape level)}
 \usage{

@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_c_pladj.R
 \name{lsm_c_pladj}
 \alias{lsm_c_pladj}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterLayer}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterStack}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.RasterBrick}
-\alias{lsm_c_pladj}
 \alias{lsm_c_pladj.list}
 \title{PLADJ (class level)}
 \usage{

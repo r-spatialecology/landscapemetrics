@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_p_circle.R
 \name{lsm_p_circle}
 \alias{lsm_p_circle}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterLayer}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterStack}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.RasterBrick}
-\alias{lsm_p_circle}
 \alias{lsm_p_circle.list}
 \title{CIRCLE (patch level)}
 \usage{

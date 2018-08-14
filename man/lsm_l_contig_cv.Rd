@@ -2,13 +2,9 @@
 % Please edit documentation in R/lsm_l_contig_cv.R
 \name{lsm_l_contig_cv}
 \alias{lsm_l_contig_cv}
-\alias{lsm_l_contig_cv}
 \alias{lsm_l_contig_cv.RasterLayer}
-\alias{lsm_l_contig_cv}
 \alias{lsm_l_contig_cv.RasterStack}
-\alias{lsm_l_contig_cv}
 \alias{lsm_l_contig_cv.RasterBrick}
-\alias{lsm_l_contig_cv}
 \alias{lsm_l_contig_cv.list}
 \title{CONTIG_CV (landscape level)}
 \usage{
