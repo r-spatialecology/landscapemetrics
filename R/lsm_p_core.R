@@ -86,19 +86,24 @@ lsm_p_core.list <- function(landscape, directions = 8) {
 }
 
 lsm_p_core_calc <- function(landscape, directions) {
+
     landscape_labeled <- get_patches(landscape, directions = directions)
 
     core <-
         purrr::map_dfr(landscape_labeled, function(patches_class) {
 
-            cells_patch <- patches_class %>%
+            patches_padded <- pad_raster(patches_class, pad_raster_value = NA,
+                                         pad_raster_cells = 1,
+                                         global = FALSE)
+
+            cells_patch <- patches_padded %>%
                 raster::values() %>%
                 table()
 
-            boundary <- raster::boundaries(patches_class,
+            boundary <- raster::boundaries(patches_padded,
                                            directions = 4)
 
-            boundary_patch <- table(raster::values(patches_class)[raster::values(boundary) == 1])
+            boundary_patch <- table(raster::values(patches_padded)[raster::values(boundary) == 1])
 
             core_area <-
                 (cells_patch - boundary_patch) *

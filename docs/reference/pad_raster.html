@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
       </span>
     </div>
 
@@ -169,23 +169,23 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='no'>pad_raster_value</span>, <span class='no'>pad_raster_cells</span>)
+    <pre class="usage"><span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='no'>pad_raster_value</span>, <span class='no'>pad_raster_cells</span>, <span class='no'>global</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
 <span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='kw'>pad_raster_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
-  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>global</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
 <span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='kw'>pad_raster_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
-  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>global</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
 <span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='kw'>pad_raster_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
-  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>global</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>pad_raster</span>(<span class='no'>landscape</span>, <span class='kw'>pad_raster_value</span> <span class='kw'>=</span> -<span class='fl'>999</span>,
-  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+  <span class='kw'>pad_raster_cells</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>global</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,6 +201,10 @@
     <tr>
       <th>pad_raster_cells</th>
       <td><p>Number of rows and columns added</p></td>
+    </tr>
+    <tr>
+      <th>global</th>
+      <td><p>Only pad around the raster extent or also NA holes "inside"</p></td>
     </tr>
     </table>
     
