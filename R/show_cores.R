@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' # show "global" core area
-#' show_cores(landscape, what = "global")
+#' show_cores(landscape, what = "global", labels = FALSE)
 #'
 #' # show the core area of every class as facet
 #' show_cores(landscape, what = "all")
@@ -30,6 +30,7 @@
 show_cores <- function(landscape,
                        directions = 8,
                        what = "all",
+                       labels = TRUE,
                        nrow = NULL,
                        ncol = NULL) {
 
@@ -71,14 +72,22 @@ show_cores <- function(landscape,
         sum(na.rm = TRUE) %>%
         raster::as.data.frame(xy = TRUE) %>%
         purrr::set_names("x", "y", "values") %>%
-        dplyr::mutate(class = raster::values(landscape))
+        dplyr::mutate(class = raster::values(landscape)) %>%
+        dplyr::mutate(core_label = values)
 
     boundary_labeled_stack$values[boundary_labeled_stack$values == -999] <- NA
+
+    if (isTRUE(labels)){
+        boundary_labeled_stack$core_label[boundary_labeled_stack$core_label == -999] <- NA
+    } else{
+        boundary_labeled_stack$core_label <- NA
+    }
+
 
     if (any(what == "global")) {
         plot <- ggplot2::ggplot(boundary_labeled_stack) +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = values)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = values),
+            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = core_label),
                                colour = "white") +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
@@ -95,8 +104,7 @@ show_cores <- function(landscape,
                     "#CC503E",
                     "#94346E",
                     "#6F4070",
-                    "#994E95",
-                    "#666666"
+                    "#994E95"
                 ),
                 na.value = "grey75") +
             ggplot2::theme(axis.title = ggplot2::element_blank(),
@@ -122,12 +130,12 @@ show_cores <- function(landscape,
         plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = values)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = values),
-                                colour = "white") +
+            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = core_label),
+                               colour = "white") +
             ggplot2::scale_fill_gradientn(
                 colours = c("#E17C05"),
                 na.value = "grey75") +
-            ggplot2::facet_wrap(~class, nrow = 1, ncol = 3) +
+            ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
             ggplot2::scale_x_continuous(expand = c(0, 0)) +
             ggplot2::scale_y_continuous(expand = c(0, 0)) +
             ggplot2::guides(fill = FALSE) +
