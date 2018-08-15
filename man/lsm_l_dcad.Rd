@@ -5,6 +5,7 @@
 \alias{lsm_l_dcad.RasterLayer}
 \alias{lsm_l_dcad.RasterStack}
 \alias{lsm_l_dcad.RasterBrick}
+\alias{lsm_l_dcad.stars}
 \alias{lsm_l_dcad.list}
 \title{DCAD (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_dcad(landscape, directions)
 \method{lsm_l_dcad}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_dcad}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_dcad}{stars}(landscape, directions = 8)
 
 \method{lsm_l_dcad}{list}(landscape, directions = 8)
 }

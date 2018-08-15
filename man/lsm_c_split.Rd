@@ -5,6 +5,7 @@
 \alias{lsm_c_split.RasterLayer}
 \alias{lsm_c_split.RasterStack}
 \alias{lsm_c_split.RasterBrick}
+\alias{lsm_c_split.stars}
 \alias{lsm_c_split.list}
 \title{SPLIT (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_split(landscape, directions)
 \method{lsm_c_split}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_split}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_split}{stars}(landscape, directions = 8)
 
 \method{lsm_c_split}{list}(landscape, directions = 8)
 }

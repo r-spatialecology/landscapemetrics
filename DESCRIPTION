@@ -41,6 +41,7 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
+    methods,
     purrr,
     raster,
     Rcpp,
@@ -50,6 +51,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
+Enhances:
+    stars
 LinkingTo: 
     Rcpp,
     RcppArmadillo

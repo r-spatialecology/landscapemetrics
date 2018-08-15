@@ -5,6 +5,7 @@
 \alias{lsm_l_dcore_sd.RasterLayer}
 \alias{lsm_l_dcore_sd.RasterStack}
 \alias{lsm_l_dcore_sd.RasterBrick}
+\alias{lsm_l_dcore_sd.stars}
 \alias{lsm_l_dcore_sd.list}
 \title{DCORE_SD (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_dcore_sd(landscape, directions)
 \method{lsm_l_dcore_sd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_dcore_sd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_dcore_sd}{stars}(landscape, directions = 8)
 
 \method{lsm_l_dcore_sd}{list}(landscape, directions = 8)
 }

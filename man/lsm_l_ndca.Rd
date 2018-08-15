@@ -5,6 +5,7 @@
 \alias{lsm_l_ndca.RasterLayer}
 \alias{lsm_l_ndca.RasterStack}
 \alias{lsm_l_ndca.RasterBrick}
+\alias{lsm_l_ndca.stars}
 \alias{lsm_l_ndca.list}
 \title{NDCA (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_ndca(landscape, directions)
 \method{lsm_l_ndca}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_ndca}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_ndca}{stars}(landscape, directions = 8)
 
 \method{lsm_l_ndca}{list}(landscape, directions = 8)
 }

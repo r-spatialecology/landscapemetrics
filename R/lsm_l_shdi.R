@@ -67,6 +67,18 @@ lsm_l_shdi.RasterBrick<- function(landscape) {
 
 #' @name lsm_l_shdi
 #' @export
+lsm_l_shdi.stars <- function(landscape) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_shdi_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+
+#' @name lsm_l_shdi
+#' @export
 lsm_l_shdi.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_l_shdi_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))

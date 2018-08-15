@@ -76,6 +76,19 @@ lsm_c_dcad.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_dcad
 #' @export
+lsm_c_dcad.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_dcad_calc,
+                   directions = directions,  .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_dcad
+#' @export
 lsm_c_dcad.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_c_dcad_calc,

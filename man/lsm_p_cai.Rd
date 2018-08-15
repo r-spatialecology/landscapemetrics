@@ -5,6 +5,7 @@
 \alias{lsm_p_cai.RasterLayer}
 \alias{lsm_p_cai.RasterStack}
 \alias{lsm_p_cai.RasterBrick}
+\alias{lsm_p_cai.stars}
 \alias{lsm_p_cai.list}
 \title{CAI (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_cai(landscape, directions)
 \method{lsm_p_cai}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_cai}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_cai}{stars}(landscape, directions = 8)
 
 \method{lsm_p_cai}{list}(landscape, directions = 8)
 }

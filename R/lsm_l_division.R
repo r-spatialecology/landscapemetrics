@@ -77,6 +77,20 @@ lsm_l_division.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_l_division
 #' @export
+lsm_l_division.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_division_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_division
+#' @export
 lsm_l_division.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_l_division_calc,

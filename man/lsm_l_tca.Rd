@@ -5,6 +5,7 @@
 \alias{lsm_l_tca.RasterLayer}
 \alias{lsm_l_tca.RasterStack}
 \alias{lsm_l_tca.RasterBrick}
+\alias{lsm_l_tca.stars}
 \alias{lsm_l_tca.list}
 \title{TCA (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_tca(landscape, directions)
 \method{lsm_l_tca}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_tca}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_tca}{stars}(landscape, directions = 8)
 
 \method{lsm_l_tca}{list}(landscape, directions = 8)
 }

@@ -5,6 +5,7 @@
 \alias{lsm_c_te.RasterLayer}
 \alias{lsm_c_te.RasterStack}
 \alias{lsm_c_te.RasterBrick}
+\alias{lsm_c_te.stars}
 \alias{lsm_c_te.list}
 \title{TE (class level)}
 \usage{
@@ -17,6 +18,9 @@ lsm_c_te(landscape, count_boundary, directions)
   directions = 8)
 
 \method{lsm_c_te}{RasterBrick}(landscape, count_boundary = FALSE,
+  directions = 8)
+
+\method{lsm_c_te}{stars}(landscape, count_boundary = FALSE,
   directions = 8)
 
 \method{lsm_c_te}{list}(landscape, count_boundary = FALSE,

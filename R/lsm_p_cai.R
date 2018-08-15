@@ -85,6 +85,20 @@ lsm_p_cai.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_p_cai
 #' @export
+lsm_p_cai.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_cai_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_p_cai
+#' @export
 lsm_p_cai.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_p_cai_calc,

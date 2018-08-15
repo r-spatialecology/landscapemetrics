@@ -42,6 +42,16 @@ show_patches.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name show_patches
 #' @export
+show_patches.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map(raster::as.list(landscape), show_patches_intern,
+               directions = directions)
+}
+
+#' @name show_patches
+#' @export
 show_patches.list <- function(landscape, directions = 8) {
     purrr::map(landscape, show_patches_intern,
                directions = directions)

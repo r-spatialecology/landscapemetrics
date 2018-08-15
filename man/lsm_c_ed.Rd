@@ -5,6 +5,7 @@
 \alias{lsm_c_ed.RasterLayer}
 \alias{lsm_c_ed.RasterStack}
 \alias{lsm_c_ed.RasterBrick}
+\alias{lsm_c_ed.stars}
 \alias{lsm_c_ed.list}
 \title{ED (class level)}
 \usage{
@@ -17,6 +18,9 @@ lsm_c_ed(landscape, count_boundary, directions)
   directions = 8)
 
 \method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE,
+  directions = 8)
+
+\method{lsm_c_ed}{stars}(landscape, count_boundary = FALSE,
   directions = 8)
 
 \method{lsm_c_ed}{list}(landscape, count_boundary = FALSE,

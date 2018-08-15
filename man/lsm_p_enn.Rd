@@ -5,6 +5,7 @@
 \alias{lsm_p_enn.RasterLayer}
 \alias{lsm_p_enn.RasterStack}
 \alias{lsm_p_enn.RasterBrick}
+\alias{lsm_p_enn.stars}
 \alias{lsm_p_enn.list}
 \title{ENN (patch level)}
 \usage{
@@ -18,6 +19,8 @@ lsm_p_enn(landscape, directions, verbose)
 
 \method{lsm_p_enn}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_p_enn}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_p_enn}{list}(landscape, directions = 8, verbose = TRUE)
 }

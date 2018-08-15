@@ -5,6 +5,7 @@
 \alias{lsm_l_frac_mn.RasterLayer}
 \alias{lsm_l_frac_mn.RasterStack}
 \alias{lsm_l_frac_mn.RasterBrick}
+\alias{lsm_l_frac_mn.stars}
 \alias{lsm_l_frac_mn.list}
 \title{FRAC_MN (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_frac_mn(landscape, directions)
 \method{lsm_l_frac_mn}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_frac_mn}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_frac_mn}{stars}(landscape, directions = 8)
 
 \method{lsm_l_frac_mn}{list}(landscape, directions = 8)
 }

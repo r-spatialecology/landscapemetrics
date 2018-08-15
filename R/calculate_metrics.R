@@ -134,6 +134,36 @@ calculate_metrics.RasterBrick <- function(landscape,
 
 #' @name calculate_metrics
 #' @export
+calculate_metrics.stars <- function(landscape,
+                                    what = "all",
+                                    directions = 8,
+                                    count_boundary = FALSE,
+                                    classes_max = NULL,
+                                    neighbourhood = 4,
+                                    ordered = TRUE,
+                                    base = "log2",
+                                    full_name = FALSE,
+                                    verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   calculate_metrics_internal,
+                   what = what,
+                   directions = directions,
+                   count_boundary = count_boundary,
+                   classes_max = classes_max,
+                   neighbourhood = neighbourhood,
+                   ordered = ordered,
+                   base = base,
+                   full_name = full_name,
+                   verbose = verbose) %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+
+#' @name calculate_metrics
+#' @export
 calculate_metrics.list <- function(landscape,
                                what = "all",
                                directions = 8,

@@ -90,6 +90,21 @@ lsm_c_enn_mn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
 
 #' @name lsm_c_enn_mn
 #' @export
+lsm_c_enn_mn.stars <- function(landscape, directions = 8, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_enn_mn_calc,
+                   directions = directions,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_c_enn_mn
+#' @export
 lsm_c_enn_mn.list <- function(landscape, directions = 8, verbose = TRUE) {
     purrr::map_dfr(landscape,
                    lsm_c_enn_mn_calc,

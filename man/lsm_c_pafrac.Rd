@@ -5,6 +5,7 @@
 \alias{lsm_c_pafrac.RasterLayer}
 \alias{lsm_c_pafrac.RasterStack}
 \alias{lsm_c_pafrac.RasterBrick}
+\alias{lsm_c_pafrac.stars}
 \alias{lsm_c_pafrac.list}
 \title{PAFRAC  (class level)}
 \usage{
@@ -18,6 +19,8 @@ lsm_c_pafrac(landscape, directions, verbose)
 
 \method{lsm_c_pafrac}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_c_pafrac}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_c_pafrac}{list}(landscape, directions = 8, verbose = TRUE)
 }
