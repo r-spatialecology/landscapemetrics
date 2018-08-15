@@ -48,7 +48,7 @@ install.packages("landscapemetrics")
 
 # Alternatively, you can install the stable development version from Github
 # install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics")
+devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
 ```
 
 ## Using landscapemetrics
