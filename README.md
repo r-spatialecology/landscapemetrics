@@ -13,7 +13,7 @@ status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/gr
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active – The project has reached a stable, usable
+[![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
@@ -39,7 +39,7 @@ it always takes the data as the first argument and returns a tibble.
 There are several ways to install `landscapemetrics`:
 
 ``` r
-# The easiest way is to install landscapemetrics is from CRAN
+# The easiest way is to install landscapemetrics from CRAN
 install.packages("landscapemetrics")
 
 # Alternatively, you can install the stable development version from Github
@@ -199,7 +199,7 @@ metrics. Therefore, in case you want to suggest new metrics and in the
 best case even contribute code, we warmly welcome to do so\! For more
 information see [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repository’s [CODE OF
+Maintainers and contributors must follow this repositoryâ€™s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References

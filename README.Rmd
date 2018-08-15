@@ -43,7 +43,7 @@ takes the data as the first argument and returns a tibble.
 There are several ways to install `landscapemetrics`:
 
 ```r
-# The easiest way is to install landscapemetrics is from CRAN
+# The easiest way is to install landscapemetrics from CRAN
 install.packages("landscapemetrics")
 
 # Alternatively, you can install the stable development version from Github
