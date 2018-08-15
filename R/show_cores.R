@@ -71,7 +71,7 @@ show_cores <- function(landscape,
         sum(na.rm = TRUE) %>%
         raster::as.data.frame(xy = TRUE) %>%
         purrr::set_names("x", "y", "values") %>%
-        mutate(class = raster::values(landscape))
+        dplyr::mutate(class = raster::values(landscape))
 
     boundary_labeled_stack$values[boundary_labeled_stack$values == -999] <- NA
 
@@ -159,8 +159,8 @@ show_cores <- function(landscape,
 
         plot <- ggplot2::ggplot(core_tibble, ggplot2::aes(x, y)) +
             ggplot2::coord_fixed() +
-            ggplot2::geom_raster(ggplot2::aes(fill = z)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = patchlabel),
+            ggplot2::geom_raster(ggplot2::aes_string(fill = "z")) +
+            ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "patchlabel"),
                                colour = "white") +
             ggplot2::scale_fill_gradientn(
                 colours = c("grey75","#E17C05"),

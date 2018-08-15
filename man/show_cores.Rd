@@ -15,7 +15,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{what}{How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
 
-\item{nrow, ncol}{Number of rows and columns.}
+\item{nrow, ncol}{Number of rows and columns for the facet.}
 }
 \value{
 ggplot
