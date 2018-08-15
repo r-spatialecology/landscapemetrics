@@ -73,6 +73,19 @@ lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
 
 #' @name lsm_l_te
 #' @export
+lsm_l_te.stars <- function(landscape, count_boundary = FALSE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_te_calc,
+                   count_boundary = count_boundary,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
+#' @name lsm_l_te
+#' @export
 lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
     purrr::map_dfr(raster::as.list(landscape),
                    .f = lsm_l_te_calc,

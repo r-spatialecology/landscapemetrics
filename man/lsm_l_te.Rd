@@ -5,6 +5,7 @@
 \alias{lsm_l_te.RasterLayer}
 \alias{lsm_l_te.RasterStack}
 \alias{lsm_l_te.RasterBrick}
+\alias{lsm_l_te.stars}
 \alias{lsm_l_te.list}
 \title{TE (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_te(landscape, count_boundary)
 \method{lsm_l_te}{RasterStack}(landscape, count_boundary = FALSE)
 
 \method{lsm_l_te}{RasterBrick}(landscape, count_boundary = FALSE)
+
+\method{lsm_l_te}{stars}(landscape, count_boundary = FALSE)
 
 \method{lsm_l_te}{list}(landscape, count_boundary = FALSE)
 }

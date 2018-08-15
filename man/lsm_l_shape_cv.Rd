@@ -5,6 +5,7 @@
 \alias{lsm_l_shape_cv.RasterLayer}
 \alias{lsm_l_shape_cv.RasterStack}
 \alias{lsm_l_shape_cv.RasterBrick}
+\alias{lsm_l_shape_cv.stars}
 \alias{lsm_l_shape_cv.list}
 \title{SHAPE_CV (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_shape_cv(landscape, directions)
 \method{lsm_l_shape_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_shape_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_shape_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_l_shape_cv}{list}(landscape, directions = 8)
 }

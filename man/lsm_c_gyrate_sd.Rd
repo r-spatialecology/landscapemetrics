@@ -5,6 +5,7 @@
 \alias{lsm_c_gyrate_sd.RasterLayer}
 \alias{lsm_c_gyrate_sd.RasterStack}
 \alias{lsm_c_gyrate_sd.RasterBrick}
+\alias{lsm_c_gyrate_sd.stars}
 \alias{lsm_c_gyrate_sd.list}
 \title{GYRATE_SD (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_gyrate_sd(landscape, directions)
 \method{lsm_c_gyrate_sd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_gyrate_sd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_gyrate_sd}{stars}(landscape, directions = 8)
 
 \method{lsm_c_gyrate_sd}{list}(landscape, directions = 8)
 }

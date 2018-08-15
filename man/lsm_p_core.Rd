@@ -5,6 +5,7 @@
 \alias{lsm_p_core.RasterLayer}
 \alias{lsm_p_core.RasterStack}
 \alias{lsm_p_core.RasterBrick}
+\alias{lsm_p_core.stars}
 \alias{lsm_p_core.list}
 \title{CORE (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_core(landscape, directions)
 \method{lsm_p_core}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_core}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_core}{stars}(landscape, directions = 8)
 
 \method{lsm_p_core}{list}(landscape, directions = 8)
 }

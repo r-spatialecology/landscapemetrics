@@ -5,6 +5,7 @@
 \alias{lsm_c_cai_cv.RasterLayer}
 \alias{lsm_c_cai_cv.RasterStack}
 \alias{lsm_c_cai_cv.RasterBrick}
+\alias{lsm_c_cai_cv.stars}
 \alias{lsm_c_cai_cv.list}
 \title{CAI_CV (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_cai_cv(landscape, directions)
 \method{lsm_c_cai_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_cai_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_cai_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_c_cai_cv}{list}(landscape, directions = 8)
 }

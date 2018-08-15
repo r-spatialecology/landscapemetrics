@@ -84,6 +84,19 @@ lsm_p_shape.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_p_shape
 #' @export
+lsm_p_shape.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_p_shape_calc,
+                   directions = directions,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+#' @name lsm_p_shape
+#' @export
 lsm_p_shape.list <- function(landscape, directions = 8) {
     purrr::map_dfr(landscape,
                    lsm_p_shape_calc,

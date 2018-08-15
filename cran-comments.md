@@ -33,3 +33,19 @@ You could use something like
 with a suitable tolerance.
 
 * The software we compare our results to (FRAGSTATS) has only a precision of 4 digits itself. We discussed using relative differences but decided that we do not want to show that our results are equal to the FRAGSTATS results within a tolerance, but rather that our results would be exactly the same assuming the same precision. Therefore we decided to round our results for the tests.
+
+
+## Test environments
+* local OS X install, R 3.5.1
+* ubuntu 18.04, R 3.5.1
+* macOS High Sierra, R 3.5.1
+* ubuntu 14.04 (on travis-ci), R 3.5.1
+* win-builder (devel and release)
+
+## R CMD check results
+
+0 errors | 0 warnings | 0 note
+
+## Reverse dependencies
+
+There are currently no reverse dependencies.

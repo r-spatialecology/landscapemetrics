@@ -5,6 +5,7 @@
 \alias{lsm_l_np.RasterLayer}
 \alias{lsm_l_np.RasterStack}
 \alias{lsm_l_np.RasterBrick}
+\alias{lsm_l_np.stars}
 \alias{lsm_l_np.list}
 \title{NP (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_np(landscape, directions)
 \method{lsm_l_np}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_np}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_np}{stars}(landscape, directions = 8)
 
 \method{lsm_l_np}{list}(landscape, directions = 8)
 }

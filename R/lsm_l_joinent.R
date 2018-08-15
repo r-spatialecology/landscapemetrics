@@ -87,6 +87,25 @@ lsm_l_joinent.RasterBrick <- function(landscape,
 
 #' @name lsm_l_joinent
 #' @export
+lsm_l_joinent.stars <- function(landscape,
+                                neighbourhood = 4,
+                                ordered = TRUE,
+                                base = "log2") {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_joinent_calc,
+                   neighbourhood = neighbourhood,
+                   ordered = ordered,
+                   base = base,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+#' @name lsm_l_joinent
+#' @export
 lsm_l_joinent.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,

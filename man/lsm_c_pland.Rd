@@ -5,6 +5,7 @@
 \alias{lsm_c_pland.RasterLayer}
 \alias{lsm_c_pland.RasterStack}
 \alias{lsm_c_pland.RasterBrick}
+\alias{lsm_c_pland.stars}
 \alias{lsm_c_pland.list}
 \title{PLAND (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_pland(landscape, directions)
 \method{lsm_c_pland}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_pland}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_pland}{stars}(landscape, directions = 8)
 
 \method{lsm_c_pland}{list}(landscape, directions = 8)
 }
