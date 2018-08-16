@@ -4,8 +4,8 @@
 \alias{show_cores}
 \title{Show core area}
 \usage{
-show_cores(landscape, directions = 8, what = "all", nrow = NULL,
-  ncol = NULL)
+show_cores(landscape, directions = 8, what = "all", labels = TRUE,
+  nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{Raster object}
@@ -29,12 +29,12 @@ corresponding patch id. The edges are the grey cells surrounding the patches and
 }
 \examples{
 # show "global" core area
-show_cores(landscape, what = "global")
+show_cores(landscape, what = "global", labels = FALSE)
 
 # show the core area of every class as facet
-show_cores(landscape, what = "all")
+show_cores(landscape, what = "all", labels = FALSE)
 
 # show only the core area of class 1 and 3
-show_cores(landscape, what = c(1,3))
+show_cores(landscape, what = c(1,3), labels = FALSE)
 
 }
