@@ -5,6 +5,7 @@
 \alias{calculate_metrics.RasterLayer}
 \alias{calculate_metrics.RasterStack}
 \alias{calculate_metrics.RasterBrick}
+\alias{calculate_metrics.stars}
 \alias{calculate_metrics.list}
 \title{calculate_metrics}
 \usage{
@@ -22,6 +23,11 @@ calculate_metrics(landscape, what, directions, count_boundary, classes_max,
   full_name = FALSE, verbose = TRUE)
 
 \method{calculate_metrics}{RasterBrick}(landscape, what = "all",
+  directions = 8, count_boundary = FALSE, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2",
+  full_name = FALSE, verbose = TRUE)
+
+\method{calculate_metrics}{stars}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
   full_name = FALSE, verbose = TRUE)

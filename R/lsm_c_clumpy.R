@@ -68,6 +68,19 @@ lsm_c_clumpy.RasterBrick <- function(landscape) {
 
 #' @name lsm_c_clumpy
 #' @export
+lsm_c_clumpy.stars <- function(landscape) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_c_clumpy_calc, .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
+
+
+#' @name lsm_c_clumpy
+#' @export
 lsm_c_clumpy.list <- function(landscape) {
     purrr::map_dfr(landscape, lsm_c_clumpy_calc, .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))

@@ -5,6 +5,7 @@
 \alias{lsm_l_para_sd.RasterLayer}
 \alias{lsm_l_para_sd.RasterStack}
 \alias{lsm_l_para_sd.RasterBrick}
+\alias{lsm_l_para_sd.stars}
 \alias{lsm_l_para_sd.list}
 \title{PARA_SD (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_para_sd(landscape, directions)
 \method{lsm_l_para_sd}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_para_sd}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_para_sd}{stars}(landscape, directions = 8)
 
 \method{lsm_l_para_sd}{list}(landscape, directions = 8)
 }

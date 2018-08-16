@@ -5,6 +5,7 @@
 \alias{lsm_c_clumpy.RasterLayer}
 \alias{lsm_c_clumpy.RasterStack}
 \alias{lsm_c_clumpy.RasterBrick}
+\alias{lsm_c_clumpy.stars}
 \alias{lsm_c_clumpy.list}
 \title{CLUMPY (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_clumpy(landscape)
 \method{lsm_c_clumpy}{RasterStack}(landscape)
 
 \method{lsm_c_clumpy}{RasterBrick}(landscape)
+
+\method{lsm_c_clumpy}{stars}(landscape)
 
 \method{lsm_c_clumpy}{list}(landscape)
 }

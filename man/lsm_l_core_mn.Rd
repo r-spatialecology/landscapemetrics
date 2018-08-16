@@ -5,6 +5,7 @@
 \alias{lsm_l_core_mn.RasterLayer}
 \alias{lsm_l_core_mn.RasterStack}
 \alias{lsm_l_core_mn.RasterBrick}
+\alias{lsm_l_core_mn.stars}
 \alias{lsm_l_core_mn.list}
 \title{CORE_MN (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_core_mn(landscape, directions)
 \method{lsm_l_core_mn}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_core_mn}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_core_mn}{stars}(landscape, directions = 8)
 
 \method{lsm_l_core_mn}{list}(landscape, directions = 8)
 }

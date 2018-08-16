@@ -5,6 +5,7 @@
 \alias{lsm_c_ai.RasterLayer}
 \alias{lsm_c_ai.RasterStack}
 \alias{lsm_c_ai.RasterBrick}
+\alias{lsm_c_ai.stars}
 \alias{lsm_c_ai.list}
 \title{AI (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_ai(landscape)
 \method{lsm_c_ai}{RasterStack}(landscape)
 
 \method{lsm_c_ai}{RasterBrick}(landscape)
+
+\method{lsm_c_ai}{stars}(landscape)
 
 \method{lsm_c_ai}{list}(landscape)
 }

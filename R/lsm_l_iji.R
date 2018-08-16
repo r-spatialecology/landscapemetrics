@@ -45,6 +45,7 @@
 #
 #' @export
 lsm_l_iji <- function(landscape, verbose) UseMethod("lsm_l_iji")
+
 #' @name lsm_l_iji
 #' @export
 lsm_l_iji.RasterLayer <- function(landscape, verbose = TRUE) {
@@ -54,6 +55,7 @@ lsm_l_iji.RasterLayer <- function(landscape, verbose = TRUE) {
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
+
 #' @name lsm_l_iji
 #' @export
 lsm_l_iji.RasterStack <- function(landscape, verbose = TRUE) {
@@ -63,6 +65,7 @@ lsm_l_iji.RasterStack <- function(landscape, verbose = TRUE) {
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
+
 #' @name lsm_l_iji
 #' @export
 lsm_l_iji.RasterBrick <- function(landscape, verbose = TRUE) {
@@ -72,6 +75,20 @@ lsm_l_iji.RasterBrick <- function(landscape, verbose = TRUE) {
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 }
+
+#' @name lsm_l_iji
+#' @export
+lsm_l_iji.stars <- function(landscape, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   lsm_l_iji_calc,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+}
+
 #' @name lsm_l_iji
 #' @export
 lsm_l_iji.list <- function(landscape, verbose = TRUE) {

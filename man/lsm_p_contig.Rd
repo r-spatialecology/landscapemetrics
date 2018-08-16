@@ -5,6 +5,7 @@
 \alias{lsm_p_contig.RasterLayer}
 \alias{lsm_p_contig.RasterStack}
 \alias{lsm_p_contig.RasterBrick}
+\alias{lsm_p_contig.stars}
 \alias{lsm_p_contig.list}
 \title{CONTIG (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_contig(landscape, directions)
 \method{lsm_p_contig}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_contig}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_contig}{stars}(landscape, directions = 8)
 
 \method{lsm_p_contig}{list}(landscape, directions = 8)
 }

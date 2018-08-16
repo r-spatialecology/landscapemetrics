@@ -33,6 +33,7 @@ reference:
   - title: Visualisation functions
     contents:
     - show_patches
+    - show_cores
     - show_correlation
   - title: Patch Level Metrics
     contents:

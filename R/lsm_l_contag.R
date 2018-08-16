@@ -76,6 +76,19 @@ lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
         dplyr::mutate(layer = as.integer(layer))
 }
 
+#' @name lsm_l_contag
+#' @export
+lsm_l_contag.stars <- function(landscape, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    purrr::map_dfr(raster::as.list(landscape),
+                   .f = lsm_l_contag_calc,
+                   verbose = verbose,
+                   .id = "layer") %>%
+        dplyr::mutate(layer = as.integer(layer))
+
+}
 
 #' @name lsm_l_contag
 #' @export

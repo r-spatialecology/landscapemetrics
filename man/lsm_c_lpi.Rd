@@ -5,6 +5,7 @@
 \alias{lsm_c_lpi.RasterLayer}
 \alias{lsm_c_lpi.RasterStack}
 \alias{lsm_c_lpi.RasterBrick}
+\alias{lsm_c_lpi.stars}
 \alias{lsm_c_lpi.list}
 \title{LPI (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_lpi(landscape, directions)
 \method{lsm_c_lpi}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_lpi}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_lpi}{stars}(landscape, directions = 8)
 
 \method{lsm_c_lpi}{list}(landscape, directions = 8)
 }

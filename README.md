@@ -36,10 +36,16 @@ it always takes the data as the first argument and returns a tibble.
 
 ## Installation
 
-You can install **landscapemetrics** from GitHub with:
+There are several ways to install `landscapemetrics`:
 
-    # install.packages("devtools")
-    devtools::install_github("r-spatialecology/landscapemetrics")
+``` r
+# The easiest way is to install landscapemetrics from CRAN
+install.packages("landscapemetrics")
+
+# Alternatively, you can install the stable development version from Github
+# install.packages("devtools")
+devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
+```
 
 ## Using landscapemetrics
 

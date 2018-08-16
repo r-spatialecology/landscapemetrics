@@ -5,6 +5,7 @@
 \alias{lsm_p_gyrate.RasterLayer}
 \alias{lsm_p_gyrate.RasterStack}
 \alias{lsm_p_gyrate.RasterBrick}
+\alias{lsm_p_gyrate.stars}
 \alias{lsm_p_gyrate.list}
 \title{GYRATE (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_gyrate(landscape, directions)
 \method{lsm_p_gyrate}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_gyrate}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_gyrate}{stars}(landscape, directions = 8)
 
 \method{lsm_p_gyrate}{list}(landscape, directions = 8)
 }

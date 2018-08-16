@@ -5,6 +5,7 @@
 \alias{lsm_c_cohesion.RasterLayer}
 \alias{lsm_c_cohesion.RasterStack}
 \alias{lsm_c_cohesion.RasterBrick}
+\alias{lsm_c_cohesion.stars}
 \alias{lsm_c_cohesion.list}
 \title{COHESION (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_cohesion(landscape, directions)
 \method{lsm_c_cohesion}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_cohesion}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_cohesion}{stars}(landscape, directions = 8)
 
 \method{lsm_c_cohesion}{list}(landscape, directions = 8)
 }

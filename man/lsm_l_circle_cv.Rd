@@ -5,6 +5,7 @@
 \alias{lsm_l_circle_cv.RasterLayer}
 \alias{lsm_l_circle_cv.RasterStack}
 \alias{lsm_l_circle_cv.RasterBrick}
+\alias{lsm_l_circle_cv.stars}
 \alias{lsm_l_circle_cv.list}
 \title{CIRCLE_CV (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_circle_cv(landscape, directions)
 \method{lsm_l_circle_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_circle_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_circle_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_l_circle_cv}{list}(landscape, directions = 8)
 }

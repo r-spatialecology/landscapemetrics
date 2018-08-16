@@ -5,6 +5,7 @@
 \alias{lsm_p_para.RasterLayer}
 \alias{lsm_p_para.RasterStack}
 \alias{lsm_p_para.RasterBrick}
+\alias{lsm_p_para.stars}
 \alias{lsm_p_para.list}
 \title{PARA (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_para(landscape, directions)
 \method{lsm_p_para}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_para}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_para}{stars}(landscape, directions = 8)
 
 \method{lsm_p_para}{list}(landscape, directions = 8)
 }

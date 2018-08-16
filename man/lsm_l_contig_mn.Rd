@@ -5,6 +5,7 @@
 \alias{lsm_l_contig_mn.RasterLayer}
 \alias{lsm_l_contig_mn.RasterStack}
 \alias{lsm_l_contig_mn.RasterBrick}
+\alias{lsm_l_contig_mn.stars}
 \alias{lsm_l_contig_mn.list}
 \title{CONTIG_MN (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_contig_mn(landscape, directions)
 \method{lsm_l_contig_mn}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_contig_mn}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_contig_mn}{stars}(landscape, directions = 8)
 
 \method{lsm_l_contig_mn}{list}(landscape, directions = 8)
 }

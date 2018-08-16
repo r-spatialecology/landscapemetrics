@@ -5,6 +5,7 @@
 \alias{lsm_l_ai.RasterLayer}
 \alias{lsm_l_ai.RasterStack}
 \alias{lsm_l_ai.RasterBrick}
+\alias{lsm_l_ai.stars}
 \alias{lsm_l_ai.list}
 \title{AI (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_ai(landscape)
 \method{lsm_l_ai}{RasterStack}(landscape)
 
 \method{lsm_l_ai}{RasterBrick}(landscape)
+
+\method{lsm_l_ai}{stars}(landscape)
 
 \method{lsm_l_ai}{list}(landscape)
 }

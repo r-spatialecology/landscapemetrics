@@ -5,6 +5,7 @@
 \alias{lsm_c_core_cv.RasterLayer}
 \alias{lsm_c_core_cv.RasterStack}
 \alias{lsm_c_core_cv.RasterBrick}
+\alias{lsm_c_core_cv.stars}
 \alias{lsm_c_core_cv.list}
 \title{CORE_CV (class level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_c_core_cv(landscape, directions)
 \method{lsm_c_core_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_c_core_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_c_core_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_c_core_cv}{list}(landscape, directions = 8)
 }

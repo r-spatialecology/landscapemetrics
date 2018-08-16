@@ -5,6 +5,7 @@
 \alias{show_patches.RasterLayer}
 \alias{show_patches.RasterStack}
 \alias{show_patches.RasterBrick}
+\alias{show_patches.stars}
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
@@ -15,6 +16,8 @@ show_patches(landscape, directions)
 \method{show_patches}{RasterStack}(landscape, directions = 8)
 
 \method{show_patches}{RasterBrick}(landscape, directions = 8)
+
+\method{show_patches}{stars}(landscape, directions = 8)
 
 \method{show_patches}{list}(landscape, directions = 8)
 }

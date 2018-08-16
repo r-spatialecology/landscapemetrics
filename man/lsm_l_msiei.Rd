@@ -5,6 +5,7 @@
 \alias{lsm_l_msiei.RasterLayer}
 \alias{lsm_l_msiei.RasterStack}
 \alias{lsm_l_msiei.RasterBrick}
+\alias{lsm_l_msiei.stars}
 \alias{lsm_l_msiei.list}
 \title{MSIEI (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_msiei(landscape, directions)
 \method{lsm_l_msiei}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_msiei}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_msiei}{stars}(landscape, directions = 8)
 
 \method{lsm_l_msiei}{list}(landscape, directions = 8)
 }
