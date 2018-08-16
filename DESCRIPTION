@@ -45,6 +45,7 @@ Imports:
     purrr,
     raster,
     Rcpp,
+    sp,
     tibble
 Suggests: 
     covr,
