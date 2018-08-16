@@ -7,6 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param nrow,ncol Number of rows and columns for the facet.
+#' @param labels Logical flag indicating whether to print or not to print patch labels.
 #'
 #' @details The functions plots the core area of patches labeled with the
 #' corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.
@@ -87,7 +88,7 @@ show_cores <- function(landscape,
     if (any(what == "global")) {
         plot <- ggplot2::ggplot(boundary_labeled_stack) +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = values)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = core_label),
+            ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
                                colour = "white") +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
@@ -130,7 +131,7 @@ show_cores <- function(landscape,
         plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = values)) +
-            ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = core_label),
+            ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
                                colour = "white") +
             ggplot2::scale_fill_gradientn(
                 colours = c("#E17C05"),

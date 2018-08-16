@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Utility functions</h1>
             
-            <h4 class="date">2018-08-15</h4>
+            <h4 class="date">2018-08-16</h4>
       
       
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -135,6 +135,8 @@
 
     
     
+<pre><code>#&gt; Warning: package 'ggplot2' was built under R version 3.5.1
+#&gt; Warning: package 'dplyr' was built under R version 3.5.1</code></pre>
 <div id="visualisization-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualisization-functions" class="anchor"></a>Visualisization functions</h2>
@@ -142,42 +144,42 @@
 <h3 class="hasAnchor">
 <a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h3>
 <p>To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function <code><a href="../../reference/show_patches.html">show_patches()</a></code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(landscapetools)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(landscapemetrics)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Create plot of the landscape</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">landscape_plot &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(landscape) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_void</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/coord_fixed">coord_equal</a></span>()</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co"># Plot landscape + landscape with labeled patches</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">landscape_plot  <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../../reference/show_patches.html">show_patches</a></span>(landscape) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/patchwork/topics/plot_layout">plot_layout</a></span>(<span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(landscapetools)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(patchwork)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">library</span>(landscapemetrics)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Create plot of the landscape</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">landscape_plot &lt;-<span class="st"> </span><span class="kw">util_plot</span>(landscape) <span class="op">+</span><span class="st"> </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>()</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># Plot landscape + landscape with labeled patches</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">landscape_plot  <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../../reference/show_patches.html">show_patches</a></span>(landscape) <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-1-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="connected-labeling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#connected-labeling" class="anchor"></a>Connected labeling</h3>
 <p><strong>landscapemetrics</strong> makes internally heavy use of an connected labeling algorithm and exports an reimplementation of this algorithm (<code>get_patches</code>). You can use this function to look at patches of classes, but you can also use it to “dissect” your landscape visually and get an impression of the spatial distribution of the classes and number of patches. The <a href="https://github.com/ropensci/landscapetools"><strong>landscapetools</strong></a> package offers a function to plot lists, stacks and bricks of rasters as facets. As <code>get_patches</code> returns a list with RasterLayer elements for each class, this is a convienent way to look at patterns in your landscape:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># run connected labeling for landscape raster</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">patches &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_patches.html">get_patches</a></span>(landscape)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># show landscape and a single facet with every patch for all classes in podlasie</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapetools/topics/util_facetplot">util_facetplot</a></span>(patches) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient">scale_fill_gradientn</a></span>(</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">            <span class="dt">colours =</span> <span class="kw">c</span>(</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">                <span class="st">"#5F4690"</span>,</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">                <span class="st">"#1D6996"</span>,</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">                <span class="st">"#38A6A5"</span>,</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">                <span class="st">"#0F8554"</span>,</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">                <span class="st">"#73AF48"</span>,</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">                <span class="st">"#EDAD08"</span>,</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">                <span class="st">"#E17C05"</span>,</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">                <span class="st">"#CC503E"</span>,</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">                <span class="st">"#94346E"</span>,</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">                <span class="st">"#6F4070"</span>,</a>
-<a class="sourceLine" id="cb2-18" data-line-number="18">                <span class="st">"#994E95"</span>,</a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">                <span class="st">"#666666"</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">                ))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># run connected labeling for landscape raster</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">patches &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_patches.html">get_patches</a></span>(landscape)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># show landscape and a single facet with every patch for all classes in podlasie</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">util_facetplot</span>(patches) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">        </span>ggplot2<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient">scale_fill_gradientn</a></span>(</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">            <span class="dt">colours =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">                <span class="st">"#5F4690"</span>,</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">                <span class="st">"#1D6996"</span>,</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">                <span class="st">"#38A6A5"</span>,</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">                <span class="st">"#0F8554"</span>,</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">                <span class="st">"#73AF48"</span>,</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">                <span class="st">"#EDAD08"</span>,</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">                <span class="st">"#E17C05"</span>,</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">                <span class="st">"#CC503E"</span>,</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">                <span class="st">"#94346E"</span>,</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">                <span class="st">"#6F4070"</span>,</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">                <span class="st">"#994E95"</span>,</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">                <span class="st">"#666666"</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">                ))</a></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -186,8 +188,8 @@
 <a href="#show-correlation" class="anchor"></a>Show correlation</h2>
 <p>Selecting meaningful landscape metrics for your field of research is difficult, as many landscape metrics are very abstract and the common approach is often simply to calculate as many as possible.</p>
 <p>To select at the least that ones for your landscape and research question that are not highly correlated, you can use the function <code>show_correlation</code> to get insight into the correlation of the metrics you calculated:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../../reference/show_correlation.html">show_correlation</a></span>(metrics, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/show_correlation.html">show_correlation</a></span>(metrics, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="building-blocks" class="section level2">
@@ -197,118 +199,119 @@
 <h3 class="hasAnchor">
 <a href="#get-adjacencies" class="anchor"></a>Get adjacencies</h3>
 <p>Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for e.g. developing new metrics. Hence, <strong>landscapemetrics</strong> exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># calculate full adjacency matrix</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;     1   2    3</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; 1 520  43  137</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 2  43 704  184</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 3 137 184 1528</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># count diagonal neighbour adjacencies</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">diagonal_matrix &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,  <span class="ot">NA</span>,  <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">                            <span class="ot">NA</span>,  <span class="dv">0</span>, <span class="ot">NA</span>,</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">                            <span class="dv">1</span>,  <span class="ot">NA</span>,  <span class="dv">1</span>), <span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, diagonal_matrix)</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;     1   2    3</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 1 466  53  167</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; 2  53 602  240</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 3 167 240 1376</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co"># equivalent with the raster package:</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19">adj_raster &lt;-<span class="st"> </span><span class="cf">function</span>(landscape){</a>
-<a class="sourceLine" id="cb4-20" data-line-number="20">    adjacencies &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/adjacent">adjacent</a></span>(landscape, <span class="dv">1</span><span class="op">:</span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/ncell">ncell</a></span>(landscape), <span class="dv">4</span>, <span class="dt">pairs=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-21" data-line-number="21">    <span class="kw">table</span>(landscape[adjacencies[,<span class="dv">1</span>]], landscape[adjacencies[,<span class="dv">2</span>]])</a>
-<a class="sourceLine" id="cb4-22" data-line-number="22">}</a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co"># compare the two implementations</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="kw">library</span>(bench)</a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="kw"><a href="http://www.rdocumentation.org/packages/bench/topics/mark">mark</a></span>(</a>
-<a class="sourceLine" id="cb4-27" data-line-number="27">    <span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb4-28" data-line-number="28">    <span class="kw">adj_raster</span>(landscape),</a>
-<a class="sourceLine" id="cb4-29" data-line-number="29">    <span class="dt">iterations =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb4-30" data-line-number="30">    <span class="dt">relative =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb4-31" data-line-number="31">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb4-32" data-line-number="32">)</a>
-<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
-<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; 1 get_adjac…   1     1      1     1        41.5       1     NaN  1.11</span></a>
-<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; 2 adj_raste…  39.3  41.5   41.5  54.0       1        26.1   Inf  1   </span></a>
-<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt;    </span></a>
-<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt;        1    2    3</span></a>
-<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt;   1 TRUE TRUE TRUE</span></a>
-<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt;   2 TRUE TRUE TRUE</span></a>
-<a class="sourceLine" id="cb4-45" data-line-number="45"><span class="co">#&gt;   3 TRUE TRUE TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># calculate full adjacency matrix</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;     1   2    3</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; 1 520  43  137</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 2  43 704  184</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 3 137 184 1528</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co"># count diagonal neighbour adjacencies</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">diagonal_matrix &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,  <span class="ot">NA</span>,  <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">                            <span class="ot">NA</span>,  <span class="dv">0</span>, <span class="ot">NA</span>,</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">                            <span class="dv">1</span>,  <span class="ot">NA</span>,  <span class="dv">1</span>), <span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, diagonal_matrix)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;     1   2    3</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 1 466  53  167</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 2  53 602  240</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; 3 167 240 1376</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co"># equivalent with the raster package:</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">adj_raster &lt;-<span class="st"> </span><span class="cf">function</span>(landscape){</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">    adjacencies &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/adjacent">adjacent</a></span>(landscape, <span class="dv">1</span><span class="op">:</span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/ncell">ncell</a></span>(landscape), <span class="dv">4</span>, <span class="dt">pairs=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">    <span class="kw">table</span>(landscape[adjacencies[,<span class="dv">1</span>]], landscape[adjacencies[,<span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22">}</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co"># compare the two implementations</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="kw">library</span>(bench)</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; Warning: package 'bench' was built under R version 3.5.1</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="kw">mark</span>(</a>
+<a class="sourceLine" id="cb5-28" data-line-number="28">    <span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb5-29" data-line-number="29">    <span class="kw">adj_raster</span>(landscape),</a>
+<a class="sourceLine" id="cb5-30" data-line-number="30">    <span class="dt">iterations =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb5-31" data-line-number="31">    <span class="dt">relative =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb5-32" data-line-number="32">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33">)</a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; 1 get_adjac~   1     1      1     1        42.0       1     NaN  1.11</span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; 2 adj_raste~  45.2  42.0   43.1  28.2       1        26.3   Inf  1   </span></a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt;    </span></a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt;        1    2    3</span></a>
+<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt;   1 TRUE TRUE TRUE</span></a>
+<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt;   2 TRUE TRUE TRUE</span></a>
+<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt;   3 TRUE TRUE TRUE</span></a></code></pre></div>
 </div>
 <div id="get-nearest-neighbour" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-nearest-neighbour" class="anchor"></a>Get nearest neighbour</h3>
 <p><strong>landscapemetrics</strong> implements a memory efficient and hopefully quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># run connected labeling for podlasie raster</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">patches &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_patches.html">get_patches</a></span>(podlasie_ccilc, <span class="dv">100</span>)[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># calculate the minimum distance between patches in a landscape</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">min_dist &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co"># create a function that would do the same with the raster package</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">nearest_raster_fun &lt;-<span class="st"> </span><span class="cf">function</span>(patches) {</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">    np_class &lt;-<span class="st"> </span>patches <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">        </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">        </span><span class="kw">unique</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">        </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="st">        </span><span class="kw">length</span>()</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">    </a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">    points_class &lt;-<span class="st"> </span>patches <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">        </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/rasterToPoints">rasterToPoints</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="st">        </span>tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as.tibble</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="kw">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"id"</span>))</a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb5-21" data-line-number="21">    minimum_distance &lt;-<span class="st"> </span>np_class <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="st">        </span><span class="kw">seq_len</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_dbl</a></span>(<span class="cf">function</span>(patch_ij) {</a>
-<a class="sourceLine" id="cb5-24" data-line-number="24">            patch_focal &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(points_class, id <span class="op">==</span><span class="st"> </span>patch_ij)</a>
-<a class="sourceLine" id="cb5-25" data-line-number="25">            </a>
-<a class="sourceLine" id="cb5-26" data-line-number="26">            patch_others &lt;-</a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(points_class, id <span class="op">!=</span><span class="st"> </span>patch_ij)</a>
-<a class="sourceLine" id="cb5-28" data-line-number="28">            </a>
-<a class="sourceLine" id="cb5-29" data-line-number="29">            minimum_distance &lt;-</a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="st">                </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/pointdistance">pointDistance</a></span>(patch_focal[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb5-31" data-line-number="31">                                      patch_others[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb5-32" data-line-number="32">                                      <span class="dt">lonlat =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="st">                </span><span class="kw">min</span>()</a>
-<a class="sourceLine" id="cb5-34" data-line-number="34">        })</a>
-<a class="sourceLine" id="cb5-35" data-line-number="35">    </a>
-<a class="sourceLine" id="cb5-36" data-line-number="36">    tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">tibble</a></span>(<span class="dt">id =</span> <span class="kw">unique</span>(<span class="kw">sort</span>(points_class<span class="op">$</span>id)),</a>
-<a class="sourceLine" id="cb5-37" data-line-number="37">                   <span class="dt">distance =</span> minimum_distance)</a>
-<a class="sourceLine" id="cb5-38" data-line-number="38">    </a>
-<a class="sourceLine" id="cb5-39" data-line-number="39">}</a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co"># compare the two implementations</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="kw">library</span>(bench)</a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="kw"><a href="http://www.rdocumentation.org/packages/bench/topics/mark">mark</a></span>(</a>
-<a class="sourceLine" id="cb5-45" data-line-number="45">    <span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches),</a>
-<a class="sourceLine" id="cb5-46" data-line-number="46">    <span class="kw">nearest_raster_fun</span>(patches),</a>
-<a class="sourceLine" id="cb5-47" data-line-number="47">    <span class="dt">iterations =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb5-48" data-line-number="48">    <span class="dt">relative =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb5-49" data-line-number="49">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50">)</a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; disabled.</span></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
-<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; 1 get_neare…   1     1      1     1        45.0       1     1       1</span></a>
-<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; 2 nearest_r…  55.3  45.0   52.8  16.0       1        51.5  37.1     1</span></a>
-<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-59" data-line-number="59"></a>
-<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="kw">all</span>(<span class="kw">round</span>(<span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches)<span class="op">$</span>distance, <span class="dv">9</span>) <span class="op">==</span></a>
-<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="st">        </span><span class="kw">round</span>(<span class="kw">nearest_raster_fun</span>(patches)<span class="op">$</span>distance, <span class="dv">9</span>)) </a>
-<a class="sourceLine" id="cb5-62" data-line-number="62"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># run connected labeling for podlasie raster</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">patches &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_patches.html">get_patches</a></span>(podlasie_ccilc, <span class="dv">100</span>)[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># calculate the minimum distance between patches in a landscape</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">min_dist &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># create a function that would do the same with the raster package</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">nearest_raster_fun &lt;-<span class="st"> </span><span class="cf">function</span>(patches) {</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">    np_class &lt;-<span class="st"> </span>patches <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="st">        </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="st">        </span><span class="kw">unique</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="st">        </span><span class="kw">na.omit</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="st">        </span><span class="kw">length</span>()</a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">    </a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">    points_class &lt;-<span class="st"> </span>patches <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="st">        </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/rasterToPoints">rasterToPoints</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="st">        </span>tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as.tibble</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="kw">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"id"</span>))</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">    minimum_distance &lt;-<span class="st"> </span>np_class <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="st">        </span><span class="kw">seq_len</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_dbl</a></span>(<span class="cf">function</span>(patch_ij) {</a>
+<a class="sourceLine" id="cb6-24" data-line-number="24">            patch_focal &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(points_class, id <span class="op">==</span><span class="st"> </span>patch_ij)</a>
+<a class="sourceLine" id="cb6-25" data-line-number="25">            </a>
+<a class="sourceLine" id="cb6-26" data-line-number="26">            patch_others &lt;-</a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="st">                </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(points_class, id <span class="op">!=</span><span class="st"> </span>patch_ij)</a>
+<a class="sourceLine" id="cb6-28" data-line-number="28">            </a>
+<a class="sourceLine" id="cb6-29" data-line-number="29">            minimum_distance &lt;-</a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="st">                </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/pointdistance">pointDistance</a></span>(patch_focal[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb6-31" data-line-number="31">                                      patch_others[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb6-32" data-line-number="32">                                      <span class="dt">lonlat =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="st">                </span><span class="kw">min</span>()</a>
+<a class="sourceLine" id="cb6-34" data-line-number="34">        })</a>
+<a class="sourceLine" id="cb6-35" data-line-number="35">    </a>
+<a class="sourceLine" id="cb6-36" data-line-number="36">    tibble<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">tibble</a></span>(<span class="dt">id =</span> <span class="kw">unique</span>(<span class="kw">sort</span>(points_class<span class="op">$</span>id)),</a>
+<a class="sourceLine" id="cb6-37" data-line-number="37">                   <span class="dt">distance =</span> minimum_distance)</a>
+<a class="sourceLine" id="cb6-38" data-line-number="38">    </a>
+<a class="sourceLine" id="cb6-39" data-line-number="39">}</a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co"># compare the two implementations</span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="kw">library</span>(bench)</a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="kw">mark</span>(</a>
+<a class="sourceLine" id="cb6-45" data-line-number="45">    <span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches),</a>
+<a class="sourceLine" id="cb6-46" data-line-number="46">    <span class="kw">nearest_raster_fun</span>(patches),</a>
+<a class="sourceLine" id="cb6-47" data-line-number="47">    <span class="dt">iterations =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb6-48" data-line-number="48">    <span class="dt">relative =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb6-49" data-line-number="49">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50">)</a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt; Warning: Some expressions had a GC in every iteration; so filtering is</span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt; disabled.</span></a>
+<a class="sourceLine" id="cb6-53" data-line-number="53"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
+<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="co">#&gt;   expression   min  mean median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="co">#&gt; 1 get_neare~   1     1      1     1        38.9       1     1       1</span></a>
+<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="co">#&gt; 2 nearest_r~  51.0  38.9   44.0  14.2       1        46.8  36.0     1</span></a>
+<a class="sourceLine" id="cb6-58" data-line-number="58"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb6-59" data-line-number="59"></a>
+<a class="sourceLine" id="cb6-60" data-line-number="60"><span class="kw">all</span>(<span class="kw">round</span>(<span class="kw"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span>(patches)<span class="op">$</span>distance, <span class="dv">9</span>) <span class="op">==</span></a>
+<a class="sourceLine" id="cb6-61" data-line-number="61"><span class="st">        </span><span class="kw">round</span>(<span class="kw">nearest_raster_fun</span>(patches)<span class="op">$</span>distance, <span class="dv">9</span>)) </a>
+<a class="sourceLine" id="cb6-62" data-line-number="62"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 </div>
 </div>
   </div>
