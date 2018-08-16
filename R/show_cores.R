@@ -18,10 +18,10 @@
 #' show_cores(landscape, what = "global", labels = FALSE)
 #'
 #' # show the core area of every class as facet
-#' show_cores(landscape, what = "all")
+#' show_cores(landscape, what = "all", labels = FALSE)
 #'
 #' # show only the core area of class 1 and 3
-#' show_cores(landscape, what = c(1,3))
+#' show_cores(landscape, what = c(1,3), labels = FALSE)
 #'
 #' @aliases show_cores
 #' @rdname show_cores
@@ -162,8 +162,13 @@ show_cores <- function(landscape,
             magrittr::extract(what) %>%
             dplyr::bind_rows(., .id = "id")
 
-        core_tibble$patchlabel <- core_tibble$z
-        core_tibble$patchlabel[core_tibble$patchlabel == -999] <- NA
+        if (isTRUE(labels)){
+            core_tibble$patchlabel <- core_tibble$z
+            core_tibble$patchlabel[core_tibble$patchlabel == -999] <- NA
+        } else{
+            core_tibble$patchlabel <- NA
+        }
+
 
         plot <- ggplot2::ggplot(core_tibble, ggplot2::aes(x, y)) +
             ggplot2::coord_fixed() +
