@@ -33,6 +33,8 @@
 #' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
 #'
 #' points_sp <- sp::SpatialPoints(points)
+#' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
+#'
 #' }
 #'
 #' @aliases sample_metrics
