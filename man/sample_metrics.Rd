@@ -8,19 +8,19 @@
 \alias{sample_metrics.list}
 \title{sample_metrics}
 \usage{
-sample_metrics(landscape, what, shape, points, size, return_plots)
+sample_metrics(landscape, what, shape, points, size, return_plots, ...)
 
 \method{sample_metrics}{RasterLayer}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE)
+  shape = "square", points, size, return_plots = FALSE, ...)
 
 \method{sample_metrics}{RasterStack}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE)
+  shape = "square", points, size, return_plots = FALSE, ...)
 
 \method{sample_metrics}{RasterBrick}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE)
+  shape = "square", points, size, return_plots = FALSE, ...)
 
 \method{sample_metrics}{list}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE)
+  shape = "square", points, size, return_plots = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -38,6 +38,8 @@ side-length for squares in mapunits}
 
 \item{return_plots}{Logical if the clipped raster of the sample plot should
 be returned}
+
+\item{...}{Options for calculate_metrics()}
 }
 \value{
 tibble
@@ -59,8 +61,9 @@ of \code{landscapemetrics} because the plot_id and the is included in the result
 \examples{
 \dontrun{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
+
 points_sp <- sp::SpatialPoints(points)
-sample_metrics(landscape, points = points, size = 5)
 }
 
 }

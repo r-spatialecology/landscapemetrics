@@ -12,6 +12,7 @@
 #' side-length for squares in mapunits
 #' @param return_plots Logical if the clipped raster of the sample plot should
 #' be returned
+#' @param ... Options for calculate_metrics()
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
@@ -29,8 +30,9 @@
 #' @examples
 #' \dontrun{
 #' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+#' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
+#'
 #' points_sp <- sp::SpatialPoints(points)
-#' sample_metrics(landscape_stack, points = points, size = 15, what = "lsm_l_np", directions = 4)
 #' }
 #'
 #' @aliases sample_metrics
@@ -55,9 +57,7 @@ sample_metrics.RasterLayer <- function(landscape,
                                  ...)
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) x) %>%
-            tibble::add_column(layer = 1, .before = 1) %>%
-            dplyr::mutate(layer = as.integer(layer))
+        result  <- purrr::map_dfr(result$metrics, function(x) x)
     }
 
     return(result)
@@ -73,15 +73,18 @@ sample_metrics.RasterStack <- function(landscape,
 
     result <- purrr::map_dfr(raster::as.list(landscape),
                    sample_metrics_int, what = what,
-                   shape = shape, points = points, size = size,
-                   ...,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+                   shape = shape, points = points, size = size, ...)
+
+    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+
+    metrics_long <- dplyr::bind_rows(result$metrics)
+    metrics_long[,1] <- layer_id
+    metrics_long_list <- split(metrics_long, metrics_long[, c(1,7)])
+
+    result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) {x},
-                                  .id = "layer") %>%
-            dplyr::mutate(layer = as.integer(layer))
+        result  <- purrr::map_dfr(result$metrics, function(x) x)
     }
 
     return(result)
@@ -98,14 +101,18 @@ sample_metrics.RasterBrick <- function(landscape,
     result <- purrr::map_dfr(raster::as.list(landscape),
                              sample_metrics_int, what = what,
                              shape = shape, points = points, size = size,
-                             ...,
-                             .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+                             ...)
+
+    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+
+    metrics_long <- dplyr::bind_rows(result$metrics)
+    metrics_long[,1] <- layer_id
+    metrics_long_list <- split(metrics_long, metrics_long[, c(1,7)])
+
+    result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) {x},
-                                  .id = "layer") %>%
-            dplyr::mutate(layer = as.integer(layer))
+        result  <- purrr::map_dfr(result$metrics, function(x) x)
     }
 
     return(result)
@@ -122,14 +129,18 @@ sample_metrics.list <- function(landscape,
     result <- purrr::map_dfr(landscape,
                              sample_metrics_int, what = what,
                              shape = shape, points = points, size = size,
-                             ...,
-                             .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+                             ...)
+
+    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+
+    metrics_long <- dplyr::bind_rows(result$metrics)
+    metrics_long[,1] <- layer_id
+    metrics_long_list <- split(metrics_long, metrics_long[, c(1,7)])
+
+    result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) {x},
-                                  .id = "layer") %>%
-            dplyr::mutate(layer = as.integer(layer))
+        result  <- purrr::map_dfr(result$metrics, function(x) x)
     }
 
     return(result)
@@ -166,11 +177,12 @@ sample_metrics_int <- function(landscape, what,
 
         result <- calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...) %>%
             dplyr::mutate(plot_id = current_plot,
-                          percentage_inside = (area / maximum_area) * 100)  %>%
-            dplyr::select(-layer)
+                          percentage_inside = (area / maximum_area) * 100)
     })
 
     results <- tibble::enframe(results_landscapes, name = "plot_id", value = "metrics")
 
     results_total <- dplyr::mutate(results, raster_sample_plots = landscape_plots)
+
+    return(results_total)
 }

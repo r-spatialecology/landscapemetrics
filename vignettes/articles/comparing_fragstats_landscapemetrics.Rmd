@@ -53,16 +53,16 @@ fragstats_calculated <- fragstats_patch_landscape %>%
     summarise(cv = cv(AREA)) %>%
     set_names("class", "fragstats_calculated") %>%
     mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                                      class == "cls_2" ~ 2,
-                                                      class == "cls_3" ~ 3)))
+                                               class == "cls_2" ~ 2,
+                                               class == "cls_3" ~ 3)))
 
 # Output of FRAGSTATS
 fragstats_output <- fragstats_class_landscape %>% 
     select(TYPE, AREA_CV) %>%
     set_names("class", "fragstats_output") %>%
     mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                                      class == "cls_2" ~ 2,
-                                                      class == "cls_3" ~ 3)))
+                                               class == "cls_2" ~ 2,
+                                               class == "cls_3" ~ 3)))
 
 # Output of landscapemetrics
 landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
@@ -71,13 +71,13 @@ landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
 ```
 
 ```{r echo = FALSE}
-fragstats <- full_join(x = fragstats_calculated, 
-                              y = fragstats_output, 
-                              by = "class") 
+fragstats <- full_join(x = fragstats_output,
+                       y = fragstats_calculated, 
+                       by = "class") 
 
 cv_full <- full_join(x = fragstats, 
-                            y = landscapemetrics_output, 
-                            by = "class")
+                     y = landscapemetrics_output,
+                     by = "class")
 
 print.data.frame(cv_full)
 ```
@@ -116,8 +116,8 @@ landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
 ```
 
 ```{r echo = FALSE}
-fragstats <- full_join(x = fragstats_calculated,
-                       y = fragstats_output,
+fragstats <- full_join(x = fragstats_output, 
+                       y = fragstats_calculated,
                        by = "class")
 
 cv_full <- full_join(x = fragstats,
@@ -161,14 +161,16 @@ landscapemetrics_circle <- lsm_p_circle(landscape) %>%
 
 ```{r echo = FALSE}
 fragstats <- full_join(x = fragstats_area, 
-                              y = fragstats_circle, 
-                              by = "id") %>%
+                       y = fragstats_circle, 
+                       by = "id") %>%
     arrange(fragstats_area)
 
 landscapemetrics <- full_join(x = landscapemetrics_area, 
-                                     y = landscapemetrics_circle, 
-                                     by = "id") %>%
+                              y = landscapemetrics_circle, 
+                              by = "id") %>%
    arrange(landscapemetrics_area)
+
+bind_cols(landscapemetrics, fragstats)
 
 print.data.frame(fragstats)
 print.data.frame(landscapemetrics)
@@ -233,6 +235,9 @@ print.data.frame(landscapemetrics)
 
 ```
 
+Additionally, we recognized small differences for all other patches as well. However, 
+we could not find an explanation for this difference, yet.
+
 #### Error propagation (for metrics based on **GYRATE** metric)
 
 ##### Class level
@@ -264,7 +269,7 @@ fragstats <- fragstats_patch_landscape %>%
     select(PID, AREA, PERIM, PARA) %>%
     set_names("id", "area", "perim", "para") %>%
     mutate(para_calculated_ha = perim / area, 
-                  para_calculated_m = perim / (area * 10000)) %>%
+           para_calculated_m = perim / (area * 10000)) %>%
     arrange(area)
 
 # Output of landscapemetrics
@@ -286,7 +291,7 @@ landscapemetrics <- dplyr::full_join(x = area_landscapmetrics,
     full_join(para_landscapemetrics, 
                      by = "id") %>%
     mutate(para_calculated_ha = perim / area, 
-                  para_calculated_m = perim / (area * 10000)) %>% 
+           para_calculated_m = perim / (area * 10000)) %>% 
     arrange(area)
 ```
 
