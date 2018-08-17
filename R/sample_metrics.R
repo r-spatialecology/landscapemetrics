@@ -30,7 +30,7 @@
 #' \dontrun{
 #' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 #' points_sp <- sp::SpatialPoints(points)
-#' sample_metrics(landscape, points = points, size = 5)
+#' sample_metrics(landscape_stack, points = points, size = 15, what = "lsm_l_np", directions = 4)
 #' }
 #'
 #' @aliases sample_metrics
@@ -38,7 +38,7 @@
 #'
 #' @export
 sample_metrics <- function(landscape, what,
-                           shape, points, size, return_plots) UseMethod("sample_metrics")
+                           shape, points, size, return_plots, ...) UseMethod("sample_metrics")
 
 
 #' @name sample_metrics
@@ -46,11 +46,13 @@ sample_metrics <- function(landscape, what,
 sample_metrics.RasterLayer <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
-                                       return_plots = FALSE) {
+                                       return_plots = FALSE,
+                                       ...) {
 
     result <- sample_metrics_int(landscape,
                                  what = what,
-                                 shape = shape, points = points, size = size)
+                                 shape = shape, points = points, size = size,
+                                 ...)
 
     if(return_plots == FALSE) {
         result  <- purrr::map_dfr(result$metrics, function(x) x) %>%
@@ -66,11 +68,13 @@ sample_metrics.RasterLayer <- function(landscape,
 sample_metrics.RasterStack <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
-                                       return_plots = FALSE) {
+                                       return_plots = FALSE,
+                                       ...) {
 
     result <- purrr::map_dfr(raster::as.list(landscape),
                    sample_metrics_int, what = what,
                    shape = shape, points = points, size = size,
+                   ...,
                    .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -88,11 +92,13 @@ sample_metrics.RasterStack <- function(landscape,
 sample_metrics.RasterBrick <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
-                                       return_plots = FALSE) {
+                                       return_plots = FALSE,
+                                       ...) {
 
     result <- purrr::map_dfr(raster::as.list(landscape),
                              sample_metrics_int, what = what,
                              shape = shape, points = points, size = size,
+                             ...,
                              .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -110,11 +116,13 @@ sample_metrics.RasterBrick <- function(landscape,
 sample_metrics.list <- function(landscape,
                                 what = "all",
                                 shape = "square", points, size,
-                                return_plots = FALSE) {
+                                return_plots = FALSE,
+                                ...) {
 
     result <- purrr::map_dfr(landscape,
                              sample_metrics_int, what = what,
                              shape = shape, points = points, size = size,
+                             ...,
                              .id = "layer") %>%
         dplyr::mutate(layer = as.integer(layer))
 
@@ -128,7 +136,7 @@ sample_metrics.list <- function(landscape,
 }
 
 sample_metrics_int <- function(landscape, what,
-                               shape, points, size) {
+                               shape, points, size, ...) {
 
     if (shape == "circle") {
         maximum_area <- (pi * size ^ 2) / 10000
@@ -156,7 +164,7 @@ sample_metrics_int <- function(landscape, what,
 
         area <- lsm_l_ta(landscape_plots[[current_plot]]) %>% dplyr::pull(value)
 
-        result <- calculate_metrics(landscape = landscape_plots[[current_plot]], what = what) %>%
+        result <- calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...) %>%
             dplyr::mutate(plot_id = current_plot,
                           percentage_inside = (area / maximum_area) * 100)  %>%
             dplyr::select(-layer)
