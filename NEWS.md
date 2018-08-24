@@ -1,3 +1,9 @@
+# landscapemetrics 0.2
+
+* Implemented `show_cores`, a function to plot the core area of patches
+* Implemented `sampling_metrics`, a function to sample metrics around buffered points
+* `show_patches` now also shows labelled class facets (option `what`)
+
 # landscapemetrics 0.1.1
 
 * Replaced isFALSE() with !isTRUE() to be compatibile to R (> 3.1)
