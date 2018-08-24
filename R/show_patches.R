@@ -28,7 +28,7 @@ show_patches.RasterLayer <- function(landscape,
                                      what = "global",
                                      directions = 8,
                                      labels = TRUE) {
-    show_patches_intern(landscape, directions = directions)
+    show_patches_intern(landscape, what = what, directions = directions, labels = labels)
 }
 
 #' @name show_patches
@@ -37,8 +37,11 @@ show_patches.RasterStack <- function(landscape,
                                      what = "global",
                                      directions = 8,
                                      labels = TRUE) {
-    purrr::map(raster::as.list(landscape), show_patches_intern,
-               directions = directions)
+    purrr::map(raster::as.list(landscape),
+               show_patches_intern,
+               what = what,
+               directions = directions,
+               labels = labels)
 }
 
 #' @name show_patches
@@ -48,7 +51,9 @@ show_patches.RasterBrick <- function(landscape,
                                      directions = 8,
                                      labels = TRUE) {
     purrr::map(raster::as.list(landscape), show_patches_intern,
-               directions = directions)
+               what = what,
+               directions = directions,
+               labels = labels)
 }
 
 #' @name show_patches
@@ -61,7 +66,9 @@ show_patches.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     purrr::map(raster::as.list(landscape), show_patches_intern,
-               directions = directions)
+               what = what,
+               directions = directions,
+               labels = labels)
 }
 
 #' @name show_patches
@@ -71,7 +78,9 @@ show_patches.list <- function(landscape,
                               directions = 8,
                               labels = TRUE) {
     purrr::map(landscape, show_patches_intern,
-               directions = directions)
+               what = what,
+               directions = directions,
+               labels = labels)
 }
 
 show_patches_intern <- function(landscape, what, directions, labels) {
