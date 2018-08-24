@@ -7,7 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param nrow,ncol Number of rows and columns for the facet.
-#' @param labels Logical flag indicating whether to print or not to print patch labels.
+#' @param labels Logical flag indicating whether to print or not to print core labels.
 #'
 #' @details The functions plots the core area of patches labeled with the
 #' corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.

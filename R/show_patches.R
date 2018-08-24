@@ -221,5 +221,3 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
     return(plot)
 }
-
-show_patches_intern(landscape, what = "global", directions = 8, labels = FALSE)
