@@ -22,7 +22,7 @@
 #' @export
 construct_buffer <- function(points, shape, size) {
 
-    if(class(points) == "SpatialPoints") {
+    if(class(points) == "SpatialPoints" || class(points) == "SpatialPointsDataFrame") {
         points <- matrix(sp::coordinates(points), ncol = 2)
     }
 
