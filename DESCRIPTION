@@ -55,7 +55,8 @@ Suggests:
     knitr,
     rmarkdown
 Enhances:
-    stars
+    stars, 
+    sf
 LinkingTo: 
     Rcpp,
     RcppArmadillo

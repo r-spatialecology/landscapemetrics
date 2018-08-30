@@ -26,7 +26,11 @@ construct_buffer <- function(points, shape, size) {
         points <- matrix(sp::coordinates(points), ncol = 2)
     }
 
-    else if(class(points) != "matrix") {
+    else if(.sfcheck(points)) {
+        points <- matrix(sp::coordinates(as(points, "Spatial"), ncol = 20))
+    }
+
+    else if (class(points) != "matrix") {
         stop(paste0("Not able to work with class of points: " , class(points)))
     }
 
@@ -89,3 +93,8 @@ construct_buffer <- function(points, shape, size) {
 
     return(sample_plots)
 }
+
+.sfcheck <-
+    purrr::possibly(function(points) {
+        class(points$geometry)[1] == "sfc_POINT"
+    }, otherwise = FALSE)

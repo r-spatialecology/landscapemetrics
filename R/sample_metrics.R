@@ -6,7 +6,7 @@
 #' @param what Selected level of metrics: either "all", "patch", "class", "landscape".
 #' The default is "all". It is also possible to specify functions as a vector of strings,
 #' e.g. what = c("lsm_c_ca", "lsm_l_ta").
-#' @param points SpatialPoints or 2-column matrix with coordinates of sample points
+#' @param points SpatialPoints, sf or 2-column matrix with coordinates of sample points
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or the
 #' side-length for squares in mapunits
@@ -33,7 +33,7 @@
 #' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
+#' sample_metrics(landscape, points = points_sp, size = 15, what = "lsm_l_np")
 #'
 #' }
 #'
