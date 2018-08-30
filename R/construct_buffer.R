@@ -20,20 +20,11 @@
 #' @keywords internal
 #'
 #' @export
-construct_buffer <- function(points, shape, size) {
+construct_buffer <- function(points, shape, size) UseMethod("construct_buffer")
 
-    if(class(points) == "SpatialPoints" || class(points) == "SpatialPointsDataFrame") {
-        points <- matrix(sp::coordinates(points), ncol = 2)
-    }
-
-    else if(.sfcheck(points)) {
-        points <- matrix(sp::coordinates(as(points, "Spatial"), ncol = 20))
-    }
-
-    else if (class(points) != "matrix") {
-        stop(paste0("Not able to work with class of points: " , class(points)))
-    }
-
+#' @name construct_buffer
+#' @export
+construct_buffer.matrix <- function(points, shape, size) {
     if(shape == "circle") {
 
         circle_points_x <- sin(seq(0, 2 * pi, length.out = 100)) * size
@@ -94,7 +85,27 @@ construct_buffer <- function(points, shape, size) {
     return(sample_plots)
 }
 
-.sfcheck <-
-    purrr::possibly(function(points) {
-        class(points$geometry)[1] == "sfc_POINT"
-    }, otherwise = FALSE)
+#' @name construct_buffer
+#' @export
+construct_buffer.SpatialPoints <- function(points, shape, size) {
+    points <- matrix(sp::coordinates(points), ncol = 2)
+    construct_buffer(points, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.SpatialPointsDataFrame <- function(points, shape, size) {
+    points <- matrix(sp::coordinates(points), ncol = 2)
+    construct_buffer(points, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.sf <- function(points, shape, size) {
+    if (all(sf::st_is(points, "POINT"))){
+        points <- sf::st_coordinates(points)
+    } else{
+        stop(paste0("Unable to work with this class of object"))
+    }
+    construct_buffer(points, shape, size)
+}
