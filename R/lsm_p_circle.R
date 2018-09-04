@@ -55,27 +55,37 @@ lsm_p_circle <- function(landscape, directions) UseMethod("lsm_p_circle")
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_circle_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_circle_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_circle_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
@@ -84,42 +94,39 @@ lsm_p_circle.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_circle_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_circle_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_circle
 #' @export
 lsm_p_circle.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_circle_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_circle_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_circle_calc <- function(landscape, directions) {
 
-    resolution <- landscape %>%
-        raster::res() %>%
-        magrittr::extract2(1) %>%
-        magrittr::divide_by(2)
+    resolution <- raster::res(landscape)[[1]] / 2
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    circle_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
+    circle_patch <- lapply(landscape_labeled, function(patches_class) {
 
-        class <- patches_class %>%
-            names() %>%
-            sub("Class_", "", .)
+        class <- sub("Class_", "", names(patches_class))
 
-        points_class <- patches_class %>%
-            raster::rasterToPoints()
+        points_class <- raster::rasterToPoints(patches_class)
 
         circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution)
         circle <- matrix(circle[order(circle[,1]),], ncol = 2)
@@ -129,9 +136,8 @@ lsm_p_circle_calc <- function(landscape, directions) {
 
     })
 
-    circle_patch <- dplyr::mutate(circle_patch,
-                                  value = 1 - ((area_patch$value * 10000) /
-                                                   value))
+    circle_patch <- dplyr::mutate(dplyr::bind_rows(circle_patch),
+                                  value = 1 - ((area_patch$value * 10000) / value))
 
     tibble::tibble(
         level = "patch",

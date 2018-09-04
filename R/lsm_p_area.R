@@ -51,43 +51,36 @@ lsm_p_area <- function(landscape, directions) UseMethod("lsm_p_area")
 #' @export
 lsm_p_area.RasterLayer <- function(landscape, directions = 8) {
 
-    result_list <- lapply(X = raster::as.list(landscape),
-                          FUN = lsm_p_area_calc,
-                          directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_area_calc,
+                     directions = directions)
 
-    result <- dplyr::mutate(dplyr::bind_rows(result_list, .id = "layer"),
-                            layer = as.integer(layer))
-    return(result)
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_area
 #' @export
 lsm_p_area.RasterStack <- function(landscape, directions = 8) {
 
-    result_list <- lapply(X = raster::as.list(landscape),
-                          FUN = lsm_p_area_calc,
-                          directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_area_calc,
+                     directions = directions)
 
-    result <- dplyr::mutate(dplyr::bind_rows(result_list, .id = "layer"),
-                            layer = as.integer(layer))
-
-    return(result)
-
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_area
 #' @export
 lsm_p_area.RasterBrick <- function(landscape, directions = 8) {
 
-    result_list <- lapply(X = raster::as.list(landscape),
-                          FUN = lsm_p_area_calc,
-                          directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_area_calc,
+                     directions = directions)
 
-    result <- dplyr::mutate(dplyr::bind_rows(result_list, .id = "layer"),
-                            layer = as.integer(layer))
-
-    return(result)
-
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_area
@@ -96,30 +89,24 @@ lsm_p_area.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    result_list <- lapply(X = raster::as.list(landscape),
-                          FUN = lsm_p_area_calc,
-                          directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_area_calc,
+                     directions = directions)
 
-    result <- dplyr::mutate(dplyr::bind_rows(result_list, .id = "layer"),
-                            layer = as.integer(layer))
-
-    return(result)
-
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_area
 #' @export
 lsm_p_area.list <- function(landscape, directions = 8) {
 
-    result_list <- lapply(X = landscape,
-                          FUN = lsm_p_area_calc,
-                          directions = directions)
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_area_calc,
+                     directions = directions)
 
-    result <- dplyr::mutate(dplyr::bind_rows(result_list, .id = "layer"),
-                            layer = as.integer(layer))
-
-    return(result)
-
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_area_calc <- function(landscape, directions){
@@ -128,11 +115,11 @@ lsm_p_area_calc <- function(landscape, directions){
 
     area_patch_list <- lapply(landscape_labeled, function(patches_class){
 
+        class <- sub("Class_", "", names(patches_class))
+
         area_patch_ij <- rcpp_get_composition_vector(
             x = raster::as.matrix(patches_class)) *
             prod(raster::res(patches_class)) / 10000
-
-        class <- sub("Class_", "", names(patches_class))
 
         tibble::tibble(
             class = as.integer(class),

@@ -54,33 +54,37 @@ lsm_p_cai <- function(landscape, directions) UseMethod("lsm_p_cai")
 #' @name lsm_p_cai
 #' @export
 lsm_p_cai.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_cai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                          FUN = lsm_p_cai_calc,
+                          directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
 #' @export
 lsm_p_cai.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_cai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_cai_calc,
+                     directions = directions)
+
+        dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                      layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
 #' @export
 lsm_p_cai.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_cai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_cai_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
@@ -89,30 +93,31 @@ lsm_p_cai.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_cai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_cai_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_cai
 #' @export
 lsm_p_cai.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_cai_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_cai_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_cai_calc <- function(landscape, directions){
 
-    area_patch <- landscape %>%
-        lsm_p_area_calc(directions = directions) %>%
-        dplyr::mutate(value = value * 10000)
+    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape = landscape,
+                                                directions = directions),
+                                value = value * 10000)
 
     core_patch <- lsm_p_core_calc(landscape, directions = directions)
 

@@ -54,27 +54,37 @@ lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_core_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc, directions = directions,.id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_core_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
 lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_core_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
@@ -83,53 +93,52 @@ lsm_p_core.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_core_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_core_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_core
 #' @export
 lsm_p_core.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_core_calc, directions = directions, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_core_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_core_calc <- function(landscape, directions) {
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    core <-
-        purrr::map_dfr(landscape_labeled, function(patches_class) {
+    core <- lapply(landscape_labeled, function(patches_class) {
 
-            patches_padded <- pad_raster(patches_class, pad_raster_value = NA,
-                                         pad_raster_cells = 1,
-                                         global = FALSE)
+        patches_padded <- pad_raster(patches_class, pad_raster_value = NA,
+                                     pad_raster_cells = 1,
+                                     global = FALSE)
 
-            cells_patch <- patches_padded %>%
-                raster::values() %>%
-                table()
+        cells_patch <- table(raster::values(patches_padded))
 
-            boundary <- raster::boundaries(patches_padded,
-                                           directions = 4)
+        boundary <- raster::boundaries(patches_padded,
+                                       directions = 4)
 
-            boundary_patch <- table(raster::values(patches_padded)[raster::values(boundary) == 1])
+        boundary_patch <- table(raster::values(patches_padded)[raster::values(boundary) == 1])
 
-            core_area <-
-                (cells_patch - boundary_patch) *
-                prod(raster::res(patches_class)) / 10000
+        core_area <- (cells_patch - boundary_patch) * prod(raster::res(patches_class)) / 10000
 
-            class_name <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+        class <- sub("Class_", "", names(patches_class))
 
-            tibble::tibble(class = class_name,
-                           value = core_area)
-        })
+        tibble::tibble(class = class,
+                       value = core_area)
+    })
+
+    core <- dplyr::bind_rows(core)
 
     tibble::tibble(
         level = "patch",
