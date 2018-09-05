@@ -10,32 +10,32 @@
 \title{calculate_metrics}
 \usage{
 calculate_metrics(landscape, what, directions, count_boundary, classes_max,
-  neighbourhood, ordered, base, full_name, verbose)
+  neighbourhood, ordered, base, full_name, verbose, progress)
 
 \method{calculate_metrics}{RasterLayer}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE)
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_metrics}{RasterStack}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE)
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_metrics}{RasterBrick}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE)
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_metrics}{stars}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE)
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_metrics}{list}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, classes_max = NULL,
   neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE)
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -64,6 +64,8 @@ which compute entropy in "bits". "log" and "log10" can be also used.}
 tibble.}
 
 \item{verbose}{Print warning message if not sufficient patches are present}
+
+\item{progress}{Print progress report}
 }
 \value{
 tibble
@@ -75,6 +77,7 @@ Calculate a selected group of metrics
 \dontrun{
 calculate_metrics(landscape)
 calculate_metrics(landscape, what = "patch")
+calculate_metrics(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
 }
 
 }
