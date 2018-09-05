@@ -62,11 +62,11 @@ get_patches.RasterLayer <- function(landscape,
 get_patches.RasterStack <- function(landscape,
                                 what = "all",
                                 directions = 8) {
-    purrr::map(raster::as.list(landscape_stack),
-               .f = get_patches_int,
-               what = what,
-               directions = directions)
 
+    lapply(X = raster::as.list(landscape),
+           FUN = get_patches_int,
+           what = what,
+           directions = directions)
 }
 
 #' @name get_patches
@@ -74,10 +74,11 @@ get_patches.RasterStack <- function(landscape,
 get_patches.RasterBrick <- function(landscape,
                                 what = "all",
                                 directions = 8) {
-    purrr::map(raster::as.list(landscape),
-               .f = get_patches_int,
-               what = what,
-               directions = directions)
+
+    lapply(X = raster::as.list(landscape),
+           FUN = get_patches_int,
+           what = what,
+           directions = directions)
 }
 
 #' @name get_patches
@@ -85,13 +86,15 @@ get_patches.RasterBrick <- function(landscape,
 get_patches.list <- function(landscape,
                          what = "all",
                          directions = 8) {
-    purrr::map(landscape,
-               .f = get_patches_int,
-               what = what,
-               directions = directions)
+
+    lapply(X = landscape,
+           FUN = get_patches_int,
+           what = what,
+           directions = directions)
 }
 
 get_patches_int <- function(landscape, what, directions) {
+
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)
@@ -106,14 +109,14 @@ get_patches_int <- function(landscape, what, directions) {
         crs = raster::crs(landscape)
     )
 
-    filter_matrix <-
-        matrix(NA,
-               nrow = raster::nrow(landscape),
-               ncol = raster::ncol(landscape))
+    filter_matrix <- matrix(NA,
+                            nrow = raster::nrow(landscape),
+                            ncol = raster::ncol(landscape))
 
     landscape_matrix <- raster::as.matrix(landscape)
 
     if (what != "all") {
+
         if (!isTRUE(what %in% raster::unique(landscape))) {
             stop(paste("There is no class", what, "in your raster"))
         }
@@ -129,7 +132,7 @@ get_patches_int <- function(landscape, what, directions) {
         }
 
         patch_landscape <- raster::setValues(x = landscape_empty,
-                                               values = filter_raster)
+                                             values = filter_raster)
 
         names(patch_landscape) <- paste0("Class_", what)
 
@@ -137,8 +140,11 @@ get_patches_int <- function(landscape, what, directions) {
     }
 
     else {
+
         classes <- na.omit(unique(as.vector(landscape_matrix)))
-        patch_landscape <- purrr::map(classes, function(what) {
+
+        patch_landscape <- lapply(X = classes, FUN = function(what) {
+
             filter_matrix[landscape_matrix == what] <- 1
 
             if (directions == 4) {
@@ -150,13 +156,13 @@ get_patches_int <- function(landscape, what, directions) {
             }
 
             patch_landscape <- raster::setValues(x = landscape_empty,
-                                                   values = filter_raster)
+                                                 values = filter_raster)
 
             names(patch_landscape) <- paste0("Class_", what)
 
             patch_landscape
         })
-        return(patch_landscape)
 
+        return(patch_landscape)
     }
 }

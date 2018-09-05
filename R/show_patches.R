@@ -28,7 +28,11 @@ show_patches.RasterLayer <- function(landscape,
                                      what = "global",
                                      directions = 8,
                                      labels = TRUE) {
-    show_patches_intern(landscape, what = what, directions = directions, labels = labels)
+
+    show_patches_intern(landscape,
+                        what = what,
+                        directions = directions,
+                        labels = labels)
 }
 
 #' @name show_patches
@@ -37,11 +41,12 @@ show_patches.RasterStack <- function(landscape,
                                      what = "global",
                                      directions = 8,
                                      labels = TRUE) {
-    purrr::map(raster::as.list(landscape),
-               show_patches_intern,
-               what = what,
-               directions = directions,
-               labels = labels)
+
+    lapply(X = raster::as.list(landscape),
+           FUN = show_patches_intern,
+           what = what,
+           directions = directions,
+           labels = labels)
 }
 
 #' @name show_patches
@@ -50,10 +55,12 @@ show_patches.RasterBrick <- function(landscape,
                                      what = "global",
                                      directions = 8,
                                      labels = TRUE) {
-    purrr::map(raster::as.list(landscape), show_patches_intern,
-               what = what,
-               directions = directions,
-               labels = labels)
+
+    lapply(X = raster::as.list(landscape),
+           FUN = show_patches_intern,
+           what = what,
+           directions = directions,
+           labels = labels)
 }
 
 #' @name show_patches
@@ -65,10 +72,11 @@ show_patches.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map(raster::as.list(landscape), show_patches_intern,
-               what = what,
-               directions = directions,
-               labels = labels)
+    lapply(X = raster::as.list(landscape),
+           FUN = show_patches_intern,
+           what = what,
+           directions = directions,
+           labels = labels)
 }
 
 #' @name show_patches
@@ -77,10 +85,12 @@ show_patches.list <- function(landscape,
                               what = "global",
                               directions = 8,
                               labels = TRUE) {
-    purrr::map(landscape, show_patches_intern,
-               what = what,
-               directions = directions,
-               labels = labels)
+
+    lapply(X = landscape,
+           FUN = show_patches_intern,
+           what = what,
+           directions = directions,
+           labels = labels)
 }
 
 show_patches_intern <- function(landscape, what, directions, labels) {
@@ -94,9 +104,8 @@ show_patches_intern <- function(landscape, what, directions, labels) {
     landscape_labeled <- get_patches(landscape, directions = directions)
 
     for(i in seq_len(length(landscape_labeled) - 1)){
-        max_patch_id <- landscape_labeled[[i]] %>%
-            raster::values() %>%
-            max(na.rm = TRUE)
+
+        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
@@ -104,12 +113,15 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
 
     if (any(what == "global")) {
-        landscape_labeled_stack <- landscape_labeled %>%
-            raster::stack() %>%
-            sum(na.rm = TRUE) %>%
-            raster::as.data.frame(xy = TRUE) %>%
-            purrr::set_names("x", "y", "values") %>%
-            dplyr::mutate(values = replace(values, values == 0, NA))
+
+        landscape_labeled_stack <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+                                                             na.rm = TRUE),
+                                                         xy = TRUE)
+
+        names(landscape_labeled_stack) <- c("x", "y", "values")
+
+        landscape_labeled_stack <- dplyr::mutate(landscape_labeled_stack,
+                                                 values = replace(values, values == 0, NA))
 
         if (isTRUE(labels)) {
             landscape_labeled_stack$labels <- landscape_labeled_stack$values
@@ -166,19 +178,18 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
     if (what != "global") {
 
-        landscape_labeled <- purrr::map(landscape_labeled, function(x){
+        landscape_labeled <- lapply(X = landscape_labeled, FUN = function(x){
             names(x) <- "value"
             return(x)}
         )
 
-        patches_tibble <- purrr::map(landscape_labeled,
-                                     raster::as.data.frame,
-                                     xy = TRUE) %>%
-            dplyr::bind_rows(.id = "class")
+        patches_tibble <- lapply(X = landscape_labeled,
+                                 FUN = raster::as.data.frame,
+                                 xy = TRUE)
+        patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
 
         if (any(!(what %in% c("all", "global")))){
-            patches_tibble <- patches_tibble %>%
-                dplyr::filter(class == what)
+            patches_tibble <- dplyr::filter(patches_tibble, class == what)
         }
 
         if (isTRUE(labels)) {

@@ -28,25 +28,22 @@ get_nearestneighbour <- function(landscape) UseMethod("get_nearestneighbour")
 #' @name get_nearestneighbour
 #' @export
 get_nearestneighbour.RasterLayer <- function(landscape) {
+
     points_mat <- raster::rasterToPoints(landscape)
 
     ord <- order(as.matrix(points_mat)[, 1])
     num <- seq_along(ord)
     rank <- match(num, ord)
 
-    res <-
-        rcpp_get_nearest_neighbor(raster::as.matrix(points_mat)[ord, ])
+    res <- rcpp_get_nearest_neighbor(raster::as.matrix(points_mat)[ord, ])
 
-    min_dist <-
-        unname(cbind(num, res[rank], as.matrix(points_mat)[, 3]))
+    min_dist <- unname(cbind(num, res[rank], as.matrix(points_mat)[, 3]))
 
     tbl <- tibble::tibble(cell = min_dist[, 1],
                           dist = min_dist[, 2],
                           id = min_dist[, 3])
 
-    dplyr::group_by(tbl, by = id) %>%
-        dplyr::summarise(value = min(dist)) %>%
-        purrr::set_names("id", "distance")
+    dplyr::summarise(dplyr::group_by(tbl, id = id), distance = min(dist))
 }
 
 
@@ -62,18 +59,13 @@ get_nearestneighbour.matrix <- function(landscape) {
     num <- seq_along(ord)
     rank <- match(num, ord)
 
-    res <-
-        rcpp_get_nearest_neighbor(raster::as.matrix(landscape)[ord, ])
+    res <- rcpp_get_nearest_neighbor(raster::as.matrix(landscape)[ord, ])
 
-    min_dist <-
-        unname(cbind(num, res[rank], as.matrix(landscape)[, 3]))
+    min_dist <- unname(cbind(num, res[rank], as.matrix(landscape)[, 3]))
 
     tbl <- tibble::tibble(cell = min_dist[, 1],
                           dist = min_dist[, 2],
                           id = min_dist[, 3])
 
-    dplyr::group_by(tbl, by = id) %>%
-        dplyr::summarise(value = min(dist)) %>%
-        purrr::set_names("id", "distance")
-
+    dplyr::summarise(dplyr::group_by(tbl, id = id), distance = min(dist))
 }
