@@ -41,49 +41,50 @@ show_cores <- function(landscape,
         }
     }
 
-
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)){
-        max_patch_id <- landscape_labeled[[i]] %>%
-            raster::values() %>%
-            max(na.rm = TRUE)
+    for(i in seq_len(length(landscape_labeled) - 1)) {
+
+        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
 
-
-    boundary <- purrr::map(landscape_labeled, raster::boundaries, directions = 4)
+    boundary <- lapply(X = landscape_labeled, FUN = raster::boundaries, directions = 4)
 
     # reset boundaries
-    boundary <-  purrr::map(seq_along(boundary), function(i){
-        raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
-        return(boundary[[i]])
-    })
+    boundary <- lapply(X = seq_along(boundary),
+                       FUN = function(i){
+                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
+                           return(boundary[[i]])
+                           }
+                       )
 
     # label patches boundaries
-    boundary <-  purrr::map(seq_along(boundary), function(i){
-        raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
-            raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
-        return(boundary[[i]])
-    })
+    boundary <-  lapply(X = seq_along(boundary),
+                        FUN = function(i){
+                            raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
+                                raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
+                            return(boundary[[i]])
+                            }
+                        )
 
-    boundary_labeled_stack <- boundary %>%
-        raster::stack() %>%
-        sum(na.rm = TRUE) %>%
-        raster::as.data.frame(xy = TRUE) %>%
-        purrr::set_names("x", "y", "values") %>%
-        dplyr::mutate(class = raster::values(landscape)) %>%
-        dplyr::mutate(core_label = values)
+    boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
+                                                        na.rm = TRUE),
+                                                    xy = TRUE)
+    names(boundary_labeled_stack) <- c("x", "y", "values")
+
+    boundary_labeled_stack <- dplyr::mutate(boundary_labeled_stack,
+                                            class = raster::values(landscape),
+                                            core_label = values)
 
     boundary_labeled_stack$values[boundary_labeled_stack$values == -999] <- NA
 
     if (isTRUE(labels)){
         boundary_labeled_stack$core_label[boundary_labeled_stack$core_label == -999] <- NA
-    } else{
+    } else {
         boundary_labeled_stack$core_label <- NA
     }
-
 
     if (any(what == "global")) {
         plot <- ggplot2::ggplot(boundary_labeled_stack) +
@@ -154,14 +155,19 @@ show_cores <- function(landscape,
 
     if (any(!(what %in% c("all", "global")))) {
 
-        core_tibble <- purrr::map(boundary, function(x){
-                tibble::as_tibble(expand.grid(x = seq(1, raster::ncol(x)),
-                                                     y = seq(raster::nrow(x), 1))) %>%
-                    dplyr::bind_cols(., z = raster::values(x))
-            }) %>%
-            purrr::set_names(seq_along(boundary)) %>%
-            magrittr::extract(what) %>%
-            dplyr::bind_rows(., .id = "id")
+        core_tibble <- lapply(boundary, function(x){
+
+            coords_df <- tibble::as_tibble(expand.grid(x = seq(1, raster::ncol(x)),
+                                                       y = seq(raster::nrow(x), 1)))
+
+            dplyr::bind_cols(coords_df, z = raster::values(x))
+        })
+
+        names(core_tibble) <- unique(raster::values(landscape))
+
+        core_tibble <- core_tibble[names(core_tibble) == what]
+
+        core_tibble <- dplyr::bind_rows(core_tibble, .id = "id")
 
         if (isTRUE(labels)){
             core_tibble$patchlabel <- core_tibble$z
@@ -169,7 +175,6 @@ show_cores <- function(landscape,
         } else{
             core_tibble$patchlabel <- NA
         }
-
 
         plot <- ggplot2::ggplot(core_tibble, ggplot2::aes(x, y)) +
             ggplot2::coord_fixed() +
