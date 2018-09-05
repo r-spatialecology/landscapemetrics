@@ -5,6 +5,7 @@
 * `show_patches` now also shows labelled class facets (option `what`)
 * Removed all functions from the purrr package and replaced them by `lapply`
 * Removed all pipes
+* `calculate_metrics` has the option `progress`
 
 # landscapemetrics 0.1.1
 
