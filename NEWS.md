@@ -3,7 +3,8 @@
 * Implemented `show_cores`, a function to plot the core area of patches
 * Implemented `sampling_metrics`, a function to sample metrics around buffered points
 * `show_patches` now also shows labelled class facets (option `what`)
-* Removed all functions from the purrr package and pipes
+* Removed all functions from the purrr package and replaced them by `lapply`
+* Removed all pipes
 
 # landscapemetrics 0.1.1
 
@@ -13,4 +14,4 @@
 
 # landscapemetrics 0.1.0
 
-* First submission to CRAN.
+* First submission to CRAN
