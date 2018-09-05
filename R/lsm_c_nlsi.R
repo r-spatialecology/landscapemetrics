@@ -47,31 +47,37 @@ lsm_c_nlsi <- function(landscape, directions) UseMethod("lsm_c_nlsi")
 #' @name lsm_c_nlsi
 #' @export
 lsm_c_nlsi.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_nlsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_nlsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
 lsm_c_nlsi.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_nlsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_nlsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
 lsm_c_nlsi.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_nlsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_nlsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
@@ -80,27 +86,30 @@ lsm_c_nlsi.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_nlsi_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_nlsi_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_nlsi
 #' @export
 lsm_c_nlsi.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_nlsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_nlsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_nlsi_calc <- function(landscape, directions) {
 
     edge_class <- lsm_c_te_calc(landscape,
-                                count_boundary = T, directions = directions)
+                                count_boundary = TRUE, directions = directions)
 
     ai <- rcpp_get_composition_vector(raster::as.matrix(landscape))
 
@@ -108,7 +117,7 @@ lsm_c_nlsi_calc <- function(landscape, directions) {
 
     A <- sum(ai)
     B <- (raster::ncol(landscape) * 2) + (raster::nrow(landscape) * 2)
-    Z <- lsm_l_te_calc(landscape, count_boundary = TRUE) %>% dplyr::pull(value)
+    Z <- dplyr::pull(lsm_l_te_calc(landscape, count_boundary = TRUE), value)
 
     nlsi <- tibble::tibble(ai = ai,
                            pi = pi,
@@ -117,11 +126,11 @@ lsm_c_nlsi_calc <- function(landscape, directions) {
                            Z  = Z)
 
     min_e <- dplyr::mutate(nlsi,
-                         n = trunc(sqrt(ai)),
-                         m = ai - n ^ 2,
-                         min_e = dplyr::case_when(m == 0 ~ n * 4,
-                                                  n ^ 2 < ai & ai <= n * (1 + n) ~ 4 * n + 2,
-                                                  ai > n * (1 + n) ~ 4 * n + 4))
+                           n = trunc(sqrt(ai)),
+                           m = ai - n ^ 2,
+                           min_e = dplyr::case_when(m == 0 ~ n * 4,
+                                                    n ^ 2 < ai & ai <= n * (1 + n) ~ 4 * n + 2,
+                                                    ai > n * (1 + n) ~ 4 * n + 4))
 
 
     max_e <- dplyr::mutate(nlsi,

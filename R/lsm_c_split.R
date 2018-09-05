@@ -48,31 +48,37 @@ lsm_c_split <- function(landscape, directions) UseMethod("lsm_c_split")
 #' @name lsm_c_split
 #' @export
 lsm_c_split.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_split_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_split_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_split
 #' @export
 lsm_c_split.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_split_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_split_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_split
 #' @export
 lsm_c_split.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_split_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_split_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_split
@@ -81,21 +87,24 @@ lsm_c_split.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_split_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_split_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_split
 #' @export
 lsm_c_split.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_split_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_split_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_split_calc <- function(landscape, directions) {
@@ -104,10 +113,11 @@ lsm_c_split_calc <- function(landscape, directions) {
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    split <- dplyr::mutate(area_patch, value = value ^ 2) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (area_landscape$value ^ 2) / value)
+    split <- dplyr::mutate(area_patch, value = value ^ 2)
+
+    split <- dplyr::mutate(dplyr::summarise(dplyr::group_by(split, class),
+                                            value = sum(value)),
+                           value = (area_landscape$value ^ 2) / value)
 
     tibble::tibble(
         level = "class",

@@ -49,31 +49,37 @@ lsm_c_ndca <- function(landscape, directions) UseMethod("lsm_c_ndca")
 #' @name lsm_c_ndca
 #' @export
 lsm_c_ndca.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ndca_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ndca_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ndca
 #' @export
 lsm_c_ndca.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ndca_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ndca_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ndca
 #' @export
 lsm_c_ndca.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ndca_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ndca_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ndca
@@ -82,35 +88,37 @@ lsm_c_ndca.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ndca_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ndca_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ndca
 #' @export
 lsm_c_ndca.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_ndca_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_ndca_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_ndca_calc <- function(landscape, directions){
 
-    dcad <- landscape %>%
-        lsm_p_ncore_calc(directions = directions) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value))
+    ndca <- dplyr::summarise(dplyr::group_by(lsm_p_ncore_calc(landscape, directions = directions),
+                                             class),
+                             value = sum(value))
 
     tibble::tibble(
         level = "class",
-        class = as.integer(dcad$class),
+        class = as.integer(ndca$class),
         id = as.integer(NA),
         metric = "ndca",
-        value = as.double(dcad$value)
+        value = as.double(ndca$value)
     )
 }

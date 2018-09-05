@@ -48,38 +48,42 @@ lsm_c_te <- function(landscape,
 #' @export
 lsm_c_te.RasterLayer <- function(landscape,
                                  count_boundary = FALSE, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_te_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
 lsm_c_te.RasterStack <- function(landscape,
                                  count_boundary = FALSE, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_te_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
 #' @export
 lsm_c_te.RasterBrick <- function(landscape,
                                  count_boundary = FALSE, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_te_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_te
@@ -89,13 +93,13 @@ lsm_c_te.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_te_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 
@@ -103,18 +107,19 @@ lsm_c_te.stars <- function(landscape,
 #' @export
 lsm_c_te.list <- function(landscape,
                           count_boundary = FALSE, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_te_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_te_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
-    number_classes <- lsm_l_pr_calc(landscape) %>% dplyr::pull(value)
+    number_classes <- dplyr::pull(lsm_l_pr_calc(landscape), value)
 
     if(number_classes == 1 && !isTRUE(count_boundary)) {
 
@@ -142,14 +147,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
         landscape_labeled <- get_patches(landscape, directions = directions)
 
-        purrr::map_dfr(landscape_labeled, function(patches_class) {
+        result <- lapply(X = landscape_labeled, FUN = function(patches_class) {
 
-            class_name <- patches_class %>%
-                names() %>%
-                sub("Class_", "", .)
+            class <- sub("Class_", "", names(patches_class))
 
-            raster::values(patches_class)[is.na(raster::values(
-                patches_class))] <- -999
+
+            raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
 
             if(isTRUE(count_boundary)){
                 patches_class <- pad_raster(landscape = patches_class,
@@ -168,20 +171,16 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
             else {
 
-                left_right_neighbours <-
-                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                                directions = as.matrix(left_right_matrix))
+                left_right_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                                     directions = as.matrix(left_right_matrix))
 
-                edge_ik_left_right <-
-                    sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) *
+                edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) *
                     raster::res(patches_class)[[1]]
 
-                top_bottom_neighbours <-
-                    rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                                directions = as.matrix(top_bottom_matrix))
+                top_bottom_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                                                                     directions = as.matrix(top_bottom_matrix))
 
-                edge_ik_top_bottom <-
-                    sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) *
+                edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) *
                     raster::res(patches_class)[[2]]
 
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
@@ -189,10 +188,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
             tibble::tibble(
                 level = "class",
-                class = as.integer(class_name),
+                class = as.integer(class),
                 id = as.integer(NA),
                 metric = "te",
                 value = as.double(edge_ik))
         })
+
+        result <- dplyr::bind_rows(result)
     }
 }

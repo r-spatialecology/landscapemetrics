@@ -50,31 +50,37 @@ lsm_c_mesh <- function(landscape, directions) UseMethod("lsm_c_mesh")
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_mesh_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_mesh_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_mesh_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_mesh_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_mesh_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_mesh_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
@@ -83,35 +89,39 @@ lsm_c_mesh.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_mesh_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_mesh_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_mesh
 #' @export
 lsm_c_mesh.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_mesh_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_mesh_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_mesh_calc <- function(landscape, directions) {
 
-    area_landscape <- landscape %>%
-        lsm_l_ta_calc(directions = directions) %>%
-        dplyr::mutate(value = value * 10000)
+    area_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape, directions = directions),
+                                    value = value * 10000)
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    mesh <- dplyr::mutate(area_patch, value = (value * 10000) ^ 2) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (value / area_landscape$value) * (1 / 10000))
+    mesh <- dplyr::mutate(area_patch, value = (value * 10000) ^ 2)
+
+    mesh <- dplyr::summarise(dplyr::group_by(mesh, class),
+                             value = sum(value))
+
+    mesh <- dplyr::mutate(mesh, value = (value / area_landscape$value) * (1 / 10000))
 
     tibble::tibble(
         level = "class",
