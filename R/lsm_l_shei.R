@@ -45,25 +45,34 @@ lsm_l_shei <- function(landscape) UseMethod("lsm_l_shei")
 #' @name lsm_l_shei
 #' @export
 lsm_l_shei.RasterLayer <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shei_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_shei_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
 lsm_l_shei.RasterStack <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shei_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_shei_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
 lsm_l_shei.RasterBrick <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shei_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_shei_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
@@ -72,26 +81,31 @@ lsm_l_shei.stars <- function(landscape) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_shei_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_shei_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_shei
 #' @export
 lsm_l_shei.list <- function(landscape){
-    purrr::map_dfr(landscape, lsm_l_shei_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_shei_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_shei_calc <- function(landscape){
+
     area <- raster::ncell(landscape)
 
-    p <- landscape %>%
-        raster::values() %>%
-        table() / area
+    p <- table(raster::values(landscape)) / area
 
-    E <- tibble::tibble(
+    tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
@@ -99,5 +113,4 @@ lsm_l_shei_calc <- function(landscape){
         value = as.double(sum(-p * log(p, exp(1))) /
                               log(length(p), exp(1)))
     )
-    E
 }

@@ -48,31 +48,37 @@ lsm_c_dcore_mn <- function(landscape, directions) UseMethod("lsm_c_dcore_mn")
 #' @name lsm_c_dcore_mn
 #' @export
 lsm_c_dcore_mn.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcore_mn_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcore_mn_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
 lsm_c_dcore_mn.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcore_mn_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcore_mn_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
 lsm_c_dcore_mn.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcore_mn_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcore_mn_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
@@ -81,34 +87,38 @@ lsm_c_dcore_mn.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcore_mn_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcore_mn_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcore_mn
 #' @export
 lsm_c_dcore_mn.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_dcore_mn_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_dcore_mn_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_dcore_mn_calc <- function(landscape, directions){
-    dcore_mean <- landscape %>%
-        lsm_p_ncore_calc(., directions = directions) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = mean(value))
+
+    dcore <- lsm_p_ncore_calc(landscape, directions = directions)
+
+    dcore_mn <- dplyr::summarise(dplyr::group_by(dcore, class),
+                                 value = mean(value))
 
     tibble::tibble(
         level = "class",
-        class = as.integer(dcore_mean$class),
+        class = as.integer(dcore_mn$class),
         id = as.integer(NA),
         metric = "dcore_mn",
-        value = as.double(dcore_mean$value)
+        value = as.double(dcore_mn$value)
     )
 }

@@ -38,22 +38,34 @@ lsm_l_pr <- function(landscape) UseMethod("lsm_l_pr")
 #' @name lsm_l_pr
 #' @export
 lsm_l_pr.RasterLayer <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_pr_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
 lsm_l_pr.RasterStack <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_pr_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
 lsm_l_pr.RasterBrick <- function(landscape){
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_pr_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
@@ -62,22 +74,27 @@ lsm_l_pr.stars <- function(landscape) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_pr_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_pr_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_pr
 #' @export
 lsm_l_pr.list <- function(landscape){
-    purrr::map_dfr(landscape, lsm_l_pr_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_pr_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_pr_calc <- function(landscape){
 
-    richness <- landscape %>%
-        raster::unique() %>%
-        length()
+    richness <- length(raster::unique(landscape))
 
     tibble::tibble(
         level = 'landscape',

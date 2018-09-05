@@ -59,7 +59,7 @@ sample_metrics.RasterLayer <- function(landscape,
                                  ...)
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) x)
+        result  <- dplyr::bind_rows(result$metrics)
     }
 
     return(result)
@@ -73,9 +73,15 @@ sample_metrics.RasterStack <- function(landscape,
                                        return_plots = FALSE,
                                        ...) {
 
-    result <- purrr::map_dfr(raster::as.list(landscape),
-                   sample_metrics_int, what = what,
-                   shape = shape, points = points, size = size, ...)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = sample_metrics_int,
+                     what = what,
+                     shape = shape,
+                     points = points,
+                     size = size,
+                     ...)
+
+    result <- dplyr::bind_rows(result)
 
     layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
 
@@ -86,7 +92,7 @@ sample_metrics.RasterStack <- function(landscape,
     result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) x)
+        result  <- dplyr::bind_rows(result$metrics)
     }
 
     return(result)
@@ -100,10 +106,15 @@ sample_metrics.RasterBrick <- function(landscape,
                                        return_plots = FALSE,
                                        ...) {
 
-    result <- purrr::map_dfr(raster::as.list(landscape),
-                             sample_metrics_int, what = what,
-                             shape = shape, points = points, size = size,
-                             ...)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = sample_metrics_int,
+                     what = what,
+                     shape = shape,
+                     points = points,
+                     size = size,
+                     ...)
+
+    result <- dplyr::bind_rows(result)
 
     layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
 
@@ -114,7 +125,7 @@ sample_metrics.RasterBrick <- function(landscape,
     result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) x)
+        result  <- dplyr::bind_rows(result$metrics)
     }
 
     return(result)
@@ -128,10 +139,15 @@ sample_metrics.list <- function(landscape,
                                 return_plots = FALSE,
                                 ...) {
 
-    result <- purrr::map_dfr(landscape,
-                             sample_metrics_int, what = what,
-                             shape = shape, points = points, size = size,
-                             ...)
+    result <- lapply(X = landscape,
+                     FUN = sample_metrics_int,
+                     what = what,
+                     shape = shape,
+                     points = points,
+                     size = size,
+                     ...)
+
+    result <- dplyr::bind_rows(result)
 
     layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
 
@@ -142,7 +158,7 @@ sample_metrics.list <- function(landscape,
     result$metrics <- metrics_long_list
 
     if(return_plots == FALSE) {
-        result  <- purrr::map_dfr(result$metrics, function(x) x)
+        result  <- dplyr::bind_rows(result$metrics)
     }
 
     return(result)
@@ -167,20 +183,22 @@ sample_metrics_int <- function(landscape, what,
                                      shape = shape,
                                      size = size)
 
-    landscape_plots <- purrr::map(seq_along(sample_plots), function(current_plot) {
+    landscape_plots <- lapply(X = seq_along(sample_plots),
+                              FUN = function(current_plot) {
+                                  landscape_crop <- raster::crop(x = landscape, y = sample_plots[current_plot])
+                                  landscape_mask <- raster::mask(x = landscape_crop, mask = sample_plots[current_plot])
+                                  }
+                              )
 
-        landscape_crop <- raster::crop(x = landscape, y = sample_plots[current_plot])
-        landscape_mask <- raster::mask(x = landscape_crop, mask = sample_plots[current_plot])
-    })
+    results_landscapes <- lapply(X = seq_along(landscape_plots),
+                                 FUN = function(current_plot) {
+                                     area <- dplyr::pull(lsm_l_ta(landscape_plots[[current_plot]]), value)
 
-    results_landscapes <- purrr::map(seq_along(landscape_plots), function(current_plot) {
-
-        area <- lsm_l_ta(landscape_plots[[current_plot]]) %>% dplyr::pull(value)
-
-        result <- calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...) %>%
-            dplyr::mutate(plot_id = current_plot,
-                          percentage_inside = (area / maximum_area) * 100)
-    })
+                                     result <-  dplyr::mutate(
+                                         calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...),
+                                         plot_id = current_plot, percentage_inside = (area / maximum_area) * 100)
+                                     }
+                                 )
 
     results <- tibble::enframe(results_landscapes, name = "plot_id", value = "metrics")
 

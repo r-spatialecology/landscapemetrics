@@ -53,35 +53,40 @@ lsm_c_pafrac <- function(landscape, directions, verbose) UseMethod("lsm_c_pafrac
 #' @name lsm_c_pafrac
 #' @export
 lsm_c_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_pafrac_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pafrac_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pafrac
 #' @export
 lsm_c_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_pafrac_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pafrac_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pafrac
 #' @export
 lsm_c_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_pafrac_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pafrac_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pafrac
@@ -90,31 +95,32 @@ lsm_c_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_pafrac_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pafrac_calc,
+                     directions = directions,
+                     verbose = verbose)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pafrac
 #' @export
 lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(landscape,
-                   lsm_c_pafrac_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_pafrac_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_pafrac_calc <- function(landscape, directions, verbose){
 
-    area_patch <- landscape %>%
-        lsm_p_area_calc(directions = directions) %>%
-        dplyr::mutate(value = value * 10000)
+    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape, directions = directions),
+                                value = value * 10000)
 
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions)
@@ -122,41 +128,36 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose){
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 
-    pafrac_class <- np_class %>%
-        nrow() %>%
-        seq_len(.) %>%
-        purrr::map_dfr(function(class_current) {
+    pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
-            class_name <- as.integer(np_class[class_current, "class"])
+        class_name <- as.integer(np_class[class_current, "class"])
 
-            if(np_class$value[np_class$class == class_name] < 10){
-                pafrac <- NA
+        if(np_class$value[np_class$class == class_name] < 10){
 
-                if(isTRUE(verbose)) {
-                     warning(paste0("Class ", class_name,
-                                   ": PAFRAC = NA for class with < 10 patches"),
-                            call. = FALSE)
-                }
+            pafrac <- NA
+
+            if(isTRUE(verbose)) {
+                warning(paste0("Class ", class_name, ": PAFRAC = NA for class with < 10 patches"),
+                        call. = FALSE)
             }
+        } else {
 
-            else{
-                area_class <- area_patch %>%
-                    dplyr::filter(class == class_name)
+            area_class <- dplyr::filter(area_patch, class == class_name)
 
-                perimeter_class <- perimeter_patch %>%
-                    dplyr::filter(class == class_name)
+            perimeter_class <- dplyr::filter(perimeter_patch, class == class_name)
 
-                regression_model_class <- stats::lm(log(area_class$value) ~
-                                                    log(perimeter_class$value))
+            regression_model_class <- stats::lm(log(area_class$value) ~ log(perimeter_class$value))
 
-                pafrac <- 2 / regression_model_class$coefficients[[2]]
-            }
+            pafrac <- 2 / regression_model_class$coefficients[[2]]
+        }
 
-            tibble::tibble(
-                level = "class",
-                class = as.integer(class_name),
-                id = as.integer(NA),
-                metric = "pafrac",
-                value = as.double(pafrac))
-        })
+        tibble::tibble(
+            level = "class",
+            class = as.integer(class_name),
+            id = as.integer(NA),
+            metric = "pafrac",
+            value = as.double(pafrac))
+    })
+
+    pafrac_class <- dplyr::bind_rows(pafrac_class)
 }

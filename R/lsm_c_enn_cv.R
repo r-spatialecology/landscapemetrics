@@ -56,36 +56,40 @@ lsm_c_enn_cv <- function(landscape, directions, verbose) UseMethod("lsm_c_enn_cv
 #' @name lsm_c_enn_cv
 #' @export
 lsm_c_enn_cv.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_cv_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_cv
 #' @export
 lsm_c_enn_cv.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_cv_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_cv
 #' @export
 lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_cv_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_cv
@@ -94,35 +98,36 @@ lsm_c_enn_cv.stars <- function(landscape, directions = 8, verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_cv_calc,
+                     directions = directions,
+                     verbose = verbose)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_cv
 #' @export
 lsm_c_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(landscape,
-                   lsm_c_enn_cv_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_enn_cv_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
-
 
 lsm_c_enn_cv_calc <- function(landscape, directions, verbose) {
 
-    enn_cv  <- landscape %>%
-        lsm_p_enn_calc(directions = directions,
-                       verbose = verbose) %>%
-        dplyr::group_by(class)  %>%
-        dplyr::summarize(value = raster::cv(value))
+    enn <- lsm_p_enn_calc(landscape,
+                          directions = directions,
+                          verbose = verbose)
+
+    enn_cv <-  dplyr::summarize(dplyr::group_by(enn, class),
+                                value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

@@ -39,11 +39,11 @@ construct_buffer.matrix <- function(points, shape, size) {
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
 
-        sample_plots <- purrr::map(sample_plots_coords_split, function(x) {
+        sample_plots <- lapply(X = sample_plots_coords_split, FUN = function(x) {
             sp::Polygon(cbind(x[1:100], x[101:200]))
         })
 
-        sample_plots <- sp::SpatialPolygons(purrr::map(seq_along(sample_plots), function(y) {
+        sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
             sp::Polygons(list(sample_plots[[y]]), ID = y)
         }))
     }
@@ -69,11 +69,11 @@ construct_buffer.matrix <- function(points, shape, size) {
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
 
-        sample_plots <- purrr::map(sample_plots_coords_split, function(x) {
+        sample_plots <- lapply(X = sample_plots_coords_split, FUN = function(x) {
             sp::Polygon(cbind(x[1:4], x[5:8]))
         })
 
-        sample_plots <- sp::SpatialPolygons(purrr::map(seq_along(sample_plots), function(y) {
+        sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
             sp::Polygons(list(sample_plots[[y]]), ID = y)
         }))
     }

@@ -33,33 +33,37 @@ lsm_l_ent <- function(landscape, base = "log2") UseMethod("lsm_l_ent")
 #' @name lsm_l_ent
 #' @export
 lsm_l_ent.RasterLayer <- function(landscape, base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ent_calc,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ent_calc,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ent
 #' @export
 lsm_l_ent.RasterStack <- function(landscape, base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ent_calc,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ent_calc,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ent
 #' @export
 lsm_l_ent.RasterBrick <- function(landscape, base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ent_calc,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ent_calc,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ent
@@ -68,22 +72,24 @@ lsm_l_ent.stars <- function(landscape, base = "log2") {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ent_calc,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ent_calc,
+                     base = base)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ent
 #' @export
 lsm_l_ent.list <- function(landscape, base = "log2") {
-    purrr::map_dfr(landscape,
-                   lsm_l_ent_calc,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_ent_calc,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_ent_calc <- function(landscape, base){

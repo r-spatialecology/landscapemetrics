@@ -22,8 +22,6 @@ lsm_c_enn_sd(landscape, directions, verbose)
 
 \method{lsm_c_enn_sd}{stars}(landscape, directions = 8, verbose = TRUE)
 
-\method{lsm_c_enn_sd}{stars}(landscape, directions = 8, verbose = TRUE)
-
 \method{lsm_c_enn_sd}{list}(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{

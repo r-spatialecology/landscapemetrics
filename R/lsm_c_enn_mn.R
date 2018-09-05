@@ -56,36 +56,40 @@ lsm_c_enn_mn <- function(landscape, directions, verbose) UseMethod("lsm_c_enn_mn
 #' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_mn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_mn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_mn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_mn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_mn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_mn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_mn
@@ -94,35 +98,37 @@ lsm_c_enn_mn.stars <- function(landscape, directions = 8, verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_mn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_mn_calc,
+                     directions = directions,
+                     verbose = verbose)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_mn
 #' @export
 lsm_c_enn_mn.list <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(landscape,
-                   lsm_c_enn_mn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_enn_mn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 
 lsm_c_enn_mn_calc <- function(landscape, directions, verbose) {
 
-    enn_mn  <- landscape %>%
-        lsm_p_enn(., directions = directions,
-                  verbose = verbose) %>%
-        dplyr::group_by(class)  %>%
-        dplyr::summarize(value = mean(value))
+    enn <- lsm_p_enn_calc(landscape,
+                          directions = directions,
+                          verbose = verbose)
+
+    enn_mn <-  dplyr::summarize(dplyr::group_by(enn, class),
+                                value = mean(value))
 
     tibble::tibble(
         level = "class",

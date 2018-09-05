@@ -194,9 +194,12 @@ show_correlation <-
                     ifnotfound = list(NA)
                 )
 
-            corrs_df <- do.call(rbind, corrs_list) %>%
-                dplyr::group_by(id) %>%
-                dplyr::filter(!all(is.na(value)))
+            corrs_df <- dplyr::filter(
+                dplyr::group_by(
+                    do.call(rbind, corrs_list),
+                    id),
+                !all(is.na(value))
+                )
 
             corrs_df$id <-
                 factor(corrs_df$id, levels = unique(corrs_df$id))

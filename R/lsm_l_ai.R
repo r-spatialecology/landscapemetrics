@@ -46,30 +46,34 @@ lsm_l_ai <- function(landscape) UseMethod("lsm_l_ai")
 #' @name lsm_l_ai
 #' @export
 lsm_l_ai.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ai
 #' @export
 lsm_l_ai.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ai
 #' @export
 lsm_l_ai.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ai
@@ -78,30 +82,29 @@ lsm_l_ai.stars <- function(landscape) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_ai_calc)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_ai
 #' @export
 lsm_l_ai.list <- function(landscape) {
-    purrr::map_dfr(landscape,
-                   lsm_l_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_ai_calc <- function(landscape) {
 
-    cai <- lsm_c_ai(landscape) %>%
-        dplyr::pull(value)
+    cai <- dplyr::pull(lsm_c_ai(landscape), value)
 
-    prop_class <- (lsm_c_pland(landscape) %>%
-                       dplyr::pull(value)) / 100
+    prop_class <-  dplyr::pull(lsm_c_pland(landscape), value) / 100
 
     tibble::tibble(
         level = "landscape",

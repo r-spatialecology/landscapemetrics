@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2</span>
       </span>
     </div>
 
@@ -206,35 +206,11 @@ the smallest circumscribing circle around a patch.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get patches for class 1 from testdata as raster</span>
-<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
-
+<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; <span class='error'>Error in get_patches_int(landscape, what = what, directions = directions) %&gt;%     raster::as.list(): could not find function "%&gt;%"</span></div><div class='input'>
 <span class='co'># calculate the max distance between cell edges of each class</span>
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 2
-#&gt;      id   dist
-#&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     1   6.28
-#&gt; 2     3  22.8 
-#&gt; 3     2 732.  
-#&gt; 4     4  45.6 
-#&gt; 5     5   6.28
-#&gt; 6     6  19.6 
-#&gt; 7     7   6.28
-#&gt; 8     8   6.28
-#&gt; 9     9  15.7 </div><div class='input'>
+<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_circumscribingcircle(class_1): object 'class_1' not found</span></div><div class='input'>
 <span class='co'># do the same with a 3 column matrix (x,y,id)</span>
-<span class='no'>class_1_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/raster/topics/rasterToPoints'>rasterToPoints</a></span>(<span class='no'>class_1</span>)
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1_matrix</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 2
-#&gt;      id   dist
-#&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1     1   6.28
-#&gt; 2     3  22.8 
-#&gt; 3     2 732.  
-#&gt; 4     4  45.6 
-#&gt; 5     5   6.28
-#&gt; 6     6  19.6 
-#&gt; 7     7   6.28
-#&gt; 8     8   6.28
-#&gt; 9     9  15.7 </div><div class='input'>
+<span class='no'>class_1_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/raster/topics/rasterToPoints'>rasterToPoints</a></span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nlayers(x): object 'class_1' not found</span></div><div class='input'><span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1_matrix</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_circumscribingcircle(class_1_matrix, 1): object 'class_1_matrix' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

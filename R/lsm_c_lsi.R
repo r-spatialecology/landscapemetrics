@@ -48,31 +48,37 @@ lsm_c_lsi <- function(landscape, directions) UseMethod("lsm_c_lsi")
 #' @name lsm_c_lsi
 #' @export
 lsm_c_lsi.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_lsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
 lsm_c_lsi.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_lsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
 lsm_c_lsi.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_lsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
@@ -81,21 +87,24 @@ lsm_c_lsi.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_lsi_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_lsi_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_lsi
 #' @export
 lsm_c_lsi.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_lsi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_lsi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_lsi_calc <- function(landscape, directions) {
@@ -103,9 +112,8 @@ lsm_c_lsi_calc <- function(landscape, directions) {
     edge_class <- lsm_c_te_calc(landscape,
                                 count_boundary = TRUE, directions = directions)
 
-    area_class <- landscape %>%
-        lsm_c_ca_calc(directions = directions) %>%
-        dplyr::mutate(value = value * 10000)
+    area_class <- dplyr::mutate(lsm_c_ca_calc(landscape, directions = directions),
+                                value = value * 10000)
 
     lsi <- dplyr::mutate(area_class,
                          n = trunc(sqrt(value)),

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2</span>
       </span>
     </div>
 
@@ -170,37 +170,37 @@
     </div>
 
     <pre class="usage"><span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>count_boundary</span>, <span class='no'>classes_max</span>,
-  <span class='no'>neighbourhood</span>, <span class='no'>ordered</span>, <span class='no'>base</span>, <span class='no'>full_name</span>, <span class='no'>verbose</span>)
+  <span class='no'>neighbourhood</span>, <span class='no'>ordered</span>, <span class='no'>base</span>, <span class='no'>full_name</span>, <span class='no'>verbose</span>, <span class='no'>progress</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for stars</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>,
-  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,6 +252,10 @@ tibble.</p></td>
       <th>verbose</th>
       <td><p>Print warning message if not sufficient patches are present</p></td>
     </tr>
+    <tr>
+      <th>progress</th>
+      <td><p>Print progress report</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -270,6 +274,7 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>)
 <span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"patch"</span>)
+<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"lsm_c_te"</span>, <span class='st'>"lsm_l_pr"</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

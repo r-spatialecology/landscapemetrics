@@ -57,31 +57,37 @@ lsm_p_ncore <- function(landscape, directions) UseMethod("lsm_p_ncore")
 #' @name lsm_p_ncore
 #' @export
 lsm_p_ncore.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_ncore_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_ncore
 #' @export
 lsm_p_ncore.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_ncore_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_ncore
 #' @export
 lsm_p_ncore.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_ncore_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_ncore
@@ -90,21 +96,24 @@ lsm_p_ncore.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_ncore_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_ncore_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
+
 #' @name lsm_p_ncore
 #' @export
 lsm_p_ncore.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape, lsm_p_ncore_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_ncore_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_ncore_calc <- function(landscape, directions){
@@ -116,25 +125,19 @@ lsm_p_ncore_calc <- function(landscape, directions){
                                        resolution = raster::res(landscape),
                                        crs = raster::crs(landscape))
 
-    core_class <- purrr::map_dfr(landscape_labeled, function(patches_class) {
+    core_class <- lapply(landscape_labeled, function(patches_class) {
+
+        class <- sub("Class_", "", names(patches_class))
 
         patches_padded <- pad_raster(patches_class, pad_raster_value = NA,
                                      pad_raster_cells = 1,
                                      global = FALSE)
 
-        patches_id <- patches_padded %>%
-            raster::values() %>%
-            stats::na.omit() %>%
-            unique()
-
-        class_name <- patches_class %>%
-            names() %>%
-            sub("Class_", "", .)
+        patches_id <- unique(stats::na.omit(raster::values(patches_padded)))
 
         class_boundary <- raster::boundaries(patches_padded, directions = 4)
 
-        raster::values(class_boundary)[raster::values(class_boundary) == 1 |
-                                           raster::values(is.na(class_boundary))] <- -999
+        raster::values(class_boundary)[raster::values(class_boundary) == 1 | raster::values(is.na(class_boundary))] <- -999
 
         n_boundary <- length(unique(raster::values(class_boundary)))
 
@@ -145,7 +148,7 @@ lsm_p_ncore_calc <- function(landscape, directions){
 
         else{
             patch_core <- get_patches(class_boundary,
-                                    directions = directions)[[2]]
+                                      directions = directions)[[2]]
 
             points <- raster::rasterToPoints(patch_core)
             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
@@ -161,10 +164,12 @@ lsm_p_ncore_calc <- function(landscape, directions){
         }
 
         tibble::tibble(
-            class = class_name,
+            class = class,
             value = result
         )
     })
+
+    core_class <- dplyr::bind_rows(core_class)
 
     tibble::tibble(
         level = "patch",
