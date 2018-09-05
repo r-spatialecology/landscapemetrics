@@ -45,30 +45,34 @@ lsm_c_ai <- function(landscape) UseMethod("lsm_c_ai")
 #' @name lsm_c_ai
 #' @export
 lsm_c_ai.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ai
 #' @export
 lsm_c_ai.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ai
 #' @export
 lsm_c_ai.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ai
@@ -77,21 +81,22 @@ lsm_c_ai.stars <- function(landscape) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ai_calc)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ai
 #' @export
 lsm_c_ai.list <- function(landscape) {
-    purrr::map_dfr(landscape,
-                   lsm_c_ai_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_ai_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_ai_calc <- function(landscape) {
@@ -101,8 +106,7 @@ lsm_c_ai_calc <- function(landscape) {
 
     like_adjacencies <- diag(tb) / 2
 
-    area_class <-
-        tibble::as.tibble(raster::freq(landscape, useNA = "no"))
+    area_class <- tibble::as.tibble(raster::freq(landscape, useNA = "no"))
 
     min_e <- dplyr::mutate(
         area_class,

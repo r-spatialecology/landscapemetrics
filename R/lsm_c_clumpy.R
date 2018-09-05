@@ -43,27 +43,34 @@ lsm_c_clumpy <- function(landscape) UseMethod("lsm_c_clumpy")
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_clumpy_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_clumpy_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_clumpy_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_clumpy_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_clumpy_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_clumpy_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_clumpy
@@ -72,19 +79,23 @@ lsm_c_clumpy.stars <- function(landscape) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_clumpy_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_clumpy_calc)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 
 #' @name lsm_c_clumpy
 #' @export
 lsm_c_clumpy.list <- function(landscape) {
-    purrr::map_dfr(landscape, lsm_c_clumpy_calc, .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_clumpy_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_clumpy_calc <- function(landscape){
@@ -100,41 +111,33 @@ lsm_c_clumpy_calc <- function(landscape){
 
     area_class <- tibble::as.tibble(raster::freq(landscape, useNA = "no"))
 
-    min_e <- dplyr::mutate(
-        area_class,
-        value = count * 10000,
-        n = trunc(sqrt(count)),
-        m = count - n ^ 2,
-        min_e = dplyr::case_when(
-            m == 0 ~ n * 4,
-            n ^ 2 < count &
-                count <= n * (1 + n) ~ 4 * n + 2,
-            count > n * (1 + n) ~ 4 * n + 4
-        )
-    ) %>%
-        dplyr::pull(min_e)
+    min_e <- dplyr::pull(dplyr::mutate(area_class,
+                                       value = count * 10000,
+                                       n = trunc(sqrt(count)),
+                                       m = count - n ^ 2,
+                                       min_e = dplyr::case_when(
+                                           m == 0 ~ n * 4,
+                                           n ^ 2 < count & count <= n * (1 + n) ~ 4 * n + 2,
+                                           count > n * (1 + n) ~ 4 * n + 4
+                                           )
+                                       ), min_e)
 
     g <- like_adjacencies / (colSums(other_adjacencies) - min_e)
 
-    prop_class <-
-        (lsm_c_pland(landscape) %>% dplyr::pull(value)) / 100
+    prop_class <- lsm_c_pland(landscape)$value / 100
 
     clumpy <- purrr::map_dbl(seq_along(g), function(row_ind) {
 
-        if (is.nan(g[row_ind]) ||
-            is.na(g[row_ind]) ||
-            prop_class[row_ind] == 1) {
+        if (is.nan(g[row_ind]) || is.na(g[row_ind]) || prop_class[row_ind] == 1) {
             clumpy <- NA
         }
 
         else if (g[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
-            clumpy <-
-                (g[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
+            clumpy <- (g[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
         }
 
         else {
-            clumpy <-
-                (g[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
+            clumpy <- (g[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
         }
     })
 
@@ -145,5 +148,4 @@ lsm_c_clumpy_calc <- function(landscape){
         metric = "clumpy",
         value = as.double(clumpy)
     )
-
 }
