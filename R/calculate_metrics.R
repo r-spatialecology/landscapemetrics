@@ -67,18 +67,23 @@ calculate_metrics.RasterLayer <- function(landscape,
                                           verbose = TRUE,
                                           progress = FALSE) {
 
-    calculate_metrics_internal(landscape,
-                               what = what,
-                               directions = directions,
-                               count_boundary = count_boundary,
-                               classes_max = classes_max,
-                               neighbourhood = neighbourhood,
-                               ordered = ordered,
-                               base = base,
-                               full_name = full_name,
-                               verbose = verbose,
-                               progress = progress)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = calculate_metrics_internal,
+                     what = what,
+                     directions = directions,
+                     count_boundary = count_boundary,
+                     classes_max = classes_max,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base,
+                     full_name = full_name,
+                     verbose = verbose,
+                     progress = progress)
 
+    result <- dplyr::bind_rows(result, .id = "layer2")
+
+    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
+                  -layer2)
 }
 
 #' @name calculate_metrics
@@ -95,21 +100,23 @@ calculate_metrics.RasterStack <- function(landscape,
                                           verbose = TRUE,
                                           progress = FALSE) {
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   calculate_metrics_internal,
-                   what = what,
-                   directions = directions,
-                   count_boundary = count_boundary,
-                   classes_max = classes_max,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   full_name = full_name,
-                   verbose = verbose,
-                   progress = progress,
-                   .id = "layer2") %>%
-        dplyr::mutate(layer = as.integer(layer2)) %>%
-        dplyr::select(-layer2)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = calculate_metrics_internal,
+                     what = what,
+                     directions = directions,
+                     count_boundary = count_boundary,
+                     classes_max = classes_max,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base,
+                     full_name = full_name,
+                     verbose = verbose,
+                     progress = progress)
+
+    result <- dplyr::bind_rows(result, .id = "layer2")
+
+    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
+                  -layer2)
 }
 
 #' @name calculate_metrics
@@ -126,19 +133,23 @@ calculate_metrics.RasterBrick <- function(landscape,
                                           verbose = TRUE,
                                           progress = FALSE) {
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   calculate_metrics_internal,
-                   what = what,
-                   directions = directions,
-                   count_boundary = count_boundary,
-                   classes_max = classes_max,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   full_name = full_name,
-                   verbose = verbose,
-                   progress = progress) %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = calculate_metrics_internal,
+                     what = what,
+                     directions = directions,
+                     count_boundary = count_boundary,
+                     classes_max = classes_max,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base,
+                     full_name = full_name,
+                     verbose = verbose,
+                     progress = progress)
+
+    result <- dplyr::bind_rows(result, .id = "layer2")
+
+    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
+                  -layer2)
 }
 
 #' @name calculate_metrics
@@ -157,19 +168,23 @@ calculate_metrics.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   calculate_metrics_internal,
-                   what = what,
-                   directions = directions,
-                   count_boundary = count_boundary,
-                   classes_max = classes_max,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   full_name = full_name,
-                   verbose = verbose,
-                   progress = progress) %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = calculate_metrics_internal,
+                     what = what,
+                     directions = directions,
+                     count_boundary = count_boundary,
+                     classes_max = classes_max,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base,
+                     full_name = full_name,
+                     verbose = verbose,
+                     progress = progress)
+
+    result <- dplyr::bind_rows(result, .id = "layer2")
+
+    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
+                  -layer2)
 }
 
 
@@ -187,19 +202,23 @@ calculate_metrics.list <- function(landscape,
                                    verbose = TRUE,
                                    progress = FALSE) {
 
-    purrr::map_dfr(landscape,
-                   calculate_metrics_internal,
-                   what = what,
-                   directions = directions,
-                   count_boundary = count_boundary,
-                   classes_max = classes_max,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   full_name = full_name,
-                   verbose = verbose,
-                   progress = progress) %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = landscape,
+                     FUN = calculate_metrics_internal,
+                     what = what,
+                     directions = directions,
+                     count_boundary = count_boundary,
+                     classes_max = classes_max,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base,
+                     full_name = full_name,
+                     verbose = verbose,
+                     progress = progress)
+
+    result <- dplyr::bind_rows(result, .id = "layer2")
+
+    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
+                  -layer2)
 }
 
 calculate_metrics_internal <- function(landscape,
@@ -229,7 +248,7 @@ calculate_metrics_internal <- function(landscape,
                 if(isTRUE(progress)){
                     cat("\r> Progress 'all' metrics: ", current_metric, "/",
                         length(namespace_all), "- Current metric: ",
-                        namespace_all[[current_metric]], " || ")
+                        namespace_all[[current_metric]], " ")
                 }
 
                 foo <- match.fun(namespace_all[[current_metric]])
@@ -255,7 +274,7 @@ calculate_metrics_internal <- function(landscape,
                 if(isTRUE(progress)){
                     cat("\r> Progress 'patch' metrics: ", current_metric, "/",
                         length(namespace_patch), "- Current metric: ",
-                        namespace_patch[[current_metric]], " || ")
+                        namespace_patch[[current_metric]], " ")
                 }
 
                 foo <- match.fun(namespace_patch[[current_metric]])
@@ -281,7 +300,7 @@ calculate_metrics_internal <- function(landscape,
                 if(isTRUE(progress)){
                     cat("\r> Progress 'class' metrics: ", current_metric, "/",
                         length(namespace_class), "- Current metric: ",
-                        namespace_class[[current_metric]], " || ")
+                        namespace_class[[current_metric]], " ")
                 }
 
                 foo <- match.fun(namespace_class[[current_metric]])
@@ -307,7 +326,7 @@ calculate_metrics_internal <- function(landscape,
                 if(isTRUE(progress)){
                     cat("\r> Progress 'landscape' metrics: ", current_metric, "/",
                         length(namespace_landscape), "- Current metric: ",
-                        namespace_landscape[[current_metric]], " || ")
+                        namespace_landscape[[current_metric]], " ")
                 }
 
                 foo <- match.fun(namespace_landscape[[current_metric]])
@@ -340,7 +359,7 @@ calculate_metrics_internal <- function(landscape,
             if(isTRUE(progress)){
                 cat("\r> Progress 'various' metrics: ", current_metric, "/",
                     length(what), "- Current metric: ",
-                    what[[current_metric]], " || ")
+                    what[[current_metric]], " ")
             }
 
             foo <- match.fun(what[[current_metric]])

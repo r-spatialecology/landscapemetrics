@@ -77,12 +77,13 @@ lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
 #' @name lsm_c_cai_cv
 #' @export
 lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_cai_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_cai_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_cai_cv

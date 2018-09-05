@@ -4,8 +4,8 @@
 \alias{lsm_l_mutinf}
 \alias{lsm_l_mutinf.RasterLayer}
 \alias{lsm_l_mutinf.RasterStack}
-\alias{lsm_l_mutinf.stars}
 \alias{lsm_l_mutinf.RasterBrick}
+\alias{lsm_l_mutinf.stars}
 \alias{lsm_l_mutinf.list}
 \title{MUTINF (landscape level)}
 \usage{
@@ -17,10 +17,10 @@ lsm_l_mutinf(landscape, neighbourhood, ordered, base)
 \method{lsm_l_mutinf}{RasterStack}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{stars}(landscape, neighbourhood = 4,
+\method{lsm_l_mutinf}{RasterBrick}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{RasterBrick}(landscape, neighbourhood = 4,
+\method{lsm_l_mutinf}{stars}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
 \method{lsm_l_mutinf}{list}(landscape, neighbourhood = 4,

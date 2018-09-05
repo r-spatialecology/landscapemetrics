@@ -47,31 +47,37 @@ lsm_l_msidi <- function(landscape, directions) UseMethod("lsm_l_msidi")
 #' @name lsm_l_msidi
 #' @export
 lsm_l_msidi.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_msidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
 lsm_l_msidi.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_msidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
 lsm_l_msidi.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_msidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
@@ -80,32 +86,35 @@ lsm_l_msidi.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_msidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_msidi_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_msidi
 #' @export
 lsm_l_msidi.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_l_msidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_msidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_msidi_calc <- function(landscape, directions) {
 
-    msidi <- landscape %>%
-        lsm_p_area_calc(directions = directions) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(value = (value / sum(value)) ^ 2) %>%
-        dplyr::summarise(value = -log(sum(value)))
+    msidi <- lsm_p_area_calc(landscape, directions = directions)
+
+    msidi <- dplyr::summarise(dplyr::group_by(msidi, class),
+                              value = sum(value))
+
+    msidi <- dplyr::summarise(dplyr::mutate(msidi, value = (value / sum(value)) ^ 2),
+                              value = -log(sum(value)))
 
     tibble::tibble(
         level = "landscape",

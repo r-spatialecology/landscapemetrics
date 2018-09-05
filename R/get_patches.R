@@ -51,10 +51,9 @@ get_patches <- function(landscape, what, directions)  UseMethod("get_patches")
 get_patches.RasterLayer <- function(landscape,
                                 what = "all",
                                 directions = 8) {
-    get_patches_int(landscape,
+    raster::as.list(get_patches_int(landscape,
                 what = what,
-                directions = directions) %>%
-        raster::as.list()
+                directions = directions))
 }
 
 #' @name get_patches

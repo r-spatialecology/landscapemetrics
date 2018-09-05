@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2</span>
       </span>
     </div>
 
@@ -186,9 +186,6 @@
 <span class='co'># S3 method for stars</span>
 <span class='fu'>lsm_c_enn_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'># S3 method for stars</span>
-<span class='fu'>lsm_c_enn_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
 <span class='co'># S3 method for list</span>
 <span class='fu'>lsm_c_enn_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
@@ -254,12 +251,7 @@ Ecological monographs, 65(3), 235-260.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_enn_sd</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
-#&gt;   layer level class    id metric value
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;
-#&gt; 1     1 class     1    NA enn_sd  1.54
-#&gt; 2     1 class     2    NA enn_sd  1.07
-#&gt; 3     1 class     3    NA enn_sd  0   </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>lsm_c_enn_sd</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; <span class='error'>Error in get_patches_int(landscape, what = what, directions = directions) %&gt;%     raster::as.list(): could not find function "%&gt;%"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

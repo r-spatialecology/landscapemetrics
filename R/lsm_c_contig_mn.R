@@ -95,7 +95,7 @@ lsm_c_contig_mn.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_contig_mn
 #' @export
-lsm_c_contig_cv.stars <- function(landscape, directions = 8) {
+lsm_c_contig_mn.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 

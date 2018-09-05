@@ -128,7 +128,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose){
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 
-    pafrac_class2 <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
+    pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
         class_name <- as.integer(np_class[class_current, "class"])
 

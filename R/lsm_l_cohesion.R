@@ -45,33 +45,37 @@ lsm_l_cohesion <- function(landscape, directions)
 #' @name lsm_l_cohesion
 #' @export
 lsm_l_cohesion.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_cohesion_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_cohesion_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_cohesion
 #' @export
 lsm_l_cohesion.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_cohesion_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_cohesion_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_cohesion
 #' @export
 lsm_l_cohesion.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_cohesion_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_cohesion_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_cohesion
@@ -80,48 +84,43 @@ lsm_l_cohesion.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_cohesion_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_cohesion_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_cohesion
 #' @export
 lsm_l_cohesion.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_cohesion_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_cohesion_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_cohesion_calc <- function(landscape, directions) {
 
-    ncells_landscape <- landscape %>%
-        lsm_l_ta_calc(directions = directions) %>%
-        dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
+    ncells_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape, directions = directions),
+                                      value = value * 10000 / prod(raster::res(landscape)))
 
-    ncells_patch <- landscape %>%
-        lsm_p_area_calc(., directions = directions) %>%
-        dplyr::mutate(value = value * 10000 / prod(raster::res(landscape)))
+    ncells_patch <- dplyr::mutate(lsm_p_area_calc(landscape, directions = directions),
+                                  value = value * 10000 / prod(raster::res(landscape)))
 
-    perim_patch <- landscape %>%
-        lsm_p_perim_calc(., directions = directions)
+    perim_patch <- lsm_p_perim_calc(landscape, directions = directions)
 
-    denominator <- perim_patch %>%
-        dplyr::mutate(value = value * sqrt(ncells_patch$value)) %>%
-        dplyr::summarise(value = sum(value))
+    denominator <- dplyr::summarise(dplyr::mutate(perim_patch,
+                                                  value = value * sqrt(ncells_patch$value)),
+                                    value = sum(value))
 
-    cohesion <- perim_patch %>%
-        dplyr::summarise(value = sum(value)) %>%
-        dplyr::mutate(
-            value = (1 - (value / denominator$value)) *
-                ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1) * 100
-        )
+    cohesion <- dplyr::mutate(dplyr::summarise(perim_patch, value = sum(value)),
+                              value = (1 - (value / denominator$value)) *
+                                  ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1) * 100)
 
     tibble::tibble(
         level = "landscape",

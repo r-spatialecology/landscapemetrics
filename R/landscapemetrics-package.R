@@ -17,43 +17,25 @@
 # nocov start
 "_PACKAGE"
 
-globalVariables(c(".",
-                  "area",
-                  "layer",
-                  "value_name",
-                  "richness",
-                  "landscape",
-                  "landscape_stack",
-                  "value",
-                  "x",
-                  "y",
-                  "total_area",
-                  "id",
-                  "m",
-                  "minp",
-                  "n",
+globalVariables(c("class_name",
                   "count",
                   "dist",
-                  "layer2",
-                  "lsm_p_ncore",
-                  "x1",
-                  "x2",
-                  "x3",
-                  "x4",
-                  "x_centroid",
-                  "y1",
-                  "y2",
-                  "y3",
-                  "y4",
-                  "y_centroid",
+                  "id",
+                  "landscape",
                   "lsm_abbreviations_names",
+                  "layer",
+                  "layer2",
+                  "level",
                   "metric",
                   "metric_1",
                   "metric_2",
+                  "minp",
+                  "n",
+                  "value",
                   "values",
-                  "level"))
-
-
-
+                  "x",
+                  "x_centroid",
+                  "y",
+                  "y_centroid"))
 
 # nocov end

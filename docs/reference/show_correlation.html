@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2</span>
       </span>
     </div>
 
@@ -200,7 +200,7 @@ must be structured as returned by the <strong>landscapemetrics</strong> package.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_metrics.html'>calculate_metrics</a></span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"class"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='input'><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)</div><div class='img'><img src='show_correlation-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>metrics</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_metrics.html'>calculate_metrics</a></span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"class"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in get_patches_int(landscape, what = what, directions = directions) %&gt;%     raster::as.list(): could not find function "%&gt;%"</span></div><div class='input'><span class='fu'>show_correlation</span>(<span class='no'>metrics</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in unique(metrics$level): object 'metrics' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

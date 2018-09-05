@@ -42,37 +42,37 @@ lsm_l_np <- function(landscape, directions) UseMethod("lsm_l_np")
 #' @name lsm_l_np
 #' @export
 lsm_l_np.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_np_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_np_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_np
 #' @export
 lsm_l_np.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(
-        raster::as.list(landscape),
-        .f = lsm_l_np_calc,
-        directions = directions,
-        .id = "layer"
-    ) %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_np_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_np
 #' @export
 lsm_l_np.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(
-        raster::as.list(landscape),
-        .f = lsm_l_np_calc,
-        directions = directions,
-        .id = "layer"
-    ) %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_np_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_np
@@ -81,31 +81,30 @@ lsm_l_np.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_np_calc,
-                   directions = directions,  .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_np_calc,
+                     directions = directions)
 
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_np
 #' @export
 lsm_l_np.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(
-        raster::as.list(landscape),
-        .f = lsm_l_np_calc,
-        directions = directions,
-        .id = "layer"
-    ) %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_np_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_np_calc <- function(landscape, directions) {
 
-    n_patches <- landscape %>%
-        lsm_c_np_calc(directions = directions) %>%
-        dplyr::summarise(value = sum(value))
+    n_patches <- dplyr::summarise(lsm_c_np_calc(landscape, directions = directions),
+                                  value = sum(value))
 
     tibble::tibble(
         level = "landscape",
@@ -114,5 +113,4 @@ lsm_l_np_calc <- function(landscape, directions) {
         metric = "np",
         value = as.double(n_patches$value)
     )
-
 }

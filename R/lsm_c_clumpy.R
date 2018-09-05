@@ -126,7 +126,7 @@ lsm_c_clumpy_calc <- function(landscape){
 
     prop_class <- lsm_c_pland(landscape)$value / 100
 
-    clumpy <- purrr::map_dbl(seq_along(g), function(row_ind) {
+    clumpy <- sapply(seq_along(g), function(row_ind) {
 
         if (is.nan(g[row_ind]) || is.na(g[row_ind]) || prop_class[row_ind] == 1) {
             clumpy <- NA
