@@ -6,8 +6,10 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
-#' @param nrow,ncol Number of rows and columns for the facet.
+#' @param consider_boundary Logical if cells that only neighbour the landscape
 #' @param labels Logical flag indicating whether to print or not to print core labels.
+#' boundary should be considered as core
+#' @param nrow,ncol Number of rows and columns for the facet.
 #'
 #' @details The functions plots the core area of patches labeled with the
 #' corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.
@@ -33,7 +35,8 @@ show_cores <- function(landscape,
                        what = "all",
                        labels = TRUE,
                        nrow = NULL,
-                       ncol = NULL) {
+                       ncol = NULL,
+                       consider_boundary = FALSE) {
 
     if(any(!(what %in% c("all", "global")))){
         if (!all(what %in% raster::unique(landscape))){
@@ -50,23 +53,27 @@ show_cores <- function(landscape,
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
 
-    boundary <- lapply(X = landscape_labeled, FUN = raster::boundaries, directions = 4)
+    boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
+
+        if(!isTRUE(consider_boundary)) {
+            patches_class <- pad_raster(patches_class, pad_raster_value = NA,
+                                        pad_raster_cells = 1,
+                                        global = FALSE)
+        }
+
+        raster::crop(x = raster::boundaries(patches_class, directions = 4), y = landscape)
+    })
 
     # reset boundaries
     boundary <- lapply(X = seq_along(boundary),
                        FUN = function(i){
                            raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
+
+                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
+                               raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
+
                            return(boundary[[i]])
                        }
-    )
-
-    # label patches boundaries
-    boundary <-  lapply(X = seq_along(boundary),
-                        FUN = function(i){
-                            raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
-                                raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
-                            return(boundary[[i]])
-                        }
     )
 
     boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),

@@ -5,7 +5,7 @@
 \title{Show core area}
 \usage{
 show_cores(landscape, directions = 8, what = "all", labels = TRUE,
-  nrow = NULL, ncol = NULL)
+  nrow = NULL, ncol = NULL, consider_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster object}
@@ -15,9 +15,12 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{what}{How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
 
-\item{labels}{Logical flag indicating whether to print or not to print core labels.}
+\item{labels}{Logical flag indicating whether to print or not to print core labels.
+boundary should be considered as core}
 
 \item{nrow, ncol}{Number of rows and columns for the facet.}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape}
 }
 \value{
 ggplot

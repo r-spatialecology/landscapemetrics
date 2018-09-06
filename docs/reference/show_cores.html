@@ -170,7 +170,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,11 +190,16 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
     <tr>
       <th>labels</th>
-      <td><p>Logical flag indicating whether to print or not to print core labels.</p></td>
+      <td><p>Logical flag indicating whether to print or not to print core labels.
+boundary should be considered as core</p></td>
     </tr>
     <tr>
       <th>nrow, ncol</th>
       <td><p>Number of rows and columns for the facet.</p></td>
+    </tr>
+    <tr>
+      <th>consider_boundary</th>
+      <td><p>Logical if cells that only neighbour the landscape</p></td>
     </tr>
     </table>
     
