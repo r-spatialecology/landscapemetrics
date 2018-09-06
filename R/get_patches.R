@@ -169,7 +169,7 @@ get_patches_int <- function(landscape, what, directions) {
 
         })
 
-        patch_landscape <- patch_landscape[order(names(patch_landscape))]
+        patch_landscape <- patch_landscape[order(as.numeric(names(patch_landscape)))]
 
         return(patch_landscape)
     }
