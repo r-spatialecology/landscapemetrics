@@ -40,6 +40,6 @@ show_cores(landscape, what = "global", labels = FALSE)
 show_cores(landscape, what = "all", labels = FALSE)
 
 # show only the core area of class 1 and 3
-show_cores(landscape, what = c(1,3), labels = FALSE)
+show_cores(landscape, what = c(2,3), labels = FALSE)
 
 }

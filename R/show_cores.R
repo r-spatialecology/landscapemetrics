@@ -24,7 +24,7 @@
 #' show_cores(landscape, what = "all", labels = FALSE)
 #'
 #' # show only the core area of class 1 and 3
-#' show_cores(landscape, what = c(1,3), labels = FALSE)
+#' show_cores(landscape, what = c(2,3), labels = FALSE)
 #'
 #' @aliases show_cores
 #' @rdname show_cores
@@ -170,9 +170,9 @@ show_cores <- function(landscape,
             dplyr::bind_cols(coords_df, z = raster::values(x))
         })
 
-        names(core_tibble) <- unique(raster::values(landscape))
+        names(core_tibble) <- sort(unique(raster::values(landscape)))
 
-        core_tibble <- core_tibble[names(core_tibble) == what]
+        core_tibble <- core_tibble[names(core_tibble) %in% what]
 
         core_tibble <- dplyr::bind_rows(core_tibble, .id = "id")
 

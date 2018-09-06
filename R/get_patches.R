@@ -160,7 +160,16 @@ get_patches_int <- function(landscape, what, directions) {
             names(patch_landscape) <- paste0("Class_", what)
 
             patch_landscape
+
         })
+
+        names(patch_landscape) <- sapply(patch_landscape, FUN = function(patches){
+
+            as.numeric(strsplit(names(patches), "_")[[1]][2])
+
+        })
+
+        patch_landscape <- patch_landscape[order(names(patch_landscape))]
 
         return(patch_landscape)
     }

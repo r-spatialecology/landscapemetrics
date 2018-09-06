@@ -22,7 +22,7 @@ where the ones define the neighbourhood. The default is 4.}
 should be returned (default FALSE).}
 }
 \value{
-matrix
+matrix with adjacencies between classes in a raster and between cells from the same class.
 }
 \description{
 Fast calculation of adjacencies between classes in a raster
@@ -35,6 +35,7 @@ the configuration of landscapes, is it is a cellwise count of edges between clas
 The "full" adjacency matrix is double-count method, as it contains the pairwise
 counts of cells between all classes. The diagonal of this matrix contains the
 like adjacencies, a count for how many edges a shared in each class with the same class.
+
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{

@@ -20,6 +20,7 @@
 globalVariables(c("class_name",
                   "count",
                   "dist",
+                  "extract_id",
                   "id",
                   "landscape",
                   "lsm_abbreviations_names",
