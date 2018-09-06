@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
 #'
 #' @details
 #' \deqn{CORE = a_{ij}^{core}}
@@ -49,15 +51,16 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_core <- function(landscape, directions) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, directions, consider_boundary) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
+lsm_p_core.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -65,11 +68,12 @@ lsm_p_core.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape, directions = 8) {
+lsm_p_core.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -77,11 +81,12 @@ lsm_p_core.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
+lsm_p_core.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -89,13 +94,14 @@ lsm_p_core.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.stars <- function(landscape, directions = 8) {
+lsm_p_core.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -103,34 +109,37 @@ lsm_p_core.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape, directions = 8) {
+lsm_p_core.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_core_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_p_core_calc <- function(landscape, directions) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary) {
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
     core <- lapply(landscape_labeled, function(patches_class) {
 
-        patches_padded <- pad_raster(patches_class, pad_raster_value = NA,
-                                     pad_raster_cells = 1,
-                                     global = FALSE)
+        if(!isTRUE(consider_boundary)) {
+            patches_class <- pad_raster(patches_class, pad_raster_value = NA,
+                                        pad_raster_cells = 1,
+                                        global = FALSE)
+        }
 
-        cells_patch <- table(raster::values(patches_padded))
+        cells_patch <- table(raster::values(patches_class))
 
-        boundary <- raster::boundaries(patches_padded,
+        boundary <- raster::boundaries(patches_class,
                                        directions = 4)
 
-        boundary_patch <- table(raster::values(patches_padded)[raster::values(boundary) == 1])
+        edge_patch <- table(raster::values(patches_class)[raster::values(boundary) == 1])
 
-        core_area <- (cells_patch - boundary_patch) * prod(raster::res(patches_class)) / 10000
+        core_area <- (cells_patch - edge_patch) * prod(raster::res(patches_class)) / 10000
 
         class <- sub("Class_", "", names(patches_class))
 

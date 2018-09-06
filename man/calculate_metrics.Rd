@@ -9,33 +9,39 @@
 \alias{calculate_metrics.list}
 \title{calculate_metrics}
 \usage{
-calculate_metrics(landscape, what, directions, count_boundary, classes_max,
-  neighbourhood, ordered, base, full_name, verbose, progress)
+calculate_metrics(landscape, what, directions, count_boundary,
+  consider_boundary, classes_max, neighbourhood, ordered, base, full_name,
+  verbose, progress)
 
 \method{calculate_metrics}{RasterLayer}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE, progress = FALSE)
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", full_name = FALSE, verbose = TRUE,
+  progress = FALSE)
 
 \method{calculate_metrics}{RasterStack}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE, progress = FALSE)
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", full_name = FALSE, verbose = TRUE,
+  progress = FALSE)
 
 \method{calculate_metrics}{RasterBrick}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE, progress = FALSE)
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", full_name = FALSE, verbose = TRUE,
+  progress = FALSE)
 
 \method{calculate_metrics}{stars}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE, progress = FALSE)
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", full_name = FALSE, verbose = TRUE,
+  progress = FALSE)
 
 \method{calculate_metrics}{list}(landscape, what = "all",
-  directions = 8, count_boundary = FALSE, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2",
-  full_name = FALSE, verbose = TRUE, progress = FALSE)
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", full_name = FALSE, verbose = TRUE,
+  progress = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -48,6 +54,9 @@ as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{count_boundary}{Include landscape boundary in edge length}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core}
 
 \item{classes_max}{Potential maximum number of present classes}
 

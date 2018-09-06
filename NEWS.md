@@ -6,6 +6,7 @@
 * Removed all functions from the purrr package and replaced them by `lapply`
 * Removed all pipes
 * `calculate_metrics` has the option `progress`
+* `consider_boundary` is available for all core metrics
 
 # landscapemetrics 0.1.1
 

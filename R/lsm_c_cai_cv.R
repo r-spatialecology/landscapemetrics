@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
 #'
 #' @details
 #' \deqn{CAI_{CV} = cv(CAI[patch_{ij}]}
@@ -48,15 +50,16 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_cai_cv <- function(landscape, directions) UseMethod("lsm_c_cai_cv")
+lsm_c_cai_cv <- function(landscape, directions, consider_boundary) UseMethod("lsm_c_cai_cv")
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -64,11 +67,12 @@ lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
+lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -76,11 +80,12 @@ lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -88,13 +93,14 @@ lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.stars <- function(landscape, directions = 8) {
+lsm_c_cai_cv.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -102,19 +108,22 @@ lsm_c_cai_cv.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_c_cai_cv
 #' @export
-lsm_c_cai_cv.list <- function(landscape, directions = 8) {
+lsm_c_cai_cv.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_cai_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_c_cai_cv_calc <- function(landscape, directions){
+lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary){
 
-    cai <- lsm_p_cai_calc(landscape, directions = directions)
+    cai <- lsm_p_cai_calc(landscape,
+                          directions = directions,
+                          consider_boundary = consider_boundary)
 
     cai_cv <- dplyr::summarise(dplyr::group_by(cai, class),
                                value = raster::cv(value))

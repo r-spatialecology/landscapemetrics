@@ -9,23 +9,31 @@
 \alias{lsm_p_cai.list}
 \title{CAI (patch level)}
 \usage{
-lsm_p_cai(landscape, directions)
+lsm_p_cai(landscape, directions, consider_boundary)
 
-\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_p_cai}{RasterStack}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8)
+\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_p_cai}{stars}(landscape, directions = 8)
+\method{lsm_p_cai}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_p_cai}{list}(landscape, directions = 8)
+\method{lsm_p_cai}{list}(landscape, directions = 8,
+  consider_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core}
 }
 \value{
 tibble

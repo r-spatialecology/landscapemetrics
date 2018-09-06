@@ -1,9 +1,12 @@
 #' DCORE_SD (class level)
 #'
 #' @description Standard deviation number of disjunct core areas (Core area metric)
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
 #'
 #' @details
 #' \deqn{DCORE_{SD} = sd(NCORE[patch_{ij}])}
@@ -48,15 +51,16 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_dcore_sd <- function(landscape, directions) UseMethod("lsm_c_dcore_sd")
+lsm_c_dcore_sd <- function(landscape, directions, consider_boundary) UseMethod("lsm_c_dcore_sd")
 
 #' @name lsm_c_dcore_sd
 #' @export
-lsm_c_dcore_sd.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_dcore_sd.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_dcore_sd_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -64,11 +68,12 @@ lsm_c_dcore_sd.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_c_dcore_sd
 #' @export
-lsm_c_dcore_sd.RasterStack <- function(landscape, directions = 8) {
+lsm_c_dcore_sd.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_dcore_sd_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -76,11 +81,12 @@ lsm_c_dcore_sd.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_c_dcore_sd
 #' @export
-lsm_c_dcore_sd.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_dcore_sd.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_dcore_sd_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -88,13 +94,14 @@ lsm_c_dcore_sd.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_dcore_sd
 #' @export
-lsm_c_dcore_sd.stars <- function(landscape, directions = 8) {
+lsm_c_dcore_sd.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_dcore_sd_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -102,19 +109,22 @@ lsm_c_dcore_sd.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_c_dcore_sd
 #' @export
-lsm_c_dcore_sd.list <- function(landscape, directions = 8) {
+lsm_c_dcore_sd.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_dcore_sd_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_c_dcore_sd_calc <- function(landscape, directions){
+lsm_c_dcore_sd_calc <- function(landscape, directions, consider_boundary){
 
-    dcore <- lsm_p_ncore_calc(landscape, directions = directions)
+    dcore <- lsm_p_ncore_calc(landscape,
+                              directions = directions,
+                              consider_boundary = consider_boundary)
 
     dcore_sd <- dplyr::summarise(dplyr::group_by(dcore, class),
                                  value = stats::sd(value))

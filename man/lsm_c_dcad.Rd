@@ -9,22 +9,31 @@
 \alias{lsm_c_dcad.list}
 \title{DCAD (class level)}
 \usage{
-lsm_c_dcad(landscape, directions)
+lsm_c_dcad(landscape, directions, consider_boundary)
 
-\method{lsm_c_dcad}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_c_dcad}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_c_dcad}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_dcad}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_c_dcad}{stars}(landscape, directions = 8)
+\method{lsm_c_dcad}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_c_dcad}{list}(landscape, directions = 8)
+\method{lsm_c_dcad}{list}(landscape, directions = 8,
+  consider_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core}
 }
 \value{
 tibble

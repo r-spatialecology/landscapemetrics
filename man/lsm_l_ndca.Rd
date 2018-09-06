@@ -9,23 +9,31 @@
 \alias{lsm_l_ndca.list}
 \title{NDCA (landscape level)}
 \usage{
-lsm_l_ndca(landscape, directions)
+lsm_l_ndca(landscape, directions, consider_boundary)
 
-\method{lsm_l_ndca}{RasterLayer}(landscape, directions = 8)
+\method{lsm_l_ndca}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_l_ndca}{RasterStack}(landscape, directions = 8)
+\method{lsm_l_ndca}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_l_ndca}{RasterBrick}(landscape, directions = 8)
+\method{lsm_l_ndca}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_l_ndca}{stars}(landscape, directions = 8)
+\method{lsm_l_ndca}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE)
 
-\method{lsm_l_ndca}{list}(landscape, directions = 8)
+\method{lsm_l_ndca}{list}(landscape, directions = 8,
+  consider_boundary = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core}
 }
 \value{
 tibble

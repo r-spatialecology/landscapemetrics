@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
 #'
 #' @details
 #' \deqn{NDCA = \sum \limits_{i = 1}^{m} \sum \limits_{j = 1}^{n} n_{ij}^{core}}
@@ -43,15 +45,16 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_ndca <- function(landscape, directions) UseMethod("lsm_l_ndca")
+lsm_l_ndca <- function(landscape, directions, consider_boundary) UseMethod("lsm_l_ndca")
 
 #' @name lsm_l_ndca
 #' @export
-lsm_l_ndca.RasterLayer <- function(landscape, directions = 8) {
+lsm_l_ndca.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ndca_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -59,11 +62,12 @@ lsm_l_ndca.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_l_ndca
 #' @export
-lsm_l_ndca.RasterStack <- function(landscape, directions = 8) {
+lsm_l_ndca.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ndca_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -71,11 +75,12 @@ lsm_l_ndca.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_l_ndca
 #' @export
-lsm_l_ndca.RasterBrick <- function(landscape, directions = 8) {
+lsm_l_ndca.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ndca_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -83,13 +88,14 @@ lsm_l_ndca.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_l_ndca
 #' @export
-lsm_l_ndca.stars <- function(landscape, directions = 8) {
+lsm_l_ndca.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ndca_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -97,19 +103,22 @@ lsm_l_ndca.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_l_ndca
 #' @export
-lsm_l_ndca.list <- function(landscape, directions = 8) {
+lsm_l_ndca.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ndca_calc,
-                     directions = directions)
+                     directions = directions,
+                     consider_boundary = consider_boundary)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_l_ndca_calc <- function(landscape, directions){
+lsm_l_ndca_calc <- function(landscape, directions, consider_boundary){
 
-    ndca <- dplyr::summarise(lsm_p_ncore_calc(landscape, directions = directions),
+    ndca <- dplyr::summarise(lsm_p_ncore_calc(landscape,
+                                              directions = directions,
+                                              consider_boundary = consider_boundary),
                              value = sum(value))
 
     tibble::tibble(

@@ -57,8 +57,8 @@ show_cores <- function(landscape,
                        FUN = function(i){
                            raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
                            return(boundary[[i]])
-                           }
-                       )
+                       }
+    )
 
     # label patches boundaries
     boundary <-  lapply(X = seq_along(boundary),
@@ -66,8 +66,8 @@ show_cores <- function(landscape,
                             raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
                                 raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
                             return(boundary[[i]])
-                            }
-                        )
+                        }
+    )
 
     boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
                                                         na.rm = TRUE),

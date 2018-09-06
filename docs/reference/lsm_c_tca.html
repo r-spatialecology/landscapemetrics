@@ -169,22 +169,27 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
+    <pre class="usage"><span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>, <span class='no'>consider_boundary</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+<span class='fu'>lsm_c_tca</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,6 +202,11 @@
       <th>directions</th>
       <td><p>The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).</p></td>
+    </tr>
+    <tr>
+      <th>consider_boundary</th>
+      <td><p>Logical if cells that only neighbour the landscape
+boundary should be considered as core</p></td>
     </tr>
     </table>
     
