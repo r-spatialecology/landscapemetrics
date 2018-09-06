@@ -131,11 +131,11 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
         np_class <- max(raster::values(patches_class), na.rm = TRUE)
 
         if(np_class == 1) {
-            enn <-  tibble::tibble(class = class_name,
+            enn <-  tibble::tibble(class = class,
                                    value = as.double(NA))
 
             if(isTRUE(verbose)) {
-                warning(paste0("Class ", class_name,
+                warning(paste0("Class ", class,
                                ": ENN = NA for class with only 1 patch"),
                         call. = FALSE)
             }
