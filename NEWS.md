@@ -1,7 +1,8 @@
 # landscapemetrics 0.2
 
 * Implemented `show_cores`, a function to plot the core area of patches
-* Implemented `sampling_metrics`, a function to sample metrics around buffered points
+* Implemented `sample_lsm`, a function to sample metrics around buffered points
+* Implemented `extract_lsm`, a function to extract landscape metrics for spatial coordinates
 * `show_patches` now also shows labelled class facets (option `what`)
 * Removed all functions from the purrr package and replaced them by `lapply`
 * Removed all pipes

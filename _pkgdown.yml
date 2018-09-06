@@ -30,6 +30,8 @@ reference:
     - get_circumscribingcircle
     - get_nearestneighbour
     - get_patches
+    - extract_lsm
+    - sample_lsm
   - title: Visualisation functions
     contents:
     - show_patches

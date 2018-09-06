@@ -1,4 +1,4 @@
-#' sample_metrics
+#' sample_lsm
 #'
 #' @description Sample metrics
 #'
@@ -30,30 +30,30 @@
 #' @examples
 #' \dontrun{
 #' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-#' sample_metrics(landscape, points = points, size = 15, what = "lsm_l_np")
+#' sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' sample_metrics(landscape, points = points_sp, size = 15, what = "lsm_l_np")
+#' sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np")
 #'
 #' }
 #'
-#' @aliases sample_metrics
-#' @rdname sample_metrics
+#' @aliases sample_lsm
+#' @rdname sample_lsm
 #'
 #' @export
-sample_metrics <- function(landscape, what,
-                           shape, points, size, return_plots, ...) UseMethod("sample_metrics")
+sample_lsm <- function(landscape, what,
+                           shape, points, size, return_plots, ...) UseMethod("sample_lsm")
 
 
-#' @name sample_metrics
+#' @name sample_lsm
 #' @export
-sample_metrics.RasterLayer <- function(landscape,
+sample_lsm.RasterLayer <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
                                        return_plots = FALSE,
                                        ...) {
 
-    result <- sample_metrics_int(landscape,
+    result <- sample_lsm_int(landscape,
                                  what = what,
                                  shape = shape, points = points, size = size,
                                  ...)
@@ -65,16 +65,16 @@ sample_metrics.RasterLayer <- function(landscape,
     return(result)
 }
 
-#' @name sample_metrics
+#' @name sample_lsm
 #' @export
-sample_metrics.RasterStack <- function(landscape,
+sample_lsm.RasterStack <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
                                        return_plots = FALSE,
                                        ...) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_metrics_int,
+                     FUN = sample_lsm_int,
                      what = what,
                      shape = shape,
                      points = points,
@@ -98,16 +98,16 @@ sample_metrics.RasterStack <- function(landscape,
     return(result)
 }
 
-#' @name sample_metrics
+#' @name sample_lsm
 #' @export
-sample_metrics.RasterBrick <- function(landscape,
+sample_lsm.RasterBrick <- function(landscape,
                                        what = "all",
                                        shape = "square", points, size,
                                        return_plots = FALSE,
                                        ...) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_metrics_int,
+                     FUN = sample_lsm_int,
                      what = what,
                      shape = shape,
                      points = points,
@@ -131,16 +131,16 @@ sample_metrics.RasterBrick <- function(landscape,
     return(result)
 }
 
-#' @name sample_metrics
+#' @name sample_lsm
 #' @export
-sample_metrics.list <- function(landscape,
+sample_lsm.list <- function(landscape,
                                 what = "all",
                                 shape = "square", points, size,
                                 return_plots = FALSE,
                                 ...) {
 
     result <- lapply(X = landscape,
-                     FUN = sample_metrics_int,
+                     FUN = sample_lsm_int,
                      what = what,
                      shape = shape,
                      points = points,
@@ -164,7 +164,7 @@ sample_metrics.list <- function(landscape,
     return(result)
 }
 
-sample_metrics_int <- function(landscape, what,
+sample_lsm_int <- function(landscape, what,
                                shape, points, size, ...) {
 
     if (shape == "circle") {
