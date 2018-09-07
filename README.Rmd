@@ -48,7 +48,7 @@ install.packages("landscapemetrics")
 
 # Alternatively, you can install the stable development version from Github
 # install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
+devtools::install_github("r-spatialecology/landscapemetrics")
 ```
 
 ## Using landscapemetrics
@@ -97,7 +97,7 @@ All functions return an identical structured tibble:
 Every function follows the same implementation design, so the usage is
 quite straight forward:
 
-```{r , message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(landscapemetrics)
 library(dplyr)
 
@@ -117,7 +117,7 @@ bind_rows(
 There is also a wrapper around every metric in the package to quickly calculate
 a bunch of metrics:
 
-```{r , message=FALSE}
+```{r, message=FALSE}
 # calculate all metrics on patch level
 calculate_lsm(landscape, what = "patch")
 ```
