@@ -154,7 +154,7 @@ calculate a bunch of metrics:
 
 ``` r
 # calculate all metrics on patch level
-calculate_metrics(landscape, what = "patch")
+calculate_lsm(landscape, what = "patch")
 ```
 
     ## # A tibble: 324 x 6

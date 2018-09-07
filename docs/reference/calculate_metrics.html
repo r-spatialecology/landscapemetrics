@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>calculate_metrics — calculate_metrics • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>calculate_lsm — calculate_lsm • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="calculate_metrics — calculate_metrics" />
+<meta property="og:title" content="calculate_lsm — calculate_lsm" />
 
 <meta property="og:description" content="Calculate a selected group of metrics" />
 
@@ -158,9 +158,9 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>calculate_metrics</h1>
+    <h1>calculate_lsm</h1>
     
-    <div class="hidden name"><code>calculate_metrics.Rd</code></div>
+    <div class="hidden name"><code>calculate_lsm.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -169,40 +169,40 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>count_boundary</span>,
+    <pre class="usage"><span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>count_boundary</span>,
   <span class='no'>consider_boundary</span>, <span class='no'>edge_depth</span>, <span class='no'>classes_max</span>, <span class='no'>neighbourhood</span>, <span class='no'>ordered</span>, <span class='no'>base</span>,
   <span class='no'>full_name</span>, <span class='no'>verbose</span>, <span class='no'>progress</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>count_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>classes_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>neighbourhood</span> <span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"log2"</span>, <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -288,9 +288,9 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>)
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"patch"</span>)
-<span class='fu'>calculate_metrics</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"lsm_c_te"</span>, <span class='st'>"lsm_l_pr"</span>))
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>)
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"patch"</span>)
+<span class='fu'>calculate_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"patch"</span>, <span class='st'>"lsm_c_te"</span>, <span class='st'>"lsm_l_pr"</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

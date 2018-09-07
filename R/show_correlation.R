@@ -13,7 +13,7 @@
 #' @return ggplot
 #'
 #' @examples
-#' metrics <- calculate_metrics(landscape, what = c("patch", "class"))
+#' metrics <- calculate_lsm(landscape, what = c("patch", "class"))
 #' show_correlation(metrics, method = "pearson")
 #'
 #' @aliases show_correlation

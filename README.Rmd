@@ -119,7 +119,7 @@ a bunch of metrics:
 
 ```{r , message=FALSE}
 # calculate all metrics on patch level
-calculate_metrics(landscape, what = "patch")
+calculate_lsm(landscape, what = "patch")
 ```
 
 ### Utility functions

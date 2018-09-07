@@ -167,7 +167,7 @@
 <a href="#show-correlation" class="anchor"></a>Show correlation</h2>
 <p>Selecting meaningful landscape metrics for your field of research is difficult, as many landscape metrics are very abstract and the common approach is often simply to calculate as many as possible.</p>
 <p>To select at the least that ones for your landscape and research question that are not highly correlated, you can use the function <code>show_correlation</code> to get insight into the correlation of the metrics you calculated:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/calculate_metrics">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">metrics &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/landscapemetrics/topics/calculate_lsm">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../../reference/show_correlation.html">show_correlation</a></span>(metrics, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a></code></pre></div>
 <p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>

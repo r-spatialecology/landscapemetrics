@@ -1,4 +1,4 @@
-#' calculate_metrics
+#' calculate_lsm
 #'
 #' @description Calculate a selected group of metrics
 #'
@@ -29,14 +29,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' calculate_metrics(landscape)
-#' calculate_metrics(landscape, what = "patch")
-#' calculate_metrics(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
+#' calculate_lsm(landscape)
+#' calculate_lsm(landscape, what = "patch")
+#' calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
 #' }
 #'
-#' @aliases calculate_metrics
+#' @aliases calculate_lsm
 #'
-#' @rdname calculate_metrics
+#' @rdname calculate_lsm
 #'
 #' @references
 #' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
@@ -45,7 +45,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-calculate_metrics <- function(landscape,
+calculate_lsm <- function(landscape,
                               what,
                               directions,
                               count_boundary,
@@ -57,11 +57,11 @@ calculate_metrics <- function(landscape,
                               base,
                               full_name,
                               verbose,
-                              progress) UseMethod("calculate_metrics")
+                              progress) UseMethod("calculate_lsm")
 
-#' @name calculate_metrics
+#' @name calculate_lsm
 #' @export
-calculate_metrics.RasterLayer <- function(landscape,
+calculate_lsm.RasterLayer <- function(landscape,
                                           what = "all",
                                           directions = 8,
                                           count_boundary = FALSE,
@@ -76,7 +76,7 @@ calculate_metrics.RasterLayer <- function(landscape,
                                           progress = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = calculate_metrics_internal,
+                     FUN = calculate_lsm_internal,
                      what = what,
                      directions = directions,
                      count_boundary = count_boundary,
@@ -96,9 +96,9 @@ calculate_metrics.RasterLayer <- function(landscape,
                   -layer2)
 }
 
-#' @name calculate_metrics
+#' @name calculate_lsm
 #' @export
-calculate_metrics.RasterStack <- function(landscape,
+calculate_lsm.RasterStack <- function(landscape,
                                           what = "all",
                                           directions = 8,
                                           count_boundary = FALSE,
@@ -113,7 +113,7 @@ calculate_metrics.RasterStack <- function(landscape,
                                           progress = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = calculate_metrics_internal,
+                     FUN = calculate_lsm_internal,
                      what = what,
                      directions = directions,
                      count_boundary = count_boundary,
@@ -133,9 +133,9 @@ calculate_metrics.RasterStack <- function(landscape,
                   -layer2)
 }
 
-#' @name calculate_metrics
+#' @name calculate_lsm
 #' @export
-calculate_metrics.RasterBrick <- function(landscape,
+calculate_lsm.RasterBrick <- function(landscape,
                                           what = "all",
                                           directions = 8,
                                           count_boundary = FALSE,
@@ -150,7 +150,7 @@ calculate_metrics.RasterBrick <- function(landscape,
                                           progress = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = calculate_metrics_internal,
+                     FUN = calculate_lsm_internal,
                      what = what,
                      directions = directions,
                      count_boundary = count_boundary,
@@ -170,9 +170,9 @@ calculate_metrics.RasterBrick <- function(landscape,
                   -layer2)
 }
 
-#' @name calculate_metrics
+#' @name calculate_lsm
 #' @export
-calculate_metrics.stars <- function(landscape,
+calculate_lsm.stars <- function(landscape,
                                     what = "all",
                                     directions = 8,
                                     count_boundary = FALSE,
@@ -189,7 +189,7 @@ calculate_metrics.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = calculate_metrics_internal,
+                     FUN = calculate_lsm_internal,
                      what = what,
                      directions = directions,
                      count_boundary = count_boundary,
@@ -210,9 +210,9 @@ calculate_metrics.stars <- function(landscape,
 }
 
 
-#' @name calculate_metrics
+#' @name calculate_lsm
 #' @export
-calculate_metrics.list <- function(landscape,
+calculate_lsm.list <- function(landscape,
                                    what = "all",
                                    directions = 8,
                                    count_boundary = FALSE,
@@ -227,7 +227,7 @@ calculate_metrics.list <- function(landscape,
                                    progress = FALSE) {
 
     result <- lapply(X = landscape,
-                     FUN = calculate_metrics_internal,
+                     FUN = calculate_lsm_internal,
                      what = what,
                      directions = directions,
                      count_boundary = count_boundary,
@@ -247,7 +247,7 @@ calculate_metrics.list <- function(landscape,
                   -layer2)
 }
 
-calculate_metrics_internal <- function(landscape,
+calculate_lsm_internal <- function(landscape,
                                        what,
                                        directions,
                                        count_boundary,

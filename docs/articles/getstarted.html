@@ -277,7 +277,7 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 10     1 patch     2    10 cai     31.4</span></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; # ... with 71 more rows</span></a></code></pre></div>
 <p>Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical tibble, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. <code>what = "patch"</code></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>))</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>))</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;   layer level     class    id metric  value</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;</span></a>
@@ -313,8 +313,8 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;  9     1 patch     1     9 cai      0   core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 10     1 patch     2    10 cai     31.4 core area index core area metric</span></a>
 <a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; # ... with 71 more rows</span></a></code></pre></div>
-<p>In <code>calculate_metrics</code> this exists as option (<code>full_name = TRUE</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_metrics.html">calculate_metrics</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>), </a>
+<p>In <code>calculate_lsm</code> this exists as option (<code>full_name = TRUE</code>).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="kw">c</span>(<span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span>), </a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">              <span class="dt">full_name =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; # A tibble: 5 x 8</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;   layer level    class    id metric  value full_name         type         </span></a>

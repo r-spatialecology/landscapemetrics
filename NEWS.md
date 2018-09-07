@@ -6,7 +6,7 @@
 * `show_patches` now also shows labelled class facets (option `what`)
 * Removed all functions from the purrr package and replaced them by `lapply`
 * Removed all pipes
-* `calculate_metrics` has the option `progress`
+* `calculate_lsm` has the option `progress`
 * `consider_boundary` is available for all core metrics
 * The `edge_depth` can be specified for all core metrics
 

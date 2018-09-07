@@ -266,7 +266,7 @@ extract_lsm_int <- function(landscape,
     point_id <- raster::extract(landscape_id, y, df = TRUE, ...)
     names(point_id) <- c("extract_id", "id")
 
-    metrics <- calculate_metrics(landscape,
+    metrics <- calculate_lsm(landscape,
                                  what = "patch",
                                  directions = directions,
                                  count_boundary = count_boundary,

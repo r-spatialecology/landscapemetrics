@@ -177,7 +177,7 @@ reference:
     - lsm_l_te
   - title: Wrapper around all metrics
     contents:
-    - calculate_metrics
+    - calculate_lsm
 
 navbar:
   title: landscapemetrics

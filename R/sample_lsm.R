@@ -12,7 +12,7 @@
 #' side-length for squares in mapunits
 #' @param return_plots Logical if the clipped raster of the sample plot should
 #' be returned
-#' @param ... Options for calculate_metrics()
+#' @param ... Options for calculate_lsm()
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
@@ -194,7 +194,7 @@ sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
                                      area <- dplyr::pull(lsm_l_ta(landscape_plots[[current_plot]]), value)
 
                                      dplyr::mutate(
-                                         calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...),
+                                         calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...),
                                          plot_id = current_plot, percentage_inside = (area / maximum_area) * 100)
                                      }
                                  )
