@@ -54,9 +54,9 @@ sample_lsm.RasterLayer <- function(landscape,
                                        ...) {
 
     result <- sample_lsm_int(landscape,
-                                 what = what,
-                                 shape = shape, points = points, size = size,
-                                 ...)
+                             what = what,
+                             shape = shape, points = points, size = size,
+                             ...)
 
     if(return_plots == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
@@ -68,10 +68,10 @@ sample_lsm.RasterLayer <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterStack <- function(landscape,
-                                       what = "all",
-                                       shape = "square", points, size,
-                                       return_plots = FALSE,
-                                       ...) {
+                                   what = "all",
+                                   shape = "square", points, size,
+                                   return_plots = FALSE,
+                                   ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
@@ -164,8 +164,7 @@ sample_lsm.list <- function(landscape,
     return(result)
 }
 
-sample_lsm_int <- function(landscape, what,
-                               shape, points, size, ...) {
+sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
 
     if (shape == "circle") {
         maximum_area <- (pi * size ^ 2) / 10000
@@ -194,7 +193,7 @@ sample_lsm_int <- function(landscape, what,
                                  FUN = function(current_plot) {
                                      area <- dplyr::pull(lsm_l_ta(landscape_plots[[current_plot]]), value)
 
-                                     result <-  dplyr::mutate(
+                                     dplyr::mutate(
                                          calculate_metrics(landscape = landscape_plots[[current_plot]], what = what, ...),
                                          plot_id = current_plot, percentage_inside = (area / maximum_area) * 100)
                                      }

@@ -9,22 +9,22 @@
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
-show_patches(landscape, what, directions, labels)
+show_patches(landscape, what, directions, labels, nrow, ncol)
 
 \method{show_patches}{RasterLayer}(landscape, what = "global",
-  directions = 8, labels = TRUE)
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_patches}{RasterStack}(landscape, what = "global",
-  directions = 8, labels = TRUE)
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_patches}{RasterBrick}(landscape, what = "global",
-  directions = 8, labels = TRUE)
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_patches}{stars}(landscape, what = "global",
-  directions = 8, labels = TRUE)
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_patches}{list}(landscape, what = "global", directions = 8,
-  labels = TRUE)
+  labels = TRUE, nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{*Raster object}
@@ -35,6 +35,8 @@ show_patches(landscape, what, directions, labels)
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{labels}{Logical flag indicating whether to print or not to print patch labels.}
+
+\item{nrow, ncol}{Number of rows and columns for the facet.}
 }
 \value{
 ggplot

@@ -169,27 +169,27 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>labels</span>)
+    <pre class="usage"><span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>labels</span>, <span class='no'>nrow</span>, <span class='no'>ncol</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
 <span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for RasterStack</span>
 <span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
 <span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for stars</span>
 <span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>show_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,6 +210,10 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
     <tr>
       <th>labels</th>
       <td><p>Logical flag indicating whether to print or not to print patch labels.</p></td>
+    </tr>
+    <tr>
+      <th>nrow, ncol</th>
+      <td><p>Number of rows and columns for the facet.</p></td>
     </tr>
     </table>
     

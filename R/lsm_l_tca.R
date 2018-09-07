@@ -7,6 +7,8 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details
 #' \deqn{TCA = \sum \limits_{j = 1}^{n} a_{ij}^{core} * (\frac{1} {10000})}
@@ -44,16 +46,20 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_tca <- function(landscape, directions, consider_boundary) UseMethod("lsm_l_tca")
+lsm_l_tca <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_l_tca")
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_l_tca.RasterLayer <- function(landscape,
+                                  directions = 8,
+                                  consider_boundary = FALSE,
+                                  edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_tca_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -61,12 +67,16 @@ lsm_l_tca.RasterLayer <- function(landscape, directions = 8, consider_boundary =
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_l_tca.RasterStack <- function(landscape,
+                                  directions = 8,
+                                  consider_boundary = FALSE,
+                                  edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_tca_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -74,12 +84,16 @@ lsm_l_tca.RasterStack <- function(landscape, directions = 8, consider_boundary =
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_l_tca.RasterBrick <- function(landscape,
+                                  directions = 8,
+                                  consider_boundary = FALSE,
+                                  edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_tca_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -87,14 +101,18 @@ lsm_l_tca.RasterBrick <- function(landscape, directions = 8, consider_boundary =
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_l_tca.stars <- function(landscape,
+                            directions = 8,
+                            consider_boundary = FALSE,
+                            edge_depth = 1) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_tca_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -102,22 +120,27 @@ lsm_l_tca.stars <- function(landscape, directions = 8, consider_boundary = FALSE
 
 #' @name lsm_l_tca
 #' @export
-lsm_l_tca.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_l_tca.list <- function(landscape,
+                           directions = 8,
+                           consider_boundary = FALSE,
+                           edge_depth = 1) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_tca_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary) {
+lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth) {
 
     total_core_area <- dplyr::summarise(lsm_p_core_calc(landscape,
                                                         directions = directions,
-                                                        consider_boundary = consider_boundary),
+                                                        consider_boundary = consider_boundary,
+                                                        edge_depth = edge_depth),
                                         value = sum(value))
 
     tibble::tibble(

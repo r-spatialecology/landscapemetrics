@@ -10,6 +10,8 @@
 #' @param labels Logical flag indicating whether to print or not to print core labels.
 #' boundary should be considered as core
 #' @param nrow,ncol Number of rows and columns for the facet.
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details The functions plots the core area of patches labeled with the
 #' corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.
@@ -36,7 +38,8 @@ show_cores <- function(landscape,
                        labels = TRUE,
                        nrow = NULL,
                        ncol = NULL,
-                       consider_boundary = FALSE) {
+                       consider_boundary = FALSE,
+                       edge_depth = 1) {
 
     if(any(!(what %in% c("all", "global")))){
         if (!all(what %in% raster::unique(landscape))){
@@ -61,7 +64,24 @@ show_cores <- function(landscape,
                                         global = FALSE)
         }
 
-        raster::crop(x = raster::boundaries(patches_class, directions = 4), y = landscape)
+        class_edge <- raster::boundaries(patches_class,
+                                         directions = 4)
+
+        full_edge <- class_edge
+
+        if(edge_depth > 1){
+            for(i in seq_len(edge_depth - 1)){
+
+                raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
+
+                class_edge <- raster::boundaries(class_edge,
+                                                 directions = 4)
+
+                full_edge[which(class_edge[] == 1)] <- 1
+            }
+        }
+
+        raster::crop(full_edge, directions = 4, y = landscape)
     })
 
     # reset boundaries

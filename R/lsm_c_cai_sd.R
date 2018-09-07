@@ -7,6 +7,8 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details
 #' \deqn{CAI_{SD} = sd(CAI[patch_{ij}]}
@@ -49,16 +51,17 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_cai_sd <- function(landscape, directions, consider_boundary) UseMethod("lsm_c_cai_sd")
+lsm_c_cai_sd <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_c_cai_sd")
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_cai_sd.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_sd_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -66,12 +69,13 @@ lsm_c_cai_sd.RasterLayer <- function(landscape, directions = 8, consider_boundar
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_cai_sd.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_sd_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -79,12 +83,13 @@ lsm_c_cai_sd.RasterStack <- function(landscape, directions = 8, consider_boundar
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_cai_sd.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_sd_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -92,14 +97,15 @@ lsm_c_cai_sd.RasterBrick <- function(landscape, directions = 8, consider_boundar
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_cai_sd.stars <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_cai_sd_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -107,22 +113,24 @@ lsm_c_cai_sd.stars <- function(landscape, directions = 8, consider_boundary = FA
 
 #' @name lsm_c_cai_sd
 #' @export
-lsm_c_cai_sd.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_cai_sd.list <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_cai_sd_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_c_cai_sd_calc <- function(landscape, directions, consider_boundary){
+lsm_c_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
     cai <- lsm_p_cai_calc(landscape,
                           directions = directions,
-                          consider_boundary = consider_boundary)
+                          consider_boundary = consider_boundary,
+                          edge_depth = edge_depth)
 
     cai_sd <- dplyr::summarise(dplyr::group_by(cai, class),
                                value = stats::sd(value))

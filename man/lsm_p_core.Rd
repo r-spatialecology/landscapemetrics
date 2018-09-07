@@ -9,22 +9,22 @@
 \alias{lsm_p_core.list}
 \title{CORE (patch level)}
 \usage{
-lsm_p_core(landscape, directions, consider_boundary)
+lsm_p_core(landscape, directions, consider_boundary, edge_depth)
 
 \method{lsm_p_core}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_p_core}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_p_core}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_p_core}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_p_core}{list}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -34,6 +34,9 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 }
 \value{
 tibble

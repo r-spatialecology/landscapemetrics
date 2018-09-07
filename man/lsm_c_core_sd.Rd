@@ -9,22 +9,22 @@
 \alias{lsm_c_core_sd.list}
 \title{CORE_SD (class level)}
 \usage{
-lsm_c_core_sd(landscape, directions, consider_boundary)
+lsm_c_core_sd(landscape, directions, consider_boundary, edge_depth)
 
 \method{lsm_c_core_sd}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_c_core_sd}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_c_core_sd}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_c_core_sd}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 
 \method{lsm_c_core_sd}{list}(landscape, directions = 8,
-  consider_boundary = FALSE)
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -33,6 +33,9 @@ lsm_c_core_sd(landscape, directions, consider_boundary)
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 }
 \value{
 tibble

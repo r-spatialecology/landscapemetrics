@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details
 #' \deqn{CORE_{MN} = mean(CORE[patch_{ij}])}
@@ -43,16 +45,17 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_core_mn <- function(landscape, directions, consider_boundary) UseMethod("lsm_c_core_mn")
+lsm_c_core_mn <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_c_core_mn")
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_core_mn.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_core_mn_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -60,12 +63,13 @@ lsm_c_core_mn.RasterLayer <- function(landscape, directions = 8, consider_bounda
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_core_mn.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_core_mn_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -73,12 +77,13 @@ lsm_c_core_mn.RasterStack <- function(landscape, directions = 8, consider_bounda
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_core_mn.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_core_mn_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -86,14 +91,15 @@ lsm_c_core_mn.RasterBrick <- function(landscape, directions = 8, consider_bounda
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_core_mn.stars <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_core_mn_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -101,22 +107,24 @@ lsm_c_core_mn.stars <- function(landscape, directions = 8, consider_boundary = F
 
 #' @name lsm_c_core_mn
 #' @export
-lsm_c_core_mn.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_c_core_mn.list <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_core_mn_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_c_core_mn_calc <- function(landscape, directions, consider_boundary){
+lsm_c_core_mn_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
     core <- lsm_p_core_calc(landscape,
                             directions = directions,
-                            consider_boundary = consider_boundary)
+                            consider_boundary = consider_boundary,
+                            edge_depth = edge_depth)
 
     core_mean <- dplyr::summarise(dplyr::group_by(core, class),
                                   value = mean(value))

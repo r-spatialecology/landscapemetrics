@@ -7,6 +7,7 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
+#' @param nrow,ncol Number of rows and columns for the facet.
 #'
 #' @details The functions plots the landscape with the patches labeled with the
 #' corresponding patch id.
@@ -20,19 +21,23 @@
 #' @rdname show_patches
 #'
 #' @export
-show_patches <- function(landscape, what, directions, labels)  UseMethod("show_patches")
+show_patches <- function(landscape, what, directions, labels, nrow, ncol)  UseMethod("show_patches")
 
 #' @name show_patches
 #' @export
 show_patches.RasterLayer <- function(landscape,
                                      what = "global",
                                      directions = 8,
-                                     labels = TRUE) {
+                                     labels = TRUE,
+                                     nrow = NULL,
+                                     ncol = NULL) {
 
     show_patches_intern(landscape,
                         what = what,
                         directions = directions,
-                        labels = labels)
+                        labels = labels,
+                        nrow = nrow,
+                        ncol = ncol)
 }
 
 #' @name show_patches
@@ -40,13 +45,17 @@ show_patches.RasterLayer <- function(landscape,
 show_patches.RasterStack <- function(landscape,
                                      what = "global",
                                      directions = 8,
-                                     labels = TRUE) {
+                                     labels = TRUE,
+                                     nrow = NULL,
+                                     ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
            FUN = show_patches_intern,
            what = what,
            directions = directions,
-           labels = labels)
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol)
 }
 
 #' @name show_patches
@@ -54,13 +63,17 @@ show_patches.RasterStack <- function(landscape,
 show_patches.RasterBrick <- function(landscape,
                                      what = "global",
                                      directions = 8,
-                                     labels = TRUE) {
+                                     labels = TRUE,
+                                     nrow = NULL,
+                                     ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
            FUN = show_patches_intern,
            what = what,
            directions = directions,
-           labels = labels)
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol)
 }
 
 #' @name show_patches
@@ -68,7 +81,9 @@ show_patches.RasterBrick <- function(landscape,
 show_patches.stars <- function(landscape,
                                what = "global",
                                directions = 8,
-                               labels = TRUE) {
+                               labels = TRUE,
+                               nrow = NULL,
+                               ncol = NULL) {
 
     landscape <- methods::as(landscape, "Raster")
 
@@ -76,7 +91,9 @@ show_patches.stars <- function(landscape,
            FUN = show_patches_intern,
            what = what,
            directions = directions,
-           labels = labels)
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol)
 }
 
 #' @name show_patches
@@ -84,16 +101,20 @@ show_patches.stars <- function(landscape,
 show_patches.list <- function(landscape,
                               what = "global",
                               directions = 8,
-                              labels = TRUE) {
+                              labels = TRUE,
+                              nrow = NULL,
+                              ncol = NULL) {
 
     lapply(X = landscape,
            FUN = show_patches_intern,
            what = what,
            directions = directions,
-           labels = labels)
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol)
 }
 
-show_patches_intern <- function(landscape, what, directions, labels) {
+show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol) {
 
     if(any(!(what %in% c("all", "global")))){
         if (!any(what %in% raster::unique(landscape))){
@@ -109,8 +130,6 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
-
-
 
     if (any(what == "global")) {
 
@@ -178,14 +197,16 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
     if (what != "global") {
 
-        landscape_labeled <- lapply(X = landscape_labeled, FUN = function(x){
+        patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
             names(x) <- "value"
+            x <- raster::as.data.frame(x, xy = TRUE)
             return(x)}
         )
 
-        patches_tibble <- lapply(X = landscape_labeled,
-                                 FUN = raster::as.data.frame,
-                                 xy = TRUE)
+        # patches_tibble <- lapply(X = landscape_labeled,
+        #                          FUN = raster::as.data.frame,
+        #                          xy = TRUE)
+
         patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
 
         if (any(!(what %in% c("all", "global")))){
@@ -239,5 +260,5 @@ show_patches_intern <- function(landscape, what, directions, labels) {
 
     }
 
-    return(plot)
+    suppressWarnings(print(plot))
 }

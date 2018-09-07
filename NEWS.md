@@ -8,6 +8,7 @@
 * Removed all pipes
 * `calculate_metrics` has the option `progress`
 * `consider_boundary` is available for all core metrics
+* The `edge_depth` can be specified for all core metrics
 
 # landscapemetrics 0.1.1
 

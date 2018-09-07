@@ -7,6 +7,8 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details
 #' \deqn{CORE = a_{ij}^{core}}
@@ -51,16 +53,18 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_core <- function(landscape, directions, consider_boundary) UseMethod("lsm_p_core")
+lsm_p_core <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_p_core")
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_p_core.RasterLayer <- function(landscape, directions = 8,
+                                   consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -68,12 +72,14 @@ lsm_p_core.RasterLayer <- function(landscape, directions = 8, consider_boundary 
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_p_core.RasterStack <- function(landscape, directions = 8,
+                                   consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -81,12 +87,14 @@ lsm_p_core.RasterStack <- function(landscape, directions = 8, consider_boundary 
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_p_core.RasterBrick <- function(landscape, directions = 8,
+                                   consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -94,14 +102,16 @@ lsm_p_core.RasterBrick <- function(landscape, directions = 8, consider_boundary 
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.stars <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_p_core.stars <- function(landscape, directions = 8,
+                             consider_boundary = FALSE, edge_depth = 1) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_core_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
@@ -109,18 +119,20 @@ lsm_p_core.stars <- function(landscape, directions = 8, consider_boundary = FALS
 
 #' @name lsm_p_core
 #' @export
-lsm_p_core.list <- function(landscape, directions = 8, consider_boundary = FALSE) {
+lsm_p_core.list <- function(landscape, directions = 8,
+                            consider_boundary = FALSE, edge_depth = 1) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_core_calc,
                      directions = directions,
-                     consider_boundary = consider_boundary)
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth) {
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
@@ -132,14 +144,29 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary) {
                                         global = FALSE)
         }
 
-        cells_patch <- table(raster::values(patches_class))
-
-        boundary <- raster::boundaries(patches_class,
+        class_edge <- raster::boundaries(patches_class,
                                        directions = 4)
 
-        edge_patch <- table(raster::values(patches_class)[raster::values(boundary) == 1])
+        cells_edge_patch <- table(factor(raster::values(patches_class)[raster::values(class_edge) == 1],
+                                   levels = unique(raster::values(patches_class))))
 
-        core_area <- (cells_patch - edge_patch) * prod(raster::res(patches_class)) / 10000
+        if(edge_depth > 1){
+            for(i in seq_len(edge_depth - 1)){
+
+                raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
+
+                class_edge <- raster::boundaries(class_edge,
+                                               directions = 4)
+
+                cells_edge_patch <- cells_edge_patch + table(factor(raster::values(patches_class)[raster::values(class_edge) == 1],
+                                                              levels = unique(raster::values(patches_class))))
+            }
+        }
+
+        cells_patch <- table(factor(raster::values(patches_class),
+                                    levels = unique(raster::values(patches_class))))
+
+        core_area <- (cells_patch - cells_edge_patch) * prod(raster::res(patches_class)) / 10000
 
         class <- sub("Class_", "", names(patches_class))
 

@@ -10,37 +10,37 @@
 \title{calculate_metrics}
 \usage{
 calculate_metrics(landscape, what, directions, count_boundary,
-  consider_boundary, classes_max, neighbourhood, ordered, base, full_name,
-  verbose, progress)
+  consider_boundary, edge_depth, classes_max, neighbourhood, ordered, base,
+  full_name, verbose, progress)
 
 \method{calculate_metrics}{RasterLayer}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
 \method{calculate_metrics}{RasterStack}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
 \method{calculate_metrics}{RasterBrick}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
 \method{calculate_metrics}{stars}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
 \method{calculate_metrics}{list}(landscape, what = "all",
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 }
 \arguments{
@@ -57,6 +57,9 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 
 \item{classes_max}{Potential maximum number of present classes}
 

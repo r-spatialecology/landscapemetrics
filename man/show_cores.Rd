@@ -5,7 +5,8 @@
 \title{Show core area}
 \usage{
 show_cores(landscape, directions = 8, what = "all", labels = TRUE,
-  nrow = NULL, ncol = NULL, consider_boundary = FALSE)
+  nrow = NULL, ncol = NULL, consider_boundary = FALSE,
+  edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster object}
@@ -21,6 +22,9 @@ boundary should be considered as core}
 \item{nrow, ncol}{Number of rows and columns for the facet.}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 }
 \value{
 ggplot
