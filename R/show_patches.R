@@ -195,7 +195,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
 
     }
 
-    if (what != "global") {
+    if (any(what != "global")) {
 
         patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
             names(x) <- "value"
@@ -203,14 +203,10 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
             return(x)}
         )
 
-        # patches_tibble <- lapply(X = landscape_labeled,
-        #                          FUN = raster::as.data.frame,
-        #                          xy = TRUE)
-
         patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
 
         if (any(!(what %in% c("all", "global")))){
-            patches_tibble <- dplyr::filter(patches_tibble, class == what)
+            patches_tibble <- dplyr::filter(patches_tibble, class %in% what)
         }
 
         if (isTRUE(labels)) {
