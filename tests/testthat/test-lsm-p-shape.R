@@ -12,6 +12,7 @@ test_that("lsm_p_shape is typestable", {
     expect_is(landscapemetrics_patch_landscape_shape, "tbl_df")
     expect_is(lsm_p_shape(landscape_stack), "tbl_df")
     expect_is(lsm_p_shape(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_p_shape(landscape_stars), "tbl_df")
 })
 
 test_that("lsm_p_shape returns the desired number of columns", {
