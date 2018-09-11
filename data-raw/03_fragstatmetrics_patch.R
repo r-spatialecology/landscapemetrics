@@ -1,8 +1,13 @@
 library(readr)
 library(tidyverse)
+library(stringr)
 
 # load fragstats results for patch level
 fragstats_patch <- read_csv("data-raw/fragstats_results_patch.txt")
+
+fragstats_patch$TYPE <-
+    as.numeric(str_split(fragstats_patch$TYPE, pattern = "_",
+                         simplify = TRUE)[, 2])
 
 # filter for augusta_nlcd raster
 fragstats_patch_augusta_nlcd <- fragstats_patch %>%
