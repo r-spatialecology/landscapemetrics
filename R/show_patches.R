@@ -236,7 +236,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
                     "#6F4070",
                     "#994E95"
                 ),
-                na.value = "grey75"
+                na.value = NA
             ) +
             ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
             ggplot2::scale_x_continuous(expand = c(0, 0)) +
