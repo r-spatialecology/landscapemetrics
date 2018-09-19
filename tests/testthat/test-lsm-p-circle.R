@@ -12,6 +12,7 @@ test_that("lsm_p_circle is typestable", {
     expect_is(lsm_p_circle(landscape), "tbl_df")
     expect_is(lsm_p_circle(landscape_stack), "tbl_df")
     expect_is(lsm_p_circle(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_p_circle(landscape_stars), "tbl_df")
 })
 
 test_that("lsm_p_circle returns the desired number of columns", {
