@@ -1,28 +1,28 @@
 context("patch level circle metric")
 
-# fragstats_patch_landscape_circle <- fragstats_patch_landscape$CIRCLE
-landscapemetrics_patch_landscape_circle <- lsm_p_circle(landscape)
+fragstats_patch_landscape_value <- fragstats_patch_landscape$CIRCLE
+landscapemetrics_patch_landscape_value <- lsm_p_circle(landscape)
 #
-# test_that("lsm_p_circle results are equal to fragstats", {
-#     expect_true(all(fragstats_patch_landscape_circle %in%
-#                         landscapemetrics_patch_landscape_circle$value))
-# })
+test_that("lsm_p_circle results are equal to fragstats", {
+    expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
+                        round(landscapemetrics_patch_landscape_value$value, 4)))
+})
 
 test_that("lsm_p_circle is typestable", {
-    expect_is(landscapemetrics_patch_landscape_circle, "tbl_df")
+    expect_is(lsm_p_circle(landscape), "tbl_df")
     expect_is(lsm_p_circle(landscape_stack), "tbl_df")
     expect_is(lsm_p_circle(list(landscape, landscape)), "tbl_df")
 })
 
 test_that("lsm_p_circle returns the desired number of columns", {
-    expect_equal(ncol(lsm_p_circle(landscape)), 6)
+    expect_equal(ncol(landscapemetrics_patch_landscape_value), 6)
 })
 
 test_that("lsm_p_circle returns in every column the correct type", {
-    expect_type(landscapemetrics_patch_landscape_circle$layer, "integer")
-    expect_type(landscapemetrics_patch_landscape_circle$level, "character")
-    expect_type(landscapemetrics_patch_landscape_circle$class, "integer")
-    expect_type(landscapemetrics_patch_landscape_circle$id, "integer")
-    expect_type(landscapemetrics_patch_landscape_circle$metric, "character")
-    expect_type(landscapemetrics_patch_landscape_circle$value, "double")
+    expect_type(landscapemetrics_patch_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_patch_landscape_value$level, "character")
+    expect_type(landscapemetrics_patch_landscape_value$class, "integer")
+    expect_type(landscapemetrics_patch_landscape_value$id, "integer")
+    expect_type(landscapemetrics_patch_landscape_value$metric, "character")
+    expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })

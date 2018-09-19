@@ -1,30 +1,37 @@
 context("class level pafrac metric")
 
-fragstats_class_landscape_pafrac <- as.numeric(fragstats_class_landscape$PAFRAC)
-landscapemetrics_class_landscape_pafrac <- lsm_c_pafrac(landscape)
+fragstats_class_landscape_value <- select(fragstats_class_landscape,
+                                          TYPE, PAFRAC)
+
+names(fragstats_class_landscape_value) <- c("class", "value")
+
+landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape)
+
+comparison <- full_join(x = fragstats_class_landscape_value,
+                        y = landscapemetrics_class_landscape_value,
+                        by = "class",
+                        suffix = c(".fs", ".lsm"))
 
 test_that("lsm_c_pafrac results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_pafrac %in%
-                        round(landscapemetrics_class_landscape_pafrac$value, 4)))
+    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
 })
 
 test_that("lsm_c_pafrac is typestable", {
-    expect_is(landscapemetrics_class_landscape_pafrac, "tbl_df")
+    expect_is(lsm_c_pafrac(landscape), "tbl_df")
     expect_is(lsm_c_pafrac(landscape_stack), "tbl_df")
     expect_is(lsm_c_pafrac(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_c_pafrac returns the desirpafrac number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_pafrac), 6)
+test_that("lsm_c_pafrac returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
 test_that("lsm_c_pafrac returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_pafrac$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_pafrac$level, "character")
-    expect_type(landscapemetrics_class_landscape_pafrac$class, "integer")
-    expect_type(landscapemetrics_class_landscape_pafrac$id, "integer")
-    expect_type(landscapemetrics_class_landscape_pafrac$metric, "character")
-    expect_type(landscapemetrics_class_landscape_pafrac$value, "double")
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
-
 
