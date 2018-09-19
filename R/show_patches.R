@@ -171,7 +171,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
                     "#6F4070",
                     "#994E95"
                 ),
-                na.value = "grey75"
+                na.value = NA
             ) +
             ggplot2::theme(
                 axis.title = ggplot2::element_blank(),
