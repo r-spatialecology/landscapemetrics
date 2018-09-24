@@ -12,8 +12,8 @@ library(NLMR)
 set.seed(2018-05-15)
 
 nlm_create = function(roughness, weighting){
-    nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE) %>%
-        util_classify(weighting = weighting, verbose = FALSE)
+    nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE, verbose = FALSE) %>%
+        util_classify(weighting = weighting)
 }
 
 param_df = expand.grid(roughness = c(0.3, 0.7),
