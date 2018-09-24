@@ -1,39 +1,31 @@
-context("landscape level contig metric")
+context("landscape level lsm_l_contig_cv metric")
 
-fragstats_landscape_landscape_contig_cv <- fragstats_patch_landscape %>%
-    summarise(metric = raster::cv(CONTIG)) %>%
-    pull(metric) %>%
-    round(.,4)
+# FRAGSTATS already rounds on patch level
+fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
+    summarise(value = raster::cv(CONTIG))
 
-#### FRAGSTATS rounds already the values on patch level, so we have to do the same for the test here
-landscape_contig_cv <- landscape %>%
-    lsm_p_contig() %>%
-    dplyr::summarize(metric = raster::cv(round(value,4)))
+landscapemetrics_landscape_landscape_value <- summarise(dplyr::mutate(lsm_p_contig(landscape), value = round(value, 4)), value = cv(value))
 
 test_that("lsm_l_contig_cv results are equal to fragstats", {
-    expect_true(all(fragstats_landscape_landscape_contig_cv %in%
-                        round(landscape_contig_cv$metric, 4)))
+    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
+                    round(landscapemetrics_landscape_landscape_value$value, 4))
 })
 
-landscapemetrics_patch_landscape_contig_cv <- lsm_l_contig_cv(landscape)
-
 test_that("lsm_l_contig_cv is typestable", {
-    expect_is(landscapemetrics_patch_landscape_contig_cv, "tbl_df")
+    expect_is(lsm_l_contig_cv(landscape), "tbl_df")
     expect_is(lsm_l_contig_cv(landscape_stack), "tbl_df")
     expect_is(lsm_l_contig_cv(list(landscape, landscape)), "tbl_df")
 })
 
 test_that("lsm_l_contig_cv returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_patch_landscape_contig_cv), 6)
+    expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
 test_that("lsm_l_contig_cv returns in every column the correct type", {
-    expect_type(landscapemetrics_patch_landscape_contig_cv$layer, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_cv$level, "character")
-    expect_type(landscapemetrics_patch_landscape_contig_cv$class, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_cv$id, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_cv$metric, "character")
-    expect_type(landscapemetrics_patch_landscape_contig_cv$value, "double")
+    expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
-
-

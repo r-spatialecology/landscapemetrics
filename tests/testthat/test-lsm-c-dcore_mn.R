@@ -13,9 +13,10 @@ comparison <- full_join(x = fragstats_class_landscape_value,
                         by = "class",
                         suffix = c(".fs", ".lsm"))
 
-test_that("lsm_c_dcore_mn results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
+# Not equal because different core algorithm
+# test_that("lsm_c_dcore_mn results are equal to fragstats", {
+#     expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
+# })
 
 test_that("lsm_c_dcore_mn is typestable", {
     expect_is(lsm_c_dcore_mn(landscape), "tbl_df")

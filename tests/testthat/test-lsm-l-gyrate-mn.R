@@ -1,30 +1,31 @@
-context("landscape level gyrate_mn metric")
+context("landscape level lsm_l_gyrate_mn metric")
 
-# fragstats_landscape_landscape_gyrate_mn <- fragstats_landscape_landscape$GYRATE_MN
-landscapemetrics_landscape_landscape_gyrate_mn <- lsm_l_gyrate_mn(landscape)
-#
+fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
+    summarise(value = mean(GYRATE))
+
+landscapemetrics_landscape_landscape_value <- lsm_l_gyrate_mn(landscape)
+
+# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
 # test_that("lsm_l_gyrate_mn results are equal to fragstats", {
-#     expect_true(all(fragstats_landscape_landscape_gyrate_mn %in%
-#                         round(landscapemetrics_landscape_landscape_gyrate_mn$value, 4)))
+#     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
+#                     round(landscapemetrics_landscape_landscape_value$value, 4))
 # })
 
 test_that("lsm_l_gyrate_mn is typestable", {
-    expect_is(landscapemetrics_landscape_landscape_gyrate_mn, "tbl_df")
+    expect_is(lsm_l_gyrate_mn(landscape), "tbl_df")
     expect_is(lsm_l_gyrate_mn(landscape_stack), "tbl_df")
     expect_is(lsm_l_gyrate_mn(list(landscape, landscape)), "tbl_df")
 })
 
 test_that("lsm_l_gyrate_mn returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_landscape_landscape_gyrate_mn), 6)
+    expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
 test_that("lsm_l_gyrate_mn returns in every column the correct type", {
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$layer, "integer")
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$level, "character")
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$class, "integer")
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$id, "integer")
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$metric, "character")
-    expect_type(landscapemetrics_landscape_landscape_gyrate_mn$value, "double")
+    expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
-
-
