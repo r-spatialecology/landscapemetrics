@@ -2,7 +2,7 @@ library(testthat)
 library(landscapemetrics)
 library(raster)
 library(dplyr)
-library(stats)
+library(stars)
 
 test_check("landscapemetrics")
 
