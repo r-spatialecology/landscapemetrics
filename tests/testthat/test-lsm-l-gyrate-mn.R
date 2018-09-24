@@ -1,7 +1,7 @@
 context("landscape level lsm_l_gyrate_mn metric")
 
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = mean(GYRATE))
+    dplyr::summarize(value = mean(GYRATE))
 
 landscapemetrics_landscape_landscape_value <- lsm_l_gyrate_mn(landscape)
 

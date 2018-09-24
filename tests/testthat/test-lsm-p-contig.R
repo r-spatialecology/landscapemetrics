@@ -12,7 +12,7 @@ test_that("lsm_p_contig is typestable", {
     expect_is(lsm_p_contig(landscape), "tbl_df")
     expect_is(lsm_p_contig(landscape_stack), "tbl_df")
     expect_is(lsm_p_contig(list(landscape, landscape)), "tbl_df")
-    expect_is(lsm_p_contig(landscape_stars), "tbl_df")
+    # expect_is(lsm_p_contig(landscape_stars), "tbl_df")
 })
 
 test_that("lsm_p_contig returns the desired number of columns", {

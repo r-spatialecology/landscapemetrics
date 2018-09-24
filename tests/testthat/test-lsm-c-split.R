@@ -1,13 +1,13 @@
 context("class level lsm_c_split metric")
 
-fragstats_class_landscape_value <- select(fragstats_class_landscape,
+fragstats_class_landscape_value <- dplyr::select(fragstats_class_landscape,
                                           TYPE, SPLIT)
 
 names(fragstats_class_landscape_value) <- c("class", "value")
 
 landscapemetrics_class_landscape_value <- lsm_c_split(landscape)
 
-comparison <- full_join(x = fragstats_class_landscape_value,
+comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
                         y = landscapemetrics_class_landscape_value,
                         by = "class",
                         suffix = c(".fs", ".lsm"))

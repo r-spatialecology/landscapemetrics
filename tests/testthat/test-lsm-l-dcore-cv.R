@@ -1,7 +1,7 @@
 context("landscape level lsm_l_dcore_cv metric")
 
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = cv(NCORE))
+    dplyr::summarize(value = raster::cv(NCORE))
 
 landscapemetrics_landscape_landscape_value <- lsm_l_dcore_cv(landscape)
 

@@ -1,14 +1,14 @@
 context("class level lsm_c_gyrate_mn metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
-    group_by(TYPE) %>%
-    summarise(metric = sd(GYRATE))
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarize(metric = sd(GYRATE))
 
 names(fragstats_class_landscape_value) <- c("class", "value")
 
 landscapemetrics_class_landscape_value <- lsm_c_gyrate_sd(landscape)
 
-comparison <- full_join(x = fragstats_class_landscape_value,
+comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
                         y = landscapemetrics_class_landscape_value,
                         by = "class",
                         suffix = c(".fs", ".lsm"))

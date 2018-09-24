@@ -1,7 +1,7 @@
 context("landscape level lsm_l_frac_sd metric")
 
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = sd(FRAC))
+    dplyr::summarize(value = sd(FRAC))
 
 landscapemetrics_landscape_landscape_value <- lsm_l_frac_sd(landscape)
 

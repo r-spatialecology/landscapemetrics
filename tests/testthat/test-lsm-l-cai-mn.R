@@ -1,7 +1,7 @@
 context("landscape level area_mn metric")
 
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = mean(CAI))
+    dplyr::summarize(value = mean(CAI))
 
 landscapemetrics_landscape_landscape_value <- lsm_l_cai_mn(landscape)
 

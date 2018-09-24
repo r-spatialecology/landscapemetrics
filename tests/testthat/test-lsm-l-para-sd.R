@@ -2,7 +2,7 @@ context("landscape level lsm_l_para_sd metric")
 
 # See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = sd(PARA) / 10000)
+    dplyr::summarize(value = sd(PARA) / 10000)
 
 landscapemetrics_landscape_landscape_value <- lsm_l_para_sd(landscape)
 
