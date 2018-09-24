@@ -1,30 +1,38 @@
-context("class level core_sd metric")
+context("class level lsm_c_core_sd metric")
 
-# fragstats_class_landscape_core_sd <- fragstats_class_landscape$CORE_SD
-landscapemetrics_class_landscape_core_sd <- lsm_c_core_sd(landscape)
-#
-# test_that("lsm_c_core_sd results are equal to fragstats", {
-#     expect_true(all(fragstats_class_landscape_core_sd %in%
-#                         round(landscapemetrics_class_landscape_core_sd$value, 4)))
+fragstats_class_landscape_value <- fragstats_patch_landscape %>%
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarize(metric = sd(CORE))
+
+names(fragstats_class_landscape_value) <- c("class", "value")
+
+landscapemetrics_class_landscape_value <- lsm_c_core_sd(landscape)
+
+comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
+                        y = landscapemetrics_class_landscape_value,
+                        by = "class",
+                        suffix = c(".fs", ".lsm"))
+
+# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
+# test_that("lsm_c_cai_cv results are equal to fragstats", {
+#     expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
 # })
 
 test_that("lsm_c_core_sd is typestable", {
-    expect_is(landscapemetrics_class_landscape_core_sd, "tbl_df")
+    expect_is(lsm_c_core_sd(landscape), "tbl_df")
     expect_is(lsm_c_core_sd(landscape_stack), "tbl_df")
     expect_is(lsm_c_core_sd(list(landscape, landscape)), "tbl_df")
 })
 
 test_that("lsm_c_core_sd returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_core_sd), 6)
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
 test_that("lsm_c_core_sd returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_core_sd$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_core_sd$level, "character")
-    expect_type(landscapemetrics_class_landscape_core_sd$class, "integer")
-    expect_type(landscapemetrics_class_landscape_core_sd$id, "integer")
-    expect_type(landscapemetrics_class_landscape_core_sd$metric, "character")
-    expect_type(landscapemetrics_class_landscape_core_sd$value, "double")
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
-
-

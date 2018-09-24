@@ -1,30 +1,39 @@
-context("class level contig metric")
+context("class level lsm_c_contig_mn metric")
 
-fragstats_patch_landscape_contig_mn <- fragstats_class_landscape$CONTIG_MN
-landscapemetrics_patch_landscape_contig_mn <- lsm_c_contig_mn(landscape)
+fragstats_class_landscape_value <- fragstats_patch_landscape %>%
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarize(metric = mean(CONTIG))
 
-test_that("lsm_p_contig_mn results are equal to fragstats", {
-    expect_true(all(fragstats_patch_landscape_contig_mn %in%
-                        round(landscapemetrics_patch_landscape_contig_mn$value, 4)))
+names(fragstats_class_landscape_value) <- c("class", "value")
+
+landscapemetrics_class_landscape_value <- lsm_c_contig_mn(landscape)
+
+comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
+                        y = landscapemetrics_class_landscape_value,
+                        by = "class",
+                        suffix = c(".fs", ".lsm"))
+
+test_that("lsm_c_contig_mn results are equal to fragstats", {
+    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
 })
 
-test_that("lsm_p_contig_mn is typestable", {
-    expect_is(landscapemetrics_patch_landscape_contig_mn, "tbl_df")
+test_that("lsm_c_contig_mn is typestable", {
+    expect_is(lsm_c_contig_mn(landscape), "tbl_df")
     expect_is(lsm_c_contig_mn(landscape_stack), "tbl_df")
     expect_is(lsm_c_contig_mn(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_p_contig_mn returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_patch_landscape_contig_mn), 6)
+test_that("lsm_c_contig_mn returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
-test_that("lsm_p_contig_mn returns in every column the correct type", {
-    expect_type(landscapemetrics_patch_landscape_contig_mn$layer, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_mn$level, "character")
-    expect_type(landscapemetrics_patch_landscape_contig_mn$class, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_mn$id, "integer")
-    expect_type(landscapemetrics_patch_landscape_contig_mn$metric, "character")
-    expect_type(landscapemetrics_patch_landscape_contig_mn$value, "double")
+test_that("lsm_c_contig_mn returns in every column the correct type", {
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
 

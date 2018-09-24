@@ -270,8 +270,9 @@ calculate_lsm_internal <- function(landscape,
                                                grep("lsm_", namespace_all,
                                                     value = TRUE)]
             namespace_all <- namespace_all[!grepl("\\.|calc", namespace_all)]
+            namespace_all <- namespace_all[!grepl("\\.|int", namespace_all)]
 
-            result_all_list <- lapply(1:length(namespace_all), FUN = function(current_metric) {
+            result_all_list <- lapply(seq_along(namespace_all), FUN = function(current_metric) {
 
                 if(isTRUE(progress)){
                     cat("\r> Progress 'all' metrics: ", current_metric, "/",
@@ -296,8 +297,9 @@ calculate_lsm_internal <- function(landscape,
                                                    grep("_p_", namespace_patch,
                                                         value = TRUE)]
             namespace_patch <- namespace_patch[!grepl("\\.|calc", namespace_patch)]
+            namespace_patch <- namespace_patch[!grepl("\\.|int", namespace_patch)]
 
-            result_patch_list <- lapply(1:length(namespace_patch), FUN = function(current_metric) {
+            result_patch_list <- lapply(seq_along(namespace_patch), FUN = function(current_metric) {
 
                 if(isTRUE(progress)){
                     cat("\r> Progress 'patch' metrics: ", current_metric, "/",
@@ -322,8 +324,9 @@ calculate_lsm_internal <- function(landscape,
                                                    grep("_c_", namespace_class,
                                                         value = TRUE)]
             namespace_class <- namespace_class[!grepl("\\.|calc", namespace_class)]
+            namespace_class <- namespace_class[!grepl("\\.|int", namespace_class)]
 
-            result_class_list <- lapply(1:length(namespace_class), FUN = function(current_metric) {
+            result_class_list <- lapply(seq_along(namespace_class), FUN = function(current_metric) {
 
                 if(isTRUE(progress)){
                     cat("\r> Progress 'class' metrics: ", current_metric, "/",
@@ -348,8 +351,9 @@ calculate_lsm_internal <- function(landscape,
                                                            grep("_l_", namespace_landscape,
                                                                 value = TRUE)]
             namespace_landscape <- namespace_landscape[!grepl("\\.|calc", namespace_landscape)]
+            namespace_landscape <- namespace_landscape[!grepl("\\.|int", namespace_landscape)]
 
-            result_landscape_list <- lapply(1:length(namespace_landscape), FUN = function(current_metric) {
+            result_landscape_list <- lapply(seq_along(namespace_landscape), FUN = function(current_metric) {
 
                 if(isTRUE(progress)){
                     cat("\r> Progress 'landscape' metrics: ", current_metric, "/",
@@ -382,7 +386,7 @@ calculate_lsm_internal <- function(landscape,
 
         what <- what[!(what %in% c("all", "patch", "class", "landscape"))]
 
-        result_metrics_list <- lapply(1:length(what), FUN = function(current_metric) {
+        result_metrics_list <- lapply(seq_along(what), FUN = function(current_metric) {
 
             if(isTRUE(progress)){
                 cat("\r> Progress 'various' metrics: ", current_metric, "/",

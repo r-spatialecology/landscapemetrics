@@ -1,35 +1,37 @@
-context("class level para_cv metric")
+context("class level lsm_c_para_cv metric")
 
-fragstats_class_landscape_para_cv <- fragstats_patch_landscape %>%
-    group_by(TYPE) %>%
-    summarise(metric = raster::cv(PARA)) %>%
-    pull(metric) %>%
-    round(.,4)
+fragstats_class_landscape_value <- fragstats_patch_landscape %>%
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarize(metric = raster::cv(PARA))
 
-landscapemetrics_class_landscape_para_cv <- lsm_c_para_cv(landscape)
+names(fragstats_class_landscape_value) <- c("class", "value")
+
+landscapemetrics_class_landscape_value <- lsm_c_para_cv(landscape)
+
+comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
+                        y = landscapemetrics_class_landscape_value,
+                        by = "class",
+                        suffix = c(".fs", ".lsm"))
 
 test_that("lsm_c_para_cv results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_para_cv %in%
-                        round(landscapemetrics_class_landscape_para_cv$value, 4)))
+    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
 })
 
 test_that("lsm_c_para_cv is typestable", {
-    expect_is(landscapemetrics_class_landscape_para_cv, "tbl_df")
+    expect_is(lsm_c_para_cv(landscape), "tbl_df")
     expect_is(lsm_c_para_cv(landscape_stack), "tbl_df")
     expect_is(lsm_c_para_cv(list(landscape, landscape)), "tbl_df")
 })
 
-test_that("lsm_c_para_cv returns the desirpara_cv number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_para_cv), 6)
+test_that("lsm_c_para_cv returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
 test_that("lsm_c_para_cv returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_para_cv$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_para_cv$level, "character")
-    expect_type(landscapemetrics_class_landscape_para_cv$class, "integer")
-    expect_type(landscapemetrics_class_landscape_para_cv$id, "integer")
-    expect_type(landscapemetrics_class_landscape_para_cv$metric, "character")
-    expect_type(landscapemetrics_class_landscape_para_cv$value, "double")
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
-
-
