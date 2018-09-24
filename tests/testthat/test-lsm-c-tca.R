@@ -1,4 +1,4 @@
-context("class level tca metric")
+context("class level lsm_c_tca metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, TCA)

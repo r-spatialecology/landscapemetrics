@@ -1,4 +1,4 @@
-context("patch level perim metric")
+context("patch level lsm_p_perim metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$PERIM
 landscapemetrics_patch_landscape_value <- lsm_p_perim(landscape)

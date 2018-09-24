@@ -1,4 +1,4 @@
-context("class level pd metric")
+context("class level lsm_c_pd metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, PD)

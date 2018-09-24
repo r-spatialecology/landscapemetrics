@@ -1,4 +1,4 @@
-context("class level split metric")
+context("class level lsm_c_split metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, SPLIT)

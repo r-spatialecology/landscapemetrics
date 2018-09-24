@@ -1,4 +1,4 @@
-context("class level enn_mn metric")
+context("class level lsm_c_enn_mn metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%

@@ -1,4 +1,4 @@
-context("class level area_mn metric")
+context("class level lsm_c_area_mn metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, AREA_MN)

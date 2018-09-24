@@ -1,4 +1,4 @@
-context("class level frac_mn metric")
+context("class level lsm_c_frac_mn metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%

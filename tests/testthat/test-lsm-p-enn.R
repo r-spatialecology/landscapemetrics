@@ -1,4 +1,4 @@
-context("patch level enn metric")
+context("patch level lsm_p_enn metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$ENN
 landscapemetrics_patch_landscape_value <- lsm_p_enn(landscape)

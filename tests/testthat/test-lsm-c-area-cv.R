@@ -1,8 +1,8 @@
-context("class level area cv metric")
+context("class level lsm_c_area_cv cv metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%
-    summarise(metric = raster::cv(AREA))
+    summarise(metric = cv(AREA))
 
 names(fragstats_class_landscape_value) <- c("class", "value")
 

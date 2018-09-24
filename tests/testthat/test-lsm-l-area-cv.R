@@ -1,7 +1,7 @@
 context("landscape level area_cv metric")
 
 fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    summarise(value = raster::cv(AREA))
+    summarise(value = cv(AREA))
 
 landscapemetrics_landscape_landscape_value <- lsm_l_area_cv(landscape)
 

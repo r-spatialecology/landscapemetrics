@@ -1,4 +1,4 @@
-context("patch level para metric")
+context("patch level lsm_p_para metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$PARA
 landscapemetrics_patch_landscape_value <- lsm_p_para(landscape)

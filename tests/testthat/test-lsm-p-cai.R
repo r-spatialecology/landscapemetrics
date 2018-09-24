@@ -1,9 +1,9 @@
-context("patch level cai metric")
+context("patch level lsm_p_cai metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$CAI
 landscapemetrics_patch_landscape_value <- lsm_p_cai(landscape)
 
-# Not equal because different core algorithm
+# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
 # test_that("lsm_p_cai results are equal to fragstats", {
 #     expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
 #                         round(landscapemetrics_patch_landscape_value$value, 4)))

@@ -1,4 +1,4 @@
-context("patch level shape metric")
+context("patch level lsm_p_shape metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$SHAPE
 landscapemetrics_patch_landscape_value <- lsm_p_shape(landscape)

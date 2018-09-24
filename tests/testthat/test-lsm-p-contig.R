@@ -1,4 +1,4 @@
-context("patch level contig metric")
+context("patch level lsm_p_contig metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$CONTIG
 landscapemetrics_patch_landscape_value <- lsm_p_contig(landscape)

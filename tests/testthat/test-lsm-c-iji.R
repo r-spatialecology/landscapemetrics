@@ -1,4 +1,4 @@
-context("class level iji metric")
+context("class level lsm_c_iji metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, IJI)

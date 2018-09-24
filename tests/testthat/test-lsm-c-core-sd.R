@@ -1,4 +1,4 @@
-context("class level core_sd metric")
+context("class level lsm_c_core_sd metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%
@@ -13,9 +13,10 @@ comparison <- full_join(x = fragstats_class_landscape_value,
                         by = "class",
                         suffix = c(".fs", ".lsm"))
 
-test_that("lsm_c_core_sd results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
+# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
+# test_that("lsm_c_cai_cv results are equal to fragstats", {
+#     expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
+# })
 
 test_that("lsm_c_core_sd is typestable", {
     expect_is(lsm_c_core_sd(landscape), "tbl_df")
