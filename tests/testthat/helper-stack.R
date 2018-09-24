@@ -4,6 +4,7 @@
 # (c) data availability (e.g. full data vs some missing values),
 # (d) distribution of values (e.g. random vs aggregated).
 library(tibble)
+library(dplyr)
 library(purrr)
 library(tidyr)
 library(landscapetools)
@@ -19,6 +20,7 @@ nlm_create = function(roughness, weighting){
 param_df = expand.grid(roughness = c(0.3, 0.7),
                        weighting = list(c(0.2, 0.8), c(0.2, 0.3, 0.5))) %>%
     as.tibble()
+
 nlm_list = param_df %>% pmap(nlm_create)
 
 # missing values case -----------------------------------------------------
