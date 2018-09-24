@@ -126,7 +126,7 @@
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics</h1>
             
-            <h4 class="date">2018-09-07</h4>
+            <h4 class="date">2018-09-24</h4>
       
       
       <div class="hidden name"><code>comparing_fragstats_landscapemetrics.Rmd</code></div>
@@ -172,10 +172,19 @@
 <a class="sourceLine" id="cb1-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-26" data-line-number="26"><span class="st">    </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-27" data-line-number="27"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
-<pre><code>##   class fragstats_output fragstats_calculated landscapemetrics
-## 1     1         228.5906             242.4570         242.4570
-## 2     3         162.6136             187.7700         187.7700
-## 3     2         159.0109             165.0134         165.0134</code></pre>
+<pre><code>##    class fragstats_output fragstats_calculated landscapemetrics
+## 1     NA         228.5906             242.4570               NA
+## 2     NA         228.5906             165.0134               NA
+## 3     NA         228.5906             187.7700               NA
+## 4     NA         162.6136             242.4570               NA
+## 5     NA         162.6136             165.0134               NA
+## 6     NA         162.6136             187.7700               NA
+## 7     NA         159.0109             242.4570               NA
+## 8     NA         159.0109             165.0134               NA
+## 9     NA         159.0109             187.7700               NA
+## 10     1               NA                   NA         242.4570
+## 11     2               NA                   NA         165.0134
+## 12     3               NA                   NA         187.7700</code></pre>
 <p>As for the cv, the results for the sd are similiar. The result calculated from all patch areas of <strong>FRAGSTATS</strong> is identical to the result of <strong>landscapemetrics</strong>, but not the actual result of <strong>FRAGSTATS</strong>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># SD calculated from patch values of FRAGSTATS</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
@@ -204,10 +213,19 @@
 <a class="sourceLine" id="cb3-25" data-line-number="25">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="st">  </span><span class="kw">select</span>(class, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
-<pre><code>##   class fragstats_calculated.x fragstats_calculated.y landscapemetrics
-## 1     1                 0.0045            0.004822200      0.004822200
-## 2     3                 0.0195            0.022485458      0.022485458
-## 3     2                 0.0027            0.002852375      0.002852375</code></pre>
+<pre><code>##    class fragstats_calculated.x fragstats_calculated.y landscapemetrics
+## 1     NA                 0.0045            0.004822200               NA
+## 2     NA                 0.0045            0.002852375               NA
+## 3     NA                 0.0045            0.022485458               NA
+## 4     NA                 0.0195            0.004822200               NA
+## 5     NA                 0.0195            0.002852375               NA
+## 6     NA                 0.0195            0.022485458               NA
+## 7     NA                 0.0027            0.004822200               NA
+## 8     NA                 0.0027            0.002852375               NA
+## 9     NA                 0.0027            0.022485458               NA
+## 10     1                     NA                     NA      0.004822200
+## 11     2                     NA                     NA      0.002852375
+## 12     3                     NA                     NA      0.022485458</code></pre>
 </div>
 <div id="specific-differences" class="section level1">
 <h1 class="hasAnchor">
@@ -238,7 +256,7 @@
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span><span class="kw">select</span>(id, value) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 27 x 6
-##       id landscapemetric~ landscapemetric~   id1 fragstats_area
+##       id landscapemetric… landscapemetric…   id1 fragstats_area
 ##    &lt;int&gt;            &lt;dbl&gt;            &lt;dbl&gt; &lt;int&gt;          &lt;dbl&gt;
 ##  1     1         0.0001              0.363     1       0.0001  
 ##  2     5         0.0001              0.363    19       0.0001  
