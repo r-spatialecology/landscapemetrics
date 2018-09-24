@@ -12,10 +12,6 @@ fragstats_landscape_augusta_nlcd <- fragstats_landscape %>%
 fragstats_landscape_landscape <- fragstats_landscape %>%
     filter(str_detect(LID, 'landscape.tif'))
 
-# filter for landscape raster stack
-fragstats_landscape_landscapestack <- fragstats_landscape %>%
-    filter(str_detect(LID, 'landscape_stack'))
-
 # filter for podlasie raster
 fragstats_landscape_podlasie <- fragstats_landscape %>%
     filter(str_detect(LID, 'podlasie'))
@@ -23,5 +19,4 @@ fragstats_landscape_podlasie <- fragstats_landscape %>%
 # save --------------------------------------------------------------------
 devtools::use_data(fragstats_landscape_augusta_nlcd, overwrite = TRUE)
 devtools::use_data(fragstats_landscape_landscape, overwrite = TRUE)
-devtools::use_data(fragstats_landscape_landscapestack, overwrite = TRUE)
 devtools::use_data(fragstats_landscape_podlasie, overwrite = TRUE)
