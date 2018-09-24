@@ -270,6 +270,7 @@ calculate_lsm_internal <- function(landscape,
                                                grep("lsm_", namespace_all,
                                                     value = TRUE)]
             namespace_all <- namespace_all[!grepl("\\.|calc", namespace_all)]
+            namespace_all <- namespace_all[!grepl("\\.|int", namespace_all)]
 
             result_all_list <- lapply(seq_along(namespace_all), FUN = function(current_metric) {
 
@@ -296,6 +297,7 @@ calculate_lsm_internal <- function(landscape,
                                                    grep("_p_", namespace_patch,
                                                         value = TRUE)]
             namespace_patch <- namespace_patch[!grepl("\\.|calc", namespace_patch)]
+            namespace_patch <- namespace_all[!grepl("\\.|int", namespace_patch)]
 
             result_patch_list <- lapply(seq_along(namespace_patch), FUN = function(current_metric) {
 
@@ -322,6 +324,7 @@ calculate_lsm_internal <- function(landscape,
                                                    grep("_c_", namespace_class,
                                                         value = TRUE)]
             namespace_class <- namespace_class[!grepl("\\.|calc", namespace_class)]
+            namespace_class <- namespace_all[!grepl("\\.|int", namespace_class)]
 
             result_class_list <- lapply(seq_along(namespace_class), FUN = function(current_metric) {
 
@@ -348,6 +351,7 @@ calculate_lsm_internal <- function(landscape,
                                                            grep("_l_", namespace_landscape,
                                                                 value = TRUE)]
             namespace_landscape <- namespace_landscape[!grepl("\\.|calc", namespace_landscape)]
+            namespace_landscape <- namespace_all[!grepl("\\.|int", namespace_landscape)]
 
             result_landscape_list <- lapply(seq_along(namespace_landscape), FUN = function(current_metric) {
 
