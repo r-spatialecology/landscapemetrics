@@ -1,4 +1,4 @@
-context("patch level gyrate metric")
+context("patch level lsm_p_gyrate metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$GYRATE
 landscapemetrics_patch_landscape_value <- lsm_p_gyrate(landscape)

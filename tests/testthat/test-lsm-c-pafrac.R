@@ -1,4 +1,4 @@
-context("class level pafrac metric")
+context("class level lsm_c_pafrac metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, PAFRAC)

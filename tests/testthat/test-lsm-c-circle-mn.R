@@ -1,4 +1,4 @@
-context("class level circle_mn metric")
+context("class level lsm_c_circle_mn metric")
 
 landscapemetrics_class_landscape_value <- lsm_c_circle_mn(landscape)
 

@@ -1,4 +1,4 @@
-context("patch level area metric")
+context("patch level lsm_p_area metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$AREA
 landscapemetrics_patch_landscape_value <- lsm_p_area(landscape)

@@ -1,4 +1,4 @@
-context("class level ca metric")
+context("class level lsm_c_ca metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, CA)

@@ -1,4 +1,4 @@
-context("class level nlsi metric")
+context("class level lsm_c_nlsi metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, NLSI)

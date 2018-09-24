@@ -1,4 +1,4 @@
-context("class level division metric")
+context("class level lsm_c_division metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, DIVISION)

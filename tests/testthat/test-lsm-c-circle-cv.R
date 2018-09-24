@@ -1,8 +1,8 @@
-context("class level circle_cv metric")
+context("class level lsm_c_circle_cv metric")
 
 landscapemetrics_class_landscape_value <- lsm_c_circle_cv(landscape)
 
-# Can't compare to FRAGSTATS because of error in FRAGSTATS
+# # See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
 
 test_that("lsm_c_circle_cv is typestable", {
     expect_is(lsm_c_circle_cv(landscape), "tbl_df")

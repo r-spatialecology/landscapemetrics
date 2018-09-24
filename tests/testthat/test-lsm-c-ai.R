@@ -1,4 +1,4 @@
-context("class level ai metric")
+context("class level lsm_c_ai metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                        TYPE, AI)

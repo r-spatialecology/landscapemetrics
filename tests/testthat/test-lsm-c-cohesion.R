@@ -1,4 +1,4 @@
-context("class level cohesion metric")
+context("class level lsm_c_cohesion metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, COHESION)

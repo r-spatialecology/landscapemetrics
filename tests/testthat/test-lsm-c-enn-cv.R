@@ -1,8 +1,8 @@
-context("class level enn_cv metric")
+context("class level lsm_c_enn_cv metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%
-    summarise(metric = raster::cv(ENN))
+    summarise(metric = cv(ENN))
 
 names(fragstats_class_landscape_value) <- c("class", "value")
 

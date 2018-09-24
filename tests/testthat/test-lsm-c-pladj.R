@@ -1,4 +1,4 @@
-context("class level pladj metric")
+context("class level lsm_c_pladj metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, PLADJ)

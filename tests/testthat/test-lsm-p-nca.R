@@ -1,4 +1,4 @@
-context("patch level nca metric")
+context("patch level lsm_p_nca metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$NCORE
 landscapemetrics_patch_landscape_value <- lsm_p_ncore(landscape)

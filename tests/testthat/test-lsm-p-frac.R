@@ -1,4 +1,4 @@
-context("patch level frac metric")
+context("patch level lsm_p_frac metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$FRAC
 landscapemetrics_patch_landscape_value <- lsm_p_frac(landscape)

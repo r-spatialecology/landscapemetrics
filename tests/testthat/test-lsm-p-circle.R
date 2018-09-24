@@ -1,4 +1,4 @@
-context("patch level circle metric")
+context("patch level lsm_p_circle metric")
 
 fragstats_patch_landscape_value <- fragstats_patch_landscape$CIRCLE
 landscapemetrics_patch_landscape_value <- lsm_p_circle(landscape)

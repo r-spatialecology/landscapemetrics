@@ -1,4 +1,4 @@
-context("class level area_sd metric")
+context("class level lsm_c_area_sd metric")
 
 fragstats_class_landscape_value <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%

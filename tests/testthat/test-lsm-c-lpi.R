@@ -1,4 +1,4 @@
-context("class level lpi metric")
+context("class level lsm_c_lpi metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, LPI)

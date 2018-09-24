@@ -1,4 +1,4 @@
-context("class level mesh metric")
+context("class level lsm_c_mesh metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, MESH)

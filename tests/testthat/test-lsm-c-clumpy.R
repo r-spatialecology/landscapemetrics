@@ -1,4 +1,4 @@
-context("class level clumpy cv metric")
+context("class level lsm_c_clumpy metric")
 
 fragstats_class_landscape_value <- select(fragstats_class_landscape,
                                           TYPE, CLUMPY)
