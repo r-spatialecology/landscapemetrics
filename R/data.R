@@ -7,15 +7,6 @@
 #' @source Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
 "landscape"
 
-#' Example maps as raster stack (random cluster neutral landscape model).
-#'
-#' An example rasterstack to show landscapetools functionality
-#' generated with `nlm_mpd()` and `nlm_random()`.
-#'
-#' @format A raster stack object.
-#' @source Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
-"landscape_stack"
-
 #' Augusta NLCD 2011
 #'
 #' A real landscape of area near Augusta, Georgia obtained from the National
@@ -44,15 +35,6 @@
 #' @format A tibble object.
 "fragstats_patch_landscape"
 
-#' Fragstats results for landscapemetrics::landscape_stack (patch level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on patch
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_patch_landscapestack"
-
 #' Fragstats results for landscapemetrics::augusta_nlcd (patch level)
 #'
 #' A single tibble for every spatial dataset included in landscapemetrics
@@ -79,15 +61,6 @@
 #'
 #' @format A tibble object.
 "fragstats_class_landscape"
-
-#' Fragstats results for landscapemetrics::landscape_stack (class level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on class
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_class_landscapestack"
 
 #' Fragstats results for landscapemetrics::augusta_nlcd (class level)
 #'
@@ -116,15 +89,6 @@
 #'
 #' @format A tibble object.
 "fragstats_landscape_landscape"
-
-#' Fragstats results for landscapemetrics::landscape_stack (landscape level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on landscape
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_landscape_landscapestack"
 
 #' Fragstats results for landscapemetrics::augusta_nlcd (landscape level)
 #'
