@@ -12,7 +12,7 @@ library(NLMR)
 set.seed(2018-05-15)
 
 nlm_create = function(roughness, weighting){
-    nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE) %>%
+    nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE, verbose = FALSE) %>%
         util_classify(weighting = weighting)
 }
 
