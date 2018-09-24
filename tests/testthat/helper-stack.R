@@ -6,8 +6,9 @@
 set.seed(2018-05-15)
 
 nlm_create <-  function(roughness, weighting){
-    NLMR::nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE, verbose = FALSE) %>%
-        landscapetools::util_classify(weighting = weighting)
+    landscapetools::util_classify(
+        NLMR::nlm_mpd(ncol = 33, nrow = 33, roughness = roughness, rescale = TRUE, verbose = FALSE),
+        weighting = weighting)
 }
 
 param_df <-
