@@ -5,7 +5,7 @@ landscapemetrics_class_landscape_value <- lsm_c_dcad(landscape)
 test_that("lsm_c_dcad is typestable", {
     expect_is(lsm_c_dcad(landscape), "tbl_df")
     expect_is(lsm_c_dcad(landscape_stack), "tbl_df")
-    expect_is(lsm_c_dcad(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_dcad(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_dcad returns the desired number of columns", {

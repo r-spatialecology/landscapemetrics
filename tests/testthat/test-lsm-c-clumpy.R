@@ -5,7 +5,7 @@ landscapemetrics_class_landscape_value <- lsm_c_clumpy(landscape)
 test_that("lsm_c_clumpy is typestable", {
     expect_is(lsm_c_clumpy(landscape), "tbl_df")
     expect_is(lsm_c_clumpy(landscape_stack), "tbl_df")
-    expect_is(lsm_c_clumpy(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_clumpy(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_clumpy returns the desired number of columns", {

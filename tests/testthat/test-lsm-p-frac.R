@@ -5,7 +5,7 @@ landscapemetrics_patch_landscape_value <- lsm_p_frac(landscape)
 test_that("lsm_p_frac is typestable", {
     expect_is(lsm_p_frac(landscape), "tbl_df")
     expect_is(lsm_p_frac(landscape_stack), "tbl_df")
-    expect_is(lsm_p_frac(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_p_frac(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_frac returns the desired number of columns", {

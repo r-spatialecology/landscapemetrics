@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_value <- lsm_l_cai_cv(landscape)
 test_that("lsm_l_cai_cv is typestable", {
     expect_is(lsm_l_cai_cv(landscape), "tbl_df")
     expect_is(lsm_l_cai_cv(landscape_stack), "tbl_df")
-    expect_is(lsm_l_cai_cv(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_cai_cv(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_cai_cv returns the desired number of columns", {

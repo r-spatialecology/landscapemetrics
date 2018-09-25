@@ -5,7 +5,7 @@ landscapemetrics_landscape_landscape_value <- lsm_l_lpi(landscape)
 test_that("lsm_l_lpi is typestable", {
     expect_is(lsm_l_lpi(landscape), "tbl_df")
     expect_is(lsm_l_lpi(landscape_stack), "tbl_df")
-    expect_is(lsm_l_lpi(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_lpi(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_lpi returns the desired number of columns", {
