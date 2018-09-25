@@ -248,15 +248,27 @@ extract_lsm_int <- function(landscape,
                             progress,
                             ...) {
 
-    if(any(class(y) %in% c("sf",
-                           "sfc",
-                           "LINESTRING",
-                           "POLYGON",
-                           "MULTIPOINT",
-                           "MULTILINESTRING",
-                           "MULTIPOLYGON"))){
-        y <- sf::st_coordinates(y)[,1:2]
+  if (any(class(y) %in% c("MULTIPOINT",
+                          "POINT"))) {
+    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+  } else if (any(class(y) %in% c("sf",
+                                 "sfc"))) {
+    if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+      y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+    } else {
+      stop(
+        "landscapemetrics currently only supports point features for landscape metrics extraction."
+      )
     }
+
+  } else if (any(class(y) %in% c("LINESTRING",
+                                 "POLYGON",
+                                 "MULTILINESTRING",
+                                 "MULTIPOLYGON"))) {
+    stop(
+      "landscapemetrics currently only supports point features for landscape metrics extraction."
+    )
+  }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
