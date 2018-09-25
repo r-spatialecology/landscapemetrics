@@ -255,6 +255,5 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
 
 
     }
-
-    suppressWarnings(print(plot))
+    suppressWarnings(return(plot))
 }

@@ -226,7 +226,5 @@ show_cores <- function(landscape,
                 strip.text = ggplot2::element_text(hjust  = 0),
                 plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
     }
-
-    suppressWarnings(print(plot))
-
+    suppressWarnings(return(plot))
 }

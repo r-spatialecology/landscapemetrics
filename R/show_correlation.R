@@ -236,6 +236,6 @@ show_correlation <-
 
         }
 
-        return(plot_corrs)
+        suppressWarnings(return(plot_corrs))
 
 }

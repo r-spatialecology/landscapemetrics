@@ -178,8 +178,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
-    {"ccl_4", (DL_FUNC) &ccl_4, 1},
-    {"ccl_8", (DL_FUNC) &ccl_8, 1},
+    {"ccl_4",                                         (DL_FUNC) &ccl_4,                                         1},
+    {"ccl_8",                                         (DL_FUNC) &ccl_8,                                         1},
     {NULL, NULL, 0}
 };
 
