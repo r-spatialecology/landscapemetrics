@@ -33,13 +33,128 @@
 #'
 #' @export
 show_cores <- function(landscape,
-                       directions = 8,
-                       what = "all",
-                       labels = TRUE,
-                       nrow = NULL,
-                       ncol = NULL,
-                       consider_boundary = FALSE,
-                       edge_depth = 1) {
+                       directions,
+                       what,
+                       labels,
+                       nrow,
+                       ncol,
+                       consider_boundary,
+                       edge_depth) UseMethod("show_cores")
+
+
+#' @name show_cores
+#' @export
+show_cores.RasterLayer <- function(landscape,
+                                   directions = 8,
+                                   what = "all",
+                                   labels = TRUE,
+                                   nrow = NULL,
+                                   ncol = NULL,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1) {
+
+    show_cores_intern(landscape,
+                      directions = directions,
+                      what = what,
+                      labels = labels,
+                      nrow = nrow,
+                      ncol = ncol,
+                      consider_boundary = consider_boundary,
+                      edge_depth = edge_depth)
+}
+
+#' @name show_cores
+#' @export
+show_cores.RasterStack <- function(landscape,
+                                   directions = 8,
+                                   what = "all",
+                                   labels = TRUE,
+                                   nrow = NULL,
+                                   ncol = NULL,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1) {
+
+    lapply(X = raster::as.list(landscape),
+           FUN = show_cores_intern,
+           directions = directions,
+           what = what,
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth)
+}
+
+#' @name show_cores
+#' @export
+show_cores.RasterBrick <- function(landscape,
+                                   directions = 8,
+                                   what = "all",
+                                   labels = TRUE,
+                                   nrow = NULL,
+                                   ncol = NULL,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1) {
+
+    lapply(X = raster::as.list(landscape),
+           FUN = show_cores_intern,
+           directions = directions,
+           what = what,
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth)
+}
+
+#' @name show_cores
+#' @export
+show_cores.stars <- function(landscape,
+                             directions = 8,
+                             what = "all",
+                             labels = TRUE,
+                             nrow = NULL,
+                             ncol = NULL,
+                             consider_boundary = FALSE,
+                             edge_depth = 1) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    lapply(X = landscape,
+           FUN = show_cores_intern,
+           directions = directions,
+           what = what,
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth)
+}
+
+#' @name show_cores
+#' @export
+show_cores.list <- function(landscape,
+                            directions = 8,
+                            what = "all",
+                            labels = TRUE,
+                            nrow = NULL,
+                            ncol = NULL,
+                            consider_boundary = FALSE,
+                            edge_depth = 1) {
+
+    lapply(X = landscape,
+           FUN = show_cores_intern,
+           directions = directions,
+           what = what,
+           labels = labels,
+           nrow = nrow,
+           ncol = ncol,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth)
+}
+
+show_cores_intern <- function(landscape, directions, what, labels, nrow, ncol,
+                              consider_boundary, edge_depth ) {
 
     if(any(!(what %in% c("all", "global")))){
         if (!all(what %in% raster::unique(landscape))){
