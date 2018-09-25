@@ -1,8 +1,8 @@
-landscape_stack <- raster::stack(landscape, landscape)
+landscape_stack <- raster::stack(landscapemetrics::landscape, landscapemetrics::landscape)
 
-landscape_brick <- raster::brick(landscape, landscape)
+landscape_brick <- raster::brick(landscapemetrics::landscape, landscapemetrics::landscape)
 
-landscape_list <- list(landscape, landscape)
+landscape_list <- list(landscapemetrics::landscape, landscapemetrics::landscape)
 
 landscape_simple <- landscape
 landscape_simple[raster::values(landscape_simple) == 2] <- 1

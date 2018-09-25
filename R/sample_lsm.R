@@ -83,7 +83,7 @@ sample_lsm.RasterStack <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+    layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
     metrics_long <- dplyr::bind_rows(result$metrics)
     metrics_long[,1] <- layer_id
@@ -116,7 +116,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+    layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
     metrics_long <- dplyr::bind_rows(result$metrics)
     metrics_long[,1] <- layer_id
@@ -149,7 +149,7 @@ sample_lsm.list <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    layer_id <- rep(x = 1:raster::nlayers(landscape), each = nrow(points))
+    layer_id <- rep(x = seq_along(landscape), each = nrow(points))
 
     metrics_long <- dplyr::bind_rows(result$metrics)
     metrics_long[,1] <- layer_id
