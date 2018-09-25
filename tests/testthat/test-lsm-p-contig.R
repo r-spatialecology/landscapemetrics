@@ -5,6 +5,7 @@ landscapemetrics_patch_landscape_value <- lsm_p_contig(landscape)
 test_that("lsm_p_contig is typestable", {
     expect_is(lsm_p_contig(landscape), "tbl_df")
     expect_is(lsm_p_contig(landscape_stack), "tbl_df")
+    expect_is(lsm_p_contig(landscape_brick), "tbl_df")
     expect_is(lsm_p_contig(landscape_list), "tbl_df")
 })
 

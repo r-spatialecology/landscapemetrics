@@ -1,10 +1,11 @@
-context("landscape level area_mn metric")
+context("landscape level lsm_l_area_mn metric")
 
 landscapemetrics_landscape_landscape_value <- lsm_l_area_mn(landscape)
 
 test_that("lsm_l_area_mn is typestable", {
     expect_is(lsm_l_area_mn(landscape), "tbl_df")
     expect_is(lsm_l_area_mn(landscape_stack), "tbl_df")
+    expect_is(lsm_l_area_mn(landscape_brick), "tbl_df")
     expect_is(lsm_l_area_mn(landscape_list), "tbl_df")
 })
 

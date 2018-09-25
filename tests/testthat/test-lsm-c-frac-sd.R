@@ -1,10 +1,11 @@
-context("class level frac_sd metric")
+context("class level lsm_c_frac_sd metric")
 
 landscapemetrics_class_landscape_value <- lsm_c_frac_sd(landscape)
 
 test_that("lsm_c_frac_sd is typestable", {
     expect_is(lsm_c_frac_sd(landscape), "tbl_df")
     expect_is(lsm_c_frac_sd(landscape_stack), "tbl_df")
+    expect_is(lsm_c_frac_sd(landscape_brick), "tbl_df")
     expect_is(lsm_c_frac_sd(landscape_list), "tbl_df")
 })
 

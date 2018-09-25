@@ -5,6 +5,7 @@ landscapemetrics_patch_landscape_value <- lsm_p_gyrate(landscape)
 test_that("lsm_p_gyrate is typestable", {
     expect_is(lsm_p_gyrate(landscape), "tbl_df")
     expect_is(lsm_p_gyrate(landscape_stack), "tbl_df")
+    expect_is(lsm_p_gyrate(landscape_brick), "tbl_df")
     expect_is(lsm_p_gyrate(landscape_list), "tbl_df")
 })
 

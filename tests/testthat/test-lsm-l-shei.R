@@ -5,6 +5,7 @@ landscapemetrics_landscape_landscape_value <- lsm_l_shei(landscape)
 test_that("lsm_l_shei is typestable", {
     expect_is(lsm_l_shei(landscape), "tbl_df")
     expect_is(lsm_l_shei(landscape_stack), "tbl_df")
+    expect_is(lsm_l_shei(landscape_brick), "tbl_df")
     expect_is(lsm_l_shei(landscape_list), "tbl_df")
 })
 

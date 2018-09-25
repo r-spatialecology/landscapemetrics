@@ -5,6 +5,7 @@ landscapemetrics_landscape_landscape_value <- lsm_l_rpr(landscape, classes_max =
 test_that("lsm_l_rpr is typestable", {
     expect_is(lsm_l_rpr(landscape), "tbl_df")
     expect_is(lsm_l_rpr(landscape_stack), "tbl_df")
+    expect_is(lsm_l_rpr(landscape_brick), "tbl_df")
     expect_is(lsm_l_rpr(landscape_list), "tbl_df")
 })
 
