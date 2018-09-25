@@ -22,3 +22,8 @@ test_that("lsm_l_te returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
+test_that("lsm_l_te option count_boundary is working", {
+    te_with_boundary <- lsm_l_te(landscape, count_boundary = TRUE)
+    te_without_boundary <- lsm_l_te(landscape, count_boundary = FALSE)
+    expect_less_than(te_without_boundary$value, te_with_boundary$value)
+})

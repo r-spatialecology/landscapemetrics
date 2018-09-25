@@ -22,3 +22,9 @@ test_that("lsm_c_te returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_l_te equals 0 if only one patch is present",  {
+    result <- lsm_c_te(landscape_uniform, count_boundary = FALSE)
+    expect_equal(result$value, 0)
+})
+
+

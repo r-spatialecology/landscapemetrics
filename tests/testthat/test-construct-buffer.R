@@ -10,3 +10,8 @@ test_that("construct_buffer is typestable", {
 #     expect_is(construct_buffer(points_sf, shape = "circle", size = 5), "SpatialPolygons")
 })
 
+test_that("construct_buffer returns error for unkown shape", {
+    shape <- "3D"
+    expect_error(construct_buffer(points_matrix, shape = "3D", size = 5),
+                 regexp = paste0("Shape option " , shape, " unkown"))
+})
