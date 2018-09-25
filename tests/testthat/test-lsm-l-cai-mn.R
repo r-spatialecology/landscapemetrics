@@ -1,15 +1,6 @@
-context("landscape level area_mn metric")
-
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = mean(CAI))
+context("landscape level lsm_l_cai_mn metric")
 
 landscapemetrics_landscape_landscape_value <- lsm_l_cai_mn(landscape)
-
-# Different core algorithm
-# test_that("lsm_l_cai_mn results are equal to fragstats", {
-#     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-#                     round(landscapemetrics_landscape_landscape_value$value, 4))
-# })
 
 test_that("lsm_l_cai_mn is typestable", {
     expect_is(lsm_l_cai_mn(landscape), "tbl_df")

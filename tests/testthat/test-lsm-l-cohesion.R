@@ -1,12 +1,6 @@
-context("landscape level ai metric")
+context("landscape level lsm_l_cohesion metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$COHESION
 landscapemetrics_landscape_landscape_value <- lsm_l_cohesion(landscape)
-
-test_that("lsm_l_cohesion results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_cohesion is typestable", {
     expect_is(lsm_l_cohesion(landscape), "tbl_df")

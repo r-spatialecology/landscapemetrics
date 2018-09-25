@@ -1,14 +1,6 @@
 context("landscape level area_cv metric")
 
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = raster::cv(AREA))
-
 landscapemetrics_landscape_landscape_value <- lsm_l_area_cv(landscape)
-
-test_that("lsm_l_area_cv results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_area_cv is typestable", {
     expect_is(lsm_l_area_cv(landscape), "tbl_df")

@@ -1,12 +1,6 @@
 context("landscape level lsm_l_pafrac metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$PAFRAC
 landscapemetrics_landscape_landscape_value <- lsm_l_pafrac(landscape)
-
-test_that("lsm_l_pafrac results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_pafrac is typestable", {
     expect_is(lsm_l_pafrac(landscape), "tbl_df")

@@ -1,12 +1,6 @@
 context("landscape level lsm_l_msidi metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$MSIDI
 landscapemetrics_landscape_landscape_value <- lsm_l_msidi(landscape)
-
-test_that("lsm_l_msidi results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_msidi is typestable", {
     expect_is(lsm_l_msidi(landscape), "tbl_df")

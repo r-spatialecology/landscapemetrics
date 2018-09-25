@@ -1,12 +1,6 @@
 context("landscape level lsm_l_siei metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$SIEI
 landscapemetrics_landscape_landscape_value <- lsm_l_siei(landscape)
-
-test_that("lsm_l_siei results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_siei is typestable", {
     expect_is(lsm_l_siei(landscape), "tbl_df")

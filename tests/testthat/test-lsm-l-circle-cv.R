@@ -1,15 +1,6 @@
-context("landscape level area_mn metric")
-
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = raster::cv(CIRCLE))
+context("landscape level lsm_l_circle_cv metric")
 
 landscapemetrics_landscape_landscape_value <- lsm_l_circle_cv(landscape)
-
-# see https://r-spatialecology.github.io/landscapemetrics/ for more information
-# test_that("lsm_l_circle_cv results are equal to fragstats", {
-#     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-#                     round(landscapemetrics_landscape_landscape_value$value, 4))
-# })
 
 test_that("lsm_l_circle_cv is typestable", {
     expect_is(lsm_l_circle_cv(landscape), "tbl_df")

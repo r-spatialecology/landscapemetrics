@@ -1,15 +1,6 @@
 context("landscape level lsm_l_shape_mn metric")
 
-# FRAGSTATS already rounds on patch level
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = mean(SHAPE))
-
-landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_shape(landscape), value = round(value, 4)), value = mean(value))
-
-test_that("lsm_l_shape_mn results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
+landscapemetrics_landscape_landscape_value <- lsm_l_shape_mn(landscape)
 
 test_that("lsm_l_shape_mn is typestable", {
     expect_is(lsm_l_shape_mn(landscape), "tbl_df")

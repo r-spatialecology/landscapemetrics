@@ -1,20 +1,6 @@
 context("class level lsm_c_nlsi metric")
 
-fragstats_class_landscape_value <- dplyr::select(fragstats_class_landscape,
-                                          TYPE, NLSI)
-
-names(fragstats_class_landscape_value) <- c("class", "value")
-
 landscapemetrics_class_landscape_value <- lsm_c_nlsi(landscape)
-
-comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
-                        y = landscapemetrics_class_landscape_value,
-                        by = "class",
-                        suffix = c(".fs", ".lsm"))
-
-test_that("lsm_c_nlsi results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
 
 test_that("lsm_c_nlsi is typestable", {
     expect_is(lsm_c_nlsi(landscape), "tbl_df")

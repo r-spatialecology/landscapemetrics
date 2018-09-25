@@ -1,14 +1,6 @@
 context("landscape level lsm_l_enn_sd metric")
 
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = sd(ENN))
-
 landscapemetrics_landscape_landscape_value <- lsm_l_enn_sd(landscape)
-
-test_that("lsm_l_enn_sd results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_enn_sd is typestable", {
     expect_is(lsm_l_enn_sd(landscape), "tbl_df")

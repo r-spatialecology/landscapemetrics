@@ -1,12 +1,6 @@
 context("landscape level lsm_l_division metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$DIVISION
 landscapemetrics_landscape_landscape_value <- lsm_l_division(landscape)
-
-test_that("lsm_l_division results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_division is typestable", {
     expect_is(lsm_l_division(landscape), "tbl_df")

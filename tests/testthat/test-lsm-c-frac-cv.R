@@ -1,21 +1,6 @@
 context("class level lsm_c_lsm_c_frac_cv metric")
 
-fragstats_class_landscape_value <- fragstats_patch_landscape %>%
-    dplyr::group_by(TYPE) %>%
-    dplyr::summarize(metric = raster::cv(FRAC))
-
-names(fragstats_class_landscape_value) <- c("class", "value")
-
 landscapemetrics_class_landscape_value <- lsm_c_frac_cv(landscape)
-
-comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
-                        y = landscapemetrics_class_landscape_value,
-                        by = "class",
-                        suffix = c(".fs", ".lsm"))
-
-test_that("lsm_c_frac_cv results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
 
 test_that("lsm_c_frac_cv is typestable", {
     expect_is(lsm_c_frac_cv(landscape), "tbl_df")

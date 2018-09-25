@@ -1,12 +1,6 @@
-context("landscape level ai metric")
+context("landscape level lsm_l_contag metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$CONTAG
 landscapemetrics_landscape_landscape_value <- lsm_l_contag(landscape)
-
-test_that("lsm_l_contag results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_contag is typestable", {
     expect_is(lsm_l_contag(landscape), "tbl_df")
