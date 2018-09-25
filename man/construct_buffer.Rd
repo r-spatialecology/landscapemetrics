@@ -6,6 +6,9 @@
 \alias{construct_buffer.SpatialPoints}
 \alias{construct_buffer.SpatialPointsDataFrame}
 \alias{construct_buffer.MULTIPOINT}
+\alias{construct_buffer.POINT}
+\alias{construct_buffer.sf}
+\alias{construct_buffer.sfc}
 \title{construct_buffer}
 \usage{
 construct_buffer(points, shape, size)
@@ -17,6 +20,12 @@ construct_buffer(points, shape, size)
 \method{construct_buffer}{SpatialPointsDataFrame}(points, shape, size)
 
 \method{construct_buffer}{MULTIPOINT}(points, shape, size)
+
+\method{construct_buffer}{POINT}(points, shape, size)
+
+\method{construct_buffer}{sf}(points, shape, size)
+
+\method{construct_buffer}{sfc}(points, shape, size)
 }
 \arguments{
 \item{points}{SpatialPoints or 2-column matrix with coordinates of sample points}

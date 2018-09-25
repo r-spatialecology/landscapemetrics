@@ -14,3 +14,10 @@ test_that("get_patches runs and returns a list", {
 
     expect_true(length(all_classes_landscape_4) == 3)
 })
+
+test_that("get_patches can handle all raster inputs", {
+    expect_is(get_patches(landscape), "list")
+    expect_is(get_patches(landscape_stack), "list")
+    expect_is(get_patches(landscape_brick), "list")
+    expect_is(get_patches(landscape_list), "list")
+})
