@@ -1,5 +1,7 @@
 # landscapemetrics 0.2
 
+* Unified naming scheme for all auxiliary functions:
+    * calculate_metrics is now calculate_lsm
 * Implemented `show_cores`, a function to plot the core area of patches
 * Implemented `sample_lsm`, a function to sample metrics around buffered points
 * Implemented `extract_lsm`, a function to extract landscape metrics for spatial coordinates
