@@ -250,10 +250,10 @@ extract_lsm_int <- function(landscape,
 
   if (any(class(y) %in% c("MULTIPOINT",
                           "POINT"))) {
-    y <- matrix(sf::y(points)[, 1:2], ncol = 2)
+    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
   } else if (any(class(y) %in% c("sf",
                                  "sfc"))) {
-    if (all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))) {
+    if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
       y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
     } else {
       stop(
