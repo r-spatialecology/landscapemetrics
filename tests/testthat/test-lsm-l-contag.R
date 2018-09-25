@@ -22,3 +22,7 @@ test_that("lsm_l_contag returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
+test_that("lsm_l_contag returns warning for less than 2 classes", {
+    expect_warning(lsm_l_contag(landscape_uniform),
+                   regexp = "Number of classes must be >= 2: CONTAG = NA.")
+    })
