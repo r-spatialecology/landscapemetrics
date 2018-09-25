@@ -1,7 +1,7 @@
-landscape_stack <- raster::stack(landscape, landscape)
+landscape_stack <- raster::stack(landscapemetrics::landscape, landscapemetrics::landscape)
 
-landscape_brick <- raster::brick(landscape, landscape)
+landscape_brick <- raster::brick(landscapemetrics::landscape, landscapemetrics::landscape)
 
-landscape_list <- list(landscape, landscape)
+landscape_list <- list(landscapemetrics::landscape, landscapemetrics::landscape)
 
 # landscape_stars <- stars::st_as_stars(landscape)
