@@ -4,4 +4,7 @@ landscape_brick <- raster::brick(landscape, landscape)
 
 landscape_list <- list(landscape, landscape)
 
+landscape_simple <- landscape
+landscape_simple[raster::values(landscape_simple) == 2] <- 1
+
 # landscape_stars <- stars::st_as_stars(landscape)
