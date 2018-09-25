@@ -10,4 +10,6 @@ landscape_simple[raster::values(landscape_simple) == 2] <- 1
 landscape_uniform <- landscape
 raster::values(landscape_uniform) <- 1
 
+landscape_diff_res <- raster::aggregate(landscape, fact = c(1,2))
+
 # landscape_stars <- stars::st_as_stars(landscape)

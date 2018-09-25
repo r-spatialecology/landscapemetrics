@@ -27,3 +27,7 @@ test_that("lsm_l_te option count_boundary is working", {
     te_without_boundary <- lsm_l_te(landscape, count_boundary = FALSE)
     expect_less_than(te_without_boundary$value, te_with_boundary$value)
 })
+
+test_that("lsm_l_te can handle raster with different xy resolution", {
+    expect_is(lsm_l_te(landscape_diff_res), "tbl_df")
+})

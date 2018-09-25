@@ -27,4 +27,6 @@ test_that("lsm_l_te equals 0 if only one patch is present",  {
     expect_equal(result$value, 0)
 })
 
-
+test_that("lsm_c_te can handle raster with different xy resolution", {
+    expect_is(lsm_c_te(landscape_diff_res), "tbl_df")
+})
