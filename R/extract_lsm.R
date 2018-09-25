@@ -248,8 +248,14 @@ extract_lsm_int <- function(landscape,
                             progress,
                             ...) {
 
-    if(class(y)[1] == "sf"){
-        y <- methods::as(y, "Spatial")
+    if(any(class(y) %in% c("sf",
+                           "sfc",
+                           "LINESTRING",
+                           "POLYGON",
+                           "MULTIPOINT",
+                           "MULTILINESTRING",
+                           "MULTIPOLYGON"))){
+        y <- sf::st_coordinates(y)[,1:2]
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
