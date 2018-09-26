@@ -39,7 +39,7 @@
 #' extract_lsm(landscape, points, what = "lsm_p_area")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' extract_lsm(landscape_stack, points, what = "lsm_p_area")
+#' extract_lsm(landscape, points, what = "lsm_p_area")
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
