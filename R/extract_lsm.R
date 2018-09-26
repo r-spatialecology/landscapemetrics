@@ -1,6 +1,6 @@
 #' extract_lsm
 #'
-#' @description Extract landscapemetrics for certain cells
+#' @description Extract metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.
@@ -18,9 +18,11 @@
 #' @param ... Arguments passed to \code{raster::extract}.
 #'
 #' @details
-#' Extracts landscapemetrics for spatial objects. Returns a tibble with
-#' landscapemetrics on patch level and the ID for the spatial object that was
-#' used for extracting.
+#' This functions extracts the metrics of all patches the spatial object(s) `y`
+#' (e.g. spatial points) are located within. Only patch level metrics are possible
+#' to extract. Please be aware that the output is sligthly different to all
+#' other `lsm`-function of `landscapemetrics`. Returns a tibble with chosen
+#' metrics and the ID of the spatial objects.
 #'
 #' @seealso
 #' \code{\link{lsm_c_enn_mn}},

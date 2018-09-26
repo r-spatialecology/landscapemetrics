@@ -63,6 +63,6 @@ points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 
 points_sp <- sp::SpatialPoints(points)
-sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np")
+sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_plots = TRUE)
 
 }
