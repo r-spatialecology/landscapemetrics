@@ -50,22 +50,19 @@ Sample metrics
 \details{
 This function samples the selected metrics in a buffer area (sample plot)
 around sample points. The size of the acutal sampled landscape can be different
-to the provided size. This can be due to two reasons. Firstly, because clipping raster
-cells using a circle leads to inaccuracies. Secondly, sample plots can exceed the
-landscape boundary. Therefore, we report the relative area of each sample in
-relation to the area of the sample plot, e.g. a sample plot only half within the
-landscape will have a \code{percentage_inside = 50}. Please be aware that the
-output is sligthly different to all other \code{lsm}-function
-of \code{landscapemetrics} because the plot_id and the is included in the result.
+to the provided size due to two reasons. Firstly, because clipping raster
+cells using a circle or a sample plot not directly at a cell center lead
+to inaccuracies. Secondly, sample plots can exceed the landscape boundary.
+Therefore, we report the actual clipped sample plot area relative in relation
+to the theoretical, maximum sample plot area e.g. a sample plot only half within
+the landscape will have a \code{percentage_inside = 50}. Please be aware that the
+output is sligthly different to all other \code{lsm}-function of \code{landscapemetrics}.
 }
 \examples{
-\dontrun{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 
 points_sp <- sp::SpatialPoints(points)
 sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np")
-
-}
 
 }

@@ -83,12 +83,15 @@ tibble
 Extract landscapemetrics for certain cells
 }
 \details{
-Extracts landscapemetrics for spatial objects. Returns a tibble with
+Extracts landscape metrics for spatial objects. Returns a tibble with
 landscapemetrics on patch level and the ID for the spatial object that was
 used for extracting.
 }
 \examples{
-points <- raster::sampleRandom(landscape, 20, sp = TRUE)
+points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+extract_lsm(landscape, points, what = "area")
+
+points_sp <- sp::SpatialPoints(points)
 extract_lsm(landscape, points)
 
 }

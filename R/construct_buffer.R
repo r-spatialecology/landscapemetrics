@@ -25,6 +25,7 @@ construct_buffer <- function(points, shape, size) UseMethod("construct_buffer")
 #' @name construct_buffer
 #' @export
 construct_buffer.matrix <- function(points, shape, size) {
+
     if(shape == "circle") {
 
         circle_points_x <- sin(seq(0, 2 * pi, length.out = 100)) * size
@@ -67,7 +68,8 @@ construct_buffer.matrix <- function(points, shape, size) {
             rep(1:nrow(points), times = 4)
         )
 
-        sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
+        sample_plots_coords_split <- split(sample_plots_coords[, -3],
+                                           sample_plots_coords[, 3])
 
         sample_plots <- lapply(X = sample_plots_coords_split, FUN = function(x) {
             sp::Polygon(cbind(x[1:4], x[5:8]))
