@@ -37,7 +37,7 @@
 #' extract_lsm(landscape, points, what = "lsm_p_area")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' extract_lsm(landscape, points, what = "lsm_p_area")
+#' extract_lsm(landscape_stack, points, what = "lsm_p_area")
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
@@ -66,18 +66,19 @@ extract_lsm.RasterLayer <- function(landscape,
                                     progress = FALSE,
                                     ...) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = extract_lsm_int,
-           y = y,
-           what = what,
-           directions = directions,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth,
-           full_name = full_name,
-           verbose = verbose,
-           progress = progress,
-           ...)[[1]]
+    result <- extract_lsm_int(landscape,
+                    y = y,
+                    what = what,
+                    directions = directions,
+                    consider_boundary = consider_boundary,
+                    edge_depth = edge_depth,
+                    full_name = full_name,
+                    verbose = verbose,
+                    progress = progress,
+                    ...)
 
+    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
+    return(result)
 }
 
 #' @name extract_lsm
@@ -105,8 +106,14 @@ extract_lsm.RasterStack <- function(landscape,
          progress = progress,
          ...)
 
-  dplyr::mutate(dplyr::bind_rows(result),
-                layer = as.integer(layer))
+  for(current_layer in seq_along(result)) {
+      result[[current_layer]]$layer <- current_layer
+  }
+
+  result <- dplyr::bind_rows(result)
+
+  # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
+  return(result)
 }
 
 #' @name extract_lsm
@@ -134,8 +141,14 @@ extract_lsm.RasterBrick <- function(landscape,
                      progress = progress,
                      ...)
 
-    dplyr::mutate(dplyr::bind_rows(result),
-                  layer = as.integer(layer))
+    for(current_layer in seq_along(result)) {
+        result[[current_layer]]$layer <- current_layer
+    }
+
+    result <- dplyr::bind_rows(result)
+
+    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
+    return(result)
 }
 
 #' @name extract_lsm
@@ -165,8 +178,14 @@ extract_lsm.stars <- function(landscape,
                      progress = progress,
                      ...)
 
-    dplyr::mutate(dplyr::bind_rows(result),
-                  layer = as.integer(layer))
+    for(current_layer in seq_along(result)) {
+        result[[current_layer]]$layer <- current_layer
+    }
+
+    result <- dplyr::bind_rows(result)
+
+    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
+    return(result)
 }
 
 #' @name extract_lsm
@@ -194,8 +213,14 @@ extract_lsm.list <- function(landscape,
                      progress = progress,
                      ...)
 
-    dplyr::mutate(dplyr::bind_rows(result),
-                  layer = as.integer(layer))
+    for(current_layer in seq_along(result)) {
+        result[[current_layer]]$layer <- current_layer
+    }
+
+    result <- dplyr::bind_rows(result)
+
+    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
+    return(result)
 }
 
 extract_lsm_int <- function(landscape,
@@ -257,15 +282,21 @@ extract_lsm_int <- function(landscape,
     names(point_id) <- c("extract_id", "id")
 
     metrics <- calculate_lsm(landscape,
-                                 what = what,
-                                 directions = directions,
-                                 edge_depth = edge_depth,
-                                 consider_boundary = consider_boundary,
-                                 full_name = full_name,
-                                 verbose = verbose,
-                                 progress = progress)
+                             what = what,
+                             directions = directions,
+                             edge_depth = edge_depth,
+                             consider_boundary = consider_boundary,
+                             full_name = full_name,
+                             verbose = verbose,
+                             progress = progress)
 
-    extract_metrics <- dplyr::left_join(metrics, point_id, by = "id")
-    dplyr::filter(extract_metrics, !is.na(extract_id))
+    extract_metrics <- dplyr::mutate(dplyr::left_join(metrics, point_id, by = "id"),
+                                     extract_id = as.integer(extract_id))
+
+    extract_metrics <- dplyr::filter(extract_metrics, !is.na(extract_id))
+
+    extract_metrics <- dplyr::arrange(extract_metrics, layer, extract_id)
+
+    extract_metrics[, c(1, 7, 2, 3, 4, 5, 6)]
 
 }
