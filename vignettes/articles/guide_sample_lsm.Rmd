@@ -5,12 +5,12 @@ output: rmarkdown::html_vignette
 ---
 
 ## Use case
-Ecologists are often interested what the effect of a certain configuration and/or composition of landscape has on ecological processes, i.e. such as species abundance. To further complicate this, we often ask at what scale around our sampling points (where we measured the species abundance) does this have an influence? Does landscape configuration only matter in the surrounding next 500 meters or 2000 meter? 
+Ecologists are often interested what the effect of a certain configuration and/or composition of a landscape has on ecological processes, i.e. such as species abundance. To further complicate this, we often ask at what scale around our sampling points (where we measured the species abundance) does this have an influence? Does landscape configuration only matter in the surrounding next 500 meters or 2000 meter? 
 
 One way of inferring this influence is to subsequently buffer around our sampling points and check for this.
 A visual guide for this procedure could for example look like this:
 
-```{r}
+```{r, message = FALSE}
 library(NLMR)
 library(sf)
 library(purrr)

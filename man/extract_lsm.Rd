@@ -9,39 +9,28 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, directions = 8, count_boundary,
-  consider_boundary, classes_max, neighbourhood, ordered, base, full_name,
-  verbose, progress, ...)
+extract_lsm(landscape, y, directions = 8, consider_boundary, edge_depth,
+  full_name, verbose, progress, ...)
 
 \method{extract_lsm}{RasterLayer}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterStack}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterStack}(landscape, y, what = "patch",
+  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterBrick}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterBrick}(landscape, y, what = "patch",
+  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{stars}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{stars}(landscape, y, what = "patch",
+  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{list}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{list}(landscape, y, what = "patch",
+  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -51,21 +40,11 @@ extract_lsm(landscape, y, directions = 8, count_boundary,
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{count_boundary}{Include landscape boundary in edge length}
-
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core}
 
-\item{classes_max}{Potential maximum number of present classes}
-
-\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
-4 (rook's case) or 8 (queen's case). The default is 4.}
-
-\item{ordered}{The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
-
-\item{base}{The unit in which entropy is measured. The default is "log2",
-which compute entropy in "bits". "log" and "log10" can be also used.}
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
@@ -75,6 +54,8 @@ tibble.}
 \item{progress}{Print progress report}
 
 \item{...}{Arguments passed to \code{raster::extract}.}
+
+\item{what}{String indicating what metric to calculate, either "patch" for all patch level metrics or any of the patch metrics functions.}
 }
 \value{
 tibble
@@ -89,7 +70,7 @@ used for extracting.
 }
 \examples{
 points <- raster::sampleRandom(landscape, 20, sp = TRUE)
-extract_lsm(landscape, points)
+extract_lsm(landscape, points, what = "lsm_p_area")
 
 }
 \seealso{

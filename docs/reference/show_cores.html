@@ -177,9 +177,33 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>, <span class='no'>what</span>, <span class='no'>labels</span>, <span class='no'>nrow</span>, <span class='no'>ncol</span>,
+  <span class='no'>consider_boundary</span>, <span class='no'>edge_depth</span>)
+
+<span class='co'># S3 method for RasterLayer</span>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='co'># S3 method for RasterStack</span>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='co'># S3 method for RasterBrick</span>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='co'># S3 method for stars</span>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='co'># S3 method for list</span>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,11 +253,11 @@ corresponding patch id. The edges are the grey cells surrounding the patches and
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># show "global" core area</span>
-<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='show_cores-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"global"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 900 rows containing missing values (geom_text).</span></div><div class='img'><img src='show_cores-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show the core area of every class as facet</span>
-<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='show_cores-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 900 rows containing missing values (geom_text).</span></div><div class='img'><img src='show_cores-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show only the core area of class 1 and 3</span>
-<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>,<span class='fl'>3</span>), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='show_cores-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>show_cores</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>,<span class='fl'>3</span>), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1079 rows containing missing values (geom_raster).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1800 rows containing missing values (geom_text).</span></div><div class='img'><img src='show_cores-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

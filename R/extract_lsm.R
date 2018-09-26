@@ -4,18 +4,13 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.
+#' @param what String indicating what metric to calculate, either "patch" for all patch level metrics or any of the patch metrics functions.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param count_boundary Include landscape boundary in edge length
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
-#' @param classes_max Potential maximum number of present classes
-#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
-#' 4 (rook's case) or 8 (queen's case). The default is 4.
-#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
-#' @param base The unit in which entropy is measured. The default is "log2",
-#' which compute entropy in "bits". "log" and "log10" can be also used.
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #' @param full_name Should the full names of all functions be included in the
 #' tibble.
 #' @param verbose Print warning message if not sufficient patches are present
@@ -39,7 +34,7 @@
 #'
 #' @examples
 #' points <- raster::sampleRandom(landscape, 20, sp = TRUE)
-#' extract_lsm(landscape, points)
+#' extract_lsm(landscape, points, what = "lsm_p_area")
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
@@ -48,12 +43,8 @@
 extract_lsm <- function(landscape,
                         y,
                         directions = 8,
-                        count_boundary,
                         consider_boundary,
-                        classes_max,
-                        neighbourhood,
-                        ordered,
-                        base,
+                        edge_depth,
                         full_name,
                         verbose,
                         progress,
@@ -64,12 +55,8 @@ extract_lsm <- function(landscape,
 extract_lsm.RasterLayer <- function(landscape,
                                     y,
                                     directions = 8,
-                                    count_boundary = FALSE,
                                     consider_boundary = FALSE,
-                                    classes_max = NULL,
-                                    neighbourhood = 4,
-                                    ordered = TRUE,
-                                    base = "log2",
+                                    edge_depth = 1,
                                     full_name = FALSE,
                                     verbose = TRUE,
                                     progress = FALSE,
@@ -78,13 +65,10 @@ extract_lsm.RasterLayer <- function(landscape,
     lapply(X = raster::as.list(landscape),
            FUN = extract_lsm_int,
            y = y,
+           what = what,
            directions = directions,
-           count_boundary = count_boundary,
            consider_boundary = consider_boundary,
-           classes_max = classes_max,
-           neighbourhood = neighbourhood,
-           ordered = ordered,
-           base = base,
+           edge_depth = edge_depth,
            full_name = full_name,
            verbose = verbose,
            progress = progress,
@@ -96,13 +80,10 @@ extract_lsm.RasterLayer <- function(landscape,
 #' @export
 extract_lsm.RasterStack <- function(landscape,
                                     y,
+                                    what = "patch",
                                     directions = 8,
-                                    count_boundary = FALSE,
+                                    edge_depth = 1,
                                     consider_boundary = FALSE,
-                                    classes_max = NULL,
-                                    neighbourhood = 4,
-                                    ordered = TRUE,
-                                    base = "log2",
                                     full_name = FALSE,
                                     verbose = TRUE,
                                     progress = FALSE,
@@ -111,13 +92,10 @@ extract_lsm.RasterStack <- function(landscape,
   result <- lapply(X = raster::as.list(landscape),
          FUN = extract_lsm_int,
          y = y,
+         what = what,
          directions = directions,
-         count_boundary = count_boundary,
          consider_boundary = consider_boundary,
-         classes_max = classes_max,
-         neighbourhood = neighbourhood,
-         ordered = ordered,
-         base = base,
+         edge_depth = edge_depth,
          full_name = full_name,
          verbose = verbose,
          progress = progress,
@@ -131,13 +109,10 @@ extract_lsm.RasterStack <- function(landscape,
 #' @export
 extract_lsm.RasterBrick <- function(landscape,
                                     y,
+                                    what = "patch",
                                     directions = 8,
-                                    count_boundary = FALSE,
+                                    edge_depth = 1,
                                     consider_boundary = FALSE,
-                                    classes_max = NULL,
-                                    neighbourhood = 4,
-                                    ordered = TRUE,
-                                    base = "log2",
                                     full_name = FALSE,
                                     verbose = TRUE,
                                     progress = FALSE,
@@ -146,13 +121,10 @@ extract_lsm.RasterBrick <- function(landscape,
     result <- lapply(X = raster::as.list(landscape),
                      FUN = extract_lsm_int,
                      y = y,
+                     what = what,
                      directions = directions,
-                     count_boundary = count_boundary,
                      consider_boundary = consider_boundary,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
+                     edge_depth = edge_depth,
                      full_name = full_name,
                      verbose = verbose,
                      progress = progress,
@@ -166,13 +138,10 @@ extract_lsm.RasterBrick <- function(landscape,
 #' @export
 extract_lsm.stars <- function(landscape,
                               y,
+                              what = "patch",
                               directions = 8,
-                              count_boundary = FALSE,
+                              edge_depth = 1,
                               consider_boundary = FALSE,
-                              classes_max = NULL,
-                              neighbourhood = 4,
-                              ordered = TRUE,
-                              base = "log2",
                               full_name = FALSE,
                               verbose = TRUE,
                               progress = FALSE,
@@ -183,13 +152,10 @@ extract_lsm.stars <- function(landscape,
     result <- lapply(X = raster::as.list(landscape),
                      FUN = extract_lsm_int,
                      y = y,
+                     what = what,
                      directions = directions,
-                     count_boundary = count_boundary,
                      consider_boundary = consider_boundary,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
+                     edge_depth = edge_depth,
                      full_name = full_name,
                      verbose = verbose,
                      progress = progress,
@@ -203,13 +169,10 @@ extract_lsm.stars <- function(landscape,
 #' @export
 extract_lsm.list <- function(landscape,
                              y,
+                             what = "patch",
                              directions = 8,
-                             count_boundary = FALSE,
+                             edge_depth = 1,
                              consider_boundary = FALSE,
-                             classes_max = NULL,
-                             neighbourhood = 4,
-                             ordered = TRUE,
-                             base = "log2",
                              full_name = FALSE,
                              verbose = TRUE,
                              progress = FALSE,
@@ -218,13 +181,10 @@ extract_lsm.list <- function(landscape,
     result <- lapply(X = landscape,
                      FUN = extract_lsm_int,
                      y = y,
+                     what = what,
                      directions = directions,
-                     count_boundary = count_boundary,
                      consider_boundary = consider_boundary,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
+                     edge_depth = edge_depth,
                      full_name = full_name,
                      verbose = verbose,
                      progress = progress,
@@ -236,17 +196,25 @@ extract_lsm.list <- function(landscape,
 
 extract_lsm_int <- function(landscape,
                             y,
+                            what,
                             directions,
-                            count_boundary,
+                            edge_depth,
                             consider_boundary,
-                            classes_max,
-                            neighbourhood,
-                            ordered,
-                            base,
                             full_name,
                             verbose,
                             progress,
                             ...) {
+
+  namespace_patch <- getNamespaceExports("landscapemetrics")
+  namespace_patch <- namespace_patch[namespace_patch %in%
+                                       grep("_p_", namespace_patch,
+                                            value = TRUE)]
+  namespace_patch <- namespace_patch[!grepl("\\.|calc", namespace_patch)]
+  namespace_patch <- namespace_patch[!grepl("\\.|int", namespace_patch)]
+  namespace_patch <- append(namespace_patch, "patch")
+  if (!any(what %in% namespace_patch)){
+    stop("extract_lsm only takes patch level metrics as what argument.")
+  }
 
   if (any(class(y) %in% c("MULTIPOINT",
                           "POINT"))) {
@@ -285,14 +253,10 @@ extract_lsm_int <- function(landscape,
     names(point_id) <- c("extract_id", "id")
 
     metrics <- calculate_lsm(landscape,
-                                 what = "patch",
+                                 what = what,
                                  directions = directions,
-                                 count_boundary = count_boundary,
+                                 edge_depth = edge_depth,
                                  consider_boundary = consider_boundary,
-                                 classes_max = classes_max,
-                                 neighbourhood = neighbourhood,
-                                 ordered = ordered,
-                                 base = base,
                                  full_name = full_name,
                                  verbose = verbose,
                                  progress = progress)

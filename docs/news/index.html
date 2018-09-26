@@ -173,12 +173,17 @@
 <a href="#landscapemetrics-0-2" class="anchor"></a>landscapemetrics 0.2<small> Unreleased </small>
 </h1>
 <ul>
+<li>Unified naming scheme for all auxiliary functions:
+<ul>
+<li>calculate_metrics is now calculate_lsm</li>
+</ul>
+</li>
 <li>Implemented <code>show_cores</code>, a function to plot the core area of patches</li>
 <li>Implemented <code>sample_lsm</code>, a function to sample metrics around buffered points</li>
 <li>Implemented <code>extract_lsm</code>, a function to extract landscape metrics for spatial coordinates</li>
 <li>
 <code>show_patches</code> now also shows labelled class facets (option <code>what</code>)</li>
-<li>Removed all functions from the purrr package and replaced them by <code>lapply</code>
+<li>Removed all functions from the <code>purrr</code> package and replaced them by <code>lapply</code>
 </li>
 <li>Removed all pipes</li>
 <li>
