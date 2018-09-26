@@ -47,7 +47,8 @@
 #' @export
 extract_lsm <- function(landscape,
                         y,
-                        directions = 8,
+                        what,
+                        directions,
                         consider_boundary,
                         edge_depth,
                         full_name,
@@ -79,7 +80,6 @@ extract_lsm.RasterLayer <- function(landscape,
                     progress = progress,
                     ...)
 
-    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
     return(result)
 }
 
@@ -89,8 +89,8 @@ extract_lsm.RasterStack <- function(landscape,
                                     y,
                                     what = "patch",
                                     directions = 8,
-                                    edge_depth = 1,
                                     consider_boundary = FALSE,
+                                    edge_depth = 1,
                                     full_name = FALSE,
                                     verbose = TRUE,
                                     progress = FALSE,
@@ -124,8 +124,8 @@ extract_lsm.RasterBrick <- function(landscape,
                                     y,
                                     what = "patch",
                                     directions = 8,
-                                    edge_depth = 1,
                                     consider_boundary = FALSE,
+                                    edge_depth = 1,
                                     full_name = FALSE,
                                     verbose = TRUE,
                                     progress = FALSE,
@@ -149,7 +149,6 @@ extract_lsm.RasterBrick <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
     return(result)
 }
 
@@ -159,8 +158,8 @@ extract_lsm.stars <- function(landscape,
                               y,
                               what = "patch",
                               directions = 8,
-                              edge_depth = 1,
                               consider_boundary = FALSE,
+                              edge_depth = 1,
                               full_name = FALSE,
                               verbose = TRUE,
                               progress = FALSE,
@@ -186,7 +185,6 @@ extract_lsm.stars <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
     return(result)
 }
 
@@ -196,8 +194,8 @@ extract_lsm.list <- function(landscape,
                              y,
                              what = "patch",
                              directions = 8,
-                             edge_depth = 1,
                              consider_boundary = FALSE,
+                             edge_depth = 1,
                              full_name = FALSE,
                              verbose = TRUE,
                              progress = FALSE,
@@ -221,7 +219,6 @@ extract_lsm.list <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
     return(result)
 }
 
@@ -229,8 +226,8 @@ extract_lsm_int <- function(landscape,
                             y,
                             what,
                             directions,
-                            edge_depth,
                             consider_boundary,
+                            edge_depth,
                             full_name,
                             verbose,
                             progress,

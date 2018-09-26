@@ -9,7 +9,7 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, directions = 8, consider_boundary, edge_depth,
+extract_lsm(landscape, y, what, directions, consider_boundary, edge_depth,
   full_name, verbose, progress, ...)
 
 \method{extract_lsm}{RasterLayer}(landscape, y, what = "patch",
@@ -17,25 +17,27 @@ extract_lsm(landscape, y, directions = 8, consider_boundary, edge_depth,
   full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{RasterStack}(landscape, y, what = "patch",
-  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
   full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{RasterBrick}(landscape, y, what = "patch",
-  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
   full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{stars}(landscape, y, what = "patch",
-  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
   full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{list}(landscape, y, what = "patch",
-  directions = 8, edge_depth = 1, consider_boundary = FALSE,
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
   full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
+
+\item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -54,8 +56,6 @@ tibble.}
 \item{progress}{Print progress report}
 
 \item{...}{Arguments passed to \code{raster::extract}.}
-
-\item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
 }
 \value{
 tibble
