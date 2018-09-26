@@ -4,7 +4,7 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.
-#' @param what String indicating what metric to calculate, either "patch" for all patch level metrics or any of the patch metrics functions.
+#' @param what String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
@@ -54,6 +54,7 @@ extract_lsm <- function(landscape,
 #' @export
 extract_lsm.RasterLayer <- function(landscape,
                                     y,
+                                    what = "patch",
                                     directions = 8,
                                     consider_boundary = FALSE,
                                     edge_depth = 1,
