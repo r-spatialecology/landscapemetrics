@@ -33,7 +33,10 @@
 #' @return tibble
 #'
 #' @examples
-#' points <- raster::sampleRandom(landscape, 20, sp = TRUE)
+#' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+#' extract_lsm(landscape, points, what = "lsm_p_area")
+#'
+#' points_sp <- sp::SpatialPoints(points)
 #' extract_lsm(landscape, points, what = "lsm_p_area")
 #'
 #' @aliases extract_lsm
