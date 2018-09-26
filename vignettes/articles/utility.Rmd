@@ -83,7 +83,7 @@ not highly correlated, you can use the function `show_correlation` to get insigh
 into the correlation of the metrics you calculated:
 
 ```{r fig.width=7, fig.height=7, fig.align="center"}
-metrics <- calculate_metrics(landscape, what = "patch")
+metrics <- calculate_lsm(landscape, what = "patch")
 show_correlation(metrics, method = "pearson")
 ```
 

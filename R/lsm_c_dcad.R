@@ -1,10 +1,15 @@
 #' DCAD (class level)
 #
 #' @description Disjunct core area density (core area metric)
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
+#'
 #' @details
 #' \deqn{DCAD = (\frac{\sum \limits_{j = 1}^{n} n_{ij}^{core}} {A}) * 10000 * 100}
 #' where \eqn{n_{ij}^{core}} is the number of disjunct core areas and \eqn{A}
@@ -42,53 +47,88 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_dcad <- function(landscape, directions) UseMethod("lsm_c_dcad")
+lsm_c_dcad <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_c_dcad")
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcad_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_c_dcad.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcad_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcad_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_c_dcad.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcad_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_dcad_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_c_dcad.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcad_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_dcad
 #' @export
-lsm_c_dcad.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_dcad_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_c_dcad.stars <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_dcad_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
-lsm_c_dcad_calc <- function(landscape, directions){
+#' @name lsm_c_dcad
+#' @export
+lsm_c_dcad.list <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_dcad_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
     area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    ndca_class <- lsm_c_ndca_calc(landscape, directions = directions)
+    ndca_class <- lsm_c_ndca_calc(landscape,
+                                  directions = directions,
+                                  consider_boundary = consider_boundary,
+                                  edge_depth = edge_depth)
 
     dcad <- dplyr::mutate(ndca_class,
                           value = (value / area_landscape$value) * 100)

@@ -45,45 +45,71 @@ lsm_l_rpr <- function(landscape, classes_max, verbose) UseMethod("lsm_l_rpr")
 #' @name lsm_l_rpr
 #' @export
 lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_rpr_calc,
+                     classes_max = classes_max,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
 lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_rpr_calc,
+                     classes_max = classes_max,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
 lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_rpr_calc,
+                     classes_max = classes_max,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_rpr
+#' @export
+lsm_l_rpr.stars <- function(landscape, classes_max = NULL, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_rpr_calc,
+                     classes_max = classes_max,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_rpr
 #' @export
 lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_l_rpr_calc,
-                   classes_max = classes_max,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_rpr_calc,
+                     classes_max = classes_max,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
-
 
     if(is.null(classes_max)) {
 
@@ -94,10 +120,10 @@ lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
     }
 
     else {
-        rpr <- landscape %>%
-            lsm_l_pr_calc() %>%
-            dplyr::mutate(value = value / classes_max * 100) %>%
-            dplyr::pull(value)
+        pr <- lsm_l_pr_calc(landscape)
+
+        rpr <- dplyr::pull(dplyr::mutate(pr, value = value / classes_max * 100),
+                           value)
     }
 
     tibble::tibble(

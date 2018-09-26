@@ -5,6 +5,7 @@
 \alias{lsm_p_perim.RasterLayer}
 \alias{lsm_p_perim.RasterStack}
 \alias{lsm_p_perim.RasterBrick}
+\alias{lsm_p_perim.stars}
 \alias{lsm_p_perim.list}
 \title{PERIM (patch level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_p_perim(landscape, directions)
 \method{lsm_p_perim}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_p_perim}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_p_perim}{stars}(landscape, directions = 8)
 
 \method{lsm_p_perim}{list}(landscape, directions = 8)
 }

@@ -44,13 +44,15 @@ lsm_l_joinent.RasterLayer <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_joinent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_joinent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_joinent
@@ -59,14 +61,15 @@ lsm_l_joinent.RasterStack <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_joinent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_joinent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_joinent
@@ -75,14 +78,34 @@ lsm_l_joinent.RasterBrick <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_joinent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_joinent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_joinent
+#' @export
+lsm_l_joinent.stars <- function(landscape,
+                                neighbourhood = 4,
+                                ordered = TRUE,
+                                base = "log2") {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_joinent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_joinent
@@ -91,13 +114,15 @@ lsm_l_joinent.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2") {
-    purrr::map_dfr(landscape,
-                   lsm_l_joinent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_joinent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
@@ -106,6 +131,7 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
     coh <- rcpp_get_coocurrence_vector(landscape_matrix,
                                        directions = as.matrix(neighbourhood),
                                        ordered = ordered)
+
     cplx <- rcpp_get_entropy(coh, base)
 
     tibble::tibble(

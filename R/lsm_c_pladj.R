@@ -40,40 +40,58 @@ lsm_c_pladj <- function(landscape)
 #' @name lsm_c_pladj
 #' @export
 lsm_c_pladj.RasterLayer <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pladj_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pladj
 #' @export
 lsm_c_pladj.RasterStack <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pladj_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pladj
 #' @export
 lsm_c_pladj.RasterBrick <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pladj_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_c_pladj
+#' @export
+lsm_c_pladj.stars <- function(landscape) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_pladj_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_pladj
 #' @export
 lsm_c_pladj.list <- function(landscape) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_pladj_calc,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_pladj_calc)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_pladj_calc <- function(landscape) {
@@ -84,7 +102,7 @@ lsm_c_pladj_calc <- function(landscape) {
     tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded),
                                       directions = as.matrix(4))
 
-    pladj <- purrr::map_dbl(seq_len(nrow(tb)), function(x) {
+    pladj <- sapply(X = seq_len(nrow(tb)), FUN = function(x) {
         like_adjacencies <- tb[x, x]
         total_adjacencies <- sum(tb[x, ])
 
@@ -92,10 +110,11 @@ lsm_c_pladj_calc <- function(landscape) {
     })
 
     pladj <- pladj[-1]
+    names <- row.names(tb)[-1]
 
     tibble::tibble(
         level = "class",
-        class = as.integer(raster::unique(landscape)),
+        class = as.integer(names),
         id = as.integer(NA),
         metric = "pladj",
         value = as.double(pladj)

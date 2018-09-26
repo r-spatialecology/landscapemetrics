@@ -5,6 +5,7 @@
 \alias{lsm_l_pladj.RasterLayer}
 \alias{lsm_l_pladj.RasterStack}
 \alias{lsm_l_pladj.RasterBrick}
+\alias{lsm_l_pladj.stars}
 \alias{lsm_l_pladj.list}
 \title{PLADJ (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_pladj(landscape)
 \method{lsm_l_pladj}{RasterStack}(landscape)
 
 \method{lsm_l_pladj}{RasterBrick}(landscape)
+
+\method{lsm_l_pladj}{stars}(landscape)
 
 \method{lsm_l_pladj}{list}(landscape)
 }

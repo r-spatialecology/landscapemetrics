@@ -73,6 +73,9 @@ lsm_abbreviations_names <- tibble::tibble(
         "enn_mn",
         "enn_sd",
         "enn_cv",
+        "iji",
+        "nlsi",
+        "contag",
 
         "pr",
         "prd",
@@ -161,6 +164,9 @@ lsm_abbreviations_names <- tibble::tibble(
         "euclidean nearest neighbor distance distribution (mean)",
         "euclidean nearest neighbor distance distribution (standard deviation)",
         "euclidean nearest neighbor distance distribution (Coefficient of variation)",
+        "interspersion and juxtaposition index",
+        "normalized landscape shape index",
+        "connectance",
 
         "patch richness",
         "patch richness density",
@@ -236,6 +242,9 @@ lsm_abbreviations_names <- tibble::tibble(
         "core area metric",
         "core area metric",
 
+        "aggregation metric",
+        "aggregation metric",
+        "aggregation metric",
         "aggregation metric",
         "aggregation metric",
         "aggregation metric",

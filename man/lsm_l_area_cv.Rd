@@ -5,6 +5,7 @@
 \alias{lsm_l_area_cv.RasterLayer}
 \alias{lsm_l_area_cv.RasterStack}
 \alias{lsm_l_area_cv.RasterBrick}
+\alias{lsm_l_area_cv.stars}
 \alias{lsm_l_area_cv.list}
 \title{AREA_CV (landscape level)}
 \usage{
@@ -15,6 +16,8 @@ lsm_l_area_cv(landscape, directions)
 \method{lsm_l_area_cv}{RasterStack}(landscape, directions = 8)
 
 \method{lsm_l_area_cv}{RasterBrick}(landscape, directions = 8)
+
+\method{lsm_l_area_cv}{stars}(landscape, directions = 8)
 
 \method{lsm_l_area_cv}{list}(landscape, directions = 8)
 }

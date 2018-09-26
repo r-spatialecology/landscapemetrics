@@ -1,12 +1,12 @@
 context("show_patches")
 
-metrics_patch <- calculate_metrics(landscape, what = 'patch')
+metrics_patch <- calculate_lsm(landscape, what = 'patch')
 metrics_plot_patch <- show_correlation(metrics_patch, method = "pearson")
 
-metrics_class <- calculate_metrics(landscape, what = 'class')
+metrics_class <- calculate_lsm(landscape, what = 'class')
 metrics_plot_class <- show_correlation(metrics_class, method = "pearson")
 
-metrics_mult <- calculate_metrics(landscape, what = c("patch", "class"))
+metrics_mult <- calculate_lsm(landscape, what = c("patch", "class"))
 metrics_plot_mult <- show_correlation(metrics_mult, method = "pearson")
 
 test_that("show_patches returns a plot", {

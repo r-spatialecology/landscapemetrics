@@ -56,58 +56,79 @@ lsm_c_enn_sd <- function(landscape, directions, verbose) UseMethod("lsm_c_enn_sd
 #' @name lsm_c_enn_sd
 #' @export
 lsm_c_enn_sd.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_sd_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_sd
 #' @export
 lsm_c_enn_sd.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_sd_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_sd
 #' @export
 lsm_c_enn_sd.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_enn_sd_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_sd_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_c_enn_sd
+#' @export
+lsm_c_enn_sd.stars <- function(landscape, directions = 8, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_enn_sd_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_enn_sd
 #' @export
 lsm_c_enn_sd.list <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(landscape,
-                   lsm_c_enn_sd_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_enn_sd_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 
 lsm_c_enn_sd_calc <- function(landscape, directions, verbose) {
 
-    enn_sd  <- landscape %>%
-        lsm_p_enn_calc(., directions = directions,
-                       verbose = verbose) %>%
-        dplyr::group_by(class)  %>%
-        dplyr::summarize(value = stats::sd(value))
+    enn <- lsm_p_enn_calc(landscape,
+                          directions = directions,
+                          verbose = verbose)
+
+    enn_sd <-  dplyr::summarize(dplyr::group_by(enn, class),
+                                value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

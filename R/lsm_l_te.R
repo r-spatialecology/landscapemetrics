@@ -44,50 +44,72 @@ lsm_l_te <- function(landscape, count_boundary) UseMethod("lsm_l_te")
 #' @name lsm_l_te
 #' @export
 lsm_l_te.RasterLayer <- function(landscape,  count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_te_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_te_calc,
+                     count_boundary = count_boundary)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_te
 #' @export
 lsm_l_te.RasterStack <- function(landscape,  count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_te_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_te_calc,
+                     count_boundary = count_boundary)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_te
 #' @export
 lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_te_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_te_calc,
+                     count_boundary = count_boundary)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_te
+#' @export
+lsm_l_te.stars <- function(landscape, count_boundary = FALSE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_te_calc,
+                     count_boundary = count_boundary)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_te
 #' @export
 lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_te_calc,
-                   count_boundary = count_boundary,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_te_calc,
+                     count_boundary = count_boundary)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,
-                             pad_raster_value = max(raster::values(landscape),
-                                                    na.rm = TRUE) + 1,
-                             pad_raster_cells = 1)
+                                pad_raster_value = max(raster::values(landscape),
+                                                       na.rm = TRUE) + 1,
+                                pad_raster_cells = 1)
     }
 
     if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {

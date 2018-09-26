@@ -53,44 +53,63 @@ lsm_p_shape <- function(landscape, directions) UseMethod("lsm_p_shape")
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_shape_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_shape_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_shape_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_shape_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_p_shape
+#' @export
+lsm_p_shape.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_shape_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_shape
 #' @export
 lsm_p_shape.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_shape_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_shape_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_shape_calc <- function(landscape, directions){
@@ -103,10 +122,9 @@ lsm_p_shape_calc <- function(landscape, directions){
                                  value = value * 10000,
                                  n = trunc(sqrt(value)),
                                  m = value - n^ 2,
-                                 minp = dplyr::case_when(
-                             m == 0 ~ n * 4,
-                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                             value > n * (1 + n) ~ 4 * n + 4),
+                                 minp = dplyr::case_when(m == 0 ~ n * 4,
+                                                         n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                                         value > n * (1 + n) ~ 4 * n + 4),
                                  value = perimeter_patch$value / minp)
 
     tibble::tibble(
@@ -115,7 +133,5 @@ lsm_p_shape_calc <- function(landscape, directions){
         id = as.integer(perimeter_patch$id),
         metric = "shape",
         value = as.double(shape_patch$value)
-        )
-
-
+    )
 }

@@ -52,52 +52,71 @@ lsm_c_shape_cv <- function(landscape, directions) UseMethod("lsm_c_shape_cv")
 #' @name lsm_c_shape_cv
 #' @export
 lsm_c_shape_cv.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_shape_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_shape_cv
 #' @export
 lsm_c_shape_cv.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_shape_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_shape_cv
 #' @export
 lsm_c_shape_cv.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_shape_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_shape_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_c_shape_cv
+#' @export
+lsm_c_shape_cv.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_shape_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_shape_cv
 #' @export
 lsm_c_shape_cv.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_shape_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_shape_cv_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_shape_cv_calc <- function(landscape, directions){
 
-    shape_cv <- landscape %>%
-        lsm_p_shape_calc(directions = directions) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = raster::cv(value))
+    shape <- lsm_p_shape_calc(landscape, directions = directions)
+
+    shape_cv <- dplyr::summarise(dplyr::group_by(shape, class),
+                                 value = raster::cv(value))
 
     tibble::tibble(
         level = "class",

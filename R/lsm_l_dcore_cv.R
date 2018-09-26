@@ -3,7 +3,12 @@
 #' @description Coefficient of variation number of disjunct core areas (Core area metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #'
 #' @details
 #' \deqn{DCORE_{CV} = cv(NCORE[patch_{ij}])}
@@ -46,54 +51,102 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_dcore_cv <- function(landscape, directions) UseMethod("lsm_l_dcore_cv")
+lsm_l_dcore_cv <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_l_dcore_cv")
 
 #' @name lsm_l_dcore_cv
 #' @export
-lsm_l_dcore_cv.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_dcore_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_l_dcore_cv.RasterLayer <- function(landscape,
+                                       directions = 8,
+                                       consider_boundary = FALSE,
+                                       edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_dcore_cv_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcore_cv
 #' @export
-lsm_l_dcore_cv.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_dcore_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_l_dcore_cv.RasterStack <- function(landscape,
+                                       directions = 8,
+                                       consider_boundary = FALSE,
+                                       edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_dcore_cv_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcore_cv
 #' @export
-lsm_l_dcore_cv.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_dcore_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_l_dcore_cv.RasterBrick <- function(landscape,
+                                       directions = 8,
+                                       consider_boundary = FALSE,
+                                       edge_depth = 1) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_dcore_cv_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_dcore_cv
 #' @export
-lsm_l_dcore_cv.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_l_dcore_cv_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+lsm_l_dcore_cv.stars <- function(landscape,
+                                 directions = 8,
+                                 consider_boundary = FALSE,
+                                 edge_depth = 1) {
 
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_dcore_cv_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
-lsm_l_dcore_cv_calc <- function(landscape, directions){
+#' @name lsm_l_dcore_cv
+#' @export
+lsm_l_dcore_cv.list <- function(landscape,
+                                directions = 8,
+                                consider_boundary = FALSE,
+                                edge_depth = 1) {
 
-    dcore_cv <- landscape %>%
-        lsm_p_ncore_calc(., directions = directions) %>%
-        dplyr::summarise(value = raster::cv(value))
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_dcore_cv_calc,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
+
+    dcore_cv <- dplyr::summarise(lsm_p_ncore_calc(landscape,
+                                                  directions = directions,
+                                                  consider_boundary = consider_boundary,
+                                                  edge_depth = edge_depth),
+                                 value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

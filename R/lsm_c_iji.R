@@ -44,54 +44,77 @@
 #
 #' @export
 lsm_c_iji <- function(landscape, verbose) UseMethod("lsm_c_iji")
+
 #' @name lsm_c_iji
 #' @export
 lsm_c_iji.RasterLayer <- function(landscape, verbose = TRUE) {
- purrr::map_dfr(raster::as.list(landscape),
-                lsm_c_iji_calc,
-                verbose = verbose,
-                .id = "layer") %>%
-     dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_iji_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
+
 #' @name lsm_c_iji
 #' @export
 lsm_c_iji.RasterStack <- function(landscape, verbose = TRUE) {
- purrr::map_dfr(raster::as.list(landscape),
-                lsm_c_iji_calc,
-                verbose = verbose,
-                .id = "layer") %>%
-     dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_iji_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
+
 #' @name lsm_c_iji
 #' @export
 lsm_c_iji.RasterBrick <- function(landscape, verbose = TRUE) {
- purrr::map_dfr(raster::as.list(landscape),
-                lsm_c_iji_calc,
-                verbose = verbose,
-                .id = "layer") %>%
-     dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_iji_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
+
+#' @name lsm_c_iji
+#' @export
+lsm_c_iji.stars <- function(landscape, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_iji_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
 #' @name lsm_c_iji
 #' @export
 lsm_c_iji.list <- function(landscape, verbose = TRUE) {
- purrr::map_dfr(raster::as.list(landscape),
-                lsm_c_iji_calc,
-                verbose = verbose,
-                .id = "layer") %>%
-     dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_iji_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_iji_calc <- function(landscape, verbose) {
-    adjacencies <-
-        rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                    as.matrix(4))
+    adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                               as.matrix(4))
 
     if (ncol(adjacencies) < 3) {
 
         if(isTRUE(verbose)) {
-            warning("Number of classes must be >= 3,
-                    IJI = NA.",
-                    call. = FALSE)
+            warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
         tibble::tibble(

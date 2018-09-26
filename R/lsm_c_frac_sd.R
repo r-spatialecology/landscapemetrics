@@ -53,52 +53,71 @@ lsm_c_frac_sd <- function(landscape, directions) UseMethod("lsm_c_frac_sd")
 #' @name lsm_c_frac_sd
 #' @export
 lsm_c_frac_sd.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_frac_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_frac_sd
 #' @export
 lsm_c_frac_sd.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_frac_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_frac_sd
 #' @export
 lsm_c_frac_sd.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_c_frac_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_frac_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_c_frac_sd
+#' @export
+lsm_c_frac_sd.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_frac_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_frac_sd
 #' @export
 lsm_c_frac_sd.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_c_frac_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_frac_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_frac_sd_calc <- function(landscape, directions){
 
-    frac_sd <- landscape %>%
-        lsm_p_frac_calc(directions = directions) %>%
-        dplyr::group_by(class) %>%
-        dplyr::summarise(value = stats::sd(value))
+    frac <- lsm_p_frac_calc(landscape, directions = directions)
+
+    frac_sd <- dplyr::summarise(dplyr::group_by(frac, class),
+                                value = stats::sd(value))
 
     tibble::tibble(
         level = "class",

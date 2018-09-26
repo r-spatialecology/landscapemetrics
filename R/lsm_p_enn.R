@@ -56,72 +56,92 @@ lsm_p_enn <- function(landscape, directions, verbose) UseMethod("lsm_p_enn")
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_enn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_enn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape), lsm_p_enn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+     result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_enn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_p_enn
+#' @export
+lsm_p_enn.stars <- function(landscape, directions = 8, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_enn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_enn
 #' @export
 lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
-    purrr::map_dfr(landscape, lsm_p_enn_calc,
-                   directions = directions,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_enn_calc,
+                     directions = directions,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    enn_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
+    enn_patch <- lapply(landscape_labeled, function(patches_class) {
 
-        class_name <- patches_class %>%
-            names() %>%
-            sub("Class_", "", .)
+        class <- sub("Class_", "", names(patches_class))
 
-        np_class <- patches_class %>%
-            raster::values() %>%
-            max(na.rm = TRUE)
+        np_class <- max(raster::values(patches_class), na.rm = TRUE)
 
-        if(np_class == 1){
-            enn <-  tibble::tibble(class = class_name,
+        if(np_class == 1) {
+            enn <-  tibble::tibble(class = class,
                                    value = as.double(NA))
 
-            if(isTRUE(verbose)){
-                warning(paste0("Class ", class_name,
+            if(isTRUE(verbose)) {
+                warning(paste0("Class ", class,
                                ": ENN = NA for class with only 1 patch"),
                         call. = FALSE)
             }
         }
 
-        else{
+        else {
 
             class_boundaries <- raster::boundaries(patches_class, directions = 4,
                                                    asNA = TRUE)
@@ -139,18 +159,18 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
             min_dist <- unname(cbind(num, res[rank], as.matrix(points_class)[, 3]))
 
             tbl <- tibble::tibble(cell = min_dist[,1],
-                          dist = min_dist[,2],
-                          id = min_dist[,3])
+                                  dist = min_dist[,2],
+                                  id = min_dist[,3])
 
-            enn <- dplyr::group_by(tbl, by = id) %>%
-                dplyr::summarise(value = min(dist))
+            enn <- dplyr::summarise(dplyr::group_by(tbl, by = id),
+                                    value = min(dist))
         }
 
-            tibble::tibble(class = class_name,
-                           value = enn$value)
-
-
+        tibble::tibble(class = class,
+                       value = enn$value)
     })
+
+    enn_patch <- dplyr::bind_rows(enn_patch)
 
     tibble::tibble(level = "patch",
                    class = as.integer(enn_patch$class),

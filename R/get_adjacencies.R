@@ -20,9 +20,10 @@
 #' The "full" adjacency matrix is double-count method, as it contains the pairwise
 #' counts of cells between all classes. The diagonal of this matrix contains the
 #' like adjacencies, a count for how many edges a shared in each class with the same class.
+#'
 #' The "unlike" adjacencies are counting the cellwise edges between different classes.
 #'
-#' @return matrix
+#' @return matrix with adjacencies between classes in a raster and between cells from the same class.
 #'
 #' @examples
 #'
@@ -47,6 +48,10 @@ get_adjacencies <- function(landscape,
                             neighbourhood = 4,
                             what = "full",
                             upper = FALSE){
+
+    if(neighbourhood != 4 && neighbourhood != 8 && !is.matrix(neighbourhood)){
+     stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
+    }
 
     adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
                                 as.matrix(neighbourhood))

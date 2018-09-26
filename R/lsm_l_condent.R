@@ -46,13 +46,15 @@ lsm_l_condent.RasterLayer <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_condent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_condent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_condent
@@ -61,14 +63,15 @@ lsm_l_condent.RasterStack <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_condent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_condent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_condent
@@ -77,14 +80,34 @@ lsm_l_condent.RasterBrick <- function(landscape,
                                       neighbourhood = 4,
                                       ordered = TRUE,
                                       base = "log2") {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_condent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_condent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_condent
+#' @export
+lsm_l_condent.stars <- function(landscape,
+                                neighbourhood = 4,
+                                ordered = TRUE,
+                                base = "log2") {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_condent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_condent
@@ -93,13 +116,15 @@ lsm_l_condent.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2") {
-    purrr::map_dfr(landscape,
-                   lsm_l_condent_calc,
-                   neighbourhood = neighbourhood,
-                   ordered = ordered,
-                   base = base,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_condent_calc,
+                     neighbourhood = neighbourhood,
+                     ordered = ordered,
+                     base = base)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){

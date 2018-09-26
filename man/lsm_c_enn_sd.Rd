@@ -5,6 +5,7 @@
 \alias{lsm_c_enn_sd.RasterLayer}
 \alias{lsm_c_enn_sd.RasterStack}
 \alias{lsm_c_enn_sd.RasterBrick}
+\alias{lsm_c_enn_sd.stars}
 \alias{lsm_c_enn_sd.list}
 \title{ENN_SD (class level)}
 \usage{
@@ -18,6 +19,8 @@ lsm_c_enn_sd(landscape, directions, verbose)
 
 \method{lsm_c_enn_sd}{RasterBrick}(landscape, directions = 8,
   verbose = TRUE)
+
+\method{lsm_c_enn_sd}{stars}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_c_enn_sd}{list}(landscape, directions = 8, verbose = TRUE)
 }

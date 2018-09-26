@@ -1,28 +1,33 @@
-context("landscape level ta metric")
+context("landscape level lsm_l_te metric")
 
-fragstats_landscape_landscape_te <- fragstats_landscape_landscape$TE
-landscapemetrics_landscape_landscape_te <- lsm_l_te(landscape)
-
-test_that("lsm_l_te results are equal to fragstats", {
-    expect_equal(landscapemetrics_landscape_landscape_te$value,
-                 fragstats_landscape_landscape_te)
-})
+landscapemetrics_landscape_landscape_value <- lsm_l_te(landscape)
 
 test_that("lsm_l_te is typestable", {
-    expect_is(landscapemetrics_landscape_landscape_te, "tbl_df")
+    expect_is(lsm_l_te(landscape), "tbl_df")
     expect_is(lsm_l_te(landscape_stack), "tbl_df")
-    expect_is(lsm_l_te(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_te(landscape_brick), "tbl_df")
+    expect_is(lsm_l_te(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_te returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_landscape_landscape_te), 6)
+    expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
 test_that("lsm_l_te returns in every column the correct type", {
-    expect_type(landscapemetrics_landscape_landscape_te$layer, "integer")
-    expect_type(landscapemetrics_landscape_landscape_te$level, "character")
-    expect_type(landscapemetrics_landscape_landscape_te$class, "integer")
-    expect_type(landscapemetrics_landscape_landscape_te$id, "integer")
-    expect_type(landscapemetrics_landscape_landscape_te$metric, "character")
-    expect_type(landscapemetrics_landscape_landscape_te$value, "double")
+    expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$value, "double")
+})
+
+test_that("lsm_l_te option count_boundary is working", {
+    te_with_boundary <- lsm_l_te(landscape, count_boundary = TRUE)
+    te_without_boundary <- lsm_l_te(landscape, count_boundary = FALSE)
+    expect_less_than(te_without_boundary$value, te_with_boundary$value)
+})
+
+test_that("lsm_l_te can handle raster with different xy resolution", {
+    expect_is(lsm_l_te(landscape_diff_res), "tbl_df")
 })

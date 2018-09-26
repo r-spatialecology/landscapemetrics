@@ -1,30 +1,24 @@
-context("class level lsi metric")
+context("class level lsm_c_lsi metric")
 
-fragstats_class_landscape_lsi <- fragstats_class_landscape$LSI
-landscapemetrics_class_landscape_lsi <- lsm_c_lsi(landscape)
-
-test_that("lsm_c_lsi results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_lsi %in%
-                        round(landscapemetrics_class_landscape_lsi$value, 4)))
-})
+landscapemetrics_class_landscape_value <- lsm_c_lsi(landscape)
 
 test_that("lsm_c_lsi is typestable", {
-    expect_is(landscapemetrics_class_landscape_lsi, "tbl_df")
+    expect_is(lsm_c_lsi(landscape), "tbl_df")
     expect_is(lsm_c_lsi(landscape_stack), "tbl_df")
-    expect_is(lsm_c_lsi(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_lsi(landscape_brick), "tbl_df")
+    expect_is(lsm_c_lsi(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_lsi returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_lsi), 6)
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
 test_that("lsm_c_lsi returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_lsi$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_lsi$level, "character")
-    expect_type(landscapemetrics_class_landscape_lsi$class, "integer")
-    expect_type(landscapemetrics_class_landscape_lsi$id, "integer")
-    expect_type(landscapemetrics_class_landscape_lsi$metric, "character")
-    expect_type(landscapemetrics_class_landscape_lsi$value, "double")
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
-
 

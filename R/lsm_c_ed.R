@@ -52,12 +52,14 @@ lsm_c_ed <- function(landscape, count_boundary, directions) UseMethod("lsm_c_ed"
 lsm_c_ed.RasterLayer <- function(landscape,
                                  count_boundary = FALSE,
                                  directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ed_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ed
@@ -65,13 +67,14 @@ lsm_c_ed.RasterLayer <- function(landscape,
 lsm_c_ed.RasterStack <- function(landscape,
                                  count_boundary = FALSE,
                                  directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ed_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ed
@@ -79,13 +82,31 @@ lsm_c_ed.RasterStack <- function(landscape,
 lsm_c_ed.RasterBrick <- function(landscape,
                                  count_boundary = FALSE,
                                  directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ed_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_c_ed
+#' @export
+lsm_c_ed.stars <- function(landscape,
+                           count_boundary = FALSE,
+                           directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_c_ed_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_c_ed
@@ -93,13 +114,14 @@ lsm_c_ed.RasterBrick <- function(landscape,
 lsm_c_ed.list <- function(landscape,
                           count_boundary = FALSE,
                           directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_c_ed_calc,
-                   count_boundary = count_boundary,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_c_ed_calc,
+                     count_boundary = count_boundary,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_c_ed_calc <- function(landscape, count_boundary, directions) {

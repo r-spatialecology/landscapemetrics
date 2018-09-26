@@ -5,6 +5,7 @@
 \alias{lsm_l_condent.RasterLayer}
 \alias{lsm_l_condent.RasterStack}
 \alias{lsm_l_condent.RasterBrick}
+\alias{lsm_l_condent.stars}
 \alias{lsm_l_condent.list}
 \title{Conditional entropy (landscape level)}
 \usage{
@@ -18,6 +19,9 @@ lsm_l_condent(landscape, neighbourhood = 4, ordered = TRUE,
   ordered = TRUE, base = "log2")
 
 \method{lsm_l_condent}{RasterBrick}(landscape, neighbourhood = 4,
+  ordered = TRUE, base = "log2")
+
+\method{lsm_l_condent}{stars}(landscape, neighbourhood = 4,
   ordered = TRUE, base = "log2")
 
 \method{lsm_l_condent}{list}(landscape, neighbourhood = 4,

@@ -55,58 +55,76 @@ lsm_l_circle_sd <- function(landscape, directions) UseMethod("lsm_l_circle_sd")
 #' @name lsm_l_circle_sd
 #' @export
 lsm_l_circle_sd.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_circle_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_circle_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_circle_sd
 #' @export
 lsm_l_circle_sd.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_circle_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_circle_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_circle_sd
 #' @export
 lsm_l_circle_sd.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_circle_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_circle_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_circle_sd
+#' @export
+lsm_l_circle_sd.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_circle_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_circle_sd
 #' @export
 lsm_l_circle_sd.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_l_circle_sd_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
 
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_circle_sd_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_circle_sd_calc <- function(landscape, directions) {
 
-    circle_mn <- landscape %>%
-        lsm_p_circle_calc(directions = directions) %>%
-        dplyr::summarize(value = stats::sd(value))
+    circle_sd <- dplyr::summarize(lsm_p_circle_calc(landscape, directions = directions),
+                                  value = stats::sd(value))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "circle_sd",
-        value = as.double(circle_mn$value)
+        value = as.double(circle_sd$value)
     )
 
 }

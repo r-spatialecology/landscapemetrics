@@ -9,19 +9,15 @@ reference:
     contents:
     - lsm_abbreviations_names
     - landscape
-    - landscape_stack
     - augusta_nlcd
     - podlasie_ccilc
     - fragstats_patch_landscape
-    - fragstats_patch_landscapestack
     - fragstats_patch_augusta_nlcd
     - fragstats_patch_podlasie
     - fragstats_class_landscape
-    - fragstats_class_landscapestack
     - fragstats_class_augusta_nlcd
     - fragstats_class_podlasie
     - fragstats_landscape_landscape
-    - fragstats_landscape_landscapestack
     - fragstats_landscape_augusta_nlcd
     - fragstats_landscape_podlasie
   - title: Auxiliary/Utility functions
@@ -30,9 +26,12 @@ reference:
     - get_circumscribingcircle
     - get_nearestneighbour
     - get_patches
+    - extract_lsm
+    - sample_lsm
   - title: Visualisation functions
     contents:
     - show_patches
+    - show_cores
     - show_correlation
   - title: Patch Level Metrics
     contents:
@@ -174,7 +173,7 @@ reference:
     - lsm_l_te
   - title: Wrapper around all metrics
     contents:
-    - calculate_metrics
+    - calculate_lsm
 
 navbar:
   title: landscapemetrics
@@ -197,6 +196,9 @@ navbar:
        - text: "New Metrics outside FRAGSTATS"
          icon: fa-sticky-note
          href: articles/articles/new_metrics.html
+       - text: "Use Case 1: Sampling around points of interest"
+         icon: fa-calculator
+         href: articles/articles/guide_sample_lsm.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/articles/publication_record.html

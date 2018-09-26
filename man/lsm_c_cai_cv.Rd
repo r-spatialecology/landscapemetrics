@@ -5,24 +5,38 @@
 \alias{lsm_c_cai_cv.RasterLayer}
 \alias{lsm_c_cai_cv.RasterStack}
 \alias{lsm_c_cai_cv.RasterBrick}
+\alias{lsm_c_cai_cv.stars}
 \alias{lsm_c_cai_cv.list}
 \title{CAI_CV (class level)}
 \usage{
-lsm_c_cai_cv(landscape, directions)
+lsm_c_cai_cv(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_c_cai_cv}{RasterLayer}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_cai_cv}{RasterStack}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_cai_cv}{RasterBrick}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_cai_cv}{list}(landscape, directions = 8)
+\method{lsm_c_cai_cv}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
+
+\method{lsm_c_cai_cv}{list}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 }
 \value{
 tibble

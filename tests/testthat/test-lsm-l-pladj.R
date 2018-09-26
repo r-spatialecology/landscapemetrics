@@ -1,30 +1,24 @@
-context("landscape level pladj metric")
+context("landscape level lsm_l_pladj metric")
 
-fragstats_landscape_landscape_pladj <- fragstats_landscape_landscape$PLADJ
-landscapemetrics_landscape_landscape_pladj <- lsm_l_pladj(landscape)
+landscapemetrics_landscape_landscape_value <- lsm_l_pladj(landscape)
 
-test_that("lsm_c_pladj results are equal to fragstats", {
-    expect_true(all(fragstats_landscape_landscape_pladj %in%
-                        round(landscapemetrics_landscape_landscape_pladj$value, 4)))
+test_that("lsm_l_pladj is typestable", {
+    expect_is(lsm_l_pladj(landscape), "tbl_df")
+    expect_is(lsm_l_pladj(landscape_stack), "tbl_df")
+    expect_is(lsm_l_pladj(landscape_brick), "tbl_df")
+    expect_is(lsm_l_pladj(landscape_list), "tbl_df")
 })
 
-test_that("lsm_c_pladj is typestable", {
-    expect_is(landscapemetrics_landscape_landscape_pladj, "tbl_df")
-    expect_is(lsm_c_pladj(landscape_stack), "tbl_df")
-    expect_is(lsm_c_pladj(list(landscape, landscape)), "tbl_df")
+test_that("lsm_l_pladj returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
-test_that("lsm_c_pladj returns the desirpladj number of columns", {
-    expect_equal(ncol(landscapemetrics_landscape_landscape_pladj), 6)
+test_that("lsm_l_pladj returns in every column the correct type", {
+    expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
-
-test_that("lsm_c_pladj returns in every column the correct type", {
-    expect_type(landscapemetrics_landscape_landscape_pladj$layer, "integer")
-    expect_type(landscapemetrics_landscape_landscape_pladj$level, "character")
-    expect_type(landscapemetrics_landscape_landscape_pladj$class, "integer")
-    expect_type(landscapemetrics_landscape_landscape_pladj$id, "integer")
-    expect_type(landscapemetrics_landscape_landscape_pladj$metric, "character")
-    expect_type(landscapemetrics_landscape_landscape_pladj$value, "double")
-})
-
 

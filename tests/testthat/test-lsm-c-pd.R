@@ -1,28 +1,24 @@
-context("class level pd metric")
+context("class level lsm_c_pd metric")
 
-fragstats_class_landscape_pd <- fragstats_class_landscape$PD
-landscapemetrics_class_landscape_pd <- lsm_c_pd(landscape)
-
-test_that("lsm_c_pd results are equal to fragstats", {
-    expect_true(all(fragstats_class_landscape_pd %in%
-                        round(landscapemetrics_class_landscape_pd$value, 4)))
-})
+landscapemetrics_class_landscape_value <- lsm_c_pd(landscape)
 
 test_that("lsm_c_pd is typestable", {
-    expect_is(landscapemetrics_class_landscape_pd, "tbl_df")
+    expect_is(lsm_c_pd(landscape), "tbl_df")
     expect_is(lsm_c_pd(landscape_stack), "tbl_df")
-    expect_is(lsm_c_pd(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_pd(landscape_brick), "tbl_df")
+    expect_is(lsm_c_pd(landscape_list), "tbl_df")
 })
 
-test_that("lsm_c_pd returns the desirpd number of columns", {
-    expect_equal(ncol(landscapemetrics_class_landscape_pd), 6)
+test_that("lsm_c_pd returns the desired number of columns", {
+    expect_equal(ncol(landscapemetrics_class_landscape_value), 6)
 })
 
 test_that("lsm_c_pd returns in every column the correct type", {
-    expect_type(landscapemetrics_class_landscape_pd$layer, "integer")
-    expect_type(landscapemetrics_class_landscape_pd$level, "character")
-    expect_type(landscapemetrics_class_landscape_pd$class, "integer")
-    expect_type(landscapemetrics_class_landscape_pd$id, "integer")
-    expect_type(landscapemetrics_class_landscape_pd$metric, "character")
-    expect_type(landscapemetrics_class_landscape_pd$value, "double")
+    expect_type(landscapemetrics_class_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_class_landscape_value$level, "character")
+    expect_type(landscapemetrics_class_landscape_value$class, "integer")
+    expect_type(landscapemetrics_class_landscape_value$id, "integer")
+    expect_type(landscapemetrics_class_landscape_value$metric, "character")
+    expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
+

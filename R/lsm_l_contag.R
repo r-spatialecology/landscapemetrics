@@ -49,42 +49,63 @@ lsm_l_contag <- function(landscape, verbose) UseMethod("lsm_l_contag")
 #' @name lsm_l_contag
 #' @export
 lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_contag_calc,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_contag_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_contag
 #' @export
 lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_contag_calc,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_contag_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_contag
 #' @export
 lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_contag_calc,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_contag_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
+#' @name lsm_l_contag
+#' @export
+lsm_l_contag.stars <- function(landscape, verbose = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_contag_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
 
 #' @name lsm_l_contag
 #' @export
 lsm_l_contag.list <- function(landscape, verbose = TRUE) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   .f = lsm_l_contag_calc,
-                   verbose = verbose,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_contag_calc,
+                     verbose = verbose)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_contag_calc <- function(landscape, verbose) {
@@ -93,29 +114,27 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
     if (t < 2) {
         if(isTRUE(verbose)) {
-            warning("Number of classes must be >= 2:
-                    CONTAG = NA.",
+            warning("Number of classes must be >= 2: CONTAG = NA.",
                     call. = FALSE)
         }
 
         tibble::tibble(
-            level = "class",
-            class = as.integer(raster::unique(landscape)),
+            level = "landscape",
+            class = as.integer(NA),
             id = as.integer(NA),
-            metric = "iji",
+            metric = "contag",
             value = as.double(NA)
         )
+
     } else {
 
-        adjacencies <-
-            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                        as.matrix(4))
+        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+                                                   as.matrix(4))
 
         esum <- sum(adjacencies / sum(adjacencies) *
                         log(adjacencies / sum(adjacencies)), na.rm = TRUE)
 
         emax <- 2 * log(t)
-
 
         contag <- (1 + esum / emax) * 100
 

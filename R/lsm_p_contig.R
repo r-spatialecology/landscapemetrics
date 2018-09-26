@@ -62,41 +62,63 @@ lsm_p_contig <- function(landscape, directions) UseMethod("lsm_p_contig")
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_contig_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_contig_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_p_contig_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_contig_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_p_contig
+#' @export
+lsm_p_contig.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_p_contig_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_p_contig_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_p_contig_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 
@@ -112,7 +134,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
-    contig_patch <- purrr::map_dfr(landscape_labeled, function(patches_class) {
+    contig_patch <- lapply(landscape_labeled, function(patches_class) {
 
         n_cells <- table(raster::values(patches_class))
         n_patches <- length(n_cells)
@@ -130,13 +152,13 @@ lsm_p_contig_calc <- function(landscape, directions) {
                              n_cells) /
                             n_cells) - 1) / 12
 
-        class_name <- patches_class %>%
-            names() %>%
-            sub("Class_", "", .)
+        class <- sub("Class_", "", names(patches_class))
 
-        tibble::tibble(class = class_name,
+        tibble::tibble(class = class,
                        value = contiguity)
     })
+
+    contig_patch <- dplyr::bind_rows(contig_patch)
 
     tibble::tibble(
         level = "patch",

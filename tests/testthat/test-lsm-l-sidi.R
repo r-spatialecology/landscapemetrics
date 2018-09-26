@@ -1,28 +1,24 @@
-context("landscape level sidi metric")
+context("landscape level lsm_l_sidi metric")
 
-fragstats_landscape_landscape_sidi <- fragstats_landscape_landscape$SIDI
-landscapemetrics_landscape_landscape_sidi <- lsm_l_sidi(landscape)
-
-test_that("lsm_l_sidi results are equal to fragstats", {
-    expect_true(all(fragstats_landscape_landscape_sidi %in%
-                        round(landscapemetrics_landscape_landscape_sidi$value, 4)))
-})
+landscapemetrics_landscape_landscape_value <- lsm_l_sidi(landscape)
 
 test_that("lsm_l_sidi is typestable", {
-    expect_is(landscapemetrics_landscape_landscape_sidi, "tbl_df")
+    expect_is(lsm_l_sidi(landscape), "tbl_df")
     expect_is(lsm_l_sidi(landscape_stack), "tbl_df")
-    expect_is(lsm_l_sidi(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_sidi(landscape_brick), "tbl_df")
+    expect_is(lsm_l_sidi(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_sidi returns the desired number of columns", {
-    expect_equal(ncol(landscapemetrics_landscape_landscape_sidi), 6)
+    expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
 test_that("lsm_l_sidi returns in every column the correct type", {
-    expect_type(landscapemetrics_landscape_landscape_sidi$layer, "integer")
-    expect_type(landscapemetrics_landscape_landscape_sidi$level, "character")
-    expect_type(landscapemetrics_landscape_landscape_sidi$class, "integer")
-    expect_type(landscapemetrics_landscape_landscape_sidi$id, "integer")
-    expect_type(landscapemetrics_landscape_landscape_sidi$metric, "character")
-    expect_type(landscapemetrics_landscape_landscape_sidi$value, "double")
+    expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$level, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
+    expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
+    expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
+

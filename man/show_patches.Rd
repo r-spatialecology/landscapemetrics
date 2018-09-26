@@ -5,24 +5,38 @@
 \alias{show_patches.RasterLayer}
 \alias{show_patches.RasterStack}
 \alias{show_patches.RasterBrick}
+\alias{show_patches.stars}
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
-show_patches(landscape, directions)
+show_patches(landscape, what, directions, labels, nrow, ncol)
 
-\method{show_patches}{RasterLayer}(landscape, directions = 8)
+\method{show_patches}{RasterLayer}(landscape, what = "global",
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{RasterStack}(landscape, directions = 8)
+\method{show_patches}{RasterStack}(landscape, what = "global",
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{RasterBrick}(landscape, directions = 8)
+\method{show_patches}{RasterBrick}(landscape, what = "global",
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{list}(landscape, directions = 8)
+\method{show_patches}{stars}(landscape, what = "global",
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+
+\method{show_patches}{list}(landscape, what = "global", directions = 8,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{*Raster object}
 
+\item{what}{How to show the labeled patches: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
+
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{labels}{Logical flag indicating whether to print or not to print patch labels.}
+
+\item{nrow, ncol}{Number of rows and columns for the facet.}
 }
 \value{
 ggplot

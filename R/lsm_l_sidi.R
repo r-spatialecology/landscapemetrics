@@ -47,49 +47,71 @@ lsm_l_sidi <- function(landscape, directions) UseMethod("lsm_l_sidi")
 #' @name lsm_l_sidi
 #' @export
 lsm_l_sidi.RasterLayer <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_sidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
 lsm_l_sidi.RasterStack <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_sidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
 lsm_l_sidi.RasterBrick <- function(landscape, directions = 8) {
-    purrr::map_dfr(raster::as.list(landscape),
-                   lsm_l_sidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_sidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
+}
+
+#' @name lsm_l_sidi
+#' @export
+lsm_l_sidi.stars <- function(landscape, directions = 8) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = lsm_l_sidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 #' @name lsm_l_sidi
 #' @export
 lsm_l_sidi.list <- function(landscape, directions = 8) {
-    purrr::map_dfr(landscape,
-                   lsm_l_sidi_calc,
-                   directions = directions,
-                   .id = "layer") %>%
-        dplyr::mutate(layer = as.integer(layer))
+
+    result <- lapply(X = landscape,
+                     FUN = lsm_l_sidi_calc,
+                     directions = directions)
+
+    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
+                  layer = as.integer(layer))
 }
 
 lsm_l_sidi_calc <- function(landscape, directions) {
 
-    sidi <- landscape %>%
-        lsm_c_pland_calc(directions = directions) %>%
-        dplyr::mutate(value = (value / 100) ^ 2) %>%
-        dplyr::summarise(value = 1 - sum(value))
+    sidi <- lsm_c_pland_calc(landscape, directions = directions)
+
+    sidi <- dplyr::summarise(dplyr::mutate(sidi, value = (value / 100) ^ 2),
+                             value = 1 - sum(value))
 
     tibble::tibble(
         level = "landscape",
