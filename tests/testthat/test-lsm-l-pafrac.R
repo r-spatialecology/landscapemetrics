@@ -22,3 +22,7 @@ test_that("lsm_l_pafrac returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
+test_that("lsm_l_pafrac throws error for less than 10 patches",  {
+    expect_warning(lsm_l_pafrac(landscape_uniform),
+                   regexp = "PAFRAC = NA for NP < 10")
+})

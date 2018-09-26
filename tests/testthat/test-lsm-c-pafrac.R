@@ -22,3 +22,7 @@ test_that("lsm_c_pafrac returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_pafrac throws error for less than 10 patches",  {
+    expect_warning(lsm_c_pafrac(landscape_uniform),
+                   regexp = "Class 1: PAFRAC = NA for class with < 10 patches")
+})
