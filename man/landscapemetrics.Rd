@@ -40,7 +40,7 @@ Other contributors:
   \item Matt Strimas-Mackey (0000-0001-8929-7776) [contributor]
   \item Jeremy VanDerWal (Original author of underlying C code for 
              get_patches() function) [contributor]
-  \item Florian Privé (Original author of underlying C++ code for 
+  \item Florian Priv<U+00E9> (Original author of underlying C++ code for 
              get_nearestneighbour() function) [contributor]
 }
 
