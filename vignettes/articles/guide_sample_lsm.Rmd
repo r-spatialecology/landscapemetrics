@@ -20,7 +20,6 @@ library(classInt)
 
 landscape <- NLMR::nlm_fbm(50, 100, fract_dim = 1.2) 
 
-
 y <- landscape %>%
   raster::extent() %>%
   magrittr::subtract(., 10 * 2) %>%
@@ -37,7 +36,7 @@ landscape <-  raster::cut(landscape, breaks=breaks$brks, include.lowest=T)
 landscape <- raster::as.data.frame(landscape, xy = TRUE)
 
 y_buffered <- purrr::map(seq_len(5), function(buffer_width){
-  st_sf(bufferwidth = rep(buffer_width, 25), st_buffer(y, buffer_width))
+  st_sf(bufferwidth = rep(buffer_width, length(y)), st_buffer(y, buffer_width))
 }) %>% do.call(rbind, .)
 
 a1 <- ggplot(y_buffered) +
