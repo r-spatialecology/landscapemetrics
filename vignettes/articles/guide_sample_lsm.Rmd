@@ -20,6 +20,14 @@ library(classInt)
 
 landscape <- NLMR::nlm_fbm(50, 100, fract_dim = 1.2) 
 
+
+y <- landscape %>%
+  raster::extent() %>%
+  magrittr::subtract(., 10 * 2) %>%
+  as('SpatialPolygons') %>%
+  sp::spsample(n = 25, type = "regular") %>% 
+  st_as_sfc()
+
 breaks <- landscape %>%
   raster::getValues() %>%
   na.omit() %>%
@@ -28,16 +36,8 @@ breaks <- landscape %>%
 landscape <-  raster::cut(landscape, breaks=breaks$brks, include.lowest=T)
 landscape <- raster::as.data.frame(landscape, xy = TRUE)
 
-
-x <- st_sfc(st_polygon(list(rbind(c(0,0),
-                                  c(50,0),
-                                  c(50,100),
-                                  c(0,100),
-                                  c(0,0)))))
-y <- st_sample(x, 100)
-
-y_buffered <- purrr::map(seq_len(100), function(buffer_width){
-  st_sf(bufferwidth = rep(buffer_width / 20, 100), st_buffer(y, buffer_width / 20))
+y_buffered <- purrr::map(seq_len(5), function(buffer_width){
+  st_sf(bufferwidth = rep(buffer_width, 25), st_buffer(y, buffer_width))
 }) %>% do.call(rbind, .)
 
 a1 <- ggplot(y_buffered) +
@@ -46,12 +46,12 @@ a1 <- ggplot(y_buffered) +
   coord_equal() +
   geom_sf(data = y_buffered,
           inherit.aes = FALSE,
-          alpha = 0.4) +
+          alpha = 0.01) +
   rcartocolor::scale_fill_carto_c(palette = "TealRose") + 
   theme_void() +
   theme(panel.grid.major = element_line(colour = 'transparent')) +
   transition_states(bufferwidth, transition_length = 1, state_length = 1) +
-  shadow_wake(wake_length = 0.05) +
+  shadow_mark(past = TRUE) +
   guides(fill = FALSE) 
   
 
