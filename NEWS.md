@@ -1,7 +1,7 @@
 # landscapemetrics 0.2
 
 * Unified naming scheme for all auxiliary functions:
-    * calculate_metrics is now calculate_lsm
+    * `calculate_metrics` is now `calculate_lsm`
 * Implemented `show_cores`, a function to plot the core area of patches
 * `show_patches` now also shows labelled class facets (option `what`)
 * All plot functions have the same theme
