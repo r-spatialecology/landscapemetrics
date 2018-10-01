@@ -13,12 +13,12 @@ library(raster)
 new_r = raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
 plot(new_r)
 new_v = as.vector(as.matrix(new_r))
-rcpp_get_composition_vector2(new_m)
+rcpp_get_composition_vector2(as.matrix(new_r))
 
-microbenchmark::microbenchmark(
-    rcpp_get_composition_vector(as.vector(as.matrix(podlasie_ccilc))),
+bench::mark(
     rcpp_get_composition_vector(as.matrix(podlasie_ccilc)),
-    times = 100
+    rcpp_get_composition_vector2(as.matrix(podlasie_ccilc)),
+    iterations = 100
 )
 
 */
