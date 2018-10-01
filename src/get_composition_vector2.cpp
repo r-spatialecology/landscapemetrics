@@ -18,7 +18,8 @@ rcpp_get_composition_vector2(as.matrix(new_r))
 bench::mark(
     rcpp_get_composition_vector(as.matrix(podlasie_ccilc)),
     rcpp_get_composition_vector2(as.matrix(podlasie_ccilc)),
-    iterations = 100
+    iterations = 100,
+    check = FALSE
 )
 
 */
