@@ -78,10 +78,6 @@ rcpp_get_composition_vector <- function(x) {
     .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
-rcpp_get_composition_vector2 <- function(v) {
-    .Call('_landscapemetrics_rcpp_get_composition_vector2', PACKAGE = 'landscapemetrics', v)
-}
-
 rcpp_get_coocurrence_matrix <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
