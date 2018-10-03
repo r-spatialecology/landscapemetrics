@@ -1,18 +1,12 @@
 context("patch level lsm_p_enn metric")
 
-fragstats_patch_landscape_value <- fragstats_patch_landscape$ENN
 landscapemetrics_patch_landscape_value <- lsm_p_enn(landscape)
-
-test_that("lsm_p_enn results are comparable to fragstats", {
-    expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
-                        round(landscapemetrics_patch_landscape_value$value, 4)))
-})
 
 test_that("lsm_p_enn is typestable", {
     expect_is(lsm_p_enn(landscape), "tbl_df")
     expect_is(lsm_p_enn(landscape_stack), "tbl_df")
-    expect_is(lsm_p_enn(list(landscape, landscape)), "tbl_df")
-    # expect_is(lsm_p_enn(landscape_stars), "tbl_df")
+    expect_is(lsm_p_enn(landscape_brick), "tbl_df")
+    expect_is(lsm_p_enn(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_enn returns the desired number of columns", {

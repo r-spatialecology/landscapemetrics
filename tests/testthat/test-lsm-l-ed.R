@@ -1,17 +1,12 @@
 context("landscape level lsm_l_ed metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$ED
 landscapemetrics_landscape_landscape_value <- lsm_l_ed(landscape)
-
-test_that("lsm_l_ed results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_ed is typestable", {
     expect_is(lsm_l_ed(landscape), "tbl_df")
     expect_is(lsm_l_ed(landscape_stack), "tbl_df")
-    expect_is(lsm_l_ed(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_ed(landscape_brick), "tbl_df")
+    expect_is(lsm_l_ed(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_ed returns the desired number of columns", {

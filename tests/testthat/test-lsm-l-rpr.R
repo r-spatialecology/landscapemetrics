@@ -1,17 +1,12 @@
 context("landscape level lsm_l_rpr metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$RPR
 landscapemetrics_landscape_landscape_value <- lsm_l_rpr(landscape, classes_max = 5)
-
-test_that("lsm_l_rpr results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_rpr is typestable", {
     expect_is(lsm_l_rpr(landscape), "tbl_df")
     expect_is(lsm_l_rpr(landscape_stack), "tbl_df")
-    expect_is(lsm_l_rpr(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_rpr(landscape_brick), "tbl_df")
+    expect_is(lsm_l_rpr(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_rpr returns the desired number of columns", {

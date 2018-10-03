@@ -89,6 +89,6 @@ test_that("rcpp_get_composition_vector results are correct", {
 })
 
 test_that("rcpp_get_composition_vector is typestable", {
-    expect_is(land_result1_cv, "numeric")
+    expect_is(land_result1_cv, "integer")
 })
 

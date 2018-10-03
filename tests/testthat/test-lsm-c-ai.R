@@ -1,25 +1,12 @@
 context("class level lsm_c_ai metric")
 
-fragstats_class_landscape_value <- dplyr::select(fragstats_class_landscape,
-                                       TYPE, AI)
-
-names(fragstats_class_landscape_value) <- c("class", "value")
-
 landscapemetrics_class_landscape_value <- lsm_c_ai(landscape)
-
-comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
-                        y = landscapemetrics_class_landscape_value,
-                        by = "class",
-                        suffix = c(".fs", ".lsm"))
-
-test_that("lsm_c_ai results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
 
 test_that("lsm_c_ai is typestable", {
     expect_is(lsm_c_ai(landscape), "tbl_df")
     expect_is(lsm_c_ai(landscape_stack), "tbl_df")
-    expect_is(lsm_c_ai(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_ai(landscape_brick), "tbl_df")
+    expect_is(lsm_c_ai(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_ai returns the desired number of columns", {

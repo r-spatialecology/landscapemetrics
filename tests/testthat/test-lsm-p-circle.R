@@ -1,18 +1,12 @@
 context("patch level lsm_p_circle metric")
 
-fragstats_patch_landscape_value <- fragstats_patch_landscape$CIRCLE
 landscapemetrics_patch_landscape_value <- lsm_p_circle(landscape)
-#
-test_that("lsm_p_circle results are equal to fragstats", {
-    expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
-                        round(landscapemetrics_patch_landscape_value$value, 4)))
-})
 
 test_that("lsm_p_circle is typestable", {
     expect_is(lsm_p_circle(landscape), "tbl_df")
     expect_is(lsm_p_circle(landscape_stack), "tbl_df")
-    expect_is(lsm_p_circle(list(landscape, landscape)), "tbl_df")
-    # expect_is(lsm_p_circle(landscape_stars), "tbl_df")
+    expect_is(lsm_p_circle(landscape_brick), "tbl_df")
+    expect_is(lsm_p_circle(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_circle returns the desired number of columns", {

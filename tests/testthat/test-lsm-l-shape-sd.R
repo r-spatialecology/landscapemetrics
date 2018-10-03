@@ -1,20 +1,12 @@
 context("landscape level lsm_l_shape_sd metric")
 
-# FRAGSTATS already rounds on patch level
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = sd(SHAPE))
-
-landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_shape(landscape), value = round(value, 4)), value = sd(value))
-
-test_that("lsm_l_shape_sd results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
+landscapemetrics_landscape_landscape_value <- lsm_l_shape_sd(landscape)
 
 test_that("lsm_l_shape_sd is typestable", {
     expect_is(lsm_l_shape_sd(landscape), "tbl_df")
     expect_is(lsm_l_shape_sd(landscape_stack), "tbl_df")
-    expect_is(lsm_l_shape_sd(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_shape_sd(landscape_brick), "tbl_df")
+    expect_is(lsm_l_shape_sd(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_shape_sd returns the desired number of columns", {

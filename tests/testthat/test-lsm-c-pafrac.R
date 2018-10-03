@@ -1,25 +1,12 @@
 context("class level lsm_c_pafrac metric")
 
-fragstats_class_landscape_value <- dplyr::select(fragstats_class_landscape,
-                                          TYPE, PAFRAC)
-
-names(fragstats_class_landscape_value) <- c("class", "value")
-
 landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape)
-
-comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
-                        y = landscapemetrics_class_landscape_value,
-                        by = "class",
-                        suffix = c(".fs", ".lsm"))
-
-test_that("lsm_c_pafrac results are equal to fragstats", {
-    expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-})
 
 test_that("lsm_c_pafrac is typestable", {
     expect_is(lsm_c_pafrac(landscape), "tbl_df")
     expect_is(lsm_c_pafrac(landscape_stack), "tbl_df")
-    expect_is(lsm_c_pafrac(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape_brick), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_pafrac returns the desired number of columns", {
@@ -35,3 +22,7 @@ test_that("lsm_c_pafrac returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_pafrac throws error for less than 10 patches",  {
+    expect_warning(lsm_c_pafrac(landscape_uniform),
+                   regexp = "Class 1: PAFRAC = NA for class with < 10 patches")
+})

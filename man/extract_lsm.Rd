@@ -9,63 +9,44 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, directions = 8, count_boundary,
-  consider_boundary, classes_max, neighbourhood, ordered, base, full_name,
-  verbose, progress, ...)
+extract_lsm(landscape, y, what, directions, consider_boundary, edge_depth,
+  full_name, verbose, progress, ...)
 
-\method{extract_lsm}{RasterLayer}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterLayer}(landscape, y, what = "patch",
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterStack}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterStack}(landscape, y, what = "patch",
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterBrick}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterBrick}(landscape, y, what = "patch",
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{stars}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{stars}(landscape, y, what = "patch",
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{list}(landscape, y, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE, ...)
+\method{extract_lsm}{list}(landscape, y, what = "patch",
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
 
+\item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
+
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
-
-\item{count_boundary}{Include landscape boundary in edge length}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core}
 
-\item{classes_max}{Potential maximum number of present classes}
-
-\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
-4 (rook's case) or 8 (queen's case). The default is 4.}
-
-\item{ordered}{The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
-
-\item{base}{The unit in which entropy is measured. The default is "log2",
-which compute entropy in "bits". "log" and "log10" can be also used.}
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+edge to be considered as core cell}
 
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
@@ -80,16 +61,21 @@ tibble.}
 tibble
 }
 \description{
-Extract landscapemetrics for certain cells
+Extract metrics
 }
 \details{
-Extracts landscapemetrics for spatial objects. Returns a tibble with
-landscapemetrics on patch level and the ID for the spatial object that was
-used for extracting.
+This functions extracts the metrics of all patches the spatial object(s) \code{y}
+(e.g. spatial points) are located within. Only patch level metrics are possible
+to extract. Please be aware that the output is sligthly different to all
+other \code{lsm}-function of \code{landscapemetrics}. Returns a tibble with chosen
+metrics and the ID of the spatial objects.
 }
 \examples{
-points <- raster::sampleRandom(landscape, 20, sp = TRUE)
-extract_lsm(landscape, points)
+points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+extract_lsm(landscape, points, what = "lsm_p_area")
+
+points_sp <- sp::SpatialPoints(points)
+extract_lsm(landscape, points, what = "lsm_p_area")
 
 }
 \seealso{

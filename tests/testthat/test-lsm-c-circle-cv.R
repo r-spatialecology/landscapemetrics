@@ -2,12 +2,11 @@ context("class level lsm_c_circle_cv metric")
 
 landscapemetrics_class_landscape_value <- lsm_c_circle_cv(landscape)
 
-# # See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
-
 test_that("lsm_c_circle_cv is typestable", {
     expect_is(lsm_c_circle_cv(landscape), "tbl_df")
     expect_is(lsm_c_circle_cv(landscape_stack), "tbl_df")
-    expect_is(lsm_c_circle_cv(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_circle_cv(landscape_brick), "tbl_df")
+    expect_is(lsm_c_circle_cv(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_circle_cv returns the desired number of columns", {

@@ -1,20 +1,12 @@
-context("landscape level area_mn metric")
-
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = mean(CIRCLE))
+context("landscape level lsm_l_circle_mn metric")
 
 landscapemetrics_landscape_landscape_value <- lsm_l_circle_mn(landscape)
-
-# see https://r-spatialecology.github.io/landscapemetrics/ for more information
-# test_that("lsm_l_circle_mn results are equal to fragstats", {
-#     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-#                     round(landscapemetrics_landscape_landscape_value$value, 4))
-# })
 
 test_that("lsm_l_circle_mn is typestable", {
     expect_is(lsm_l_circle_mn(landscape), "tbl_df")
     expect_is(lsm_l_circle_mn(landscape_stack), "tbl_df")
-    expect_is(lsm_l_circle_mn(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_circle_mn(landscape_brick), "tbl_df")
+    expect_is(lsm_l_circle_mn(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_circle_mn returns the desired number of columns", {

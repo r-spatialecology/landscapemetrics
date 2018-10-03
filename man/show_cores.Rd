@@ -2,11 +2,35 @@
 % Please edit documentation in R/show_cores.R
 \name{show_cores}
 \alias{show_cores}
+\alias{show_cores.RasterLayer}
+\alias{show_cores.RasterStack}
+\alias{show_cores.RasterBrick}
+\alias{show_cores.stars}
+\alias{show_cores.list}
 \title{Show core area}
 \usage{
-show_cores(landscape, directions = 8, what = "all", labels = TRUE,
-  nrow = NULL, ncol = NULL, consider_boundary = FALSE,
-  edge_depth = 1)
+show_cores(landscape, directions, what, labels, nrow, ncol,
+  consider_boundary, edge_depth)
+
+\method{show_cores}{RasterLayer}(landscape, directions = 8,
+  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
+
+\method{show_cores}{RasterStack}(landscape, directions = 8,
+  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
+
+\method{show_cores}{RasterBrick}(landscape, directions = 8,
+  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
+
+\method{show_cores}{stars}(landscape, directions = 8, what = "all",
+  labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
+
+\method{show_cores}{list}(landscape, directions = 8, what = "all",
+  labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster object}

@@ -1,19 +1,12 @@
-context("landscape level area_mn metric")
+context("landscape level lsm_l_area_mn metric")
 
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = mean(AREA))
-
-landscapemetrics_landscape_landscape_value <- lsm_l_area_cv(landscape)
-
-test_that("lsm_l_area_mn results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
+landscapemetrics_landscape_landscape_value <- lsm_l_area_mn(landscape)
 
 test_that("lsm_l_area_mn is typestable", {
     expect_is(lsm_l_area_mn(landscape), "tbl_df")
     expect_is(lsm_l_area_mn(landscape_stack), "tbl_df")
-    expect_is(lsm_l_area_mn(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_area_mn(landscape_brick), "tbl_df")
+    expect_is(lsm_l_area_mn(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_area_mn returns the desired number of columns", {

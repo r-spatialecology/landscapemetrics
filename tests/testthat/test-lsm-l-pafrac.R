@@ -1,17 +1,12 @@
 context("landscape level lsm_l_pafrac metric")
 
-fragstats_landscape_landscape_value <- fragstats_landscape_landscape$PAFRAC
 landscapemetrics_landscape_landscape_value <- lsm_l_pafrac(landscape)
-
-test_that("lsm_l_pafrac results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_pafrac is typestable", {
     expect_is(lsm_l_pafrac(landscape), "tbl_df")
     expect_is(lsm_l_pafrac(landscape_stack), "tbl_df")
-    expect_is(lsm_l_pafrac(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_pafrac(landscape_brick), "tbl_df")
+    expect_is(lsm_l_pafrac(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_pafrac returns the desired number of columns", {
@@ -27,3 +22,7 @@ test_that("lsm_l_pafrac returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
+test_that("lsm_l_pafrac throws error for less than 10 patches",  {
+    expect_warning(lsm_l_pafrac(landscape_uniform),
+                   regexp = "PAFRAC = NA for NP < 10")
+})

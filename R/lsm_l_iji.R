@@ -120,8 +120,8 @@ lsm_l_iji_calc <- function(landscape, verbose) {
         }
 
         tibble::tibble(
-            level = "class",
-            class = as.integer(raster::unique(landscape)),
+            level = "landscape",
+            class = as.integer(NA),
             id = as.integer(NA),
             metric = "iji",
             value = as.double(NA)

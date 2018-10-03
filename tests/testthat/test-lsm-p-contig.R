@@ -1,18 +1,12 @@
 context("patch level lsm_p_contig metric")
 
-fragstats_patch_landscape_value <- fragstats_patch_landscape$CONTIG
 landscapemetrics_patch_landscape_value <- lsm_p_contig(landscape)
-
-test_that("lsm_p_contig results are equal to fragstats", {
-    expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
-                        round(landscapemetrics_patch_landscape_value$value, 4)))
-})
 
 test_that("lsm_p_contig is typestable", {
     expect_is(lsm_p_contig(landscape), "tbl_df")
     expect_is(lsm_p_contig(landscape_stack), "tbl_df")
-    expect_is(lsm_p_contig(list(landscape, landscape)), "tbl_df")
-    # expect_is(lsm_p_contig(landscape_stars), "tbl_df")
+    expect_is(lsm_p_contig(landscape_brick), "tbl_df")
+    expect_is(lsm_p_contig(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_contig returns the desired number of columns", {

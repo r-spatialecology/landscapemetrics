@@ -66,12 +66,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_composition_vector
-NumericVector rcpp_get_composition_vector(arma::imat x);
+Rcpp::IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
 RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_composition_vector(x));
     return rcpp_result_gen;
 END_RCPP

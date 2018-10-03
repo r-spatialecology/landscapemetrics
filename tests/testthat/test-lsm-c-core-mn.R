@@ -1,27 +1,12 @@
 context("class level lsm_c_core_mn metric")
 
-fragstats_class_landscape_value <- fragstats_patch_landscape %>%
-    dplyr::group_by(TYPE) %>%
-    dplyr::summarize(metric = mean(CORE))
-
-names(fragstats_class_landscape_value) <- c("class", "value")
-
 landscapemetrics_class_landscape_value <- lsm_c_core_mn(landscape)
-
-comparison <- dplyr::full_join(x = fragstats_class_landscape_value,
-                        y = landscapemetrics_class_landscape_value,
-                        by = "class",
-                        suffix = c(".fs", ".lsm"))
-
-# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
-# test_that("lsm_c_cai_cv results are equal to fragstats", {
-#     expect_true(all(round(comparison$value.fs, 4) == round(comparison$value.lsm, 4)))
-# })
 
 test_that("lsm_c_core_mn is typestable", {
     expect_is(lsm_c_core_mn(landscape), "tbl_df")
     expect_is(lsm_c_core_mn(landscape_stack), "tbl_df")
-    expect_is(lsm_c_core_mn(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_c_core_mn(landscape_brick), "tbl_df")
+    expect_is(lsm_c_core_mn(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_core_mn returns the desired number of columns", {

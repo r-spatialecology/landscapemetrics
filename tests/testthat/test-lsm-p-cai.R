@@ -1,19 +1,12 @@
 context("patch level lsm_p_cai metric")
 
-fragstats_patch_landscape_value <- fragstats_patch_landscape$CAI
 landscapemetrics_patch_landscape_value <- lsm_p_cai(landscape)
-
-# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
-# test_that("lsm_p_cai results are equal to fragstats", {
-#     expect_true(all(round(fragstats_patch_landscape_value, 4) %in%
-#                         round(landscapemetrics_patch_landscape_value$value, 4)))
-# })
 
 test_that("lsm_p_cai is typestable", {
     expect_is(lsm_p_cai(landscape), "tbl_df")
     expect_is(lsm_p_cai(landscape_stack), "tbl_df")
-    expect_is(lsm_p_cai(list(landscape, landscape)), "tbl_df")
-    # expect_is(lsm_p_cai(landscape_stars), "tbl_df")
+    expect_is(lsm_p_cai(landscape_brick), "tbl_df")
+    expect_is(lsm_p_cai(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_cai returns the desired number of columns", {

@@ -25,6 +25,7 @@ construct_buffer <- function(points, shape, size) UseMethod("construct_buffer")
 #' @name construct_buffer
 #' @export
 construct_buffer.matrix <- function(points, shape, size) {
+
     if(shape == "circle") {
 
         circle_points_x <- sin(seq(0, 2 * pi, length.out = 100)) * size
@@ -67,7 +68,8 @@ construct_buffer.matrix <- function(points, shape, size) {
             rep(1:nrow(points), times = 4)
         )
 
-        sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
+        sample_plots_coords_split <- split(sample_plots_coords[, -3],
+                                           sample_plots_coords[, 3])
 
         sample_plots <- lapply(X = sample_plots_coords_split, FUN = function(x) {
             sp::Polygon(cbind(x[1:4], x[5:8]))
@@ -101,11 +103,36 @@ construct_buffer.SpatialPointsDataFrame <- function(points, shape, size) {
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sf <- function(points, shape, size) {
-    if (all(sf::st_is(points, "POINT"))){
-        points <- sf::st_coordinates(points)
-    } else{
-        stop(paste0("Unable to work with this class of object"))
-    }
+construct_buffer.MULTIPOINT <- function(points, shape, size) {
+    points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
     construct_buffer(points, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.POINT <- function(points, shape, size) {
+    points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
+    construct_buffer(points, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.sf <- function(points, shape, size) {
+    if(all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))){
+        points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
+        construct_buffer(points, shape, size)
+    }
+
+    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.sfc <- function(points, shape, size) {
+    if(all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))){
+        points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
+        construct_buffer(points, shape, size)
+    }
+
+    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
 }

@@ -1,20 +1,12 @@
 context("landscape level lsm_l_para_sd metric")
 
-# See https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = sd(PARA) / 10000)
-
 landscapemetrics_landscape_landscape_value <- lsm_l_para_sd(landscape)
-
-test_that("lsm_l_para_sd results are equal to fragstats", {
-    expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-                    round(landscapemetrics_landscape_landscape_value$value, 4))
-})
 
 test_that("lsm_l_para_sd is typestable", {
     expect_is(lsm_l_para_sd(landscape), "tbl_df")
     expect_is(lsm_l_para_sd(landscape_stack), "tbl_df")
-    expect_is(lsm_l_para_sd(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_para_sd(landscape_brick), "tbl_df")
+    expect_is(lsm_l_para_sd(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_para_sd returns the desired number of columns", {

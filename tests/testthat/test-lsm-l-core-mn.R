@@ -1,20 +1,12 @@
 context("landscape level lsm_l_core_mn metric")
 
-fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-    dplyr::summarize(value = mean(CORE))
-
 landscapemetrics_landscape_landscape_value <- lsm_l_core_mn(landscape)
-
-# See https://r-spatialecology.github.io/landscapemetrics/
-# test_that("lsm_l_core_mn results are equal to fragstats", {
-#     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
-#                     round(landscapemetrics_landscape_landscape_value$value, 4))
-# })
 
 test_that("lsm_l_core_mn is typestable", {
     expect_is(lsm_l_core_mn(landscape), "tbl_df")
     expect_is(lsm_l_core_mn(landscape_stack), "tbl_df")
-    expect_is(lsm_l_core_mn(list(landscape, landscape)), "tbl_df")
+    expect_is(lsm_l_core_mn(landscape_brick), "tbl_df")
+    expect_is(lsm_l_core_mn(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_core_mn returns the desired number of columns", {
