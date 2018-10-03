@@ -92,7 +92,7 @@ get_patches.list <- function(landscape,
            directions = directions)
 }
 
-get_patches_int <- function(landscape, what, directions) {
+get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
 
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
@@ -154,8 +154,22 @@ get_patches_int <- function(landscape, what, directions) {
                 filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
-            patch_landscape <- raster::setValues(x = landscape_empty,
-                                                 values = filter_raster)
+
+            if(lsm_to_disk == TRUE){
+                tr <- raster::blockSize(landscape_empty)
+                s <- raster::writeStart(landscape_empty, filename=tempfile('tmp.grp'),  overwrite=TRUE)
+                for (i in 1:tr$n) {
+                    v <- raster::getValuesBlock(landscape_empty, row=tr$row[i], nrows=tr$nrows[i])
+                    s <- raster::writeValues(s, v, tr$row[i])
+                }
+                landscape_empty <- raster::writeStop(s)
+            }
+
+            patch_landscape <- landscape_empty
+            raster::values(patch_landscape) <- filter_raster
+
+                # raster::setValues(x = landscape_empty,
+                #                                  values = filter_raster)
 
             names(patch_landscape) <- paste0("Class_", what)
 
@@ -174,3 +188,5 @@ get_patches_int <- function(landscape, what, directions) {
         return(patch_landscape)
     }
 }
+
+get_patches_int(landscape, what = "all", directions = 8, lsm_to_disk = TRUE)
