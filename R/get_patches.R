@@ -189,4 +189,4 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
     }
 }
 
-get_patches_int(landscape, what = "all", directions = 8, lsm_to_disk = TRUE)
+# get_patches_int(landscape, what = "all", directions = 8, lsm_to_disk = TRUE)
