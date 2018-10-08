@@ -22,6 +22,7 @@ reference:
     - fragstats_landscape_podlasie
   - title: Auxiliary/Utility functions
     contents:
+    - check_landscape
     - get_adjacencies
     - get_circumscribingcircle
     - get_nearestneighbour
