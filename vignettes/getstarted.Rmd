@@ -68,7 +68,7 @@ landscape_raster <- landscape
 lsm_p_perim(landscape_raster)
 ```
 
-The metrics are encoded using abbreviations in the result tibble. In case you want to match the full name of each metric, we provide a tibble (`lsm_abbreciations_names`) you can join with the result tibble using the `metric` column. The this also adds the type of the metrics.
+The metrics are encoded using abbreviations in the result tibble. In case you want to match the full name of each metric, we provide a tibble (`lsm_abbreviations_names`) you can join with the result tibble using the `metric` column. The this also adds the type of the metrics.
 
 ```{r, message=FALSE}
 # Calculate metric
