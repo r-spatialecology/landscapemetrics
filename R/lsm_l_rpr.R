@@ -109,7 +109,7 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
+lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
     if(is.null(classes_max)) {
 
