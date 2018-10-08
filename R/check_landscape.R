@@ -104,8 +104,9 @@ check_landscape_calc <- function(landscape){
                                     units == "degrees" ~ "notok"),
         OK = dplyr::case_when(class_ok == "ok" & units_ok == "ok" ~ cli::symbol$tick,
                               TRUE ~ cli::symbol$cross)
-    ) %>%
-        dplyr::select(layer, crs, units, class, n_classes, OK)
+    )
+
+    info <- dplyr::select(info, layer, crs, units, class, n_classes, OK)
 
     print(info)
 
@@ -135,7 +136,7 @@ check_landscape_calc <- function(landscape){
         cat(
             "\n Landscape metrics describe categorical landscape patterns.
             You have more than 30 land cover classes, which seems very high (but can make sense in some cases, if so ignore this message).
-            However, if you did not think about classifying your landscapes before using landscapemetrics, we recommend to read our background vignette to familiarize yourself with
+            However, if you did not think about classifying your landscapes before using landscapemetrics, we recommend reading our background vignette to familiarize yourself with
             the basic concepts behind the metrics: https://r-spatialecology.github.io/landscapemetrics/articles/articles/general-background.html"
         )
 
