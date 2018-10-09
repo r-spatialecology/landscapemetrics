@@ -1,3 +1,6 @@
+# landscapemetrics 0.3
+- `check_landscape` function to make sure your landscapes are feasible for landscapemetrics
+
 # landscapemetrics 0.2
 
 * Unified naming scheme for all auxiliary functions:
