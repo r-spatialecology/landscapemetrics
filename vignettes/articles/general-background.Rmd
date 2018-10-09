@@ -27,8 +27,19 @@ The basic idea of landscape metrics is to condense as much information as possib
 The **landscapemetrics** package supports `raster` spatial objects. 
 A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells.
 Consequently, the cells are the smallest "resolution of information".
-Because **landscapemetrics** deals with categorical data, each cell has to be assigned to a discrete class. 
+Because **landscapemetrics** deals with categorical data, each cell has to be assigned to a discrete class (see Fig. 1 for details). 
 These classes must be positive integer numbers. 
+
+```{r fig.height=12, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as by humans percieved, e.g. in land cover and use classes."}
+library(NLMR)
+library(landscapetools)
+library(magrittr)
+
+landscapes <- list("a) Continous Landscape" = nlm_fbm(100, 100, fract_dim = 1.3, user_seed = 5),
+     "b) Categorical Landscape" = nlm_fbm(100, 100, fract_dim = 1.3, user_seed = 5) %>% util_classify(n = 5))
+
+util_facetplot(landscapes, div_scales = TRUE)
+```
 
 ## Levels of landscape metrics
 

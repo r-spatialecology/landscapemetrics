@@ -24,7 +24,7 @@ y <- landscape %>%
   raster::extent() %>%
   magrittr::subtract(., 10 * 2) %>%
   as('SpatialPolygons') %>%
-  sp::spsample(n = 25, type = "regular") %>% 
+  sp::spsample(n = 25, type = "random") %>% 
   st_as_sfc()
 
 breaks <- landscape %>%

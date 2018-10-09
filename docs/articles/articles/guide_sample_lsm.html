@@ -134,7 +134,7 @@
     <div class="page-header toc-ignore">
       <h1>Use Case 1: Sampling around points of interest</h1>
             
-            <h4 class="date">2018-09-27</h4>
+            <h4 class="date">2018-10-09</h4>
       
       
       <div class="hidden name"><code>guide_sample_lsm.Rmd</code></div>
@@ -161,7 +161,7 @@
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">  </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="st">  </span>magrittr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/magrittr/topics/aliases">subtract</a></span>(., <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(<span class="st">'SpatialPolygons'</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="st">  </span>sp<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sp/topics/spsample">spsample</a></span>(<span class="dt">n =</span> <span class="dv">25</span>, <span class="dt">type =</span> <span class="st">"regular"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="st">  </span>sp<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sp/topics/spsample">spsample</a></span>(<span class="dt">n =</span> <span class="dv">25</span>, <span class="dt">type =</span> <span class="st">"random"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/sf/topics/st_as_sfc">st_as_sfc</a></span>()</a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb1-17" data-line-number="17">breaks &lt;-<span class="st"> </span>landscape <span class="op">%&gt;%</span></a>
