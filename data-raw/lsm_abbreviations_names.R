@@ -136,7 +136,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "number of core areas",
         "core area index",
         "total core area",
-        "core area percentag of landscape",
+        "core area percentage of landscape",
         "number of disjunct core areas",
         "disjunct core area density",
         "core area distribution (mean)",
