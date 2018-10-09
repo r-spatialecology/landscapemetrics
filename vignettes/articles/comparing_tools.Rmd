@@ -74,8 +74,8 @@ cv_full <- full_join(x = fragstats,
                      by = "class")
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#1"> Show/Hide Results </button>  
+<div id="1" class="collapse">
 
 ```{r}
 knitr::kable(cbind(cv_full))
@@ -113,8 +113,8 @@ cv_full <- full_join(x = fragstats,
                      by = "class")
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#2"> Show/Hide Results </button>  
+<div id="2" class="collapse">
 
 ```{r}
 knitr::kable(cbind(cv_full))
@@ -166,8 +166,8 @@ landscapemetrics <- full_join(x = landscapemetrics_area,
    dplyr::select(-id)
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#3"> Show/Hide Results </button>  
+<div id="3" class="collapse">
 
 ```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
@@ -230,8 +230,8 @@ landscapemetrics <- full_join(x = landscapemetrics_area,
    dplyr::select(-id)
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
+<div id="4" class="collapse">
 
 ```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
@@ -299,8 +299,8 @@ landscapemetrics <- dplyr::full_join(x = area_landscapmetrics,
     arrange(area)
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#5"> Show/Hide Results </button>  
+<div id="5" class="collapse">
 
 ```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
@@ -358,8 +358,8 @@ sdmtools_result <- lapply(seq_along(binarized_landscape), FUN = function(x){
 })
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#6"> Show/Hide Results </button>  
+<div id="6" class="collapse">
 
 ```{r}
 knitr::kable(bind_rows(sdmtools_result))
@@ -385,8 +385,8 @@ SDMTools offers an equavilly convienent wrapper for this:
 knitr::kable(ClassStat(landscape))
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
-<div id="BlockName" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#7"> Show/Hide Results </button>  
+<div id="7" class="collapse">
 
 ```{r echo=FALSE}
 knitr::kable(ClassStat(landscape))
