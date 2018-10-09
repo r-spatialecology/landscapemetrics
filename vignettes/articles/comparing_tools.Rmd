@@ -342,7 +342,17 @@ Furthermore, SDMTools always considers the global landscape boundary, whereas la
 and FRAGSTATS provide options to control for it.
 
 ## Class metrics
+Again, with landscapemetrics one would use something like:
 
+```{r}
+patch_metrics <- calculate_lsm(landscape, what = "patch")
+``` 
+
+SDMTools offers an equavilly convienent wrapper for this:
+
+```{r}
+knitr::kable(ClassStat(landscape))
+```
 
 ## References 
 
