@@ -1653,9 +1653,11 @@
 <h2 class="hasAnchor">
 <a href="#class-metrics" class="anchor"></a>Class metrics</h2>
 <p>Again, with landscapemetrics one would use something like:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<pre><code>## Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</code></pre>
+<pre><code>## Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</code></pre>
 <p>SDMTools offers an equavilly convienent wrapper for this:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ClassStat">ClassStat</a></span>(landscape))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ClassStat">ClassStat</a></span>(landscape))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>

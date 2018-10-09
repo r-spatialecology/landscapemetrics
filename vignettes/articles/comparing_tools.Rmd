@@ -345,7 +345,7 @@ and FRAGSTATS provide options to control for it.
 Again, with landscapemetrics one would use something like:
 
 ```{r}
-patch_metrics <- calculate_lsm(landscape, what = "patch")
+patch_metrics <- calculate_lsm(landscape, what = "class")
 ``` 
 
 SDMTools offers an equavilly convienent wrapper for this:
