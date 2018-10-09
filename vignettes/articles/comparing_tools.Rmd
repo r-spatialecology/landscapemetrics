@@ -1,5 +1,5 @@
 ---
-title: "Differences FRAGSTATS|landscapemetrics"
+title: "Differences FRAGSTATS|landscapemetrics|SDMTools"
 date: "`r Sys.Date()`"
 output: 
   github_document:
@@ -10,9 +10,10 @@ library(landscapemetrics)
 library(landscapetools)
 library(patchwork)
 library(raster)
-library(dplyr)
-library(purrr)
+library(tidyverse)
 ```
+
+# Comparison with FRAGSTATS
 
 **landscapemetrics** re-implements landscape metrics as they are described in the **FRAGSTATS** software (McGarigal et al. 2012).
 Therefore, we compared our results with the results of **FRAGSTATS**. In the process, we recognized a few differences between the results. 
@@ -24,9 +25,9 @@ We list the metrics with deviations at the lowest level.
 Unfortunatly, we do not have access to the source code of **FRAGSTATS**. 
 Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.
 
-# General differences
+## General differences
 
-Firstly, the patch ID is ordered in a different way, most likely due to technical reasons (how connected patches are specified).
+Firstly, the patch ID is ordered in a different way, due to technical reasons (how connected patches are specified).
 Therefore, one has to pay attention comparing the results on patch level for **FRAGSTATS** and **landscapemetrics**.
 
 All double precision floating point numbers are rounded after the 4th decimal place in **FRAGSTATS**. 
@@ -35,9 +36,10 @@ Naturally, this can lead to small deviations between the results.
 
 There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i).
 While the results are identical for the single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and **FRAGSTATS** for the standard deviation and the coefficent of variation.
+**landscapemetrics** uses base R functions for that, so we should assume that the calculation of such indices is correct.
 
 In the following, we are comparing the cv for the patch area. 
-We are including the cv calculate from all patch areas and the actual output of **FRAGSTATS** as well as the output of **landscapemetrics**. 
+We are including the cv calculated from all patch areas and the actual output of **FRAGSTATS** as well as the output of **landscapemetrics**. 
 Interestingly, the cv calculated from all patches of **FRAGSTATS** is identical to the cv of **landscapemetrics**, but the actual result of **FRAGSTATS** is slightly different.
 
 ```{r}
@@ -51,22 +53,16 @@ cv <- function(x) {
 fragstats_calculated <- fragstats_patch_landscape %>%
     group_by(TYPE) %>%
     summarise(cv = cv(AREA)) %>%
-    set_names("class", "fragstats_calculated") %>%
-    mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                               class == "cls_2" ~ 2,
-                                               class == "cls_3" ~ 3)))
+    set_names("class", "fragstats_calculated") 
 
 # Output of FRAGSTATS
 fragstats_output <- fragstats_class_landscape %>% 
-    select(TYPE, AREA_CV) %>%
-    set_names("class", "fragstats_output") %>%
-    mutate(class = as.integer(dplyr::case_when(class == "cls_1" ~ 1,
-                                               class == "cls_2" ~ 2,
-                                               class == "cls_3" ~ 3)))
+    dplyr::select(TYPE, AREA_CV) %>%
+    set_names("class", "fragstats_output")
 
 # Output of landscapemetrics
 landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
-    select(class, value) %>%
+    dplyr::select(class, value) %>%
     set_names("class", "landscapemetrics")
 ```
 
@@ -79,7 +75,7 @@ cv_full <- full_join(x = fragstats,
                      y = landscapemetrics_output,
                      by = "class")
 
-print.data.frame(cv_full)
+knitr::kable(cv_full)
 ```
 
 As for the cv, the results for the sd are similiar. 
@@ -90,28 +86,17 @@ The result calculated from all patch areas of **FRAGSTATS** is identical to the 
 fragstats_calculated <- fragstats_patch_landscape %>%
   group_by(TYPE) %>%
   summarise(sd = sd(AREA)) %>%
-  set_names("class", "fragstats_calculated") %>%
-  mutate(class = as.integer(
-    case_when(class == "cls_1" ~ 1,
-              class == "cls_2" ~ 2,
-              class == "cls_3" ~ 3)
-  ))
+  set_names("class", "fragstats_calculated") 
 
 
 # Output of FRAGSTATS
 fragstats_output <- fragstats_class_landscape %>%
-  select(TYPE, AREA_SD) %>%
-  set_names("class", "fragstats_calculated") %>%
-  mutate(class = as.integer(
-    case_when(class == "cls_1" ~ 1,
-              class == "cls_2" ~ 2,
-              class == "cls_3" ~ 3)
-  ))
-
+  dplyr::select(TYPE, AREA_SD) %>%
+  set_names("class", "fragstats_output")
 
 # Output of landscapemetrics
 landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
-  select(class, value) %>%
+  dplyr::select(class, value) %>%
   set_names("class", "landscapemetrics")
 ```
 
@@ -124,10 +109,10 @@ cv_full <- full_join(x = fragstats,
                      y = landscapemetrics_output,
                      by = "class")
 
-print.data.frame(cv_full)
+knitr::kable(cv_full)
 ```
 
-# Specific differences
+## Specific differences
 
 ### CIRCLE metric
 
@@ -142,20 +127,20 @@ In the following, patches with the area of area = 0.0001 contain only 1 cell and
 ```{r}
 # Calculate patch area
 fragstats_area <- fragstats_patch_landscape %>%
-  select(PID, AREA) %>%
+  dplyr::select(PID, AREA) %>%
   set_names("id", "fragstats_area")
 
 landscapemetrics_area <- lsm_p_area(landscape) %>%
-  select(id, value) %>%
+  dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_area")
 
 # Calculate CIRCLE
 fragstats_circle <- fragstats_patch_landscape %>%
-  select(PID, CIRCLE) %>%
+  dplyr::select(PID, CIRCLE) %>%
   set_names("id", "fragstats_circle")
 
 landscapemetrics_circle <- lsm_p_circle(landscape) %>%
-  select(id, value) %>%
+  dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_circle")
 ```
 
@@ -163,17 +148,16 @@ landscapemetrics_circle <- lsm_p_circle(landscape) %>%
 fragstats <- full_join(x = fragstats_area, 
                        y = fragstats_circle, 
                        by = "id") %>%
-    arrange(fragstats_area)
+    arrange(fragstats_area) %>% 
+   dplyr::select(-id)
 
 landscapemetrics <- full_join(x = landscapemetrics_area, 
                               y = landscapemetrics_circle, 
                               by = "id") %>%
-   arrange(landscapemetrics_area)
+   arrange(landscapemetrics_area) %>% 
+   dplyr::select(-id)
 
-bind_cols(landscapemetrics, fragstats)
-
-print.data.frame(fragstats)
-print.data.frame(landscapemetrics)
+knitr::kable(cbind(fragstats, landscapemetrics))
 ```
 
 #### Error propagation (for metrics based on **CIRCLE** metric)
@@ -202,20 +186,20 @@ In the following table, patches with an area of area = 0.0001 consist of only on
 ```{r}
 # Calculate patch area
 fragstats_area <- fragstats_patch_landscape %>%
-  select(PID, AREA) %>%
+  dplyr::select(PID, AREA) %>%
   set_names("id", "fragstats_area")
 
 landscapemetrics_area <- lsm_p_area(landscape) %>%
-  select(id, value) %>%
+  dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_area")
 
 # Calculate GYRATE
 fragstats_circle <- fragstats_patch_landscape %>%
-  select(PID, GYRATE) %>%
+  dplyr::select(PID, GYRATE) %>%
   set_names("id", "fragstats_gyrate")
 
 landscapemetrics_circle <- lsm_p_gyrate(landscape) %>%
-  select(id, value) %>%
+  dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_gyrate")
 ```
 
@@ -223,15 +207,16 @@ landscapemetrics_circle <- lsm_p_gyrate(landscape) %>%
 fragstats <- full_join(x = fragstats_area,
                        y = fragstats_circle,
                        by = "id") %>%
-  arrange(fragstats_area)
+  arrange(fragstats_area)%>% 
+   dplyr::select(-id)
 
 landscapemetrics <- full_join(x = landscapemetrics_area,
                               y = landscapemetrics_circle,
                               by = "id") %>%
-  arrange(landscapemetrics_area)
+  arrange(landscapemetrics_area)%>% 
+   dplyr::select(-id)
 
-print.data.frame(fragstats)
-print.data.frame(landscapemetrics)
+knitr::kable(cbind(fragstats, landscapemetrics))
 
 ```
 
@@ -266,7 +251,7 @@ Nevertheless, the differences between the softwares are only based on different 
 ```{r}
 # Output of FRAGSTATS
 fragstats <- fragstats_patch_landscape %>%
-    select(PID, AREA, PERIM, PARA) %>%
+    dplyr::select(PID, AREA, PERIM, PARA) %>%
     set_names("id", "area", "perim", "para") %>%
     mutate(para_calculated_ha = perim / area, 
            para_calculated_m = perim / (area * 10000)) %>%
@@ -274,15 +259,15 @@ fragstats <- fragstats_patch_landscape %>%
 
 # Output of landscapemetrics
 area_landscapmetrics <- lsm_p_area(landscape) %>%
-    select(id, value) %>%
+    dplyr::select(id, value) %>%
     set_names("id", "area")
 
 perim_landscapmetrics <- lsm_p_perim(landscape) %>%
-    select(id, value) %>%
+    dplyr::select(id, value) %>%
     set_names("id", "perim")
 
 para_landscapemetrics <- lsm_p_para(landscape) %>%
-    select(id, value) %>%
+    dplyr::select(id, value) %>%
     set_names("id", "para")
 
 landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
@@ -296,8 +281,7 @@ landscapemetrics <- dplyr::full_join(x = area_landscapmetrics,
 ```
 
 ```{r echo = FALSE}
-print.data.frame(fragstats)
-print.data.frame(landscapemetrics)
+knitr::kable(cbind(fragstats, landscapemetrics))
 ```
 
 #### Error propagation (for metrics based on **PARA** metric)
@@ -306,7 +290,60 @@ print.data.frame(landscapemetrics)
 - PARA_MN (`lsm_c_para_mn`)
 - PARA_SD (`lsm_c_para_sd`)
 
+# Comparison with SDMTools
 
-### References 
+SDMTools (still available, but apparently not longer maintained) offers landscape metrics
+on patch and class level. However, it does not return the same results as FRAGSTATS
+and results between the two have therefore be done with caution. The main reason
+for this are different standards for defaults and that SDMTools returns results in
+map units and not in m^2/hectar, as FRAGSTATS/landscapemetrics.
+This also explains differences between our package and SDMTools.
+
+[Joseph Stachelek](https://github.com/jsta) was so nice to remind us of these issues
+and provided the comparison.
+
+## Patch metrics
+To get all metrics on patch level with landscapemetrics you could for example do:
+
+```{r}
+patch_metrics <- calculate_lsm(landscape, what = "patch")
+``` 
+To get to the same level of information with SDMTools, you have to make a binary
+landscape for every class in your landscape, perform connected components labelling
+on it and then calculate the patch metrics. 
+landscapemetrics offers for such tasks the function `get_patches` and for the metrics
+itself all of that is done internally.
+
+```{r}
+library(SDMTools)
+
+# binarize every class in the landscape 
+binarized_landscape <- lapply(unique(landscape), FUN = function(x){
+  tmp_land <- landscape
+  raster::values(tmp_land)[raster::values(tmp_land) != x] <- 0
+  raster::values(tmp_land)[raster::values(tmp_land) == x] <- 1
+  tmp_land
+})
+
+# calculate metrics
+sdmtools_result <- lapply(seq_along(binarized_landscape), FUN = function(x){
+  ccl_landscape <- ConnCompLabel(binarized_landscape[[x]])
+  patch_metrics <- PatchStat(ccl_landscape)
+  patch_metrics$class <- x
+  patch_metrics
+})
+
+knitr::kable(bind_rows(sdmtools_result))
+```
+
+*Note:* All metrics that consider the area in SDMTools need to be divided by 10000 to go from m^2 to hectar.
+Only this makes a comparison to landscapemetrics (and thus FRAGSTATS) possible.
+Furthermore, SDMTools always considers the global landscape boundary, whereas landscapemetrics
+and FRAGSTATS provide options to control for it.
+
+## Class metrics
+
+
+## References 
 
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: http://www.umass.edu/landeco/research/fragstats/fragstats.html

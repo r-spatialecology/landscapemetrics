@@ -189,7 +189,7 @@ navbar:
          href: articles/articles/general-background.html
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
-         href: articles/articles/comparing_fragstats_landscapemetrics.html
+         href: articles/articles/comparing_tools.html
        - text: "Utility functions"
          icon: fa-comment
          href: articles/articles/utility.html

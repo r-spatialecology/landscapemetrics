@@ -61,7 +61,7 @@
       </a>
     </li>
     <li>
-      <a href="../articles/articles/comparing_fragstats_landscapemetrics.html">
+      <a href="../articles/articles/comparing_tools.html">
         <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
@@ -222,7 +222,7 @@ lsm_l_enn()</code></pre>
 <a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt;  9     1 patch     1     9 perim      8</span></a>
 <a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 10     1 patch     2    10 perim     38</span></a>
 <a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; # ... with 17 more rows</span></a></code></pre></div>
-<p>The metrics are encoded using abbreviations in the result tibble. In case you want to match the full name of each metric, we provide a tibble (<code>lsm_abbreciations_names</code>) you can join with the result tibble using the <code>metric</code> column. The this also adds the type of the metrics.</p>
+<p>The metrics are encoded using abbreviations in the result tibble. In case you want to match the full name of each metric, we provide a tibble (<code>lsm_abbreviations_names</code>) you can join with the result tibble using the <code>metric</code> column. The this also adds the type of the metrics.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Calculate metric</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">result &lt;-<span class="st"> </span><span class="kw"><a href="../reference/lsm_c_dcad.html">lsm_c_dcad</a></span>(landscape)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"></a>
