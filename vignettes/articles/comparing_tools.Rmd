@@ -64,9 +64,7 @@ fragstats_output <- fragstats_class_landscape %>%
 landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
     dplyr::select(class, value) %>%
     set_names("class", "landscapemetrics")
-```
 
-```{r echo = FALSE}
 fragstats <- full_join(x = fragstats_output,
                        y = fragstats_calculated, 
                        by = "class") 
@@ -74,9 +72,16 @@ fragstats <- full_join(x = fragstats_output,
 cv_full <- full_join(x = fragstats, 
                      y = landscapemetrics_output,
                      by = "class")
-
-knitr::kable(cv_full)
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
+knitr::kable(cbind(cv_full))
+```
+
+</div>
 
 As for the cv, the results for the sd are similiar. 
 The result calculated from all patch areas of **FRAGSTATS** is identical to the result of **landscapemetrics**, but not the actual result of **FRAGSTATS**.
@@ -98,9 +103,7 @@ fragstats_output <- fragstats_class_landscape %>%
 landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
   dplyr::select(class, value) %>%
   set_names("class", "landscapemetrics")
-```
 
-```{r echo = FALSE}
 fragstats <- full_join(x = fragstats_output, 
                        y = fragstats_calculated,
                        by = "class")
@@ -108,9 +111,16 @@ fragstats <- full_join(x = fragstats_output,
 cv_full <- full_join(x = fragstats,
                      y = landscapemetrics_output,
                      by = "class")
-
-knitr::kable(cv_full)
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
+knitr::kable(cbind(cv_full))
+```
+
+</div>
 
 ## Specific differences
 
@@ -142,9 +152,7 @@ fragstats_circle <- fragstats_patch_landscape %>%
 landscapemetrics_circle <- lsm_p_circle(landscape) %>%
   dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_circle")
-```
 
-```{r echo = FALSE}
 fragstats <- full_join(x = fragstats_area, 
                        y = fragstats_circle, 
                        by = "id") %>%
@@ -156,9 +164,16 @@ landscapemetrics <- full_join(x = landscapemetrics_area,
                               by = "id") %>%
    arrange(landscapemetrics_area) %>% 
    dplyr::select(-id)
+```
 
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
 ```
+
+</div>
 
 #### Error propagation (for metrics based on **CIRCLE** metric)
 
@@ -201,9 +216,7 @@ fragstats_circle <- fragstats_patch_landscape %>%
 landscapemetrics_circle <- lsm_p_gyrate(landscape) %>%
   dplyr::select(id, value) %>%
   set_names("id", "landscapemetrics_gyrate")
-```
 
-```{r echo = FALSE}
 fragstats <- full_join(x = fragstats_area,
                        y = fragstats_circle,
                        by = "id") %>%
@@ -215,10 +228,16 @@ landscapemetrics <- full_join(x = landscapemetrics_area,
                               by = "id") %>%
   arrange(landscapemetrics_area)%>% 
    dplyr::select(-id)
-
-knitr::kable(cbind(fragstats, landscapemetrics))
-
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
+knitr::kable(cbind(fragstats, landscapemetrics))
+```
+
+</div>
 
 Additionally, we recognized small differences for all other patches as well. However, 
 we could not find an explanation for this difference, yet.
@@ -280,9 +299,14 @@ landscapemetrics <- dplyr::full_join(x = area_landscapmetrics,
     arrange(area)
 ```
 
-```{r echo = FALSE}
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
 ```
+
+</div>
 
 #### Error propagation (for metrics based on **PARA** metric)
 
@@ -332,9 +356,16 @@ sdmtools_result <- lapply(seq_along(binarized_landscape), FUN = function(x){
   patch_metrics$class <- x
   patch_metrics
 })
+```
 
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r}
 knitr::kable(bind_rows(sdmtools_result))
 ```
+
+</div>
 
 *Note:* All metrics that consider the area in SDMTools need to be divided by 10000 to go from m^2 to hectar.
 Only this makes a comparison to landscapemetrics (and thus FRAGSTATS) possible.
@@ -350,10 +381,21 @@ patch_metrics <- calculate_lsm(landscape, what = "class")
 
 SDMTools offers an equavilly convienent wrapper for this:
 
-```{r}
+```{r eval=FALSE}
 knitr::kable(ClassStat(landscape))
 ```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName"> Show/Hide Results </button>  
+<div id="BlockName" class="collapse">
+
+```{r echo=FALSE}
+knitr::kable(ClassStat(landscape))
+```
+
+</div>
+
 
 ## References 
 
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+

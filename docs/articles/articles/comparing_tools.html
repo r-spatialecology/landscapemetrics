@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -176,7 +176,20 @@
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># Output of landscapemetrics</span></a>
 <a class="sourceLine" id="cb1-19" data-line-number="19">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-20" data-line-number="20"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_output,</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">                       <span class="dt">y =</span> fragstats_calculated, </a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">                       <span class="dt">by =</span> <span class="st">"class"</span>) </a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">cv_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats, </a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">                     <span class="dt">y =</span> landscapemetrics_output,</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29">                     <span class="dt">by =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">cbind</span>(cv_full))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>
@@ -205,23 +218,37 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>As for the cv, the results for the sd are similiar. The result calculated from all patch areas of <strong>FRAGSTATS</strong> is identical to the result of <strong>landscapemetrics</strong>, but not the actual result of <strong>FRAGSTATS</strong>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># SD calculated from patch values of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_SD) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># SD calculated from patch values of FRAGSTATS</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw">sd</span>(AREA)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># Output of FRAGSTATS</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_SD) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># Output of landscapemetrics</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_output, </a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">                       <span class="dt">y =</span> fragstats_calculated,</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">                       <span class="dt">by =</span> <span class="st">"class"</span>)</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">cv_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats,</a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">                     <span class="dt">y =</span> landscapemetrics_output,</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">                     <span class="dt">by =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">cbind</span>(cv_full))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>
@@ -251,6 +278,7 @@
 </tbody>
 </table>
 </div>
+</div>
 <div id="specific-differences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#specific-differences" class="anchor"></a>Specific differences</h2>
@@ -262,23 +290,40 @@
 <p>[…] CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. […]</p>
 </blockquote>
 <p>According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in <strong>FRAGSTATS</strong> patches containing only one cell equal CIRCLE = 0. In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co"># Calculate CIRCLE</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, CIRCLE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_circle.html">lsm_p_circle</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Calculate CIRCLE</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, CIRCLE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_circle.html">lsm_p_circle</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_area, </a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">                       <span class="dt">y =</span> fragstats_circle, </a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">                       <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="st">    </span><span class="kw">arrange</span>(fragstats_area) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">landscapemetrics &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> landscapemetrics_area, </a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">                              <span class="dt">y =</span> landscapemetrics_circle, </a>
+<a class="sourceLine" id="cb5-27" data-line-number="27">                              <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="st">   </span><span class="kw">arrange</span>(landscapemetrics_area) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">cbind</span>(fragstats, landscapemetrics))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">fragstats_area</th>
@@ -451,6 +496,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <div id="error-propagation-for-metrics-based-on-circle-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-circle-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CIRCLE</strong> metric)</h4>
@@ -482,23 +528,40 @@
 <p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
 <p>However, for patches containing a single cell <strong>FRAGSTATS</strong> returns a value of GYRATE = 0.5. In the following table, patches with an area of area = 0.0001 consist of only one cell.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co"># Calculate GYRATE</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co"># Calculate GYRATE</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_area,</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">                       <span class="dt">y =</span> fragstats_circle,</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">                       <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="st">  </span><span class="kw">arrange</span>(fragstats_area)<span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">landscapemetrics &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> landscapemetrics_area,</a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">                              <span class="dt">y =</span> landscapemetrics_circle,</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">                              <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="st">  </span><span class="kw">arrange</span>(landscapemetrics_area)<span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">cbind</span>(fragstats, landscapemetrics))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">fragstats_area</th>
@@ -671,6 +734,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>Additionally, we recognized small differences for all other patches as well. However, we could not find an explanation for this difference, yet.</p>
 <div id="error-propagation-for-metrics-based-on-gyrate-metric" class="section level4">
 <h4 class="hasAnchor">
@@ -704,35 +768,40 @@
 </blockquote>
 <p>Contrastingly, the output of <strong>FRAGSTATS</strong> gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
 <p>We implemented PARA as documented in the <strong>FRAGSTATS</strong> manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the <strong>FRAGSTATS</strong> output to meters per square meters.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_perim.html">lsm_p_perim</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_para.html">lsm_p_para</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
-<a class="sourceLine" id="cb5-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
-<a class="sourceLine" id="cb5-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="st">    </span><span class="kw">full_join</span>(para_landscapemetrics, </a>
-<a class="sourceLine" id="cb5-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb5-28" data-line-number="28">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="st">    </span><span class="kw">arrange</span>(area)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_perim.html">lsm_p_perim</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_para.html">lsm_p_para</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
+<a class="sourceLine" id="cb9-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="st">    </span><span class="kw">full_join</span>(para_landscapemetrics, </a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb9-28" data-line-number="28">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="st">    </span><span class="kw">arrange</span>(area)</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">cbind</span>(fragstats, landscapemetrics))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">id</th>
@@ -1129,6 +1198,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <div id="error-propagation-for-metrics-based-on-para-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-para-metric" class="anchor"></a>Error propagation (for metrics based on <strong>PARA</strong> metric)</h4>
@@ -1153,31 +1223,34 @@
 <h2 class="hasAnchor">
 <a href="#patch-metrics" class="anchor"></a>Patch metrics</h2>
 <p>To get all metrics on patch level with landscapemetrics you could for example do:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
 <p>To get to the same level of information with SDMTools, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics. landscapemetrics offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(SDMTools)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(SDMTools)</a></code></pre></div>
 <pre><code>## 
 ## Attaching package: 'SDMTools'</code></pre>
 <pre><code>## The following object is masked from 'package:raster':
 ## 
 ##     distance</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># binarize every class in the landscape </span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">binarized_landscape &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">unique</span>(landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  tmp_land &lt;-<span class="st"> </span>landscape</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">  raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">!=</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">  raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">==</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">  tmp_land</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">})</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co"># calculate metrics</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">sdmtools_result &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(binarized_landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">  ccl_landscape &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ConnCompLabel">ConnCompLabel</a></span>(binarized_landscape[[x]])</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">  patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/PatchStat">PatchStat</a></span>(ccl_landscape)</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13">  patch_metrics<span class="op">$</span>class &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">  patch_metrics</a>
-<a class="sourceLine" id="cb10-15" data-line-number="15">})</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># binarize every class in the landscape </span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">binarized_landscape &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">unique</span>(landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  tmp_land &lt;-<span class="st"> </span>landscape</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">  raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">!=</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">  raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">==</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">  tmp_land</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">})</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co"># calculate metrics</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">sdmtools_result &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">seq_along</span>(binarized_landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11">  ccl_landscape &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ConnCompLabel">ConnCompLabel</a></span>(binarized_landscape[[x]])</a>
+<a class="sourceLine" id="cb15-12" data-line-number="12">  patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/PatchStat">PatchStat</a></span>(ccl_landscape)</a>
+<a class="sourceLine" id="cb15-13" data-line-number="13">  patch_metrics<span class="op">$</span>class &lt;-<span class="st"> </span>x</a>
+<a class="sourceLine" id="cb15-14" data-line-number="14">  patch_metrics</a>
+<a class="sourceLine" id="cb15-15" data-line-number="15">})</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">patchID</th>
@@ -1647,17 +1720,22 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><em>Note:</em> All metrics that consider the area in SDMTools need to be divided by 10000 to go from m^2 to hectar. Only this makes a comparison to landscapemetrics (and thus FRAGSTATS) possible. Furthermore, SDMTools always considers the global landscape boundary, whereas landscapemetrics and FRAGSTATS provide options to control for it.</p>
 </div>
 <div id="class-metrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#class-metrics" class="anchor"></a>Class metrics</h2>
 <p>Again, with landscapemetrics one would use something like:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"class"</span>)</a></code></pre></div>
 <pre><code>## Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</code></pre>
 <pre><code>## Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</code></pre>
 <p>SDMTools offers an equavilly convienent wrapper for this:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ClassStat">ClassStat</a></span>(landscape))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/SDMTools/topics/ClassStat">ClassStat</a></span>(landscape))</a></code></pre></div>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#BlockName">
+Show/Hide Results
+</button>
+<div id="BlockName" class="collapse">
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>
@@ -1822,6 +1900,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
