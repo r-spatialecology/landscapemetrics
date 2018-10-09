@@ -130,8 +130,13 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
             filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
         }
 
-        patch_landscape <- raster::setValues(x = landscape_empty,
-                                             values = filter_raster)
+        if(lsm_to_disk == TRUE){
+            set_values <- function(x){filter_raster}
+            patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
+        } else {
+            patch_landscape <- raster::setValues(x = landscape_empty,
+                                                 values = filter_raster)
+        }
 
         names(patch_landscape) <- paste0("Class_", what)
 
@@ -156,20 +161,12 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
 
 
             if(lsm_to_disk == TRUE){
-                tr <- raster::blockSize(landscape_empty)
-                s <- raster::writeStart(landscape_empty, filename=tempfile('tmp.grp'),  overwrite=TRUE)
-                for (i in 1:tr$n) {
-                    v <- raster::getValuesBlock(landscape_empty, row=tr$row[i], nrows=tr$nrows[i])
-                    s <- raster::writeValues(s, v, tr$row[i])
+                set_values <- function(x){filter_raster}
+                patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
+            } else {
+                patch_landscape <- raster::setValues(x = landscape_empty,
+                                                     values = filter_raster)
                 }
-                landscape_empty <- raster::writeStop(s)
-            }
-
-            patch_landscape <- landscape_empty
-            raster::values(patch_landscape) <- filter_raster
-
-                # raster::setValues(x = landscape_empty,
-                #                                  values = filter_raster)
 
             names(patch_landscape) <- paste0("Class_", what)
 
@@ -188,5 +185,6 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
         return(patch_landscape)
     }
 }
-
-# get_patches_int(landscape, what = "all", directions = 8, lsm_to_disk = TRUE)
+#
+library(landscapetools)
+util_facetplot(get_patches_int(landscape, what = "all", directions = 8, lsm_to_disk = TRUE), div_scales = T)
