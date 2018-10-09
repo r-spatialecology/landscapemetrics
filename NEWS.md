@@ -1,5 +1,6 @@
 # landscapemetrics 0.3
 - `check_landscape` function to make sure your landscapes are feasible for landscapemetrics
+- Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
 
 # landscapemetrics 0.2
 

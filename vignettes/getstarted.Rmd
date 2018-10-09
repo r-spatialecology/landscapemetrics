@@ -25,7 +25,7 @@ library(raster)
 library(dplyr)
 ```
 
-# Using **landscapemetrics**
+## Design
 
 All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn`for the euclidean nearest-neighbor distance):
 
@@ -58,6 +58,39 @@ All functions return an identical structured tibble:
 
 </p>
 
+## Checking your landscape
+Before using **landscapemetrics** and calculating landscape metrics in general,
+it makes sense to check your landscape:
+
+```{r}
+# Import raster
+landscape_raster <- landscape
+# for local file: raster("pathtoyourraster/raster.asc")
+# ... or any other raster file type, geotiff, ...
+
+# Check your landscape
+check_landscape(landscape_raster)
+```
+
+If your landscape has some properties that restrict the calculation or interpretation
+of landscape metrics, that should be detected with `check_landscape`:
+
+```{r}
+# Check your landscape
+check_landscape(landscapemetrics::podlasie_ccilc)
+```
+
+The **requirements** to calculate meaningful landscape metrics are:
+
+1. The distance units of your projection are **meter**, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function..
+1. Your raster encodes landscape classes as integers (1, 2, 3, 4, ..., *n*).
+1. Landscape metrics describe *categorical* landscapes, that means that your landscape needs to be classified (we throw a warning if you have more than 30 classes to make sure you work with a classified landscape)
+
+## Using **landscapemetrics**
+
+If you are sure that your landscape is suitable for the calculation of landscape metrics,
+**landscapemetrics** makes this quite easy:
+
 ```{r, message=FALSE}
 # Import raster
 landscape_raster <- landscape
@@ -82,11 +115,7 @@ result_full_name <- left_join(x = result,
 result_full_name
 ```
 
-## Important information about using **landscapemetrics**
-
-The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function.
-
-## Using **landscapemetrics** in a tidy workflow
+### Using **landscapemetrics** in a tidy workflow
 
 Every function in *landscapemetrics* accept data as its first argument, which makes piping a natural workflow. A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.
 
