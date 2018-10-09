@@ -43,53 +43,61 @@
 #' @rdname get_patches
 #'
 #' @export
-get_patches <- function(landscape, what, directions)  UseMethod("get_patches")
+get_patches <- function(landscape, what, directions, lsm_to_disk)  UseMethod("get_patches")
 
 
 #' @name get_patches
 #' @export
 get_patches.RasterLayer <- function(landscape,
                                 what = "all",
-                                directions = 8) {
+                                directions = 8,
+                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
     raster::as.list(get_patches_int(landscape,
                 what = what,
-                directions = directions))
+                directions = directions,
+                lsm_to_disk = lsm_to_disk))
 }
 
 #' @name get_patches
 #' @export
 get_patches.RasterStack <- function(landscape,
                                 what = "all",
-                                directions = 8) {
+                                directions = 8,
+                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            what = what,
-           directions = directions)
+           directions = directions,
+           lsm_to_disk = lsm_to_disk)
 }
 
 #' @name get_patches
 #' @export
 get_patches.RasterBrick <- function(landscape,
                                 what = "all",
-                                directions = 8) {
+                                directions = 8,
+                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            what = what,
-           directions = directions)
+           directions = directions,
+           lsm_to_disk = lsm_to_disk)
 }
 
 #' @name get_patches
 #' @export
 get_patches.list <- function(landscape,
                          what = "all",
-                         directions = 8) {
+                         directions = 8,
+                         lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
 
     lapply(X = landscape,
            FUN = get_patches_int,
            what = what,
-           directions = directions)
+           directions = directions,
+           lsm_to_disk = lsm_to_disk)
 }
 
 get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
