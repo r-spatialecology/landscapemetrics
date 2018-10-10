@@ -7,9 +7,9 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
-#' @param lsm_to_disk Logical argument, if FALSE results of get_patches are hold
+#' @param ccl_to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
-#' Can be set with a global option, e.g. `option(lsm_to_disk = TRUE)`. See Details.
+#' Can be set with a global option, e.g. `option(ccl_to_disk = TRUE)`. See Details.
 #'
 #' @details
 #' Searches for connected patches (neighbouring cells of the same class i).
@@ -23,7 +23,7 @@
 #' Landscape metrics rely on the delineation of patches. Hence, `get_patches` is
 #' heavily used in **landscapemetrics**. As raster can be quite big, the fact that
 #' `get_patches` creates a copy of the raster for each class in a landscape becomes
-#' a burden for computer memory. Hence, the argument *lsm_to_disk* allows to
+#' a burden for computer memory. Hence, the argument *ccl_to_disk* allows to
 #' store the results of the connected labeling algorithm on disk. Furthermore,
 #' this option can be set globally, so that every function that internally uses
 #' `get_patches` can make use of that.
@@ -54,7 +54,7 @@
 #' @rdname get_patches
 #'
 #' @export
-get_patches <- function(landscape, what, directions, lsm_to_disk)  UseMethod("get_patches")
+get_patches <- function(landscape, what, directions, ccl_to_disk)  UseMethod("get_patches")
 
 
 #' @name get_patches
@@ -62,11 +62,11 @@ get_patches <- function(landscape, what, directions, lsm_to_disk)  UseMethod("ge
 get_patches.RasterLayer <- function(landscape,
                                 what = "all",
                                 directions = 8,
-                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
     raster::as.list(get_patches_int(landscape,
                 what = what,
                 directions = directions,
-                lsm_to_disk = lsm_to_disk))
+                ccl_to_disk = ccl_to_disk))
 }
 
 #' @name get_patches
@@ -74,13 +74,13 @@ get_patches.RasterLayer <- function(landscape,
 get_patches.RasterStack <- function(landscape,
                                 what = "all",
                                 directions = 8,
-                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            what = what,
            directions = directions,
-           lsm_to_disk = lsm_to_disk)
+           ccl_to_disk = ccl_to_disk)
 }
 
 #' @name get_patches
@@ -88,13 +88,13 @@ get_patches.RasterStack <- function(landscape,
 get_patches.RasterBrick <- function(landscape,
                                 what = "all",
                                 directions = 8,
-                                lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            what = what,
            directions = directions,
-           lsm_to_disk = lsm_to_disk)
+           ccl_to_disk = ccl_to_disk)
 }
 
 #' @name get_patches
@@ -102,16 +102,16 @@ get_patches.RasterBrick <- function(landscape,
 get_patches.list <- function(landscape,
                          what = "all",
                          directions = 8,
-                         lsm_to_disk = getOption("lsm_to_disk", default = FALSE)) {
+                         ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = landscape,
            FUN = get_patches_int,
            what = what,
            directions = directions,
-           lsm_to_disk = lsm_to_disk)
+           ccl_to_disk = ccl_to_disk)
 }
 
-get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
+get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
 
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
@@ -149,7 +149,7 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
             filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
         }
 
-        if(lsm_to_disk == TRUE){
+        if(ccl_to_disk == TRUE){
             set_values <- function(x){filter_raster}
             patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
         } else {
@@ -179,7 +179,7 @@ get_patches_int <- function(landscape, what, directions, lsm_to_disk) {
             }
 
 
-            if(lsm_to_disk == TRUE){
+            if(ccl_to_disk == TRUE){
                 set_values <- function(x){filter_raster}
                 patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
             } else {
