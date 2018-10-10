@@ -7,6 +7,9 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param what Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
+#' @param lsm_to_disk Logical argument, if FALSE results of get_patches are hold
+#' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
+#' Can be set with a global option, e.g. `option(lsm_to_disk = TRUE)`. See Details.
 #'
 #' @details
 #' Searches for connected patches (neighbouring cells of the same class i).
@@ -16,6 +19,14 @@
 #' The underlying C code comes from the \code{SDMTools} package
 #' (VanDerWal *et al.* 2014) and we appreciate their effort for implementing
 #' this efficient connected labeling algorithm.
+#'
+#' Landscape metrics rely on the delineation of patches. Hence, `get_patches` is
+#' heavily used in **landscapemetrics**. As raster can be quite big, the fact that
+#' `get_patches` creates a copy of the raster for each class in a landscape becomes
+#' a burden for computer memory. Hence, the argument *lsm_to_disk* allows to
+#' store the results of the connected labeling algorithm on disk. Furthermore,
+#' this option can be set globally, so that every function that internally uses
+#' `get_patches` can make use of that.
 #'
 #' @references
 #' VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
