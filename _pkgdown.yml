@@ -22,7 +22,7 @@ reference:
     - fragstats_landscape_podlasie
   - title: Options for landscapemetrics
     contents:
-    - option_landscapemetrics
+    - options_landscapemetrics
   - title: Auxiliary/Utility functions
     contents:
     - get_adjacencies
