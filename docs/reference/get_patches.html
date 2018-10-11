@@ -94,7 +94,7 @@
       </a>
     </li>
     <li>
-      <a href="../articles/articles/comparing_tools.html">
+      <a href="../articles/articles/comparing_fragstats_landscapemetrics.html">
         <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
@@ -177,22 +177,26 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>)
+    <pre class="usage"><span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>directions</span>, <span class='no'>ccl_to_disk</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
 <span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>ccl_to_disk</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ccl_to_disk"</span>, <span class='kw'>default</span> <span class='kw'>=</span>
+  <span class='fl'>FALSE</span>))
 
 <span class='co'># S3 method for RasterStack</span>
 <span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>ccl_to_disk</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ccl_to_disk"</span>, <span class='kw'>default</span> <span class='kw'>=</span>
+  <span class='fl'>FALSE</span>))
 
 <span class='co'># S3 method for RasterBrick</span>
 <span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
+  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>ccl_to_disk</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ccl_to_disk"</span>, <span class='kw'>default</span> <span class='kw'>=</span>
+  <span class='fl'>FALSE</span>))
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+<span class='fu'>get_patches</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+  <span class='kw'>ccl_to_disk</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"ccl_to_disk"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,6 +215,12 @@ class value. See Details.</p></td>
       <td><p>The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
+    <tr>
+      <th>ccl_to_disk</th>
+      <td><p>Logical argument, if FALSE results of get_patches are hold
+in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
+Can be set with a global option, e.g. <code>option(ccl_to_disk = TRUE)</code>. See Details.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -226,6 +236,13 @@ the value 1 - n. All cells not belonging to the class are <code>NA</code>.
 The underlying C code comes from the <code>SDMTools</code> package
 (VanDerWal <em>et al.</em> 2014) and we appreciate their effort for implementing
 this efficient connected labeling algorithm.</p>
+<p>Landscape metrics rely on the delineation of patches. Hence, <code>get_patches</code> is
+heavily used in <strong>landscapemetrics</strong>. As raster can be quite big, the fact that
+<code>get_patches</code> creates a copy of the raster for each class in a landscape becomes
+a burden for computer memory. Hence, the argument <em>ccl_to_disk</em> allows to
+store the results of the connected labeling algorithm on disk. Furthermore,
+this option can be set globally, so that every function that internally uses
+<code>get_patches</code> can make use of that.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

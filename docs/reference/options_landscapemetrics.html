@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PARA_SD (class level) — lsm_c_para_sd • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<title>options_landscapemetrics — options_landscapemetrics • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="PARA_SD (class level) — lsm_c_para_sd" />
+<meta property="og:title" content="options_landscapemetrics — options_landscapemetrics" />
 
-<meta property="og:description" content="Standard deviation perimeter-area ratio (Shape metric)" />
+<meta property="og:description" content="Sets global options for landscapemetrics" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -166,96 +166,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PARA_SD (class level)</h1>
+    <h1>options_landscapemetrics</h1>
     
-    <div class="hidden name"><code>lsm_c_para_sd.Rd</code></div>
+    <div class="hidden name"><code>options_landscapemetrics.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Standard deviation perimeter-area ratio (Shape metric)</p>
+    <p>Sets global options for landscapemetrics</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='no'>directions</span>)
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>)</pre>
+    <pre class="usage"><span class='fu'>options_landscapemetrics</span>(<span class='kw'>ccl_to_disk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>landscape</th>
-      <td><p>Raster* Layer, Stack, Brick or a list of rasterLayers.</p></td>
-    </tr>
-    <tr>
-      <th>directions</th>
-      <td><p>The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).</p></td>
+      <th>ccl_to_disk</th>
+      <td><p>Logical argument, if FALSE results of get_patches are hold
+in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
+Can be set with a global option, e.g. <code>option(ccl_to_disk = TRUE)</code>. See Details.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble</p>
+    <p>Global option to be used internally in the package</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$PARA_{SD} = sd(PARA[patch_{ij}]$$
-where \(PARA[patch_{ij}]\) is the perimeter area ratio of each patch.</p>
-<p>PARA_SD is a 'Shape metric'. It summarises each class as the standard deviation of
-each patch belonging to class i. The perimeter-area ratio describes the patch complexity
-in a straightforward way. However, because it is not standarised to a certain shape
-(e.g. a square), it is not scale independent, meaning that increasing the patch size
-while not changing the patch form will change the ratio.</p>
-<h3>Units</h3>
-None
-<h3>Range</h3>
-PARA_SD &gt;= 0
-<h3>Behaviour</h3>
-Equals PARA_SD = 0 if the perimeter-area ratio is identical for
-all patches. Increases, without limit, as the variation of the perimeter-area ratio
-increases.
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='lsm_p_para.html'>lsm_p_para</a></code>,
-<code>sd</code>, <br />
-<code><a href='lsm_c_para_mn.html'>lsm_c_para_mn</a></code>,
-<code><a href='lsm_c_para_cv.html'>lsm_c_para_cv</a></code>, <br />
-<code><a href='lsm_l_para_mn.html'>lsm_l_para_mn</a></code>,
-<code><a href='lsm_l_para_sd.html'>lsm_l_para_sd</a></code>,
-<code><a href='lsm_l_para_cv.html'>lsm_l_para_cv</a></code></p></div>
+    <p>Landscape metrics rely on the delineation of patches. Hence, <code>get_patches</code> is
+heavily used in <strong>landscapemetrics</strong>. As raster can be quite big, the fact that
+<code>get_patches</code> creates a copy of the raster for each class in a landscape becomes
+a burden for computer memory. Hence, the argument <em>ccl_to_disk</em> allows to
+store the results of the connected labeling algorithm on disk. Furthermore,
+this option can be set globally, so that every function that internally uses
+<code>get_patches</code> can make use of that.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>lsm_c_para_sd</span>(<span class='no'>landscape</span>)</div><div class='output co'>#&gt; [38;5;246m# A tibble: 3 x 6[39m
-#&gt;   layer level class    id metric  value
-#&gt;   [3m[38;5;246m&lt;int&gt;[39m[23m [3m[38;5;246m&lt;chr&gt;[39m[23m [3m[38;5;246m&lt;int&gt;[39m[23m [3m[38;5;246m&lt;int&gt;[39m[23m [3m[38;5;246m&lt;chr&gt;[39m[23m   [3m[38;5;246m&lt;dbl&gt;[39m[23m
-#&gt; [38;5;250m1[39m     1 class     1    [31mNA[39m para_sd 1.23 
-#&gt; [38;5;250m2[39m     1 class     2    [31mNA[39m para_sd 1.16 
-#&gt; [38;5;250m3[39m     1 class     3    [31mNA[39m para_sd 0.781</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -265,13 +214,7 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

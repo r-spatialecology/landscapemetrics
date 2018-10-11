@@ -20,9 +20,11 @@ reference:
     - fragstats_landscape_landscape
     - fragstats_landscape_augusta_nlcd
     - fragstats_landscape_podlasie
+  - title: Options for landscapemetrics
+    contents:
+    - option_landscapemetrics
   - title: Auxiliary/Utility functions
     contents:
-    - check_landscape
     - get_adjacencies
     - get_circumscribingcircle
     - get_nearestneighbour
@@ -190,7 +192,7 @@ navbar:
          href: articles/articles/general-background.html
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
-         href: articles/articles/comparing_tools.html
+         href: articles/articles/comparing_fragstats_landscapemetrics.html
        - text: "Utility functions"
          icon: fa-comment
          href: articles/articles/utility.html
