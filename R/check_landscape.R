@@ -82,7 +82,7 @@ proj_info = function(landscape){
 
 data_info <- function(landscape){
 
-    class <- dplyr::if_else(condition = all(raster::values(landscape) %% 1 == 0),
+    class <- dplyr::if_else(condition = all(unique(raster::values(landscape)) %% 1 == 0),
                             true = "integer",
                             false = "non-integer")
 
