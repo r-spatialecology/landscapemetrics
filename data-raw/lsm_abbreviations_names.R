@@ -270,10 +270,10 @@ lsm_abbreviations_names <- tibble::tibble(
         "diversity metric",
         "diversity metric",
 
-        "new metric",
-        "new metric",
-        "new metric",
-        "new metric"
+        "complexity metric",
+        "complexity metric",
+        "complexity metric",
+        "complexity metric"
     )
 )
 
