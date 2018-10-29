@@ -1,5 +1,8 @@
+#define ARMA_64BIT_WORD 1
 #include <RcppArmadillo.h>
 using namespace Rcpp;
+
+// [[Rcpp::plugins(cpp11)]]
 
 #include "get_adjacency.h"
 
