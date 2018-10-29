@@ -1,4 +1,4 @@
-#define ARMA_64BIT_WORD 1
+#define DARMA_64BIT_WORD 1
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
@@ -7,6 +7,7 @@ using namespace Rcpp;
 #include "get_adjacency.h"
 
 // [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::plugins(cpp11)]]
 
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
