@@ -2,11 +2,15 @@
 #'
 #' @description List landscape metrics
 #'
-#' @param level Level of metrics. Either 'all', 'patch', 'class' or 'landscape' (or vector with combination).
-#' @param metric Abbreviation of metrics.
-#' @param full_name Full name of metrics.
-#' @param type Type according to FRAGSTATS grouping.
+#' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
+#' @param what Selected level of metrics: either "patch", "class" or "landscape".
+#' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param simplify If true, function names are returned as vector.
+#' @param verbose Print warning messages
+
 #'
 #' @details List all available landscape metrics depending on the provided filter arguments.
 #' If an argument is not provided, automatically all possibilites are selected.
@@ -18,6 +22,10 @@
 #' list_lsm(level = c("patch", "landscape"), type = "aggregation metric")
 #' list_lsm(metric = "area", simplify = TRUE)
 #'
+#' list_lsm(metric = "area", what = "lsm_p_shape")
+#' list_lsm(metric = "area", what = c("patch", "lsm_l_ta"))
+#' list_lsm(what = c("lsm_c_tca", "lsm_l_ta"))
+#'
 #' @aliases list_lsm
 #' @rdname list_lsm
 #'
@@ -28,11 +36,13 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-list_lsm <- function(level = "all",
+list_lsm <- function(level = NULL,
                      metric = NULL,
-                     full_name = NULL,
+                     name = NULL,
                      type = NULL,
-                     simplify = FALSE) {
+                     what = NULL,
+                     simplify = FALSE,
+                     verbose = TRUE) {
 
     lsm_abbreviations_names_modified <- landscapemetrics::lsm_abbreviations_names
 
@@ -40,27 +50,45 @@ list_lsm <- function(level = "all",
                                                                    split = "_"),
                                                           function(x) x[1])
 
-    if(any(level %in% "all")) {
-        level <- c("patch", "class", "landscape")
+    if(!is.null(what)) {
+
+        if(!is.null(c(level, metric, name, type))) {
+            if(verbose) {warning("only using 'what' argument", call. = FALSE)}
+        }
+
+        if(any(what %in% c("patch", "class", "landscape"))){
+            level <- what[what %in% c("patch", "class", "landscape")]
+            what <- what[!what %in% c("patch", "class", "landscape")]
+        }
+
+        result <- dplyr::filter(lsm_abbreviations_names_modified,
+                                function_name %in% what | level %in% !!level)
     }
 
-    if(is.null(metric)){
-       metric <- unique(lsm_abbreviations_names_modified$metric_new)
-    }
+    else{
 
-    if(is.null(full_name)){
-        full_name <- unique(lsm_abbreviations_names_modified$full_name)
-    }
+        if(is.null(level)) {
+            level <- c("patch", "class", "landscape")
+        }
 
-    if(is.null(type)){
-        type <- unique(lsm_abbreviations_names_modified$type)
-    }
+        if(is.null(metric)){
+            metric <- unique(lsm_abbreviations_names_modified$metric_new)
+        }
 
-    result <- dplyr::filter(lsm_abbreviations_names_modified,
-                            level %in% !!level,
-                            metric_new %in% !!metric,
-                            full_name %in% !!full_name,
-                            type %in% !!type)
+        if(is.null(name)){
+            name <- unique(lsm_abbreviations_names_modified$name)
+        }
+
+        if(is.null(type)){
+            type <- unique(lsm_abbreviations_names_modified$type)
+        }
+
+        result <- dplyr::filter(lsm_abbreviations_names_modified,
+                                level %in% !!level,
+                                metric_new %in% !!metric,
+                                name %in% !!name,
+                                type %in% !!type)
+    }
 
     result <- dplyr::select(result, -metric_new)
 
