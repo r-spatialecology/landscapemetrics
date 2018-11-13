@@ -76,7 +76,10 @@ test_that("calculate_lsm can take name argument", {
 })
 
 test_that("calculate_lsm can take type argument", {
-    specific_metrics <- calculate_lsm(landscape, type = "aggregation metric")
+    specific_metrics <- calculate_lsm(landscape, type = "aggregation metric", full_name = T)
+
+    expect_true(all(specific_metrics$type == "aggregation metric"))
+
     expect_is(specific_metrics, "tbl_df")
     expect_true(ncol(specific_metrics) > 0)
 })
