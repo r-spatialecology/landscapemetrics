@@ -16,6 +16,7 @@
 #'
 #' @examples
 #' show_patches(landscape)
+#' show_patches(landscape, what = c(1, 2))
 #'
 #' @aliases show_patches
 #' @rdname show_patches
@@ -171,7 +172,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
                     "#6F4070",
                     "#994E95"
                 ),
-                na.value = NA
+                na.value = "grey85"
             ) +
             ggplot2::theme(
                 axis.title = ggplot2::element_blank(),
@@ -236,7 +237,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
                     "#6F4070",
                     "#994E95"
                 ),
-                na.value = NA
+                na.value = "grey85"
             ) +
             ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
             ggplot2::scale_x_continuous(expand = c(0, 0)) +
