@@ -60,7 +60,7 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 
 \item{name}{Full name of metrics to calculate (e.g. 'core area').}
 
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
+\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
