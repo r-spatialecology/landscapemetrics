@@ -1,3 +1,9 @@
+## Update Version: 0.3
+Minor bugfixes and new functions
+
+## Update Version: 0.2
+Minor bugfixes and new functions
+
 ## Update Version: 0.1.1
 
 a) The Solaris installation error is described in §1.6.4 of 'Writing R 
