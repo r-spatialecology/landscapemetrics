@@ -5,7 +5,7 @@
 #' @param landscape Raster object
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param what How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
+#' @param class How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' @param labels Logical flag indicating whether to print or not to print core labels.
 #' boundary should be considered as core
@@ -20,13 +20,13 @@
 #'
 #' @examples
 #' # show "global" core area
-#' show_cores(landscape, what = "global", labels = FALSE)
+#' show_cores(landscape, class = "global", labels = FALSE)
 #'
 #' # show the core area of every class as facet
-#' show_cores(landscape, what = "all", labels = FALSE)
+#' show_cores(landscape, class = "all", labels = FALSE)
 #'
 #' # show only the core area of class 1 and 3
-#' show_cores(landscape, what = c(2, 3), labels = TRUE)
+#' show_cores(landscape, class = c(1, 3), labels = TRUE)
 #'
 #' @aliases show_cores
 #' @rdname show_cores
@@ -34,7 +34,7 @@
 #' @export
 show_cores <- function(landscape,
                        directions,
-                       what,
+                       class,
                        labels,
                        nrow,
                        ncol,
@@ -46,7 +46,7 @@ show_cores <- function(landscape,
 #' @export
 show_cores.RasterLayer <- function(landscape,
                                    directions = 8,
-                                   what = "all",
+                                   class = "all",
                                    labels = TRUE,
                                    nrow = NULL,
                                    ncol = NULL,
@@ -55,7 +55,7 @@ show_cores.RasterLayer <- function(landscape,
 
     show_cores_intern(landscape,
                       directions = directions,
-                      what = what,
+                      class = class,
                       labels = labels,
                       nrow = nrow,
                       ncol = ncol,
@@ -67,7 +67,7 @@ show_cores.RasterLayer <- function(landscape,
 #' @export
 show_cores.RasterStack <- function(landscape,
                                    directions = 8,
-                                   what = "all",
+                                   class = "all",
                                    labels = TRUE,
                                    nrow = NULL,
                                    ncol = NULL,
@@ -77,7 +77,7 @@ show_cores.RasterStack <- function(landscape,
     lapply(X = raster::as.list(landscape),
            FUN = show_cores_intern,
            directions = directions,
-           what = what,
+           class = class,
            labels = labels,
            nrow = nrow,
            ncol = ncol,
@@ -89,7 +89,7 @@ show_cores.RasterStack <- function(landscape,
 #' @export
 show_cores.RasterBrick <- function(landscape,
                                    directions = 8,
-                                   what = "all",
+                                   class = "all",
                                    labels = TRUE,
                                    nrow = NULL,
                                    ncol = NULL,
@@ -99,7 +99,7 @@ show_cores.RasterBrick <- function(landscape,
     lapply(X = raster::as.list(landscape),
            FUN = show_cores_intern,
            directions = directions,
-           what = what,
+           class = class,
            labels = labels,
            nrow = nrow,
            ncol = ncol,
@@ -111,7 +111,7 @@ show_cores.RasterBrick <- function(landscape,
 #' @export
 show_cores.stars <- function(landscape,
                              directions = 8,
-                             what = "all",
+                             class = "all",
                              labels = TRUE,
                              nrow = NULL,
                              ncol = NULL,
@@ -123,7 +123,7 @@ show_cores.stars <- function(landscape,
     lapply(X = landscape,
            FUN = show_cores_intern,
            directions = directions,
-           what = what,
+           class = class,
            labels = labels,
            nrow = nrow,
            ncol = ncol,
@@ -135,7 +135,7 @@ show_cores.stars <- function(landscape,
 #' @export
 show_cores.list <- function(landscape,
                             directions = 8,
-                            what = "all",
+                            class = "all",
                             labels = TRUE,
                             nrow = NULL,
                             ncol = NULL,
@@ -145,7 +145,7 @@ show_cores.list <- function(landscape,
     lapply(X = landscape,
            FUN = show_cores_intern,
            directions = directions,
-           what = what,
+           class = class,
            labels = labels,
            nrow = nrow,
            ncol = ncol,
@@ -153,12 +153,12 @@ show_cores.list <- function(landscape,
            edge_depth = edge_depth)
 }
 
-show_cores_intern <- function(landscape, directions, what, labels, nrow, ncol,
+show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
                               consider_boundary, edge_depth ) {
 
-    if(any(!(what %in% c("all", "global")))){
-        if (!all(what %in% raster::unique(landscape))){
-            stop("what must at least contain one value of a class contained in the landscape.", call. = FALSE)
+    if(any(!(class %in% c("all", "global")))){
+        if (!all(class %in% raster::unique(landscape))){
+            stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
 
@@ -230,7 +230,7 @@ show_cores_intern <- function(landscape, directions, what, labels, nrow, ncol,
         boundary_labeled_stack$core_label <- NA
     }
 
-    if (any(what == "global")) {
+    if (any(class == "global")) {
         plot <- ggplot2::ggplot(boundary_labeled_stack) +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = factor(values))) +
             ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
@@ -259,10 +259,10 @@ show_cores_intern <- function(landscape, directions, what, labels, nrow, ncol,
             ggplot2::labs(x = NULL, y = NULL)
     }
 
-    if (any(what != "global")) {
+    if (any(class != "global")) {
 
-        if (any(!(what %in% "all"))){
-            boundary_labeled_stack <- dplyr::filter(boundary_labeled_stack, class %in% what)
+        if (any(!(class %in% "all"))){
+            boundary_labeled_stack <- dplyr::filter(boundary_labeled_stack, class %in% !!class)
         }
 
         plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +

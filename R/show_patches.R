@@ -3,7 +3,7 @@
 #' @description Show patches
 #'
 #' @param landscape *Raster object
-#' @param what How to show the labeled patches: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
+#' @param class How to show the labeled patches: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
@@ -16,25 +16,25 @@
 #'
 #' @examples
 #' show_patches(landscape)
-#' show_patches(landscape, what = c(1, 2))
+#' show_patches(landscape, class = c(1, 2))
 #'
 #' @aliases show_patches
 #' @rdname show_patches
 #'
 #' @export
-show_patches <- function(landscape, what, directions, labels, nrow, ncol)  UseMethod("show_patches")
+show_patches <- function(landscape, class, directions, labels, nrow, ncol)  UseMethod("show_patches")
 
 #' @name show_patches
 #' @export
 show_patches.RasterLayer <- function(landscape,
-                                     what = "global",
+                                     class = "global",
                                      directions = 8,
                                      labels = TRUE,
                                      nrow = NULL,
                                      ncol = NULL) {
 
     show_patches_intern(landscape,
-                        what = what,
+                        class = class,
                         directions = directions,
                         labels = labels,
                         nrow = nrow,
@@ -44,7 +44,7 @@ show_patches.RasterLayer <- function(landscape,
 #' @name show_patches
 #' @export
 show_patches.RasterStack <- function(landscape,
-                                     what = "global",
+                                     class = "global",
                                      directions = 8,
                                      labels = TRUE,
                                      nrow = NULL,
@@ -52,7 +52,7 @@ show_patches.RasterStack <- function(landscape,
 
     lapply(X = raster::as.list(landscape),
            FUN = show_patches_intern,
-           what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -62,7 +62,7 @@ show_patches.RasterStack <- function(landscape,
 #' @name show_patches
 #' @export
 show_patches.RasterBrick <- function(landscape,
-                                     what = "global",
+                                     class = "global",
                                      directions = 8,
                                      labels = TRUE,
                                      nrow = NULL,
@@ -70,7 +70,7 @@ show_patches.RasterBrick <- function(landscape,
 
     lapply(X = raster::as.list(landscape),
            FUN = show_patches_intern,
-           what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -80,7 +80,7 @@ show_patches.RasterBrick <- function(landscape,
 #' @name show_patches
 #' @export
 show_patches.stars <- function(landscape,
-                               what = "global",
+                               class = "global",
                                directions = 8,
                                labels = TRUE,
                                nrow = NULL,
@@ -90,7 +90,7 @@ show_patches.stars <- function(landscape,
 
     lapply(X = landscape,
            FUN = show_patches_intern,
-           what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -100,7 +100,7 @@ show_patches.stars <- function(landscape,
 #' @name show_patches
 #' @export
 show_patches.list <- function(landscape,
-                              what = "global",
+                              class = "global",
                               directions = 8,
                               labels = TRUE,
                               nrow = NULL,
@@ -108,18 +108,18 @@ show_patches.list <- function(landscape,
 
     lapply(X = landscape,
            FUN = show_patches_intern,
-           what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
 }
 
-show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol) {
+show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol) {
 
-    if(any(!(what %in% c("all", "global")))){
-        if (!any(what %in% raster::unique(landscape))){
-            stop("what must at least contain one value of a class contained in the landscape.", call. = FALSE)
+    if(any(!(class %in% c("all", "global")))){
+        if (!any(class %in% raster::unique(landscape))){
+            stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
 
@@ -132,7 +132,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
 
-    if (any(what == "global")) {
+    if (any(class == "global")) {
 
         landscape_labeled_stack <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
                                                              na.rm = TRUE),
@@ -196,7 +196,7 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
 
     }
 
-    if (any(what != "global")) {
+    if (any(class != "global")) {
 
         patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
             names(x) <- "value"
@@ -206,8 +206,8 @@ show_patches_intern <- function(landscape, what, directions, labels, nrow, ncol)
 
         patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
 
-        if (any(!(what %in% c("all", "global")))){
-            patches_tibble <- dplyr::filter(patches_tibble, class %in% what)
+        if (any(!(class %in% c("all", "global")))){
+            patches_tibble <- dplyr::filter(patches_tibble, class %in% !!class)
         }
 
         if (isTRUE(labels)) {

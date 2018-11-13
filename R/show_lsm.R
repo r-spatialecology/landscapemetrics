@@ -3,41 +3,41 @@
 #' @description Show patches
 #'
 #' @param landscape *Raster object
-#' @param metric Patch level metric to plot
-#' @param what How to show the labeled patches: "global" (single map), "all" (every class as facet),
+#' @param what Patch level what to plot
+#' @param class How to show the labeled patches: "global" (single map), "all" (every class as facet),
 #' or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
 
 #'
-#' @details The function plots all patches with a fill corresponding to the value of the chosen metric
+#' @details The function plots all patches with a fill corresponding to the value of the chosen what
 #'
 #' @return ggplot
 #'
 #' @examples
-#' show_lsm(landscape, metric = "lsm_p_area")
-#' show_lsm(landscape, metric = "lsm_p_shape", what = c(1, 2), labels = T)
+#' show_lsm(landscape, what = "lsm_p_area")
+#' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
 #'
 #' @aliases show_lsm
 #' @rdname show_lsm
 #'
 #' @export
-show_lsm <- function(landscape, metric, what, directions, labels, nrow, ncol)  UseMethod("show_lsm")
+show_lsm <- function(landscape, what, class, directions, labels, nrow, ncol)  UseMethod("show_lsm")
 
 #' @name show_lsm
 #' @export
 show_lsm.RasterLayer <- function(landscape,
-                                 metric,
-                                 what = "global",
+                                 what,
+                                 class = "global",
                                  directions = 8,
                                  labels = TRUE,
                                  nrow = NULL,
                                  ncol = NULL) {
 
     show_lsm_intern(landscape,
-                    metric = metric,
                     what = what,
+                    class = class,
                     directions = directions,
                     labels = labels,
                     nrow = nrow,
@@ -47,8 +47,8 @@ show_lsm.RasterLayer <- function(landscape,
 #' @name show_lsm
 #' @export
 show_lsm.RasterStack <- function(landscape,
-                                 metric,
-                                 what = "global",
+                                 what,
+                                 class = "global",
                                  directions = 8,
                                  labels = TRUE,
                                  nrow = NULL,
@@ -56,8 +56,8 @@ show_lsm.RasterStack <- function(landscape,
 
     lapply(X = raster::as.list(landscape),
            FUN = show_lsm_intern,
-           metric = metric,
            what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -67,8 +67,8 @@ show_lsm.RasterStack <- function(landscape,
 #' @name show_lsm
 #' @export
 show_lsm.RasterBrick <- function(landscape,
-                                 metric,
-                                 what = "global",
+                                 what,
+                                 class = "global",
                                  directions = 8,
                                  labels = TRUE,
                                  nrow = NULL,
@@ -76,8 +76,8 @@ show_lsm.RasterBrick <- function(landscape,
 
     lapply(X = raster::as.list(landscape),
            FUN = show_lsm_intern,
-           metric = metric,
            what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -87,8 +87,8 @@ show_lsm.RasterBrick <- function(landscape,
 #' @name show_lsm
 #' @export
 show_lsm.stars <- function(landscape,
-                           metric,
-                           what = "global",
+                           what,
+                           class = "global",
                            directions = 8,
                            labels = TRUE,
                            nrow = NULL,
@@ -98,8 +98,8 @@ show_lsm.stars <- function(landscape,
 
     lapply(X = landscape,
            FUN = show_lsm_intern,
-           metric = metric,
            what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
@@ -109,8 +109,8 @@ show_lsm.stars <- function(landscape,
 #' @name show_lsm
 #' @export
 show_lsm.list <- function(landscape,
-                          metric,
-                          what = "global",
+                          what,
+                          class = "global",
                           directions = 8,
                           labels = TRUE,
                           nrow = NULL,
@@ -118,25 +118,25 @@ show_lsm.list <- function(landscape,
 
     lapply(X = landscape,
            FUN = show_lsm_intern,
-           metric = metric,
            what = what,
+           class = class,
            directions = directions,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
 }
 
-show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, ncol) {
+show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, ncol) {
 
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
-    if(!metric %in% patch_metrics){
+    if(!what %in% patch_metrics){
         stop("Please provide (only) one patch level metric. To list available metrics, see list_lsm(level = 'patch').", call. = FALSE)
     }
 
-    if(any(!(what %in% c("all", "global")))){
-        if (!any(what %in% raster::unique(landscape))){
-            stop("'what must at least contain one value of a class contained in the landscape", call. = FALSE)
+    if(any(!(class %in% c("all", "global")))){
+        if (!any(class %in% raster::unique(landscape))){
+            stop("'class must at least contain one value of a class contained in the landscape", call. = FALSE)
         }
     }
 
@@ -149,11 +149,11 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
         landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
     }
 
-    lsm_fun <- match.fun(metric)
+    lsm_fun <- match.fun(what)
 
     fill_value <- lsm_fun(landscape, directions = directions)
 
-    if (any(what == "global")) {
+    if (any(class == "global")) {
 
         landscape_labeled_stack <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
                                                              na.rm = TRUE),
@@ -181,7 +181,7 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
             ggplot2::theme_void() +
             ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
             ggplot2::scale_fill_viridis_c(option = "E",
-                                          name = metric,
+                                          name = what,
                                           na.value = "grey85") +
             ggplot2::theme(
                 axis.title = ggplot2::element_blank(),
@@ -202,7 +202,7 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
             )
     }
 
-    if (any(what != "global")) {
+    if (any(class != "global")) {
 
         patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
             names(x) <- "patch_id"
@@ -217,8 +217,8 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
                                            by = c("patch_id" = "id"),
                                            suffix = c(".get_patches", ".lsm"))
 
-        if (any(!(what %in% "all"))){
-            patches_tibble <- dplyr::filter(patches_tibble, class.get_patches %in% what)
+        if (any(!(class %in% "all"))){
+            patches_tibble <- dplyr::filter(patches_tibble, class.get_patches %in% !!class)
         }
 
         if (!isTRUE(labels)) {
@@ -236,7 +236,7 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
             ggplot2::scale_y_continuous(expand = c(0, 0)) +
             ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
             ggplot2::scale_fill_viridis_c(option = "E",
-                                          name = metric,
+                                          name = what,
                                           na.value = "grey85") +
             ggplot2::theme(
                 axis.title  = ggplot2::element_blank(),
