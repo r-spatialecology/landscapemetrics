@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' show_lsm(landscape, metric = "lsm_p_area")
-#' show_lsm(landscape, metric = "lsm_p_shape", what = c(1, 2))
+#' show_lsm(landscape, metric = "lsm_p_shape", what = c(1, 2), labels = T)
 #'
 #' @aliases show_lsm
 #' @rdname show_lsm
@@ -131,7 +131,7 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
     if(!metric %in% patch_metrics){
-        stop("Please provide (only) one patch level metric. To list available metrics, see list_lsm()", call. = FALSE)
+        stop("Please provide (only) one patch level metric. To list available metrics, see list_lsm(level = 'patch').", call. = FALSE)
     }
 
     if(any(!(what %in% c("all", "global")))){
@@ -176,24 +176,13 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
         plot <- ggplot2::ggplot(landscape_labeled_stack) +
             ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = value)) +
             ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = patch_id),
-                               colour = "white") +
+                               colour = "black") +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
             ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
-            ggplot2::scale_fill_gradientn(
-                colours = c(
-                    "#5F4690",
-                    "#1D6996",
-                    "#38A6A5",
-                    "#0F8554",
-                    "#73AF48",
-                    "#EDAD08",
-                    "#E17C05",
-                    "#CC503E",
-                    "#94346E",
-                    "#6F4070",
-                    "#994E95"
-                ), name = metric, na.value = "grey85") +
+            ggplot2::scale_fill_viridis_c(option = "E",
+                                          name = metric,
+                                          na.value = "grey85") +
             ggplot2::theme(
                 axis.title = ggplot2::element_blank(),
                 axis.line = ggplot2::element_blank(),
@@ -240,26 +229,15 @@ show_lsm_intern <- function(landscape, metric, what, directions, labels, nrow, n
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = value)) +
             ggplot2::geom_text(ggplot2::aes(label = patch_id),
-                               colour = "white")  +
+                               colour = "black")  +
             ggplot2::facet_wrap(~ class.get_patches,
                                 nrow = nrow, ncol = ncol) +
             ggplot2::scale_x_continuous(expand = c(0, 0)) +
             ggplot2::scale_y_continuous(expand = c(0, 0)) +
             ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
-            ggplot2::scale_fill_gradientn(
-                colours = c(
-                    "#5F4690",
-                    "#1D6996",
-                    "#38A6A5",
-                    "#0F8554",
-                    "#73AF48",
-                    "#EDAD08",
-                    "#E17C05",
-                    "#CC503E",
-                    "#94346E",
-                    "#6F4070",
-                    "#994E95"
-                ), name = metric, na.value = "grey85") +
+            ggplot2::scale_fill_viridis_c(option = "E",
+                                          name = metric,
+                                          na.value = "grey85") +
             ggplot2::theme(
                 axis.title  = ggplot2::element_blank(),
                 axis.ticks  = ggplot2::element_blank(),
