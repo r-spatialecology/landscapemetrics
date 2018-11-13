@@ -132,12 +132,12 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
     if(!what %in% patch_metrics){
-        stop("Please provide (only) one patch level metric. To list available metrics, see list_lsm(level = 'patch').", call. = FALSE)
+        stop("Please provide one patch level metric only. To list available metrics, run list_lsm(level = 'patch').", call. = FALSE)
     }
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){
-            stop("'class' must at least contain one value of a class contained in the landscape", call. = FALSE)
+            stop("'class' must contain at least one value of a class existing in the landscape", call. = FALSE)
         }
     }
 
