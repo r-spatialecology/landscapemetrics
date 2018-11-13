@@ -18,6 +18,7 @@
 #' @examples
 #' show_lsm(landscape, what = "lsm_p_area")
 #' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
+#' show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 #'
 #' @aliases show_lsm
 #' @rdname show_lsm
@@ -176,7 +177,7 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
         plot <- ggplot2::ggplot(landscape_labeled_stack) +
             ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = value)) +
             ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = patch_id),
-                               colour = "black") +
+                               colour = "black", na.rm = TRUE) +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
             ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
@@ -229,7 +230,7 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = value)) +
             ggplot2::geom_text(ggplot2::aes(label = patch_id),
-                               colour = "black")  +
+                               colour = "black", na.rm = TRUE)  +
             ggplot2::facet_wrap(~ class.get_patches,
                                 nrow = nrow, ncol = ncol) +
             ggplot2::scale_x_continuous(expand = c(0, 0)) +
@@ -249,5 +250,5 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
                 plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
     }
 
-    suppressWarnings(return(plot))
+    return(plot)
 }

@@ -17,6 +17,7 @@
 #' @examples
 #' show_patches(landscape)
 #' show_patches(landscape, class = c(1, 2))
+#' show_patches(landscape, class = 3, labels = FALSE)
 #'
 #' @aliases show_patches
 #' @rdname show_patches
@@ -154,7 +155,7 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
         plot <- ggplot2::ggplot(landscape_labeled_stack) +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = values)) +
             ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = labels),
-                               colour = "white") +
+                               colour = "white", na.rm = TRUE) +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
             ggplot2::guides(fill = FALSE) +
@@ -222,7 +223,7 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = value)) +
             ggplot2::geom_text(ggplot2::aes(label = labels),
-                               colour = "white")  +
+                               colour = "white", na.rm = TRUE)  +
             ggplot2::scale_fill_gradientn(
                 colours = c(
                     "#5F4690",
@@ -256,5 +257,6 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
 
 
     }
-    suppressWarnings(return(plot))
+
+    return(plot)
 }

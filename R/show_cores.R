@@ -234,7 +234,7 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
         plot <- ggplot2::ggplot(boundary_labeled_stack) +
             ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = factor(values))) +
             ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
-                               colour = "white") +
+                               colour = "white", na.rm = TRUE) +
             ggplot2::coord_equal() +
             ggplot2::theme_void() +
             ggplot2::guides(fill = FALSE) +
@@ -269,7 +269,7 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
             ggplot2::coord_fixed() +
             ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
             ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
-                               colour = "white") +
+                               colour = "white", na.rm = TRUE) +
             ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
             ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
                                        na.value = "grey85") +
@@ -288,5 +288,5 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
                 panel.background = ggplot2::element_rect(fill = "grey85"),
                 plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
     }
-    suppressWarnings(return(plot))
+    return(plot)
 }
