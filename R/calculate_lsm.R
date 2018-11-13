@@ -8,7 +8,7 @@
 #' @param level Level of metrics to calculate (e.g. 'landscape').
 #' @param metric Abbreviation of metrics to calculate (e.g. 'area').
 #' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metrics').
+#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
