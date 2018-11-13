@@ -137,7 +137,7 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){
-            stop("'class must at least contain one value of a class contained in the landscape", call. = FALSE)
+            stop("'class' must at least contain one value of a class contained in the landscape", call. = FALSE)
         }
     }
 
