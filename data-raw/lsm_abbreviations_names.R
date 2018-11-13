@@ -143,7 +143,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "te"
     ),
 
-    full_name = c(
+    name = c(
 
         # patch level
         "patch area",
@@ -399,8 +399,8 @@ lsm_abbreviations_names <- tibble::tibble(
         "area and edge metric",
         "aggregation metric",
         "aggregation metric",
-        "diversity metrics",
-        "diversity metrics",
+        "diversity metric",
+        "diversity metric",
         "complexity metric",
         "core area metric",
         "aggregation metric",
@@ -410,16 +410,16 @@ lsm_abbreviations_names <- tibble::tibble(
         "shape metric",
         "aggregation metric",
         "aggregation metric",
-        "diversity metrics",
-        "diversity metrics",
-        "diversity metrics",
+        "diversity metric",
+        "diversity metric",
+        "diversity metric",
         "shape metric",
         "shape metric",
         "shape metric",
-        "diversity metrics",
-        "diversity metrics",
-        "diversity metrics",
-        "diversity metrics",
+        "diversity metric",
+        "diversity metric",
+        "diversity metric",
+        "diversity metric",
         "aggregation metric",
         "area and edge metric",
         "core area metric",
