@@ -2,6 +2,8 @@
 - `check_landscape` function to make sure your landscapes are feasible for landscapemetrics
 - Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
 - Renamed "new metric" group to "complexity metric" group
+- Updated structure of `lsm_abbreviations_names`
+- `list_lsm` function to print available metrics
 
 # landscapemetrics 0.2
 
