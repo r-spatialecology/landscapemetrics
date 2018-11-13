@@ -8,7 +8,7 @@
 - Bugfix in all show_() - functions that na.value color is identical
 - `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
 - `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
-- `show_()`-functions don't throw errors
+- `show_()`-functions don't throw warnings
 
 # landscapemetrics 0.2
 
