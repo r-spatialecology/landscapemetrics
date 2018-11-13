@@ -9,7 +9,7 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
-
+#' @param nrow,ncol Number of rows and columns for the facet.
 #'
 #' @details The function plots all patches with a fill corresponding to the value of the chosen what
 #'

@@ -2,19 +2,19 @@ context("show_cores")
 
 cores_landscape <- show_cores(landscape)
 
-cores_landscape_stack <- show_cores(landscape_stack, what = 1)
+cores_landscape_stack <- show_cores(landscape_stack, class = 1)
 
-cores_landscape_brick <- show_cores(landscape_brick, what = "all")
+cores_landscape_brick <- show_cores(landscape_brick, class = "all")
 
-cores_landscape_list <- show_cores(landscape_list, what = c(2,3))
+cores_landscape_list <- show_cores(landscape_list, class = c(2,3))
 
 
 test_that("show_cores returns a plot", {
     expect_equal(class(cores_landscape), c("gg","ggplot"))
 })
 
-test_that("show_cores returns a plot for what = global", {
-    expect_equal(class(show_cores(landscape, what = "global")), c("gg","ggplot"))
+test_that("show_cores returns a plot for class = global", {
+    expect_equal(class(show_cores(landscape, class = "global")), c("gg","ggplot"))
 })
 
 test_that("show_patches returns a plot for each list entry", {
@@ -24,11 +24,11 @@ test_that("show_patches returns a plot for each list entry", {
 })
 
 test_that("show_patches returns error if class is not present", {
-    expect_error(show_cores(landscape, what = 42),
-                 regexp = "what must at least contain one value of a class contained in the landscape.")
+    expect_error(show_cores(landscape, class = 42),
+                 regexp = "class must at least contain one value of a class contained in the landscape.")
 })
 
 test_that("show_cores can increase edge_depth", {
-    expect_equal(class(show_cores(landscape, edge_depth = 3, what = "global")), c("gg","ggplot"))
+    expect_equal(class(show_cores(landscape, edge_depth = 3, class = "global")), c("gg","ggplot"))
 })
 

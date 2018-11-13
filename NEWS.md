@@ -3,7 +3,12 @@
 - Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
 - Renamed "new metric" group to "complexity metric" group
 - Updated structure of `lsm_abbreviations_names`
-- `list_lsm` function to print available metrics
+- `list_lsm()` function to print available metrics
+- `show_lsm()` function to vizualize patch level metrics
+- Bugfix in all show_() - functions that na.value color is identical
+- `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
+- `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
+- `show_()`-functions don't throw errors
 
 # landscapemetrics 0.2
 
