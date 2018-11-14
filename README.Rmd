@@ -95,7 +95,7 @@ All functions return an identical structured tibble:
 ### Using metric functions
 
 Every function follows the same implementation design, so the usage is
-quite straight forward:
+quite straightforward:
 
 ```{r, message=FALSE, warning=FALSE}
 library(landscapemetrics)
@@ -104,7 +104,7 @@ library(dplyr)
 # Landscape raster
 landscape
 
-# Calculate for example the euclidean nearest-neighbor distance on patch level
+# Calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 
 # Calculate the total area and total class edge length
@@ -130,7 +130,7 @@ calculated with the package.
 
 Important building blocks of the package are exported to help facilitate analysis
 or the development of new metrics. They all start with the prefix `get_`.
-All of them are implemented with Rcpp and have either memory or perfomance advantages
+All of them are implemented with Rcpp and have either memory or performance advantages
 compared to raster functions.
 
 For more details, see the [utility function vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html).
