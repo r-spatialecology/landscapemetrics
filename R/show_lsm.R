@@ -8,6 +8,8 @@
 #' or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch edge to be considered as core cell
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
 #' @param nrow,ncol Number of rows and columns for the facet.
 #'
@@ -16,7 +18,7 @@
 #' @return ggplot
 #'
 #' @examples
-#' show_lsm(landscape, what = "lsm_p_area")
+#' show_lsm(landscape, what = "lsm_p_area", directions = 4)
 #' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
 #' show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 #'
@@ -24,7 +26,9 @@
 #' @rdname show_lsm
 #'
 #' @export
-show_lsm <- function(landscape, what, class, directions, labels, nrow, ncol)  UseMethod("show_lsm")
+show_lsm <- function(landscape, what, class,
+                     directions, consider_boundary, edge_depth,
+                     labels, nrow, ncol)  UseMethod("show_lsm")
 
 #' @name show_lsm
 #' @export
@@ -32,6 +36,8 @@ show_lsm.RasterLayer <- function(landscape,
                                  what,
                                  class = "global",
                                  directions = 8,
+                                 consider_boundary = FALSE,
+                                 edge_depth = 1,
                                  labels = TRUE,
                                  nrow = NULL,
                                  ncol = NULL) {
@@ -40,6 +46,8 @@ show_lsm.RasterLayer <- function(landscape,
                     what = what,
                     class = class,
                     directions = directions,
+                    consider_boundary = consider_boundary,
+                    edge_depth = edge_depth,
                     labels = labels,
                     nrow = nrow,
                     ncol = ncol)
@@ -51,6 +59,8 @@ show_lsm.RasterStack <- function(landscape,
                                  what,
                                  class = "global",
                                  directions = 8,
+                                 consider_boundary = FALSE,
+                                 edge_depth = 1,
                                  labels = TRUE,
                                  nrow = NULL,
                                  ncol = NULL) {
@@ -60,6 +70,8 @@ show_lsm.RasterStack <- function(landscape,
            what = what,
            class = class,
            directions = directions,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
@@ -71,6 +83,8 @@ show_lsm.RasterBrick <- function(landscape,
                                  what,
                                  class = "global",
                                  directions = 8,
+                                 consider_boundary = FALSE,
+                                 edge_depth = 1,
                                  labels = TRUE,
                                  nrow = NULL,
                                  ncol = NULL) {
@@ -80,6 +94,8 @@ show_lsm.RasterBrick <- function(landscape,
            what = what,
            class = class,
            directions = directions,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
@@ -91,6 +107,8 @@ show_lsm.stars <- function(landscape,
                            what,
                            class = "global",
                            directions = 8,
+                           consider_boundary = FALSE,
+                           edge_depth = 1,
                            labels = TRUE,
                            nrow = NULL,
                            ncol = NULL) {
@@ -102,6 +120,8 @@ show_lsm.stars <- function(landscape,
            what = what,
            class = class,
            directions = directions,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
@@ -113,6 +133,8 @@ show_lsm.list <- function(landscape,
                           what,
                           class = "global",
                           directions = 8,
+                          consider_boundary = FALSE,
+                          edge_depth = 1,
                           labels = TRUE,
                           nrow = NULL,
                           ncol = NULL) {
@@ -122,23 +144,34 @@ show_lsm.list <- function(landscape,
            what = what,
            class = class,
            directions = directions,
+           consider_boundary = consider_boundary,
+           edge_depth = edge_depth,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
 }
 
-show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, ncol) {
+show_lsm_intern <- function(landscape, what, class,
+                            directions, consider_boundary, edge_depth,
+                            labels, nrow, ncol) {
 
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
-    if(!what %in% patch_metrics){
-        stop("Please provide one patch level metric only. To list available metrics, run list_lsm(level = 'patch').", call. = FALSE)
+    if(!what %in% patch_metrics || length(what) > 1){
+        stop("Please provide one patch level metric only. To list available metrics, run list_lsm(level = 'patch').",
+             call. = FALSE)
     }
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){
-            stop("'class' must contain at least one value of a class existing in the landscape", call. = FALSE)
+            stop("'class' must contain at least one value of a class existing in the landscape.",
+                 call. = FALSE)
         }
+    }
+
+    if(length(class) > 1 & any(class %in% c("all", "global"))){
+        warning("'global' and 'all' can't be combined with any other class-argument.",
+                call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
@@ -152,7 +185,14 @@ show_lsm_intern <- function(landscape, what, class, directions, labels, nrow, nc
 
     lsm_fun <- match.fun(what)
 
-    fill_value <- lsm_fun(landscape, directions = directions)
+    if(what %in% c("lsm_p_core", "lsm_p_ncore")) {
+        fill_value <- lsm_fun(landscape,
+                              directions = directions,
+                              consider_boundary = consider_boundary,
+                              edge_depth = edge_depth)
+    } else {
+        fill_value <- lsm_fun(landscape, directions = directions)
+    }
 
     if (any(class == "global")) {
 

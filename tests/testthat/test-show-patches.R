@@ -19,7 +19,11 @@ test_that("show_patches returns a plot for each list entry", {
     expect_true(all(sapply(patches_landscape_list, FUN = function(x) class(x)[2]) == "ggplot"))
 })
 
-test_that("show_patches returns error if class is not present", {
+test_that("show_patches returns warnings and errors", {
+
+    expect_warning(show_patches(landscape, class = c(1, "global")),
+                   regexp = "'global' and 'all' can't be combined with any other class-argument.")
+
     expect_error(show_patches(landscape, class = 42),
-                 regexp = "class must at least contain one value of a class contained in the landscape.")
+                 regexp = "'class' must at least contain one value of a class contained in the landscape.")
 })

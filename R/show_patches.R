@@ -120,8 +120,12 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){
-            stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
+            stop("'class' must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
+    }
+
+    if(length(class) > 1 & any(class %in% c("all", "global"))){
+        warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)

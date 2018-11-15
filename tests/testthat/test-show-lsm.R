@@ -5,12 +5,7 @@ test_that("show_lsm returns a plot", {
     expect_is(patches_area, "ggplot")
 })
 
-test_that("show_lsm returns error if metric not available returns a plot", {
-    expect_error(show_lsm(landscape, what = "lsm_l_ta"))
-    expect_error(show_lsm(landscape, what = "lsm_p_area", class = 5))
-})
-
-test_that("show_lsm returns a plot", {
+test_that("show_lsm returns a facet plot", {
     patches_area <- show_lsm(landscape, what = "lsm_p_area",
                              class = c(1, 3),
                              labels = FALSE)
@@ -30,4 +25,15 @@ test_that("show_lsm can handle stacks, bricks and lists", {
 
     expect_is(plots_brick[[1]], "ggplot")
     expect_is(plots_brick[[2]], "ggplot")
+})
+
+test_that("show_lsm returns warnings and errors", {
+
+    expect_warning(show_lsm(landscape, what = "lsm_p_area", class = c(1, "global")),
+                   regexp = "'global' and 'all' can't be combined with any other class-argument.")
+
+    expect_error(show_lsm(landscape, what = "lsm_p_invented_metric"))
+
+    expect_error(show_lsm(landscape, what = "lsm_p_area", class = 5),
+                 "'class' must contain at least one value of a class existing in the landscape.")
 })

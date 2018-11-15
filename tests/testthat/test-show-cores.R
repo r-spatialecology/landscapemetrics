@@ -32,3 +32,8 @@ test_that("show_cores can increase edge_depth", {
     expect_equal(class(show_cores(landscape, edge_depth = 3, class = "global")), c("gg","ggplot"))
 })
 
+test_that("show_cores returns warnning for wrong combination of class argument", {
+    expect_warning(show_cores(landscape, class = c(1, "global")),
+                   regexp = "'global' and 'all' can't be combined with any other class-argument.")
+})
+

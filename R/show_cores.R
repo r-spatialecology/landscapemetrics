@@ -157,9 +157,13 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
                               consider_boundary, edge_depth ) {
 
     if(any(!(class %in% c("all", "global")))){
-        if (!all(class %in% raster::unique(landscape))){
+        if (!any(class %in% raster::unique(landscape))){
             stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
+    }
+
+    if(length(class) > 1 & any(class %in% c("all", "global"))){
+        warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)

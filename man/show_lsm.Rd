@@ -9,22 +9,28 @@
 \alias{show_lsm.list}
 \title{Show landscape metrics}
 \usage{
-show_lsm(landscape, what, class, directions, labels, nrow, ncol)
+show_lsm(landscape, what, class, directions, consider_boundary, edge_depth,
+  labels, nrow, ncol)
 
 \method{show_lsm}{RasterLayer}(landscape, what, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{RasterStack}(landscape, what, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{RasterBrick}(landscape, what, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{stars}(landscape, what, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{list}(landscape, what, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+  directions = 8, consider_boundary = FALSE, edge_depth = 1,
+  labels = TRUE, nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{*Raster object}
@@ -36,6 +42,10 @@ or a vector with the specific classes one wants to show (every selected class as
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has the be away from the patch edge to be considered as core cell}
 
 \item{labels}{Logical flag indicating whether to print or not to print patch labels.}
 
@@ -51,7 +61,7 @@ Show patches
 The function plots all patches with a fill corresponding to the value of the chosen what
 }
 \examples{
-show_lsm(landscape, what = "lsm_p_area")
+show_lsm(landscape, what = "lsm_p_area", directions = 4)
 show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
 show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 
