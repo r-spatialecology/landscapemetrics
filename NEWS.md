@@ -9,6 +9,7 @@
 - `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
 - `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
 - `show_()`-functions don't throw warnings
+- "global" facet for all `show_()` functions
 
 # landscapemetrics 0.2
 

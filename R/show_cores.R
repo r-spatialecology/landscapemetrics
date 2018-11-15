@@ -231,32 +231,7 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
     }
 
     if (any(class == "global")) {
-        plot <- ggplot2::ggplot(boundary_labeled_stack) +
-            ggplot2::geom_tile(ggplot2::aes(x = x, y = y, fill = factor(values))) +
-            ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
-                               colour = "white", na.rm = TRUE) +
-            ggplot2::coord_equal() +
-            ggplot2::theme_void() +
-            ggplot2::guides(fill = FALSE) +
-            ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
-                                       na.value = "grey85") +
-            ggplot2::theme(axis.title = ggplot2::element_blank(),
-                           axis.line = ggplot2::element_blank(),
-                           axis.text.x = ggplot2::element_blank(),
-                           axis.text.y = ggplot2::element_blank(),
-                           axis.ticks = ggplot2::element_blank(),
-                           axis.title.x = ggplot2::element_blank(),
-                           axis.title.y = ggplot2::element_blank(),
-                           axis.ticks.length = ggplot2::unit(0, "lines"),
-                           legend.position = "none",
-                           panel.background = ggplot2::element_blank(),
-                           panel.border = ggplot2::element_blank(),
-                           panel.grid.major = ggplot2::element_blank(),
-                           panel.grid.minor = ggplot2::element_blank(),
-                           panel.spacing = ggplot2::unit(0, "lines"),
-                           plot.background = ggplot2::element_blank(),
-                           plot.margin = ggplot2::unit(c(-1, -1, -1.5, -1.5), "lines")) +
-            ggplot2::labs(x = NULL, y = NULL)
+        boundary_labeled_stack$class <- "global"
     }
 
     if (any(class != "global")) {
@@ -264,29 +239,30 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
         if (any(!(class %in% "all"))){
             boundary_labeled_stack <- dplyr::filter(boundary_labeled_stack, class %in% !!class)
         }
-
-        plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
-            ggplot2::coord_fixed() +
-            ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
-            ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
-                               colour = "white", na.rm = TRUE) +
-            ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
-            ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
-                                       na.value = "grey85") +
-            ggplot2::scale_x_continuous(expand = c(0, 0)) +
-            ggplot2::scale_y_continuous(expand = c(0, 0)) +
-            ggplot2::guides(fill = FALSE) +
-            ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
-            ggplot2::theme(
-                axis.title  = ggplot2::element_blank(),
-                axis.ticks  = ggplot2::element_blank(),
-                axis.text   = ggplot2::element_blank(),
-                panel.grid  = ggplot2::element_blank(),
-                axis.line   = ggplot2::element_blank(),
-                strip.background = ggplot2::element_rect(fill = "grey80"),
-                strip.text = ggplot2::element_text(hjust  = 0),
-                panel.background = ggplot2::element_rect(fill = "grey85"),
-                plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
     }
+
+    plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
+        ggplot2::coord_fixed() +
+        ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
+        ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
+                           colour = "white", na.rm = TRUE) +
+        ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
+        ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
+                                   na.value = "grey85") +
+        ggplot2::scale_x_continuous(expand = c(0, 0)) +
+        ggplot2::scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::guides(fill = FALSE) +
+        ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
+        ggplot2::theme(
+            axis.title  = ggplot2::element_blank(),
+            axis.ticks  = ggplot2::element_blank(),
+            axis.text   = ggplot2::element_blank(),
+            panel.grid  = ggplot2::element_blank(),
+            axis.line   = ggplot2::element_blank(),
+            strip.background = ggplot2::element_rect(fill = "grey80"),
+            strip.text = ggplot2::element_text(hjust  = 0),
+            panel.background = ggplot2::element_rect(fill = "grey85"),
+            plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
+
     return(plot)
 }
