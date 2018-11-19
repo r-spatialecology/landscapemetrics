@@ -10,9 +10,9 @@
 - `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
 - `show_()`-functions don't throw warnings
 - "global" facet for all `show_()` functions
+- `what` arguments of `get_patches()` is now named `class` for consistency (so all `what` arguments deal with metrics)
 
 # landscapemetrics 0.2
-
 * Unified naming scheme for all auxiliary functions:
     * `calculate_metrics` is now `calculate_lsm`
 * Implemented `show_cores`, a function to plot the core area of patches
@@ -27,11 +27,9 @@
 * The `edge_depth` can be specified for all core metrics
 
 # landscapemetrics 0.1.1
-
 * Replaced isFALSE() with !isTRUE() to be compatibile to R (> 3.1)
 * Bugfix: lsm_p_core() and lsm_p_ncore() now takes landscape boundary into account
 * Added namespace prefix std::fmod() in get_adjacency.cpp
 
 # landscapemetrics 0.1.0
-
 * First submission to CRAN

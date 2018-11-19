@@ -189,7 +189,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         else{
             patch_core <- get_patches(class_edge,
-                                      directions = directions, what = 0)[[1]]
+                                      directions = directions, class = 0)[[1]]
 
             points <- raster::rasterToPoints(patch_core)
             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)

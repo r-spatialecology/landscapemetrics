@@ -5,7 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param what Either "all" (default) for every class in the raster, or specify
+#' @param class Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
 #' @param ccl_to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
@@ -54,17 +54,17 @@
 #' @rdname get_patches
 #'
 #' @export
-get_patches <- function(landscape, what, directions, ccl_to_disk)  UseMethod("get_patches")
+get_patches <- function(landscape, class, directions, ccl_to_disk)  UseMethod("get_patches")
 
 
 #' @name get_patches
 #' @export
 get_patches.RasterLayer <- function(landscape,
-                                what = "all",
+                                class = "all",
                                 directions = 8,
                                 ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
     raster::as.list(get_patches_int(landscape,
-                what = what,
+                class = class,
                 directions = directions,
                 ccl_to_disk = ccl_to_disk))
 }
@@ -72,13 +72,13 @@ get_patches.RasterLayer <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.RasterStack <- function(landscape,
-                                what = "all",
+                                class = "all",
                                 directions = 8,
                                 ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
-           what = what,
+           class = class,
            directions = directions,
            ccl_to_disk = ccl_to_disk)
 }
@@ -86,13 +86,13 @@ get_patches.RasterStack <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.RasterBrick <- function(landscape,
-                                what = "all",
+                                class = "all",
                                 directions = 8,
                                 ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
-           what = what,
+           class = class,
            directions = directions,
            ccl_to_disk = ccl_to_disk)
 }
@@ -100,18 +100,18 @@ get_patches.RasterBrick <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.list <- function(landscape,
-                         what = "all",
+                         class = "all",
                          directions = 8,
                          ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
 
     lapply(X = landscape,
            FUN = get_patches_int,
-           what = what,
+           class = class,
            directions = directions,
            ccl_to_disk = ccl_to_disk)
 }
 
-get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
+get_patches_int <- function(landscape, class, directions, ccl_to_disk) {
 
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
@@ -133,13 +133,13 @@ get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
 
     landscape_matrix <- raster::as.matrix(landscape)
 
-    if (what != "all") {
+    if (class != "all") {
 
-        if (!isTRUE(what %in% raster::unique(landscape))) {
-            stop(paste("There is no class", what, "in your raster"))
+        if (!isTRUE(class %in% raster::unique(landscape))) {
+            stop(paste("There is no class", class, "in your raster"))
         }
 
-        filter_matrix[landscape_matrix == what] <- 1
+        filter_matrix[landscape_matrix == class] <- 1
 
         if (directions == 4) {
             filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
@@ -151,13 +151,13 @@ get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
 
         if(ccl_to_disk == TRUE){
             set_values <- function(x){filter_raster}
-            patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
+            patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", class,".grd")), overwrite=TRUE)
         } else {
             patch_landscape <- raster::setValues(x = landscape_empty,
                                                  values = filter_raster)
         }
 
-        names(patch_landscape) <- paste0("Class_", what)
+        names(patch_landscape) <- paste0("Class_", class)
 
         return(patch_landscape)
     }
@@ -166,9 +166,9 @@ get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
 
         classes <- na.omit(unique(as.vector(landscape_matrix)))
 
-        patch_landscape <- lapply(X = classes, FUN = function(what) {
+        patch_landscape <- lapply(X = classes, FUN = function(class) {
 
-            filter_matrix[landscape_matrix == what] <- 1
+            filter_matrix[landscape_matrix == class] <- 1
 
             if (directions == 4) {
                 filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
@@ -181,13 +181,13 @@ get_patches_int <- function(landscape, what, directions, ccl_to_disk) {
 
             if(ccl_to_disk == TRUE){
                 set_values <- function(x){filter_raster}
-                patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", what,".grd")), overwrite=TRUE)
+                patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", class,".grd")), overwrite=TRUE)
             } else {
                 patch_landscape <- raster::setValues(x = landscape_empty,
                                                      values = filter_raster)
                 }
 
-            names(patch_landscape) <- paste0("Class_", what)
+            names(patch_landscape) <- paste0("Class_", class)
 
             patch_landscape
 

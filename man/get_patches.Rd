@@ -8,27 +8,27 @@
 \alias{get_patches.list}
 \title{get_patches}
 \usage{
-get_patches(landscape, what, directions, ccl_to_disk)
+get_patches(landscape, class, directions, ccl_to_disk)
 
-\method{get_patches}{RasterLayer}(landscape, what = "all",
+\method{get_patches}{RasterLayer}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
   FALSE))
 
-\method{get_patches}{RasterStack}(landscape, what = "all",
+\method{get_patches}{RasterStack}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
   FALSE))
 
-\method{get_patches}{RasterBrick}(landscape, what = "all",
+\method{get_patches}{RasterBrick}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
   FALSE))
 
-\method{get_patches}{list}(landscape, what = "all", directions = 8,
+\method{get_patches}{list}(landscape, class = "all", directions = 8,
   ccl_to_disk = getOption("ccl_to_disk", default = FALSE))
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{what}{Either "all" (default) for every class in the raster, or specify
+\item{class}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
 
 \item{directions}{The number of directions in which patches should be
