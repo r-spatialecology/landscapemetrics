@@ -111,6 +111,10 @@ NumericVector moving_filter(arma::imat x, arma::imat directions) {
     // get unique values
     arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
 
+    // create empty cooccurence matrix
+    arma::imat cooc_mat(u,u)
+
+    // get number of rows and cols for the looping
     int nrows = x.n_rows();
     int ncols = x.n_cols();
 
@@ -135,10 +139,10 @@ NumericVector moving_filter(arma::imat x, arma::imat directions) {
             }
 
             // store and update values of neighs
-
             // ????; table from neighs and put that somehow in a matrix
-            IntegerVector table(na_omit(neighs));
+            IntegerVector sum_neighs = table(na_omit(neighs));
         }
+
     }
 }
 
