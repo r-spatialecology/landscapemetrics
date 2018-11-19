@@ -11,6 +11,7 @@
 - `show_()`-functions don't throw warnings
 - "global" facet for all `show_()` functions
 - `what` arguments of `get_patches()` is now named `class` for consistency (so all `what` arguments deal with metrics)
+- `extract_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
 
 # landscapemetrics 0.2
 * Unified naming scheme for all auxiliary functions:
