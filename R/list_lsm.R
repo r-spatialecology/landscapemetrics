@@ -53,6 +53,12 @@ list_lsm <- function(level = NULL,
     if(!is.null(what)) {
 
         if(!is.null(c(level, metric, name, type))) {
+
+            level  <- NULL
+            metric <- NULL
+            name <- NULL
+            type <- NULL
+
             if(verbose) {warning("only using 'what' argument", call. = FALSE)}
         }
 
