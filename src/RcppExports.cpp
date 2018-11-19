@@ -66,7 +66,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_composition_vector
-Rcpp::IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
+IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
 RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -125,6 +125,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// moving_filter
+NumericVector moving_filter(arma::imat x, arma::imat directions);
+RcppExport SEXP _landscapemetrics_moving_filter(SEXP xSEXP, SEXP directionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(moving_filter(x, directions));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_get_entropy
 double rcpp_get_entropy(NumericVector x, std::string base);
 RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
@@ -175,6 +187,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
+    {"_landscapemetrics_moving_filter", (DL_FUNC) &_landscapemetrics_moving_filter, 2},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},

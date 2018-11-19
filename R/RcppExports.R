@@ -94,6 +94,10 @@ rcpp_get_offdiagonal_vector <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_offdiagonal_vector', PACKAGE = 'landscapemetrics', x, directions)
 }
 
+moving_filter <- function(x, directions) {
+    .Call('_landscapemetrics_moving_filter', PACKAGE = 'landscapemetrics', x, directions)
+}
+
 rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
 }
