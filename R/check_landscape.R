@@ -111,8 +111,8 @@ check_landscape_calc <- function(landscape){
                                     units == "degrees" ~ "notok",
                                     units != "degrees" ~ "ok"),
         OK = dplyr::case_when(class_ok == "ok" & units_ok == "ok" & n_classes_ok == "ok" ~ cli::symbol$tick,
-                              class_ok == "maybe" | units_ok == "maybe" | n_classes_ok == "maybe" ~ cli::symbol$circle_question_mark,
-                              TRUE ~ cli::symbol$cross)
+                              class_ok == "notok" | units_ok == "notok" ~ cli::symbol$cross,
+                              class_ok == "maybe" | units_ok == "maybe" | n_classes_ok == "maybe" ~ cli::symbol$circle_question_mark)
     )
 
     info <- dplyr::select(info, layer, crs, units, class, n_classes, OK)
