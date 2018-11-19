@@ -63,9 +63,10 @@ NumericVector rcpp_get_offdiagonal_vector(arma::imat x, arma::imat directions) {
     return result;
 }
 
-// [[Rcpp::export]]
+
 /*
-NumericVector moving_filter(arma::imat x, arma::imat directions) {
+
+ NumericVector moving_filter(arma::imat x, arma::imat directions) {
 
     // get unique values
     arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
@@ -104,7 +105,4 @@ NumericVector moving_filter(arma::imat x, arma::imat directions) {
 
     }
 }
-*/
-/*** R
-
 */

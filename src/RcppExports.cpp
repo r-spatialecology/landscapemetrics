@@ -88,6 +88,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_coocurrence_matrix2
+IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix& x, const arma::imat& directions);
+RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix2(SEXP xSEXP, SEXP directionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type directions(directionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix2(x, directions));
+    return rcpp_result_gen;
+END_RCPP
+}
 // triangular_index
 int triangular_index(int r, int c);
 RcppExport SEXP _landscapemetrics_triangular_index(SEXP rSEXP, SEXP cSEXP) {
@@ -122,18 +134,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_offdiagonal_vector(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// moving_filter
-NumericVector moving_filter(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_moving_filter(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(moving_filter(x, directions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -184,15 +184,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_pairs", (DL_FUNC) &_landscapemetrics_rcpp_get_pairs, 2},
     {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
+    {"_landscapemetrics_rcpp_get_coocurrence_matrix2", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix2, 2},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
-    {"_landscapemetrics_moving_filter", (DL_FUNC) &_landscapemetrics_moving_filter, 2},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
-    {"ccl_4",                                         (DL_FUNC) &ccl_4,                                         1},
-    {"ccl_8",                                         (DL_FUNC) &ccl_8,                                         1},
+    {"ccl_4",                                          (DL_FUNC) &ccl_4,                                          1},
+    {"ccl_8",                                          (DL_FUNC) &ccl_8,                                          1},
     {NULL, NULL, 0}
 };
 

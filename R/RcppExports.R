@@ -82,6 +82,10 @@ rcpp_get_coocurrence_matrix <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
 
+rcpp_get_coocurrence_matrix2 <- function(x, directions) {
+    .Call('_landscapemetrics_rcpp_get_coocurrence_matrix2', PACKAGE = 'landscapemetrics', x, directions)
+}
+
 triangular_index <- function(r, c) {
     .Call('_landscapemetrics_triangular_index', PACKAGE = 'landscapemetrics', r, c)
 }
@@ -92,10 +96,6 @@ rcpp_get_coocurrence_vector <- function(x, directions, ordered = TRUE) {
 
 rcpp_get_offdiagonal_vector <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_offdiagonal_vector', PACKAGE = 'landscapemetrics', x, directions)
-}
-
-moving_filter <- function(x, directions) {
-    .Call('_landscapemetrics_moving_filter', PACKAGE = 'landscapemetrics', x, directions)
 }
 
 rcpp_get_entropy <- function(x, base = "log2") {
