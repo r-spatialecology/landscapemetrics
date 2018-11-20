@@ -33,7 +33,7 @@ bool myfunction (int i, int j) {
     return (i==j);
 }
 
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerVector x,
+IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
                                            const arma::imat directions,
                                            unsigned ncols, unsigned nrows,
                                            IntegerVector classes) {

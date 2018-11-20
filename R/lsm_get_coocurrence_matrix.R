@@ -3,7 +3,7 @@ lsm_get_coocurrence_matrix <- function(x, directions) {
     ncol <- ncol(x)
     nrow <- nrow(x)
     classes <- raster::unique(x)
-    mat <- raster::values(x) # eats quite some memory
+    mat <- raster::as.matrix(x) # eats quite some memory
     lsm_get_coocurrence_matrix_(mat, directions, ncol, nrow, classes)
 }
 

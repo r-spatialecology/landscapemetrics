@@ -89,12 +89,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix2
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerVector x, const arma::imat directions, unsigned ncols, unsigned nrows, IntegerVector classes);
+IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x, const arma::imat directions, unsigned ncols, unsigned nrows, IntegerVector classes);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix2(SEXP xSEXP, SEXP directionsSEXP, SEXP ncolsSEXP, SEXP nrowsSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< unsigned >::type ncols(ncolsSEXP);
     Rcpp::traits::input_parameter< unsigned >::type nrows(nrowsSEXP);
