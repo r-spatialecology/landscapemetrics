@@ -89,14 +89,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix2
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix& x, const arma::imat& directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix2(SEXP xSEXP, SEXP directionsSEXP) {
+IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerVector x, const arma::imat directions, unsigned ncols, unsigned nrows, IntegerVector classes);
+RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix2(SEXP xSEXP, SEXP directionsSEXP, SEXP ncolsSEXP, SEXP nrowsSEXP, SEXP classesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::imat& >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix2(x, directions));
+    Rcpp::traits::input_parameter< const IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< unsigned >::type ncols(ncolsSEXP);
+    Rcpp::traits::input_parameter< unsigned >::type nrows(nrowsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type classes(classesSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix2(x, directions, ncols, nrows, classes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -184,7 +187,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_pairs", (DL_FUNC) &_landscapemetrics_rcpp_get_pairs, 2},
     {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
-    {"_landscapemetrics_rcpp_get_coocurrence_matrix2", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix2, 2},
+    {"_landscapemetrics_rcpp_get_coocurrence_matrix2", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix2, 5},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},

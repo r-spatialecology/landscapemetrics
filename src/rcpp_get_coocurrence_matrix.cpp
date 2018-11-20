@@ -43,37 +43,33 @@ IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
     return cooc_mat_result;
 }
 
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix &x,
-                                           const arma::imat &directions) {
-    int min = Rcpp::min(x);
-    int max = Rcpp::max(x);
-    unsigned ncols = x.ncol();
-    unsigned nrows = x.nrow();
-    unsigned n_classes = 1 + max - min;
+bool myfunction (int i, int j) {
+    return (i==j);
+}
+
+IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerVector x,
+                                           const arma::imat directions,
+                                           unsigned ncols, unsigned nrows,
+                                           IntegerVector classes) {
+    const int na = NA_INTEGER;
+    std::map<int, unsigned> class_index;
+    for (unsigned i = 0; i < classes.size(); i++) {
+        if (classes[i] == na)
+            continue;
+        class_index.insert(std::make_pair(classes[i], i));
+    }
+    unsigned n_classes = classes.size();
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
-                                                std::vector<unsigned>(n_classes));
+                                                 std::vector<unsigned>(n_classes));
 
     const std::vector<std::vector<int> > neig_coords = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
-    // auto neig_coords_ = rcpp_create_neighborhood(directions);
-//    std::vector<std::vector<int>> neig_coords(neig_coords_.nrow(),
-//                                              std::vector<int>(neig_coords_.ncol()));
-//    for (unsigned col = 0; col < neig_coords_.ncol(); col++) {
-//        for (unsigned row = 0; row < neig_coords_.nrow(); row++) {
-//            neig_coords[col][row] = neig_coords_(col, row);
-//        }
-//    }
-
-//    std::vector<std::vector<int> > landscape(ncols, std::vector<int>(nrows));
-//    for (unsigned col = 0; col < ncols; col++) {
-//        for (unsigned row = 0; row < nrows; row++) {
-//            landscape[col][row] = x[col * nrows + row];
-//        }
-//    }
-
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
-            unsigned focal_class = x[col * nrows + row] - min;
+            const int tmp = x[col * nrows + row];
+            if (tmp == na)
+                continue;
+            unsigned focal_class = class_index[tmp];
             for (auto neig : neig_coords) {
                 int neig_col = neig[0] + col;
                 int neig_row = neig[1] + row;
@@ -81,8 +77,11 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix &x,
                         neig_row >= 0 &&
                         neig_col < ncols &&
                         neig_row < nrows) {
-                    unsigned neig_class = x[neig_col * nrows + neig_row] - min;
-                        cooc_mat[focal_class][neig_class]++;
+                    const int tmp = x[neig_col * nrows + neig_row];
+                    if (tmp == na)
+                        continue;
+                    unsigned neig_class = class_index[tmp];
+                    cooc_mat[focal_class][neig_class]++;
                 }
             }
         }
@@ -95,6 +94,9 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix &x,
         }
     }
 
+    // add names
+    List u_names = List::create(classes, classes);
+    result.attr("dimnames") = u_names;
     return result;
 }
 
@@ -107,5 +109,12 @@ test <- landscapemetrics::landscape
 test <- raster("~/Downloads/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
 mat <- raster::as.matrix(test)
 four <- as.matrix(4)
-test <- landscapemetrics:::rcpp_get_coocurrence_matrix2(mat, four)
-*/
+test0 <- microbenchmark::microbenchmark(
+    res1 <- landscapemetrics:::lsm_get_coocurrence_matrix_(mat, four, ncol, nrow, classes), unit = "s", times = 1) # 25s
+test0_2 <- microbenchmark::microbenchmark(
+    res1 <- landscapemetrics:::lsm_get_coocurrence_matrix(test, four), unit = "s", times = 1) # 80s
+res2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(mat, four)
+test <- microbenchmark::microbenchmark(landscapemetrics:::lsm_get_coocurrence_matrix(test, four), unit = "ms")
+test2 <- microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_coocurrence_matrix(mat, four), unit = "ms")
+summary(test2)
+    */
