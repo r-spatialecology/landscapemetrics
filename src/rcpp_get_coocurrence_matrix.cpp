@@ -1,5 +1,7 @@
 #include "get_coocurrence_matrix.h"
 #include "get_adjacency.h"
+#include "lsm_unique.h"
+
 
 IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
     // get unique values
@@ -30,30 +32,27 @@ IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
 }
 
 IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
-                                           const arma::imat directions,
-                                           IntegerVector classes) {
+                                           const arma::imat directions) {
     const int na = NA_INTEGER;
     const unsigned ncols = x.ncol();
     const unsigned nrows = x.nrow();
-    std::map<int, unsigned> class_index;
-    for (unsigned i = 0; i < classes.size(); i++) {
-        if (classes[i] == na)
-            continue;
-        class_index.insert(std::make_pair(classes[i], i));
-    }
-    unsigned n_classes = classes.size();
+
+    std::vector<int> classes = lsm_unique(x);
+    std::map<int, unsigned> class_index = get_classes_map(classes);
+
+    unsigned n_classes = class_index.size();
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
                                                  std::vector<unsigned>(n_classes));
 
-
     // create neighbors coordinates
-    IntegerMatrix neig_coords = rcpp_create_neighborhood(directions);
-    int neigh_len = neig_coords.nrow();
-    // std::vector<std::vector<int> > neig_coords;
-    // neig_coords[0][1] = neigh_coords(_,0);
-    // neig_coords[1][0] = neigh_coords(_,1);
-    //
-    // const std::vector<std::vector<int> > neig_coords = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+    IntegerMatrix tmp = rcpp_create_neighborhood(directions);
+    int neigh_len = tmp.nrow();
+    std::vector<std::vector<int> > neig_coords;
+    for (int row = 0; row < neigh_len; row++) {
+        IntegerVector a = tmp.row(row);
+        std::vector<int> b(a.begin(), a.end());
+        neig_coords.push_back(b);
+    }
 
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
@@ -62,8 +61,8 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
                 continue;
             unsigned focal_class = class_index[tmp];
             for (int h = 0; h < neigh_len; h++) {
-                int neig_col = neig_coords(h,1) + col;
-                int neig_row = neig_coords(h,0) + row;
+                int neig_col = neig_coords[h][0] + col;
+                int neig_row = neig_coords[h][1] + row;
                 if (neig_col >= 0 &&
                         neig_row >= 0 &&
                         neig_col < ncols &&
@@ -89,6 +88,15 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
     List u_names = List::create(classes, classes);
     result.attr("dimnames") = u_names;
     return result;
+}
+
+std::map<int, unsigned> get_classes_map(const std::vector<int> &classes)
+{
+    std::map<int, unsigned> class_index;
+    for (unsigned i = 0; i < classes.size(); i++) {
+        class_index.insert(std::make_pair(classes[i], i));
+    }
+    return class_index;
 }
 
 
