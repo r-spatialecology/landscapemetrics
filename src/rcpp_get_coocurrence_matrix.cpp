@@ -29,10 +29,6 @@ IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
     return cooc_mat_result;
 }
 
-bool myfunction (int i, int j) {
-    return (i==j);
-}
-
 IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
                                            const arma::imat directions,
                                            IntegerVector classes) {
@@ -49,7 +45,15 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
                                                  std::vector<unsigned>(n_classes));
 
-    const std::vector<std::vector<int> > neig_coords = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+
+    // create neighbors coordinates
+    IntegerMatrix neig_coords = rcpp_create_neighborhood(directions);
+    int neigh_len = neig_coords.nrow();
+    // std::vector<std::vector<int> > neig_coords;
+    // neig_coords[0][1] = neigh_coords(_,0);
+    // neig_coords[1][0] = neigh_coords(_,1);
+    //
+    // const std::vector<std::vector<int> > neig_coords = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
@@ -57,9 +61,9 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
             if (tmp == na)
                 continue;
             unsigned focal_class = class_index[tmp];
-            for (auto neig : neig_coords) {
-                int neig_col = neig[0] + col;
-                int neig_row = neig[1] + row;
+            for (int h = 0; h < neigh_len; h++) {
+                int neig_col = neig_coords(h,1) + col;
+                int neig_row = neig_coords(h,0) + row;
                 if (neig_col >= 0 &&
                         neig_row >= 0 &&
                         neig_col < ncols &&
@@ -93,15 +97,9 @@ IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
 library(raster)
 library(dplyr)
 test <- landscapemetrics::landscape
-test <- raster("~/Downloads/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
+# test <- raster("~/Downloads/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
 mat <- raster::as.matrix(test)
-four <- as.matrix(4)
-test0 <- microbenchmark::microbenchmark(
-    res1 <- landscapemetrics:::lsm_get_coocurrence_matrix_(mat, four, ncol, nrow, classes), unit = "s", times = 1) # 25s
-test0_2 <- microbenchmark::microbenchmark(
-    res1 <- landscapemetrics:::lsm_get_coocurrence_matrix(test, four), unit = "s", times = 1) # 80s
-res2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(mat, four)
-test <- microbenchmark::microbenchmark(landscapemetrics:::lsm_get_coocurrence_matrix(test, four), unit = "ms")
-test2 <- microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_coocurrence_matrix(mat, four), unit = "ms")
-summary(test2)
-    */
+four <- as.matrix(8)
+classes <- 1:3
+rcpp_get_coocurrence_matrix2(mat, four, classes)
+*/
