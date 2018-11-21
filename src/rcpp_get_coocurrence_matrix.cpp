@@ -76,9 +76,11 @@ std::map<int, unsigned> get_classes_map(const std::vector<int> &classes)
 
 library(raster)
 library(dplyr)
-test <- landscapemetrics::landscape
+test <- landscapemetrics::augusta_nlcd
 test <- raster("~/Desktop/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
 mat <- raster::as.matrix(test)
-four <- as.matrix(8)
+four <- as.matrix(4)
 rcpp_get_coocurrence_matrix(mat, four)
+
+lsm_unique(mat)
 */
