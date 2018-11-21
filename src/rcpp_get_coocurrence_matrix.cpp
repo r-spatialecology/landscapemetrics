@@ -35,9 +35,10 @@ bool myfunction (int i, int j) {
 
 IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
                                            const arma::imat directions,
-                                           unsigned ncols, unsigned nrows,
                                            IntegerVector classes) {
     const int na = NA_INTEGER;
+    const unsigned ncols = x.ncol();
+    const unsigned nrows = x.nrow();
     std::map<int, unsigned> class_index;
     for (unsigned i = 0; i < classes.size(); i++) {
         if (classes[i] == na)
