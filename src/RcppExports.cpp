@@ -164,8 +164,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
-    {"ccl_4", (DL_FUNC) &ccl_4, 1},
-    {"ccl_8", (DL_FUNC) &ccl_8, 1},
+    {"ccl_4",                                         (DL_FUNC) &ccl_4,                                         1},
+    {"ccl_8",                                         (DL_FUNC) &ccl_8,                                         1},
     {NULL, NULL, 0}
 };
 
