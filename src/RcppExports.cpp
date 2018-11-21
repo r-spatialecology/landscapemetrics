@@ -6,6 +6,40 @@
 
 using namespace Rcpp;
 
+// rcpp_get_composition_vector
+IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
+RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_composition_vector(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_get_entropy
+double rcpp_get_entropy(NumericVector x, std::string base);
+RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_entropy(x, base));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lsm_unique
+std::vector<int> lsm_unique(const Rcpp::IntegerVector& x);
+RcppExport SEXP _landscapemetrics_lsm_unique(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(lsm_unique(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_xy_from_matrix
 IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell);
 RcppExport SEXP _landscapemetrics_rcpp_xy_from_matrix(SEXP xSEXP, SEXP cellSEXP) {
@@ -41,62 +75,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_get_adjacency
-IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_adjacency(SEXP xSEXP, SEXP directionsSEXP) {
+// rcpp_get_circle
+arma::mat rcpp_get_circle(arma::mat points, double resolution);
+RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolutionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_adjacency(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_pairs
-IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_pairs(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_pairs(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_composition_vector
-IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
-RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_composition_vector(x));
+    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< double >::type resolution(resolutionSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix
-IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions);
+IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x, const arma::imat directions);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_coocurrence_matrix2
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x, const arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix2(SEXP xSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix2(x, directions));
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix(x, directions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -113,12 +112,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_coocurrence_vector
-NumericVector rcpp_get_coocurrence_vector(arma::imat x, arma::imat directions, bool ordered);
+NumericVector rcpp_get_coocurrence_vector(IntegerMatrix x, arma::imat directions, bool ordered);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_vector(SEXP xSEXP, SEXP directionsSEXP, SEXP orderedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< bool >::type ordered(orderedSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_vector(x, directions, ordered));
@@ -126,49 +125,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_offdiagonal_vector
-NumericVector rcpp_get_offdiagonal_vector(arma::imat x, arma::imat directions);
+NumericVector rcpp_get_offdiagonal_vector(IntegerMatrix x, arma::imat directions);
 RcppExport SEXP _landscapemetrics_rcpp_get_offdiagonal_vector(SEXP xSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_offdiagonal_vector(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_entropy
-double rcpp_get_entropy(NumericVector x, std::string base);
-RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_entropy(x, base));
-    return rcpp_result_gen;
-END_RCPP
-}
-// lsm_unique
-std::vector<int> lsm_unique(const Rcpp::IntegerVector& x);
-RcppExport SEXP _landscapemetrics_lsm_unique(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(lsm_unique(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_circle
-arma::mat rcpp_get_circle(arma::mat points, double resolution);
-RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolutionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
-    Rcpp::traits::input_parameter< double >::type resolution(resolutionSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -188,23 +152,20 @@ RcppExport SEXP ccl_4(SEXP);
 RcppExport SEXP ccl_8(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
+    {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
+    {"_landscapemetrics_lsm_unique", (DL_FUNC) &_landscapemetrics_lsm_unique, 1},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
-    {"_landscapemetrics_rcpp_get_adjacency", (DL_FUNC) &_landscapemetrics_rcpp_get_adjacency, 2},
-    {"_landscapemetrics_rcpp_get_pairs", (DL_FUNC) &_landscapemetrics_rcpp_get_pairs, 2},
-    {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
+    {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
-    {"_landscapemetrics_rcpp_get_coocurrence_matrix2", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix2, 2},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
-    {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
-    {"_landscapemetrics_lsm_unique", (DL_FUNC) &_landscapemetrics_lsm_unique, 1},
-    {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
-    {"ccl_4",                                          (DL_FUNC) &ccl_4,                                          1},
-    {"ccl_8",                                          (DL_FUNC) &ccl_8,                                          1},
+    {"ccl_4", (DL_FUNC) &ccl_4, 1},
+    {"ccl_8", (DL_FUNC) &ccl_8, 1},
     {NULL, NULL, 0}
 };
 

@@ -1,37 +1,9 @@
-#include "get_coocurrence_matrix.h"
-#include "get_adjacency.h"
+#include "rcpp_get_coocurrence_matrix.h"
+#include "rcpp_create_neighborhood.h"
 #include "lsm_unique.h"
 
-
-IntegerMatrix rcpp_get_coocurrence_matrix(arma::imat x, arma::imat directions) {
-    // get unique values
-    arma::ivec u = arma::conv_to<arma::ivec>::from(arma::unique(x.elem(find(x != INT_MIN))));
-    // create a matrix of zeros of unique values size
-    arma::imat cooc_mat(u.n_elem, u.n_elem, arma::fill::zeros);
-    // extract adjency pairs
-    IntegerMatrix pairs = rcpp_get_pairs(x, directions);
-    // number of pairs
-    int num_pairs = pairs.nrow();
-    // for each row and col
-    for (int i = 0; i < num_pairs; i++) {
-        // extract value of central cell and its neighbot
-        int center = pairs(i, 0);
-        int neigh = pairs(i, 1);
-        // find their location in the output matrix
-        arma::uvec loc_c = find(u == center);
-        arma::uvec loc_n = find(u == neigh);
-        // add its count
-        cooc_mat(loc_c, loc_n) += 1;
-    }
-    // return a coocurence matrix
-    IntegerMatrix cooc_mat_result = as<IntegerMatrix>(wrap(cooc_mat));
-    // add names
-    List u_names = List::create(u, u);
-    cooc_mat_result.attr("dimnames") = u_names;
-    return cooc_mat_result;
-}
-
-IntegerMatrix rcpp_get_coocurrence_matrix2(const IntegerMatrix x,
+// [[Rcpp::export]]
+IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
                                            const arma::imat directions) {
     const int na = NA_INTEGER;
     const unsigned ncols = x.ncol();
@@ -105,9 +77,8 @@ std::map<int, unsigned> get_classes_map(const std::vector<int> &classes)
 library(raster)
 library(dplyr)
 test <- landscapemetrics::landscape
-# test <- raster("~/Downloads/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
+test <- raster("~/Desktop/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
 mat <- raster::as.matrix(test)
 four <- as.matrix(8)
-classes <- 1:3
-rcpp_get_coocurrence_matrix2(mat, four, classes)
+rcpp_get_coocurrence_matrix(mat, four)
 */

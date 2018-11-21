@@ -1,6 +1,4 @@
-#include <RcppArmadillo.h>
-
-using namespace Rcpp;
+#include "rcpp_get_circle.h"
 
 double max_dist_fun(arma::mat& points) {
 
