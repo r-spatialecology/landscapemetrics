@@ -111,18 +111,22 @@ lsm_p_area.list <- function(landscape, directions = 8) {
 
 lsm_p_area_calc <- function(landscape, directions){
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
-    area_patch_list <- lapply(landscape_labeled, function(patches_class){
+    factor_ha <- prod(raster::res(landscape)) / 10000
 
-        class <- sub("Class_", "", names(patches_class))
+    area_patch_list <- lapply(classes, function(patches_class){
 
-        area_patch_ij <- rcpp_get_composition_vector(
-            x = raster::as.matrix(patches_class)) *
-            prod(raster::res(patches_class)) / 10000
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions,
+                                         return_type = "matrix")[[1]]
+
+
+        area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
 
         tibble::tibble(
-            class = as.integer(class),
+            class = as.integer(patches_class),
             value = area_patch_ij
         )
     })

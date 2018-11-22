@@ -141,8 +141,6 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                          class = patches_class,
                                          return_type = "matrix")[[1]]
 
-        # patch_mat <- raster::as.matrix(landscape_labeled)
-
         n_cells <- rcpp_get_composition_vector(patch_mat)
         n_patches <- length(n_cells)
 

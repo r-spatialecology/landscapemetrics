@@ -119,15 +119,13 @@ lsm_c_te.list <- function(landscape,
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
-    number_classes <- dplyr::pull(lsm_l_pr_calc(landscape), value)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
-    if(number_classes == 1 && !isTRUE(count_boundary)) {
-
-        class_name <- raster::unique(landscape)
+    if(length(classes) == 1 && !isTRUE(count_boundary)) {
 
         tibble::tibble(
             level = "class",
-            class = as.integer(class_name),
+            class = as.integer(classes),
             id = as.integer(NA),
             metric = "te",
             value = as.double(0))
@@ -145,25 +143,25 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
                                           NA, 1, NA), 3, 3, byrow = TRUE)
         }
 
-        landscape_labeled <- get_patches(landscape, directions = directions)
+        result <- lapply(X = classes, FUN = function(patches_class) {
 
-        result <- lapply(X = landscape_labeled, FUN = function(patches_class) {
+            landscape_labeled <- get_patches(landscape,
+                                             class = patches_class,
+                                             directions = directions,
+                                             return_type = "matrix")[[1]]
 
-            class <- sub("Class_", "", names(patches_class))
-
-
-            raster::values(patches_class)[is.na(raster::values(patches_class))] <- -999
+            landscape_labeled[is.na(landscape_labeled)] <- -999
 
             if(isTRUE(count_boundary)){
-                patches_class <- pad_raster(landscape = patches_class,
-                                            pad_raster_value = -999,
-                                            pad_raster_cells = 1)
+                landscape_labeled <- pad_raster(landscape = landscape_labeled,
+                                                pad_raster_value = -999,
+                                                pad_raster_cells = 1)
             }
 
             if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
 
-                neighbor_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
-                                                  directions = as.matrix(4))
+                neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
+                                                               directions = as.matrix(4))
 
                 edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) *
                     raster::res(landscape)[[1]]
@@ -171,24 +169,24 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
             else {
 
-                left_right_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                left_right_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(left_right_matrix))
 
                 edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) *
-                    raster::res(patches_class)[[1]]
+                    raster::res(landscape)[[1]]
 
-                top_bottom_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+                top_bottom_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(top_bottom_matrix))
 
                 edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) *
-                    raster::res(patches_class)[[2]]
+                    raster::res(landscape)[[2]]
 
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }
 
             tibble::tibble(
                 level = "class",
-                class = as.integer(class),
+                class = as.integer(patches_class),
                 id = as.integer(NA),
                 metric = "te",
                 value = as.double(edge_ik))

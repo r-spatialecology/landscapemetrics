@@ -113,13 +113,15 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
 
 lsm_p_gyrate_calc <- function(landscape, directions) {
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
-    gyrate <- lapply(landscape_labeled, function(patches_class) {
+    gyrate <- lapply(classes, function(patches_class) {
 
-        class <- sub("Class_", "", names(patches_class))
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions)[[1]]
 
-        points_class <- tibble::as.tibble(raster::rasterToPoints(patches_class))
+        points_class <- tibble::as.tibble(raster::rasterToPoints(landscape_labeled))
         names(points_class) <- c("x", "y", "id")
 
         centroid <- dplyr::summarise(dplyr::group_by(points_class, id),
@@ -135,7 +137,7 @@ lsm_p_gyrate_calc <- function(landscape, directions) {
             value = mean(dist)
             )
 
-        tibble::tibble(class = as.integer(class),
+        tibble::tibble(class = as.integer(patches_class),
                        value = as.double(gyrate_class$value))
     })
 

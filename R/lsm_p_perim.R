@@ -112,26 +112,31 @@ lsm_p_perim_calc <- function(landscape, directions) {
                                       NA, 1, NA), 3, 3, byrow = TRUE)
     }
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
-    perimeter_patch <- lapply(landscape_labeled, function(patches_class) {
+    resolution_x <- raster::xres(landscape)
+    resolution_y <- raster::yres(landscape)
 
-        class <- sub("Class_", "", names(patches_class))
+    perimeter_patch <- lapply(classes, function(patches_class) {
 
-        patches_class <- pad_raster(patches_class, pad_raster_value = NA)
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions)[[1]]
 
-        target_na <- raster::Which(is.na(patches_class), cells = TRUE)
+        landscape_labeled <- pad_raster(landscape_labeled, pad_raster_value = NA)
 
-        raster::values(patches_class)[target_na] <- -999
+        target_na <- which(is.na(landscape_labeled))
+
+        landscape_labeled[target_na] <- -999
 
         if(isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
 
-            neighbour_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+            neighbour_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                             directions = as.matrix(4))
 
             neighbour_matrix <- neighbour_matrix[1 ,2:ncol(neighbour_matrix)]
 
-            perimeter_patch_ij <- neighbour_matrix * raster::res(patches_class)[[1]]
+            perimeter_patch_ij <- neighbour_matrix * resolution_x
         }
 
         else {
@@ -139,19 +144,17 @@ lsm_p_perim_calc <- function(landscape, directions) {
             left_right_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                                                  directions = as.matrix(left_right_matrix))
 
-            perimeter_patch_ij_left_right <- left_right_neighbours[1 ,2:ncol(left_right_neighbours)] *
-                raster::res(patches_class)[[1]]
+            perimeter_patch_ij_left_right <- left_right_neighbours[1 ,2:ncol(left_right_neighbours)] * resolution_x
 
             top_bottom_neighbours <- rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
                                                                  directions = as.matrix(top_bottom_matrix))
 
-            perimeter_patch_ij_top_bottom <- top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)] *
-                raster::res(patches_class)[[2]]
+            perimeter_patch_ij_top_bottom <- top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)] * resolution_y
 
             perimeter_patch_ij <- perimeter_patch_ij_top_bottom + perimeter_patch_ij_left_right
         }
 
-        tibble::tibble(class = class,
+        tibble::tibble(class = patches_class,
                        value = perimeter_patch_ij)
         })
 

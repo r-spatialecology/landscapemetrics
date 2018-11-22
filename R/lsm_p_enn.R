@@ -122,20 +122,22 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
-    enn_patch <- lapply(landscape_labeled, function(patches_class) {
+    enn_patch <- lapply(classes, function(patches_class) {
 
-        class <- sub("Class_", "", names(patches_class))
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions)[[1]]
 
-        np_class <- max(raster::values(patches_class), na.rm = TRUE)
+        np_class <- max(raster::values(landscape_labeled), na.rm = TRUE)
 
         if(np_class == 1) {
-            enn <-  tibble::tibble(class = class,
+            enn <-  tibble::tibble(class = patches_class,
                                    value = as.double(NA))
 
             if(isTRUE(verbose)) {
-                warning(paste0("Class ", class,
+                warning(paste0("Class ", patches_class,
                                ": ENN = NA for class with only 1 patch"),
                         call. = FALSE)
             }
@@ -143,10 +145,10 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
         else {
 
-            class_boundaries <- raster::boundaries(patches_class, directions = 4,
+            class_boundaries <- raster::boundaries(landscape_labeled, directions = 4,
                                                    asNA = TRUE)
 
-            raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
+            raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(landscape_labeled)[raster::values(!is.na(class_boundaries))]
 
             points_class <- raster::rasterToPoints(class_boundaries)
 
@@ -166,7 +168,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
                                     value = min(dist))
         }
 
-        tibble::tibble(class = class,
+        tibble::tibble(class = patches_class,
                        value = enn$value)
     })
 
