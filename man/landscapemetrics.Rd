@@ -34,14 +34,13 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Laura J. Graham (0000-0002-1057-3721) [contributor]
-  \item Kimberly A. With (0000-0001-5570-1515) [contributor]
-  \item Jeffrey Hollister (0000-0002-3611-7281) [contributor]
-  \item Matt Strimas-Mackey (0000-0001-8929-7776) [contributor]
-  \item Jeremy VanDerWal (Original author of underlying C code for 
-             get_patches() function) [contributor]
-  \item Florian Privé (Original author of underlying C++ code for 
-             get_nearestneighbour() function) [contributor]
+  \item Sebastian Hanss (C++ consultancy) [contributor]
+  \item Laura J. Graham (Input on package structure) [contributor]
+  \item Jeffrey Hollister (Input on package structure) [contributor]
+  \item Kimberly A. With (Input on package structure) [contributor]
+  \item Florian Privé (Original author of underlying C++ code for get_nearestneighbour() function) [contributor]
+  \item Jeremy VanDerWal (Original author of underlying C code for get_patches() function) [contributor]
+  \item Matt Strimas-Mackey (Bugfix in sample_metrics()) [contributor]
 }
 
 }

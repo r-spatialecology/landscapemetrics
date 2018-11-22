@@ -1,16 +1,6 @@
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
-// [[Rcpp::depends(RcppArmadillo)]]
-
-//' Coordinates from a matrix
-//'
-//' This function gets coordinates (row and column numbers) of the matrix cells.
-//'
-//' @param x A matrix
-//' @param cell A vector of cell number.
-//' If NULL, the coordinates will be calculated for the whole matrix
-//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_xy_from_matrix2(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
@@ -51,15 +41,6 @@ IntegerMatrix rcpp_xy_from_matrix2(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVec
     return result;
 }
 
-//' Get cell number
-//'
-//' Get cell number(s) of a matrix from row and column numbers.
-//' Cell numbers start at 0 in the upper left corner,
-//' and increase from top to bottom, and then from left to right.
-//'
-//' @param x A matrix
-//' @param y A matrix with two columns (row and column numbers)
-//' @keywords internal
 // [[Rcpp::export]]
 IntegerVector rcpp_cell_from_xy2(arma::imat x, IntegerMatrix y) {
     // adapted from raster::cellFromXY()
@@ -84,16 +65,6 @@ IntegerVector rcpp_cell_from_xy2(arma::imat x, IntegerMatrix y) {
     return result;
 }
 
-//' Create neighborhood coordinates
-//'
-//' This function creates a neighborhood coordinates matrix based on the directions parameter.
-//'
-//' @param directions The number of directions in which cells should be connected:
-    //' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
-//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
-                            //' and at least one cell with value 1 (the adjacent cells).
-//' Cells with other values (e.g. NA) are ignored.
-                            //' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_create_neighborhood2(arma::imat directions){
     if (directions.n_elem == 1){
@@ -125,19 +96,6 @@ IntegerMatrix rcpp_create_neighborhood2(arma::imat directions){
     }
 }
 
-//' Adjacent cells
-//'
-//' Identify cells that are adjacent to a set of cells on a matrix.
-//' An output is a two columns matrix, where the first column contains a
-//' main cell number and the second column contains an adjacent cell number.
-//'
-//' @param x A matrix
-//' @param directions The number of directions in which cells should be connected:
-//' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
-//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
-//' and at least one cell with value 1 (the adjacent cells).
-//' Cells with other values (e.g. NA) are ignored.
-//' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     // extract coordinates from matrix
@@ -176,19 +134,6 @@ IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions) {
     return result;
 }
 
-//' Adjacent cells values
-//'
-//' Extract values of adjacent cells.
-//' An output is a two columns matrix, where the first column contains a
-//' main cell value and the second column contains an adjacent cell value.
-//'
-//' @param x A matrix
-//' @param directions The number of directions in which cells should be connected:
-    //' 4 (rook's case), 8 (queen's case), or a neighbourhood matrix.
-//' The neighbourhood matrix should have one cell with value 0 (the focal cell),
-                            //' and at least one cell with value 1 (the adjacent cells).
-//' Cells with other values (e.g. NA) are ignored.
-                            //' @keywords internal
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions) {
     // extract adjency pairs
@@ -256,7 +201,7 @@ four <- as.matrix(4)
 bench::mark(
     new = rcpp_get_coocurrence_matrix(mat, four),
     old = rcpp_get_coocurrence_matrix_old(mat, four),
-    iterations = 1000,
+    iterations = 500,
     check = TRUE,
     relative = TRUE
 )
