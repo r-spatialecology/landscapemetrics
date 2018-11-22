@@ -33,9 +33,7 @@ pad_raster.RasterLayer <- function(landscape,
                                    pad_raster_cells = 1,
                                    global = FALSE) {
 
-    landscape <- raster::as.matrix(landscape)
-
-    pad_raster_internal(landscape,
+    pad_raster_internal(raster::as.matrix(landscape),
                         pad_raster_value = pad_raster_value,
                         pad_raster_cells = pad_raster_cells,
                         global = global)
