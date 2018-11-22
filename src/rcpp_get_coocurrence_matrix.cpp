@@ -82,5 +82,8 @@ mat <- raster::as.matrix(test)
 four <- as.matrix(4)
 rcpp_get_coocurrence_matrix(mat, four)
 
+
+lsm_p_contig(test)
+
 lsm_unique(mat)
 */

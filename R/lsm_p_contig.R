@@ -161,8 +161,12 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
         class <- sub("Class_", "", names(landscape_labeled))
 
+        rm(classes)
+        gc(verbose = FALSE)
+
         tibble::tibble(class = class,
                        value = contiguity)
+
     })
 
     contig_patch <- dplyr::bind_rows(contig_patch)
