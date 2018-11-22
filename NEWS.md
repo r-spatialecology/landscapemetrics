@@ -12,6 +12,11 @@
 - "global" facet for all `show_()` functions
 - `what` arguments of `get_patches()` is now named `class` for consistency (so all `what` arguments deal with metrics)
 - `extract_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
+- `rcpp_get_coocurrence_matrix()` can now handle large rasters and is faster
+- `get_patches()` can now also return a matrix
+- All functions using `get_patches()` are more memory efficient
+- `pad_raster()` now takes and returns a matrix
+- `lsm_unique()` shows all uniques labels in a class
 
 # landscapemetrics 0.2
 * Unified naming scheme for all auxiliary functions:
