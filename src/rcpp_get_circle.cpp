@@ -73,8 +73,6 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
 
         circle(i, 0) = class_id;
         circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
-
-
     }
 
     return circle;
@@ -89,7 +87,8 @@ mat <- matrix(c(
 bench::mark(
     max(dist(mat)),
     max_dist_fun(mat),
-    relative = TRUE)
+    relative = TRUE,
+    iterations = 100)
 
 landscape_labeled <- get_patches(landscape,
                                  class = 1,

@@ -3,7 +3,9 @@
 #' @description Calculates the diameter of the smallest circumscribing circle around patches in a landscape.
 #'
 #' @param landscape RasterLayer or matrix (with x,y,id columns)
-#' @param resolution Resolution of the landscape (only needed if matrix as input is used)
+#' @param resolution_x Resolution of the landscape (only needed if matrix as input is used)
+#' @param resolution_y Resolution of the landscape (only needed if matrix as input is used)
+
 #'
 #' @details
 #' Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
@@ -36,7 +38,9 @@ get_circumscribingcircle <- function(landscape, resolution_x, resolution_y) UseM
 
 #' @name get_circumscribingcircle
 #' @export
-get_circumscribingcircle.RasterLayer <- function(landscape) {
+get_circumscribingcircle.RasterLayer <- function(landscape,
+                                                 resolution_x = NULL,
+                                                 resolution_y = NULL) {
 
     points_mat <- raster::rasterToPoints(landscape)
 

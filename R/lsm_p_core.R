@@ -137,6 +137,10 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     resolution_xy <- raster::res(landscape)
+    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
+    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
+                                              resolution = resolution_xy,
+                                              crs = raster::crs(landscape))
 
     core <- lapply(classes, function(patches_class) {
 
@@ -151,20 +155,14 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                            pad_raster_cells = 1,
                                            global = FALSE)
 
-            landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
-
-            landscape_labeled <- raster::raster(x = landscape_padded_extent,
-                                                resolution = resolution_xy,
-                                                crs = raster::crs(landscape))
-
-            landscape_labeled <- raster::setValues(landscape_labeled, landscape_padded)
+            landscape_labeled <- raster::setValues(landscape_labeled_empty, landscape_padded)
         }
 
         class_edge <- raster::boundaries(landscape_labeled,
                                          directions = 4)
 
         cells_edge_patch <- table(factor(raster::values(landscape_labeled)[raster::values(class_edge) == 1],
-                                   levels = unique(raster::values(landscape_labeled))))
+                                  levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
 
         if(edge_depth > 1){
             for(i in seq_len(edge_depth - 1)){
@@ -175,12 +173,12 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                                  directions = 4)
 
                 cells_edge_patch <- cells_edge_patch + table(factor(raster::values(landscape_labeled)[raster::values(class_edge) == 1],
-                                                              levels = unique(raster::values(landscape_labeled))))
+                                                             levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
             }
         }
 
         cells_patch <- table(factor(raster::values(landscape_labeled),
-                                    levels = unique(raster::values(landscape_labeled))))
+                                    levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
 
         core_area <- (cells_patch - cells_edge_patch) * prod(resolution_xy) / 10000
 

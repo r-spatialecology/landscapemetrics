@@ -8,7 +8,8 @@
 \usage{
 get_circumscribingcircle(landscape, resolution_x, resolution_y)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape)
+\method{get_circumscribingcircle}{RasterLayer}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
 \method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL,
   resolution_y = NULL)
@@ -16,7 +17,9 @@ get_circumscribingcircle(landscape, resolution_x, resolution_y)
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x,y,id columns)}
 
-\item{resolution}{Resolution of the landscape (only needed if matrix as input is used)}
+\item{resolution_x}{Resolution of the landscape (only needed if matrix as input is used)}
+
+\item{resolution_y}{Resolution of the landscape (only needed if matrix as input is used)}
 }
 \description{
 Calculates the diameter of the smallest circumscribing circle around patches in a landscape.

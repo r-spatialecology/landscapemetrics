@@ -17,6 +17,7 @@
 - All functions using `get_patches()` are more memory efficient
 - `pad_raster()` now takes and returns a matrix
 - New function `get_unique_values()` that shows all uniques labels in a class
+- `lsm_p_circle()` and `get_circumscribingcircle()` now consideres different x- & y-resolutions
 
 # landscapemetrics 0.2
 * Unified naming scheme for all auxiliary functions:
