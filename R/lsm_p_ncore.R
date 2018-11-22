@@ -149,10 +149,14 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
     classes <- lsm_unique(raster::as.matrix(landscape))
 
+    resolution_xy <- raster::res(landscape)
+
     landscape_extent <- raster::extent(landscape)
+    landscape_crs <- raster::crs(landscape)
+
     landscape_raster <- raster::raster(landscape_extent,
-                                       resolution = raster::res(landscape),
-                                       crs = raster::crs(landscape))
+                                       resolution = resolution_xy,
+                                       crs = landscape_crs)
 
     core_class <- lapply(classes, function(patches_class) {
 
@@ -167,11 +171,11 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                                            pad_raster_cells = 1,
                                            global = FALSE)
 
-            landscape_padded_extent <- raster::extent(landscape) + (2 * raster::res(landscape))
+            landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
 
             landscape_labeled <- raster::raster(x = landscape_padded_extent,
-                                                resolution = raster::res(landscape),
-                                                crs = raster::crs(landscape))
+                                                resolution = resolution_xy,
+                                                crs = landscape_crs)
 
             landscape_labeled <- raster::setValues(landscape_labeled, landscape_padded)
         }

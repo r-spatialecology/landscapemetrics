@@ -66,7 +66,7 @@ this option can be set globally, so that every function that internally uses
 }
 \examples{
 # check for patches of class 1
-patched_raster  <-  get_patches(landscape, 1, return_type = "matrix")
+patched_raster  <-  get_patches(landscape, 1)
 
 # count patches
 length(raster::unique(patched_raster[[1]]))

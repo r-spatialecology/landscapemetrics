@@ -136,6 +136,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
     classes <- lsm_unique(raster::as.matrix(landscape))
 
+    resolution_xy <- raster::res(landscape)
+
     core <- lapply(classes, function(patches_class) {
 
         landscape_labeled <- get_patches(landscape,
@@ -149,10 +151,10 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                            pad_raster_cells = 1,
                                            global = FALSE)
 
-            landscape_padded_extent <- raster::extent(landscape) + (2 * raster::res(landscape))
+            landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
 
             landscape_labeled <- raster::raster(x = landscape_padded_extent,
-                                                resolution = raster::res(landscape),
+                                                resolution = resolution_xy,
                                                 crs = raster::crs(landscape))
 
             landscape_labeled <- raster::setValues(landscape_labeled, landscape_padded)
@@ -180,7 +182,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         cells_patch <- table(factor(raster::values(landscape_labeled),
                                     levels = unique(raster::values(landscape_labeled))))
 
-        core_area <- (cells_patch - cells_edge_patch) * prod(raster::res(landscape_labeled)) / 10000
+        core_area <- (cells_patch - cells_edge_patch) * prod(resolution_xy) / 10000
 
         tibble::tibble(class = patches_class,
                        value = core_area)

@@ -147,12 +147,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_circle
-arma::mat rcpp_get_circle(arma::mat points, double resolution);
+NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution);
 RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolutionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type points(pointsSEXP);
     Rcpp::traits::input_parameter< double >::type resolution(resolutionSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution));
     return rcpp_result_gen;

@@ -121,6 +121,10 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     classes <- lsm_unique(raster::as.matrix(landscape))
 
+    resolution_xy <- raster::res(landscape)
+    resolution_x <- resolution_xy[[1]]
+    resolution_y <- resolution_xy[[2]]
+
     if(length(classes) == 1 && !isTRUE(count_boundary)) {
 
         tibble::tibble(
@@ -133,7 +137,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     else {
 
-        if(!isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])){
+        if(!isTRUE(resolution_x == resolution_y)){
             top_bottom_matrix <- matrix(c(NA, NA, NA,
                                           1,  0, 1,
                                           NA, NA, NA), 3, 3, byrow = TRUE)
@@ -158,13 +162,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
                                                 pad_raster_cells = 1)
             }
 
-            if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
+            if (isTRUE(resolution_x == resolution_y)) {
 
                 neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                directions = as.matrix(4))
 
-                edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) *
-                    raster::res(landscape)[[1]]
+                edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) * resolution_x
             }
 
             else {
@@ -172,14 +175,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
                 left_right_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(left_right_matrix))
 
-                edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) *
-                    raster::res(landscape)[[1]]
+                edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) * resolution_x
 
                 top_bottom_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(top_bottom_matrix))
 
-                edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) *
-                    raster::res(landscape)[[2]]
+                edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) * resolution_y
 
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }

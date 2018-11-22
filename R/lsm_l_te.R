@@ -105,8 +105,9 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
 
 lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
 
-    resolution_x <- raster::xres(landscape)
-    resolution_y <- raster::yres(landscape)
+    resolution_xy <- raster::res(landscape)
+    resolution_x <- resolution_xy[[1]]
+    resolution_y <- resolution_xy[[2]]
 
     landscape <- raster::as.matrix(landscape)
 
