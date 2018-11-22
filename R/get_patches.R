@@ -69,11 +69,20 @@ get_patches.RasterLayer <- function(landscape,
                                 directions = 8,
                                 ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
                                 return_type = "raster") {
-    list(get_patches_int(landscape,
-                class = class,
-                directions = directions,
-                ccl_to_disk = ccl_to_disk,
-                return_type = return_type))
+    if (return_type == "raster"){
+        raster::as.list(get_patches_int(landscape,
+                             class = class,
+                             directions = directions,
+                             ccl_to_disk = ccl_to_disk,
+                             return_type = return_type))
+    } else {
+        list(get_patches_int(landscape,
+                             class = class,
+                             directions = directions,
+                             ccl_to_disk = ccl_to_disk,
+                             return_type = return_type))
+    }
+
 }
 
 #' @name get_patches
