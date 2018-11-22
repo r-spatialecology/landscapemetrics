@@ -16,7 +16,7 @@
 - `get_patches()` can now also return a matrix
 - All functions using `get_patches()` are more memory efficient
 - `pad_raster()` now takes and returns a matrix
-- `lsm_unique()` shows all uniques labels in a class
+- New function `get_unique_values()` that shows all uniques labels in a class
 
 # landscapemetrics 0.2
 * Unified naming scheme for all auxiliary functions:
