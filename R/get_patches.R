@@ -76,11 +76,11 @@ get_patches.RasterLayer <- function(landscape,
                              ccl_to_disk = ccl_to_disk,
                              return_type = return_type))
     } else {
-        list(get_patches_int(landscape,
-                             class = class,
-                             directions = directions,
-                             ccl_to_disk = ccl_to_disk,
-                             return_type = return_type))
+        get_patches_int(landscape,
+                        class = class,
+                        directions = directions,
+                        ccl_to_disk = ccl_to_disk,
+                        return_type = return_type)
     }
 
 }
@@ -145,6 +145,11 @@ get_patches_int <- function(landscape,
         directions <- 8
     }
 
+    if(!return_type %in% c("matrix", "raster")){
+        return_type <- "raster"
+        warning("return_type not valid. Set to return_type = 'raster'.")
+    }
+
     if (return_type == "raster"){
 
         landscape_extent <- raster::extent(landscape)
@@ -192,6 +197,11 @@ get_patches_int <- function(landscape,
             }
 
             names(patch_landscape) <- paste0("Class_", class)
+        }
+
+        if(return_type == "matrix") {
+            patch_landscape <- list(patch_landscape)
+            names(patch_landscape) <- class
         }
 
         return(patch_landscape)
@@ -243,8 +253,10 @@ get_patches_int <- function(landscape,
 
                     }
                 )
-        } else {
-            names(patch_landscape) <- seq_along(patch_landscape)
+        }
+
+        if(return_type == "matrix") {
+            names(patch_landscape) <- classes
         }
 
         patch_landscape <- patch_landscape[order(as.numeric(names(patch_landscape)))]
