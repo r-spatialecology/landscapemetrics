@@ -33,10 +33,6 @@ rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
 }
 
-lsm_unique <- function(x) {
-    .Call('_landscapemetrics_lsm_unique', PACKAGE = 'landscapemetrics', x)
-}
-
 #' Coordinates from a matrix
 #'
 #' This function gets coordinates (row and column numbers) of the matrix cells.
@@ -113,5 +109,9 @@ rcpp_get_offdiagonal_vector <- function(x, directions) {
 #' @export
 rcpp_get_nearest_neighbor <- function(points) {
     .Call('_landscapemetrics_rcpp_get_nearest_neighbor', PACKAGE = 'landscapemetrics', points)
+}
+
+rcpp_get_unique_values <- function(x) {
+    .Call('_landscapemetrics_rcpp_get_unique_values', PACKAGE = 'landscapemetrics', x)
 }
 

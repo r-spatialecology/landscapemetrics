@@ -134,7 +134,7 @@ lsm_p_core.list <- function(landscape, directions = 8,
 
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth) {
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     core <- lapply(classes, function(patches_class) {
 

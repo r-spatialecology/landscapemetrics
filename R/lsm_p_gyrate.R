@@ -113,7 +113,7 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
 
 lsm_p_gyrate_calc <- function(landscape, directions) {
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     gyrate <- lapply(classes, function(patches_class) {
 

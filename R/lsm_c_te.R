@@ -119,7 +119,7 @@ lsm_c_te.list <- function(landscape,
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     if(length(classes) == 1 && !isTRUE(count_boundary)) {
 

@@ -209,7 +209,7 @@ get_patches_int <- function(landscape,
 
     else {
 
-        classes <- lsm_unique(landscape_matrix)
+        classes <- rcpp_get_unique_values(landscape_matrix)
 
         patch_landscape <- lapply(X = classes, FUN = function(class) {
 

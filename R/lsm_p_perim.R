@@ -112,7 +112,7 @@ lsm_p_perim_calc <- function(landscape, directions) {
                                       NA, 1, NA), 3, 3, byrow = TRUE)
     }
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     resolution_x <- raster::xres(landscape)
     resolution_y <- raster::yres(landscape)

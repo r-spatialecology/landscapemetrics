@@ -29,6 +29,7 @@ reference:
     - get_circumscribingcircle
     - get_nearestneighbour
     - get_patches
+    - get_unique_values
     - extract_lsm
     - sample_lsm
   - title: Visualisation functions
@@ -36,6 +37,7 @@ reference:
     - show_patches
     - show_cores
     - show_correlation
+    - show_lsm
   - title: Patch Level Metrics
     contents:
      - lsm_p_area
@@ -215,5 +217,3 @@ navbar:
     - icon: fa-github fa-lg
       text: "github"
       href: https://github.com/r-spatialecology/landscapemetrics
-
-
