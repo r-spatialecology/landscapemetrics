@@ -164,7 +164,7 @@ get_patches_int <- function(landscape, class, directions, ccl_to_disk) {
 
     else {
 
-        classes <- na.omit(unique(as.vector(landscape_matrix)))
+        classes <- lsm_unique(as.vector(landscape_matrix))
 
         patch_landscape <- lapply(X = classes, FUN = function(class) {
 

@@ -124,7 +124,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- lsm_unique(raster::as.matrix(landscape))
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
@@ -134,17 +134,24 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
-    contig_patch <- lapply(landscape_labeled, function(patches_class) {
+    contig_patch <- lapply(classes, function(patches_class) {
 
-        n_cells <- table(raster::values(patches_class))
+        landscape_labeled <- get_patches(landscape,
+                                         directions = directions,
+                                         class = patches_class
+                                         )[[1]]
+
+        patch_mat <- raster::as.matrix(landscape_labeled)
+
+        n_cells <- rcpp_get_composition_vector(patch_mat)
         n_patches <- length(n_cells)
 
         diagonal_neighbours <-
-            rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+            rcpp_get_coocurrence_matrix(patch_mat,
                                         directions = as.matrix(diagonal_matrix))
 
         straigth_neighbours <-
-            rcpp_get_coocurrence_matrix(raster::as.matrix(patches_class),
+            rcpp_get_coocurrence_matrix(patch_mat,
                                         directions = as.matrix(straigth_matrix)) * 2
 
         contiguity <- (((diag(diagonal_neighbours) +
@@ -152,7 +159,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
                              n_cells) /
                             n_cells) - 1) / 12
 
-        class <- sub("Class_", "", names(patches_class))
+        class <- sub("Class_", "", names(landscape_labeled))
 
         tibble::tibble(class = class,
                        value = contiguity)
