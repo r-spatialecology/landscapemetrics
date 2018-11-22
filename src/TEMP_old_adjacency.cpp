@@ -256,7 +256,7 @@ four <- as.matrix(4)
 bench::mark(
     new = rcpp_get_coocurrence_matrix(mat, four),
     old = rcpp_get_coocurrence_matrix_old(mat, four),
-    iterations = 100,
+    iterations = 1000,
     check = TRUE,
     relative = TRUE
 )
