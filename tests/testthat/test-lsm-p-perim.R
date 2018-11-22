@@ -23,8 +23,5 @@ test_that("lsm_p_perim returns in every column the correct type", {
 })
 
 test_that("lsm_p_perim can also handle irregular sized cells", {
-    landscape_irr <- raster::raster(resolution = c(50, 100))
-    landscape_irr[] <- sample(1:14, 14, replace = TRUE)
-    result <- lsm_p_perim(landscape_irr)
-    expect_is(result, "tbl_df")
+    expect_is(lsm_p_perim(landscape_diff_res), "tbl_df")
 })

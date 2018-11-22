@@ -135,13 +135,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// max_dist_fun
+double max_dist_fun(arma::mat& points);
+RcppExport SEXP _landscapemetrics_max_dist_fun(SEXP pointsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type points(pointsSEXP);
+    rcpp_result_gen = Rcpp::wrap(max_dist_fun(points));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_get_circle
-NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution_x, double resolution_y);
+arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resolution_y);
 RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolution_xSEXP, SEXP resolution_ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
     Rcpp::traits::input_parameter< double >::type resolution_x(resolution_xSEXP);
     Rcpp::traits::input_parameter< double >::type resolution_y(resolution_ySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution_x, resolution_y));
@@ -235,6 +246,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
+    {"_landscapemetrics_max_dist_fun", (DL_FUNC) &_landscapemetrics_max_dist_fun, 1},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 3},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
@@ -242,8 +254,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
     {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 1},
-    {"ccl_4", (DL_FUNC) &ccl_4, 1},
-    {"ccl_8", (DL_FUNC) &ccl_8, 1},
+    {"ccl_4",                                             (DL_FUNC) &ccl_4,                                             1},
+    {"ccl_8",                                             (DL_FUNC) &ccl_8,                                             1},
     {NULL, NULL, 0}
 };
 

@@ -72,6 +72,10 @@ rcpp_create_neighborhood <- function(directions) {
     .Call('_landscapemetrics_rcpp_create_neighborhood', PACKAGE = 'landscapemetrics', directions)
 }
 
+max_dist_fun <- function(points) {
+    .Call('_landscapemetrics_max_dist_fun', PACKAGE = 'landscapemetrics', points)
+}
+
 rcpp_get_circle <- function(points, resolution_x, resolution_y) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution_x, resolution_y)
 }
