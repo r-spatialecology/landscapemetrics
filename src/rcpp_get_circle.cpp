@@ -27,9 +27,6 @@ NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution_x, double 
 
     int     class_id = 0;
 
-    NumericVector   id,
-                    unique_id;
-
     unsigned  temp_id;
 
     NumericMatrix   circle,
@@ -37,8 +34,9 @@ NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution_x, double 
                     points_corner;
 
     // get unique ID of points (patches)
-    NumericMatrix y = points(1,1);
-    unique_id = rcpp_get_unique_values();
+    NumericVector y = points.column(1);
+    NumericVector unique_id = unique(y);
+
 
     // matrix as long as patches
     circle(unique_id.length(), 2);
@@ -50,13 +48,20 @@ NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution_x, double 
         class_id = unique_id(i);
 
         // all points of current patch
-        points_temp = points[points(_,1) == class_id];
+        int n=points.nrow(), k=points.ncol();
+        NumericMatrix out(sum(class_id),k);
+        for (int i = 0, j = 0; i < n; i++) {
+            if(class_id) {
+                points_temp(j,_) = points(i,_);
+                j = j+1;
+            }
+        }
 
-        points_corner.set_size(points_temp.n_rows * 4, 2);
+        points_corner(points_temp.nrow() * 4, 2);
 
         int l = 0;
 
-        for(int j = 0; j < points_temp.n_rows; j++){
+        for(int j = 0; j < points_temp.nrow(); j++){
 
             points_corner(l, 0) = points_temp(j, 0) - resolution_x;
             points_corner(l, 1) = points_temp(j, 1) - resolution_y;
