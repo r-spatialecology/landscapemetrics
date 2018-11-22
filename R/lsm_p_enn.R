@@ -122,7 +122,7 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     enn_patch <- lapply(classes, function(patches_class) {
 

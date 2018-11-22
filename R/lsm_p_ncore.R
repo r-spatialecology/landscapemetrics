@@ -147,7 +147,7 @@ lsm_p_ncore.list <- function(landscape,
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     resolution_xy <- raster::res(landscape)
 
@@ -180,7 +180,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             landscape_labeled <- raster::setValues(landscape_labeled, landscape_padded)
         }
 
-        patches_id <- lsm_unique(raster::as.matrix(landscape_labeled))
+        patches_id <- rcpp_get_unique_values(raster::as.matrix(landscape_labeled))
 
         class_edge <- raster::boundaries(landscape_labeled, directions = 4)
 
@@ -196,7 +196,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         raster::values(class_edge)[raster::values(class_edge) == 1 | raster::values(is.na(class_edge))] <- -999
 
-        n_boundary <- length(lsm_unique(raster::as.matrix(class_edge)))
+        n_boundary <- length(rcpp_get_unique_values(raster::as.matrix(class_edge)))
 
         if(n_boundary == 1){
             result <- c(rep(0, length(patches_id)))

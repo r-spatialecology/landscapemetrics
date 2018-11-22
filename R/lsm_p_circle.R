@@ -122,7 +122,7 @@ lsm_p_circle_calc <- function(landscape, directions) {
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     circle_patch <- lapply(classes, function(patches_class) {
 

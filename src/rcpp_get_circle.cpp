@@ -1,4 +1,5 @@
 #include "rcpp_get_circle.h"
+#include "rcpp_get_unique_values.h"
 
 double max_dist_fun(NumericMatrix points) {
 
@@ -27,23 +28,29 @@ NumericMatrix rcpp_get_circle(NumericMatrix points, double resolution_x, double 
     int     class_id = 0;
 
     NumericVector   id,
-                unique_id;
-    arma::uvec  temp_id;
+                    unique_id;
 
-    arma::mat   circle,
-                points_temp,
-                points_corner;
+    unsigned  temp_id;
 
-    id = points(_,2);
-    unique_id = id(arma::find_unique(id));
+    NumericMatrix   circle,
+                    points_temp,
+                    points_corner;
 
-    circle.set_size(unique_id.n_elem, 2);
+    // get unique ID of points (patches)
+    NumericMatrix y = points(1,1);
+    unique_id = rcpp_get_unique_values();
 
-    for(int i = 0; i < unique_id.n_elem; i++){
+    // matrix as long as patches
+    circle(unique_id.length(), 2);
 
+    // loop through all patches
+    for(int i = 0; i < unique_id.length(); i++){
+
+        // get patch ID of current point
         class_id = unique_id(i);
-        temp_id = arma::find(points.col(2) == class_id);
-        points_temp = points.rows(temp_id);
+
+        // all points of current patch
+        points_temp = points[points(_,1) == class_id];
 
         points_corner.set_size(points_temp.n_rows * 4, 2);
 

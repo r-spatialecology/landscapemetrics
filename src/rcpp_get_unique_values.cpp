@@ -1,7 +1,7 @@
-#include "lsm_unique.h"
+#include "rcpp_get_unique_values.h"
 using namespace Rcpp;
 
-std::vector<int> lsm_unique(const Rcpp::IntegerVector &x)
+std::vector<int> rcpp_get_unique_values(const Rcpp::IntegerVector &x)
 {
     std::set<int> s;
     unsigned size = x.size();

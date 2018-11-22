@@ -102,7 +102,7 @@ lsm_c_np.list <- function(landscape, directions = 8) {
 
 lsm_c_np_calc <- function(landscape, directions){
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     result <- lapply(X = classes, FUN = function(patches_class) {
 

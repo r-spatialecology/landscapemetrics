@@ -124,7 +124,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    classes <- lsm_unique(raster::as.matrix(landscape))
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
