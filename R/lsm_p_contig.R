@@ -136,12 +136,12 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
     contig_patch <- lapply(classes, function(patches_class) {
 
-        landscape_labeled <- get_patches(landscape,
+        patch_mat <- get_patches(landscape,
                                          directions = directions,
-                                         class = patches_class
-                                         )[[1]]
+                                         class = patches_class,
+                                         return_type = "matrix")[[1]]
 
-        patch_mat <- raster::as.matrix(landscape_labeled)
+        # patch_mat <- raster::as.matrix(landscape_labeled)
 
         n_cells <- rcpp_get_composition_vector(patch_mat)
         n_patches <- length(n_cells)
@@ -159,9 +159,9 @@ lsm_p_contig_calc <- function(landscape, directions) {
                              n_cells) /
                             n_cells) - 1) / 12
 
-        class <- sub("Class_", "", names(landscape_labeled))
+        class <- patches_class
 
-        rm(classes)
+        rm(patch_mat)
         gc(verbose = FALSE)
 
         tibble::tibble(class = class,
