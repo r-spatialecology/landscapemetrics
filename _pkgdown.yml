@@ -25,6 +25,8 @@ reference:
     - options_landscapemetrics
   - title: Auxiliary/Utility functions
     contents:
+    - check_landscape
+    - list_lsm
     - get_adjacencies
     - get_circumscribingcircle
     - get_nearestneighbour

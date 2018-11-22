@@ -1,6 +1,6 @@
 #include "rcpp_get_coocurrence_matrix.h"
 #include "rcpp_create_neighborhood.h"
-#include "lsm_unique.h"
+#include "rcpp_get_unique_values.h"
 
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
@@ -9,7 +9,7 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     const unsigned ncols = x.ncol();
     const unsigned nrows = x.nrow();
 
-    std::vector<int> classes = lsm_unique(x);
+    std::vector<int> classes = rcpp_get_unique_values(x);
     std::map<int, unsigned> class_index = get_classes_map(classes);
 
     unsigned n_classes = class_index.size();
@@ -85,5 +85,5 @@ rcpp_get_coocurrence_matrix(mat, four)
 
 lsm_p_contig(test)
 
-lsm_unique(mat)
+rcpp_get_unique_values(mat)
 */
