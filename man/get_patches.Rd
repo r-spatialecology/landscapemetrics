@@ -8,22 +8,23 @@
 \alias{get_patches.list}
 \title{get_patches}
 \usage{
-get_patches(landscape, class, directions, ccl_to_disk)
+get_patches(landscape, class, directions, ccl_to_disk, return_type)
 
 \method{get_patches}{RasterLayer}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
-  FALSE))
+  FALSE), return_type = "raster")
 
 \method{get_patches}{RasterStack}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
-  FALSE))
+  FALSE), return_type = "raster")
 
 \method{get_patches}{RasterBrick}(landscape, class = "all",
   directions = 8, ccl_to_disk = getOption("ccl_to_disk", default =
-  FALSE))
+  FALSE), return_type = "raster")
 
 \method{get_patches}{list}(landscape, class = "all", directions = 8,
-  ccl_to_disk = getOption("ccl_to_disk", default = FALSE))
+  ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+  return_type = "raster")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -37,6 +38,8 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{ccl_to_disk}{Logical argument, if FALSE results of get_patches are hold
 in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
 Can be set with a global option, e.g. \code{option(ccl_to_disk = TRUE)}. See Details.}
+
+\item{return_type}{Either "raster" or "matrix". Determines if the connected labelling is returned as raster object or as plain matrix.}
 }
 \value{
 List

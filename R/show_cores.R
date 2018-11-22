@@ -7,6 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param class How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
+#' boundary should be considered as core.
 #' @param labels Logical flag indicating whether to print or not to print core labels.
 #' boundary should be considered as core
 #' @param nrow,ncol Number of rows and columns for the facet.
@@ -166,9 +167,17 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
         warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
+    resolution_xy <- raster::res(landscape)
+    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
+    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
+                                              resolution = resolution_xy,
+                                              crs = raster::crs(landscape))
+
     landscape_labeled <- get_patches(landscape, directions = directions)
 
     for(i in seq_len(length(landscape_labeled) - 1)) {
+
+        max(rcpp_get_unique_values(raster::as.matrix(landscape_labeled[[i]])))
 
         max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
@@ -178,9 +187,13 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
     boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
 
         if(!isTRUE(consider_boundary)) {
-            patches_class <- pad_raster(patches_class, pad_raster_value = NA,
-                                        pad_raster_cells = 1,
-                                        global = FALSE)
+
+            landscape_padded <- pad_raster(patches_class,
+                                           pad_raster_value = NA,
+                                           pad_raster_cells = 1,
+                                           global = FALSE)
+
+            patches_class <- raster::setValues(landscape_labeled_empty, landscape_padded)
         }
 
         class_edge <- raster::boundaries(patches_class,

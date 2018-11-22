@@ -45,7 +45,8 @@ boundary should be considered as core}
 
 \item{nrow, ncol}{Number of rows and columns for the facet.}
 
-\item{consider_boundary}{Logical if cells that only neighbour the landscape}
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core.}
 
 \item{edge_depth}{Distance (in cells) a cell has the be away from the patch
 edge to be considered as core cell}

@@ -2,9 +2,9 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-Rcpp::IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector & x)
+IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector & x)
 {
-    Rcpp::IntegerVector x_table = table(na_omit(x));
+    IntegerVector x_table = table(na_omit(x));
     return x_table;
 }
 

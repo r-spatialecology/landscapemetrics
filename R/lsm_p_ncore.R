@@ -147,26 +147,33 @@ lsm_p_ncore.list <- function(landscape,
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
-    landscape_extent <- raster::extent(landscape)
-    landscape_raster <- raster::raster(landscape_extent,
-                                       resolution = raster::res(landscape),
-                                       crs = raster::crs(landscape))
+    resolution_xy <- raster::res(landscape)
+    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
+    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
+                                              resolution = resolution_xy,
+                                              crs = raster::crs(landscape))
 
-    core_class <- lapply(landscape_labeled, function(patches_class) {
+    core_class <- lapply(classes, function(patches_class) {
 
-        class <- sub("Class_", "", names(patches_class))
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions)[[1]]
 
         if(!isTRUE(consider_boundary)) {
-            patches_class <- pad_raster(patches_class, pad_raster_value = NA,
-                                        pad_raster_cells = 1,
-                                        global = FALSE)
+
+            landscape_padded <- pad_raster(landscape_labeled,
+                                           pad_raster_value = NA,
+                                           pad_raster_cells = 1,
+                                           global = FALSE)
+
+            landscape_labeled <- raster::setValues(landscape_labeled_empty, landscape_padded)
         }
 
-        patches_id <- unique(stats::na.omit(raster::values(patches_class)))
+        patches_id <- rcpp_get_unique_values(raster::as.matrix(landscape_labeled))
 
-        class_edge <- raster::boundaries(patches_class, directions = 4)
+        class_edge <- raster::boundaries(landscape_labeled, directions = 4)
 
         if(edge_depth > 1){
             for(i in seq_len(edge_depth - 1)){
@@ -180,7 +187,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         raster::values(class_edge)[raster::values(class_edge) == 1 | raster::values(is.na(class_edge))] <- -999
 
-        n_boundary <- length(unique(raster::values(class_edge)))
+        n_boundary <- length(rcpp_get_unique_values(raster::as.matrix(class_edge)))
 
         if(n_boundary == 1){
             result <- c(rep(0, length(patches_id)))
@@ -189,12 +196,13 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         else{
             patch_core <- get_patches(class_edge,
-                                      directions = directions, class = 0)[[1]]
+                                      class = 0,
+                                      directions = directions)[[1]]
 
             points <- raster::rasterToPoints(patch_core)
             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
 
-            n_core_area <- table(raster::extract(x = patches_class,
+            n_core_area <- table(raster::extract(x = landscape_labeled,
                                                  y = matrix(points[, 1:2],
                                                             ncol = 2)))
 
@@ -205,7 +213,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         }
 
         tibble::tibble(
-            class = class,
+            class = patches_class,
             value = result
         )
     })

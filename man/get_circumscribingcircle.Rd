@@ -6,16 +6,20 @@
 \alias{get_circumscribingcircle.matrix}
 \title{get_circumscribingcircle}
 \usage{
-get_circumscribingcircle(landscape, resolution)
+get_circumscribingcircle(landscape, resolution_x, resolution_y)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape, resolution)
+\method{get_circumscribingcircle}{RasterLayer}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
-\method{get_circumscribingcircle}{matrix}(landscape, resolution = NULL)
+\method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL,
+  resolution_y = NULL)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x,y,id columns)}
 
-\item{resolution}{Resolution of the landscape (only needed if matrix as input is used)}
+\item{resolution_x}{Resolution of the landscape (only needed if matrix as input is used)}
+
+\item{resolution_y}{Resolution of the landscape (only needed if matrix as input is used)}
 }
 \description{
 Calculates the diameter of the smallest circumscribing circle around patches in a landscape.
@@ -31,14 +35,14 @@ If one uses this functions with a matrix the resolution of the underlying data m
 }
 \examples{
 # get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape,1)[[1]]
+class_1 <- get_patches(landscape, class = 1)[[1]]
 
 # calculate the max distance between cell edges of each class
 get_circumscribingcircle(class_1)
 
-# do the same with a 3 column matrix (x,y,id)
+# do the same with a 3 column matrix (x, y, id)
 class_1_matrix <- raster::rasterToPoints(class_1)
-get_circumscribingcircle(class_1_matrix, 1)
+get_circumscribingcircle(class_1_matrix, resolution_x = 1, resolution_y = 1)
 
 }
 \references{

@@ -112,13 +112,15 @@ lsm_c_cohesion.list <- function(landscape, directions = 8) {
 
 lsm_c_cohesion_calc <- function(landscape, directions) {
 
+    resolution_xy <- prod(raster::res(landscape))
+
     ncells_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape,
                                                     directions = directions),
-    value = value * 10000 / prod(raster::res(landscape)))
+                                      value = value * 10000 / resolution_xy)
 
     ncells_patch <-  dplyr::mutate(lsm_p_area_calc(landscape,
                                                    directions = directions),
-    value = value * 10000 / prod(raster::res(landscape)))
+                                   value = value * 10000 / resolution_xy)
 
     perim_patch <- lsm_p_perim_calc(landscape, directions = directions)
 

@@ -10,6 +10,7 @@
 #' @param ccl_to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
 #' Can be set with a global option, e.g. `option(ccl_to_disk = TRUE)`. See Details.
+#' @param return_type Either "raster" or "matrix". Determines if the connected labelling is returned as raster object or as plain matrix.
 #'
 #' @details
 #' Searches for connected patches (neighbouring cells of the same class i).
@@ -54,7 +55,11 @@
 #' @rdname get_patches
 #'
 #' @export
-get_patches <- function(landscape, class, directions, ccl_to_disk)  UseMethod("get_patches")
+get_patches <- function(landscape,
+                        class,
+                        directions,
+                        ccl_to_disk,
+                        return_type)  UseMethod("get_patches")
 
 
 #' @name get_patches
@@ -62,11 +67,22 @@ get_patches <- function(landscape, class, directions, ccl_to_disk)  UseMethod("g
 get_patches.RasterLayer <- function(landscape,
                                 class = "all",
                                 directions = 8,
-                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
-    raster::as.list(get_patches_int(landscape,
-                class = class,
-                directions = directions,
-                ccl_to_disk = ccl_to_disk))
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+                                return_type = "raster") {
+    if (return_type == "raster"){
+        raster::as.list(get_patches_int(landscape,
+                             class = class,
+                             directions = directions,
+                             ccl_to_disk = ccl_to_disk,
+                             return_type = return_type))
+    } else {
+        get_patches_int(landscape,
+                        class = class,
+                        directions = directions,
+                        ccl_to_disk = ccl_to_disk,
+                        return_type = return_type)
+    }
+
 }
 
 #' @name get_patches
@@ -74,13 +90,15 @@ get_patches.RasterLayer <- function(landscape,
 get_patches.RasterStack <- function(landscape,
                                 class = "all",
                                 directions = 8,
-                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+                                return_type = "raster") {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            class = class,
            directions = directions,
-           ccl_to_disk = ccl_to_disk)
+           ccl_to_disk = ccl_to_disk,
+           return_type = return_type)
 }
 
 #' @name get_patches
@@ -88,13 +106,15 @@ get_patches.RasterStack <- function(landscape,
 get_patches.RasterBrick <- function(landscape,
                                 class = "all",
                                 directions = 8,
-                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
+                                ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+                                return_type = "raster") {
 
     lapply(X = raster::as.list(landscape),
            FUN = get_patches_int,
            class = class,
            directions = directions,
-           ccl_to_disk = ccl_to_disk)
+           ccl_to_disk = ccl_to_disk,
+           return_type = return_type)
 }
 
 #' @name get_patches
@@ -102,16 +122,22 @@ get_patches.RasterBrick <- function(landscape,
 get_patches.list <- function(landscape,
                          class = "all",
                          directions = 8,
-                         ccl_to_disk = getOption("ccl_to_disk", default = FALSE)) {
+                         ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+                         return_type = "raster") {
 
     lapply(X = landscape,
            FUN = get_patches_int,
            class = class,
            directions = directions,
-           ccl_to_disk = ccl_to_disk)
+           ccl_to_disk = ccl_to_disk,
+           return_type = return_type)
 }
 
-get_patches_int <- function(landscape, class, directions, ccl_to_disk) {
+get_patches_int <- function(landscape,
+                            class,
+                            directions,
+                            ccl_to_disk,
+                            return_type) {
 
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
@@ -119,13 +145,22 @@ get_patches_int <- function(landscape, class, directions, ccl_to_disk) {
         directions <- 8
     }
 
-    landscape_extent <- raster::extent(landscape)
+    if(!return_type %in% c("matrix", "raster")){
+        return_type <- "raster"
+        warning("return_type not valid. Set to return_type = 'raster'.")
+    }
 
-    landscape_empty <- raster::raster(
-        x = landscape_extent,
-        resolution = raster::res(landscape),
-        crs = raster::crs(landscape)
-    )
+    if (return_type == "raster"){
+
+        landscape_extent <- raster::extent(landscape)
+
+        landscape_empty <- raster::raster(
+            x = landscape_extent,
+            resolution = raster::res(landscape),
+            crs = raster::crs(landscape)
+        )
+
+    }
 
     filter_matrix <- matrix(NA,
                             nrow = raster::nrow(landscape),
@@ -142,62 +177,87 @@ get_patches_int <- function(landscape, class, directions, ccl_to_disk) {
         filter_matrix[landscape_matrix == class] <- 1
 
         if (directions == 4) {
-            filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+            patch_landscape = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
         }
 
         if (directions == 8) {
-            filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+            patch_landscape = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
         }
 
-        if(ccl_to_disk == TRUE){
-            set_values <- function(x){filter_raster}
-            patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", class,".grd")), overwrite=TRUE)
-        } else {
-            patch_landscape <- raster::setValues(x = landscape_empty,
-                                                 values = filter_raster)
+        if (return_type == "raster"){
+            if(ccl_to_disk == TRUE){
+                set_values <- function(x){patch_landscape}
+                patch_landscape <- raster::init(landscape_empty,
+                                                fun=set_values,
+                                                filename=tempfile(paste0("class_", class,".grd")),
+                                                overwrite=TRUE)
+            } else {
+                patch_landscape <- raster::setValues(x = landscape_empty,
+                                                     values = patch_landscape)
+            }
+
+            names(patch_landscape) <- paste0("Class_", class)
         }
 
-        names(patch_landscape) <- paste0("Class_", class)
+        if(return_type == "matrix") {
+            patch_landscape <- list(patch_landscape)
+            names(patch_landscape) <- class
+        }
 
         return(patch_landscape)
     }
 
     else {
 
-        classes <- na.omit(unique(as.vector(landscape_matrix)))
+        classes <- rcpp_get_unique_values(landscape_matrix)
 
         patch_landscape <- lapply(X = classes, FUN = function(class) {
 
             filter_matrix[landscape_matrix == class] <- 1
 
             if (directions == 4) {
-                filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             if (directions == 8) {
-                filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
 
+            if (return_type == "raster"){
             if(ccl_to_disk == TRUE){
-                set_values <- function(x){filter_raster}
-                patch_landscape <- raster::init(landscape_empty, fun=set_values, filename=tempfile(paste0("class_", class,".grd")), overwrite=TRUE)
+                set_values <- function(x){patch_landscape}
+                patch_landscape <- raster::init(landscape_empty,
+                                                fun=set_values,
+                                                filename=tempfile(paste0("class_", class,".grd")),
+                                                overwrite=TRUE)
             } else {
                 patch_landscape <- raster::setValues(x = landscape_empty,
-                                                     values = filter_raster)
+                                                     values = patch_landscape)
                 }
 
             names(patch_landscape) <- paste0("Class_", class)
+            }
 
-            patch_landscape
 
-        })
-
-        names(patch_landscape) <- sapply(patch_landscape, FUN = function(patches){
-
-            as.numeric(strsplit(names(patches), "_")[[1]][2])
+            return(patch_landscape)
 
         })
+
+        if (return_type == "raster") {
+            names(patch_landscape) <-
+                sapply(
+                    patch_landscape,
+                    FUN = function(patches) {
+                        as.numeric(strsplit(names(patches), "_")[[1]][2])
+
+                    }
+                )
+        }
+
+        if(return_type == "matrix") {
+            names(patch_landscape) <- classes
+        }
 
         patch_landscape <- patch_landscape[order(as.numeric(names(patch_landscape)))]
 

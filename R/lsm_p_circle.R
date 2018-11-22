@@ -116,22 +116,29 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
 
 lsm_p_circle_calc <- function(landscape, directions) {
 
-    resolution <- raster::res(landscape)[[1]] / 2
+    resolution_xy <- raster::res(landscape) / 2
+    resolution_x <- resolution_xy[[1]]
+    resolution_y <- resolution_xy[[2]]
 
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
 
-    circle_patch <- lapply(landscape_labeled, function(patches_class) {
+    circle_patch <- lapply(classes, function(patches_class) {
 
-        class <- sub("Class_", "", names(patches_class))
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions)[[1]]
 
-        points_class <- raster::rasterToPoints(patches_class)
+        points_class <- raster::rasterToPoints(landscape_labeled)
 
-        circle <- rcpp_get_circle(as.matrix(points_class), resolution = resolution)
+        circle <- rcpp_get_circle(as.matrix(points_class),
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
         circle <- matrix(circle[order(circle[,1]),], ncol = 2)
 
-        tibble::tibble(class = class,
+        tibble::tibble(class = patches_class,
                        value = circle[,2])
 
     })
