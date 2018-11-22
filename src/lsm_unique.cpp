@@ -3,9 +3,13 @@ using namespace Rcpp;
 
 std::vector<int> lsm_unique(const Rcpp::IntegerVector &x)
 {
-    std::unordered_set<int> tab(x.begin(), x.end());
-    std::vector<int> classes(tab.begin(), tab.end());
-    std::sort(classes.begin(), classes.end());
+    std::set<int> s;
+    unsigned size = x.size();
+    for(unsigned i = 0; i < size; i++) {
+        s.insert(x[i]);
+    }
+
+    std::vector<int> classes(s.begin(), s.end());
 
     const int na = NA_INTEGER;
     if (classes[0] == na)
