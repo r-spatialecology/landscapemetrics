@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double max_dist_fun(arma::mat& points) {
+double rcpp_get_max_dist(arma::mat& points) {
 
     int nrows = points.n_rows;
 
@@ -72,7 +72,7 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
         }
 
         circle(i, 0) = class_id;
-        circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
+        circle(i, 1) = std::pow((rcpp_get_max_dist(points_corner) / 2), 2) * arma::datum::pi;
     }
 
     return circle;

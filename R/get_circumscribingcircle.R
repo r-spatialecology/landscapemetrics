@@ -1,11 +1,11 @@
 #' get_circumscribingcircle
 #'
-#' @description Calculates the diameter of the smallest circumscribing circle around patches in a landscape.
+#' @description Calculates the diameter of the smallest circumscribing circle around
+#' patches in a landscape. The patches must have a unique ID coloumn.
 #'
-#' @param landscape RasterLayer or matrix (with x,y,id columns)
+#' @param landscape RasterLayer or matrix (with x, y, id columns)
 #' @param resolution_x Resolution of the landscape (only needed if matrix as input is used)
 #' @param resolution_y Resolution of the landscape (only needed if matrix as input is used)
-
 #'
 #' @details
 #' Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
@@ -14,7 +14,7 @@
 #' the 4 cell corners around each cell center of the patch derives in the diameter of
 #' the smallest circumscribing circle around a patch.
 #'
-#' If one uses this functions with a matrix the resolution of the underlying data must be provided.#'
+#' If one uses this functions with a matrix the resolution of the underlying data must be provided.
 #'
 #' @references
 #' Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}

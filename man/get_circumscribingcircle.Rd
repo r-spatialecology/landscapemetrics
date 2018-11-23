@@ -15,14 +15,15 @@ get_circumscribingcircle(landscape, resolution_x, resolution_y)
   resolution_y = NULL)
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix (with x,y,id columns)}
+\item{landscape}{RasterLayer or matrix (with x, y, id columns)}
 
 \item{resolution_x}{Resolution of the landscape (only needed if matrix as input is used)}
 
 \item{resolution_y}{Resolution of the landscape (only needed if matrix as input is used)}
 }
 \description{
-Calculates the diameter of the smallest circumscribing circle around patches in a landscape.
+Calculates the diameter of the smallest circumscribing circle around
+patches in a landscape. The patches must have a unique ID coloumn.
 }
 \details{
 Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
@@ -31,7 +32,7 @@ not the cell center. Using the edge boundary and the maximum distance between
 the 4 cell corners around each cell center of the patch derives in the diameter of
 the smallest circumscribing circle around a patch.
 
-If one uses this functions with a matrix the resolution of the underlying data must be provided.#'
+If one uses this functions with a matrix the resolution of the underlying data must be provided.
 }
 \examples{
 # get patches for class 1 from testdata as raster
