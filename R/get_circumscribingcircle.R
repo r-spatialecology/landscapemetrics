@@ -1,7 +1,7 @@
 #' get_circumscribingcircle
 #'
 #' @description Calculates the diameter of the smallest circumscribing circle around
-#' patches in a landscape. The patches must have a unique ID coloumn.
+#' patches in a landscape. The patches must have a unique ID column.
 #'
 #' @param landscape RasterLayer or matrix (with x, y, id columns)
 #' @param resolution_x Resolution of the landscape (only needed if matrix as input is used)

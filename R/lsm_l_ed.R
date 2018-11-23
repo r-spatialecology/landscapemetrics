@@ -9,10 +9,10 @@
 #' @details
 #' \deqn{ED = \frac{E} {A} * 10000}
 #' where \eqn{E} is the total landscape edge in meters and \eqn{A} is the total
-#' landcape area in square meters.
+#' landscape area in square meters.
 #'
 #' ED is an 'Area and Edge metric'. The edge density equals all edges in the landscape
-#' in relation to the landcape area. The boundary of the landscape is only included in the
+#' in relation to the landscape area. The boundary of the landscape is only included in the
 #' corresponding total class edge length if \code{count_boundary = TRUE}.
 #' The metric describes the configuration of the landscape, e.g. because an overall aggregation
 #' of  classes will result in a low edge density. The metric is standardized to the

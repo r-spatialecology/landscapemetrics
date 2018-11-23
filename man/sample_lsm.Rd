@@ -49,7 +49,7 @@ Sample metrics
 }
 \details{
 This function samples the selected metrics in a buffer area (sample plot)
-around sample points. The size of the acutal sampled landscape can be different
+around sample points. The size of the actual sampled landscape can be different
 to the provided size due to two reasons. Firstly, because clipping raster
 cells using a circle or a sample plot not directly at a cell center lead
 to inaccuracies. Secondly, sample plots can exceed the landscape boundary.

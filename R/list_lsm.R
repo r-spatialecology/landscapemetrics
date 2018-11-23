@@ -13,7 +13,7 @@
 
 #'
 #' @details List all available landscape metrics depending on the provided filter arguments.
-#' If an argument is not provided, automatically all possibilites are selected.
+#' If an argument is not provided, automatically all possibilities are selected.
 #' Furthermore, it is possible to only get a vector with all function names instead of the full tibble.
 #'
 #' @return tibble

@@ -23,7 +23,7 @@ get_circumscribingcircle(landscape, resolution_x, resolution_y)
 }
 \description{
 Calculates the diameter of the smallest circumscribing circle around
-patches in a landscape. The patches must have a unique ID coloumn.
+patches in a landscape. The patches must have a unique ID column.
 }
 \details{
 Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between

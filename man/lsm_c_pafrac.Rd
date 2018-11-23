@@ -52,7 +52,7 @@ issue.
 
 \subsection{Units}{None}
 \subsection{Range}{1 <= PAFRAC <= 2}
-\subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simples shapes and
+\subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simple shapes and
 approaches PAFRAC = 2 for irregular shapes}
 }
 \examples{
