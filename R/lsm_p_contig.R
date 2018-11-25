@@ -124,7 +124,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
+    classes <- get_unique_values(landscape)[[1]]
 
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
@@ -137,23 +137,21 @@ lsm_p_contig_calc <- function(landscape, directions) {
     contig_patch <- lapply(classes, function(patches_class) {
 
         patch_mat <- get_patches(landscape,
-                                         directions = directions,
-                                         class = patches_class,
-                                         return_type = "matrix")[[1]]
+                                 directions = directions,
+                                 class = patches_class,
+                                 return_type = "matrix")[[1]]
 
         n_cells <- rcpp_get_composition_vector(patch_mat)
         n_patches <- length(n_cells)
 
-        diagonal_neighbours <-
-            rcpp_get_coocurrence_matrix(patch_mat,
-                                        directions = as.matrix(diagonal_matrix))
+        diagonal_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
+                                                                 directions = as.matrix(diagonal_matrix))
 
-        straigth_neighbours <-
-            rcpp_get_coocurrence_matrix(patch_mat,
-                                        directions = as.matrix(straigth_matrix)) * 2
+        straigth_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
+                                                                 directions = as.matrix(straigth_matrix)) * 2
 
-        contiguity <- (((diag(diagonal_neighbours) +
-                             diag(straigth_neighbours) +
+        contiguity <- (((diagonal_neighbours +
+                             straigth_neighbours +
                              n_cells) /
                             n_cells) - 1) / 12
 

@@ -170,7 +170,7 @@ get_patches_int <- function(landscape,
 
     if (class != "all") {
 
-        if (!isTRUE(class %in% raster::unique(landscape))) {
+        if (!isTRUE(class %in% get_unique_values(landscape_matrix)[[1]])) {
             stop(paste("There is no class", class, "in your raster"))
         }
 
@@ -178,6 +178,8 @@ get_patches_int <- function(landscape,
 
         if (directions == 4) {
             patch_landscape = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+            rm(filter_matrix, landscape_matrix)
+            gc(verbose = FALSE)
         }
 
         if (directions == 8) {
@@ -259,7 +261,7 @@ get_patches_int <- function(landscape,
             names(patch_landscape) <- classes
         }
 
-        patch_landscape <- patch_landscape[order(as.numeric(names(patch_landscape)))]
+        patch_landscape <- patch_landscape[order(as.integer(names(patch_landscape)))]
 
         return(patch_landscape)
     }

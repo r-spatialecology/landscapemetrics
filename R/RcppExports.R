@@ -80,6 +80,10 @@ rcpp_get_circle <- function(points, resolution_x, resolution_y) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution_x, resolution_y)
 }
 
+rcpp_get_cooccurrence_matrix_diag <- function(x, directions) {
+    .Call('_landscapemetrics_rcpp_get_cooccurrence_matrix_diag', PACKAGE = 'landscapemetrics', x, directions)
+}
+
 rcpp_get_coocurrence_matrix <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
 }
