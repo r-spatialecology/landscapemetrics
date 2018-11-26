@@ -10,7 +10,7 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     const unsigned nrows = x.nrow();
 
     std::vector<int> classes = rcpp_get_unique_values(x);
-    std::map<int, unsigned> class_index = get_classes_map(classes);
+    std::map<int, unsigned> class_index = get_patches_map(classes);
 
     unsigned n_classes = class_index.size();
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
@@ -62,7 +62,7 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     return result;
 }
 
-std::map<int, unsigned> get_classes_map(const std::vector<int> &classes)
+std::map<int, unsigned> get_patches_map(const std::vector<int> &classes)
 {
     std::map<int, unsigned> class_index;
     for (unsigned i = 0; i < classes.size(); i++) {

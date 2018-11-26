@@ -1,5 +1,5 @@
-//#include "rcpp_get_contig_mean.h"
 #include "rcpp_get_coocurrence_matrix.h"
+#include "rcpp_get_cooccurrence_matrix_diag.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
 
@@ -40,9 +40,7 @@ IntegerVector rcpp_get_cooccurrence_matrix_diag(const IntegerMatrix x,
                         neig_col < ncols &&
                         neig_row < nrows) {
                     const int tmp = x[neig_col * nrows + neig_row];
-                    if (tmp == na)
-                        continue;
-                    unsigned neig_patch = patch_index[tmp];
+                    const unsigned neig_patch = patch_index[tmp];
                     if (neig_patch == focal_patch)
                         cooc_mat_diag[neig_patch]++;
                 }
