@@ -123,7 +123,7 @@ rcpp_get_nearest_neighbor <- function(points) {
     .Call('_landscapemetrics_rcpp_get_nearest_neighbor', PACKAGE = 'landscapemetrics', points)
 }
 
-rcpp_get_unique_values <- function(x) {
-    .Call('_landscapemetrics_rcpp_get_unique_values', PACKAGE = 'landscapemetrics', x)
+rcpp_get_unique_values <- function(x, na_omit = TRUE) {
+    .Call('_landscapemetrics_rcpp_get_unique_values', PACKAGE = 'landscapemetrics', x, na_omit)
 }
 

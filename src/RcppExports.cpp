@@ -244,13 +244,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_unique_values
-std::vector<int> rcpp_get_unique_values(const Rcpp::IntegerVector& x);
-RcppExport SEXP _landscapemetrics_rcpp_get_unique_values(SEXP xSEXP) {
+std::vector<int> rcpp_get_unique_values(const Rcpp::IntegerVector& x, bool na_omit);
+RcppExport SEXP _landscapemetrics_rcpp_get_unique_values(SEXP xSEXP, SEXP na_omitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_unique_values(x));
+    Rcpp::traits::input_parameter< bool >::type na_omit(na_omitSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_unique_values(x, na_omit));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -279,7 +280,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
-    {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 1},
+    {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 2},
     {"ccl_4",                                               (DL_FUNC) &ccl_4,                                               1},
     {"ccl_8",                                               (DL_FUNC) &ccl_8,                                               1},
     {NULL, NULL, 0}

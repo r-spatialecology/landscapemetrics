@@ -12,7 +12,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
     const unsigned core = 0;
     const unsigned boundary = 1;
 
-    std::vector<int> classes = rcpp_get_unique_values(x);
+    std::vector<int> classes = rcpp_get_unique_values(x, false);
     std::map<int, unsigned> class_index = get_class_index_map(classes);
 
     // create neighbors coordinates
@@ -30,19 +30,21 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
             const int tmp = x[col * nrows + row];
-            if (tmp == na)
+            if (tmp == na) {
+                boundaries[col * nrows + row] = na;
                 continue;
-            unsigned focal_class = class_index[tmp];
+            }
+            const int focal_class = class_index[tmp];
             boundaries[col * nrows + row] = core;
             for (int h = 0; h < neigh_len; h++) {
                 int neig_col = neig_coords[h][0] + col;
                 int neig_row = neig_coords[h][1] + row;
                 if (neig_col >= 0 &&
-                        neig_row >= 0 &&
-                        neig_col < ncols &&
-                        neig_row < nrows) {
+                    neig_row >= 0 &&
+                    neig_col < ncols &&
+                    neig_row < nrows) {
                     const int tmp = x[neig_col * nrows + neig_row];
-                    const unsigned neig_class = class_index[tmp];
+                    const int neig_class = class_index[tmp];
                     if (neig_class != focal_class) {
                         boundaries[col * nrows + row] = boundary;
                         break;
@@ -59,6 +61,9 @@ test <- landscapemetrics::get_patches(landscapemetrics::landscape, class = 1)[[1
 landscapetools::util_plot(test)
 landscapetools::util_plot(raster::boundaries(test, directions = 4))
 
+raster_boudary_mat <- raster::as.matrix(raster::boundaries(test))
+lanscape_mat <- raster::as.matrix(test)
+boundarie_mat <- landscapemetrics:::rcpp_get_boundaries(lanscape_mat, as.matrix(4))
 # test_2 <- raster::raster(pad_raster(test, pad_raster_value = NA))
 # landscapetools::util_plot(test_2)
 
