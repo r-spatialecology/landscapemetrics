@@ -9,7 +9,7 @@
 \alias{get_patches.matrix}
 \title{get_patches}
 \usage{
-get_patches(landscape, class, directions, to_disk, return_raster, verbose)
+get_patches(landscape, class, directions, to_disk, return_raster)
 
 \method{get_patches}{RasterLayer}(landscape, class = "all",
   directions = 8, to_disk = getOption("to_disk", default = FALSE),

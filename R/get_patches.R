@@ -59,8 +59,7 @@ get_patches <- function(landscape,
                         class,
                         directions,
                         to_disk,
-                        return_raster,
-                        verbose)  UseMethod("get_patches")
+                        return_raster)  UseMethod("get_patches")
 
 
 #' @name get_patches
@@ -94,10 +93,10 @@ get_patches.RasterLayer <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.RasterStack <- function(landscape,
-                                class = "all",
-                                directions = 8,
-                                to_disk = getOption("to_disk", default = FALSE),
-                                return_raster = TRUE) {
+                                    class = "all",
+                                    directions = 8,
+                                    to_disk = getOption("to_disk", default = FALSE),
+                                    return_raster = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
 
@@ -128,10 +127,10 @@ get_patches.RasterStack <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.RasterBrick <- function(landscape,
-                                class = "all",
-                                directions = 8,
-                                to_disk = getOption("to_disk", default = FALSE),
-                                return_raster = TRUE) {
+                                    class = "all",
+                                    directions = 8,
+                                    to_disk = getOption("to_disk", default = FALSE),
+                                    return_raster = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
 
@@ -162,10 +161,10 @@ get_patches.RasterBrick <- function(landscape,
 #' @name get_patches
 #' @export
 get_patches.list <- function(landscape,
-                         class = "all",
-                         directions = 8,
-                         to_disk = getOption("to_disk", default = FALSE),
-                         return_raster = TRUE) {
+                             class = "all",
+                             directions = 8,
+                             to_disk = getOption("to_disk", default = FALSE),
+                             return_raster = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
 

@@ -164,7 +164,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
             # convert to back raster
             landscape_labeled <- matrix_to_raster(matrix = landscape_padded,
-                                                  landscape = landscape_empty)
+                                                  landscape = landscape_empty,
+                                                  landscape_empty = TRUE)
         }
 
         # label all edge cells

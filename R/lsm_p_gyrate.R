@@ -114,7 +114,7 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
 lsm_p_gyrate_calc <- function(landscape, directions) {
 
     # get uniuqe class id
-    classes <- get_unique_values(landscape)
+    classes <- get_unique_values(landscape)[[1]]
 
     gyrate <- lapply(classes, function(patches_class) {
 
