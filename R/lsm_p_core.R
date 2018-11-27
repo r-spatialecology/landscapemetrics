@@ -140,7 +140,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     # get resolution of raster
     resolution_xy <- raster::res(landscape)
 
-    if(consider_boundary) {
+    if(!consider_boundary) {
         # create empty raster for matrix_to_raster()
         landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution_xy),
                                           resolution = resolution_xy,
@@ -155,7 +155,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                          directions = directions)[[1]]
 
         # consider landscape boundary for core definition
-        if(consider_boundary) {
+        if(!consider_boundary) {
             # add cells around raster to consider landscape boundary
             landscape_padded <- pad_raster(landscape_labeled,
                                            pad_raster_value = NA,
@@ -189,7 +189,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                                  directions = 4)
 
                 # count number of edge cells in each patch (edge == 1) and add to already counted edge
-                cells_edge_patch <- cells_edge_patch + table(raster::values(landscape_labeled)[raster::values(class_edge) == 1])
+                cells_edge_patch <- cells_edge_patch + tabulate(raster::values(landscape_labeled)[raster::values(class_edge) == 1],
+                                                                nbins = length(cells_edge_patch))
             }
         }
 

@@ -186,7 +186,7 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
 
     boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
 
-        if(!isTRUE(consider_boundary)) {
+        if(!consider_boundary) {
 
             landscape_padded <- pad_raster(patches_class,
                                            pad_raster_value = NA,

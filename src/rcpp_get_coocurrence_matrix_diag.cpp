@@ -1,11 +1,11 @@
 //#include "rcpp_get_coocurrence_matrix.h"
 #include "get_class_index_map.h"
-#include "rcpp_get_cooccurrence_matrix_diag.h"
+#include "rcpp_get_coocurrence_matrix_diag.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
 
 // [[Rcpp::export]]
-IntegerVector rcpp_get_cooccurrence_matrix_diag(const IntegerMatrix x,
+IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix x,
                                                 const arma::imat directions) {
     const int na = NA_INTEGER;
     const unsigned ncols = x.ncol();

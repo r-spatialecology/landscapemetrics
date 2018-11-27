@@ -154,7 +154,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     resolution_xy <- raster::res(landscape)
 
     # consider landscape boundary for core definition
-    if(consider_boundary) {
+    if(!consider_boundary) {
         # create empty raster for matrix_to_raster()
         landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution_xy),
                                           resolution = resolution_xy,
@@ -169,7 +169,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                                          directions = directions)[[1]]
 
         # consider landscape boundary for core definition
-        if(consider_boundary) {
+        if(!consider_boundary) {
 
             # add cells around raster to consider landscape boundary
             landscape_padded <- pad_raster(landscape_labeled,

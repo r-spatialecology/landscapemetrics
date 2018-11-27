@@ -84,12 +84,12 @@ rcpp_get_composition_vector <- function(x) {
     .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
-rcpp_get_cooccurrence_matrix_diag <- function(x, directions) {
-    .Call('_landscapemetrics_rcpp_get_cooccurrence_matrix_diag', PACKAGE = 'landscapemetrics', x, directions)
-}
-
 rcpp_get_coocurrence_matrix <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix', PACKAGE = 'landscapemetrics', x, directions)
+}
+
+rcpp_get_coocurrence_matrix_diag <- function(x, directions) {
+    .Call('_landscapemetrics_rcpp_get_coocurrence_matrix_diag', PACKAGE = 'landscapemetrics', x, directions)
 }
 
 triangular_index <- function(r, c) {
