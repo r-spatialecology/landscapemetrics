@@ -116,6 +116,11 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
 
 lsm_p_circle_calc <- function(landscape, directions) {
 
+    # get resolution of landscape
+    resolution_xy <- raster::res(landscape)
+    resolution_x <- resolution_xy[[1]]
+    resolution_y <- resolution_xy[[2]]
+
     # get patch area
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 

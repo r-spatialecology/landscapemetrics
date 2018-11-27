@@ -179,7 +179,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
             # convert to back raster
             landscape_labeled <- matrix_to_raster(matrix = landscape_padded,
-                                                  landscape = landscape_empty)
+                                                  landscape = landscape_empty,
+                                                  landscape_empty = TRUE)
         }
 
         # get unique patch id (must be 1 to number_patches)
