@@ -57,10 +57,11 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
 /*** R
 test <- landscapemetrics::get_patches(landscapemetrics::landscape, class = 1)[[1]]
 raster::plot(test)
-raster::plot(raster::boundaries(test))
+landscapetools::util_plot(raster::boundaries(test))
 
-boundarie_mat <- rcpp_get_boundaries(raster::as.matrix(test))
 
-raster::plot(raster::raster(boundarie_mat))
+boundarie_mat <- rcpp_get_boundaries(raster::as.matrix(pad_raster(test, pad_raster_value = NA)), as.matrix(4))
+
+landscapetools::util_plot(raster::raster(boundarie_mat))
 
 */
