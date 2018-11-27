@@ -152,7 +152,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
             landscape_labeled <- get_patches(landscape,
                                              class = patches_class,
                                              directions = directions,
-                                             return_type = "matrix")[[1]]
+                                             return_raster = FALSE)[[1]]
 
             landscape_labeled[is.na(landscape_labeled)] <- -999
 

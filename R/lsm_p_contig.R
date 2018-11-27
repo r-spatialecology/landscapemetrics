@@ -124,32 +124,46 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
-    classes <- get_unique_values(landscape)[[1]]
+    # convert to matrix
+    landscape_matrix <- raster::as.matrix(landscape)
 
+    # get unique values
+    classes <- get_unique_values(landscape_matrix)[[1]]
+
+    # diagonal neighbours
     diagonal_matrix <- matrix(c(1, NA, 1,
                                 NA, 0, NA,
                                 1, NA, 1), 3, 3, byrow = TRUE)
 
+    # x-y neighbours
     straigth_matrix <- matrix(c(NA, 1, NA,
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
     contig_patch <- lapply(classes, function(patches_class) {
 
+        # get connected patches
         patch_mat <- get_patches(landscape,
                                  directions = directions,
                                  class = patches_class,
-                                 return_type = "matrix")[[1]]
+                                 return_raster = FALSE)[[1]]
 
+        # get number of cells for each patch
         n_cells <- rcpp_get_composition_vector(patch_mat)
+
+        # get number of patches
         n_patches <- length(n_cells)
 
+
+        # get diagonal neighbours of same patch
         diagonal_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
                                                                  directions = as.matrix(diagonal_matrix))
 
+        # get straight neighbours of same patch weighted twice
         straigth_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
                                                                  directions = as.matrix(straigth_matrix)) * 2
 
+        # calculated contiguity
         contiguity <- (((diagonal_neighbours +
                              straigth_neighbours +
                              n_cells) /

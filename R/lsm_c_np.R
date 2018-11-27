@@ -109,7 +109,7 @@ lsm_c_np_calc <- function(landscape, directions){
         landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions,
-                                         return_type = "matrix")[[1]]
+                                         return_raster = FALSE)[[1]]
 
         np <- max(landscape_labeled, na.rm = TRUE)
 

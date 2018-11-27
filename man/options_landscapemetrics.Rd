@@ -4,12 +4,12 @@
 \alias{options_landscapemetrics}
 \title{options_landscapemetrics}
 \usage{
-options_landscapemetrics(ccl_to_disk = NULL)
+options_landscapemetrics(to_disk = NULL)
 }
 \arguments{
-\item{ccl_to_disk}{Logical argument, if FALSE results of get_patches are hold
+\item{to_disk}{Logical argument, if FALSE results of get_patches are hold
 in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
-Can be set with a global option, e.g. \code{option(ccl_to_disk = TRUE)}. See Details.}
+Can be set with a global option, e.g. \code{option(to_disk = TRUE)}. See Details.}
 }
 \value{
 Global option to be used internally in the package
@@ -21,7 +21,7 @@ Sets global options for landscapemetrics
 Landscape metrics rely on the delineation of patches. Hence, \code{get_patches} is
 heavily used in \strong{landscapemetrics}. As raster can be quite big, the fact that
 \code{get_patches} creates a copy of the raster for each class in a landscape becomes
-a burden for computer memory. Hence, the argument \emph{ccl_to_disk} allows to
+a burden for computer memory. Hence, the argument \emph{to_disk} allows to
 store the results of the connected labeling algorithm on disk. Furthermore,
 this option can be set globally, so that every function that internally uses
 \code{get_patches} can make use of that.

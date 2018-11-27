@@ -122,17 +122,25 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
+    # # conver to matrix
+    # landscape_matrix <- raster::as.matrix(landscape)
+
+    # get unique classes
+    classes <- get_unique_values(landscape)[[1]]
 
     enn_patch <- lapply(classes, function(patches_class) {
 
+        # get connected patches
         landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
-        np_class <- max(raster::values(landscape_labeled), na.rm = TRUE)
+        # get number of patches
+        np_class <- raster::maxValue(landscape_labeled)
 
+        # ENN doesn't make sense if only one patch is present
         if(np_class == 1) {
+
             enn <-  tibble::tibble(class = patches_class,
                                    value = as.double(NA))
 
@@ -145,25 +153,32 @@ lsm_p_enn_calc <- function(landscape, directions, verbose) {
 
         else {
 
+            # get edge cells because only they are important for ENN
             class_boundaries <- raster::boundaries(landscape_labeled, directions = 4,
                                                    asNA = TRUE)
 
+            # set edge cell value to patch id
             raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(landscape_labeled)[raster::values(!is.na(class_boundaries))]
 
+            # conver to points to calculate distances
             points_class <- raster::rasterToPoints(class_boundaries)
 
+            # order points
             ord <- order(as.matrix(points_class)[, 1])
             num <- seq_along(ord)
             rank <- match(num, ord)
 
+            # get nearest neighbor between patches
             res <- rcpp_get_nearest_neighbor(as.matrix(points_class)[ord,])
 
+            # order results
             min_dist <- unname(cbind(num, res[rank], as.matrix(points_class)[, 3]))
 
             tbl <- tibble::tibble(cell = min_dist[,1],
                                   dist = min_dist[,2],
                                   id = min_dist[,3])
 
+            # only get minimum value for each patch
             enn <- dplyr::summarise(dplyr::group_by(tbl, by = id),
                                     value = min(dist))
         }
