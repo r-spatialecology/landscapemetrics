@@ -101,33 +101,43 @@ lsm_c_ai.list <- function(landscape) {
 
 lsm_c_ai_calc <- function(landscape) {
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                      directions = as.matrix(4))
+    # convert to raster to matrix
+    landscape <- raster::as.matrix(landscape)
 
-    like_adjacencies <- diag(tb) / 2
+    # get coocurrence matrix of like_adjacencies
+    like_adjacencies <- rcpp_get_coocurrence_matrix_diag(landscape,
+                                                         directions = as.matrix(4)) / 2
 
-    area_class <- tibble::as.tibble(raster::freq(landscape, useNA = "no"))
+    # get number of cells each class
+    cells_class <- rcpp_get_composition_vector(landscape)
 
-    min_e <- dplyr::mutate(
-        area_class,
-        value = count * 10000,
-        n = trunc(sqrt(count)),
-        m = count - n ^ 2,
-        min_e = dplyr::case_when(
-            m == 0 ~ 2 * n * (n - 1),
-            m <= n ~ 2 * n * (n - 1) + 2 * m - 1,
-            m > n ~ 2 * n * (n - 1) + 2 * m - 2
-        )
-    )
+    # save to tibble
+    cells_class <- tibble::tibble(class = names(cells_class),
+                                 value = cells_class)
 
-    min_e <- dplyr::pull(min_e, min_e)
+    # calculate maximum adjacencies
+    max_adj <- dplyr::mutate(cells_class,
+                             n = trunc(sqrt(value)),
+                             m = value - n ^ 2,
+                             max_adj = dplyr::case_when(
+                                 m == 0 ~ 2 * n * (n - 1),
+                                 m <= n ~ 2 * n * (n - 1) + 2 * m - 1,
+                                 m > n ~ 2 * n * (n - 1) + 2 * m - 2
+                                 )
+                             )
 
-    ai <- (like_adjacencies / min_e) * 100
+    # get only max_adj as vector
+    max_adj <- dplyr::pull(max_adj, max_adj)
+
+    # calculate aggregation index
+    ai <- (like_adjacencies / max_adj) * 100
+
+    # if NaN (mathematical reason) set to NA
     ai[is.nan(ai)] <- NA
 
     tibble::tibble(
         level = "class",
-        class = as.integer(sort(unique(raster::values(landscape)))),
+        class = as.integer(names(like_adjacencies)),
         id = as.integer(NA),
         metric = "ai",
         value = as.double(ai)

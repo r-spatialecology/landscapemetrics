@@ -108,10 +108,10 @@ lsm_p_perim_calc <- function(landscape, directions) {
     resolution_y <- resolution_xy[[2]]
 
     # conver to matrix
-    landscape_matrix <- raster::as.matrix(landscape)
+    landscape <- raster::as.matrix(landscape)
 
     # get unique classes
-    classes <- get_unique_values(landscape_matrix)[[1]]
+    classes <- get_unique_values(landscape)[[1]]
 
     # raster resolution not identical in x-y directions
     if(!isTRUE(resolution_x == resolution_y)){

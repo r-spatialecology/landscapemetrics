@@ -111,19 +111,19 @@ lsm_p_area.list <- function(landscape, directions = 8) {
 
 lsm_p_area_calc <- function(landscape, directions){
 
-    # convert to matrix
-    landscape_matrix <- raster::as.matrix(landscape)
-
-    # get unique class id
-    classes <- get_unique_values(landscape_matrix)[[1]]
-
     # factor to convert cell to area
     factor_ha <- prod(raster::res(landscape)) / 10000
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get unique class id
+    classes <- get_unique_values(landscape)[[1]]
 
     area_patch_list <- lapply(classes, function(patches_class){
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape_matrix,
+        landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions,
                                          return_raster = FALSE)[[1]]

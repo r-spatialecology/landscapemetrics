@@ -125,10 +125,10 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
-    landscape_matrix <- raster::as.matrix(landscape)
+    landscape <- raster::as.matrix(landscape)
 
     # get unique values
-    classes <- get_unique_values(landscape_matrix)[[1]]
+    classes <- get_unique_values(landscape)[[1]]
 
     # diagonal neighbours
     diagonal_matrix <- matrix(c(1, NA, 1,
@@ -156,12 +156,12 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
 
         # get diagonal neighbours of same patch
-        diagonal_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
-                                                                 directions = as.matrix(diagonal_matrix))
+        diagonal_neighbours <- rcpp_get_coocurrence_matrix_diag(patch_mat,
+                                                                directions = as.matrix(diagonal_matrix))
 
         # get straight neighbours of same patch weighted twice
-        straigth_neighbours <- rcpp_get_cooccurrence_matrix_diag(patch_mat,
-                                                                 directions = as.matrix(straigth_matrix)) * 2
+        straigth_neighbours <- rcpp_get_coocurrence_matrix_diag(patch_mat,
+                                                                directions = as.matrix(straigth_matrix)) * 2
 
         # calculated contiguity
         contiguity <- (((diagonal_neighbours +
