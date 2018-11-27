@@ -61,7 +61,8 @@ test <- landscapemetrics::get_patches(landscapemetrics::landscape, class = 1)[[1
 raster::plot(test)
 landscapetools::util_plot(raster::boundaries(test))
 
-boundarie_mat <- rcpp_get_boundaries(raster::as.matrix(test), as.matrix(4))
+
+boundarie_mat <- rcpp_get_boundaries(raster::as.matrix(pad_raster(test, pad_raster_value = NA)), as.matrix(4))
 
 landscapetools::util_plot(raster::raster(boundarie_mat))
 
