@@ -28,7 +28,7 @@ get_unique_values(x)
 This function returns the unique values of an object.
 }
 \details{
-Fast and memory safe Rcpp implementation to find the unique values of an object.
+Fast and memory friendly Rcpp implementation to find the unique values of an object.
 }
 \examples{
 get_unique_values(landscape)

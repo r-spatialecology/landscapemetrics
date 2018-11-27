@@ -6,6 +6,7 @@
 \alias{get_patches.RasterStack}
 \alias{get_patches.RasterBrick}
 \alias{get_patches.list}
+\alias{get_patches.matrix}
 \title{get_patches}
 \usage{
 get_patches(landscape, class, directions, ccl_to_disk, return_type)
@@ -23,6 +24,10 @@ get_patches(landscape, class, directions, ccl_to_disk, return_type)
   FALSE), return_type = "raster")
 
 \method{get_patches}{list}(landscape, class = "all", directions = 8,
+  ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
+  return_type = "raster")
+
+\method{get_patches}{matrix}(landscape, class = "all", directions = 8,
   ccl_to_disk = getOption("ccl_to_disk", default = FALSE),
   return_type = "raster")
 }

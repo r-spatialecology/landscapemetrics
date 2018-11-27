@@ -2,16 +2,16 @@
 #'
 #' @description Sets global options for landscapemetrics
 #'
-#' @param ccl_to_disk Logical argument, if FALSE results of get_patches are hold
+#' @param to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
-#' Can be set with a global option, e.g. `option(ccl_to_disk = TRUE)`. See Details.
+#' Can be set with a global option, e.g. `option(to_disk = TRUE)`. See Details.
 #'
 #' @details
 #'
 #' Landscape metrics rely on the delineation of patches. Hence, `get_patches` is
 #' heavily used in **landscapemetrics**. As raster can be quite big, the fact that
 #' `get_patches` creates a copy of the raster for each class in a landscape becomes
-#' a burden for computer memory. Hence, the argument *ccl_to_disk* allows to
+#' a burden for computer memory. Hence, the argument *to_disk* allows to
 #' store the results of the connected labeling algorithm on disk. Furthermore,
 #' this option can be set globally, so that every function that internally uses
 #' `get_patches` can make use of that.
@@ -23,10 +23,10 @@
 #'
 #' @export
 
-options_landscapemetrics <- function(ccl_to_disk = NULL) {
+options_landscapemetrics <- function(to_disk = NULL) {
 
-    if(!is.null(ccl_to_disk)){
-        options(ccl_to_disk = ccl_to_disk)
+    if(!is.null(to_disk)){
+        options(to_disk = to_disk)
     }
 
 }

@@ -134,35 +134,44 @@ lsm_p_core.list <- function(landscape, directions = 8,
 
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth) {
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
+    # get unique classes
+    classes <- get_unique_values(landscape)[[1]]
 
+    # get resolution of raster
     resolution_xy <- raster::res(landscape)
-    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
-    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
-                                              resolution = resolution_xy,
-                                              crs = raster::crs(landscape))
+
+    if(consider_boundary) {
+        # create empty raster for matrix_to_raster()
+        landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution_xy),
+                                          resolution = resolution_xy,
+                                          crs = raster::crs(landscape))
+    }
 
     core <- lapply(classes, function(patches_class) {
 
+        # get connected patches
         landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
-        if(!isTRUE(consider_boundary)) {
-
+        if(consider_boundary) {
+            # add cells around raster to consider landscape boundary
             landscape_padded <- pad_raster(landscape_labeled,
                                            pad_raster_value = NA,
                                            pad_raster_cells = 1,
                                            global = FALSE)
 
-            landscape_labeled <- raster::setValues(landscape_labeled_empty, landscape_padded)
+            # convert to back raster
+            landscape_labeled <- matrix_to_raster(matrix = landscape_padded,
+                                                  landscape = landscape_empty)
         }
 
+        # label all edge cells
         class_edge <- raster::boundaries(landscape_labeled,
                                          directions = 4)
 
-        cells_edge_patch <- table(factor(raster::values(landscape_labeled)[raster::values(class_edge) == 1],
-                                  levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
+        # count number of edge cells in each patch (edge == 1)
+        cells_edge_patch <- table(raster::values(landscape_labeled)[raster::values(class_edge) == 1])
 
         if(edge_depth > 1){
             for(i in seq_len(edge_depth - 1)){
@@ -172,13 +181,12 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                 class_edge <- raster::boundaries(class_edge,
                                                  directions = 4)
 
-                cells_edge_patch <- cells_edge_patch + table(factor(raster::values(landscape_labeled)[raster::values(class_edge) == 1],
-                                                             levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
+                cells_edge_patch <- cells_edge_patch + table(raster::values(landscape_labeled)[raster::values(class_edge) == 1])
             }
         }
 
-        cells_patch <- table(factor(raster::values(landscape_labeled),
-                                    levels = rcpp_get_unique_values(raster::as.matrix(landscape_labeled))))
+        # all cells of the patch
+        cells_patch <- table(raster::values(landscape_labeled))
 
         core_area <- (cells_patch - cells_edge_patch) * prod(resolution_xy) / 10000
 
