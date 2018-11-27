@@ -12,7 +12,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
     const unsigned core = 0;
     const unsigned boundary = 1;
 
-    std::vector<int> classes = rcpp_get_unique_values(x);
+    std::vector<int> classes = rcpp_get_unique_values(x, false);
     std::map<int, unsigned> class_index = get_class_index_map(classes);
 
     // create neighbors coordinates
@@ -34,7 +34,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
                 boundaries[col * nrows + row] = na;
                 continue;
             }
-            unsigned focal_class = class_index[tmp];
+            const int focal_class = class_index[tmp];
             boundaries[col * nrows + row] = core;
             for (int h = 0; h < neigh_len; h++) {
                 int neig_col = neig_coords[h][0] + col;
@@ -44,11 +44,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
                     neig_col < ncols &&
                     neig_row < nrows) {
                     const int tmp = x[neig_col * nrows + neig_row];
-                    if (tmp == na) {
-                        boundaries[col * nrows + row] = boundary;
-                        break;
-                    }
-                    const unsigned neig_class = class_index[tmp];
+                    const int neig_class = class_index[tmp];
                     if (neig_class != focal_class) {
                         boundaries[col * nrows + row] = boundary;
                         break;
