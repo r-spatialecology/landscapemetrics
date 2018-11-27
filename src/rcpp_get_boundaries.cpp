@@ -30,18 +30,24 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
             const int tmp = x[col * nrows + row];
-            if (tmp == na)
+            if (tmp == na) {
+                boundaries[col * nrows + row] = na;
                 continue;
+            }
             unsigned focal_class = class_index[tmp];
             boundaries[col * nrows + row] = core;
             for (int h = 0; h < neigh_len; h++) {
                 int neig_col = neig_coords[h][0] + col;
                 int neig_row = neig_coords[h][1] + row;
                 if (neig_col >= 0 &&
-                        neig_row >= 0 &&
-                        neig_col < ncols &&
-                        neig_row < nrows) {
+                    neig_row >= 0 &&
+                    neig_col < ncols &&
+                    neig_row < nrows) {
                     const int tmp = x[neig_col * nrows + neig_row];
+                    if (tmp == na) {
+                        boundaries[col * nrows + row] = boundary;
+                        break;
+                    }
                     const unsigned neig_class = class_index[tmp];
                     if (neig_class != focal_class) {
                         boundaries[col * nrows + row] = boundary;
@@ -59,8 +65,9 @@ test <- landscapemetrics::get_patches(landscapemetrics::landscape, class = 1)[[1
 landscapetools::util_plot(test)
 landscapetools::util_plot(raster::boundaries(test))
 
-
-boundarie_mat <- rcpp_get_boundaries(raster::as.matrix(pad_raster(test, pad_raster_value = NA)), as.matrix(4))
+raster_boudary_mat <- raster::as.matrix(raster::boundaries(test))
+lanscape_mat <- raster::as.matrix(test)
+boundarie_mat <- landscapemetrics:::rcpp_get_boundaries(lanscape_mat, as.matrix(4))
 
 landscapetools::util_plot(raster::raster(boundarie_mat))
 
