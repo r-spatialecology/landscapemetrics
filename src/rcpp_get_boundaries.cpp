@@ -25,7 +25,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
         neig_coords.push_back(b);
     }
 
-    IntegerMatrix boundary(nrows, ncols);
+    IntegerMatrix boundaries(nrows, ncols);
 
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
@@ -33,7 +33,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
             if (tmp == na)
                 continue;
             unsigned focal_class = class_index[tmp];
-            boundary[col * nrows + row] = core;
+            boundaries[col * nrows + row] = core;
             for (int h = 0; h < neigh_len; h++) {
                 int neig_col = neig_coords[h][0] + col;
                 int neig_row = neig_coords[h][1] + row;
@@ -44,7 +44,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
                     const int tmp = x[neig_col * nrows + neig_row];
                     const unsigned neig_class = class_index[tmp];
                     if (neig_class != focal_class) {
-                        boundary[col * nrows + row] = boundary;
+                        boundaries[col * nrows + row] = boundary;
                         break;
                     }
                 }
@@ -52,7 +52,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
         }
     }
 
-    return boundary;
+    return boundaries;
 }
 /*** R
 test <- landscapemetrics::get_patches(landscapemetrics::landscape, class = 1)[[1]]
