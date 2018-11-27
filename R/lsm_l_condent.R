@@ -129,13 +129,18 @@ lsm_l_condent.list <- function(landscape,
 
 lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
-    landscape_matrix <- raster::as.matrix(landscape)
-    cmh  <- rcpp_get_composition_vector(landscape_matrix)
-    coh <- rcpp_get_coocurrence_vector(landscape_matrix,
+    landscape <- raster::as.matrix(landscape)
+
+    cmh  <- rcpp_get_composition_vector(landscape)
+
+    coh <- rcpp_get_coocurrence_vector(landscape,
                                        directions = as.matrix(neighbourhood),
                                        ordered = ordered)
+
     comp <- rcpp_get_entropy(cmh, base)
+
     cplx <- rcpp_get_entropy(coh, base)
+
     conf <- cplx - comp
 
     tibble::tibble(

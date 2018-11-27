@@ -110,7 +110,9 @@ lsm_l_contag.list <- function(landscape, verbose = TRUE) {
 
 lsm_l_contag_calc <- function(landscape, verbose) {
 
-    t <- lsm_l_pr(landscape)$value
+    landscape <- raster::as.matrix(landscape)
+
+    t <- length(get_unique_values(landscape)[[1]])
 
     if (t < 2) {
         if(isTRUE(verbose)) {
@@ -128,7 +130,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
     } else {
 
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+        adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                    as.matrix(4))
 
         esum <- sum(adjacencies / sum(adjacencies) *

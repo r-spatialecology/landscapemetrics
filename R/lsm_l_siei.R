@@ -109,6 +109,7 @@ lsm_l_siei.list <- function(landscape, directions = 8) {
 lsm_l_siei_calc <- function(landscape, directions) {
 
     sidi <- lsm_l_sidi_calc(landscape, directions = directions)
+
     pr <- lsm_l_pr_calc(landscape)
 
     siei <- sidi$value / (1 - (1 / pr$value))

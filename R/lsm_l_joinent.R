@@ -127,8 +127,9 @@ lsm_l_joinent.list <- function(landscape,
 
 lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
-    landscape_matrix <- raster::as.matrix(landscape)
-    coh <- rcpp_get_coocurrence_vector(landscape_matrix,
+    landscape <- raster::as.matrix(landscape)
+
+    coh <- rcpp_get_coocurrence_vector(landscape,
                                        directions = as.matrix(neighbourhood),
                                        ordered = ordered)
 

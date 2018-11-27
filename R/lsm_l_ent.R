@@ -94,8 +94,10 @@ lsm_l_ent.list <- function(landscape, base = "log2") {
 
 lsm_l_ent_calc <- function(landscape, base){
 
-    landscape_matrix <- raster::as.matrix(landscape)
-    cmh  <- rcpp_get_composition_vector(landscape_matrix)
+    landscape <- raster::as.matrix(landscape)
+
+    cmh  <- rcpp_get_composition_vector(landscape)
+
     comp <- rcpp_get_entropy(cmh, base)
 
     tibble::tibble(

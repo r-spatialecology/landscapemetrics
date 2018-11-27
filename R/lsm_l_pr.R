@@ -94,7 +94,7 @@ lsm_l_pr.list <- function(landscape){
 
 lsm_l_pr_calc <- function(landscape){
 
-    richness <- length(raster::unique(landscape))
+    richness <- length(get_unique_values(landscape)[[1]])
 
     tibble::tibble(
         level = 'landscape',
