@@ -1,4 +1,5 @@
-#include "rcpp_get_coocurrence_matrix.h"
+//#include "rcpp_get_coocurrence_matrix.h"
+#include "get_class_index_map.h"
 #include "rcpp_get_cooccurrence_matrix_diag.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
@@ -11,7 +12,7 @@ IntegerVector rcpp_get_cooccurrence_matrix_diag(const IntegerMatrix x,
     const unsigned nrows = x.nrow();
 
     std::vector<int> patches = rcpp_get_unique_values(x);
-    std::map<int, unsigned> patch_index = get_patches_map(patches);
+    std::map<int, unsigned> patch_index = get_class_index_map(patches);
 
     unsigned n_classes = patch_index.size();
     std::vector<unsigned> cooc_mat_diag(n_classes);
