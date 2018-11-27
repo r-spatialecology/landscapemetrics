@@ -147,68 +147,91 @@ lsm_p_ncore.list <- function(landscape,
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
+    # get unique classes
+    classes <- get_unique_values(landscape)[[1]]
 
+    # get resolution of raster
     resolution_xy <- raster::res(landscape)
-    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
-    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
-                                              resolution = resolution_xy,
-                                              crs = raster::crs(landscape))
+
+    # consider landscape boundary for core definition
+    if(consider_boundary) {
+        # create empty raster for matrix_to_raster()
+        landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution_xy),
+                                          resolution = resolution_xy,
+                                          crs = raster::crs(landscape))
+    }
 
     core_class <- lapply(classes, function(patches_class) {
 
+        # get connected patches
         landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
-        if(!isTRUE(consider_boundary)) {
+        # consider landscape boundary for core definition
+        if(consider_boundary) {
 
+            # add cells around raster to consider landscape boundary
             landscape_padded <- pad_raster(landscape_labeled,
                                            pad_raster_value = NA,
                                            pad_raster_cells = 1,
                                            global = FALSE)
 
-            landscape_labeled <- raster::setValues(landscape_labeled_empty, landscape_padded)
+            # convert to back raster
+            landscape_labeled <- matrix_to_raster(matrix = landscape_padded,
+                                                  landscape = landscape_empty)
         }
 
-        patches_id <- rcpp_get_unique_values(raster::as.matrix(landscape_labeled))
+        # get unique patch id (must be 1 to number_patches)
+        patches_id <- 1:raster::maxValue(landscape_labeled)
 
+        # label all edge cells
         class_edge <- raster::boundaries(landscape_labeled, directions = 4)
 
+        # loop if edge_depth is more than 1
         if(edge_depth > 1){
+
             for(i in seq_len(edge_depth - 1)){
 
+                # set all already edge to NA
                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
 
+                # set current_edge + 1 to new edge
                 class_edge <- raster::boundaries(class_edge,
                                                  directions = 4)
             }
         }
 
+        # set all edge and background to -999
         raster::values(class_edge)[raster::values(class_edge) == 1 | raster::values(is.na(class_edge))] <- -999
 
-        n_boundary <- length(rcpp_get_unique_values(raster::as.matrix(class_edge)))
-
-        if(n_boundary == 1){
+        # no core area present
+        if(raster::maxValue(class_edge) == -999){
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
         }
 
-        else{
+        else {
+
+            # get all core patches
             patch_core <- get_patches(class_edge,
                                       class = 0,
                                       directions = directions)[[1]]
 
+            # convert to points to extract original patch id and convert to matrix
             points <- raster::rasterToPoints(patch_core)
             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
 
+            # extract original patch id of core patches
             n_core_area <- table(raster::extract(x = landscape_labeled,
                                                  y = matrix(points[, 1:2],
                                                             ncol = 2)))
 
+            # set up results samel length as number of patches (in case patch has no core)
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
 
+            # add number of core patches if present for corresponding patch
             result[as.numeric(names(n_core_area))] <- n_core_area
         }
 

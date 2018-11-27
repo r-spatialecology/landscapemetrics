@@ -154,6 +154,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                          class = patches_class,
                                          directions = directions)[[1]]
 
+        # consider landscape boundary for core definition
         if(consider_boundary) {
             # add cells around raster to consider landscape boundary
             landscape_padded <- pad_raster(landscape_labeled,
@@ -173,14 +174,20 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         # count number of edge cells in each patch (edge == 1)
         cells_edge_patch <- table(raster::values(landscape_labeled)[raster::values(class_edge) == 1])
 
+        # loop if edge_depth > 1
         if(edge_depth > 1){
+
+            # first edge depth already labels
             for(i in seq_len(edge_depth - 1)){
 
+                # set all already edge to NA
                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
 
+                # set current_edge + 1 to new edge
                 class_edge <- raster::boundaries(class_edge,
                                                  directions = 4)
 
+                # count number of edge cells in each patch (edge == 1) and add to already counted edge
                 cells_edge_patch <- cells_edge_patch + table(raster::values(landscape_labeled)[raster::values(class_edge) == 1])
             }
         }
@@ -188,6 +195,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         # all cells of the patch
         cells_patch <- table(raster::values(landscape_labeled))
 
+        # all cells minus edge cells equal core and convert to ha
         core_area <- (cells_patch - cells_edge_patch) * prod(resolution_xy) / 10000
 
         tibble::tibble(class = patches_class,

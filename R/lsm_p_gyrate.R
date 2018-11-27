@@ -113,23 +113,30 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
 
 lsm_p_gyrate_calc <- function(landscape, directions) {
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
+    # get uniuqe class id
+    classes <- get_unique_values(landscape)
 
     gyrate <- lapply(classes, function(patches_class) {
 
+        # get connected patches
         landscape_labeled <- get_patches(landscape,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
+        # convert cells to points
         points_class <- tibble::as.tibble(raster::rasterToPoints(landscape_labeled))
         names(points_class) <- c("x", "y", "id")
 
+        # calcuale the centroid of each patch (mean of all coords)
         centroid <- dplyr::summarise(dplyr::group_by(points_class, id),
                                      x_centroid = mean(x),
                                      y_centroid = mean(y))
 
+
+        # create full data set with raster-points and patch centroids
         full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
 
+        # calculate distance from each cell center to centroid and take mean
         gyrate_class <- dplyr::summarise(
             dplyr::group_by(
                 dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2)),

@@ -77,17 +77,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_get_composition_vector
-IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
-RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_composition_vector(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_get_entropy
 double rcpp_get_entropy(NumericVector x, std::string base);
 RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
@@ -156,6 +145,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type resolution_x(resolution_xSEXP);
     Rcpp::traits::input_parameter< double >::type resolution_y(resolution_ySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution_x, resolution_y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_get_composition_vector
+IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector& x);
+RcppExport SEXP _landscapemetrics_rcpp_get_composition_vector(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_composition_vector(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -253,13 +253,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_adjacency", (DL_FUNC) &_landscapemetrics_rcpp_get_adjacency, 2},
     {"_landscapemetrics_rcpp_get_pairs", (DL_FUNC) &_landscapemetrics_rcpp_get_pairs, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix_old", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_old, 2},
-    {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
     {"_landscapemetrics_max_dist_fun", (DL_FUNC) &_landscapemetrics_max_dist_fun, 1},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 3},
+    {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_cooccurrence_matrix_diag", (DL_FUNC) &_landscapemetrics_rcpp_get_cooccurrence_matrix_diag, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},

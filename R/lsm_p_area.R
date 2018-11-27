@@ -131,14 +131,12 @@ lsm_p_area_calc <- function(landscape, directions){
         # multiply number of cells within each patch with hectar factor
         area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
 
-        # save in tibble
         tibble::tibble(
             class = as.integer(patches_class),
             value = area_patch_ij
         )
     })
 
-    # combine to one tibble
     area_patch <- dplyr::bind_rows(area_patch_list)
 
     tibble::tibble(

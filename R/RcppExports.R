@@ -25,10 +25,6 @@ rcpp_get_coocurrence_matrix_old <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix_old', PACKAGE = 'landscapemetrics', x, directions)
 }
 
-rcpp_get_composition_vector <- function(x) {
-    .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
-}
-
 rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
 }
@@ -78,6 +74,10 @@ max_dist_fun <- function(points) {
 
 rcpp_get_circle <- function(points, resolution_x, resolution_y) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution_x, resolution_y)
+}
+
+rcpp_get_composition_vector <- function(x) {
+    .Call('_landscapemetrics_rcpp_get_composition_vector', PACKAGE = 'landscapemetrics', x)
 }
 
 rcpp_get_cooccurrence_matrix_diag <- function(x, directions) {
