@@ -119,13 +119,18 @@ lsm_c_te.list <- function(landscape,
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
-    classes <- rcpp_get_unique_values(raster::as.matrix(landscape))
-
+    # get resolution of raster to convert adjacencies to edge length
     resolution_xy <- raster::res(landscape)
     resolution_x <- resolution_xy[[1]]
     resolution_y <- resolution_xy[[2]]
 
-    if(length(classes) == 1 && !isTRUE(count_boundary)) {
+    # conver raster to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get class id
+    classes <- get_unique_values(landscape)[[1]]
+
+    if(length(classes) == 1 && !count_boundary) {
 
         tibble::tibble(
             level = "class",
@@ -137,7 +142,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
     else {
 
-        if(!isTRUE(resolution_x == resolution_y)){
+        # resolution not identical in x and y direction
+        if(resolution_x != resolution_y){
+
             top_bottom_matrix <- matrix(c(NA, NA, NA,
                                           1,  0, 1,
                                           NA, NA, NA), 3, 3, byrow = TRUE)
@@ -149,39 +156,51 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions) {
 
         result <- lapply(X = classes, FUN = function(patches_class) {
 
+            # get connected patches
             landscape_labeled <- get_patches(landscape,
                                              class = patches_class,
                                              directions = directions,
                                              return_raster = FALSE)[[1]]
 
+            # set all non-class patches to -999
             landscape_labeled[is.na(landscape_labeled)] <- -999
 
-            if(isTRUE(count_boundary)){
+            # add one row/coloumn to count landscape boundary
+            if(count_boundary){
                 landscape_labeled <- pad_raster(landscape = landscape_labeled,
                                                 pad_raster_value = -999,
                                                 pad_raster_cells = 1)
             }
 
-            if (isTRUE(resolution_x == resolution_y)) {
+            # resolution identical in x and y direction
+            if (resolution_x == resolution_y) {
 
+                # get adjacencies
                 neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                directions = as.matrix(4))
 
+
+                # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
                 edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) * resolution_x
             }
 
             else {
 
+                # get adjacencies
                 left_right_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(left_right_matrix))
 
+                # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
                 edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) * resolution_x
 
+                # get adjacencies
                 top_bottom_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
                                                                      directions = as.matrix(top_bottom_matrix))
 
+                # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
                 edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) * resolution_y
 
+                # add edge length in x- and y-direction
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }
 
