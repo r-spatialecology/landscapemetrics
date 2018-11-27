@@ -11,7 +11,7 @@ IntegerMatrix rcpp_get_boundaries(const IntegerMatrix x,
     const unsigned nrows = x.nrow();
 
     std::vector<int> classes = rcpp_get_unique_values(x);
-    std::map<int, unsigned> class_index = get_classes_map(classes);
+    std::map<int, unsigned> class_index = get_class_index_map(classes);
 
     unsigned n_classes = class_index.size();
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
