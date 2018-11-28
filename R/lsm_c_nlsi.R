@@ -108,16 +108,30 @@ lsm_c_nlsi.list <- function(landscape, directions = 8) {
 
 lsm_c_nlsi_calc <- function(landscape, directions) {
 
-    edge_class <- lsm_c_te_calc(landscape,
-                                count_boundary = TRUE, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    ai <- rcpp_get_composition_vector(raster::as.matrix(landscape))
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get edge for each class
+    class_edge <- lsm_c_te_calc(landscape,
+                                directions = directions,
+                                count_boundary = TRUE,
+                                resolution = resolution)
+
+    # get total edge
+    total_edge <- lsm_l_te_calc(landscape,
+                                count_boundary = TRUE,
+                                resolution = resolution)
+
+    ai <- rcpp_get_composition_vector(landscape)
 
     pi <- prop.table(ai)
 
     A <- sum(ai)
-    B <- (raster::ncol(landscape) * 2) + (raster::nrow(landscape) * 2)
-    Z <- dplyr::pull(lsm_l_te_calc(landscape, count_boundary = TRUE), value)
+    B <- (ncol(landscape) * 2) + (nrow(landscape) * 2)
+    Z <- total_edge$value
 
     nlsi <- tibble::tibble(ai = ai,
                            pi = pi,
@@ -141,12 +155,12 @@ lsm_c_nlsi_calc <- function(landscape, directions) {
                            )
     )
 
-    result <- (edge_class$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
+    result <- (class_edge$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
     result[is.nan(result)] <- NA
 
     tibble::tibble(
         level = "class",
-        class = as.integer(edge_class$class),
+        class = as.integer(class_edge$class),
         id = as.integer(NA),
         metric = "nlsi",
         value = as.double(result)

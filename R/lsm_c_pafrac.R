@@ -119,12 +119,24 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_c_pafrac_calc <- function(landscape, directions, verbose){
 
-    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape, directions = directions),
+    # get rsolution
+    resolution <- raster::res(landscape)
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get patch area in sqm
+    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = value * 10000)
 
+    # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
-                                        directions = directions)
+                                        directions = directions,
+                                        resolution = resolution)
 
+    # get number of patches
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 

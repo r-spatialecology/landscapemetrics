@@ -109,15 +109,19 @@ lsm_c_division.list <- function(landscape, directions = 8) {
 
 lsm_c_division_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get patch area
+    patch_area <- lsm_p_area_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # get total area
+    total_area <- dplyr::summarise(patch_area, value = sum(value))
 
-    division <- dplyr::mutate(area_patch,
-                              value = (value / area_landscape$value) ^ 2)
+    # calculate division for each patch
+    division <- dplyr::mutate(patch_area,
+                              value = (value / total_area$value) ^ 2)
 
+    # calculate over division for classes
     division <-  dplyr::mutate(dplyr::summarise(dplyr::group_by(division, class),
-                                 value = sum(value)),
+                                                value = sum(value)),
                                value = 1 - value)
 
     tibble::tibble(

@@ -106,13 +106,17 @@ lsm_c_lpi.list <- function(landscape, directions = 8) {
 
 lsm_c_lpi_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get patch area
+    patch_area <- lsm_p_area_calc(landscape, directions = directions)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # summarise to total area
+    total_area <- dplyr::summarise(patch_area, value = sum(value))
 
-    lpi <- dplyr::mutate(area_patch,
-                         value = value / area_landscape$value * 100)
+    # calculate largest patch index
+    lpi <- dplyr::mutate(patch_area,
+                         value = value / total_area$value * 100)
 
+    # summarise for each class
     lpi <- dplyr::summarise(dplyr::group_by(lpi, class),
                             value = max(value))
 

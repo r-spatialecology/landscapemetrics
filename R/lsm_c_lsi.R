@@ -109,25 +109,40 @@ lsm_c_lsi.list <- function(landscape, directions = 8) {
 
 lsm_c_lsi_calc <- function(landscape, directions) {
 
-    edge_class <- lsm_c_te_calc(landscape,
-                                count_boundary = TRUE, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    area_class <- dplyr::mutate(lsm_c_ca_calc(landscape, directions = directions),
-                                value = value * 10000)
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
 
-    lsi <- dplyr::mutate(area_class,
+    # get class edge
+    class_edge <- lsm_c_te_calc(landscape,
+                                directions = directions,
+                                count_boundary = TRUE,
+                                resolution = resolution)
+
+    # get patch area
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # summarise to class area in sqm
+    class_area <- dplyr::summarise(dplyr::group_by(patch_area, class), value = sum(value) * 10000)
+
+    # calculate lsi index
+    lsi <- dplyr::mutate(class_area,
                          n = trunc(sqrt(value)),
                          m = value - n^ 2,
                          minp = dplyr::case_when(
                              m == 0 ~ n * 4,
                              n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
                              value > n * (1 + n) ~ 4 * n + 4),
-                         value = edge_class$value / minp)
+                         value = class_edge$value / minp)
 
     tibble::tibble(
         level = "class",
-        class = as.integer(edge_class$class),
-        id = as.integer(edge_class$id),
+        class = as.integer(class_edge$class),
+        id = as.integer(class_edge$id),
         metric = "lsi",
         value = as.double(lsi$value)
     )
