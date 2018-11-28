@@ -128,7 +128,7 @@ lsm_c_cohesion_calc <- function(landscape, directions) {
 
     # get number of cells for each patch -> area = n_cells * res / 10000
     ncells_patch <-  dplyr::mutate(patch_area,
-                                   value = value * 10000 / resolution)
+                                   value = value * 10000 / prod(resolution))
 
     # get perim of patch
     perim_patch <- lsm_p_perim_calc(landscape,
