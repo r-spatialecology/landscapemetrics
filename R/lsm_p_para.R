@@ -112,11 +112,21 @@ lsm_p_para.list <- function(landscape, directions = 8) {
 
 lsm_p_para_calc <- function(landscape, directions){
 
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # conver to matrix
+    landscape <- raster::as.matrix(landscape)
+
     # get perim
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution)
 
     # get area
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
     # calculate ratio between area and perim
     para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value /

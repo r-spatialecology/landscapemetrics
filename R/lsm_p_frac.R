@@ -116,11 +116,21 @@ lsm_p_frac.list <- function(landscape, directions = 8) {
 
 lsm_p_frac_calc <- function(landscape, directions){
 
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # conver to matrix
+    landscape <- raster::as.matrix(landscape)
+
     # get patch perimeter
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution)
 
     # get patch area
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
     # calculate frac
     frac_patch <- dplyr::mutate(area_patch,

@@ -136,13 +136,11 @@ lsm_p_gyrate_calc <- function(landscape, directions) {
         # create full data set with raster-points and patch centroids
         full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
 
-        # calculate distance from each cell center to centroid and take mean
-        gyrate_class <- dplyr::summarise(
-            dplyr::group_by(
-                dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2)),
-                id),
-            value = mean(dist)
-            )
+        # calculate distance from each cell center to centroid
+        gyrate_class <- dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2))
+
+        # mean distance for each patch
+        gyrate_class <- dplyr::summarise(dplyr::group_by(gyrate_class, id), value = mean(dist))
 
         tibble::tibble(class = as.integer(patches_class),
                        value = as.double(gyrate_class$value))

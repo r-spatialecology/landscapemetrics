@@ -114,10 +114,23 @@ lsm_p_shape.list <- function(landscape, directions = 8) {
 
 lsm_p_shape_calc <- function(landscape, directions){
 
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
 
+    # get perimeter of patches
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution)
+
+    # get area of patches
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # calculate shape index
     shape_patch <- dplyr::mutate(area_patch,
                                  value = value * 10000,
                                  n = trunc(sqrt(value)),

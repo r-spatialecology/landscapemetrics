@@ -151,13 +151,13 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     classes <- get_unique_values(landscape)[[1]]
 
     # get resolution of raster
-    resolution_xy <- raster::res(landscape)
+    resolution <- raster::res(landscape)
 
     # consider landscape boundary for core definition
     if(!consider_boundary) {
         # create empty raster for matrix_to_raster()
-        landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution_xy),
-                                          resolution = resolution_xy,
+        landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution),
+                                          resolution = resolution,
                                           crs = raster::crs(landscape))
     }
 
