@@ -110,13 +110,13 @@ lsm_p_para.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_para_calc <- function(landscape, directions){
+lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
 
-    # get resolution
-    resolution <- raster::res(landscape)
-
-    # conver to matrix
-    landscape <- raster::as.matrix(landscape)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get perim
     perimeter_patch <- lsm_p_perim_calc(landscape,

@@ -112,7 +112,15 @@ lsm_c_para_sd.list <- function(landscape, directions = 8) {
 
 lsm_c_para_sd_calc <- function(landscape, directions){
 
-    para <- lsm_p_para_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    para <- lsm_p_para_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     para_sd <- dplyr::summarise(dplyr::group_by(para, class),
                                 value = stats::sd(value))

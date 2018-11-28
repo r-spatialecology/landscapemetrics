@@ -105,11 +105,17 @@ lsm_l_msiei.list <- function(landscape, directions = 8) {
 
 lsm_l_msiei_calc <- function(landscape, directions) {
 
-    msidi <- lsm_l_msidi_calc(landscape, directions = directions)
+    msidi <- lsm_p_area_calc(landscape, directions = directions)
 
-    pr <- lsm_l_pr_calc(landscape)
+    msidi <- dplyr::summarise(dplyr::group_by(msidi, class),
+                              value = sum(value))
 
-    msiei <- msidi$value / log(pr$value)
+    msidi <- dplyr::summarise(dplyr::mutate(msidi, value = (value / sum(value)) ^ 2),
+                              value = -log(sum(value)))
+
+    pr <- length(get_unique_values(landscape)[[1]])
+
+    msiei <- msidi$value / log(pr)
 
     tibble::tibble(
         level = "landscape",

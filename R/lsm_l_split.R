@@ -109,14 +109,26 @@ lsm_l_split.list <- function(landscape, directions = 8) {
 
 lsm_l_split_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
 
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # summarise for total landscape
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
+
+    # area squared for each patch
     split <- dplyr::mutate(area_patch, value = value ^ 2)
 
+    # sum of all patches divided by total area
     split <- dplyr::mutate(dplyr::summarise(split, value = sum(value)),
-                           value = (area_landscape$value ^ 2) / value)
+                           value = (area_total$value ^ 2) / value)
 
     tibble::tibble(
         level = "landscape",

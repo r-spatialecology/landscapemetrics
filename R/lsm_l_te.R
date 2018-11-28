@@ -103,13 +103,17 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
                   layer = as.integer(layer))
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
+lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
 
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
+    # conver raster to matrix
+    if (class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    landscape <- raster::as.matrix(landscape)
+    # get resolution in x-y directions
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,

@@ -112,13 +112,13 @@ lsm_p_shape.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_shape_calc <- function(landscape, directions){
-
-    # get resolution
-    resolution <- raster::res(landscape)
+lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if (class(landscape) != "matrix"){
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get perimeter of patches
     perimeter_patch <- lsm_p_perim_calc(landscape,

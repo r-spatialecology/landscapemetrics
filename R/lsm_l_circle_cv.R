@@ -115,7 +115,8 @@ lsm_l_circle_cv.list <- function(landscape, directions = 8) {
 
 lsm_l_circle_cv_calc <- function(landscape, directions) {
 
-    circle_cv <- dplyr::summarize(lsm_p_circle_calc(landscape, directions = directions),
+    circle_cv <- dplyr::summarize(lsm_p_circle_calc(landscape,
+                                                    directions = directions),
                                   value = raster::cv(value))
 
     tibble::tibble(

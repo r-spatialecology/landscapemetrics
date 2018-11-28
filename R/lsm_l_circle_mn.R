@@ -114,7 +114,8 @@ lsm_l_circle_mn.list <- function(landscape, directions = 8) {
 
 lsm_l_circle_mn_calc <- function(landscape, directions) {
 
-    circle_mn <- dplyr::summarize(lsm_p_circle_calc(landscape, directions = directions),
+    circle_mn <- dplyr::summarize(lsm_p_circle_calc(landscape,
+                                                    directions = directions),
                                   value = mean(value))
 
     tibble::tibble(

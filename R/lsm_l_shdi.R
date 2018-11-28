@@ -101,7 +101,7 @@ lsm_l_shdi.list <- function(landscape) {
 
 lsm_l_shdi_calc <- function(landscape) {
 
-    area <- raster::ncell(landscape)
+    area <- raster::ncell(landscape) # Do we need to exclude NAs?
 
     p <- table(raster::values(landscape)) / area
 

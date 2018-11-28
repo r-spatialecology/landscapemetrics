@@ -101,7 +101,7 @@ lsm_l_shei.list <- function(landscape){
 
 lsm_l_shei_calc <- function(landscape){
 
-    area <- raster::ncell(landscape)
+    area <- raster::ncell(landscape) # Do we need to exclude NAs?
 
     p <- table(raster::values(landscape)) / area
 

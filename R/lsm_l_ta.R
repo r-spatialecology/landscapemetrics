@@ -104,7 +104,8 @@ lsm_l_ta.list <- function(landscape, directions = 8) {
 
 lsm_l_ta_calc <- function(landscape, directions) {
 
-    total_area <- dplyr::summarise(lsm_p_area_calc(landscape, directions = directions),
+    total_area <- dplyr::summarise(lsm_p_area_calc(landscape,
+                                                   directions = directions),
                                    value = sum(value))
 
     tibble::tibble(

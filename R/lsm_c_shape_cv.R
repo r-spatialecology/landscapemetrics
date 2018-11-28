@@ -113,8 +113,18 @@ lsm_c_shape_cv.list <- function(landscape, directions = 8) {
 
 lsm_c_shape_cv_calc <- function(landscape, directions){
 
-    shape <- lsm_p_shape_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # shape index for each patch
+    shape <- lsm_p_shape_calc(landscape,
+                              directions = directions,
+                              resolution = resolution)
+
+    # calculate cv
     shape_cv <- dplyr::summarise(dplyr::group_by(shape, class),
                                  value = raster::cv(value))
 

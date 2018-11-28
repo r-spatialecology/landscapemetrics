@@ -102,7 +102,9 @@ lsm_c_ai.list <- function(landscape) {
 lsm_c_ai_calc <- function(landscape) {
 
     # convert to raster to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get coocurrence matrix of like_adjacencies
     like_adjacencies <- rcpp_get_coocurrence_matrix_diag(landscape,

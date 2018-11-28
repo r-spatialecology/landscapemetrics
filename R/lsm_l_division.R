@@ -109,12 +109,24 @@ lsm_l_division.list <- function(landscape, directions = 8) {
 
 lsm_l_division_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
 
-    division <- dplyr::mutate(area_patch, value = (value / area_landscape$value) ^ 2)
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
+    # summarise to total area
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
+
+    # divison for each patch
+    division <- dplyr::mutate(area_patch, value = (value / area_total$value) ^ 2)
+
+    # summarise for whole landscape
     division <- dplyr::mutate(dplyr::summarise(division, value = sum(value)),
                               value = 1 - value)
 

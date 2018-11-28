@@ -102,19 +102,25 @@ lsm_l_ai.list <- function(landscape) {
 
 lsm_l_ai_calc <- function(landscape) {
 
-    cai <- dplyr::pull(lsm_c_ai(landscape), value)
+    # get resolution
+    resolution <- raster::res(landscape)
 
-    prop_class <-  dplyr::pull(lsm_c_pland(landscape), value) / 100
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get aggregation index for each class
+    ai <- dplyr::pull(lsm_c_ai_calc(landscape), value)
+
+    pland <- dplyr::pull(lsm_c_pland_calc(landscape,
+                                          directions = 8,
+                                          resolution = resolution), value) / 100
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "ai",
-        value = as.double(sum(cai * prop_class))
+        value = as.double(sum(ai * pland))
     )
 }
-
-
-
 

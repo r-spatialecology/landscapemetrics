@@ -116,7 +116,8 @@ lsm_l_circle_sd.list <- function(landscape, directions = 8) {
 
 lsm_l_circle_sd_calc <- function(landscape, directions) {
 
-    circle_sd <- dplyr::summarize(lsm_p_circle_calc(landscape, directions = directions),
+    circle_sd <- dplyr::summarize(lsm_p_circle_calc(landscape,
+                                                    directions = directions),
                                   value = stats::sd(value))
 
     tibble::tibble(

@@ -112,7 +112,15 @@ lsm_l_para_cv.list <- function(landscape, directions = 8) {
 
 lsm_l_para_cv_calc <- function(landscape, directions){
 
-    para_cv <- dplyr::summarise(lsm_p_para_calc(landscape, directions = directions),
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    para_cv <- dplyr::summarise(lsm_p_para_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = raster::cv(value))
 
     tibble::tibble(

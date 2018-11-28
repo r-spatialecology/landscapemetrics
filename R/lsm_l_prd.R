@@ -102,12 +102,26 @@ lsm_l_prd.list <- function(landscape, directions = 8) {
 
 lsm_l_prd_calc <- function(landscape, directions) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get resolution
+    resolution <- raster::res(landscape)
 
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # summarise for total landscape
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
+
+    # get number of classes
     pr_landscape <- lsm_l_pr_calc(landscape)
 
+    # relative number of classes
     prd <- dplyr::mutate(pr_landscape,
-                         value = (value / area_landscape$value) * 100)
+                         value = (value / area_total$value) * 100)
 
     tibble::tibble(
         level = "landscape",

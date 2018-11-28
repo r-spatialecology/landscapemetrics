@@ -110,8 +110,12 @@ lsm_l_area_mn.list <- function(landscape, directions = 8) {
 
 lsm_l_area_mn_calc <- function(landscape, directions){
 
-    area_mean <- dplyr::summarise(lsm_p_area_calc(landscape, directions = directions),
-                                  value = mean(value))
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions)
+
+    # calculate mean
+    area_mean <- dplyr::summarise(area_patch, value = mean(value))
 
     tibble::tibble(
         level = "landscape",
