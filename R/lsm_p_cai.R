@@ -142,13 +142,14 @@ lsm_p_cai.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    # get resolution of raster
-    resolution <- raster::res(landscape)
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape = landscape,

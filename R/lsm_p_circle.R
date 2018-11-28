@@ -114,12 +114,16 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_circle_calc <- function(landscape, directions) {
+lsm_p_circle_calc <- function(landscape, directions, resolution = NULL, landscape_raster = NULL) {
+
+    if(class(landscape) == "matrix") {
+        landscape <- landscape_raster
+        resolution <- raster::res(landscape)
+    }
 
     # get resolution of landscape
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape, directions = directions)

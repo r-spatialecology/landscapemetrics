@@ -105,10 +105,12 @@ calculate_lsm.RasterLayer <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer2")
+    result <- dplyr::bind_rows(result, .id = "layer")
 
-    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
-                  -layer2)
+    result <- dplyr::arrange(result,
+                             layer, level, metric, class, id)
+
+    return(result)
 }
 
 #' @name calculate_lsm
@@ -150,10 +152,12 @@ calculate_lsm.RasterStack <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer2")
+    result <- dplyr::bind_rows(result, .id = "layer")
 
-    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
-                  -layer2)
+    result <- dplyr::arrange(result,
+                             layer, level, metric, class, id)
+
+    return(result)
 }
 
 #' @name calculate_lsm
@@ -195,10 +199,12 @@ calculate_lsm.RasterBrick <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer2")
+    result <- dplyr::bind_rows(result, .id = "layer")
 
-    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
-                  -layer2)
+    result <- dplyr::arrange(result,
+                             layer, level, metric, class, id)
+
+    return(result)
 }
 
 #' @name calculate_lsm
@@ -242,10 +248,12 @@ calculate_lsm.stars <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer2")
+    result <- dplyr::bind_rows(result, .id = "layer")
 
-    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
-                  -layer2)
+    result <- dplyr::arrange(result,
+                             layer, level, metric, class, id)
+
+    return(result)
 }
 
 
@@ -288,10 +296,12 @@ calculate_lsm.list <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer2")
+    result <- dplyr::bind_rows(result, .id = "layer")
 
-    dplyr::select(dplyr::mutate(result, layer = as.integer(layer2)),
-                  -layer2)
+    result <- dplyr::arrange(result,
+                             layer, level, metric, class, id)
+
+    return(result)
 }
 
 calculate_lsm_internal <- function(landscape,
@@ -312,6 +322,7 @@ calculate_lsm_internal <- function(landscape,
                                    verbose,
                                    progress) {
 
+    # get name of metrics
     metrics <- landscapemetrics::list_lsm(level = level,
                                           metric = metric,
                                           name = name,
@@ -320,16 +331,34 @@ calculate_lsm_internal <- function(landscape,
                                           simplify = TRUE,
                                           verbose = verbose)
 
-    result_all_list <- lapply(seq_along(metrics), FUN = function(current_metric) {
+    # use internal functions for calculation
+    metrics_calc <- paste0(metrics, "_calc")
 
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # keep raster
+    landscape_raster <- landscape
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    result_all_list <- lapply(seq_along(metrics_calc), FUN = function(current_metric) {
+
+        # print progess using the non-internal name
         if(isTRUE(progress)){
             cat("\r> Progress: ", current_metric, "/",
-                length(metrics), "- Current metric: ",
-                metrics[[current_metric]], " ")
+                length(metrics_calc), "- Current metric: ",
+                metrics_calc[[current_metric]], " ")
         }
 
-        foo <- match.fun(metrics[[current_metric]])
+        # match function name
+        foo <- match.fun(metrics_calc[[current_metric]])
+
+        # get argument
         arguments <- names(formals(foo))
+
+        # run function
         do.call(what = foo,
                 args = mget(arguments, envir = parent.env(environment())))
     })
@@ -341,9 +370,6 @@ calculate_lsm_internal <- function(landscape,
                                    y = landscapemetrics::lsm_abbreviations_names,
                                    by = c("metric", "level"))
     }
-
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
 
     return(result)
 }
