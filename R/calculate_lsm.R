@@ -355,7 +355,6 @@ calculate_lsm_internal <- function(landscape,
         }
 
         # match function name
-        # foo <- match.fun(metrics_calc[[current_metric]])
         foo <- get(metrics_calc[[current_metric]], mode = "function")
 
         # get argument
