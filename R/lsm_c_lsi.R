@@ -107,13 +107,13 @@ lsm_c_lsi.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_lsi_calc <- function(landscape, directions) {
-
-    # get resolution
-    resolution <- raster::res(landscape)
+lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get class edge
     class_edge <- lsm_c_te_calc(landscape,

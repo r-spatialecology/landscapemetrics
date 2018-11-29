@@ -107,11 +107,12 @@ lsm_l_area_sd.list <- function(landscape, directions = 8) {
 }
 
 # Not working yet!
-lsm_l_area_sd_calc <- function(landscape, directions){
+lsm_l_area_sd_calc <- function(landscape, directions, resolution = NULL){
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions)
+                                  directions = directions,
+                                  resolution = resolution)
 
     # calculate sd
     area_sd <- dplyr::summarise(area_patch, value = stats::sd(value))

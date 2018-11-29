@@ -121,12 +121,13 @@ lsm_c_tca.list <- function(landscape, directions = 8, consider_boundary = FALSE,
                   layer = as.integer(layer))
 }
 
-lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
     core_area <- lsm_p_core_calc(landscape,
                                  directions = directions,
                                  consider_boundary = consider_boundary,
-                                 edge_depth = edge_depth)
+                                 edge_depth = edge_depth,
+                                 resolution = resolution)
 
     core_area <- dplyr::summarise(dplyr::group_by(core_area, class),
                                   value = sum(value))

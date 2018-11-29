@@ -104,10 +104,12 @@ lsm_c_lpi.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_lpi_calc <- function(landscape, directions) {
+lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
 
     # get patch area
-    patch_area <- lsm_p_area_calc(landscape, directions = directions)
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
     # summarise to total area
     total_area <- dplyr::summarise(patch_area, value = sum(value))

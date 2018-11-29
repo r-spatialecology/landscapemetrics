@@ -334,11 +334,13 @@ calculate_lsm_internal <- function(landscape,
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
 
-    # get resolution
-    resolution <- raster::res(landscape)
+    # how many metrics need to be calculated?
+    number_metrics <- length(metrics_calc)
 
-    # keep raster
-    landscape_raster <- landscape
+    # properties of original raster
+    extent <- raster::extent(landscape)
+    resolution <- raster::res(landscape)
+    crs <- raster::crs(landscape)
 
     # convert to matrix
     landscape <- raster::as.matrix(landscape)
@@ -348,12 +350,13 @@ calculate_lsm_internal <- function(landscape,
         # print progess using the non-internal name
         if(isTRUE(progress)){
             cat("\r> Progress: ", current_metric, "/",
-                length(metrics_calc), "- Current metric: ",
-                metrics_calc[[current_metric]], " ")
+                number_metrics, "- Current metric: ",
+                metrics[[current_metric]], " ")
         }
 
         # match function name
-        foo <- match.fun(metrics_calc[[current_metric]])
+        # foo <- match.fun(metrics_calc[[current_metric]])
+        foo <- get(metrics_calc[[current_metric]], mode = "function")
 
         # get argument
         arguments <- names(formals(foo))

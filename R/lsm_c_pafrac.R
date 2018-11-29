@@ -117,13 +117,13 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_c_pafrac_calc <- function(landscape, directions, verbose){
-
-    # get rsolution
-    resolution <- raster::res(landscape)
+lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get patch area in sqm
     area_patch <- dplyr::mutate(lsm_p_area_calc(landscape,

@@ -99,17 +99,22 @@ lsm_l_shdi.list <- function(landscape) {
                   layer = as.integer(layer))
 }
 
-lsm_l_shdi_calc <- function(landscape) {
+lsm_l_shdi_calc <- function(landscape, resolution = NULL) {
 
-    area <- raster::ncell(landscape) # Do we need to exclude NAs?
+    # get class proportions (direction doesn't matter)
+    prop <- lsm_c_pland_calc(landscape,
+                             directions = 8,
+                             resolution = resolution)
 
-    p <- table(raster::values(landscape)) / area
+    prop <- dplyr::mutate(prop, value = value / 100)
 
-    H <- tibble::tibble(
+    shdi <- sum(-prop$value * log(prop$value, exp(1)))
+
+    tibble::tibble(
         level = 'landscape',
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shdi",
-        value = as.double(sum(-p * log(p, exp(1))))
+        value = as.double(shdi)
     )
 }

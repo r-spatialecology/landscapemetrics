@@ -107,11 +107,12 @@ lsm_l_area_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_area_cv_calc <- function(landscape, directions){
+lsm_l_area_cv_calc <- function(landscape, directions, resolution = NULL){
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions)
+                                  directions = directions,
+                                  resolution = resolution)
 
     # calculate cv
      area_cv <- dplyr::summarise(area_patch, value = raster::cv(value))

@@ -113,9 +113,12 @@ lsm_c_circle_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_circle_mn_calc <- function(landscape, directions) {
+lsm_c_circle_mn_calc <- function(landscape, directions,
+                                 extent = NULL, resolution = NULL, crs = NULL) {
 
-    circle <- lsm_p_circle_calc(landscape, directions = directions)
+    circle <- lsm_p_circle_calc(landscape,
+                                directions = directions,
+                                extent = extent, resolution = resolution, crs = crs)
 
     circle_mn <-  dplyr::summarize(dplyr::group_by(circle, class),
                                    value = mean(value))

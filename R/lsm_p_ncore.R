@@ -145,13 +145,19 @@ lsm_p_ncore.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, landscape_raster = NULL){
+lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                             extent = NULL, resolution = NULL, crs = NULL){
 
+    # use raster instead of landscape
     if(class(landscape) == "matrix") {
-        landscape <- landscape_raster
-        resolution <- raster::res(landscape)
-
+        landscape <- matrix_to_raster(landscape,
+                                      extent = extent,
+                                      resolution = resolution,
+                                      crs =crs)
     }
+
+    # get resolution (could go in else{})
+    resolution <- raster::res(landscape)
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]

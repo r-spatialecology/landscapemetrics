@@ -109,13 +109,7 @@ lsm_c_mesh.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_mesh_calc <- function(landscape, directions) {
-
-    # get resolution
-    resolution <- raster::res(landscape)
-
-    # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+lsm_c_mesh_calc <- function(landscape, directions, resolution = NULL) {
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,

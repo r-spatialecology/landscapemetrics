@@ -117,13 +117,14 @@ lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FAL
                   layer = as.integer(layer))
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    # get resolution
-    resolution <- raster::res(landscape)
 
     # conver to matrix
-    landscape <- raster::as.matrix(landscape)
+    if (class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # calculate patch area
     area <- lsm_p_area_calc(landscape,

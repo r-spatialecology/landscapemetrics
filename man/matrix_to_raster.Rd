@@ -5,7 +5,7 @@
 \title{matrix_to_raster}
 \usage{
 matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
-  x = NULL, resolution = NULL, crs = NULL, to_disk = FALSE)
+  extent = NULL, resolution = NULL, crs = NULL, to_disk = FALSE)
 }
 \arguments{
 \item{matrix}{matrix with values.}
@@ -14,7 +14,7 @@ matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
 
 \item{landscape_empty}{If true, RasterLayer is landscape_empty}
 
-\item{x}{Extent of RasterLayer.}
+\item{extent}{Extent of RasterLayer.}
 
 \item{resolution}{Resolution of RasterLayer.}
 
@@ -30,7 +30,7 @@ Adding padding to raster
 }
 \details{
 Converts \code{matrix} to a raster with same characteristics as \code{landscape}. Either
-\code{landscape} or \code{x}, \code{resolution} and \code{crs} must be specified.
+\code{landscape} or \code{extent}, \code{resolution} and \code{crs} must be specified.
 }
 \examples{
 test_matrix <- raster::as.matrix(augusta_nlcd)

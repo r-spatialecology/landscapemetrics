@@ -111,11 +111,17 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions, landscape_raster = NULL) {
+lsm_p_gyrate_calc <- function(landscape, directions,
+                              extent = NULL, resolution = NULL, crs = NULL) {
 
+    # use raster instead of landscape
     if(class(landscape) == "matrix") {
-        landscape <- landscape_raster
+        landscape <- matrix_to_raster(landscape,
+                                      extent = extent,
+                                      resolution = resolution,
+                                      crs =crs)
     }
+
 
     # get uniuqe class id
     classes <- get_unique_values(landscape)[[1]]

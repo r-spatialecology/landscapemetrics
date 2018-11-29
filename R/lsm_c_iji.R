@@ -109,7 +109,10 @@ lsm_c_iji.list <- function(landscape, verbose = TRUE) {
 
 lsm_c_iji_calc <- function(landscape, verbose) {
 
-    landscape <- raster::as.matrix(landscape)
+    # conver to matrix
+    if (class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                as.matrix(4))

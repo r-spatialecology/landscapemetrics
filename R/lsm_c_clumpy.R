@@ -98,7 +98,7 @@ lsm_c_clumpy.list <- function(landscape) {
                   layer = as.integer(layer))
 }
 
-lsm_c_clumpy_calc <- function(landscape){
+lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster(landscape)
@@ -134,8 +134,12 @@ lsm_c_clumpy_calc <- function(landscape){
     # calculate g_i
     g_i <- like_adjacencies / (colSums(other_adjacencies) - min_e)
 
-    # proportional class area
-    prop_class <- lsm_c_pland(landscape)$value / 100
+    # proportional class area - direction has no influence on PLAND
+    prop_class <- lsm_c_pland_calc(landscape,
+                                   directions = 8,
+                                   resolution = resolution)
+
+    prop_class <- prop_class$value / 100
 
     # calculate clumpy
     clumpy <- sapply(seq_along(g_i), function(row_ind) {

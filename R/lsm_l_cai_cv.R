@@ -141,12 +141,13 @@ lsm_l_cai_cv.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
     cai_cv <- dplyr::summarise(lsm_p_cai_calc(landscape,
                                               directions = directions,
                                               consider_boundary = consider_boundary,
-                                              edge_depth = edge_depth),
+                                              edge_depth = edge_depth,
+                                              resolution = resolution),
                                value = raster::cv(value))
 
     tibble::tibble(

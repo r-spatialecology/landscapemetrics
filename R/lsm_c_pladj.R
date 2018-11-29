@@ -96,6 +96,11 @@ lsm_c_pladj.list <- function(landscape) {
 
 lsm_c_pladj_calc <- function(landscape) {
 
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
+
     landscape_padded <- pad_raster(landscape, pad_raster_value = -999,
                                    pad_raster_cells = 1)
 

@@ -119,13 +119,13 @@ lsm_l_ed.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary, directions) {
-
-    # get resolution
-    resolution <- raster::res(landscape)
+lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,

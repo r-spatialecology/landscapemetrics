@@ -106,9 +106,17 @@ lsm_l_msidi.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_msidi_calc <- function(landscape, directions) {
+lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
 
-    msidi <- lsm_p_area_calc(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    msidi <- lsm_p_area_calc(landscape,
+                             directions = directions,
+                             resolution = resolution)
 
     msidi <- dplyr::summarise(dplyr::group_by(msidi, class),
                               value = sum(value))

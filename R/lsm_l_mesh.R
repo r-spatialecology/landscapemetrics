@@ -108,14 +108,7 @@ lsm_l_mesh.list <- function(landscape, directions = 8) {
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
-lsm_l_mesh_calc <- function(landscape, directions) {
-
-    # get resolution
-    resolution <- raster::res(landscape)
-
-    # conver to matrix
-    landscape <- raster::as.matrix(landscape)
-
+lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,

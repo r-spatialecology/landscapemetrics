@@ -110,13 +110,7 @@ lsm_c_para_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_para_mn_calc <- function(landscape, directions){
-
-    # get resolution
-    resolution <- raster::res(landscape)
-
-    # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+lsm_c_para_mn_calc <- function(landscape, directions, resolution = NULL){
 
     para <- lsm_p_para_calc(landscape,
                             directions = directions,

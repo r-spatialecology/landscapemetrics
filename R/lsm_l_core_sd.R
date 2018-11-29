@@ -137,12 +137,13 @@ lsm_l_core_sd.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
     core_sd <- dplyr::summarise(lsm_p_core_calc(landscape,
                                                 directions = directions,
                                                 consider_boundary = consider_boundary,
-                                                edge_depth = edge_depth),
+                                                edge_depth = edge_depth,
+                                                resolution = resolution),
                                 value = stats::sd(value))
 
     tibble::tibble(

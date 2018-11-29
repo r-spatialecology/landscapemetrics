@@ -114,14 +114,20 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_circle_calc <- function(landscape, directions, resolution = NULL, landscape_raster = NULL) {
+lsm_p_circle_calc <- function(landscape, directions,
+                              extent = NULL, resolution = NULL, crs = NULL) {
 
+    # use raster instead of landscape
     if(class(landscape) == "matrix") {
-        landscape <- landscape_raster
-        resolution <- raster::res(landscape)
+        landscape <- matrix_to_raster(landscape,
+                                      extent = extent,
+                                      resolution = resolution,
+                                      crs =crs)
     }
 
+
     # get resolution of landscape
+    resolution <- raster::res(landscape)
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 

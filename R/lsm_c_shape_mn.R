@@ -111,13 +111,7 @@ lsm_c_shape_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_shape_mn_calc <- function(landscape, directions){
-
-    # get resolution
-    resolution <- raster::res(landscape)
-
-    # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+lsm_c_shape_mn_calc <- function(landscape, directions, resolution = NULL){
 
     # shape index for each patch
     shape <- lsm_p_shape_calc(landscape,

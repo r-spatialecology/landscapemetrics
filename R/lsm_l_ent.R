@@ -94,7 +94,10 @@ lsm_l_ent.list <- function(landscape, base = "log2") {
 
 lsm_l_ent_calc <- function(landscape, base){
 
-    landscape <- raster::as.matrix(landscape)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     cmh  <- rcpp_get_composition_vector(landscape)
 

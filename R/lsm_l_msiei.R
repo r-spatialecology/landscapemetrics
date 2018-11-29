@@ -103,9 +103,11 @@ lsm_l_msiei.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_msiei_calc <- function(landscape, directions) {
+lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
 
-    msidi <- lsm_p_area_calc(landscape, directions = directions)
+    msidi <- lsm_p_area_calc(landscape,
+                             directions = directions,
+                             resolution = resolution)
 
     msidi <- dplyr::summarise(dplyr::group_by(msidi, class),
                               value = sum(value))

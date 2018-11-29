@@ -110,13 +110,13 @@ lsm_c_cohesion.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_cohesion_calc <- function(landscape, directions) {
+lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
 
-    # get resolution of raster
-    resolution <- raster::res(landscape)
-
-    # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    # convert to raster to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get number of cells (only not NAs)
     ncells_landscape <- length(landscape[!is.na(landscape)])
