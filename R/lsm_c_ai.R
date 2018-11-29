@@ -129,7 +129,7 @@ lsm_c_ai_calc <- function(landscape) {
                              )
 
     # get only max_adj as vector
-    max_adj <- dplyr::pull(max_adj, max_adj)
+    max_adj <- max_adj$max_adj
 
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100

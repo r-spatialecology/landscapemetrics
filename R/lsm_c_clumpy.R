@@ -121,18 +121,17 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
                                   value = cells_class)
 
     # calculate minimum perimeter
-    min_e <- dplyr::pull(dplyr::mutate(cells_class,
+    min_e <- dplyr::mutate(cells_class,
                                        n = trunc(sqrt(value)),
                                        m = value - n ^ 2,
                                        min_e = dplyr::case_when(
                                            m == 0 ~ n * 4,
                                            n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                           value > n * (1 + n) ~ 4 * n + 4
-                                           )
-                                       ), min_e)
+                                           value > n * (1 + n) ~ 4 * n + 4)
+                           )
 
     # calculate g_i
-    g_i <- like_adjacencies / (colSums(other_adjacencies) - min_e)
+    g_i <- like_adjacencies / (colSums(other_adjacencies) - min_e$min_e)
 
     # proportional class area - direction has no influence on PLAND
     prop_class <- lsm_c_pland_calc(landscape,
