@@ -328,7 +328,7 @@ calculate_lsm_internal <- function(landscape,
                 metrics[[current_metric]], " ")
         }
 
-        foo <- match.fun(metrics[[current_metric]])
+        foo <- get(metrics_calc[[current_metric]], mode = "function")
         arguments <- names(formals(foo))
         do.call(what = foo,
                 args = mget(arguments, envir = parent.env(environment())))
