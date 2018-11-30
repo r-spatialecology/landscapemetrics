@@ -68,6 +68,10 @@ rcpp_create_neighborhood <- function(directions) {
     .Call('_landscapemetrics_rcpp_create_neighborhood', PACKAGE = 'landscapemetrics', directions)
 }
 
+rcpp_get_boundaries <- function(xx, rooks_case = TRUE) {
+    .Call('_landscapemetrics_rcpp_get_boundaries', PACKAGE = 'landscapemetrics', xx, rooks_case)
+}
+
 max_dist_fun <- function(points) {
     .Call('_landscapemetrics_max_dist_fun', PACKAGE = 'landscapemetrics', points)
 }

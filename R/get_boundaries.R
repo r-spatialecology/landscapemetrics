@@ -9,18 +9,16 @@
 #' Stripped down version of raster::boundaries so that we internally can parse
 #' a matrix.
 #'
-#' @references Robert J. Hijmans (2018). raster: Geographic Data Analysis and Modeling. R package version 2.8-4.
-#' https://CRAN.R-project.org/package=raster
-#'
 #' @return matrix
 #'
 #' @examples
-#' test_matrix <- get_patches(landscape, class = 1, return_raster = FALSE)[[1]]
-#' get_boundaries(test_matrix, directions = 4)
+#' test_matrix <- raster::as.matrix(landscape)
+#' get_boundaries(test_matrix)
 #'
-#' @aliases get_boundaries
-#' @rdname get_boundaries
+#' @aliases matrix_to_raster
+#' @rdname matrix_to_raster
 #'
+#' @author Robert Hijmans
 #' @keywords internal
 #'
 #' @export
@@ -38,4 +36,8 @@ get_boundaries <- function(landscape, directions = 4){
     x <- matrix(x, nrow=paddim[1], ncol=paddim[2], byrow=TRUE)
     x <- x[2:(nrow(x)-1), 2:(ncol(x)-1)]
     return(x)
+}
+
+get_boundaries2 <- function(landscape, directions = 4){
+    return(rcpp_get_boundaries(landscape, directions))
 }
