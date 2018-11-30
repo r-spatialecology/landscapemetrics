@@ -133,6 +133,9 @@ lsm_p_circle_calc <- function(landscape, directions,
     # get patch area
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
 
+    # patches with only 1 cell
+    one_cell <- which(area_patch$value == prod(resolution) / 10000 )
+
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
@@ -166,12 +169,17 @@ lsm_p_circle_calc <- function(landscape, directions,
 
         tibble::tibble(class = patches_class,
                        value = circle[,2])
-
     })
 
     # calculate circle metric
-    circle_patch <- dplyr::mutate(dplyr::bind_rows(circle_patch),
+    circle_patch <- dplyr::bind_rows(circle_patch)
+
+    # calculate circle metric
+    circle_patch <- dplyr::mutate(circle_patch,
                                   value = 1 - ((area_patch$value * 10000) / value))
+
+    # set all one-cell patches to 0
+    circle_patch$value[one_cell] <- 0
 
     tibble::tibble(
         level = "patch",
