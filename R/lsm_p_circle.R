@@ -125,7 +125,6 @@ lsm_p_circle_calc <- function(landscape, directions,
                                       crs =crs)
     }
 
-
     # get resolution of landscape
     resolution <- raster::res(landscape)
     resolution_x <- resolution[[1]]
@@ -144,8 +143,18 @@ lsm_p_circle_calc <- function(landscape, directions,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
+        landscape_boundaries <- raster::boundaries(landscape_labeled,
+                                                   directions = 4,
+                                                   asNA = TRUE)
+
         # convert to points
-        points_class <- raster::rasterToPoints(landscape_labeled)
+        points_class_labeled <- data.frame(raster::rasterToPoints(landscape_labeled))
+        points_class_boundaries <- data.frame(raster::rasterToPoints(landscape_boundaries))
+
+        # keep only points that are boundary (but with original patch id)
+        points_class <- dplyr::semi_join(x = points_class_labeled,
+                                         y = points_class_boundaries,
+                                         by = c("x","y"))
 
         # get circle radius around patch
         circle <- rcpp_get_circle(as.matrix(points_class),
@@ -172,7 +181,3 @@ lsm_p_circle_calc <- function(landscape, directions,
         value = as.double(circle_patch$value)
     )
 }
-
-
-
-
