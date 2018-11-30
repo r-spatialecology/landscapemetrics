@@ -75,7 +75,7 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
         }
 
         circle(i, 0) = class_id;
-        circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
+        circle(i, 1) = max_dist_fun(points_corner); // std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
     }
 
     return circle;

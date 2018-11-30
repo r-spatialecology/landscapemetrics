@@ -163,6 +163,8 @@ lsm_p_circle_calc <- function(landscape, directions,
         circle <- rcpp_get_circle(as.matrix(points_class),
                                   resolution_x = resolution_x,
                                   resolution_y = resolution_y)
+        # calculate circle area
+        circle[, 2] <- pi * ((circle[, 2]  /2) ^ 2)
 
         # sort according to patch id
         circle <- matrix(circle[order(circle[,1]),], ncol = 2)
