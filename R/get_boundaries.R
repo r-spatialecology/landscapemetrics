@@ -38,6 +38,6 @@ get_boundaries <- function(landscape, directions = 4){
     return(x)
 }
 
-get_boundaries2 <- function(landscape, directions = 4){
-    return(rcpp_get_boundaries(landscape, directions))
+get_boundaries2 <- function(landscape, rooks_case = TRUE){
+    return(rcpp_get_boundaries(landscape, rooks_case))
 }
