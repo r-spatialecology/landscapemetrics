@@ -25,7 +25,7 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 
 ## Overview
 
-`**landscapemetrics is an `R` package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).
+`**landscapemetrics is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).
 
 `landscapemetrics` supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
 
