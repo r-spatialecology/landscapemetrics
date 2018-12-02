@@ -25,6 +25,14 @@
 
 get_boundaries <- function(landscape, directions = 4){
 
+    if(class(landscape) == "RasterLayer") {
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    if(class(landscape) != "matrix") {
+        stop("Please provide matrix as input.", call. = FALSE)
+    }
+
     landscape <- cbind(landscape[, 1], landscape, landscape[, ncol(landscape)])
     landscape <- rbind(landscape[1,], landscape, landscape[nrow(landscape),])
     paddim <- as.integer(dim(landscape))
@@ -39,5 +47,16 @@ get_boundaries <- function(landscape, directions = 4){
 }
 
 get_boundaries2 <- function(landscape, rooks_case = TRUE){
-    return(rcpp_get_boundaries(landscape, rooks_case))
+
+    if(class(landscape) == "RasterLayer") {
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    if(class(landscape) != "matrix") {
+        stop("Please provide matrix as input.", call. = FALSE)
+    }
+
+    boundaries <- rcpp_get_boundaries(landscape, rooks_case)
+
+    return(boundaries)
 }
