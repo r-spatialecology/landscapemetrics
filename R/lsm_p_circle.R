@@ -114,15 +114,27 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_circle_calc <- function(landscape, directions) {
+lsm_p_circle_calc <- function(landscape, directions,
+                              extent = NULL, resolution = NULL, crs = NULL) {
+
+    # use raster instead of landscape
+    if(class(landscape) == "matrix") {
+        landscape <- matrix_to_raster(landscape,
+                                      extent = extent,
+                                      resolution = resolution,
+                                      crs =crs)
+    }
 
     # get resolution of landscape
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
+    resolution <- raster::res(landscape)
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape, directions = directions)
+
+    # patches with only 1 cell
+    one_cell <- which(area_patch$value == prod(resolution) / 10000 )
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
@@ -134,25 +146,42 @@ lsm_p_circle_calc <- function(landscape, directions) {
                                          class = patches_class,
                                          directions = directions)[[1]]
 
+        landscape_boundaries <- raster::boundaries(landscape_labeled,
+                                                   directions = 4,
+                                                   asNA = TRUE)
+
         # convert to points
-        points_class <- raster::rasterToPoints(landscape_labeled)
+        points_class_labeled <- data.frame(raster::rasterToPoints(landscape_labeled))
+        points_class_boundaries <- data.frame(raster::rasterToPoints(landscape_boundaries))
+
+        # keep only points that are boundary (but with original patch id)
+        points_class <- dplyr::semi_join(x = points_class_labeled,
+                                         y = points_class_boundaries,
+                                         by = c("x","y"))
 
         # get circle radius around patch
         circle <- rcpp_get_circle(as.matrix(points_class),
                                   resolution_x = resolution_x,
                                   resolution_y = resolution_y)
+        # calculate circle area
+        circle[, 2] <- pi * ((circle[, 2]  /2) ^ 2)
 
         # sort according to patch id
         circle <- matrix(circle[order(circle[,1]),], ncol = 2)
 
         tibble::tibble(class = patches_class,
                        value = circle[,2])
-
     })
 
     # calculate circle metric
-    circle_patch <- dplyr::mutate(dplyr::bind_rows(circle_patch),
+    circle_patch <- dplyr::bind_rows(circle_patch)
+
+    # calculate circle metric
+    circle_patch <- dplyr::mutate(circle_patch,
                                   value = 1 - ((area_patch$value * 10000) / value))
+
+    # set all one-cell patches to 0
+    circle_patch$value[one_cell] <- 0
 
     tibble::tibble(
         level = "patch",
@@ -162,7 +191,3 @@ lsm_p_circle_calc <- function(landscape, directions) {
         value = as.double(circle_patch$value)
     )
 }
-
-
-
-

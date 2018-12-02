@@ -109,13 +109,16 @@ lsm_p_area.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_area_calc <- function(landscape, directions){
-
-    # factor to convert cell to area
-    factor_ha <- prod(raster::res(landscape)) / 10000
+lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    # factor to convert cell to area
+    factor_ha <- prod(resolution) / 10000
 
     # get unique class id
     classes <- get_unique_values(landscape)[[1]]

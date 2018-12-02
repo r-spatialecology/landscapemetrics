@@ -117,15 +117,17 @@ lsm_c_te.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary, directions) {
-
-    # get resolution of raster to convert adjacencies to edge length
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
+lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
     # conver raster to matrix
-    landscape <- raster::as.matrix(landscape)
+    if (class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    # get resolution in x-y directions
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     # get class id
     classes <- get_unique_values(landscape)[[1]]

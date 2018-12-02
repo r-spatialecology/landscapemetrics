@@ -140,12 +140,13 @@ lsm_l_cai_sd.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    cai_sd <- dplyr::summarise(lsm_p_cai(landscape,
-                                         directions = directions,
-                                         consider_boundary = consider_boundary,
-                                         edge_depth = edge_depth),
+    cai_sd <- dplyr::summarise(lsm_p_cai_calc(landscape,
+                                              directions = directions,
+                                              consider_boundary = consider_boundary,
+                                              edge_depth = edge_depth,
+                                              resolution = resolution),
                                value = stats::sd(value))
 
     tibble::tibble(

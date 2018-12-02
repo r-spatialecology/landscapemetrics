@@ -100,15 +100,17 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_perim_calc <- function(landscape, directions) {
+lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
+
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get dimensions of raster
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
-
-    # conver to matrix
-    landscape <- raster::as.matrix(landscape)
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]

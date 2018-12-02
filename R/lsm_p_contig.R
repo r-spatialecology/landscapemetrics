@@ -125,7 +125,9 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get unique values
     classes <- get_unique_values(landscape)[[1]]

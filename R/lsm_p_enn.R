@@ -120,7 +120,17 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_p_enn_calc <- function(landscape, directions, verbose) {
+lsm_p_enn_calc <- function(landscape, directions, verbose,
+                           extent = NULL, resolution = NULL, crs = NULL) {
+
+    # use raster instead of landscape
+    if(class(landscape) == "matrix") {
+        landscape <- matrix_to_raster(landscape,
+                                      extent = extent,
+                                      resolution = resolution,
+                                      crs =crs)
+    }
+
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]

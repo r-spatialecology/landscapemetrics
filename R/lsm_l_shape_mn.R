@@ -111,9 +111,15 @@ lsm_l_shape_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_shape_mn_calc <- function(landscape, directions){
+lsm_l_shape_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    shape_mn <- dplyr::summarise(lsm_p_shape_calc(landscape, directions = directions),
+    # shape index for each patch
+    shape <- lsm_p_shape_calc(landscape,
+                              directions = directions,
+                              resolution = resolution)
+
+    # calculate mean
+    shape_mn <- dplyr::summarise(shape,
                                  value = mean(value))
 
     tibble::tibble(

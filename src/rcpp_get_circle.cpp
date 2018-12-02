@@ -40,6 +40,9 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
     id = points.col(2);
     unique_id = id(arma::find_unique(id));
 
+    resolution_x = resolution_x / 2;
+    resolution_y = resolution_y / 2;
+
     circle.set_size(unique_id.n_elem, 2);
 
     for(int i = 0; i < unique_id.n_elem; i++){
@@ -72,7 +75,7 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
         }
 
         circle(i, 0) = class_id;
-        circle(i, 1) = std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
+        circle(i, 1) = max_dist_fun(points_corner); // std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
     }
 
     return circle;

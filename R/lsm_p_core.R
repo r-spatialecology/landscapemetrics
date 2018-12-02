@@ -132,13 +132,13 @@ lsm_p_core.list <- function(landscape, directions = 8,
                   layer = as.integer(layer))
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth) {
-
-    # get resolution of raster
-    resolution_xy <- raster::res(landscape)
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
@@ -190,7 +190,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         cells_patch <- table(landscape_labeled)
 
         # all cells minus edge cells equal core and convert to ha
-        core_area <- (cells_patch - cells_edge_patch) * prod(resolution_xy) / 10000
+        core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
         tibble::tibble(class = patches_class,
                        value = core_area)

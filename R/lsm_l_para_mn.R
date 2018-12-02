@@ -110,9 +110,11 @@ lsm_l_para_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_para_mn_calc <- function(landscape, directions){
+lsm_l_para_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    para_mn <- dplyr::summarise(lsm_p_para_calc(landscape, directions = directions),
+    para_mn <- dplyr::summarise(lsm_p_para_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = mean(value))
 
     tibble::tibble(

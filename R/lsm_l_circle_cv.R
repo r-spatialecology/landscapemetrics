@@ -113,9 +113,12 @@ lsm_l_circle_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_circle_cv_calc <- function(landscape, directions) {
+lsm_l_circle_cv_calc <- function(landscape, directions,
+                                 extent = NULL, resolution = NULL, crs = NULL) {
 
-    circle_cv <- dplyr::summarize(lsm_p_circle_calc(landscape, directions = directions),
+    circle_cv <- dplyr::summarize(lsm_p_circle_calc(landscape,
+                                                    directions = directions,
+                                                    extent = extent, resolution = resolution, crs = crs),
                                   value = raster::cv(value))
 
     tibble::tibble(

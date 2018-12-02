@@ -6,13 +6,13 @@
 #' @param landscape RasterLayer.
 #' @param landscape_empty If true, RasterLayer is landscape_empty
 #' @param to_disk If TRUE raster will be saved to disk.
-#' @param x Extent of RasterLayer.
+#' @param extent Extent of RasterLayer.
 #' @param resolution Resolution of RasterLayer.
 #' @param crs CRS of raster layer.
 #'
 #' @details
 #' Converts `matrix` to a raster with same characteristics as `landscape`. Either
-#' `landscape` or `x`, `resolution` and `crs` must be specified.
+#' `landscape` or `extent`, `resolution` and `crs` must be specified.
 #'
 #' @return raster
 #'
@@ -29,7 +29,7 @@
 matrix_to_raster <- function(matrix,
                              landscape = NULL,
                              landscape_empty = FALSE,
-                             x = NULL,
+                             extent = NULL,
                              resolution = NULL,
                              crs = NULL,
                              to_disk = FALSE) {
@@ -48,16 +48,15 @@ matrix_to_raster <- function(matrix,
     }
   }
 
-  else if(!all(c(is.null(x), is.null(resolution), is.null(crs)))){
-    landscape_empty <- raster::raster(x = x,
+  else if(!all(c(is.null(extent), is.null(resolution), is.null(crs)))){
+    landscape_empty <- raster::raster(x = extent,
                                       resolution = resolution,
                                       crs = crs)
   }
 
   else{
-    stop("Either 'landscape' or x & resolution & crs must be specified")
+    stop("Either 'landscape' or 'extent' & 'resolution' & 'crs' must be specified")
   }
-
 
     # create raster on disk
     if(to_disk){

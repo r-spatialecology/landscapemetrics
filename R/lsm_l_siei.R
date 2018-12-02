@@ -106,9 +106,11 @@ lsm_l_siei.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_siei_calc <- function(landscape, directions) {
+lsm_l_siei_calc <- function(landscape, directions, resolution = NULL) {
 
-    sidi <- lsm_l_sidi_calc(landscape, directions = directions)
+    sidi <- lsm_l_sidi_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     pr <- lsm_l_pr_calc(landscape)
 

@@ -113,9 +113,11 @@ lsm_l_frac_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_frac_cv_calc <- function(landscape, directions){
+lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_cv <- dplyr::summarise(lsm_p_frac_calc(landscape, directions = directions),
+    frac_cv <- dplyr::summarise(lsm_p_frac_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = raster::cv(value))
 
     tibble::tibble(

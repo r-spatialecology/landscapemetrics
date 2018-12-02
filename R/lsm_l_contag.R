@@ -110,7 +110,10 @@ lsm_l_contag.list <- function(landscape, verbose = TRUE) {
 
 lsm_l_contag_calc <- function(landscape, verbose) {
 
-    landscape <- raster::as.matrix(landscape)
+    # convert to raster to matrix
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     t <- length(get_unique_values(landscape)[[1]])
 

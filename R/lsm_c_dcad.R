@@ -121,17 +121,30 @@ lsm_c_dcad.list <- function(landscape, directions = 8, consider_boundary = FALSE
                   layer = as.integer(layer))
 }
 
-lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                            extent = NULL, resolution = NULL, crs = NULL){
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get patch area
+    area <- lsm_p_area_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
-    ndca_class <- lsm_c_ndca_calc(landscape,
-                                  directions = directions,
-                                  consider_boundary = consider_boundary,
-                                  edge_depth = edge_depth)
+    # summarise to total area
+    area <- dplyr::summarise(area, value = sum(value))
 
-    dcad <- dplyr::mutate(ndca_class,
-                          value = (value / area_landscape$value) * 100)
+    # get number of core area
+    ndca <- lsm_p_ncore_calc(landscape,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             extent = extent, resolution = resolution, crs = crs)
+
+    # summarise for classes
+    ndca <- dplyr::summarise(dplyr::group_by(ndca, class), value = sum(value))
+
+    # calculate relative value
+    dcad <- dplyr::mutate(ndca,
+                          value = (value / area$value) * 100)
 
     tibble::tibble(
         level = "class",

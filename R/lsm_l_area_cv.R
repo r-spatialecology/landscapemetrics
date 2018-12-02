@@ -107,10 +107,15 @@ lsm_l_area_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_area_cv_calc <- function(landscape, directions){
+lsm_l_area_cv_calc <- function(landscape, directions, resolution = NULL){
 
-     area_cv <- dplyr::summarise(lsm_p_area_calc(landscape, directions = directions),
-                                 value = raster::cv(value))
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # calculate cv
+     area_cv <- dplyr::summarise(area_patch, value = raster::cv(value))
 
     tibble::tibble(
         level = "landscape",

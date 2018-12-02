@@ -128,7 +128,10 @@ lsm_l_mutinf.list <- function(landscape,
 
 lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
 
-    landscape <- raster::as.matrix(landscape)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     cmh  <- rcpp_get_composition_vector(landscape)
 

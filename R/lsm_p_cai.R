@@ -142,18 +142,30 @@ lsm_p_cai.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+
+
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get patch area
-    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape = landscape,
-                                                directions = directions),
+    area_patch <- lsm_p_area_calc(landscape = landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # convert from ha to sqm
+    area_patch <- dplyr::mutate(area_patch,
                                 value = value * 10000)
 
     # get core area
     core_patch <- lsm_p_core_calc(landscape,
                                   directions = directions,
                                   consider_boundary = consider_boundary,
-                                  edge_depth = edge_depth)
+                                  edge_depth = edge_depth,
+                                  resolution = resolution)
 
     # calculate CAI index
     cai_patch <- dplyr::mutate(core_patch,

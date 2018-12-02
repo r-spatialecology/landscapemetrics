@@ -107,17 +107,23 @@ lsm_c_split.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_split_calc <- function(landscape, directions) {
+lsm_c_split_calc <- function(landscape, directions, resolution = NULL) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # summarise to total area
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
 
+    # calculate split for each patch
     split <- dplyr::mutate(area_patch, value = value ^ 2)
 
+    # summarise for each class
     split <- dplyr::mutate(dplyr::summarise(dplyr::group_by(split, class),
                                             value = sum(value)),
-                           value = (area_landscape$value ^ 2) / value)
+                           value = (area_total$value ^ 2) / value)
 
     tibble::tibble(
         level = "class",

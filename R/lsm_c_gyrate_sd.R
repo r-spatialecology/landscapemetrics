@@ -113,9 +113,12 @@ lsm_c_gyrate_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_gyrate_sd_calc <- function(landscape, directions) {
+lsm_c_gyrate_sd_calc <- function(landscape, directions,
+                                 extent = NULL, resolution = NULL, crs = NULL) {
 
-    gyrate <- lsm_p_gyrate_calc(landscape, directions = directions)
+    gyrate <- lsm_p_gyrate_calc(landscape,
+                                directions = directions,
+                                extent = extent, resolution = resolution, crs = crs)
 
     gyrate_sd <- dplyr::summarize(dplyr::group_by(gyrate, class),
                                   value = stats::sd(value))

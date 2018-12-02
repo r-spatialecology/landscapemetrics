@@ -110,9 +110,11 @@ lsm_c_frac_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_frac_mn_calc <- function(landscape, directions){
+lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    frac <- lsm_p_frac_calc(landscape, directions = directions)
+    frac <- lsm_p_frac_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     frac_mean <- dplyr::summarise(dplyr::group_by(frac, class),
                                   value = mean(value))

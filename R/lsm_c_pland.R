@@ -103,9 +103,11 @@ lsm_c_pland.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_pland_calc <- function(landscape, directions){
+lsm_c_pland_calc <- function(landscape, directions, resolution = NULL){
 
-    pland <- lsm_p_area_calc(landscape, directions = directions)
+    pland <- lsm_p_area_calc(landscape,
+                             directions = directions,
+                             resolution = resolution)
 
     pland <- dplyr::mutate(dplyr::summarise(dplyr::group_by(pland, class),
                                             value = sum(value)),

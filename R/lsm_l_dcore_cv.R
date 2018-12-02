@@ -140,12 +140,14 @@ lsm_l_dcore_cv.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                                extent = NULL, resolution = NULL, crs = NULL){
 
     dcore_cv <- dplyr::summarise(lsm_p_ncore_calc(landscape,
                                                   directions = directions,
                                                   consider_boundary = consider_boundary,
-                                                  edge_depth = edge_depth),
+                                                  edge_depth = edge_depth,
+                                                  extent = extent, resolution = resolution, crs = crs),
                                  value = raster::cv(value))
 
     tibble::tibble(

@@ -8,7 +8,7 @@
 get_boundaries(landscape, directions = 4)
 
 matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
-  x = NULL, resolution = NULL, crs = NULL, to_disk = FALSE)
+  extent = NULL, resolution = NULL, crs = NULL, to_disk = FALSE)
 }
 \arguments{
 \item{landscape}{RasterLayer.}
@@ -19,7 +19,7 @@ matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
 
 \item{landscape_empty}{If true, RasterLayer is landscape_empty}
 
-\item{x}{Extent of RasterLayer.}
+\item{extent}{Extent of RasterLayer.}
 
 \item{resolution}{Resolution of RasterLayer.}
 
@@ -44,7 +44,7 @@ Stripped down version of raster::boundaries so that we internally can parse
 a matrix.
 
 Converts \code{matrix} to a raster with same characteristics as \code{landscape}. Either
-\code{landscape} or \code{x}, \code{resolution} and \code{crs} must be specified.
+\code{landscape} or \code{extent}, \code{resolution} and \code{crs} must be specified.
 }
 \examples{
 test_matrix <- raster::as.matrix(landscape)
