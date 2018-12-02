@@ -11,6 +11,7 @@
 #' @param consider_boundary Logical if cells that only neighbour the landscape boundary should be considered as core
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch edge to be considered as core cell
 #' @param labels Logical flag indicating whether to print or not to print patch labels.
+#' @param label_lsm If true, the value of the landscape metric is used as label
 #' @param nrow,ncol Number of rows and columns for the facet.
 #'
 #' @details The function plots all patches with a fill corresponding to the value of the chosen what
@@ -19,7 +20,7 @@
 #'
 #' @examples
 #' show_lsm(landscape, what = "lsm_p_area", directions = 4)
-#' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
+#' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), label_lsm = TRUE)
 #' show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 #'
 #' @aliases show_lsm
@@ -28,7 +29,8 @@
 #' @export
 show_lsm <- function(landscape, what, class,
                      directions, consider_boundary, edge_depth,
-                     labels, nrow, ncol)  UseMethod("show_lsm")
+                     labels, label_lsm,
+                     nrow, ncol)  UseMethod("show_lsm")
 
 #' @name show_lsm
 #' @export
@@ -39,6 +41,7 @@ show_lsm.RasterLayer <- function(landscape,
                                  consider_boundary = FALSE,
                                  edge_depth = 1,
                                  labels = TRUE,
+                                 label_lsm = FALSE,
                                  nrow = NULL,
                                  ncol = NULL) {
 
@@ -49,6 +52,7 @@ show_lsm.RasterLayer <- function(landscape,
                     consider_boundary = consider_boundary,
                     edge_depth = edge_depth,
                     labels = labels,
+                    label_lsm = label_lsm,
                     nrow = nrow,
                     ncol = ncol)
 }
@@ -62,6 +66,7 @@ show_lsm.RasterStack <- function(landscape,
                                  consider_boundary = FALSE,
                                  edge_depth = 1,
                                  labels = TRUE,
+                                 label_lsm = FALSE,
                                  nrow = NULL,
                                  ncol = NULL) {
 
@@ -73,6 +78,7 @@ show_lsm.RasterStack <- function(landscape,
            consider_boundary = consider_boundary,
            edge_depth = edge_depth,
            labels = labels,
+           label_lsm = label_lsm,
            nrow = nrow,
            ncol = ncol)
 }
@@ -86,6 +92,7 @@ show_lsm.RasterBrick <- function(landscape,
                                  consider_boundary = FALSE,
                                  edge_depth = 1,
                                  labels = TRUE,
+                                 label_lsm = FALSE,
                                  nrow = NULL,
                                  ncol = NULL) {
 
@@ -97,6 +104,7 @@ show_lsm.RasterBrick <- function(landscape,
            consider_boundary = consider_boundary,
            edge_depth = edge_depth,
            labels = labels,
+           label_lsm = label_lsm,
            nrow = nrow,
            ncol = ncol)
 }
@@ -110,6 +118,7 @@ show_lsm.stars <- function(landscape,
                            consider_boundary = FALSE,
                            edge_depth = 1,
                            labels = TRUE,
+                           label_lsm = FALSE,
                            nrow = NULL,
                            ncol = NULL) {
 
@@ -123,6 +132,7 @@ show_lsm.stars <- function(landscape,
            consider_boundary = consider_boundary,
            edge_depth = edge_depth,
            labels = labels,
+           label_lsm = label_lsm,
            nrow = nrow,
            ncol = ncol)
 }
@@ -136,6 +146,7 @@ show_lsm.list <- function(landscape,
                           consider_boundary = FALSE,
                           edge_depth = 1,
                           labels = TRUE,
+                          label_lsm = FALSE,
                           nrow = NULL,
                           ncol = NULL) {
 
@@ -147,13 +158,15 @@ show_lsm.list <- function(landscape,
            consider_boundary = consider_boundary,
            edge_depth = edge_depth,
            labels = labels,
+           label_lsm = label_lsm,
            nrow = nrow,
            ncol = ncol)
 }
 
 show_lsm_intern <- function(landscape, what, class,
                             directions, consider_boundary, edge_depth,
-                            labels, nrow, ncol) {
+                            labels, label_lsm,
+                            nrow, ncol) {
 
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
@@ -212,8 +225,18 @@ show_lsm_intern <- function(landscape, what, class,
 
         patches_tibble$class.get_patches <- "global"
 
-        if (!isTRUE(labels)) {
-            patches_tibble$patch_id <- NA
+        if (!labels) {
+            patches_tibble$label <- NA
+        }
+
+        else {
+            if(label_lsm){
+                patches_tibble$label <- round(patches_tibble$value, 2)
+            }
+
+            else{
+                patches_tibble$label <- patches_tibble$patch_id
+            }
         }
     }
 
@@ -236,16 +259,26 @@ show_lsm_intern <- function(landscape, what, class,
             patches_tibble <- dplyr::filter(patches_tibble, class.get_patches %in% !!class)
         }
 
-        if (!isTRUE(labels)) {
-            patches_tibble$patch_id <- NA
+        if (!labels) {
+            patches_tibble$label <- NA
+        }
+
+        else {
+            if(label_lsm){
+                patches_tibble$label <- round(patches_tibble$value, 2)
+            }
+
+            else{
+                patches_tibble$label <- patches_tibble$patch_id
+            }
         }
     }
 
     plot <- ggplot2::ggplot(patches_tibble, ggplot2::aes(x, y)) +
         ggplot2::coord_fixed() +
         ggplot2::geom_raster(ggplot2::aes(fill = value)) +
-        ggplot2::geom_text(ggplot2::aes(label = patch_id),
-                           colour = "black", na.rm = TRUE)  +
+        ggplot2::geom_text(ggplot2::aes(label = label),
+                           colour = "black", size = 2, na.rm = TRUE)  +
         ggplot2::facet_wrap(~ class.get_patches,
                             nrow = nrow, ncol = ncol) +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +

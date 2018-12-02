@@ -3,7 +3,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double max_dist_fun(arma::mat& points) {
+double rcpp_get_max_dist(arma::mat& points) {
 
     int nrows = points.n_rows;
 
