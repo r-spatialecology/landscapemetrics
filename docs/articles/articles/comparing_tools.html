@@ -134,7 +134,7 @@
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics|SDMTools</h1>
             
-            <h4 class="date">2018-11-22</h4>
+            <h4 class="date">2018-12-02</h4>
       
       
       <div class="hidden name"><code>comparing_tools.Rmd</code></div>
@@ -146,45 +146,44 @@
 <div id="comparison-with-fragstats" class="section level1">
 <h1 class="hasAnchor">
 <a href="#comparison-with-fragstats" class="anchor"></a>Comparison with FRAGSTATS</h1>
-<p><strong>landscapemetrics</strong> re-implements landscape metrics as they are described in the <strong>FRAGSTATS</strong> software (McGarigal et al. 2012). Therefore, we compared our results with the results of <strong>FRAGSTATS</strong>. In the process, we recognized a few differences between the results.</p>
-<p>Some metrics in <em>FRAGSTATS</em> are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.</p>
-<p>Unfortunatly, we do not have access to the source code of <strong>FRAGSTATS</strong>. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.</p>
+<p><code>landscapemetrics</code> re-implements landscape metrics as they are mostly described in the FRAGSTATS software (McGarigal <em>et al.</em> 2012). Therefore, we compared our results with the results of FRAGSTATS. In the process, we recognized a few differences between the results.</p>
+<p>Some metrics in FRAGSTATS are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.</p>
+<p>Unfortunatly, we do not have access to the source code of FRAGSTATS. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.</p>
 <div id="general-differences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#general-differences" class="anchor"></a>General differences</h2>
-<p>Firstly, the patch ID is ordered in a different way, due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for <strong>FRAGSTATS</strong> and <strong>landscapemetrics</strong>.</p>
-<p>All double precision floating point numbers are rounded after the 4th decimal place in <strong>FRAGSTATS</strong>. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.</p>
-<p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (sd) or coefficient of variation (cv) of all values belonging to class i). While the results are identical for the single patches and the mean of all patches, there are some slight differences between <strong>lanscapemetrics</strong> and <strong>FRAGSTATS</strong> for the standard deviation and the coefficent of variation. <strong>landscapemetrics</strong> uses base R functions for that, so we should assume that the calculation of such indices is correct.</p>
-<p>In the following, we are comparing the cv for the patch area. We are including the cv calculated from all patch areas and the actual output of <strong>FRAGSTATS</strong> as well as the output of <strong>landscapemetrics</strong>. Interestingly, the cv calculated from all patches of <strong>FRAGSTATS</strong> is identical to the cv of <strong>landscapemetrics</strong>, but the actual result of <strong>FRAGSTATS</strong> is slightly different.</p>
+<p>Firstly, the patch ID is ordered in a different way, due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for FRAGSTATS and <code>landscapemetrics</code>.</p>
+<p>All double precision floating point numbers are rounded after the 4th decimal place in FRAGSTATS. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.</p>
+<p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (<em>sd</em>) or coefficient of variation (<em>cv</em>) of all values belonging to class <em>i</em>). While the results are identical for single patches and the mean of all patches, there are some slight differences between <code>lanscapemetrics</code> and FRAGSTATS for the standard deviation and the coefficent of variation. <code>landscapemetrics</code> uses base <code>R</code> functions for that, so we should assume that the calculation of such indices is correct.</p>
+<p>In the following, we are comparing the <em>cv</em> for the patch area. We are including the <em>cv</em> calculated from all patch areas and the actual output of FRAGSTATS as well as the output of <code>landscapemetrics</code>. Interestingly, the <em>cv</em> calculated from all patches of FRAGSTATS is identical to the cv of <code>landscapemetrics</code>, but the actual result of FRAGSTATS is slightly different.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># function to calculate coefficient of variation</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">cv &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">    (<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(x) <span class="op">/</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">         </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># CV calculated from patch values of FRAGSTATS </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">cv =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_CV) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
-<a class="sourceLine" id="cb1-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_output,</a>
-<a class="sourceLine" id="cb1-24" data-line-number="24">                       <span class="dt">y =</span> fragstats_calculated, </a>
-<a class="sourceLine" id="cb1-25" data-line-number="25">                       <span class="dt">by =</span> <span class="st">"class"</span>) </a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27">cv_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats, </a>
-<a class="sourceLine" id="cb1-28" data-line-number="28">                     <span class="dt">y =</span> landscapemetrics_output,</a>
-<a class="sourceLine" id="cb1-29" data-line-number="29">                     <span class="dt">by =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    (<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(x) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># CV calculated from patch values of FRAGSTATS </span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">    </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">cv =</span> <span class="kw">cv</span>(AREA)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Output of FRAGSTATS</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_CV) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co"># Output of landscapemetrics</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_output,</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23">                       <span class="dt">y =</span> fragstats_calculated, </a>
+<a class="sourceLine" id="cb1-24" data-line-number="24">                       <span class="dt">by =</span> <span class="st">"class"</span>) </a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26">cv_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats, </a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">                     <span class="dt">y =</span> landscapemetrics_output,</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28">                     <span class="dt">by =</span> <span class="st">"class"</span>)</a></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1">
 Show/Hide Results
 </button>
@@ -219,29 +218,29 @@ Show/Hide Results
 </tbody>
 </table>
 </div>
-<p>As for the cv, the results for the sd are similiar. The result calculated from all patch areas of <strong>FRAGSTATS</strong> is identical to the result of <strong>landscapemetrics</strong>, but not the actual result of <strong>FRAGSTATS</strong>.</p>
+<p>As for the <em>cv</em>, the results for the <em>sd</em> are similiar. The result calculated from all patch areas of FRAGSTATS is identical to the result of <code>landscapemetrics</code>, but not the actual result of FRAGSTATS.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># SD calculated from patch values of FRAGSTATS</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">fragstats_calculated &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(TYPE) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sd =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(AREA)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span>) </a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># Output of FRAGSTATS</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">fragstats_output &lt;-<span class="st"> </span>fragstats_class_landscape <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(TYPE, AREA_SD) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"fragstats_output"</span>)</a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># Output of landscapemetrics</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14">landscapemetrics_output &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span>(landscape) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(class, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"class"</span>, <span class="st">"landscapemetrics"</span>)</a>
 <a class="sourceLine" id="cb3-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb3-18" data-line-number="18">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_output, </a>
 <a class="sourceLine" id="cb3-19" data-line-number="19">                       <span class="dt">y =</span> fragstats_calculated,</a>
 <a class="sourceLine" id="cb3-20" data-line-number="20">                       <span class="dt">by =</span> <span class="st">"class"</span>)</a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">cv_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats,</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">sd_full &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats,</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">                     <span class="dt">y =</span> landscapemetrics_output,</a>
 <a class="sourceLine" id="cb3-24" data-line-number="24">                     <span class="dt">by =</span> <span class="st">"class"</span>)</a></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#2">
@@ -259,21 +258,21 @@ Show/Hide Results
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">0.0045</td>
-<td align="right">0.0048222</td>
-<td align="right">0.0048222</td>
+<td align="right">228.5906</td>
+<td align="right">242.4570</td>
+<td align="right">242.4570</td>
 </tr>
 <tr class="even">
 <td align="right">3</td>
-<td align="right">0.0195</td>
-<td align="right">0.0224855</td>
-<td align="right">0.0224855</td>
+<td align="right">162.6136</td>
+<td align="right">187.7700</td>
+<td align="right">187.7700</td>
 </tr>
 <tr class="odd">
 <td align="right">2</td>
-<td align="right">0.0027</td>
-<td align="right">0.0028524</td>
-<td align="right">0.0028524</td>
+<td align="right">159.0109</td>
+<td align="right">165.0134</td>
+<td align="right">165.0134</td>
 </tr>
 </tbody>
 </table>
@@ -282,455 +281,103 @@ Show/Hide Results
 <div id="specific-differences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#specific-differences" class="anchor"></a>Specific differences</h2>
-<div id="circle-metric" class="section level3">
-<h3 class="hasAnchor">
-<a href="#circle-metric" class="anchor"></a>CIRCLE metric</h3>
-<p><strong>FRAGSTATS</strong> defines CIRCLE as following:</p>
-<blockquote>
-<p>[…] CIRCLE equals 1 minus patch area (m<sup>2</sup>) divided by the area (m<sup>2</sup>) of the smallest circumscribing circle. […]</p>
-</blockquote>
-<p>According to the definition, for a squared patch the metric should equal CIRCLE = 0.3633802, regardless of the actual patch size (e.g. 1 cell vs. 4-by-4 cells). However, in <strong>FRAGSTATS</strong> patches containing only one cell equal CIRCLE = 0. In the following, patches with the area of area = 0.0001 contain only 1 cell and are following a perfect square.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Calculate CIRCLE</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, CIRCLE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_circle"</span>)</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_circle.html">lsm_p_circle</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_circle"</span>)</a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_area, </a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">                       <span class="dt">y =</span> fragstats_circle, </a>
-<a class="sourceLine" id="cb5-21" data-line-number="21">                       <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="st">    </span><span class="kw">arrange</span>(fragstats_area) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25">landscapemetrics &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> landscapemetrics_area, </a>
-<a class="sourceLine" id="cb5-26" data-line-number="26">                              <span class="dt">y =</span> landscapemetrics_circle, </a>
-<a class="sourceLine" id="cb5-27" data-line-number="27">                              <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="st">   </span><span class="kw">arrange</span>(landscapemetrics_area) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a></code></pre></div>
-<button class="btn btn-primary" data-toggle="collapse" data-target="#3">
-Show/Hide Results
-</button>
-<div id="3" class="collapse">
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fragstats, landscapemetrics))</a></code></pre></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">fragstats_area</th>
-<th align="right">fragstats_circle</th>
-<th align="right">landscapemetrics_area</th>
-<th align="right">landscapemetrics_circle</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.0000</td>
-<td align="right">0.0001</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0002</td>
-<td align="right">0.4907</td>
-<td align="right">0.0002</td>
-<td align="right">0.4907042</td>
-</tr>
-<tr class="even">
-<td align="right">0.0002</td>
-<td align="right">0.4907</td>
-<td align="right">0.0002</td>
-<td align="right">0.4907042</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0002</td>
-<td align="right">0.6817</td>
-<td align="right">0.0002</td>
-<td align="right">0.6816901</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.6180</td>
-<td align="right">0.0003</td>
-<td align="right">0.6180281</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0003</td>
-<td align="right">0.6180</td>
-<td align="right">0.0003</td>
-<td align="right">0.6180281</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.6180</td>
-<td align="right">0.0003</td>
-<td align="right">0.5225352</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0003</td>
-<td align="right">0.5225</td>
-<td align="right">0.0003</td>
-<td align="right">0.5225352</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.5225</td>
-<td align="right">0.0003</td>
-<td align="right">0.6180281</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0004</td>
-<td align="right">0.3634</td>
-<td align="right">0.0004</td>
-<td align="right">0.3633802</td>
-</tr>
-<tr class="even">
-<td align="right">0.0005</td>
-<td align="right">0.6255</td>
-<td align="right">0.0005</td>
-<td align="right">0.6255178</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0005</td>
-<td align="right">0.5103</td>
-<td align="right">0.0005</td>
-<td align="right">0.5102925</td>
-</tr>
-<tr class="even">
-<td align="right">0.0007</td>
-<td align="right">0.3144</td>
-<td align="right">0.0007</td>
-<td align="right">0.3144095</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0009</td>
-<td align="right">0.5416</td>
-<td align="right">0.0009</td>
-<td align="right">0.5416338</td>
-</tr>
-<tr class="even">
-<td align="right">0.0010</td>
-<td align="right">0.4907</td>
-<td align="right">0.0010</td>
-<td align="right">0.4907042</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0014</td>
-<td align="right">0.5544</td>
-<td align="right">0.0014</td>
-<td align="right">0.5543662</td>
-</tr>
-<tr class="even">
-<td align="right">0.0024</td>
-<td align="right">0.6850</td>
-<td align="right">0.0024</td>
-<td align="right">0.6849717</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0035</td>
-<td align="right">0.5796</td>
-<td align="right">0.0035</td>
-<td align="right">0.5795907</td>
-</tr>
-<tr class="even">
-<td align="right">0.0057</td>
-<td align="right">0.5520</td>
-<td align="right">0.0057</td>
-<td align="right">0.5520083</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0098</td>
-<td align="right">0.8112</td>
-<td align="right">0.0098</td>
-<td align="right">0.8112292</td>
-</tr>
-<tr class="even">
-<td align="right">0.0148</td>
-<td align="right">0.7783</td>
-<td align="right">0.0148</td>
-<td align="right">0.7783065</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0457</td>
-<td align="right">0.6658</td>
-<td align="right">0.0457</td>
-<td align="right">0.6657838</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="error-propagation-for-metrics-based-on-circle-metric" class="section level4">
-<h4 class="hasAnchor">
-<a href="#error-propagation-for-metrics-based-on-circle-metric" class="anchor"></a>Error propagation (for metrics based on <strong>CIRCLE</strong> metric)</h4>
-<div id="class-level" class="section level5">
-<h5 class="hasAnchor">
-<a href="#class-level" class="anchor"></a>Class level</h5>
-<ul>
-<li>CIRCLE_CV (<code>lsm_c_circle_cv</code>)</li>
-<li>CIRCLE_MN (<code>lsm_c_circle_mn</code>)</li>
-<li>CIRCLE_SD (<code>lsm_c_circle_sd</code>)</li>
-</ul>
-</div>
-<div id="landscape-level" class="section level5">
-<h5 class="hasAnchor">
-<a href="#landscape-level" class="anchor"></a>Landscape level</h5>
-<ul>
-<li>CIRCLE_CV (<code>lsm_l_circle_cv</code>)</li>
-<li>CIRCLE_MN (<code>lsm_l_circle_mn</code>)</li>
-<li>CIRCLE_SD (<code>lsm_l_circle_sd</code>)</li>
-</ul>
-</div>
-</div>
-</div>
 <div id="gyrate-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gyrate-metric" class="anchor"></a>GYRATE metric</h3>
-<p>According to <strong>FRAGSTATS</strong> the radius of gyration for a patch consisting of only a single cell should equal GYRATE = 0.</p>
+<p>According to FRAGSTATS the radius of gyration for a patch consisting of only a single cell should equal GYRATE = 0.</p>
 <blockquote>
 <p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
-<p>However, for patches containing a single cell <strong>FRAGSTATS</strong> returns a value of GYRATE = 0.5. In the following table, patches with an area of area = 0.0001 consist of only one cell.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co"># Calculate GYRATE</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">fragstats_circle &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">landscapemetrics_circle &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="st">  </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_area,</a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">                       <span class="dt">y =</span> fragstats_circle,</a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">                       <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="st">  </span><span class="kw">arrange</span>(fragstats_area)<span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25">landscapemetrics &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> landscapemetrics_area,</a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">                              <span class="dt">y =</span> landscapemetrics_circle,</a>
-<a class="sourceLine" id="cb7-27" data-line-number="27">                              <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="st">  </span><span class="kw">arrange</span>(landscapemetrics_area)<span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>id)</a></code></pre></div>
+<p>However, for patches containing a single cell FRAGSTATS returns a value of <em>GYRATE = 0.5</em>. In the following table, patches with an area of <em>area = 0.0001</em> consist of only one cell.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Calculate patch area</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">fragstats_area &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_area"</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">landscapemetrics_area &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span>)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Calculate GYRATE</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">fragstats_gyrate &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, GYRATE) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span>)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">landscapemetrics_gyrate &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span>)</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">fragstats &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> fragstats_area,</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">                       <span class="dt">y =</span> fragstats_gyrate,</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">                       <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(fragstats_area <span class="op">==</span><span class="st"> </span><span class="fl">0.0001</span>)</a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24">landscapemetrics &lt;-<span class="st"> </span><span class="kw">full_join</span>(<span class="dt">x =</span> landscapemetrics_area,</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">                              <span class="dt">y =</span> landscapemetrics_gyrate,</a>
+<a class="sourceLine" id="cb5-26" data-line-number="26">                              <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(landscapemetrics_area <span class="op">==</span><span class="st"> </span><span class="fl">0.0001</span>)</a></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4">
 Show/Hide Results
 </button>
 <div id="4" class="collapse">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fragstats, landscapemetrics))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fragstats, landscapemetrics))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
+<th align="right">id</th>
 <th align="right">fragstats_area</th>
 <th align="right">fragstats_gyrate</th>
+<th align="right">id</th>
 <th align="right">landscapemetrics_area</th>
 <th align="right">landscapemetrics_gyrate</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
+<td align="right">1</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
+<td align="right">19</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">5</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
+<td align="right">23</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">7</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
+<td align="right">25</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">8</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
+<td align="right">10</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">14</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">0.0001</td>
-<td align="right">0.5000</td>
-<td align="right">0.0001</td>
-<td align="right">0.0000000</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0002</td>
-<td align="right">0.5000</td>
-<td align="right">0.0002</td>
-<td align="right">0.5000000</td>
-</tr>
-<tr class="even">
-<td align="right">0.0002</td>
-<td align="right">0.5000</td>
-<td align="right">0.0002</td>
-<td align="right">0.5000000</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0002</td>
-<td align="right">0.7071</td>
-<td align="right">0.0002</td>
-<td align="right">0.7071068</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.6667</td>
-<td align="right">0.0003</td>
-<td align="right">0.6666667</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0003</td>
-<td align="right">0.6667</td>
-<td align="right">0.0003</td>
-<td align="right">0.6666667</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.6667</td>
-<td align="right">0.0003</td>
-<td align="right">0.6540388</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0003</td>
-<td align="right">0.6449</td>
-<td align="right">0.0003</td>
-<td align="right">0.6540388</td>
-</tr>
-<tr class="even">
-<td align="right">0.0003</td>
-<td align="right">0.6449</td>
-<td align="right">0.0003</td>
-<td align="right">0.6666667</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0004</td>
-<td align="right">0.7071</td>
-<td align="right">0.0004</td>
-<td align="right">0.7071068</td>
-</tr>
-<tr class="even">
-<td align="right">0.0005</td>
-<td align="right">0.9921</td>
-<td align="right">0.0005</td>
-<td align="right">1.0001523</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0005</td>
-<td align="right">0.8493</td>
-<td align="right">0.0005</td>
-<td align="right">0.8478015</td>
-</tr>
-<tr class="even">
-<td align="right">0.0007</td>
-<td align="right">0.9779</td>
-<td align="right">0.0007</td>
-<td align="right">0.9747933</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0009</td>
-<td align="right">1.2531</td>
-<td align="right">0.0009</td>
-<td align="right">1.2368243</td>
-</tr>
-<tr class="even">
-<td align="right">0.0010</td>
-<td align="right">1.2400</td>
-<td align="right">0.0010</td>
-<td align="right">1.2420291</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0014</td>
-<td align="right">1.6339</td>
-<td align="right">0.0014</td>
-<td align="right">1.6314858</td>
-</tr>
-<tr class="even">
-<td align="right">0.0024</td>
-<td align="right">2.5116</td>
-<td align="right">0.0024</td>
-<td align="right">2.5102819</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0035</td>
-<td align="right">2.4917</td>
-<td align="right">0.0035</td>
-<td align="right">2.4954894</td>
-</tr>
-<tr class="even">
-<td align="right">0.0057</td>
-<td align="right">3.1784</td>
-<td align="right">0.0057</td>
-<td align="right">3.1706682</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0098</td>
-<td align="right">6.2767</td>
-<td align="right">0.0098</td>
-<td align="right">6.3637330</td>
-</tr>
-<tr class="even">
-<td align="right">0.0148</td>
-<td align="right">8.6143</td>
-<td align="right">0.0148</td>
-<td align="right">8.5519260</td>
-</tr>
-<tr class="odd">
-<td align="right">0.0457</td>
-<td align="right">11.2509</td>
-<td align="right">0.0457</td>
-<td align="right">11.2363838</td>
+<td align="right">20</td>
+<td align="right">1e-04</td>
+<td align="right">0.5</td>
+<td align="right">22</td>
+<td align="right">1e-04</td>
+<td align="right">0</td>
 </tr>
 </tbody>
 </table>
@@ -738,19 +385,19 @@ Show/Hide Results
 <p>Additionally, we recognized small differences for all other patches as well. However, we could not find an explanation for this difference, yet.</p>
 <div id="error-propagation-for-metrics-based-on-gyrate-metric" class="section level4">
 <h4 class="hasAnchor">
-<a href="#error-propagation-for-metrics-based-on-gyrate-metric" class="anchor"></a>Error propagation (for metrics based on <strong>GYRATE</strong> metric)</h4>
-<div id="class-level-1" class="section level5">
+<a href="#error-propagation-for-metrics-based-on-gyrate-metric" class="anchor"></a>Error propagation (for metrics based on <em>GYRATE</em> metric)</h4>
+<div id="class-level" class="section level5">
 <h5 class="hasAnchor">
-<a href="#class-level-1" class="anchor"></a>Class level</h5>
+<a href="#class-level" class="anchor"></a>Class level</h5>
 <ul>
 <li>GYRATE_CV (<code>lsm_c_gyrate_cv</code>)</li>
 <li>GYRATE_MN (<code>lsm_c_gyrate_mn</code>)</li>
 <li>GYRATE_SD (<code>lsm_c_gyrate_sd</code>)</li>
 </ul>
 </div>
-<div id="landscape-level-1" class="section level5">
+<div id="landscape-level" class="section level5">
 <h5 class="hasAnchor">
-<a href="#landscape-level-1" class="anchor"></a>Landscape level</h5>
+<a href="#landscape-level" class="anchor"></a>Landscape level</h5>
 <ul>
 <li>GYRATE_CV (<code>lsm_l_gyrate_cv</code>)</li>
 <li>GYRATE_MN (<code>lsm_l_gyrate_mn</code>)</li>
@@ -762,46 +409,46 @@ Show/Hide Results
 <div id="para-metric" class="section level3">
 <h3 class="hasAnchor">
 <a href="#para-metric" class="anchor"></a>PARA metric</h3>
-<p>The documentation of <strong>FRAGSTATS</strong> defines the perimeter-area ratio the following:</p>
+<p>The documentation of FRAGSTATS defines the perimeter-area ratio the following:</p>
 <blockquote>
 <p>[…] PARA equals the ratio of the patch perimeter (m) to area (m2). […]</p>
 </blockquote>
-<p>Contrastingly, the output of <strong>FRAGSTATS</strong> gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
-<p>We implemented PARA as documented in the <strong>FRAGSTATS</strong> manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the <strong>FRAGSTATS</strong> output to meters per square meters.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_perim.html">lsm_p_perim</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb9-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_para.html">lsm_p_para</a></span>(landscape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="st">    </span><span class="kw">set_names</span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
-<a class="sourceLine" id="cb9-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb9-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
-<a class="sourceLine" id="cb9-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
-<a class="sourceLine" id="cb9-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="st">    </span><span class="kw">full_join</span>(para_landscapemetrics, </a>
-<a class="sourceLine" id="cb9-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
-<a class="sourceLine" id="cb9-28" data-line-number="28">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="st">    </span><span class="kw">arrange</span>(area)</a></code></pre></div>
+<p>Contrastingly, the output of FRAGSTATS gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
+<p>We implemented PARA as documented in the FRAGSTATS manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the FRAGSTATS output to meters per square meters.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Output of FRAGSTATS</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">fragstats &lt;-<span class="st"> </span>fragstats_patch_landscape <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(PID, AREA, PERIM, PARA) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(area)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co"># Output of landscapemetrics</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">area_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_area.html">lsm_p_area</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"area"</span>)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">perim_landscapmetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_perim.html">lsm_p_perim</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"perim"</span>)</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">para_landscapemetrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/lsm_p_para.html">lsm_p_para</a></span>(landscape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="st">"id"</span>, <span class="st">"para"</span>)</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">landscapemetrics &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">full_join</a></span>(<span class="dt">x =</span> area_landscapmetrics, </a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">                                     <span class="dt">y =</span> perim_landscapmetrics, </a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">                                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="st">    </span><span class="kw">full_join</span>(para_landscapemetrics, </a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">                     <span class="dt">by =</span> <span class="st">"id"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">para_calculated_ha =</span> perim <span class="op">/</span><span class="st"> </span>area, </a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">           <span class="dt">para_calculated_m =</span> perim <span class="op">/</span><span class="st"> </span>(area <span class="op">*</span><span class="st"> </span><span class="dv">10000</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="st">    </span><span class="kw">arrange</span>(area)</a></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#5">
 Show/Hide Results
 </button>
 <div id="5" class="collapse">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fragstats, landscapemetrics))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(fragstats, landscapemetrics))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">id</th>
@@ -1202,9 +849,9 @@ Show/Hide Results
 <div id="error-propagation-for-metrics-based-on-para-metric" class="section level4">
 <h4 class="hasAnchor">
 <a href="#error-propagation-for-metrics-based-on-para-metric" class="anchor"></a>Error propagation (for metrics based on <strong>PARA</strong> metric)</h4>
-<div id="class-level-2" class="section level5">
+<div id="class-level-1" class="section level5">
 <h5 class="hasAnchor">
-<a href="#class-level-2" class="anchor"></a>Class level</h5>
+<a href="#class-level-1" class="anchor"></a>Class level</h5>
 <ul>
 <li>PARA_MN (<code>lsm_c_para_mn</code>)</li>
 <li>PARA_SD (<code>lsm_c_para_sd</code>)</li>
@@ -1217,42 +864,56 @@ Show/Hide Results
 <div id="comparison-with-sdmtools" class="section level1">
 <h1 class="hasAnchor">
 <a href="#comparison-with-sdmtools" class="anchor"></a>Comparison with SDMTools</h1>
-<p>SDMTools (still available, but apparently not longer maintained) offers landscape metrics on patch and class level. However, it does not return the same results as FRAGSTATS and results between the two have therefore be done with caution. The main reason for this are different standards for defaults and that SDMTools returns results in map units and not in m^2/hectar, as FRAGSTATS/landscapemetrics. This also explains differences between our package and SDMTools.</p>
+<p><code>SDMTools</code> (VanDerWal et al. 2014) (still available, but apparently not longer maintained) offers landscape metrics on patch and class level. However, it does not return the same results as FRAGSTATS. The main reason for this are different standard defaults (e.g. <code>SDMTools</code> always considers the global landscape boundary) and that <code>SDMTools</code> returns results in map units and not in m^2/hectar, as FRAGSTATS/<code>landscapemetrics</code>. This also explains differences between our package and <code>SDMTools</code>.</p>
 <p><a href="https://github.com/jsta">Joseph Stachelek</a> was so nice to remind us of these issues and provided the comparison.</p>
 <div id="patch-metrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#patch-metrics" class="anchor"></a>Patch metrics</h2>
-<p>To get all metrics on patch level with landscapemetrics you could for example do:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
-<p>To get to the same level of information with SDMTools, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics. landscapemetrics offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMTools)</a></code></pre></div>
+<p>To get all availabel metrics on e.g. patch level with <code>SDMTools</code>, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SDMTools)</a></code></pre></div>
 <pre><code>## 
 ## Attaching package: 'SDMTools'</code></pre>
 <pre><code>## The following object is masked from 'package:raster':
 ## 
 ##     distance</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># binarize every class in the landscape </span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">binarized_landscape &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unique">unique</a></span>(landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">  tmp_land &lt;-<span class="st"> </span>landscape</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">  raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">!=</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">  raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">==</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">  tmp_land</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">})</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co"># calculate metrics</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">sdmtools_result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(binarized_landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">  ccl_landscape &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/SDMTools/topics/ConnCompLabel">ConnCompLabel</a></span>(binarized_landscape[[x]])</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">  patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/SDMTools/topics/PatchStat">PatchStat</a></span>(ccl_landscape)</a>
-<a class="sourceLine" id="cb15-13" data-line-number="13">  patch_metrics<span class="op">$</span>class &lt;-<span class="st"> </span>x</a>
-<a class="sourceLine" id="cb15-14" data-line-number="14">  patch_metrics</a>
-<a class="sourceLine" id="cb15-15" data-line-number="15">})</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># binarize every class in the landscape and calculate patch metrics</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">sdmtools_result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/unique">unique</a></span>(landscape), <span class="dt">FUN =</span> <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  tmp_land &lt;-<span class="st"> </span>landscape</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">!=</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">  raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land)[raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(tmp_land) <span class="op">==</span><span class="st"> </span>x] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">  ccl &lt;-<span class="st"> </span>SDMTools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/SDMTools/topics/ConnCompLabel">ConnCompLabel</a></span>(tmp_land)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">  <span class="kw"><a href="https://www.rdocumentation.org/packages/SDMTools/topics/PatchStat">PatchStat</a></span>(ccl)</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">})</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co"># combine to one data frame</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11">sdmtools_result &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(sdmtools_result, <span class="dt">.id =</span> <span class="st">"Class"</span>)</a></code></pre></div>
+<p><code>landscapemetrics</code> offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally. To get all metrics on patch level with <code>landscapemetrics</code> you could for example do:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
+<pre><code>## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input
+
+## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input
+
+## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input
+
+## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input
+
+## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input
+
+## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
+## return_raster = TRUE not able for matrix input</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6">
 Show/Hide Results
 </button>
 <div id="6" class="collapse">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
+<th align="left">Class</th>
 <th align="right">patchID</th>
 <th align="right">n.cell</th>
 <th align="right">n.core.cell</th>
@@ -1265,25 +926,10 @@ Show/Hide Results
 <th align="right">shape.index</th>
 <th align="right">frac.dim.index</th>
 <th align="right">core.area.index</th>
-<th align="right">class</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">0</td>
-<td align="right">721</td>
-<td align="right">450</td>
-<td align="right">284</td>
-<td align="right">2600</td>
-<td align="right">721</td>
-<td align="right">450</td>
-<td align="right">284</td>
-<td align="right">0.3938974</td>
-<td align="right">2.629630</td>
-<td align="right">1.295521</td>
-<td align="right">0.6241331</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
+<td align="left">1</td>
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1296,9 +942,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">1</td>
 <td align="right">2</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1311,9 +957,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">1</td>
 <td align="right">3</td>
 <td align="right">148</td>
 <td align="right">39</td>
@@ -1326,9 +972,9 @@ Show/Hide Results
 <td align="right">2.600000</td>
 <td align="right">1.393273</td>
 <td align="right">0.2635135</td>
-<td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">1</td>
 <td align="right">4</td>
 <td align="right">5</td>
 <td align="right">0</td>
@@ -1341,9 +987,9 @@ Show/Hide Results
 <td align="right">1.200000</td>
 <td align="right">1.365212</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">1</td>
 <td align="right">5</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1356,9 +1002,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">1</td>
 <td align="right">6</td>
 <td align="right">14</td>
 <td align="right">0</td>
@@ -1371,9 +1017,9 @@ Show/Hide Results
 <td align="right">1.250000</td>
 <td align="right">1.219707</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">1</td>
 <td align="right">7</td>
 <td align="right">3</td>
 <td align="right">0</td>
@@ -1386,9 +1032,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">1</td>
 <td align="right">8</td>
 <td align="right">5</td>
 <td align="right">0</td>
@@ -1401,9 +1047,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.138647</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">1</td>
 <td align="right">9</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1416,24 +1062,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="right">0</td>
-<td align="right">658</td>
-<td align="right">354</td>
-<td align="right">310</td>
-<td align="right">2322</td>
-<td align="right">658</td>
-<td align="right">354</td>
-<td align="right">310</td>
-<td align="right">0.4711246</td>
-<td align="right">2.980769</td>
-<td align="right">1.340774</td>
-<td align="right">0.5379939</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">1</td>
 <td align="right">2</td>
 <td align="right">0</td>
@@ -1446,9 +1077,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.169925</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">2</td>
 <td align="right">35</td>
 <td align="right">5</td>
@@ -1461,9 +1092,9 @@ Show/Hide Results
 <td align="right">1.583333</td>
 <td align="right">1.266425</td>
 <td align="right">0.1428571</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">3</td>
 <td align="right">98</td>
 <td align="right">31</td>
@@ -1476,9 +1107,9 @@ Show/Hide Results
 <td align="right">2.050000</td>
 <td align="right">1.317534</td>
 <td align="right">0.3163265</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">4</td>
 <td align="right">2</td>
 <td align="right">0</td>
@@ -1491,9 +1122,9 @@ Show/Hide Results
 <td align="right">1.333333</td>
 <td align="right">2.000000</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">5</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1506,9 +1137,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">6</td>
 <td align="right">2</td>
 <td align="right">0</td>
@@ -1521,9 +1152,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.169925</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">7</td>
 <td align="right">1</td>
 <td align="right">0</td>
@@ -1536,9 +1167,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">NaN</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">8</td>
 <td align="right">24</td>
 <td align="right">0</td>
@@ -1551,9 +1182,9 @@ Show/Hide Results
 <td align="right">1.600000</td>
 <td align="right">1.308626</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">9</td>
 <td align="right">3</td>
 <td align="right">0</td>
@@ -1566,9 +1197,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">10</td>
 <td align="right">3</td>
 <td align="right">0</td>
@@ -1581,9 +1212,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">11</td>
 <td align="right">57</td>
 <td align="right">22</td>
@@ -1596,9 +1227,9 @@ Show/Hide Results
 <td align="right">1.250000</td>
 <td align="right">1.139033</td>
 <td align="right">0.3859649</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">12</td>
 <td align="right">4</td>
 <td align="right">0</td>
@@ -1611,9 +1242,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.000000</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
+<td align="left">2</td>
 <td align="right">13</td>
 <td align="right">7</td>
 <td align="right">0</td>
@@ -1626,9 +1257,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.129150</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
+<td align="left">2</td>
 <td align="right">14</td>
 <td align="right">3</td>
 <td align="right">0</td>
@@ -1641,24 +1272,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="right">0</td>
-<td align="right">421</td>
-<td align="right">124</td>
-<td align="right">374</td>
-<td align="right">1310</td>
-<td align="right">421</td>
-<td align="right">124</td>
-<td align="right">374</td>
-<td align="right">0.8883610</td>
-<td align="right">4.452381</td>
-<td align="right">1.501982</td>
-<td align="right">0.2945368</td>
-<td align="right">3</td>
-</tr>
-<tr class="odd">
+<td align="left">3</td>
 <td align="right">1</td>
 <td align="right">457</td>
 <td align="right">158</td>
@@ -1671,9 +1287,9 @@ Show/Hide Results
 <td align="right">4.046512</td>
 <td align="right">1.458331</td>
 <td align="right">0.3457330</td>
-<td align="right">3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">3</td>
 <td align="right">2</td>
 <td align="right">9</td>
 <td align="right">0</td>
@@ -1686,9 +1302,9 @@ Show/Hide Results
 <td align="right">1.333333</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td align="left">3</td>
 <td align="right">3</td>
 <td align="right">3</td>
 <td align="right">0</td>
@@ -1701,9 +1317,9 @@ Show/Hide Results
 <td align="right">1.000000</td>
 <td align="right">1.261859</td>
 <td align="right">0.0000000</td>
-<td align="right">3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td align="left">3</td>
 <td align="right">4</td>
 <td align="right">10</td>
 <td align="right">0</td>
@@ -1716,187 +1332,6 @@ Show/Hide Results
 <td align="right">1.142857</td>
 <td align="right">1.204120</td>
 <td align="right">0.0000000</td>
-<td align="right">3</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><em>Note:</em> All metrics that consider the area in SDMTools need to be divided by 10000 to go from m^2 to hectar. Only this makes a comparison to landscapemetrics (and thus FRAGSTATS) possible. Furthermore, SDMTools always considers the global landscape boundary, whereas landscapemetrics and FRAGSTATS provide options to control for it.</p>
-</div>
-<div id="class-metrics" class="section level2">
-<h2 class="hasAnchor">
-<a href="#class-metrics" class="anchor"></a>Class metrics</h2>
-<p>Again, with landscapemetrics one would use something like:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"class"</span>)</a></code></pre></div>
-<pre><code>## Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</code></pre>
-<pre><code>## Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</code></pre>
-<p>SDMTools offers an equavilly convienent wrapper for this:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/SDMTools/topics/ClassStat">ClassStat</a></span>(landscape))</a></code></pre></div>
-<button class="btn btn-primary" data-toggle="collapse" data-target="#7">
-Show/Hide Results
-</button>
-<div id="7" class="collapse">
-<table class="table">
-<thead><tr class="header">
-<th align="right">class</th>
-<th align="right">n.patches</th>
-<th align="right">total.area</th>
-<th align="right">prop.landscape</th>
-<th align="right">patch.density</th>
-<th align="right">total.edge</th>
-<th align="right">edge.density</th>
-<th align="right">landscape.shape.index</th>
-<th align="right">largest.patch.index</th>
-<th align="right">mean.patch.area</th>
-<th align="right">sd.patch.area</th>
-<th align="right">min.patch.area</th>
-<th align="right">max.patch.area</th>
-<th align="right">perimeter.area.frac.dim</th>
-<th align="right">mean.perim.area.ratio</th>
-<th align="right">sd.perim.area.ratio</th>
-<th align="right">min.perim.area.ratio</th>
-<th align="right">max.perim.area.ratio</th>
-<th align="right">mean.shape.index</th>
-<th align="right">sd.shape.index</th>
-<th align="right">min.shape.index</th>
-<th align="right">max.shape.index</th>
-<th align="right">mean.frac.dim.index</th>
-<th align="right">sd.frac.dim.index</th>
-<th align="right">min.frac.dim.index</th>
-<th align="right">max.frac.dim.index</th>
-<th align="right">total.core.area</th>
-<th align="right">prop.landscape.core</th>
-<th align="right">mean.patch.core.area</th>
-<th align="right">sd.patch.core.area</th>
-<th align="right">min.patch.core.area</th>
-<th align="right">max.patch.core.area</th>
-<th align="right">prop.like.adjacencies</th>
-<th align="right">aggregation.index</th>
-<th align="right">lanscape.division.index</th>
-<th align="right">splitting.index</th>
-<th align="right">effective.mesh.size</th>
-<th align="right">patch.cohesion.index</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="right">9</td>
-<td align="right">179</td>
-<td align="right">0.1988889</td>
-<td align="right">0.0100000</td>
-<td align="right">196</td>
-<td align="right">0.2177778</td>
-<td align="right">3.629630</td>
-<td align="right">0.1644444</td>
-<td align="right">19.88889</td>
-<td align="right">48.22200</td>
-<td align="right">1</td>
-<td align="right">148</td>
-<td align="right">2.187223</td>
-<td align="right">2.819291</td>
-<td align="right">1.2322680</td>
-<td align="right">0.8783784</td>
-<td align="right">4.000000</td>
-<td align="right">1.227778</td>
-<td align="right">0.5238745</td>
-<td align="right">1</td>
-<td align="right">2.600000</td>
-<td align="right">1.275740</td>
-<td align="right">0.1048167</td>
-<td align="right">1.138647</td>
-<td align="right">1.393273</td>
-<td align="right">39</td>
-<td align="right">0.0433333</td>
-<td align="right">4.333333</td>
-<td align="right">13.000000</td>
-<td align="right">0</td>
-<td align="right">39</td>
-<td align="right">0.5701754</td>
-<td align="right">78.54985</td>
-<td align="right">0.9726383</td>
-<td align="right">36.547399</td>
-<td align="right">24.62556</td>
-<td align="right">8.800351</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="right">14</td>
-<td align="right">242</td>
-<td align="right">0.2688889</td>
-<td align="right">0.0155556</td>
-<td align="right">264</td>
-<td align="right">0.2933333</td>
-<td align="right">4.125000</td>
-<td align="right">0.1088889</td>
-<td align="right">17.28571</td>
-<td align="right">28.52375</td>
-<td align="right">1</td>
-<td align="right">98</td>
-<td align="right">2.179576</td>
-<td align="right">2.405130</td>
-<td align="right">1.1581195</td>
-<td align="right">0.7017544</td>
-<td align="right">4.000000</td>
-<td align="right">1.201191</td>
-<td align="right">0.3293002</td>
-<td align="right">1</td>
-<td align="right">2.050000</td>
-<td align="right">1.273850</td>
-<td align="right">0.2461718</td>
-<td align="right">1.000000</td>
-<td align="right">2.000000</td>
-<td align="right">58</td>
-<td align="right">0.0644444</td>
-<td align="right">4.142857</td>
-<td align="right">9.725914</td>
-<td align="right">0</td>
-<td align="right">31</td>
-<td align="right">0.5714286</td>
-<td align="right">77.87611</td>
-<td align="right">0.9817778</td>
-<td align="right">54.878049</td>
-<td align="right">16.40000</td>
-<td align="right">8.427071</td>
-</tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="right">4</td>
-<td align="right">479</td>
-<td align="right">0.5322222</td>
-<td align="right">0.0044444</td>
-<td align="right">388</td>
-<td align="right">0.4311111</td>
-<td align="right">4.409091</td>
-<td align="right">0.5077778</td>
-<td align="right">119.75000</td>
-<td align="right">224.85458</td>
-<td align="right">3</td>
-<td align="right">457</td>
-<td align="right">1.619760</td>
-<td align="right">1.701483</td>
-<td align="right">0.7813002</td>
-<td align="right">0.7614880</td>
-<td align="right">2.666667</td>
-<td align="right">1.880675</td>
-<td align="right">1.4503327</td>
-<td align="right">1</td>
-<td align="right">4.046512</td>
-<td align="right">1.296542</td>
-<td align="right">0.1112404</td>
-<td align="right">1.204120</td>
-<td align="right">1.458331</td>
-<td align="right">158</td>
-<td align="right">0.1755556</td>
-<td align="right">39.500000</td>
-<td align="right">79.000000</td>
-<td align="right">0</td>
-<td align="right">158</td>
-<td align="right">0.6631944</td>
-<td align="right">83.58862</td>
-<td align="right">0.7419272</td>
-<td align="right">3.874875</td>
-<td align="right">232.26556</td>
-<td align="right">9.201911</td>
 </tr>
 </tbody>
 </table>
@@ -1905,7 +1340,10 @@ Show/Hide Results
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p>
+<ul>
+<li><p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
+<li><p>Jeremy VanDerWal, Lorena Falconi, Stephanie Januchowski, Luke Shoo and Collin Storlie (2014). SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="uri">https://CRAN.R-project.org/package=SDMTools</a></p></li>
+</ul>
 </div>
 </div>
   </div>
@@ -1924,7 +1362,6 @@ Show/Hide Results
       <li>
 <a href="#comparison-with-sdmtools">Comparison with SDMTools</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#patch-metrics">Patch metrics</a></li>
-      <li><a href="#class-metrics">Class metrics</a></li>
       <li><a href="#references">References</a></li>
       </ul>
 </li>
@@ -1936,7 +1373,7 @@ Show/Hide Results
 
 
       <footer><div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad, Sebastian Hanss.</p>
 </div>
 
 <div class="pkgdown">

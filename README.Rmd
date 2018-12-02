@@ -25,18 +25,9 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 
 ## Overview
 
-**landscapemetrics** is an R package for calculating landscape metrics
-for categorical landscape patterns in a tidy workflow. The package can be
-used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it
-offers a reproducible workflow for landscape analysis in a single environment.
-It also allows for calculations of four theoretical metrics of landscape
-complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the
-same overall complexity (Nowosad and Stepinski 2018).
+`**landscapemetrics is an `R` package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).
 
-**landscapemetrics** supports `raster` spatial objects and takes `RasterLayer`,
-`RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input
-arguments. Every function can be used in a piped workflow, as it always
-takes the data as the first argument and returns a tibble. 
+`landscapemetrics` supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
 
 ## Installation
 
@@ -53,13 +44,9 @@ devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
 
 ## Using landscapemetrics
 
-The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns
-results in either meters, square meters or hectares. Before using landscapemetrics, be sure to check your projection.
+The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in either meters, square meters or hectares. Before using `landscapemetrics`, be sure to check your raster (see `check_raster()`).
 
-All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). 
-The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`).
-The last part of the function name is the abbreviation of the corresponding metric 
-(e.g. `enn`for the euclidean nearest-neighbor distance):   
+All functions in `landscapemetrics` start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn`for the euclidean nearest-neighbor distance):   
 
 ```
 # general structure
@@ -94,58 +81,45 @@ All functions return an identical structured tibble:
 
 ### Using metric functions
 
-Every function follows the same implementation design, so the usage is
-quite straightforward:
+Every function follows the same implementation design, so the usage is quite straightforward:
 
 ```{r, message=FALSE, warning=FALSE}
 library(landscapemetrics)
 library(dplyr)
 
-# Landscape raster
+# landscape raster
 landscape
 
-# Calculate for example the Euclidean nearest-neighbor distance on patch level
+# calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 
-# Calculate the total area and total class edge length
+# calculate the total area and total class edge length
 bind_rows(
     lsm_l_ta(landscape), 
     lsm_c_te(landscape)
 )
 ```
 
-There is also a wrapper around every metric in the package to quickly calculate
-a bunch of metrics:
+There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:
 
 ```{r, message=FALSE}
 # calculate all metrics on patch level
-calculate_lsm(landscape, what = "patch")
+calculate_lsm(landscape, level = "patch")
 ```
 
 ### Utility functions
 
-**landscapemetrics** further provides functions to visualize landscapes
-as labeled patches and functions to select and analyse metrics you
-calculated with the package.
+`landscapemetrics` further provides several visualization functions, e.g. show all labeld patches or the core area of all patches. All visualization functions start with the prefix `show_` (e.g. `show_cores()`).
 
-Important building blocks of the package are exported to help facilitate analysis
-or the development of new metrics. They all start with the prefix `get_`.
-All of them are implemented with Rcpp and have either memory or performance advantages
-compared to raster functions.
+Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix `get_`. All of them are implemented with Rcpp and have either memory or performance advantages compared to raster functions.
 
 For more details, see the [utility function vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html).
 
 ## Contributing
 
-One of the major motivations behind **landscapemetrics** is the idea to
-provide an open-source code collection of landscape metrics. This
-includes, besides bug reports, especially the idea to include new
-metrics. Therefore, in case you want to suggest new metrics and in the
-best case even contribute code, we warmly welcome to do so\! For more
-information see [CONTRIBUTING](CONTRIBUTING.md).
+One of the major motivations behind `landscapemetrics` is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics and functions. Therefore, in case you want to suggest new metrics or functions and in the best case even contribute code, we warmly welcome to do so\! For more information see [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repository’s [CODE OF
-CONDUCT](CODE_OF_CONDUCT.md).
+Maintainers and contributors must follow this repository’s [CODE OF CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
