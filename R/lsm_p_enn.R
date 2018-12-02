@@ -161,8 +161,9 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
         else {
 
             # get edge cells because only they are important for ENN
-            class_boundaries <- raster::boundaries(landscape_labeled, directions = 4,
-                                                   asNA = TRUE)
+            class_boundaries <- get_boundaries(landscape_labeled,
+                                               rooks_case = TRUE,
+                                               as_NA = TRUE)
 
             # set edge cell value to patch id
             raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <- raster::values(landscape_labeled)[raster::values(!is.na(class_boundaries))]

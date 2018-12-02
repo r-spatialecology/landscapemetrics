@@ -146,9 +146,10 @@ lsm_p_circle_calc <- function(landscape, directions,
                                          class = patches_class,
                                          directions = directions)[[1]]
 
-        landscape_boundaries <- raster::boundaries(landscape_labeled,
-                                                   directions = 4,
-                                                   asNA = TRUE)
+        # only boundary cells need to be considered for circle diameter
+        landscape_boundaries <- get_boundaries(landscape_labeled,
+                                               rooks_case = TRUE,
+                                               as_NA = TRUE)
 
         # convert to points
         points_class_labeled <- data.frame(raster::rasterToPoints(landscape_labeled))

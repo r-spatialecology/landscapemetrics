@@ -196,7 +196,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         patches_id <- 1:raster::maxValue(landscape_labeled)
 
         # label all edge cells
-        class_edge <- raster::boundaries(landscape_labeled, directions = 4)
+        class_edge <- get_boundaries(landscape_labeled,
+                                     rooks_case = TRUE)
 
         # loop if edge_depth is more than 1
         if(edge_depth > 1){
@@ -207,8 +208,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
 
                 # set current_edge + 1 to new edge
-                class_edge <- raster::boundaries(class_edge,
-                                                 directions = 4)
+                class_edge <- get_boundaries(class_edge,
+                                             rooks_case = TRUE)
             }
         }
 

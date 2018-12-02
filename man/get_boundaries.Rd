@@ -4,13 +4,16 @@
 \alias{get_boundaries}
 \title{get_boundaries}
 \usage{
-get_boundaries(landscape, rooks_case = TRUE, return_raster = TRUE)
+get_boundaries(landscape, rooks_case = TRUE, as_NA = FALSE,
+  return_raster = TRUE)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}
 
 \item{rooks_case}{Logical if rook's case (4 neighbours) or queen's
 case (8 neighbours) should be used as neighbourhood rule}
+
+\item{as_NA}{If true, non-boundary cells area labeld NA}
 
 \item{return_raster}{If false, matrix is returned}
 }
