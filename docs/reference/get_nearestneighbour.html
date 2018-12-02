@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="get_nearestneighbour — get_nearestneighbour" />
 
-<meta property="og:description" content="Calculates the minimal euclidean distance between classes for a raster/matrix." />
+<meta property="og:description" content="Euclidean distance to nearest neighbour" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -174,7 +174,7 @@
 
     <div class="ref-description">
     
-    <p>Calculates the minimal euclidean distance between classes for a raster/matrix.</p>
+    <p>Euclidean distance to nearest neighbour</p>
     
     </div>
 
@@ -197,8 +197,13 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Fast and memory safe Rcpp implementation for calculating minimal euclidean distances between
-classes in a raster or matrix.</p>
+    <p>Fast and memory safe Rcpp implementation for calculating the minimum Euclidean
+distances to the nearest patch of the same class in a raster or matrix. All patches need an unique
+ID (see <code><a href='get_patches.html'>get_patches</a></code>).</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Based on RCpp code of Florian Privé <a href='mailto:florian.prive.21@gmail.com'>florian.prive.21@gmail.com</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -206,32 +211,32 @@ classes in a raster or matrix.</p>
 <span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
 
 <span class='co'># calculate the distance between patches</span>
-<span class='fu'>get_nearestneighbour</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 2</span><span>
+<span class='fu'>get_nearestneighbour</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 2</span><span>
 #&gt;      id distance
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     7   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2.83
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     4   
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4     2.83
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     5     4.24
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6     4.12
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>     7     2   
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span>     8     2   
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span>     9     4.12</div><div class='input'>
-<span class='co'># do the same with a 3 column matrix (x,y,id)</span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     7   
+#&gt; </span><span style='color: #555555;'>2</span><span>     2     2.83
+#&gt; </span><span style='color: #555555;'>3</span><span>     3     4   
+#&gt; </span><span style='color: #555555;'>4</span><span>     4     2.83
+#&gt; </span><span style='color: #555555;'>5</span><span>     5     4.24
+#&gt; </span><span style='color: #555555;'>6</span><span>     6     4.12
+#&gt; </span><span style='color: #555555;'>7</span><span>     7     2   
+#&gt; </span><span style='color: #555555;'>8</span><span>     8     2   
+#&gt; </span><span style='color: #555555;'>9</span><span>     9     4.12</div><div class='input'>
+<span class='co'># do the same with a 3 column matrix (x, y, id)</span>
 <span class='no'>class_1_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/rasterToPoints'>rasterToPoints</a></span>(<span class='no'>class_1</span>)
-<span class='fu'>get_nearestneighbour</span>(<span class='no'>class_1_matrix</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 2</span><span>
+<span class='fu'>get_nearestneighbour</span>(<span class='no'>class_1_matrix</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 2</span><span>
 #&gt;      id distance
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     7   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     2     2.83
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     3     4   
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4     2.83
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     5     4.24
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6     4.12
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>     7     2   
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span>     8     2   
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span>     9     4.12</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1     7   
+#&gt; </span><span style='color: #555555;'>2</span><span>     2     2.83
+#&gt; </span><span style='color: #555555;'>3</span><span>     3     4   
+#&gt; </span><span style='color: #555555;'>4</span><span>     4     2.83
+#&gt; </span><span style='color: #555555;'>5</span><span>     5     4.24
+#&gt; </span><span style='color: #555555;'>6</span><span>     6     4.12
+#&gt; </span><span style='color: #555555;'>7</span><span>     7     2   
+#&gt; </span><span style='color: #555555;'>8</span><span>     8     2   
+#&gt; </span><span style='color: #555555;'>9</span><span>     9     4.12</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -240,6 +245,8 @@ classes in a raster or matrix.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -249,7 +256,7 @@ classes in a raster or matrix.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad, Sebastian Hanss.</p>
 </div>
 
 <div class="pkgdown">

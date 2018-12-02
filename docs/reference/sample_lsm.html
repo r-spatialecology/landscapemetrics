@@ -240,7 +240,7 @@ be returned</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function samples the selected metrics in a buffer area (sample plot)
-around sample points. The size of the acutal sampled landscape can be different
+around sample points. The size of the actual sampled landscape can be different
 to the provided size due to two reasons. Firstly, because clipping raster
 cells using a circle or a sample plot not directly at a cell center lead
 to inaccuracies. Secondly, sample plots can exceed the landscape boundary.
@@ -252,19 +252,19 @@ output is sligthly different to all other <code>lsm</code>-function of <code>lan
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>points</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>15</span>, <span class='fl'>5</span>, <span class='fl'>25</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>sample_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>points</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_l_np"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 8</span><span>
+<span class='fu'>sample_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>points</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_l_np"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 8</span><span>
 #&gt;   layer plot_id level     class    id metric value percentage_inside
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1       1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         8              80. 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1       2 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         7              74.7
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1       3 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         7              64. </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 1           1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         8              80. 
+#&gt; </span><span style='color: #555555;'>2</span><span> 1           2 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         7              74.7
+#&gt; </span><span style='color: #555555;'>3</span><span> 1           3 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np         7              64. </div><div class='input'>
 <span class='no'>points_sp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sp</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sp/topics/SpatialPoints'>SpatialPoints</a></span>(<span class='no'>points</span>)
-<span class='fu'>sample_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>points_sp</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_l_np"</span>, <span class='kw'>return_plots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 4</span><span>
+<span class='fu'>sample_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>points</span> <span class='kw'>=</span> <span class='no'>points_sp</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_l_np"</span>, <span class='kw'>return_plots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 4</span><span>
 #&gt;   layer plot_id metrics          raster_sample_plots
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>             
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1       1 </span><span style='color: #949494;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #949494;'>&lt;S4: RasterLayer&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1       2 </span><span style='color: #949494;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #949494;'>&lt;S4: RasterLayer&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1       3 </span><span style='color: #949494;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #949494;'>&lt;S4: RasterLayer&gt;</span><span>  </div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>             
+#&gt; </span><span style='color: #555555;'>1</span><span>     1       1 </span><span style='color: #555555;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #555555;'>&lt;S4: RasterLayer&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>2</span><span>     1       2 </span><span style='color: #555555;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #555555;'>&lt;S4: RasterLayer&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span>     1       3 </span><span style='color: #555555;'>&lt;tibble [1 × 8]&gt;</span><span> </span><span style='color: #555555;'>&lt;S4: RasterLayer&gt;</span><span>  </div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -284,7 +284,7 @@ output is sligthly different to all other <code>lsm</code>-function of <code>lan
 
       <footer>
       <div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad, Sebastian Hanss.</p>
 </div>
 
 <div class="pkgdown">

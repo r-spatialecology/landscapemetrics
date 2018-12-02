@@ -157,9 +157,9 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Create plot of the landscape</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">landscape_plot &lt;-<span class="st"> </span>landscapetools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/landscapetools/topics/util_plot">util_plot</a></span>(landscape) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme">theme_void</a></span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/guides">guides</a></span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_fixed">coord_equal</a></span>()</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span>(<span class="dt">fill =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span>()</a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Plot landscape + landscape with labeled patches</span></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13">landscape_plot  <span class="op">+</span><span class="st"> </span></a>
@@ -286,10 +286,10 @@
 <a class="sourceLine" id="cb7-33" data-line-number="33">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb7-34" data-line-number="34">)</a>
 <a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression      min     mean   median   max `itr/sec` mem_alloc  n_gc</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:tm&gt; &lt;bch:tm&gt; &lt;bch:tm&gt; &lt;bch&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac… 347.97µs 373.24µs 351.84µs 591µs     2679.    6.05KB     0</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste…   5.06ms   5.93ms   5.75ms  11ms      169.    1.62MB     4</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression      min    mean   median     max `itr/sec` mem_alloc  n_gc</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:tm&gt; &lt;bch:t&gt; &lt;bch:tm&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac… 352.98µs 520.2µs 453.43µs  1.94ms     1922.    6.05KB     0</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste…   5.19ms   7.5ms   6.88ms 19.18ms      133.    1.62MB     4</span></a>
 <a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # ... with 2 more variables: n_itr &lt;int&gt;, total_time &lt;bch:tm&gt;</span></a>
 <a class="sourceLine" id="cb7-41" data-line-number="41"></a>
 <a class="sourceLine" id="cb7-42" data-line-number="42"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
@@ -351,10 +351,10 @@
 <a class="sourceLine" id="cb8-46" data-line-number="46">    <span class="dt">iterations =</span> <span class="dv">100</span></a>
 <a class="sourceLine" id="cb8-47" data-line-number="47">)</a>
 <a class="sourceLine" id="cb8-48" data-line-number="48"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb8-49" data-line-number="49"><span class="co">#&gt;   expression    min    mean median    max `itr/sec` mem_alloc  n_gc n_itr</span></a>
-<a class="sourceLine" id="cb8-50" data-line-number="50"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:&gt; &lt;bch:t&gt; &lt;bch:&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt; 1 get_neare… 2.04ms  4.25ms  3.6ms 16.3ms     236.   192.75KB     1    99</span></a>
-<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt; 2 nearest_r… 7.33ms 11.47ms   10ms 53.9ms      87.2    1.15MB     6    94</span></a>
+<a class="sourceLine" id="cb8-49" data-line-number="49"><span class="co">#&gt;   expression    min    mean  median     max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb8-50" data-line-number="50"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt; 1 get_neare… 1.69ms  2.36ms  2.06ms  5.73ms     423.   192.75KB     1    99</span></a>
+<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt; 2 nearest_r… 7.25ms 10.85ms 10.11ms 30.19ms      92.2    1.15MB     6    94</span></a>
 <a class="sourceLine" id="cb8-53" data-line-number="53"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;bch:tm&gt;</span></a></code></pre></div>
 </div>
 <div id="get-circumscribing-circle" class="section level3">

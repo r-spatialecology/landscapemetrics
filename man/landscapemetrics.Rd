@@ -30,11 +30,11 @@ Authors:
 \itemize{
   \item Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
   \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
+  \item Sebastian Hanss (0000-0002-3990-4897)
 }
 
 Other contributors:
 \itemize{
-  \item Sebastian Hanss (C++ consultancy) [contributor]
   \item Laura J. Graham (Input on package structure) [contributor]
   \item Jeffrey Hollister (Input on package structure) [contributor]
   \item Kimberly A. With (Input on package structure) [contributor]

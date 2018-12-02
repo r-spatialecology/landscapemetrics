@@ -179,32 +179,32 @@
     </div>
 
     <pre class="usage"><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='no'>class</span>, <span class='no'>directions</span>, <span class='no'>consider_boundary</span>, <span class='no'>edge_depth</span>,
-  <span class='no'>labels</span>, <span class='no'>nrow</span>, <span class='no'>ncol</span>)
+  <span class='no'>labels</span>, <span class='no'>label_lsm</span>, <span class='no'>nrow</span>, <span class='no'>ncol</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
 <span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for RasterStack</span>
 <span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for RasterBrick</span>
 <span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for stars</span>
 <span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for list</span>
 <span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='no'>what</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='st'>"global"</span>,
   <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>consider_boundary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge_depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -240,6 +240,10 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
       <td><p>Logical flag indicating whether to print or not to print patch labels.</p></td>
     </tr>
     <tr>
+      <th>label_lsm</th>
+      <td><p>If true, the value of the landscape metric is used as label</p></td>
+    </tr>
+    <tr>
       <th>nrow, ncol</th>
       <td><p>Number of rows and columns for the facet.</p></td>
     </tr>
@@ -255,7 +259,7 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_area"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='show_lsm-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_shape"</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='show_lsm-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_circle"</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='show_lsm-3.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_area"</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='img'><img src='show_lsm-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_shape"</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>label_lsm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='show_lsm-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_lsm</span>(<span class='no'>landscape</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"lsm_p_circle"</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='show_lsm-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -275,7 +279,7 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad, Sebastian Hanss.</p>
 </div>
 
 <div class="pkgdown">
