@@ -6,77 +6,6 @@
 
 using namespace Rcpp;
 
-// rcpp_xy_from_matrix2
-IntegerMatrix rcpp_xy_from_matrix2(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell);
-RcppExport SEXP _landscapemetrics_rcpp_xy_from_matrix2(SEXP xSEXP, SEXP cellSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::IntegerVector> >::type cell(cellSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_xy_from_matrix2(x, cell));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_cell_from_xy2
-IntegerVector rcpp_cell_from_xy2(arma::imat x, IntegerMatrix y);
-RcppExport SEXP _landscapemetrics_rcpp_cell_from_xy2(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< IntegerMatrix >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_cell_from_xy2(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_create_neighborhood2
-IntegerMatrix rcpp_create_neighborhood2(arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_create_neighborhood2(SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_create_neighborhood2(directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_adjacency
-IntegerMatrix rcpp_get_adjacency(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_adjacency(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_adjacency(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_pairs
-IntegerMatrix rcpp_get_pairs(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_pairs(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_pairs(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_get_coocurrence_matrix_old
-IntegerMatrix rcpp_get_coocurrence_matrix_old(arma::imat x, arma::imat directions);
-RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix_old(SEXP xSEXP, SEXP directionsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix_old(x, directions));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_get_entropy
 double rcpp_get_entropy(NumericVector x, std::string base);
 RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
@@ -124,7 +53,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
 // rcpp_get_boundaries
 IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx, const bool rooks_case);
 RcppExport SEXP _landscapemetrics_rcpp_get_boundaries(SEXP xxSEXP, SEXP rooks_caseSEXP) {
@@ -137,10 +65,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// max_dist_fun
-double max_dist_fun(arma::mat& points);
-RcppExport SEXP _landscapemetrics_max_dist_fun(SEXP pointsSEXP) {
-
+// rcpp_get_max_dist
+double rcpp_get_max_dist(arma::mat& points);
+RcppExport SEXP _landscapemetrics_rcpp_get_max_dist(SEXP pointsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -262,19 +189,12 @@ RcppExport SEXP ccl_4(SEXP);
 RcppExport SEXP ccl_8(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_landscapemetrics_rcpp_xy_from_matrix2", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix2, 2},
-    {"_landscapemetrics_rcpp_cell_from_xy2", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy2, 2},
-    {"_landscapemetrics_rcpp_create_neighborhood2", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood2, 1},
-    {"_landscapemetrics_rcpp_get_adjacency", (DL_FUNC) &_landscapemetrics_rcpp_get_adjacency, 2},
-    {"_landscapemetrics_rcpp_get_pairs", (DL_FUNC) &_landscapemetrics_rcpp_get_pairs, 2},
-    {"_landscapemetrics_rcpp_get_coocurrence_matrix_old", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_old, 2},
-
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
     {"_landscapemetrics_rcpp_get_boundaries", (DL_FUNC) &_landscapemetrics_rcpp_get_boundaries, 2},
-    {"_landscapemetrics_max_dist_fun", (DL_FUNC) &_landscapemetrics_max_dist_fun, 1},
+    {"_landscapemetrics_rcpp_get_max_dist", (DL_FUNC) &_landscapemetrics_rcpp_get_max_dist, 1},
     {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 3},
     {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},

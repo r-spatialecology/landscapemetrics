@@ -10,27 +10,27 @@
 \title{Show landscape metrics}
 \usage{
 show_lsm(landscape, what, class, directions, consider_boundary, edge_depth,
-  labels, nrow, ncol)
+  labels, label_lsm, nrow, ncol)
 
 \method{show_lsm}{RasterLayer}(landscape, what, class = "global",
   directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{RasterStack}(landscape, what, class = "global",
   directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{RasterBrick}(landscape, what, class = "global",
   directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{stars}(landscape, what, class = "global",
   directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
 
 \method{show_lsm}{list}(landscape, what, class = "global",
   directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{*Raster object}
@@ -49,6 +49,8 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{labels}{Logical flag indicating whether to print or not to print patch labels.}
 
+\item{label_lsm}{If true, the value of the landscape metric is used as label}
+
 \item{nrow, ncol}{Number of rows and columns for the facet.}
 }
 \value{
@@ -62,7 +64,7 @@ The function plots all patches with a fill corresponding to the value of the cho
 }
 \examples{
 show_lsm(landscape, what = "lsm_p_area", directions = 4)
-show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), labels = FALSE)
+show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), label_lsm = TRUE)
 show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 
 }
