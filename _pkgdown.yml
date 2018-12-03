@@ -28,6 +28,7 @@ reference:
     - check_landscape
     - list_lsm
     - get_adjacencies
+    - get_boundaries
     - get_circumscribingcircle
     - get_nearestneighbour
     - get_patches

@@ -9,7 +9,7 @@
 * Bugfixes
     * Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
     * Bugfix in all `show_()` * functions that na.value color is identical
-* Improvments
+* Improvements
     * Most `get_`-functions can now take matrix as input and also return a matrix
     * `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
     * Updated structure of `lsm_abbreviations_names`

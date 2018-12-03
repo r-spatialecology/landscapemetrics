@@ -174,38 +174,50 @@
 <a href="#landscapemetrics-0-3" class="anchor"></a>landscapemetrics 0.3<small> Unreleased </small>
 </h1>
 <ul>
-<li>
-<code>check_landscape</code> function to make sure your landscapes are feasible for landscapemetrics</li>
+<li>New functions
+<ul>
+<li>New function <code>check_landscape</code> to make sure your landscapes are feasible for landscapemetrics</li>
+<li>New function <code><a href="../reference/raster_to_points.html">raster_to_points()</a></code> to get also NA cells (not possible with <code><a href="https://www.rdocumentation.org/packages/raster/topics/rasterToPoints">raster::rasterToPoints</a></code>)</li>
+<li>New function <code><a href="../reference/get_boundaries.html">get_boundaries()</a></code> to get only boundary cells</li>
+<li>New function <code><a href="../reference/get_unique_values.html">get_unique_values()</a></code> that shows all uniques labels in a class</li>
+<li>New function <code><a href="../reference/list_lsm.html">list_lsm()</a></code> function to print available metrics</li>
+<li>New function <code><a href="../reference/show_lsm.html">show_lsm()</a></code> function to vizualize patch level metrics</li>
+</ul>
+</li>
+<li>Bugfixes
+<ul>
 <li>Bugfix in <code>lsm_l_rpr</code>: Typo in internal function, used landscapemetrics::landscape instead of user input</li>
-<li>Renamed “new metric” group to “complexity metric” group</li>
+<li>Bugfix in all <code>show_()</code> * functions that na.value color is identical</li>
+</ul>
+</li>
+<li>Improvements
+<ul>
+<li>Most <code>get_</code>-functions can now take matrix as input and also return a matrix</li>
+<li>
+<code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code> now uses <code><a href="../reference/list_lsm.html">list_lsm()</a></code>. This allows more options to specify metrics to calculate</li>
 <li>Updated structure of <code>lsm_abbreviations_names</code>
 </li>
 <li>
-<code><a href="../reference/list_lsm.html">list_lsm()</a></code> function to print available metrics</li>
-<li>
-<code><a href="../reference/show_lsm.html">show_lsm()</a></code> function to vizualize patch level metrics</li>
-<li>Bugfix in all show_() - functions that na.value color is identical</li>
-<li>
-<code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code> now uses <code><a href="../reference/list_lsm.html">list_lsm()</a></code>. This allows more options to specify metrics to calculate</li>
-<li>
-<code>what</code> arguments of all <code>show_()</code>-functions now are named <code>class</code> for consistency (so all <code>what</code> arguments deal with metrics)</li>
-<li>
 <code>show_()</code>-functions don’t throw warnings</li>
 <li>“global” facet for all <code>show_()</code> functions</li>
-<li>
-<code>what</code> arguments of <code><a href="../reference/get_patches.html">get_patches()</a></code> is now named <code>class</code> for consistency (so all <code>what</code> arguments deal with metrics)</li>
 <li>
 <code><a href="../reference/extract_lsm.html">extract_lsm()</a></code> now uses <code><a href="../reference/list_lsm.html">list_lsm()</a></code>. This allows more options to specify metrics to calculate</li>
 <li>
 <code>rcpp_get_coocurrence_matrix()</code> can now handle large rasters and is faster</li>
 <li>
-<code><a href="../reference/get_patches.html">get_patches()</a></code> can now also return a matrix</li>
-<li>All functions using <code><a href="../reference/get_patches.html">get_patches()</a></code> are more memory efficient</li>
-<li>
-<code><a href="../reference/pad_raster.html">pad_raster()</a></code> now takes and returns a matrix</li>
-<li>New function <code><a href="../reference/get_unique_values.html">get_unique_values()</a></code> that shows all uniques labels in a class</li>
-<li>
 <code><a href="../reference/lsm_p_circle.html">lsm_p_circle()</a></code> and <code><a href="../reference/get_circumscribingcircle.html">get_circumscribingcircle()</a></code> now consideres different x- &amp; y-resolutions</li>
+<li>Generally, a better use of Rcpp to decrease computational time and memory demand</li>
+</ul>
+</li>
+<li>Renaming
+<ul>
+<li>Renamed “new metric” group to “complexity metric” group</li>
+<li>
+<code>what</code> arguments of all <code>show_()</code>-functions now are named <code>class</code> for consistency (so all <code>what</code> arguments deal with metrics)</li>
+<li>
+<code>what</code> arguments of <code><a href="../reference/get_patches.html">get_patches()</a></code> is now named <code>class</code> for consistency (so all <code>what</code> arguments deal with metrics)</li>
+</ul>
+</li>
 </ul>
 </div>
     <div id="landscapemetrics-0-2" class="section level1">

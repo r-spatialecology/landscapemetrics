@@ -134,7 +134,7 @@
     <div class="page-header toc-ignore">
       <h1>Differences FRAGSTATS|landscapemetrics|SDMTools</h1>
             
-            <h4 class="date">2018-12-02</h4>
+            <h4 class="date">2018-12-03</h4>
       
       
       <div class="hidden name"><code>comparing_tools.Rmd</code></div>
@@ -889,28 +889,11 @@ Show/Hide Results
 <a class="sourceLine" id="cb12-11" data-line-number="11">sdmtools_result &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(sdmtools_result, <span class="dt">.id =</span> <span class="st">"Class"</span>)</a></code></pre></div>
 <p><code>landscapemetrics</code> offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally. To get all metrics on patch level with <code>landscapemetrics</code> you could for example do:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">patch_metrics &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span>(landscape, <span class="dt">what =</span> <span class="st">"patch"</span>)</a></code></pre></div>
-<pre><code>## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input
-
-## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input
-
-## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input
-
-## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input
-
-## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input
-
-## Warning in get_boundaries(landscape_labeled, rooks_case = TRUE):
-## return_raster = TRUE not able for matrix input</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6">
 Show/Hide Results
 </button>
 <div id="6" class="collapse">
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw">bind_rows</span>(sdmtools_result))</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Class</th>

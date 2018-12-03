@@ -178,7 +178,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_boundaries</span>(<span class='no'>landscape</span>, <span class='kw'>rooks_case</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>as_NA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>get_boundaries</span>(<span class='no'>landscape</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>as_NA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>return_raster</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -189,9 +189,8 @@
       <td><p>RasterLayer or matrix.</p></td>
     </tr>
     <tr>
-      <th>rooks_case</th>
-      <td><p>Logical if rook's case (4 neighbours) or queen's
-case (8 neighbours) should be used as neighbourhood rule</p></td>
+      <th>directions</th>
+      <td><p>Rook's case (4 neighbours) or queen's case (8 neighbours) should be used as neighbourhood rule</p></td>
     </tr>
     <tr>
       <th>as_NA</th>
