@@ -333,17 +333,14 @@ calculate_lsm_internal <- function(landscape,
 
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
-
     # how many metrics need to be calculated?
     number_metrics <- length(metrics_calc)
 
     # get coordinates of cells
     points <- raster::rasterToPoints(landscape)
 
-    # # properties of original raster
-    # extent <- raster::extent(landscape)
+    # resolution of original raster
     resolution <- raster::res(landscape)
-    # crs <- raster::crs(landscape)
 
     # convert to matrix
     landscape <- raster::as.matrix(landscape)

@@ -234,13 +234,15 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             landscape_labeled <- t(landscape_labeled)
 
             # get coordinates of current class
-            points <- data.frame(points[which(!is.na(patch_core)), ])
+            points <- data.frame(x = points[which(!is.na(patch_core)), 1],
+                                 y = points[which(!is.na(patch_core)), 2],
+                                 z = points[which(!is.na(patch_core)), 3])
 
             points$core_id <- patch_core[!is.na(patch_core)]
 
             points$patch_id <- landscape_labeled[!is.na(patch_core)]
 
-            n_core_area <- table(unique(points[, c(4, 5)])[, 2])
+            n_core_area <- table(unique(points[, c(4, 5)])[, 2]) # sth breaking here
 
             # set up results samel length as number of patches (in case patch has no core)
             result <- c(rep(0, length(patches_id)))
