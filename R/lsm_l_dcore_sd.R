@@ -140,13 +140,13 @@ lsm_l_dcore_sd.list <- function(landscape,
 }
 
 lsm_l_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                                extent = NULL, resolution = NULL, crs = NULL){
+                                points = NULL){
 
     dcore_sd <- dplyr::summarise(lsm_p_ncore_calc(landscape,
                                                   directions = directions,
                                                   consider_boundary = consider_boundary,
                                                   edge_depth = edge_depth,
-                                                  extent = extent, resolution = resolution, crs = crs),
+                                                  points = points),
                                  value = stats::sd(value))
 
     tibble::tibble(

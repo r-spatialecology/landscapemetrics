@@ -137,13 +137,13 @@ lsm_l_ndca.list <- function(landscape,
 }
 
 lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            extent = NULL, resolution = NULL, crs = NULL){
+                            points = NULL){
 
     ndca <- dplyr::summarise(lsm_p_ncore_calc(landscape,
                                               directions = directions,
                                               consider_boundary = consider_boundary,
                                               edge_depth = edge_depth,
-                                              extent = extent, resolution = resolution, crs = crs),
+                                              points = points),
                              value = sum(value))
 
     tibble::tibble(

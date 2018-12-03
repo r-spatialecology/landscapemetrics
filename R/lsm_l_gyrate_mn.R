@@ -114,11 +114,11 @@ lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
 }
 
 lsm_l_gyrate_mn_calc <- function(landscape, directions,
-                                 extent = NULL, resolution = NULL, crs = NULL) {
+                                 points = NULL) {
 
     gyrate_mn <- dplyr::summarize(lsm_p_gyrate_calc(landscape,
                                                     directions = directions,
-                                                    extent = extent, resolution = resolution, crs = crs),
+                                                    points = points),
                                   value = mean(value))
 
     tibble::tibble(

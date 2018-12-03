@@ -114,11 +114,11 @@ lsm_c_circle_sd.list <- function(landscape, directions = 8) {
 }
 
 lsm_c_circle_sd_calc <- function(landscape, directions,
-                                 extent = NULL, resolution = NULL, crs = NULL) {
+                                 resolution = NULL, points = NULL) {
 
     circle <- lsm_p_circle_calc(landscape,
                                 directions = directions,
-                                extent = extent, resolution = resolution, crs = crs)
+                                resolution = resolution, points = points)
 
     circle_sd <-  dplyr::summarize(dplyr::group_by(circle, class),
                                    value = stats::sd(value))

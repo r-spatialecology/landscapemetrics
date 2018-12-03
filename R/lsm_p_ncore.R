@@ -146,7 +146,7 @@ lsm_p_ncore.list <- function(landscape,
 }
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                             resolution = NULL, points = NULL){
+                             points = NULL){
 
     # conver to matrix
     if(class(landscape) != "matrix") {

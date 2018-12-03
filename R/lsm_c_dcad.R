@@ -122,7 +122,7 @@ lsm_c_dcad.list <- function(landscape, directions = 8, consider_boundary = FALSE
 }
 
 lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            extent = NULL, resolution = NULL, crs = NULL){
+                            resolution = NULL, points = NULL){
 
     # get patch area
     area <- lsm_p_area_calc(landscape,
@@ -137,7 +137,7 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             extent = extent, resolution = resolution, crs = crs)
+                             points = points)
 
     # summarise for classes
     ndca <- dplyr::summarise(dplyr::group_by(ndca, class), value = sum(value))

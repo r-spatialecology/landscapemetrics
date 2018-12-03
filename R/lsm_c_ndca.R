@@ -123,14 +123,14 @@ lsm_c_ndca.list <- function(landscape, directions = 8, consider_boundary = FALSE
 }
 
 lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            extent = NULL, resolution = NULL, crs = NULL){
+                            points = NULL){
 
     # get number of core areas for each patch
     ndca <- lsm_p_ncore_calc(landscape,
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             extent = extent, resolution = resolution, crs = crs)
+                             points = points)
 
     # summarise for each class
     ndca <- dplyr::summarise(dplyr::group_by(ndca, class), value = sum(value))

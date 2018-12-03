@@ -136,7 +136,7 @@ lsm_l_dcad.list <- function(landscape,
                   layer = as.integer(layer))
 }
 lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            extent = NULL, resolution = NULL, crs = NULL){
+                            resolution = NULL, points = NULL){
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
@@ -151,7 +151,7 @@ lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    extent = extent, resolution = resolution, crs = crs)
+                                    points = points)
 
     # summarise for total landscape
     dcad <- dplyr::mutate(dplyr::summarise(ncore_patch, value = sum(value)),

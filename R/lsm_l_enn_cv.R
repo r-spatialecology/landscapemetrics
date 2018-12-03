@@ -121,11 +121,11 @@ lsm_l_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 lsm_l_enn_cv_calc <- function(landscape, directions, verbose,
-                              extent = NULL, resolution = NULL, crs = NULL) {
+                              points = NULL) {
 
     enn_cv <- dplyr::summarize(lsm_p_enn_calc(landscape,
                                               directions = directions, verbose = verbose,
-                                              extent = extent, resolution = resolution, crs = crs),
+                                              points = points),
                                value = raster::cv(value))
 
     tibble::tibble(

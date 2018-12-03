@@ -162,7 +162,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
         # label all edge cells
         class_edge <- get_boundaries(landscape_labeled,
-                                     directions = 4)
+                                     directions = 4,
+                                     return_raster = FALSE)
 
         # count number of edge cells in each patch (edge == 1)
         cells_edge_patch <- table(landscape_labeled[class_edge == 1])
@@ -178,7 +179,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
                 # set current_edge + 1 to new edge
                 class_edge <- get_boundaries(class_edge,
-                                             directions = 4)
+                                             directions = 4,
+                                             return_raster = FALSE)
 
                 # count number of edge cells in each patch (edge == 1) and add to already counted edge
                 cells_edge_patch <- cells_edge_patch + tabulate(landscape_labeled[class_edge == 1],

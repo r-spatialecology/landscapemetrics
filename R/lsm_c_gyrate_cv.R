@@ -115,11 +115,11 @@ lsm_c_gyrate_cv.list <- function(landscape, directions = 8) {
 }
 
 lsm_c_gyrate_cv_calc <- function(landscape, directions,
-                                 extent = NULL, resolution = NULL, crs = NULL) {
+                                 points = NULL) {
 
     gyrate <- lsm_p_gyrate_calc(landscape,
                                 directions = directions,
-                                extent = extent, resolution = resolution, crs = crs)
+                                points = points)
 
     gyrate_cv <- dplyr::summarize(dplyr::group_by(gyrate, class),
                                   value = raster::cv(value))

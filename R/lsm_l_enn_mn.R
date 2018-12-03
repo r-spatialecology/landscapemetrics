@@ -121,11 +121,11 @@ lsm_l_enn_mn.list <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 lsm_l_enn_mn_calc <- function(landscape, directions, verbose,
-                              extent = NULL, resolution = NULL, crs = NULL) {
+                              points = NULL) {
 
     enn_mn <- dplyr::summarize(lsm_p_enn_calc(landscape,
                                               directions = directions, verbose = verbose,
-                                              extent = extent, resolution = resolution, crs = crs),
+                                              points = points),
                                value = mean(value))
 
     tibble::tibble(

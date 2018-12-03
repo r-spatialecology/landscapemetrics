@@ -342,7 +342,7 @@ calculate_lsm_internal <- function(landscape,
 
     # # properties of original raster
     # extent <- raster::extent(landscape)
-    # resolution <- raster::res(landscape)
+    resolution <- raster::res(landscape)
     # crs <- raster::crs(landscape)
 
     # convert to matrix

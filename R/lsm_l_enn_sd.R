@@ -121,11 +121,11 @@ lsm_l_enn_sd.list <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 lsm_l_enn_sd_calc <- function(landscape, directions, verbose,
-                              extent = NULL, resolution = NULL, crs = NULL) {
+                              points = NULL) {
 
     enn_sd <- dplyr::summarize(lsm_p_enn_calc(landscape,
                                               directions = directions, verbose = verbose,
-                                              extent = extent, resolution = resolution, crs = crs),
+                                              points = points),
                                value = stats::sd(value))
 
     tibble::tibble(
