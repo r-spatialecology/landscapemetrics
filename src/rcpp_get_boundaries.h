@@ -6,7 +6,7 @@ using namespace Rcpp;
 //// [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx,
-                             const bool rooks_case = true);
+                                  int directions = 4);
 
 IntegerMatrix add_padding(const IntegerMatrix &xx);
 IntegerMatrix rm_padding(const IntegerMatrix &xx);

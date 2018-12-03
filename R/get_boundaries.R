@@ -3,8 +3,7 @@
 #' @description Get boundary cells of patches
 #'
 #' @param landscape RasterLayer or matrix.
-#' @param rooks_case Logical if rook's case (4 neighbours) or queen's
-#' case (8 neighbours) should be used as neighbourhood rule
+#' @param directions Rook's case (4 neighbours) or queen's case (8 neighbours) should be used as neighbourhood rule
 #' @param as_NA If true, non-boundary cells area labeld NA
 #' @param return_raster If false, matrix is returned
 #'
@@ -29,7 +28,8 @@
 #' @rdname get_boundaries
 #'
 #' @export
-get_boundaries <- function(landscape, rooks_case = TRUE,
+get_boundaries <- function(landscape,
+                           directions = 4,
                            as_NA = FALSE,
                            return_raster = TRUE){
 
@@ -38,12 +38,17 @@ get_boundaries <- function(landscape, rooks_case = TRUE,
         stop("Please provide RasterLayer or matrix as input.", call. = FALSE)
     }
 
+    # check if either raster or matrix is provided
+    if(directions != 4 && directions != 8) {
+        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+    }
+
     # input is raster
     if(class(landscape) == "RasterLayer") {
 
         # get boundaries
         result <- rcpp_get_boundaries(raster::as.matrix(landscape),
-                                      rooks_case = rooks_case)
+                                      directions = directions)
 
         if(as_NA) {
             result[which(result == 0)] <- NA
@@ -63,7 +68,7 @@ get_boundaries <- function(landscape, rooks_case = TRUE,
 
         # get boundaries
         result <- rcpp_get_boundaries(landscape,
-                                      rooks_case = rooks_case)
+                                      directions = directions)
 
         if(as_NA) {
             result[which(result == 0)] <- NA

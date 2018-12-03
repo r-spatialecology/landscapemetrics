@@ -54,14 +54,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_boundaries
-IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx, const bool rooks_case);
-RcppExport SEXP _landscapemetrics_rcpp_get_boundaries(SEXP xxSEXP, SEXP rooks_caseSEXP) {
+IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx, int directions);
+RcppExport SEXP _landscapemetrics_rcpp_get_boundaries(SEXP xxSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix >::type xx(xxSEXP);
-    Rcpp::traits::input_parameter< const bool >::type rooks_case(rooks_caseSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_boundaries(xx, rooks_case));
+    Rcpp::traits::input_parameter< int >::type directions(directionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_boundaries(xx, directions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -204,8 +204,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_offdiagonal_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_offdiagonal_vector, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
     {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 2},
-    {"ccl_4",                                              (DL_FUNC) &ccl_4,                                              1},
-    {"ccl_8",                                              (DL_FUNC) &ccl_8,                                              1},
+    {"ccl_4", (DL_FUNC) &ccl_4, 1},
+    {"ccl_8", (DL_FUNC) &ccl_8, 1},
     {NULL, NULL, 0}
 };
 

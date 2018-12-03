@@ -1,11 +1,11 @@
 #include "rcpp_get_boundaries.h"
 
 IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx,
-                                  const bool rooks_case) {
+                                  int directions) {
 
     IntegerMatrix x = add_padding(xx);
 
-    if (rooks_case)
+    if (directions == 4)
         get_boundaries_4(x);
     else
         get_boundaries_8(x);
