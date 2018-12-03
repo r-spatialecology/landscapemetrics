@@ -22,12 +22,15 @@
 #' @export
 raster_to_points <- function(landscape, return_NA = TRUE){
 
+    # preallocate matrix
+    xyz <- matrix(data = NA,
+                  nrow = raster::ncell(landscape), ncol = 3)
+
     # get coordinates
-    xyz <- raster::xyFromCell(landscape, cell = 1:raster::ncell(landscape))
+    xyz[, c(1,2)] <- raster::xyFromCell(landscape, cell = 1:raster::ncell(landscape))
 
     # add values including NA
-    xyz <- cbind(xyz, raster::getValues(landscape))
-
+    xyz[, 3] <- raster::getValues(landscape)
 
     if(!return_NA) {
         xyz <- xyz[!is.na(xyz[, 3]), ]
