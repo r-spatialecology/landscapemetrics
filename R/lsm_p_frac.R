@@ -114,16 +114,30 @@ lsm_p_frac.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_frac_calc <- function(landscape, directions){
+lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
 
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # get patch perimeter
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution)
 
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # calculate frac
     frac_patch <- dplyr::mutate(area_patch,
                                 value = 2 * log (0.25 * perimeter_patch$value) /
                                     log(value * 10000))
 
+    # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
 
     tibble::tibble(

@@ -205,13 +205,18 @@ sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
 
     results_landscapes <- lapply(X = seq_along(landscape_plots),
                                  FUN = function(current_plot) {
-                                     area <- dplyr::pull(lsm_l_ta(landscape_plots[[current_plot]]), value)
 
-                                     result_plot <- dplyr::mutate(
-                                         calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...),
-                                         plot_id = current_plot, percentage_inside = (area / maximum_area) * 100)
+                                     area <- lsm_l_ta_calc(landscape_plots[[current_plot]],
+                                                           directions = 8)
+
+                                    result <- calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...)
+
+                                     result_plot <- dplyr::mutate(result,
+                                                                  plot_id = current_plot,
+                                                                  percentage_inside = (area$value / maximum_area) * 100)
 
                                      result_plot <- result_plot[, c(1, 7, 2, 3, 4, 5, 6, 8)]
+
                                      return(result_plot)
                                      }
                                  )

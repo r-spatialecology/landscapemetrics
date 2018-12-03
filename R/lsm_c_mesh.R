@@ -109,19 +109,25 @@ lsm_c_mesh.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_mesh_calc <- function(landscape, directions) {
+lsm_c_mesh_calc <- function(landscape, directions, resolution = NULL) {
 
-    area_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape, directions = directions),
-                                    value = value * 10000)
+    # get patch area
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # summarise to landscape area in sqm
+    total_area <- dplyr::summarise(patch_area, value = sum(value) * 10000)
 
-    mesh <- dplyr::mutate(area_patch, value = (value * 10000) ^ 2)
+    # calculate mesh for each patch
+    mesh <- dplyr::mutate(patch_area, value = (value * 10000) ^ 2)
 
+    # summarise for each class
     mesh <- dplyr::summarise(dplyr::group_by(mesh, class),
                              value = sum(value))
 
-    mesh <- dplyr::mutate(mesh, value = (value / area_landscape$value) * (1 / 10000))
+    # relative to total landscape area
+    mesh <- dplyr::mutate(mesh, value = (value / total_area$value) * (1 / 10000))
 
     tibble::tibble(
         level = "class",

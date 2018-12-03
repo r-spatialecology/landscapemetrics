@@ -105,14 +105,28 @@ lsm_c_pd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_pd_calc <- function(landscape, directions) {
+lsm_c_pd_calc <- function(landscape, directions, resolution = NULL) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    # summarise to total area
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
+
+    # get number of patches
     np_class <- lsm_c_np_calc(landscape, directions = directions)
 
+    # calculate relative patch density
     patch_density <- dplyr::mutate(np_class,
-                                   value = (value / area_landscape$value) * 100)
+                                   value = (value / area_total$value) * 100)
 
     tibble::tibble(
         level = "class",

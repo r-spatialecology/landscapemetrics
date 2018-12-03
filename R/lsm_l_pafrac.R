@@ -117,14 +117,33 @@ lsm_l_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_l_pafrac_calc <- function(landscape, directions, verbose){
+lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    np_landscape <- lsm_l_np_calc(landscape, directions = directions)
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    if(np_landscape$value < 10){
+    # get patch perimeter
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution)
+
+    # get number of patches for each class
+    number_patches <- lsm_c_np_calc(landscape,
+                                    directions = directions)
+
+    # summarise for total landscape
+    number_patches <- dplyr::summarise(number_patches, value = sum(value))
+
+    # PAFRAC NA for less than 10 patches
+    if(number_patches$value < 10){
 
         pafrac <-  NA
 
@@ -134,6 +153,7 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose){
         }
     }
 
+    # calculate pafrac as regression between area and perimeter (beta)
     else{
         regression_model <- stats::lm(log(area_patch$value) ~
                                           log(perimeter_patch$value))

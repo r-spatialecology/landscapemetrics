@@ -124,16 +124,29 @@ lsm_c_ed.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary, directions) {
+lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
-    area_landscape <- lsm_l_ta_calc(landscape,
-                                    directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
+    # get patch area
+    area <- lsm_p_area_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
+
+    # summarise to total area
+    area <- dplyr::summarise(area, value = sum(value))
+
+    # get total edge length
     edge_landscape <- lsm_c_te_calc(landscape,
                                     count_boundary = count_boundary,
-                                    directions = directions)
+                                    directions = directions,
+                                    resolution = resolution)
 
-    ed <- dplyr::mutate(edge_landscape, value = value / area_landscape$value)
+    ed <- dplyr::mutate(edge_landscape, value = value / area$value)
 
     tibble::tibble(
         level = "class",

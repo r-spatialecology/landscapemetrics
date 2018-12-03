@@ -109,10 +109,14 @@ lsm_c_area_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_area_mn_calc <- function(landscape, directions){
+lsm_c_area_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    area <- lsm_p_area_calc(landscape, directions = directions)
+    # get area of patches
+    area <- lsm_p_area_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
+    # calculate mean
     area_mean <- dplyr::summarise(dplyr::group_by(area, class),
                                   value = mean(value))
 

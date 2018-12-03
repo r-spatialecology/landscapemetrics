@@ -1,29 +1,23 @@
 #' get_circumscribingcircle
 #'
-#' @description Calculates the diameter of the smallest circumscribing circle around
-#' patches in a landscape. The patches must have a unique ID column.
+#' @description Diameter of the circumscribing circle around patches
 #'
 #' @param landscape RasterLayer or matrix (with x, y, id columns)
 #' @param resolution_x Resolution of the landscape (only needed if matrix as input is used)
 #' @param resolution_y Resolution of the landscape (only needed if matrix as input is used)
 #'
 #' @details
-#' Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
-#' cells of the same class in a raster or matrix. Uses the edge boundary of cells,
-#' not the cell center. Using the edge boundary and the maximum distance between
-#' the 4 cell corners around each cell center of the patch derives in the diameter of
-#' the smallest circumscribing circle around a patch.
-#'
-#' If one uses this functions with a matrix the resolution of the underlying data must be provided.
-#'
-#' @references
-#' Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
+#' The diameter of the smallest circumscribing circle around a patch in the landscape
+#' is based on the maximum distance between the corners of each cell. This ensures that all
+#' cells of the patch are included in the patch. All patches need an unique
+#' ID (see \code{\link{get_patches}}). If one uses this functions with a matrix the
+#' resolution of the underlying data must be provided.
 #'
 #' @examples
 #' # get patches for class 1 from testdata as raster
 #' class_1 <- get_patches(landscape, class = 1)[[1]]
 #'
-#' # calculate the max distance between cell edges of each class
+#' # calculate the minimum circumscribing circle of each patch in class 1
 #' get_circumscribingcircle(class_1)
 #'
 #' # do the same with a 3 column matrix (x, y, id)
@@ -42,7 +36,7 @@ get_circumscribingcircle.RasterLayer <- function(landscape,
                                                  resolution_x = NULL,
                                                  resolution_y = NULL) {
 
-    points_mat <- raster::rasterToPoints(landscape)
+    points_mat <- raster_to_points(landscape, return_NA = FALSE)
 
     resolution_xy <- raster::res(landscape)
     resolution_x <- resolution_xy[[1]]
@@ -63,7 +57,7 @@ get_circumscribingcircle.matrix <- function(landscape,
                                             resolution_x = NULL,
                                             resolution_y = NULL) {
 
-    if ( ncol(landscape) != 3){
+    if (ncol(landscape) != 3){
         stop("Coordinate matrix must have 3 (x, y, id) columns.", call. = TRUE)
     }
 

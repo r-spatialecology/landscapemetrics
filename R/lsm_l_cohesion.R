@@ -104,25 +104,38 @@ lsm_l_cohesion.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_cohesion_calc <- function(landscape, directions) {
+lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
 
-    resolution_xy <- prod(raster::res(landscape))
+    # convert to raster to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    ncells_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape, directions = directions),
-                                      value = value * 10000 / resolution_xy)
+    # get number of cells
+    ncells_landscape <- length(landscape[!is.na(landscape)])
 
-    ncells_patch <- dplyr::mutate(lsm_p_area_calc(landscape, directions = directions),
-                                  value = value * 10000 / resolution_xy)
+    # get number of cells in each patch: area = n_cells * res / 10000
+    ncells_patch <- dplyr::mutate(lsm_p_area_calc(landscape,
+                                                  directions = directions,
+                                                  resolution = resolution),
+                                  value = value * 10000 / prod(resolution))
 
-    perim_patch <- lsm_p_perim_calc(landscape, directions = directions)
+    # get perim for each patch
+    perim_patch <- lsm_p_perim_calc(landscape,
+                                    directions = directions,
+                                    resolution = resolution)
 
+    # denominator for cohesion (perim / n_cells) for landscape
     denominator <- dplyr::summarise(dplyr::mutate(perim_patch,
                                                   value = value * sqrt(ncells_patch$value)),
                                     value = sum(value))
 
-    cohesion <- dplyr::mutate(dplyr::summarise(perim_patch, value = sum(value)),
+    # calcualte cohesion
+    cohesion <- dplyr::mutate(dplyr::summarise(perim_patch,
+                                               value = sum(value)),
                               value = (1 - (value / denominator$value)) *
-                                  ((1 - (1 / sqrt(ncells_landscape$value))) ^ - 1) * 100)
+                                  ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100)
 
     tibble::tibble(
         level = "landscape",

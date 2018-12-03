@@ -1,23 +1,28 @@
 # landscapemetrics 0.3
-- `check_landscape` function to make sure your landscapes are feasible for landscapemetrics
-- Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
-- Renamed "new metric" group to "complexity metric" group
-- Updated structure of `lsm_abbreviations_names`
-- `list_lsm()` function to print available metrics
-- `show_lsm()` function to vizualize patch level metrics
-- Bugfix in all show_() - functions that na.value color is identical
-- `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
-- `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
-- `show_()`-functions don't throw warnings
-- "global" facet for all `show_()` functions
-- `what` arguments of `get_patches()` is now named `class` for consistency (so all `what` arguments deal with metrics)
-- `extract_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
-- `rcpp_get_coocurrence_matrix()` can now handle large rasters and is faster
-- `get_patches()` can now also return a matrix
-- All functions using `get_patches()` are more memory efficient
-- `pad_raster()` now takes and returns a matrix
-- New function `get_unique_values()` that shows all uniques labels in a class
-- `lsm_p_circle()` and `get_circumscribingcircle()` now consideres different x- & y-resolutions
+* New functions
+    * New function `check_landscape` to make sure your landscapes are feasible for landscapemetrics
+    * New function `raster_to_points()` to get also NA cells (not possible with `raster::rasterToPoints`)
+    * New function `get_boundaries()` to get only boundary cells
+    * New function `get_unique_values()` that shows all uniques labels in a class
+    * New function `list_lsm()` function to print available metrics
+    * New function `show_lsm()` function to vizualize patch level metrics
+* Bugfixes
+    * Bugfix in `lsm_l_rpr`: Typo in internal function, used landscapemetrics::landscape instead of user input
+    * Bugfix in all `show_()` * functions that na.value color is identical
+* Improvments
+    * Most `get_`-functions can now take matrix as input and also return a matrix
+    * `calculate_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
+    * Updated structure of `lsm_abbreviations_names`
+    * `show_()`-functions don't throw warnings
+    * "global" facet for all `show_()` functions
+    * `extract_lsm()` now uses `list_lsm()`. This allows more options to specify metrics to calculate
+    * `rcpp_get_coocurrence_matrix()` can now handle large rasters and is faster
+    * `lsm_p_circle()` and `get_circumscribingcircle()` now consideres different x- & y-resolutions
+    * Generally, a better use of Rcpp to decrease computational time and memory demand
+* Renaming
+    * Renamed "new metric" group to "complexity metric" group
+    * `what` arguments of all `show_()`-functions now are named `class` for consistency (so all `what` arguments deal with metrics)
+    * `what` arguments of `get_patches()` is now named `class` for consistency (so all `what` arguments deal with metrics)
 
 # landscapemetrics 0.2
 * Unified naming scheme for all auxiliary functions:

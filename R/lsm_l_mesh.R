@@ -108,15 +108,20 @@ lsm_l_mesh.list <- function(landscape, directions = 8) {
     dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
                   layer = as.integer(layer))
 }
-lsm_l_mesh_calc <- function(landscape, directions) {
+lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
+    # get patch area
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    area_patch <- lsm_p_area_calc(landscape, directions = directions)
+    # summarise to total area
+    area_total <- dplyr::summarise(area_patch, value = sum(value))
 
+    # calculate mesh first take area ^ 2, than sum for whole landscape dividied by landscape area total
     mesh <- dplyr::mutate(dplyr::summarise(dplyr::mutate(area_patch, value = value ^ 2),
                                            value = sum(value)),
-                          value = (value / area_landscape$value))
+                          value = (value / area_total$value))
 
     tibble::tibble(
         level = "landscape",

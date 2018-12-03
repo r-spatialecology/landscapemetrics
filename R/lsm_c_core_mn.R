@@ -119,12 +119,13 @@ lsm_c_core_mn.list <- function(landscape, directions = 8, consider_boundary = FA
                   layer = as.integer(layer))
 }
 
-lsm_c_core_mn_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_core_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
     core <- lsm_p_core_calc(landscape,
                             directions = directions,
                             consider_boundary = consider_boundary,
-                            edge_depth = edge_depth)
+                            edge_depth = edge_depth,
+                            resolution = resolution)
 
     core_mean <- dplyr::summarise(dplyr::group_by(core, class),
                                   value = mean(value))

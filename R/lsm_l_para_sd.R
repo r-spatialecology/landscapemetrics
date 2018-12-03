@@ -110,9 +110,11 @@ lsm_l_para_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_para_sd_calc <- function(landscape, directions){
+lsm_l_para_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    para_sd <- dplyr::summarise(lsm_p_para_calc(landscape, directions = directions),
+    para_sd <- dplyr::summarise(lsm_p_para_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = stats::sd(value))
 
     tibble::tibble(

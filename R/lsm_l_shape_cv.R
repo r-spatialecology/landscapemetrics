@@ -111,9 +111,15 @@ lsm_l_shape_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_shape_cv_calc <- function(landscape, directions){
+lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
 
-    shape_cv <- dplyr::summarise(lsm_p_shape_calc(landscape, directions = directions),
+    # shape index for each patch
+    shape <- lsm_p_shape_calc(landscape,
+                              directions = directions,
+                              resolution = resolution)
+
+    # calculate cv
+    shape_cv <- dplyr::summarise(shape,
                                  value = raster::cv(value))
 
     tibble::tibble(

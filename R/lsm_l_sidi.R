@@ -106,9 +106,11 @@ lsm_l_sidi.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_sidi_calc <- function(landscape, directions) {
+lsm_l_sidi_calc <- function(landscape, directions, resolution = NULL) {
 
-    sidi <- lsm_c_pland_calc(landscape, directions = directions)
+    sidi <- lsm_c_pland_calc(landscape,
+                             directions = directions,
+                             resolution = resolution)
 
     sidi <- dplyr::summarise(dplyr::mutate(sidi, value = (value / 100) ^ 2),
                              value = 1 - sum(value))

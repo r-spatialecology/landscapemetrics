@@ -100,21 +100,31 @@ lsm_l_ai.list <- function(landscape) {
                   layer = as.integer(layer))
 }
 
-lsm_l_ai_calc <- function(landscape) {
+lsm_l_ai_calc <- function(landscape, resolution = NULL) {
 
-    cai <- dplyr::pull(lsm_c_ai(landscape), value)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    prop_class <-  dplyr::pull(lsm_c_pland(landscape), value) / 100
+    # get aggregation index for each class
+    ai <- lsm_c_ai_calc(landscape)
+
+    # get proportional class area
+    pland <- lsm_c_pland_calc(landscape,
+                              directions = 8,
+                              resolution = resolution)
+
+    # final AI index
+    result <- sum(ai$value * (pland$value / 100))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "ai",
-        value = as.double(sum(cai * prop_class))
+        value = as.double(result)
     )
 }
-
-
-
 

@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="get_circumscribingcircle — get_circumscribingcircle" />
 
-<meta property="og:description" content="Calculates the diameter of the smallest circumscribing circle around patches in a landscape." />
+<meta property="og:description" content="Diameter of the circumscribing circle around patches" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -174,76 +174,77 @@
 
     <div class="ref-description">
     
-    <p>Calculates the diameter of the smallest circumscribing circle around patches in a landscape.</p>
+    <p>Diameter of the circumscribing circle around patches</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>, <span class='no'>resolution</span>)
+    <pre class="usage"><span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>, <span class='no'>resolution_x</span>, <span class='no'>resolution_y</span>)
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>, <span class='no'>resolution</span>)
+<span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>,
+  <span class='kw'>resolution_x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resolution_y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>, <span class='kw'>resolution</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>get_circumscribingcircle</span>(<span class='no'>landscape</span>, <span class='kw'>resolution_x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>resolution_y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>landscape</th>
-      <td><p>RasterLayer or matrix (with x,y,id columns)</p></td>
+      <td><p>RasterLayer or matrix (with x, y, id columns)</p></td>
     </tr>
     <tr>
-      <th>resolution</th>
+      <th>resolution_x</th>
+      <td><p>Resolution of the landscape (only needed if matrix as input is used)</p></td>
+    </tr>
+    <tr>
+      <th>resolution_y</th>
       <td><p>Resolution of the landscape (only needed if matrix as input is used)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
-cells of the same class in a raster or matrix. Uses the edge boundary of cells,
-not the cell center. Using the edge boundary and the maximum distance between
-the 4 cell corners around each cell center of the patch derives in the diameter of
-the smallest circumscribing circle around a patch.</p>
-<p>If one uses this functions with a matrix the resolution of the underlying data must be provided.#'</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Based on RCpp code of Florian Privé <a href='mailto:florian.prive.21@gmail.com'>florian.prive.21@gmail.com</a></p>
+    <p>The diameter of the smallest circumscribing circle around a patch in the landscape
+is based on the maximum distance between the corners of each cell. This ensures that all
+cells of the patch are included in the patch. All patches need an unique
+ID (see <code><a href='get_patches.html'>get_patches</a></code>). If one uses this functions with a matrix the
+resolution of the underlying data must be provided.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get patches for class 1 from testdata as raster</span>
-<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>,<span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>class_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span>(<span class='no'>landscape</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fl'>1</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
 
-<span class='co'># calculate the max distance between cell edges of each class</span>
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 2</span><span>
-#&gt;      id   dist
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1   6.28
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     3  22.8 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2 732.  
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4  45.6 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     5   6.28
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6  19.6 
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>     7   6.28
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span>     8   6.28
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span>     9  15.7 </div><div class='input'>
-<span class='co'># do the same with a 3 column matrix (x,y,id)</span>
+<span class='co'># calculate the minimum circumscribing circle of each patch in class 1</span>
+<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 2</span><span>
+#&gt;      id  dist
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1  1.41
+#&gt; </span><span style='color: #555555;'>2</span><span>     2 29.2 
+#&gt; </span><span style='color: #555555;'>3</span><span>     3  4.12
+#&gt; </span><span style='color: #555555;'>4</span><span>     4  6.32
+#&gt; </span><span style='color: #555555;'>5</span><span>     5  1.41
+#&gt; </span><span style='color: #555555;'>6</span><span>     6  3.61
+#&gt; </span><span style='color: #555555;'>7</span><span>     7  1.41
+#&gt; </span><span style='color: #555555;'>8</span><span>     8  1.41
+#&gt; </span><span style='color: #555555;'>9</span><span>     9  3.16</div><div class='input'>
+<span class='co'># do the same with a 3 column matrix (x, y, id)</span>
 <span class='no'>class_1_matrix</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/rasterToPoints'>rasterToPoints</a></span>(<span class='no'>class_1</span>)
-<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1_matrix</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 2</span><span>
-#&gt;      id   dist
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1   6.28
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     3  22.8 
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     2 732.  
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     4  45.6 
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     5   6.28
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     6  19.6 
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span>     7   6.28
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span>     8   6.28
-#&gt; </span><span style='color: #BCBCBC;'>9</span><span>     9  15.7 </div><div class='input'>
+<span class='fu'>get_circumscribingcircle</span>(<span class='no'>class_1_matrix</span>, <span class='kw'>resolution_x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>resolution_y</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 2</span><span>
+#&gt;      id  dist
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1  1.41
+#&gt; </span><span style='color: #555555;'>2</span><span>     2 29.2 
+#&gt; </span><span style='color: #555555;'>3</span><span>     3  4.12
+#&gt; </span><span style='color: #555555;'>4</span><span>     4  6.32
+#&gt; </span><span style='color: #555555;'>5</span><span>     5  1.41
+#&gt; </span><span style='color: #555555;'>6</span><span>     6  3.61
+#&gt; </span><span style='color: #555555;'>7</span><span>     7  1.41
+#&gt; </span><span style='color: #555555;'>8</span><span>     8  1.41
+#&gt; </span><span style='color: #555555;'>9</span><span>     9  3.16</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -252,8 +253,6 @@ the smallest circumscribing circle around a patch.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -263,7 +262,7 @@ the smallest circumscribing circle around a patch.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad.</p>
+  <p>Developed by Maximillian H.K. Hesselbarth, Marco Sciaini, Jakub Nowosad, Sebastian Hanss.</p>
 </div>
 
 <div class="pkgdown">

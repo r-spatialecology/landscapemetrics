@@ -111,9 +111,15 @@ lsm_l_shape_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_shape_sd_calc <- function(landscape, directions){
+lsm_l_shape_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    shape_sd <- dplyr::summarise(lsm_p_shape_calc(landscape, directions = directions),
+    # shape index for each patch
+    shape <- lsm_p_shape_calc(landscape,
+                              directions = directions,
+                              resolution = resolution)
+
+    # calculate sd
+    shape_sd <- dplyr::summarise(shape,
                                  value = stats::sd(value))
 
     tibble::tibble(

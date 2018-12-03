@@ -27,7 +27,7 @@ double rcpp_get_max_dist(arma::mat& points) {
 // [[Rcpp::export]]
 arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resolution_y) {
 
-    int     class_id= 0;
+    int     class_id = 0;
 
     arma::vec   id,
     unique_id;
@@ -39,6 +39,9 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
 
     id = points.col(2);
     unique_id = id(arma::find_unique(id));
+
+    resolution_x = resolution_x / 2;
+    resolution_y = resolution_y / 2;
 
     circle.set_size(unique_id.n_elem, 2);
 
@@ -72,24 +75,13 @@ arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resoluti
         }
 
         circle(i, 0) = class_id;
-        circle(i, 1) = std::pow((rcpp_get_max_dist(points_corner) / 2), 2) * arma::datum::pi;
+        circle(i, 1) = rcpp_get_max_dist(points_corner); // std::pow((max_dist_fun(points_corner) / 2), 2) * arma::datum::pi;
     }
 
     return circle;
 }
 
 /*** R
-mat <- matrix(c(
-    x = c(21, 21, 22, 22),
-    y = c(28, 29, 29, 28)),
-    ncol = 2)
-
-bench::mark(
-    max(dist(mat)),
-    max_dist_fun(mat),
-    relative = TRUE,
-    iterations = 100)
-
 landscape_labeled <- get_patches(landscape,
                                  class = 1,
                                  directions = 8)[[1]]

@@ -135,12 +135,13 @@ lsm_l_tca.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth) {
+lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
     total_core_area <- dplyr::summarise(lsm_p_core_calc(landscape,
                                                         directions = directions,
                                                         consider_boundary = consider_boundary,
-                                                        edge_depth = edge_depth),
+                                                        edge_depth = edge_depth,
+                                                        resolution = resolution),
                                         value = sum(value))
 
     tibble::tibble(

@@ -103,7 +103,8 @@ lsm_l_np.list <- function(landscape, directions = 8) {
 
 lsm_l_np_calc <- function(landscape, directions) {
 
-    n_patches <- dplyr::summarise(lsm_c_np_calc(landscape, directions = directions),
+    n_patches <- dplyr::summarise(lsm_c_np_calc(landscape,
+                                                directions = directions),
                                   value = sum(value))
 
     tibble::tibble(

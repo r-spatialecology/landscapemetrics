@@ -4,8 +4,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 IntegerVector rcpp_get_composition_vector(const Rcpp::NumericVector & x)
 {
-    IntegerVector x_table = table(na_omit(x));
-    return x_table;
+    return table(na_omit(x));
 }
 
 /*** R

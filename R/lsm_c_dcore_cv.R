@@ -125,12 +125,14 @@ lsm_c_dcore_cv.list <- function(landscape, directions = 8, consider_boundary = F
                   layer = as.integer(layer))
 }
 
-lsm_c_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                                points = NULL){
 
     dcore <- lsm_p_ncore_calc(landscape,
                               directions = directions,
                               consider_boundary = consider_boundary,
-                              edge_depth = edge_depth)
+                              edge_depth = edge_depth,
+                              points = points)
 
     dcore_cv <- dplyr::summarise(dplyr::group_by(dcore, class),
                                  value = raster::cv(value))

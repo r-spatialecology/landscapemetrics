@@ -1,6 +1,7 @@
 #include "rcpp_get_coocurrence_matrix.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
+#include "get_class_index_map.h"
 
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
@@ -10,7 +11,7 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     const unsigned nrows = x.nrow();
 
     std::vector<int> classes = rcpp_get_unique_values(x);
-    std::map<int, unsigned> class_index = get_classes_map(classes);
+    std::map<int, unsigned> class_index = get_class_index_map(classes);
 
     unsigned n_classes = class_index.size();
     std::vector<std::vector<unsigned> > cooc_mat(n_classes,
@@ -61,16 +62,6 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     result.attr("dimnames") = u_names;
     return result;
 }
-
-std::map<int, unsigned> get_classes_map(const std::vector<int> &classes)
-{
-    std::map<int, unsigned> class_index;
-    for (unsigned i = 0; i < classes.size(); i++) {
-        class_index.insert(std::make_pair(classes[i], i));
-    }
-    return class_index;
-}
-
 
 /*** R
 

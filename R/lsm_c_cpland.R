@@ -117,17 +117,36 @@ lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FAL
                   layer = as.integer(layer))
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    area_landscape <- lsm_l_ta_calc(landscape, directions = directions)
 
-    core_area_class <- lsm_c_tca_calc(landscape,
-                                      directions = directions,
-                                      consider_boundary = consider_boundary,
-                                      edge_depth = edge_depth)
+    # conver to matrix
+    if (class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    cpland <- dplyr::mutate(core_area_class,
-                            value = value / area_landscape$value * 100)
+    # calculate patch area
+    area <- lsm_p_area_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
+
+    # total landscape area
+    area <- dplyr::summarise(area, value = sum(value))
+
+    # get core area for each patch
+    core_area <- lsm_p_core_calc(landscape,
+                                 directions = directions,
+                                 consider_boundary = consider_boundary,
+                                 edge_depth = edge_depth,
+                                 resolution = resolution)
+
+    # summarise to class core area
+    core_area <- dplyr::summarise(dplyr::group_by(core_area, class),
+                                  value = sum(value))
+
+    cpland <- dplyr::mutate(core_area,
+                            value = value / area$value * 100)
 
     tibble::tibble(
         level = "class",

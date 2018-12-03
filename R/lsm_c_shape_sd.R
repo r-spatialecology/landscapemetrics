@@ -111,10 +111,14 @@ lsm_c_shape_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_shape_sd_calc <- function(landscape, directions){
+lsm_c_shape_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    shape <- lsm_p_shape_calc(landscape, directions = directions)
+    # shape index for each patch
+    shape <- lsm_p_shape_calc(landscape,
+                              directions = directions,
+                              resolution = resolution)
 
+    # calculate sd
     shape_sd <- dplyr::summarise(dplyr::group_by(shape, class),
                                  value = stats::sd(value))
 

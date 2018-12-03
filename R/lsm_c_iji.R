@@ -108,8 +108,16 @@ lsm_c_iji.list <- function(landscape, verbose = TRUE) {
 }
 
 lsm_c_iji_calc <- function(landscape, verbose) {
-    adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+
+    # conver to matrix
+    if (class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                as.matrix(4))
+
+    classes <- rownames(adjacencies)
 
     if (ncol(adjacencies) < 3) {
 
@@ -119,7 +127,7 @@ lsm_c_iji_calc <- function(landscape, verbose) {
 
         tibble::tibble(
             level = "class",
-            class = as.integer(raster::unique(landscape)),
+            class = as.integer(classes),
             id = as.integer(NA),
             metric = "iji",
             value = as.double(NA)
@@ -138,7 +146,7 @@ lsm_c_iji_calc <- function(landscape, verbose) {
 
         tibble::tibble(
             level = "class",
-            class = as.integer(raster::unique(landscape)),
+            class = as.integer(classes),
             id = as.integer(NA),
             metric = "iji",
             value = as.double(iji)

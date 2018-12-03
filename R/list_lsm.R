@@ -99,7 +99,7 @@ list_lsm <- function(level = NULL,
     result <- dplyr::select(result, -metric_new)
 
     if(simplify) {
-        result <- dplyr::pull(result, function_name)
+        result <- result$function_name
     }
 
     return(result)

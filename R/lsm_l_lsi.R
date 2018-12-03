@@ -107,15 +107,28 @@ lsm_l_lsi.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_lsi_calc <- function(landscape, directions) {
+lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
 
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    # get total edge
     edge_landscape <- lsm_l_te_calc(landscape,
-                                    count_boundary = TRUE)
+                                    count_boundary = TRUE,
+                                    resolution = resolution)
 
-    area_landscape <- dplyr::mutate(lsm_l_ta_calc(landscape, directions = directions),
-                                    value = value * 10000)
+    # get patch area
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    lsi <- dplyr::mutate(area_landscape,
+    # summarise to total area in sqm
+    total_area <- dplyr::summarise(patch_area, value = sum(value) * 10000)
+
+    lsi <- dplyr::mutate(total_area,
                          n = trunc(sqrt(value)),
                          m = value - n^ 2,
                          minp = dplyr::case_when(

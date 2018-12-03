@@ -113,9 +113,12 @@ lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_gyrate_mn_calc <- function(landscape, directions) {
+lsm_l_gyrate_mn_calc <- function(landscape, directions,
+                                 points = NULL) {
 
-    gyrate_mn <- dplyr::summarize(lsm_p_gyrate_calc(landscape, directions = directions),
+    gyrate_mn <- dplyr::summarize(lsm_p_gyrate_calc(landscape,
+                                                    directions = directions,
+                                                    points = points),
                                   value = mean(value))
 
     tibble::tibble(
