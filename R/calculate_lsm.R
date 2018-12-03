@@ -337,7 +337,7 @@ calculate_lsm_internal <- function(landscape,
     number_metrics <- length(metrics_calc)
 
     # get coordinates of cells
-    points <- raster::rasterToPoints(landscape)
+    points <- raster_to_points(landscape)
 
     # resolution of original raster
     resolution <- raster::res(landscape)

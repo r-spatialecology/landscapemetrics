@@ -121,7 +121,7 @@ lsm_p_circle_calc <- function(landscape, directions,
     if(class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
-        points <- raster::rasterToPoints(landscape)
+        points <- raster_to_points(landscape)
 
         # get resolution
         resolution = raster::res(landscape)
@@ -177,7 +177,7 @@ lsm_p_circle_calc <- function(landscape, directions,
         circle[, 2] <- pi * ((circle[, 2]  /2) ^ 2)
 
         # sort according to patch id
-        circle <- circle[order(circle[,1]),]
+        circle <- matrix(circle[order(circle[,1]),], ncol = 2)
 
         tibble::tibble(class = patches_class,
                        value = circle[,2])

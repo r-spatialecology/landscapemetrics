@@ -33,7 +33,7 @@ get_nearestneighbour <- function(landscape) UseMethod("get_nearestneighbour")
 #' @export
 get_nearestneighbour.RasterLayer <- function(landscape) {
 
-    points_mat <- raster::rasterToPoints(landscape)
+    points_mat <- raster_to_points(landscape, return_NA = FALSE)
 
     ord <- order(as.matrix(points_mat)[, 1])
     num <- seq_along(ord)

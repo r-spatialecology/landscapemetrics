@@ -152,7 +152,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     if(class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
-        points <- raster::rasterToPoints(landscape)
+        points <- raster_to_points(landscape)
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)

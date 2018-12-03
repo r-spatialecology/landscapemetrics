@@ -36,7 +36,7 @@ get_circumscribingcircle.RasterLayer <- function(landscape,
                                                  resolution_x = NULL,
                                                  resolution_y = NULL) {
 
-    points_mat <- raster::rasterToPoints(landscape)
+    points_mat <- raster_to_points(landscape, return_NA = FALSE)
 
     resolution_xy <- raster::res(landscape)
     resolution_x <- resolution_xy[[1]]

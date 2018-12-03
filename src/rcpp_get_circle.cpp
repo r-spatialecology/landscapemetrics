@@ -27,7 +27,7 @@ double rcpp_get_max_dist(arma::mat& points) {
 // [[Rcpp::export]]
 arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resolution_y) {
 
-    int     class_id= 0;
+    int     class_id = 0;
 
     arma::vec   id,
     unique_id;
