@@ -148,7 +148,7 @@ lsm_p_circle_calc <- function(landscape, directions,
 
         # only boundary cells need to be considered for circle diameter
         landscape_boundaries <- get_boundaries(landscape_labeled,
-                                               rooks_case = TRUE,
+                                               directions = 4,
                                                as_NA = TRUE)
 
         # convert to points

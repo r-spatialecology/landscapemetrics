@@ -197,7 +197,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         # label all edge cells
         class_edge <- get_boundaries(landscape_labeled,
-                                     rooks_case = TRUE)
+                                     directions = 4)
 
         # loop if edge_depth is more than 1
         if(edge_depth > 1){
@@ -209,7 +209,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
                 # set current_edge + 1 to new edge
                 class_edge <- get_boundaries(class_edge,
-                                             rooks_case = TRUE)
+                                             directions = 4)
             }
         }
 

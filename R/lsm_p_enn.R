@@ -162,7 +162,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
 
             # get edge cells because only they are important for ENN
             class_boundaries <- get_boundaries(landscape_labeled,
-                                               rooks_case = TRUE,
+                                               directions = 4,
                                                as_NA = TRUE)
 
             # set edge cell value to patch id
