@@ -250,12 +250,12 @@ get_patches_int <- function(landscape,
 
             # connected labeling with 4 neighbours
             if (directions == 4) {
-                patch_landscape = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             # connected labeling with 8 neighbours
             if (directions == 8) {
-                patch_landscape = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             return(patch_landscape)
@@ -272,11 +272,11 @@ get_patches_int <- function(landscape,
             filter_matrix[landscape == class] <- 1
 
             if (directions == 4) {
-                patch_landscape = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             if (directions == 8) {
-                patch_landscape = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             return(patch_landscape)

@@ -49,11 +49,12 @@ test_that("calculate_lsm can take level argument", {
 
 
 test_that("calculate_lsm can take metric argument", {
+
     specific_metrics <- calculate_lsm(landscape, metric = "area")
 
-    metrics <- sapply(strsplit(specific_metrics$metric,
-                    split = "_"),
-           function(x) x[1])
+    metrics <- vapply(strsplit(specific_metrics$metric,
+                               split = "_"), FUN = function(x) x[1],
+                      FUN.VALUE = character(1))
 
     expect_true(all(metrics == "area"))
 
@@ -65,9 +66,9 @@ test_that("calculate_lsm can take metric argument", {
 test_that("calculate_lsm can take name argument", {
     specific_metrics <- calculate_lsm(landscape, name = "core area")
 
-    metrics <- sapply(strsplit(specific_metrics$metric,
-                               split = "_"),
-                      function(x) x[1])
+    metrics <- vapply(strsplit(specific_metrics$metric,
+                               split = "_"), FUN = function(x) x[1],
+                      FUN.VALUE = character(1))
 
     expect_true(all(metrics == "core"))
 

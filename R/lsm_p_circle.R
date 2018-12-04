@@ -124,7 +124,7 @@ lsm_p_circle_calc <- function(landscape, directions,
         points <- raster_to_points(landscape)
 
         # get resolution
-        resolution = raster::res(landscape)
+        resolution <- raster::res(landscape)
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)

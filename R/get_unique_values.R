@@ -76,7 +76,7 @@ get_unique_values.RasterStack <- function(x){
         x <- get_unique_values_int(x@data@values)
         if (!is.list(x)) {
             xx <- vector(length = ncol(x), mode = 'list')
-            for (i in 1:ncol(x)) {
+            for (i in seq_len(ncol(x))) {
                 xx[[i]] <- x[,i]
             }
             x <- xx

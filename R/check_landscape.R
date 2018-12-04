@@ -66,7 +66,7 @@ check_landscape.list <- function(landscape) {
 
 }
 
-proj_info = function(landscape){
+proj_info <- function(landscape){
     landscape_proj <- raster::projection(landscape)
     if (!is.na(landscape_proj)){
         if(raster::isLonLat(landscape)){

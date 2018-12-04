@@ -141,7 +141,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
     prop_class <- prop_class$value / 100
 
     # calculate clumpy
-    clumpy <- sapply(seq_along(g_i), function(row_ind) {
+    clumpy <- vapply(seq_along(g_i), FUN = function(row_ind) {
 
         # set to NA if mathematical not possible
         if (is.nan(g_i[row_ind]) || is.na(g_i[row_ind]) || prop_class[row_ind] == 1) {
@@ -155,11 +155,11 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
         else {
             clumpy <- (g_i[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
         }
-    })
+    }, FUN.VALUE = numeric(1))
 
     tibble::tibble(
         level = "class",
-        class = as.integer(names(clumpy)),
+        class = as.integer(names(g_i)),
         id = as.integer(NA),
         metric = "clumpy",
         value = as.double(clumpy)

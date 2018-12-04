@@ -14,9 +14,15 @@ test_that("show_patches returns a plot", {
 })
 
 test_that("show_patches returns a plot for each list entry", {
-    expect_true(all(sapply(patches_landscape_stack, FUN = function(x) class(x)[2]) == "ggplot"))
-    expect_true(all(sapply(patches_landscape_brick, FUN = function(x) class(x)[2]) == "ggplot"))
-    expect_true(all(sapply(patches_landscape_list, FUN = function(x) class(x)[2]) == "ggplot"))
+    expect_true(all(vapply(patches_landscape_stack,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
+    expect_true(all(vapply(patches_landscape_brick,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
+    expect_true(all(vapply(patches_landscape_list,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
 })
 
 test_that("show_patches returns warnings and errors", {

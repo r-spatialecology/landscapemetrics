@@ -86,7 +86,7 @@ sample_lsm.RasterStack <- function(landscape,
 
     layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
@@ -122,7 +122,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
     layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
@@ -158,7 +158,7 @@ sample_lsm.list <- function(landscape,
 
     layer_id <- rep(x = seq_along(landscape), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
