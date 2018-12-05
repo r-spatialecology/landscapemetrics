@@ -106,6 +106,7 @@ calculate_lsm.RasterLayer <- function(landscape,
                      progress = progress)
 
     result <- dplyr::bind_rows(result, .id = "layer")
+    result$layer <- as.integer(result$layer)
 
     result <- dplyr::arrange(result,
                              layer, level, metric, class, id)
@@ -153,6 +154,7 @@ calculate_lsm.RasterStack <- function(landscape,
                      progress = progress)
 
     result <- dplyr::bind_rows(result, .id = "layer")
+    result$layer <- as.integer(result$layer)
 
     result <- dplyr::arrange(result,
                              layer, level, metric, class, id)
@@ -200,6 +202,7 @@ calculate_lsm.RasterBrick <- function(landscape,
                      progress = progress)
 
     result <- dplyr::bind_rows(result, .id = "layer")
+    result$layer <- as.integer(result$layer)
 
     result <- dplyr::arrange(result,
                              layer, level, metric, class, id)
@@ -249,6 +252,7 @@ calculate_lsm.stars <- function(landscape,
                      progress = progress)
 
     result <- dplyr::bind_rows(result, .id = "layer")
+    result$layer <- as.integer(result$layer)
 
     result <- dplyr::arrange(result,
                              layer, level, metric, class, id)
@@ -297,6 +301,7 @@ calculate_lsm.list <- function(landscape,
                      progress = progress)
 
     result <- dplyr::bind_rows(result, .id = "layer")
+    result$layer <- as.integer(result$layer)
 
     result <- dplyr::arrange(result,
                              layer, level, metric, class, id)

@@ -3,6 +3,8 @@
 #' @description This function returns the unique values of an object.
 #'
 #' @param x vector, matrix or Raster* object
+#' @param simplify If true, a vector will be returned instead of a list for
+#' 1-dimensional input
 #'
 #' @details
 #' Fast and memory friendly Rcpp implementation to find the unique values of an object.
@@ -10,99 +12,302 @@
 #' @examples
 #' get_unique_values(landscape)
 #'
+#' landscape_stack <- raster::stack(landscape, landscape, landscape)
+#' get_unique_values(landscape_stack)
+#'
+#' landscape_matrix <- raster::as.matrix(landscape)
+#' get_unique_values(landscape_matrix)
+#'
+#' x_vec <- c(1, 2, 1, 1, 2, 2)
+#' get_unique_values(x_vec)
+#'
+#' landscape_list <- list(landscape, landscape_matrix, x_vec)
+#' get_unique_values(landscape_list)
+#'
 #' @aliases get_unique_values
 #' @rdname get_unique_values
 #'
 #' @export
 
-get_unique_values <- function(x) UseMethod("get_unique_values")
+get_unique_values <- function(x, simplify) UseMethod("get_unique_values")
 
 #' @name get_unique_values
 #' @export
-get_unique_values.vector <- function(x){
-    list(get_unique_values_int(x))
+get_unique_values.numeric <- function(x, simplify = FALSE){
+
+    if(typeof(x) != "integer") {
+        warning("Double values will be converted to integer", call. = FALSE)
+    }
+
+    unique_values <- rcpp_get_unique_values(x)
+
+    if(simplify) {
+        return(unique_values)
+    }
+
+    else{
+        return(list(unique_values))
+    }
 }
 
 #' @name get_unique_values
 #' @export
-get_unique_values.matrix <- function(x){
-    list(get_unique_values_int(x))
+get_unique_values.matrix <- function(x, simplify = FALSE){
+
+    if(typeof(x) != "integer") {
+        warning("Double values will be converted to integer.", call. = FALSE)
+    }
+
+    unique_values <- rcpp_get_unique_values(x)
+
+    if(simplify) {
+        return(unique_values)
+    }
+
+    else{
+        return(list(unique_values))
+    }
 }
 
 #' @name get_unique_values
 #' @export
-get_unique_values.RasterLayer <- function(x){
+get_unique_values.list <- function(x, simplify = FALSE){
+
+    unique_values <- lapply(x, FUN = function(current_element) {
+
+        if(class(current_element) == "RasterLayer") {
+
+            if (!raster::inMemory(current_element)) {
+
+                if (raster::fromDisk(current_element)) {
+
+                    if (raster::canProcessInMemory(current_element, 2)) {
+
+                        current_element <- raster::readAll(current_element)
+                    }
+                }
+
+                else {
+                    stop('RasterLayer has no values.')
+                }
+            }
+
+            if (raster::inMemory(current_element)) {
+                rcpp_get_unique_values(current_element@data@values)
+            }
+
+            else {
+                block_1 <- vector()
+                block_2 <- vector()
+
+                tr <- raster::blockSize(current_element, n = 2)
+
+                for (i in 1:tr$n) {
+
+                    block_1 <- rcpp_get_unique_values(c(block_1,
+                                                        raster::getValuesBlock(current_element,
+                                                                               row = tr$row[i],
+                                                                               nrows = tr$nrows[i])))
+                    if (length(block_1) > 10000) {
+
+                        block_2 <- rcpp_get_unique_values(c(block_1, block_2))
+                        block_1 <- vector()
+                    }
+                }
+
+                rcpp_get_unique_values(c(block_1, block_2))
+            }
+        }
+
+        else if(class(current_element) == "numeric" ||
+                class(current_element) == "double" ||
+                class(current_element) == "integer" ||
+                class(current_element) == "matrix") {
+            rcpp_get_unique_values(current_element)
+        }
+
+        else{
+            stop("List elements must be a RasterLayer, matrix or vector.")
+        }
+    })
+
+    if(simplify) {
+        if(length(x) == 1) {
+            return(unique_values[[1]])
+        }
+
+        else {
+            warning("Not able to simply list with more than 1 element.", call. = FALSE)
+        }
+    }
+
+    return(unique_values)
+}
+
+#' @name get_unique_values
+#' @export
+get_unique_values.RasterLayer <- function(x, simplify = FALSE){
+
     if (!raster::inMemory(x)) {
+
         if (raster::fromDisk(x)) {
+
             if (raster::canProcessInMemory(x, 2)) {
+
                 x <- raster::readAll(x)
             }
-        } else {
-            stop('RasterLayer has no values')
+        }
+
+        else {
+            stop('RasterLayer has no values.')
         }
     }
 
     if (raster::inMemory(x)) {
-        return(list(get_unique_values_int(x@data@values)))
-    } else {
-        u1 <- vector()
-        u2 <- vector()
+        unique_values <- rcpp_get_unique_values(x@data@values)
+    }
+
+    else {
+        block_1 <- vector()
+        block_2 <- vector()
 
         tr <- raster::blockSize(x, n = 2)
+
         for (i in 1:tr$n) {
-            u1 <- get_unique_values_int(
-                c(u1, raster::getValuesBlock(x, row = tr$row[i], nrows = tr$nrows[i])))
-            if (length(u1) > 10000) {
-                u2 <- get_unique_values_int(c(u1, u2))
-                u1 <- vector()
+
+            block_1 <- rcpp_get_unique_values(c(block_1,
+                                          raster::getValuesBlock(x,
+                                                                 row = tr$row[i],
+                                                                 nrows = tr$nrows[i])))
+            if (length(block_1) > 10000) {
+
+                block_2 <- rcpp_get_unique_values(c(block_1, block_2))
+                block_1 <- vector()
             }
         }
-        return(list(get_unique_values_int(c(u1, u2))))
+
+        unique_values <- rcpp_get_unique_values(c(block_1, block_2))
+    }
+
+    if(simplify) {
+        return(unique_values)
+    }
+
+    else {
+        return(list(unique_values))
     }
 }
 
 #' @name get_unique_values
 #' @export
-get_unique_values.RasterStack <- function(x){
+get_unique_values.RasterStack <- function(x, simplify = FALSE){
 
-    if (!raster::inMemory(x)) {
-        if (raster::canProcessInMemory(x, 2)) {
-            x <- raster::readAll(x)
-        }
-    }
+    x <- raster::as.list(x)
 
-    if (raster::inMemory(x)) {
+    unique_values <- lapply(x, FUN = function(current_raster) {
 
-        x <- get_unique_values_int(x@data@values)
-        if (!is.list(x)) {
-            xx <- vector(length = ncol(x), mode = 'list')
-            for (i in seq_len(ncol(x))) {
-                xx[[i]] <- x[,i]
+        if (!raster::inMemory(current_raster)) {
+
+            if (raster::fromDisk(current_raster)) {
+
+                if (raster::canProcessInMemory(current_raster, 2)) {
+
+                    current_raster <- raster::readAll(current_raster)
+                }
             }
-            x <- xx
+
+            else {
+                stop('RasterLayer has no values.')
+            }
         }
-        return(x)
-    } else {
-        nl <- raster::nlayers(x)
-        un <- list(length = nl, mode = 'list')
-        tr <- raster::blockSize(x, n = 2)
-        un <- NULL
-        for (i in 1:tr$n) {
-            v <- get_unique_values_int(
-                raster::getValuesBlock(x, row = tr$row[i], nrows = tr$nrows[i]) )
-            un <- get_unique_values_int(rbind(v, un))
+
+        if (raster::inMemory(current_raster)) {
+            rcpp_get_unique_values(current_raster@data@values)
         }
-        return(un)
+
+        else {
+            block_1 <- vector()
+            block_2 <- vector()
+
+            tr <- raster::blockSize(current_raster, n = 2)
+
+            for (i in 1:tr$n) {
+
+                block_1 <- rcpp_get_unique_values(c(block_1,
+                                                   raster::getValuesBlock(current_raster,
+                                                                          row = tr$row[i],
+                                                                          nrows = tr$nrows[i])))
+                if (length(block_1) > 10000) {
+
+                    block_2 <- rcpp_get_unique_values(c(block_1, block_2))
+                    block_1 <- vector()
+                }
+            }
+
+            rcpp_get_unique_values(c(block_1, block_2))
+        }
+    })
+
+    if(simplify) {
+        warning("Not able to simplify RasterStack.", call. = FALSE)
     }
 
+    return(unique_values)
 }
 
 #' @name get_unique_values
 #' @export
-get_unique_values.RasterBrick <- function(x){
-    return(get_unique_values.RasterStack(x))
-}
+get_unique_values.RasterBrick <- function(x, simplify = FALSE){
 
-get_unique_values_int <- function(x){
-    rcpp_get_unique_values(x)
+    x <- raster::as.list(x)
+
+    unique_values <- lapply(x, FUN = function(current_raster) {
+
+        if (!raster::inMemory(current_raster)) {
+
+            if (raster::fromDisk(current_raster)) {
+
+                if (raster::canProcessInMemory(current_raster, 2)) {
+
+                    current_raster <- raster::readAll(current_raster)
+                }
+            }
+
+            else {
+                stop('RasterLayer has no values.')
+            }
+        }
+
+        if (raster::inMemory(current_raster)) {
+            rcpp_get_unique_values(current_raster@data@values)
+        }
+
+        else {
+            block_1 <- vector()
+            block_2 <- vector()
+
+            tr <- raster::blockSize(current_raster, n = 2)
+
+            for (i in 1:tr$n) {
+
+                block_1 <- rcpp_get_unique_values(c(block_1,
+                                                   raster::getValuesBlock(current_raster,
+                                                                          row = tr$row[i],
+                                                                          nrows = tr$nrows[i])))
+                if (length(block_1) > 10000) {
+
+                    block_2 <- rcpp_get_unique_values(c(block_1, block_2))
+                    block_1 <- vector()
+                }
+            }
+
+            rcpp_get_unique_values(c(block_1, block_2))
+        }
+    })
+
+    if(simplify) {
+        warning("Not able to simplify RasterBrick.", call. = FALSE)
+    }
+
+    return(unique_values)
 }

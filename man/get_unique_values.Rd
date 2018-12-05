@@ -2,27 +2,33 @@
 % Please edit documentation in R/get_unique_values.R
 \name{get_unique_values}
 \alias{get_unique_values}
-\alias{get_unique_values.vector}
+\alias{get_unique_values.numeric}
 \alias{get_unique_values.matrix}
+\alias{get_unique_values.list}
 \alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.RasterStack}
 \alias{get_unique_values.RasterBrick}
 \title{get_unique_values}
 \usage{
-get_unique_values(x)
+get_unique_values(x, simplify)
 
-\method{get_unique_values}{vector}(x)
+\method{get_unique_values}{numeric}(x, simplify = FALSE)
 
-\method{get_unique_values}{matrix}(x)
+\method{get_unique_values}{matrix}(x, simplify = FALSE)
 
-\method{get_unique_values}{RasterLayer}(x)
+\method{get_unique_values}{list}(x, simplify = FALSE)
 
-\method{get_unique_values}{RasterStack}(x)
+\method{get_unique_values}{RasterLayer}(x, simplify = FALSE)
 
-\method{get_unique_values}{RasterBrick}(x)
+\method{get_unique_values}{RasterStack}(x, simplify = FALSE)
+
+\method{get_unique_values}{RasterBrick}(x, simplify = FALSE)
 }
 \arguments{
 \item{x}{vector, matrix or Raster* object}
+
+\item{simplify}{If true, a vector will be returned instead of a list for
+1-dimensional input}
 }
 \description{
 This function returns the unique values of an object.
@@ -32,5 +38,17 @@ Fast and memory friendly Rcpp implementation to find the unique values of an obj
 }
 \examples{
 get_unique_values(landscape)
+
+landscape_stack <- raster::stack(landscape, landscape, landscape)
+get_unique_values(landscape_stack)
+
+landscape_matrix <- raster::as.matrix(landscape)
+get_unique_values(landscape_matrix)
+
+x_vec <- c(1, 2, 1, 1, 2, 2)
+get_unique_values(x_vec)
+
+landscape_list <- list(landscape, landscape_matrix, x_vec)
+get_unique_values(landscape_list)
 
 }
