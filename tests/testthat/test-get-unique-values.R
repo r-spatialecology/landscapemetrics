@@ -13,6 +13,8 @@ test_that("get_unique_values works for vector", {
               class = "integer")
     expect_equal(get_unique_values(vector_x, simplify = TRUE),
                  expected = c(1, 2))
+
+    expect_warning(get_unique_values(as.numeric(vector_x)))
 })
 
 test_that("get_unique_values works for matrix", {
