@@ -46,9 +46,10 @@ list_lsm <- function(level = NULL,
 
     lsm_abbreviations_names_modified <- landscapemetrics::lsm_abbreviations_names
 
-    lsm_abbreviations_names_modified$metric_new <- sapply(strsplit(lsm_abbreviations_names_modified$metric,
-                                                                   split = "_"),
-                                                          function(x) x[1])
+    lsm_abbreviations_names_modified$metric_new <- vapply(X = strsplit(lsm_abbreviations_names_modified$metric,
+                                                                       split = "_"),
+                                                          FUN = function(x) x[1],
+                                                          FUN.VALUE = character(1))
 
     if(!is.null(what)) {
 

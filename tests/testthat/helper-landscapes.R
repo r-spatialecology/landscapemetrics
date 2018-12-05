@@ -1,3 +1,5 @@
+landscape_matrix <- raster::as.matrix(landscape)
+
 landscape_stack <- raster::stack(landscapemetrics::landscape, landscapemetrics::landscape)
 
 landscape_brick <- raster::brick(landscapemetrics::landscape, landscapemetrics::landscape)

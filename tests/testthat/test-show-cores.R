@@ -18,9 +18,15 @@ test_that("show_cores returns a plot for class = global", {
 })
 
 test_that("show_patches returns a plot for each list entry", {
-    expect_true(all(sapply(cores_landscape_stack, FUN = function(x) class(x)[2]) == "ggplot"))
-    expect_true(all(sapply(cores_landscape_brick, FUN = function(x) class(x)[2]) == "ggplot"))
-    expect_true(all(sapply(cores_landscape_list, FUN = function(x) class(x)[2]) == "ggplot"))
+    expect_true(all(vapply(cores_landscape_stack,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
+    expect_true(all(vapply(cores_landscape_brick,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
+    expect_true(all(vapply(cores_landscape_list,
+                           FUN = function(x) class(x)[2],
+                           FUN.VALUE = character(1)) == "ggplot"))
 })
 
 test_that("show_patches returns error if class is not present", {

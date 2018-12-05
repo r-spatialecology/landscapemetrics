@@ -107,12 +107,12 @@ lsm_c_pladj_calc <- function(landscape) {
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))
 
-    pladj <- sapply(X = seq_len(nrow(tb)), FUN = function(x) {
+    pladj <- vapply(X = seq_len(nrow(tb)), FUN = function(x) {
         like_adjacencies <- tb[x, x]
         total_adjacencies <- sum(tb[x, ])
 
         like_adjacencies / total_adjacencies * 100
-    })
+    }, FUN.VALUE = numeric(1))
 
     pladj <- pladj[-1]
     names <- row.names(tb)[-1]
