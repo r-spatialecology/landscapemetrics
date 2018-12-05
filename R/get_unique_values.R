@@ -55,7 +55,7 @@ get_unique_values.numeric <- function(x, simplify = FALSE){
 get_unique_values.matrix <- function(x, simplify = FALSE){
 
     if(typeof(x) != "integer") {
-        warning("Double values will be converted to integer", call. = FALSE)
+        warning("Double values will be converted to integer.", call. = FALSE)
     }
 
     unique_values <- rcpp_get_unique_values(x)
@@ -88,7 +88,7 @@ get_unique_values.list <- function(x, simplify = FALSE){
                 }
 
                 else {
-                    stop('RasterLayer has no values')
+                    stop('RasterLayer has no values.')
                 }
             }
 
@@ -124,7 +124,7 @@ get_unique_values.list <- function(x, simplify = FALSE){
         }
 
         else{
-            stop("List elements must be a RasterLayer, matrix or vector")
+            stop("List elements must be a RasterLayer, matrix or vector.")
         }
     })
 
@@ -156,7 +156,7 @@ get_unique_values.RasterLayer <- function(x, simplify = FALSE){
         }
 
         else {
-            stop('RasterLayer has no values')
+            stop('RasterLayer has no values.')
         }
     }
 
@@ -214,7 +214,7 @@ get_unique_values.RasterStack <- function(x, simplify = FALSE){
             }
 
             else {
-                stop('RasterLayer has no values')
+                stop('RasterLayer has no values.')
             }
         }
 
@@ -246,7 +246,7 @@ get_unique_values.RasterStack <- function(x, simplify = FALSE){
     })
 
     if(simplify) {
-        warning("Not able to simplify RasterStack", call. = FALSE)
+        warning("Not able to simplify RasterStack.", call. = FALSE)
     }
 
     return(unique_values)
@@ -271,7 +271,7 @@ get_unique_values.RasterBrick <- function(x, simplify = FALSE){
             }
 
             else {
-                stop('RasterLayer has no values')
+                stop('RasterLayer has no values.')
             }
         }
 
@@ -303,7 +303,7 @@ get_unique_values.RasterBrick <- function(x, simplify = FALSE){
     })
 
     if(simplify) {
-        warning("Not able to simplify RasterBrick", call. = FALSE)
+        warning("Not able to simplify RasterBrick.", call. = FALSE)
     }
 
     return(unique_values)
