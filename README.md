@@ -19,7 +19,7 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 
 ## Overview
 
-\`\*\*landscapemetrics is an R package for calculating landscape metrics
+**landscapemetrics** is an R package for calculating landscape metrics
 for categorical landscape patterns in a tidy workflow. The package can
 be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
 2012), as it offers a reproducible workflow for landscape analysis in a
@@ -29,20 +29,20 @@ a thematic complexity, a configurational complexity, and a disambiguator
 of pattern types having the same overall complexity (Nowosad and
 Stepinski 2018).
 
-`landscapemetrics` supports `raster` spatial objects and takes
+**landscapemetrics** supports `raster` spatial objects and takes
 `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
 as input arguments. Every function can be used in a piped workflow, as
 it always takes the data as the first argument and returns a tibble.
 
 ## Installation
 
-There are several ways to install `landscapemetrics`:
+There are several ways to install **landscapemetrics**:
 
 ``` r
-# The easiest way is to install landscapemetrics from CRAN
+# Get the stable version from CRAN
 install.packages("landscapemetrics")
 
-# Alternatively, you can install the stable development version from Github
+# Alternatively, you can install the development version from Github
 # install.packages("devtools")
 devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
 ```
@@ -51,10 +51,10 @@ devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
 
 The resolution of a raster cell has to be in **meters**, as the package
 converts units internally and returns results in either meters, square
-meters or hectares. Before using `landscapemetrics`, be sure to check
+meters or hectares. Before using **landscapemetrics**, be sure to check
 your raster (see `check_raster()`).
 
-All functions in `landscapemetrics` start with `lsm_` (for
+All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
 function name is the abbreviation of the corresponding metric (e.g.
@@ -174,7 +174,7 @@ calculate_lsm(landscape, level = "patch")
 
 ### Utility functions
 
-`landscapemetrics` further provides several visualization functions,
+**landscapemetrics** further provides several visualization functions,
 e.g. show all labeld patches or the core area of all patches. All
 visualization functions start with the prefix `show_` (e.g.
 `show_cores()`).
@@ -189,7 +189,7 @@ vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/
 
 ## Contributing
 
-One of the major motivations behind `landscapemetrics` is the idea to
+One of the major motivations behind **landscapemetrics** is the idea to
 provide an open-source code collection of landscape metrics. This
 includes, besides bug reports, especially the idea to include new
 metrics and functions. Therefore, in case you want to suggest new
