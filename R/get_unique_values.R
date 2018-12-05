@@ -119,7 +119,10 @@ get_unique_values.list <- function(x, simplify = FALSE){
             }
         }
 
-        else if(class(current_element) == "numeric" || class(current_element) == "matrix") {
+        else if(class(current_element) == "numeric" ||
+                class(current_element) == "double" ||
+                class(current_element) == "integer" ||
+                class(current_element) == "matrix") {
             rcpp_get_unique_values(current_element)
         }
 

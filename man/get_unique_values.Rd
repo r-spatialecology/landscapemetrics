@@ -4,6 +4,7 @@
 \alias{get_unique_values}
 \alias{get_unique_values.numeric}
 \alias{get_unique_values.matrix}
+\alias{get_unique_values.list}
 \alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.RasterStack}
 \alias{get_unique_values.RasterBrick}
@@ -14,6 +15,8 @@ get_unique_values(x, simplify)
 \method{get_unique_values}{numeric}(x, simplify = FALSE)
 
 \method{get_unique_values}{matrix}(x, simplify = FALSE)
+
+\method{get_unique_values}{list}(x, simplify = FALSE)
 
 \method{get_unique_values}{RasterLayer}(x, simplify = FALSE)
 
@@ -42,7 +45,10 @@ get_unique_values(landscape_stack)
 landscape_matrix <- raster::as.matrix(landscape)
 get_unique_values(landscape_matrix)
 
-x_vec <- c(1, 2, 3, 1, 1, 2, 2, 3)
+x_vec <- c(1, 2, 1, 1, 2, 2)
 get_unique_values(x_vec)
+
+landscape_list <- list(landscape, landscape_matrix, x_vec)
+get_unique_values(landscape_list)
 
 }

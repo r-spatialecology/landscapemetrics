@@ -1,8 +1,8 @@
 context("get_unique_values")
 
-vector_x <- c(1, 1, 1, 2, 1, 2, 2)
+vector_x <- as.integer(c(1, 1, 1, 2, 1, 2, 2))
 list_x <- list(landscape, landscape_matrix, vector_x)
-list_y <- list(llist_x, landscape_stack)
+list_y <- list(list_x, landscape_stack)
 
 test_that("get_unique_values works for vector", {
 
@@ -12,7 +12,7 @@ test_that("get_unique_values works for vector", {
     expect_is(get_unique_values(vector_x, simplify = TRUE),
               class = "integer")
     expect_equal(get_unique_values(vector_x, simplify = TRUE),
-                 expected = c(1, 2, 3))
+                 expected = c(1, 2))
 })
 
 test_that("get_unique_values works for matrix", {
