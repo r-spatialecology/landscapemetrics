@@ -73,7 +73,7 @@ get_unique_values.RasterStack <- function(x){
 
     if (raster::inMemory(x)) {
 
-        x <- get_unique_values_int(x@data@values)
+        x <- get_unique_values_int(raster::getValues(x))
         if (!is.list(x)) {
             xx <- vector(length = ncol(x), mode = 'list')
             for (i in 1:ncol(x)) {
