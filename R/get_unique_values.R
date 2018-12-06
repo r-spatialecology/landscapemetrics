@@ -52,55 +52,6 @@ get_unique_values.numeric <- function(x, simplify = FALSE){
 
 #' @name get_unique_values
 #' @export
-get_unique_values.matrix <- function(x, simplify = FALSE){
-
-    return(get_unique_values.numeric(x, simplify = simplify))
-
-}
-
-#' @name get_unique_values
-#' @export
-get_unique_values.list <- function(x, simplify = FALSE){
-
-    unique_values <- lapply(x, FUN = function(current_element) {
-
-        # use simplify = TRUE here to avoid lists of lists
-        if(class(current_element) == "RasterLayer") {
-
-            return(get_unique_values.RasterLayer(current_element, simplify = TRUE))
-
-        } else if(class(current_element) == "numeric" ||
-                  class(current_element) == "double" ||
-                  class(current_element) == "integer") {
-
-            return(get_unique_values.numeric(current_element, simplify = TRUE))
-
-        } else if(class(current_element) == "matrix") {
-
-            get_unique_values.matrix(get_unique_values.matrix, simplify = TRUE)
-
-        } else{
-
-            stop("List elements must be a RasterLayer, matrix or vector.")
-
-        }
-    })
-
-    if(simplify) {
-        if(length(x) == 1) {
-            return(unique_values[[1]])
-        }
-
-        else {
-            warning("Not able to simply list with more than 1 element.", call. = FALSE)
-        }
-    }
-
-    return(unique_values)
-}
-
-#' @name get_unique_values
-#' @export
 get_unique_values.RasterLayer <- function(x, simplify = FALSE){
 
     if (!raster::inMemory(x)) {
@@ -151,6 +102,55 @@ get_unique_values.RasterLayer <- function(x, simplify = FALSE){
     else {
         return(list(unique_values))
     }
+}
+
+#' @name get_unique_values
+#' @export
+get_unique_values.matrix <- function(x, simplify = FALSE){
+
+    return(get_unique_values.numeric(x, simplify = simplify))
+
+}
+
+#' @name get_unique_values
+#' @export
+get_unique_values.list <- function(x, simplify = FALSE){
+
+    unique_values <- lapply(x, FUN = function(current_element) {
+
+        # use simplify = TRUE here to avoid lists of lists
+        if(class(current_element) == "RasterLayer") {
+
+            return(get_unique_values.RasterLayer(current_element, simplify = TRUE))
+
+        } else if(class(current_element) == "numeric" ||
+                  class(current_element) == "double" ||
+                  class(current_element) == "integer") {
+
+            return(get_unique_values.numeric(current_element, simplify = TRUE))
+
+        } else if(class(current_element) == "matrix") {
+
+            get_unique_values.matrix(get_unique_values.matrix, simplify = TRUE)
+
+        } else{
+
+            stop("List elements must be a RasterLayer, matrix or vector.")
+
+        }
+    })
+
+    if(simplify) {
+        if(length(x) == 1) {
+            return(unique_values[[1]])
+        }
+
+        else {
+            warning("Not able to simply list with more than 1 element.", call. = FALSE)
+        }
+    }
+
+    return(unique_values)
 }
 
 #' @name get_unique_values
