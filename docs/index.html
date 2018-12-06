@@ -148,25 +148,25 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>`**landscapemetrics is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).</p>
-<p><code>landscapemetrics</code> supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble.</p>
+<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: an overall spatio-thematic complexity, a thematic complexity, a configurational complexity, and a disambiguator of pattern types having the same overall complexity (Nowosad and Stepinski 2018).</p>
+<p><strong>landscapemetrics</strong> supports <code>raster</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> or lists of <code>RasterLayer</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>There are several ways to install <code>landscapemetrics</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># The easiest way is to install landscapemetrics from CRAN</span></a>
+<p>There are several ways to install <strong>landscapemetrics</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Get the stable version from CRAN</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"landscapemetrics"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Alternatively, you can install the stable development version from Github</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># Alternatively, you can install the development version from Github</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"r-spatialecology/landscapemetrics"</span>, <span class="dt">ref =</span> <span class="st">"stable"</span>)</a></code></pre></div>
 </div>
 <div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
-<p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <code>landscapemetrics</code>, be sure to check your raster (see <code>check_raster()</code>).</p>
-<p>All functions in <code>landscapemetrics</code> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code>for the euclidean nearest-neighbor distance):</p>
+<p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code>check_raster()</code>).</p>
+<p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code>for the euclidean nearest-neighbor distance):</p>
 <pre><code># general structure
 lsm_"level"_"metric"
 
@@ -288,7 +288,7 @@ lsm_l_enn()</code></pre>
 <div id="utility-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#utility-functions" class="anchor"></a>Utility functions</h3>
-<p><code>landscapemetrics</code> further provides several visualization functions, e.g. show all labeld patches or the core area of all patches. All visualization functions start with the prefix <code>show_</code> (e.g. <code><a href="reference/show_cores.html">show_cores()</a></code>).</p>
+<p><strong>landscapemetrics</strong> further provides several visualization functions, e.g. show all labeld patches or the core area of all patches. All visualization functions start with the prefix <code>show_</code> (e.g. <code><a href="reference/show_cores.html">show_cores()</a></code>).</p>
 <p>Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix <code>get_</code>. All of them are implemented with Rcpp and have either memory or performance advantages compared to raster functions.</p>
 <p>For more details, see the <a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html">utility function vignette</a>.</p>
 </div>
@@ -296,7 +296,7 @@ lsm_l_enn()</code></pre>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
-<p>One of the major motivations behind <code>landscapemetrics</code> is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics and functions. Therefore, in case you want to suggest new metrics or functions and in the best case even contribute code, we warmly welcome to do so! For more information see <a href="CONTRIBUTING.html">CONTRIBUTING</a>.</p>
+<p>One of the major motivations behind <strong>landscapemetrics</strong> is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics and functions. Therefore, in case you want to suggest new metrics or functions and in the best case even contribute code, we warmly welcome to do so! For more information see <a href="CONTRIBUTING.html">CONTRIBUTING</a>.</p>
 <p>Maintainers and contributors must follow this repository’s <a href="CODE_OF_CONDUCT.html">CODE OF CONDUCT</a>.</p>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">

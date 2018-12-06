@@ -13,6 +13,8 @@ test_that("get_unique_values works for vector", {
               class = "integer")
     expect_equal(get_unique_values(vector_x, simplify = TRUE),
                  expected = c(1, 2))
+
+    expect_warning(get_unique_values(as.numeric(vector_x)))
 })
 
 test_that("get_unique_values works for matrix", {
@@ -66,5 +68,16 @@ test_that("get_unique_values works for RasterBrick", {
 test_that("get_unique_values works only for correct data types", {
 expect_error(get_unique_values(list_y),
              regexp = "List elements must be a RasterLayer, matrix or vector.")
+})
+
+
+test_that("get_unique_values works for RasterLayers not in memory", {
+    raster::rasterOptions(todisk = TRUE)
+    expect_is(get_unique_values(landscape), class = "list")
+    expect_length(get_unique_values(landscape), n = 1)
+
+    expect_is(get_unique_values(landscape, simplify = TRUE), class = "integer")
+    expect_equal(get_unique_values(landscape, simplify = TRUE),
+                 expected = c(1, 2, 3))
 })
 
