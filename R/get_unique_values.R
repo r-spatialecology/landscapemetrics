@@ -5,7 +5,7 @@
 #' @param x vector, matrix or Raster* object
 #'
 #' @details
-#' Fast and memory friendly Rcpp implementation to find the unique values of an object.
+#' Fast and memory efficient Rcpp implementation to find the unique values of an object.
 #'
 #' @examples
 #' get_unique_values(landscape)
@@ -72,29 +72,12 @@ get_unique_values.RasterStack <- function(x){
     }
 
     if (raster::inMemory(x)) {
-
-        x <- get_unique_values_int(raster::getValues(x))
-        if (!is.list(x)) {
-            xx <- vector(length = ncol(x), mode = 'list')
-            for (i in 1:ncol(x)) {
-                xx[[i]] <- x[,i]
-            }
-            x <- xx
-        }
-        return(x)
-    } else {
-        nl <- raster::nlayers(x)
-        un <- list(length = nl, mode = 'list')
-        tr <- raster::blockSize(x, n = 2)
-        un <- NULL
-        for (i in 1:tr$n) {
-            v <- get_unique_values_int(
-                raster::getValuesBlock(x, row = tr$row[i], nrows = tr$nrows[i]) )
-            un <- get_unique_values_int(rbind(v, un))
-        }
-        return(un)
+        x <- raster::getValues(x)
+        x <- apply(x, 2, get_unique_values_int)
+        x <- lapply(seq_len(ncol(x)), function(i) x[,i])
     }
 
+    return(x)
 }
 
 #' @name get_unique_values
