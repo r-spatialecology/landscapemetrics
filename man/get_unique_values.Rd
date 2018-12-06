@@ -3,9 +3,9 @@
 \name{get_unique_values}
 \alias{get_unique_values}
 \alias{get_unique_values.numeric}
+\alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.matrix}
 \alias{get_unique_values.list}
-\alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.RasterStack}
 \alias{get_unique_values.RasterBrick}
 \title{get_unique_values}
@@ -14,11 +14,11 @@ get_unique_values(x, simplify)
 
 \method{get_unique_values}{numeric}(x, simplify = FALSE)
 
+\method{get_unique_values}{RasterLayer}(x, simplify = FALSE)
+
 \method{get_unique_values}{matrix}(x, simplify = FALSE)
 
 \method{get_unique_values}{list}(x, simplify = FALSE)
-
-\method{get_unique_values}{RasterLayer}(x, simplify = FALSE)
 
 \method{get_unique_values}{RasterStack}(x, simplify = FALSE)
 
