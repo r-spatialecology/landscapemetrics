@@ -28,3 +28,11 @@ test_that("get_boundaries returns only 1 and NA", {
     expect_equal(get_unique_values(result)[[1]],
                  expected = 1)
 })
+
+test_that("get_boundaries works for 8 directions", {
+    class_1 <- get_patches(landscape, class = 1)[[1]]
+    result4 <- get_boundaries(class_1, directions = 4)
+    result8 <- get_boundaries(class_1, directions = 8)
+
+    expect_true(min(raster::getValues(result8) - raster::getValues(result4), na.rm = TRUE) >= 0)
+})

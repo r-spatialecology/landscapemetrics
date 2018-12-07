@@ -92,3 +92,11 @@ test_that("rcpp_get_composition_vector is typestable", {
     expect_is(land_result1_cv, "integer")
 })
 
+test_that("triangular_index works properly", {
+    expect_equal(landscapemetrics:::triangular_index(0, 0), 0)
+    expect_equal(landscapemetrics:::triangular_index(2, 1), 4)
+    expect_type(landscapemetrics:::triangular_index(0, 1), "integer")
+})
+
+
+landscapemetrics:::triangular_index(1, 2)

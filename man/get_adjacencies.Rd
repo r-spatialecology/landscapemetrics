@@ -12,7 +12,7 @@ get_adjacencies(landscape, neighbourhood = 4, what = "full",
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are
 considered as neighbours: 4 (rook's case), 8 (queen's case) or a binary matrix
-where the ones define the neighbourhood. The default is 4.}
+where 1 define the neighbourhood and 0 the focal cell. The default is 4.}
 
 \item{what}{Which adjacencies to calculate: "full" for a full adjacency matrix,
 "like" for the diagonal, "unlike" for the off diagonal part of the matrix and
@@ -39,18 +39,13 @@ like adjacencies, a count for how many edges a shared in each class with the sam
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{
-
 # calculate full adjacency matrix
-get_adjacencies(landscape, 4)
+get_adjacencies(landscape, neighbourhood = 4)
 
 # count diagonal neighbour adjacencies
 diagonal_matrix <- matrix(c(1,  NA,  1,
                             NA,  0, NA,
                             1,  NA,  1), 3, 3, byrow = TRUE)
 get_adjacencies(landscape, diagonal_matrix)
-
-# equivalent with the raster package:
-adjacencies <- raster::adjacent(landscape, 1:raster::ncell(landscape), 4, pairs=TRUE)
-table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
 
 }
