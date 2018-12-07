@@ -76,10 +76,6 @@ rcpp_get_coocurrence_vector <- function(x, directions, ordered = TRUE) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_vector', PACKAGE = 'landscapemetrics', x, directions, ordered)
 }
 
-rcpp_get_offdiagonal_vector <- function(x, directions) {
-    .Call('_landscapemetrics_rcpp_get_offdiagonal_vector', PACKAGE = 'landscapemetrics', x, directions)
-}
-
 #' @title First nearest neighbor distance
 #'
 #' @description Efficiently calculate the distance to the first nearest neighbor.
