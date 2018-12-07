@@ -34,5 +34,5 @@ test_that("get_boundaries works for 8 directions", {
     result4 <- get_boundaries(class_1, directions = 4)
     result8 <- get_boundaries(class_1, directions = 8)
 
-    expect_true(min(getValues(result8) - getValues(result4), na.rm = TRUE) >= 0)
+    expect_true(min(raster::getValues(result8) - raster::getValues(result4), na.rm = TRUE) >= 0)
 })
