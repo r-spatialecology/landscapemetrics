@@ -39,16 +39,3 @@ NumericVector rcpp_get_coocurrence_vector(IntegerMatrix x, arma::imat directions
     result.attr("dim") = R_NilValue;
     return result;
 }
-
-// [[Rcpp::export]]
-NumericVector rcpp_get_offdiagonal_vector(IntegerMatrix x, arma::imat directions) {
-    // calculate a coocurrence matrix
-    arma::imat y = as<arma::imat>(rcpp_get_coocurrence_matrix(x, directions));
-    // extract off-diagonal
-    arma::ivec offdiag = arma::conv_to<arma::ivec>::from(y.elem(find(trimatl(y, -1) != 0)));
-    // return a vector
-    NumericVector result = as<NumericVector>(wrap(offdiag));
-    // remove a dim attribute
-    result.attr("dim") = R_NilValue;
-    return result;
-}
