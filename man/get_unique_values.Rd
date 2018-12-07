@@ -3,32 +3,38 @@
 \name{get_unique_values}
 \alias{get_unique_values}
 \alias{get_unique_values.numeric}
-\alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.matrix}
+\alias{get_unique_values.RasterLayer}
 \alias{get_unique_values.list}
 \alias{get_unique_values.RasterStack}
 \alias{get_unique_values.RasterBrick}
 \title{get_unique_values}
 \usage{
-get_unique_values(x, simplify)
+get_unique_values(x, simplify, verbose)
 
-\method{get_unique_values}{numeric}(x, simplify = FALSE)
+\method{get_unique_values}{numeric}(x, simplify = FALSE,
+  verbose = TRUE)
 
-\method{get_unique_values}{RasterLayer}(x, simplify = FALSE)
+\method{get_unique_values}{matrix}(x, simplify = FALSE, verbose = TRUE)
 
-\method{get_unique_values}{matrix}(x, simplify = FALSE)
+\method{get_unique_values}{RasterLayer}(x, simplify = FALSE,
+  verbose = TRUE)
 
-\method{get_unique_values}{list}(x, simplify = FALSE)
+\method{get_unique_values}{list}(x, simplify = FALSE, verbose = TRUE)
 
-\method{get_unique_values}{RasterStack}(x, simplify = FALSE)
+\method{get_unique_values}{RasterStack}(x, simplify = FALSE,
+  verbose = TRUE)
 
-\method{get_unique_values}{RasterBrick}(x, simplify = FALSE)
+\method{get_unique_values}{RasterBrick}(x, simplify = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{x}{vector, matrix or Raster* object}
 
 \item{simplify}{If true, a vector will be returned instead of a list for
 1-dimensional input}
+
+\item{verbose}{If true, warning messages are printend}
 }
 \description{
 This function returns the unique values of an object.

@@ -5,7 +5,6 @@ Minor bugfixes, better memory allocation and new functions
 Minor bugfixes and new functions
 
 ## Update Version: 0.1.1
-
 a) The Solaris installation error is described in §1.6.4 of 'Writing R 
 Extensions': please study it.
 
