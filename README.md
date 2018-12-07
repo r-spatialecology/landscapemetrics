@@ -4,7 +4,7 @@
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 [![Travis build
-status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
+status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/landscapemetrics)
 [![Coverage
@@ -159,17 +159,17 @@ calculate_lsm(landscape, level = "patch")
 
     ## # A tibble: 324 x 6
     ##    layer level class    id metric  value
-    ##    <chr> <chr> <int> <int> <chr>   <dbl>
-    ##  1 1     patch     1     1 area   0.0001
-    ##  2 1     patch     1     2 area   0.0148
-    ##  3 1     patch     1     3 area   0.0005
-    ##  4 1     patch     1     4 area   0.0014
-    ##  5 1     patch     1     5 area   0.0001
-    ##  6 1     patch     1     6 area   0.0005
-    ##  7 1     patch     1     7 area   0.0001
-    ##  8 1     patch     1     8 area   0.0001
-    ##  9 1     patch     1     9 area   0.0003
-    ## 10 1     patch     2    10 area   0.0035
+    ##    <int> <chr> <int> <int> <chr>   <dbl>
+    ##  1     1 patch     1     1 area   0.0001
+    ##  2     1 patch     1     2 area   0.0148
+    ##  3     1 patch     1     3 area   0.0005
+    ##  4     1 patch     1     4 area   0.0014
+    ##  5     1 patch     1     5 area   0.0001
+    ##  6     1 patch     1     6 area   0.0005
+    ##  7     1 patch     1     7 area   0.0001
+    ##  8     1 patch     1     8 area   0.0001
+    ##  9     1 patch     1     9 area   0.0003
+    ## 10     1 patch     2    10 area   0.0035
     ## # ... with 314 more rows
 
 ### Utility functions
