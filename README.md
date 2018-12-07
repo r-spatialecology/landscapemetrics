@@ -4,7 +4,7 @@
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 [![Travis build
-status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
+status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/landscapemetrics)
 [![Coverage
