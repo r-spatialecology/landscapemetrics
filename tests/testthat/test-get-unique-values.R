@@ -72,7 +72,7 @@ expect_error(get_unique_values(list_y),
 
 
 test_that("get_unique_values works for RasterLayers not in memory", {
-    landscape2 <- raster::writeRaster(landscape, tempfile(fileext = ".tif"))
+    landscape2 <- raster::writeRaster(landscape, tempfile())
     expect_is(get_unique_values(landscape2), class = "list")
     expect_length(get_unique_values(landscape2), n = 1)
 
