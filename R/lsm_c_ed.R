@@ -9,10 +9,10 @@
 #' @details
 #' \deqn{ED = \frac{\sum \limits_{k = 1}^{m} e_{ik}} {A} * 10000}
 #' where \eqn{e_{ik}} is the total edge length in meters and \eqn{A} is the total
-#' landcape area in square meters.
+#' landscape area in square meters.
 #'
 #' ED is an 'Area and Edge metric'. The edge density equals the sum of all edges of class i
-#' in relation to the landcape area. The boundary of the landscape is only included in the
+#' in relation to the landscape area. The boundary of the landscape is only included in the
 #' corresponding total class edge length if \code{count_boundary = TRUE}.
 #' The metric describes the configuration of the landscape, e.g. because  an  aggregation
 #' of the same class will result in a low edge density. The metric is standardized to the
@@ -124,16 +124,29 @@ lsm_c_ed.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary, directions) {
+lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
-    area_landscape <- lsm_l_ta_calc(landscape,
-                                    directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
+    # get patch area
+    area <- lsm_p_area_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
+
+    # summarise to total area
+    area <- dplyr::summarise(area, value = sum(value))
+
+    # get total edge length
     edge_landscape <- lsm_c_te_calc(landscape,
                                     count_boundary = count_boundary,
-                                    directions = directions)
+                                    directions = directions,
+                                    resolution = resolution)
 
-    ed <- dplyr::mutate(edge_landscape, value = value / area_landscape$value)
+    ed <- dplyr::mutate(edge_landscape, value = value / area$value)
 
     tibble::tibble(
         level = "class",

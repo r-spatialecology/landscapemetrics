@@ -9,26 +9,26 @@
 \alias{show_cores.list}
 \title{Show core area}
 \usage{
-show_cores(landscape, directions, what, labels, nrow, ncol,
+show_cores(landscape, directions, class, labels, nrow, ncol,
   consider_boundary, edge_depth)
 
 \method{show_cores}{RasterLayer}(landscape, directions = 8,
-  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
   consider_boundary = FALSE, edge_depth = 1)
 
 \method{show_cores}{RasterStack}(landscape, directions = 8,
-  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
   consider_boundary = FALSE, edge_depth = 1)
 
 \method{show_cores}{RasterBrick}(landscape, directions = 8,
-  what = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
   consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{stars}(landscape, directions = 8, what = "all",
+\method{show_cores}{stars}(landscape, directions = 8, class = "all",
   labels = TRUE, nrow = NULL, ncol = NULL,
   consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{list}(landscape, directions = 8, what = "all",
+\method{show_cores}{list}(landscape, directions = 8, class = "all",
   labels = TRUE, nrow = NULL, ncol = NULL,
   consider_boundary = FALSE, edge_depth = 1)
 }
@@ -38,14 +38,15 @@ show_cores(landscape, directions, what, labels, nrow, ncol,
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{what}{How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
+\item{class}{How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
 
 \item{labels}{Logical flag indicating whether to print or not to print core labels.
 boundary should be considered as core}
 
 \item{nrow, ncol}{Number of rows and columns for the facet.}
 
-\item{consider_boundary}{Logical if cells that only neighbour the landscape}
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as core.}
 
 \item{edge_depth}{Distance (in cells) a cell has the be away from the patch
 edge to be considered as core cell}
@@ -62,12 +63,12 @@ corresponding patch id. The edges are the grey cells surrounding the patches and
 }
 \examples{
 # show "global" core area
-show_cores(landscape, what = "global", labels = FALSE)
+show_cores(landscape, class = "global", labels = FALSE)
 
 # show the core area of every class as facet
-show_cores(landscape, what = "all", labels = FALSE)
+show_cores(landscape, class = "all", labels = FALSE)
 
 # show only the core area of class 1 and 3
-show_cores(landscape, what = c(2,3), labels = FALSE)
+show_cores(landscape, class = c(1, 3), labels = TRUE)
 
 }

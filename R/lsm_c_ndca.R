@@ -122,14 +122,18 @@ lsm_c_ndca.list <- function(landscape, directions = 8, consider_boundary = FALSE
                   layer = as.integer(layer))
 }
 
-lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                            points = NULL){
 
-    ndca <- dplyr::summarise(dplyr::group_by(lsm_p_ncore_calc(landscape,
-                                                              directions = directions,
-                                                              consider_boundary = consider_boundary,
-                                                              edge_depth = edge_depth),
-                                             class),
-                             value = sum(value))
+    # get number of core areas for each patch
+    ndca <- lsm_p_ncore_calc(landscape,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             points = points)
+
+    # summarise for each class
+    ndca <- dplyr::summarise(dplyr::group_by(ndca, class), value = sum(value))
 
     tibble::tibble(
         level = "class",

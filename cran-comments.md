@@ -1,5 +1,10 @@
-## Update Version: 0.1.1
+## Update Version: 0.3
+Minor bugfixes, better memory allocation and new functions
 
+## Update Version: 0.2
+Minor bugfixes and new functions
+
+## Update Version: 0.1.1
 a) The Solaris installation error is described in §1.6.4 of 'Writing R 
 Extensions': please study it.
 
@@ -36,10 +41,9 @@ with a suitable tolerance.
 
 
 ## Test environments
-* local OS X install, R 3.5.1
+* Windows 10, R 3.5.1
 * ubuntu 18.04, R 3.5.1
-* macOS High Sierra, R 3.5.1
-* ubuntu 14.04 (on travis-ci), R 3.5.1
+* macOS Mojave, R 3.5.1
 * win-builder (devel and release)
 
 ## R CMD check results

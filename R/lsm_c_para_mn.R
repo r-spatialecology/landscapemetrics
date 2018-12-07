@@ -110,9 +110,11 @@ lsm_c_para_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_para_mn_calc <- function(landscape, directions){
+lsm_c_para_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    para <- lsm_p_para_calc(landscape, directions = directions)
+    para <- lsm_p_para_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     para_mn <- dplyr::summarise(dplyr::group_by(para, class),
                                 value = mean(value))

@@ -111,31 +111,59 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions) {
+lsm_p_gyrate_calc <- function(landscape, directions,
+                              points = NULL) {
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    # conver to matrix
+    if(class(landscape) != "matrix") {
 
-    gyrate <- lapply(landscape_labeled, function(patches_class) {
+        # get coordinates and values of all cells
+        points <- raster_to_points(landscape)
 
-        class <- sub("Class_", "", names(patches_class))
+        # convert to matrix
+        landscape <- raster::as.matrix(landscape)
+    }
 
-        points_class <- tibble::as.tibble(raster::rasterToPoints(patches_class))
-        names(points_class) <- c("x", "y", "id")
+    # get uniuqe class id
+    classes <- get_unique_values(landscape)[[1]]
 
-        centroid <- dplyr::summarise(dplyr::group_by(points_class, id),
+    gyrate <- lapply(classes, function(patches_class) {
+
+        # get connected patches
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions,
+                                         return_raster = FALSE)[[1]]
+
+        # transpose to get same direction of ID
+        landscape_labeled <- t(landscape_labeled)
+
+        # get coordinates of current class
+        points <- points[which(!is.na(landscape_labeled)), ]
+
+        # set ID from class ID to unique patch ID
+        points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
+
+        # conver to tibble to use dplyr
+        points <- tibble::as.tibble(points)
+        names(points) <- c("x", "y", "id")
+
+        # calcuale the centroid of each patch (mean of all coords)
+        centroid <- dplyr::summarise(dplyr::group_by(points, id),
                                      x_centroid = mean(x),
                                      y_centroid = mean(y))
 
-        full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
 
-        gyrate_class <- dplyr::summarise(
-            dplyr::group_by(
-                dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2)),
-                id),
-            value = mean(dist)
-            )
+        # create full data set with raster-points and patch centroids
+        full_data <- dplyr::left_join(x = points, y = centroid, by = "id")
 
-        tibble::tibble(class = as.integer(class),
+        # calculate distance from each cell center to centroid
+        gyrate_class <- dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2))
+
+        # mean distance for each patch
+        gyrate_class <- dplyr::summarise(dplyr::group_by(gyrate_class, id), value = mean(dist))
+
+        tibble::tibble(class = as.integer(patches_class),
                        value = as.double(gyrate_class$value))
     })
 
@@ -148,4 +176,64 @@ lsm_p_gyrate_calc <- function(landscape, directions) {
                    value = as.double(gyrate$value))
 
 }
+
+# lsm_p_gyrate_calc_old <- function(landscape, directions,
+#                               extent = NULL, resolution = NULL, crs = NULL) {
+#
+#     # use raster instead of landscape
+#     if(class(landscape) == "matrix") {
+#         landscape <- matrix_to_raster(landscape,
+#                                       extent = extent,
+#                                       resolution = resolution,
+#                                       crs =crs)
+#     }
+#
+#
+#     # get uniuqe class id
+#     classes <- get_unique_values(landscape)[[1]]
+#
+#     gyrate <- lapply(classes, function(patches_class) {
+#
+#         # get connected patches
+#         landscape_labeled <- get_patches(landscape,
+#                                          class = patches_class,
+#                                          directions = directions)[[1]]
+#
+#         # convert cells to points
+#         points_class <- tibble::as.tibble(raster::rasterToPoints(landscape_labeled))
+#         names(points_class) <- c("x", "y", "id")
+#
+#         # calcuale the centroid of each patch (mean of all coords)
+#         centroid <- dplyr::summarise(dplyr::group_by(points_class, id),
+#                                      x_centroid = mean(x),
+#                                      y_centroid = mean(y))
+#
+#
+#         # create full data set with raster-points and patch centroids
+#         full_data <- dplyr::left_join(x = points_class, y = centroid, by = "id")
+#
+#         # calculate distance from each cell center to centroid
+#         gyrate_class <- dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2))
+#
+#         # mean distance for each patch
+#         gyrate_class <- dplyr::summarise(dplyr::group_by(gyrate_class, id), value = mean(dist))
+#
+#         tibble::tibble(class = as.integer(patches_class),
+#                        value = as.double(gyrate_class$value))
+#     })
+#
+#     gyrate <- dplyr::bind_rows(gyrate)
+#
+#     tibble::tibble(level = "patch",
+#                    class = as.integer(gyrate$class),
+#                    id = as.integer(seq_len(nrow(gyrate))),
+#                    metric = "gyrate",
+#                    value = as.double(gyrate$value))
+#
+# }
+
+# bench::mark(
+#     new <- lsm_p_gyrate_calc(landscape, directions = 8),
+#     old <- lsm_p_gyrate_calc_old(landscape, directions = 8),
+#     iterations = 25)
 

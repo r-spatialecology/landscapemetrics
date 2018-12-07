@@ -30,57 +30,50 @@ library(landscapetools)
 
 To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
 
-```{r fig.height=12, fig.align="center"}
+```{r fig.height=12, fig.align = "center"}
 library(landscapetools)
 library(patchwork)
 library(landscapemetrics)
 library(ggplot2)
 
 # Create plot of the landscape
-landscape_plot <- util_plot(landscape) + theme_void() + guides(fill = FALSE) + coord_equal()
+landscape_plot <- landscapetools::util_plot(landscape) + 
+  ggplot2::theme_void() + 
+  ggplot2::guides(fill = FALSE) + 
+  ggplot2::coord_equal()
 
 # Plot landscape + landscape with labeled patches
-landscape_plot  + show_patches(landscape) + plot_layout(ncol = 1)
+landscape_plot  + 
+  show_patches(landscape) + 
+  patchwork::plot_layout(ncol = 1)
 ```
 
-### Connected labeling 
+You can also plot all patches of each class grouped.
 
-**landscapemetrics** makes internally heavy use of an connected labeling algorithm and exports an reimplementation of this algorithm (`get_patches`). You can use this function to look at patches of classes, but you can also use it to "dissect" your landscape
-visually and get an impression of the spatial distribution of the classes and number of patches. The [**landscapetools**](https://github.com/ropensci/landscapetools) package offers a function to plot lists, stacks and bricks of rasters as facets. As `get_patches` returns a list with RasterLayer elements for each class, this is a convienent way
-to look at patterns in your landscape:
+```{r fig.width=7, fig.height=7, fig.align="center"}
+# show patches of all classes
+show_patches(landscape, class = "all", labels = FALSE)
+```
 
-```{r fig.width=9, fig.height=4, fig.align="center", message = FALSE}
-# run connected labeling for landscape raster
-patches <- get_patches(landscape)
+To show only the core area, there is the visualization function `show_cores`. The arguments are similar to `show_patches()`
 
-# show landscape and a single facet with every patch for all classes in podlasie
-util_facetplot(patches) + 
-        ggplot2::scale_fill_gradientn(
-            colours = c(
-                "#5F4690",
-                "#1D6996",
-                "#38A6A5",
-                "#0F8554",
-                "#73AF48",
-                "#EDAD08",
-                "#E17C05",
-                "#CC503E",
-                "#94346E",
-                "#6F4070",
-                "#994E95",
-                "#666666"
-                ))
+```{r fig.width=7, fig.height=7, fig.align="center"}
+# show core area of class 1 and 3
+show_cores(landscape, class = c(1, 2), labels = FALSE)
+```
+
+Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`).
+
+```{r fig.width=7, fig.height=7, fig.align="center"}
+# fill patch according to area
+show_lsm(landscape, what = "lsm_p_area", class = "global", label_lsm = TRUE)
 ```
 
 ## Show correlation
 
-Selecting meaningful landscape metrics for your field of research is difficult,
-as many landscape metrics are very abstract and the common approach is often simply 
-to calculate as many as possible.
+Selecting meaningful landscape metrics for your field of research is difficult, as many landscape metrics are very abstract and the common approach is often simply to calculate as many as possible.
 
-To select at the least that ones for your landscape and research question that are 
-not highly correlated, you can use the function `show_correlation` to get insight
-into the correlation of the metrics you calculated:
+To select at the least that ones for your landscape and research question that are not highly correlated, you can use the function `show_correlation()` to get a first insight into the correlation of the metrics you calculated:
 
 ```{r fig.width=7, fig.height=7, fig.align="center"}
 metrics <- calculate_lsm(landscape, what = "patch")
@@ -89,16 +82,20 @@ show_correlation(metrics, method = "pearson")
 
 ## Building blocks
 
+### Get patches
+`landscapemetrics` makes internally heavy use of an connected labeling algorithm and exports an re-implementation of this algorithm (`get_patches`). The function return a list, where each list entry includes all patches of the corresponding class. The patches are labeld from 1...to n. 
+
+```{r}
+# get a list of all patches for each class
+get_patches(landscape)
+```
+
 ### Get adjacencies
-Adjacencies are a central part for landscape metrics, so calculating them
-quick and in a flexible way is key for e.g. developing new metrics.
-Hence, **landscapemetrics** exports a function that can calculate adjacencies
-in any number if directions when provided with a binary matrix (NA / 1 - NA are 
-cells that would be left out for looking at adjacencies).
+Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for e.g. developing new metrics. Hence, `landscapemetrics` exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).
 
 ```{r}
 # calculate full adjacency matrix
-get_adjacencies(landscape, 4)
+get_adjacencies(landscape, neighbourhood = 4)
 
 # count diagonal neighbour adjacencies
 diagonal_matrix <- matrix(c(1,  NA,  1,
@@ -108,17 +105,19 @@ get_adjacencies(landscape, diagonal_matrix)
 
 # equivalent with the raster package:
 adj_raster <- function(landscape){
-    adjacencies <- raster::adjacent(landscape, 1:raster::ncell(landscape), 4, pairs=TRUE)
+    adjacencies <- raster::adjacent(landscape, 
+                                    cells = 1:raster::ncell(landscape), 
+                                    directions = 4, 
+                                    pairs = TRUE)
     table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
 }
 
 # compare the two implementations
 library(bench)
-mark(
-    get_adjacencies(landscape, 4),
+bench::mark(
+    get_adjacencies(landscape, neighbourhood = 4),
     adj_raster(landscape),
-    iterations = 100,
-    relative = TRUE,
+    iterations = 100, 
     check = FALSE
 )
 
@@ -128,16 +127,14 @@ adj_raster(landscape) == get_adjacencies(landscape, 4)
 
 ### Get nearest neighbour
 
-**landscapemetrics** implements a memory efficient and hopefully quite fast way
-to calculate the nearest neighbour between classes in a raster (or matrix).
+`landscapemetrics` implements a memory efficient and quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).
 
 ```{r}
 # run connected labeling for podlasie raster
-patches <- get_patches(podlasie_ccilc, 100)[[1]]
+patches <- get_patches(landscape, class = 1)[[1]]
 
 # calculate the minimum distance between patches in a landscape
 min_dist <- get_nearestneighbour(patches)
-
 
 # create a function that would do the same with the raster package
 nearest_raster_fun <- function(patches) {
@@ -175,14 +172,21 @@ nearest_raster_fun <- function(patches) {
 
 # compare the two implementations
 library(bench)
-mark(
+bench::mark(
     get_nearestneighbour(patches),
     nearest_raster_fun(patches),
-    iterations = 100,
-    relative = TRUE,
-    check = FALSE
+    iterations = 100
 )
+```
 
-all(round(get_nearestneighbour(patches)$distance, 9) ==
-        round(nearest_raster_fun(patches)$distance, 9)) 
+### Get circumscribing circle
+
+To get the smallest circumscribing circle that includes all cells of the patch, simply run `get_circumscribingcircle()`. The result returns the diameter for each circle that includes all cells of each patch. This includes not only the cell centers but the whole cells using the cells corners. 
+
+```{r}
+# get all patches of class 1
+class_1 <- get_patches(landscape, class = 1)[[1]]
+
+# get smallest circumscribing circle for each patch
+circle <- get_circumscribingcircle(class_1)
 ```

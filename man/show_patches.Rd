@@ -9,27 +9,27 @@
 \alias{show_patches.list}
 \title{Show patches}
 \usage{
-show_patches(landscape, what, directions, labels, nrow, ncol)
+show_patches(landscape, class, directions, labels, nrow, ncol)
 
-\method{show_patches}{RasterLayer}(landscape, what = "global",
+\method{show_patches}{RasterLayer}(landscape, class = "global",
   directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{RasterStack}(landscape, what = "global",
+\method{show_patches}{RasterStack}(landscape, class = "global",
   directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{RasterBrick}(landscape, what = "global",
+\method{show_patches}{RasterBrick}(landscape, class = "global",
   directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{stars}(landscape, what = "global",
+\method{show_patches}{stars}(landscape, class = "global",
   directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 
-\method{show_patches}{list}(landscape, what = "global", directions = 8,
-  labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{list}(landscape, class = "global",
+  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
 }
 \arguments{
 \item{landscape}{*Raster object}
 
-\item{what}{How to show the labeled patches: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
+\item{class}{How to show the labeled patches: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -50,5 +50,7 @@ corresponding patch id.
 }
 \examples{
 show_patches(landscape)
+show_patches(landscape, class = c(1, 2))
+show_patches(landscape, class = 3, labels = FALSE)
 
 }

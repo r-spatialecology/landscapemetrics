@@ -137,12 +137,14 @@ lsm_l_dcore_mn.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                                points = NULL){
 
     dcore_mean <- dplyr::summarise(lsm_p_ncore_calc(landscape,
                                                     directions = directions,
                                                     consider_boundary = consider_boundary,
-                                                    edge_depth = edge_depth),
+                                                    edge_depth = edge_depth,
+                                                    points = points),
                                    value = mean(value))
 
     tibble::tibble(

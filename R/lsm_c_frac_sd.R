@@ -112,9 +112,11 @@ lsm_c_frac_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_frac_sd_calc <- function(landscape, directions){
+lsm_c_frac_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    frac <- lsm_p_frac_calc(landscape, directions = directions)
+    frac <- lsm_p_frac_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     frac_sd <- dplyr::summarise(dplyr::group_by(frac, class),
                                 value = stats::sd(value))

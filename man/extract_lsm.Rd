@@ -9,28 +9,33 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, what, directions, consider_boundary, edge_depth,
-  full_name, verbose, progress, ...)
+extract_lsm(landscape, y, what, metric, name, type, directions,
+  consider_boundary, edge_depth, full_name, verbose, progress, ...)
 
-\method{extract_lsm}{RasterLayer}(landscape, y, what = "patch",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterLayer}(landscape, y, what = NULL,
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterStack}(landscape, y, what = "patch",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterStack}(landscape, y, what = NULL,
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{RasterBrick}(landscape, y, what = "patch",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterBrick}(landscape, y, what = NULL,
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{stars}(landscape, y, what = "patch",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{stars}(landscape, y, what = NULL, metric = NULL,
+  name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
-\method{extract_lsm}{list}(landscape, y, what = "patch",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{list}(landscape, y, what = NULL, metric = NULL,
+  name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -38,6 +43,12 @@ extract_lsm(landscape, y, what, directions, consider_boundary, edge_depth,
 \item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
 
 \item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
+
+\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
+
+\item{name}{Full name of metrics to calculate (e.g. 'core area').}
+
+\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -72,7 +83,8 @@ metrics and the ID of the spatial objects.
 }
 \examples{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-extract_lsm(landscape, points, what = "lsm_p_area")
+extract_lsm(landscape, points)
+extract_lsm(landscape, points, type = "aggregation metric")
 
 points_sp <- sp::SpatialPoints(points)
 extract_lsm(landscape, points, what = "lsm_p_area")

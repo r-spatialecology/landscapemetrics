@@ -103,22 +103,30 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
                   layer = as.integer(layer))
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
+lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
+
+    # conver raster to matrix
+    if (class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    # get resolution in x-y directions
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     if(isTRUE(count_boundary)){
         landscape <- pad_raster(landscape = landscape,
-                                pad_raster_value = max(raster::values(landscape),
-                                                       na.rm = TRUE) + 1,
+                                pad_raster_value = max(landscape, na.rm = TRUE) + 1,
                                 pad_raster_cells = 1)
     }
 
-    if (isTRUE(raster::res(landscape)[[1]] == raster::res(landscape)[[2]])) {
+    if (isTRUE(resolution_x == resolution_y)) {
 
-        neighbor_matrix <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                          directions = as.matrix(4))
+        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape,
+                                                       directions = as.matrix(4))
 
-        edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) *
-            raster::res(landscape)[[1]]
+        edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) * resolution_x
     }
 
     else {
@@ -132,20 +140,18 @@ lsm_l_te_calc <- function(landscape, count_boundary = FALSE){
                                       NA, 1, NA), 3, 3, byrow = TRUE)
 
         left_right_neighbours <-
-            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+            rcpp_get_coocurrence_matrix(landscape,
                                         directions = as.matrix(left_right_matrix))
 
         edge_left_right <-
-            sum(left_right_neighbours[lower.tri(left_right_neighbours)]) *
-            raster::res(landscape)[[1]]
+            sum(left_right_neighbours[lower.tri(left_right_neighbours)]) * resolution_x
 
         top_bottom_neighbours <-
             rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
                                         directions = as.matrix(top_bottom_matrix))
 
         edge_top_bottom <-
-            sum(top_bottom_neighbours[lower.tri(top_bottom_neighbours)]) *
-            raster::res(landscape)[[2]]
+            sum(top_bottom_neighbours[lower.tri(top_bottom_neighbours)]) * resolution_y
 
         edge_total <- edge_left_right + edge_top_bottom
     }

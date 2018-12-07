@@ -22,7 +22,8 @@
 #'
 #' @export
 pad_raster <- function(landscape,
-                       pad_raster_value, pad_raster_cells,
+                       pad_raster_value,
+                       pad_raster_cells,
                        global) UseMethod("pad_raster")
 
 #' @name pad_raster
@@ -32,7 +33,10 @@ pad_raster.RasterLayer <- function(landscape,
                                    pad_raster_cells = 1,
                                    global = FALSE) {
 
-    pad_raster_internal(landscape, pad_raster_value, pad_raster_cells, global)
+    pad_raster_internal(raster::as.matrix(landscape),
+                        pad_raster_value = pad_raster_value,
+                        pad_raster_cells = pad_raster_cells,
+                        global = global)
 }
 
 #' @name pad_raster
@@ -43,7 +47,10 @@ pad_raster.RasterStack <- function(landscape,
                                    global = FALSE) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = pad_raster_internal,
+           FUN = function(x, pad_raster_value, pad_raster_cells, global) {
+               x <- raster::as.matrix(x)
+               pad_raster_internal(x, pad_raster_value, pad_raster_cells, global)
+               },
            pad_raster_value = pad_raster_value,
            pad_raster_cells = pad_raster_cells,
            global = global)
@@ -57,7 +64,10 @@ pad_raster.RasterBrick <- function(landscape,
                                    global = FALSE) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = pad_raster_internal,
+           FUN = function(x, pad_raster_value, pad_raster_cells, global) {
+               x <- raster::as.matrix(x)
+               pad_raster_internal(x, pad_raster_value, pad_raster_cells, global)
+           },
            pad_raster_value = pad_raster_value,
            pad_raster_cells = pad_raster_cells,
            global = global)
@@ -77,39 +87,37 @@ pad_raster.list <- function(landscape,
            global = global)
 }
 
+pad_raster.matrix <- function(landscape,
+                              pad_raster_value = -999,
+                              pad_raster_cells = 1,
+                              global = FALSE) {
+
+    pad_raster_internal(landscape,
+                        pad_raster_value = pad_raster_value,
+                        pad_raster_cells = pad_raster_cells,
+                        global = global)
+}
+
 pad_raster_internal <- function(landscape,
                                 pad_raster_value,
                                 pad_raster_cells,
                                 global){
 
-    landscape_matrix <- raster::as.matrix(landscape)
-
     for(i in seq_len(pad_raster_cells)){
-        landscape_matrix <- rbind(pad_raster_value,
-                                  landscape_matrix,
+
+        landscape_padded <- rbind(pad_raster_value,
+                                  landscape,
                                   pad_raster_value,
                                   deparse.level = 0)
-        landscape_matrix <- cbind(pad_raster_value,
-                                  landscape_matrix,
+        landscape_padded <- cbind(pad_raster_value,
+                                  landscape_padded,
                                   pad_raster_value,
                                   deparse.level = 0)
     }
 
     if(isTRUE(global)){
-     landscape_matrix[is.na(landscape_matrix)] <- pad_raster_value
+        landscape_padded[is.na(landscape_padded)] <- pad_raster_value
     }
 
-    landscape_padded_extent <- raster::extent(landscape) +
-        (pad_raster_cells * 2 * raster::res(landscape))
-
-    landscape_padded <- raster::raster(x = landscape_padded_extent,
-                                       resolution = raster::res(landscape),
-                                       crs = raster::crs(landscape))
-
-    landscape_padded <- raster::setValues(landscape_padded, landscape_matrix)
-
-    names(landscape_padded) <- names(landscape)
-
     return(landscape_padded)
-
 }

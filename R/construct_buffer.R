@@ -36,7 +36,7 @@ construct_buffer.matrix <- function(points, shape, size) {
 
         sample_plots_coords <- cbind(matrix(x_circle, ncol = 1),
                                      matrix(y_circle, ncol = 1),
-                                     rep(1:nrow(points), each = 100))
+                                     rep(seq_len(nrow(points)), each = 100))
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
 
@@ -65,7 +65,7 @@ construct_buffer.matrix <- function(points, shape, size) {
                   points[, 2] + size / 2,
                   points[, 2] - size / 2),
                 ncol = 1),
-            rep(1:nrow(points), times = 4)
+            rep(seq_len(nrow(points)), times = 4)
         )
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3],

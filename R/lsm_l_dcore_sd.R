@@ -139,12 +139,14 @@ lsm_l_dcore_sd.list <- function(landscape,
                   layer = as.integer(layer))
 }
 
-lsm_l_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_l_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_depth,
+                                points = NULL){
 
     dcore_sd <- dplyr::summarise(lsm_p_ncore_calc(landscape,
                                                   directions = directions,
                                                   consider_boundary = consider_boundary,
-                                                  edge_depth = edge_depth),
+                                                  edge_depth = edge_depth,
+                                                  points = points),
                                  value = stats::sd(value))
 
     tibble::tibble(

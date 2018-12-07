@@ -21,3 +21,7 @@ test_that("lsm_p_circle returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$metric, "character")
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
+
+test_that("lsm_p_circle can also handle irregular sized cells", {
+    expect_is(lsm_p_circle(landscape_diff_res), "tbl_df")
+})

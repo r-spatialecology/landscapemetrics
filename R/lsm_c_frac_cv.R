@@ -113,9 +113,11 @@ lsm_c_frac_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_frac_cv_calc <- function(landscape, directions){
+lsm_c_frac_cv_calc <- function(landscape, directions, resolution = NULL){
 
-    frac <- lsm_p_frac_calc(landscape, directions = directions)
+    frac <- lsm_p_frac_calc(landscape,
+                            directions = directions,
+                            resolution = resolution)
 
     frac_cv <- dplyr::summarise(dplyr::group_by(frac, class),
                                 value = raster::cv(value))

@@ -109,7 +109,7 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
+lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
     if(is.null(classes_max)) {
 
@@ -120,10 +120,11 @@ lsm_l_rpr_calc <- function(landcape, classes_max, verbose) {
     }
 
     else {
+
         pr <- lsm_l_pr_calc(landscape)
 
-        rpr <- dplyr::pull(dplyr::mutate(pr, value = value / classes_max * 100),
-                           value)
+        rpr <- dplyr::mutate(pr, value = value / classes_max * 100)
+        rpr <- rpr$value
     }
 
     tibble::tibble(

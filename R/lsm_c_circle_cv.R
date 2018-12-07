@@ -107,7 +107,6 @@ lsm_c_circle_cv.stars <- function(landscape, directions = 8) {
 #' @name lsm_c_circle_cv
 #' @export
 lsm_c_circle_cv.list <- function(landscape, directions = 8) {
-
     result <- lapply(X = landscape,
                      FUN = lsm_c_circle_cv_calc,
                      directions = directions)
@@ -116,9 +115,12 @@ lsm_c_circle_cv.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_c_circle_cv_calc <- function(landscape, directions) {
+lsm_c_circle_cv_calc <- function(landscape, directions,
+                                 resolution = NULL, points = NULL) {
 
-    circle <- lsm_p_circle_calc(landscape, directions = directions)
+    circle <- lsm_p_circle_calc(landscape,
+                                directions = directions,
+                                resolution = resolution, points = points)
 
     circle_cv <-  dplyr::summarize(dplyr::group_by(circle, class),
                                    value = raster::cv(value))

@@ -16,7 +16,7 @@
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
-#' around sample points. The size of the acutal sampled landscape can be different
+#' around sample points. The size of the actual sampled landscape can be different
 #' to the provided size due to two reasons. Firstly, because clipping raster
 #' cells using a circle or a sample plot not directly at a cell center lead
 #' to inaccuracies. Secondly, sample plots can exceed the landscape boundary.
@@ -86,7 +86,7 @@ sample_lsm.RasterStack <- function(landscape,
 
     layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
@@ -122,7 +122,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
     layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
@@ -158,7 +158,7 @@ sample_lsm.list <- function(landscape,
 
     layer_id <- rep(x = seq_along(landscape), each = nrow(points))
 
-    for(current_layer in 1:nrow(result)) {
+    for(current_layer in seq_len(nrow(result))) {
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
@@ -205,13 +205,18 @@ sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
 
     results_landscapes <- lapply(X = seq_along(landscape_plots),
                                  FUN = function(current_plot) {
-                                     area <- dplyr::pull(lsm_l_ta(landscape_plots[[current_plot]]), value)
 
-                                     result_plot <- dplyr::mutate(
-                                         calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...),
-                                         plot_id = current_plot, percentage_inside = (area / maximum_area) * 100)
+                                     area <- lsm_l_ta_calc(landscape_plots[[current_plot]],
+                                                           directions = 8)
+
+                                    result <- calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...)
+
+                                     result_plot <- dplyr::mutate(result,
+                                                                  plot_id = current_plot,
+                                                                  percentage_inside = (area$value / maximum_area) * 100)
 
                                      result_plot <- result_plot[, c(1, 7, 2, 3, 4, 5, 6, 8)]
+
                                      return(result_plot)
                                      }
                                  )

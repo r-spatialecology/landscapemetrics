@@ -16,11 +16,12 @@ get_nearestneighbour(landscape)
 \item{landscape}{RasterLayer or matrix (with x,y,id columns)}
 }
 \description{
-Calculates the minimal euclidean distance between classes for a raster/matrix.
+Euclidean distance to nearest neighbour
 }
 \details{
-Fast and memory safe Rcpp implementation for calculating minimal euclidean distances between
-classes in a raster or matrix.
+Fast and memory safe Rcpp implementation for calculating the minimum Euclidean
+distances to the nearest patch of the same class in a raster or matrix. All patches need an unique
+ID (see \code{\link{get_patches}}).
 }
 \examples{
 # get patches for class 1 from testdata as raster
@@ -29,8 +30,11 @@ class_1 <- get_patches(landscape,1)[[1]]
 # calculate the distance between patches
 get_nearestneighbour(class_1)
 
-# do the same with a 3 column matrix (x,y,id)
+# do the same with a 3 column matrix (x, y, id)
 class_1_matrix <- raster::rasterToPoints(class_1)
 get_nearestneighbour(class_1_matrix)
 
+}
+\references{
+Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
 }

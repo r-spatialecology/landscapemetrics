@@ -20,12 +20,19 @@ reference:
     - fragstats_landscape_landscape
     - fragstats_landscape_augusta_nlcd
     - fragstats_landscape_podlasie
+  - title: Options for landscapemetrics
+    contents:
+    - options_landscapemetrics
   - title: Auxiliary/Utility functions
     contents:
+    - check_landscape
+    - list_lsm
     - get_adjacencies
+    - get_boundaries
     - get_circumscribingcircle
     - get_nearestneighbour
     - get_patches
+    - get_unique_values
     - extract_lsm
     - sample_lsm
   - title: Visualisation functions
@@ -33,6 +40,7 @@ reference:
     - show_patches
     - show_cores
     - show_correlation
+    - show_lsm
   - title: Patch Level Metrics
     contents:
      - lsm_p_area
@@ -212,5 +220,3 @@ navbar:
     - icon: fa-github fa-lg
       text: "github"
       href: https://github.com/r-spatialecology/landscapemetrics
-
-

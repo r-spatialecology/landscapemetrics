@@ -121,11 +121,13 @@ lsm_c_enn_sd.list <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 
-lsm_c_enn_sd_calc <- function(landscape, directions, verbose) {
+lsm_c_enn_sd_calc <- function(landscape, directions, verbose,
+                              points = NULL) {
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
-                          verbose = verbose)
+                          verbose = verbose,
+                          points = points)
 
     enn_sd <-  dplyr::summarize(dplyr::group_by(enn, class),
                                 value = stats::sd(value))

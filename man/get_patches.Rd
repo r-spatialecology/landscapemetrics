@@ -6,29 +6,45 @@
 \alias{get_patches.RasterStack}
 \alias{get_patches.RasterBrick}
 \alias{get_patches.list}
+\alias{get_patches.matrix}
 \title{get_patches}
 \usage{
-get_patches(landscape, what, directions)
+get_patches(landscape, class, directions, to_disk, return_raster)
 
-\method{get_patches}{RasterLayer}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterLayer}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{RasterStack}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterStack}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{RasterBrick}(landscape, what = "all",
-  directions = 8)
+\method{get_patches}{RasterBrick}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{list}(landscape, what = "all", directions = 8)
+\method{get_patches}{list}(landscape, class = "all", directions = 8,
+  to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
+
+\method{get_patches}{matrix}(landscape, class = "all", directions = 8,
+  to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{what}{Either "all" (default) for every class in the raster, or specify
+\item{class}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{to_disk}{Logical argument, if FALSE results of get_patches are hold
+in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
+Can be set with a global option, e.g. \code{option(to_disk = TRUE)}. See Details.}
+
+\item{return_raster}{If false, matrix is returned}
 }
 \value{
 List
@@ -44,6 +60,14 @@ the value 1 - n. All cells not belonging to the class are \code{NA}.
 The underlying C code comes from the \code{SDMTools} package
 (VanDerWal \emph{et al.} 2014) and we appreciate their effort for implementing
 this efficient connected labeling algorithm.
+
+Landscape metrics rely on the delineation of patches. Hence, \code{get_patches} is
+heavily used in \strong{landscapemetrics}. As raster can be quite big, the fact that
+\code{get_patches} creates a copy of the raster for each class in a landscape becomes
+a burden for computer memory. Hence, the argument \emph{to_disk} allows to
+store the results of the connected labeling algorithm on disk. Furthermore,
+this option can be set globally, so that every function that internally uses
+\code{get_patches} can make use of that.
 }
 \examples{
 # check for patches of class 1

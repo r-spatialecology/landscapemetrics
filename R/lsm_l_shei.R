@@ -99,18 +99,22 @@ lsm_l_shei.list <- function(landscape){
                   layer = as.integer(layer))
 }
 
-lsm_l_shei_calc <- function(landscape){
+lsm_l_shei_calc <- function(landscape, resolution = NULL){
 
-    area <- raster::ncell(landscape)
+    # get class proportions (direction doesn't matter)
+    prop <- lsm_c_pland_calc(landscape,
+                             directions = 8,
+                             resolution = resolution)
 
-    p <- table(raster::values(landscape)) / area
+    prop <- dplyr::mutate(prop, value = value / 100)
+
+    shei <- sum(-prop$value * log(prop$value, exp(1))) / log(length(prop$value), exp(1))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shei",
-        value = as.double(sum(-p * log(p, exp(1))) /
-                              log(length(p), exp(1)))
+        value = as.double(shei)
     )
 }

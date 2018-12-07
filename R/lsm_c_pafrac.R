@@ -21,7 +21,7 @@
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= PAFRAC <= 2}
-#' \subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simples shapes and
+#' \subsection{Behaviour}{Approaches PAFRAC = 1 for patches with simple shapes and
 #' approaches PAFRAC = 2 for irregular shapes}
 #'
 #' @seealso
@@ -117,14 +117,26 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                   layer = as.integer(layer))
 }
 
-lsm_c_pafrac_calc <- function(landscape, directions, verbose){
+lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
-    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape, directions = directions),
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    # get patch area in sqm
+    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = value * 10000)
 
+    # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
-                                        directions = directions)
+                                        directions = directions,
+                                        resolution = resolution)
 
+    # get number of patches
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 

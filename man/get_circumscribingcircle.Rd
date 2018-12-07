@@ -6,41 +6,40 @@
 \alias{get_circumscribingcircle.matrix}
 \title{get_circumscribingcircle}
 \usage{
-get_circumscribingcircle(landscape, resolution)
+get_circumscribingcircle(landscape, resolution_x, resolution_y)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape, resolution)
+\method{get_circumscribingcircle}{RasterLayer}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
-\method{get_circumscribingcircle}{matrix}(landscape, resolution = NULL)
+\method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL,
+  resolution_y = NULL)
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix (with x,y,id columns)}
+\item{landscape}{RasterLayer or matrix (with x, y, id columns)}
 
-\item{resolution}{Resolution of the landscape (only needed if matrix as input is used)}
+\item{resolution_x}{Resolution of the landscape (only needed if matrix as input is used)}
+
+\item{resolution_y}{Resolution of the landscape (only needed if matrix as input is used)}
 }
 \description{
-Calculates the diameter of the smallest circumscribing circle around patches in a landscape.
+Diameter of the circumscribing circle around patches
 }
 \details{
-Fast and memory safe Rcpp implementation for calculating maximum euclidean distances between
-cells of the same class in a raster or matrix. Uses the edge boundary of cells,
-not the cell center. Using the edge boundary and the maximum distance between
-the 4 cell corners around each cell center of the patch derives in the diameter of
-the smallest circumscribing circle around a patch.
-
-If one uses this functions with a matrix the resolution of the underlying data must be provided.#'
+The diameter of the smallest circumscribing circle around a patch in the landscape
+is based on the maximum distance between the corners of each cell. This ensures that all
+cells of the patch are included in the patch. All patches need an unique
+ID (see \code{\link{get_patches}}). If one uses this functions with a matrix the
+resolution of the underlying data must be provided.
 }
 \examples{
 # get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape,1)[[1]]
+class_1 <- get_patches(landscape, class = 1)[[1]]
 
-# calculate the max distance between cell edges of each class
+# calculate the minimum circumscribing circle of each patch in class 1
 get_circumscribingcircle(class_1)
 
-# do the same with a 3 column matrix (x,y,id)
+# do the same with a 3 column matrix (x, y, id)
 class_1_matrix <- raster::rasterToPoints(class_1)
-get_circumscribingcircle(class_1_matrix, 1)
+get_circumscribingcircle(class_1_matrix, resolution_x = 1, resolution_y = 1)
 
-}
-\references{
-Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
 }

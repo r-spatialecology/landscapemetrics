@@ -1,29 +1,41 @@
 Type: Package
 Package: landscapemetrics
 Title: Landscape Metrics for Categorical Map Patterns
-Version: 0.2
-Date: 2018-10-08
-Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
-             role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
-             person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
-             role = "aut", comment = c(ORCID = '0000-0002-3042-5435')),
-             person("Jakub", "Nowosad", role = "aut",
+Version: 0.3
+Authors@R: c(person("Maximillian H.K.", "Hesselbarth",
+             role = c("aut", "cre"),
+             email = "maximilian.hesselbarth@uni-goettingen.de",
+             comment = c(ORCID = "0000-0003-1125-9918")),
+             person("Marco", "Sciaini",
+             role = "aut",
+             email = "sciaini.marco@gmail.com",
+             comment = c(ORCID = "0000-0002-3042-5435")),
+             person("Jakub", "Nowosad", 
+             role = "aut",
              email = "nowosad.jakub@gmail.com", 
              comment = c(ORCID = "0000-0002-1057-3721")),
-             person("Laura J.", "Graham", role = "ctb", 
-             comment = c(ORCID = "0000-0002-1057-3721")),
-             person("Kimberly A.", "With", role = "ctb",
-             comment = c(ORCID = "0000-0001-5570-1515")),
-             person("Jeffrey", "Hollister", role = "ctb", 
-             comment = c(ORCID = "0000-0002-3611-7281")),
-             person("Matt", "Strimas-Mackey", role = "ctb", 
-             comment = c(ORCID = "0000-0001-8929-7776")),
-             person("Jeremy", "VanDerWal", role = "ctb", 
-             comment = "Original author of underlying C code for 
-             get_patches() function"),
-             person("Florian", "Privé", role = "ctb", 
-             comment = "Original author of underlying C++ code for 
-             get_nearestneighbour() function"))
+             person("Sebastian", "Hanss", 
+             role = "aut", 
+             comment = c(ORCID = "0000-0002-3990-4897")),
+             person("Laura J.", "Graham",
+             role = "ctb", 
+             comment = "Input on package structure"),
+             person("Jeffrey", "Hollister", 
+             role = "ctb", 
+             comment = "Input on package structure"),
+             person("Kimberly A.", "With", 
+             role = "ctb",
+             comment = "Input on package structure"),
+             person("Florian", "Privé", 
+             role = "ctb", 
+             comment = "Original author of underlying C++ code for get_nearestneighbour() function"), 
+             person("Jeremy", "VanDerWal", 
+             role = "ctb", 
+             comment = "Original author of underlying C code for get_patches() function"), 
+             person("Matt", "Strimas-Mackey", 
+             role = "ctb", 
+             comment = "Bugfix in sample_metrics()")
+             )
 Maintainer: Maximillian H.K. Hesselbarth <maximilian.hesselbarth@uni-goettingen.de>
 Description: Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
@@ -40,6 +52,8 @@ BugReports: https://github.com/r-spatialecology/landscapemetrics/issues
 Depends: 
     R (>= 3.1)
 Imports: 
+    cli,
+    crayon,
     dplyr,
     ggplot2,
     methods,
@@ -62,6 +76,6 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 SystemRequirements: C++11
 VignetteBuilder: knitr

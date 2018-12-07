@@ -5,8 +5,12 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param what Either "all" (default) for every class in the raster, or specify
+#' @param class Either "all" (default) for every class in the raster, or specify
 #'             class value. See Details.
+#' @param to_disk Logical argument, if FALSE results of get_patches are hold
+#' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
+#' Can be set with a global option, e.g. `option(to_disk = TRUE)`. See Details.
+#' @param return_raster If false, matrix is returned
 #'
 #' @details
 #' Searches for connected patches (neighbouring cells of the same class i).
@@ -16,6 +20,14 @@
 #' The underlying C code comes from the \code{SDMTools} package
 #' (VanDerWal *et al.* 2014) and we appreciate their effort for implementing
 #' this efficient connected labeling algorithm.
+#'
+#' Landscape metrics rely on the delineation of patches. Hence, `get_patches` is
+#' heavily used in **landscapemetrics**. As raster can be quite big, the fact that
+#' `get_patches` creates a copy of the raster for each class in a landscape becomes
+#' a burden for computer memory. Hence, the argument *to_disk* allows to
+#' store the results of the connected labeling algorithm on disk. Furthermore,
+#' this option can be set globally, so that every function that internally uses
+#' `get_patches` can make use of that.
 #'
 #' @references
 #' VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
@@ -43,133 +55,236 @@
 #' @rdname get_patches
 #'
 #' @export
-get_patches <- function(landscape, what, directions)  UseMethod("get_patches")
+get_patches <- function(landscape,
+                        class,
+                        directions,
+                        to_disk,
+                        return_raster)  UseMethod("get_patches")
 
 
 #' @name get_patches
 #' @export
 get_patches.RasterLayer <- function(landscape,
-                                what = "all",
-                                directions = 8) {
-    raster::as.list(get_patches_int(landscape,
-                what = what,
-                directions = directions))
+                                    class = "all",
+                                    directions = 8,
+                                    to_disk = getOption("to_disk", default = FALSE),
+                                    return_raster = TRUE) {
+
+    # convert landscape to matrix
+    landscape_matrix <- raster::as.matrix(landscape)
+
+    # get connected components
+    result <- get_patches_int(landscape = landscape_matrix,
+                              class = class,
+                              directions = directions)
+
+    # convert back to raster
+    if(return_raster){
+        result <- lapply(result,
+                         FUN = matrix_to_raster,
+                         landscape = landscape,
+                         to_disk = to_disk)
+    }
+
+    return(result)
+
 }
 
 #' @name get_patches
 #' @export
 get_patches.RasterStack <- function(landscape,
-                                what = "all",
-                                directions = 8) {
+                                    class = "all",
+                                    directions = 8,
+                                    to_disk = getOption("to_disk", default = FALSE),
+                                    return_raster = TRUE) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = get_patches_int,
-           what = what,
-           directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+
+                     FUN = function(x, class, directions, return_raster, to_disk) {
+
+                         x_matrix <- raster::as.matrix(x)
+
+                         result <- get_patches_int(x_matrix, class, directions)
+
+                         if(return_raster){
+                            result <- lapply(result,
+                                             FUN = matrix_to_raster,
+                                             landscape = x,
+                                             to_disk = to_disk)
+                         }
+
+                         return(result)
+                     },
+
+                     class = class,
+                     directions = directions,
+                     return_raster = return_raster,
+                     to_disk = to_disk)
+
+    return(result)
 }
 
 #' @name get_patches
 #' @export
 get_patches.RasterBrick <- function(landscape,
-                                what = "all",
-                                directions = 8) {
+                                    class = "all",
+                                    directions = 8,
+                                    to_disk = getOption("to_disk", default = FALSE),
+                                    return_raster = TRUE) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = get_patches_int,
-           what = what,
-           directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+
+                     FUN = function(x, class, directions, return_raster, to_disk) {
+
+                         x_matrix <- raster::as.matrix(x)
+
+                         result <- get_patches_int(x_matrix, class, directions)
+
+                         if(return_raster){
+                             result <- lapply(result,
+                                              FUN = matrix_to_raster,
+                                              landscape = x,
+                                              to_disk = to_disk)
+                         }
+
+                         return(result)
+                     },
+
+                     class = class,
+                     directions = directions,
+                     return_raster = return_raster,
+                     to_disk = to_disk)
+
+    return(result)
 }
 
 #' @name get_patches
 #' @export
 get_patches.list <- function(landscape,
-                         what = "all",
-                         directions = 8) {
+                             class = "all",
+                             directions = 8,
+                             to_disk = getOption("to_disk", default = FALSE),
+                             return_raster = TRUE) {
 
-    lapply(X = landscape,
-           FUN = get_patches_int,
-           what = what,
-           directions = directions)
+    result <- lapply(X = raster::as.list(landscape),
+
+                     FUN = function(x, class, directions, return_raster, to_disk) {
+
+                         if(class(x) == "RasterLayer"){
+                            x_matrix <- raster::as.matrix(x)
+                            result <- get_patches_int(x_matrix, class, directions)
+                            if(return_raster){
+                                result <- lapply(result,
+                                                 FUN = matrix_to_raster,
+                                                 landscape = x,
+                                                 to_disk = to_disk)
+                            }
+                            return(result)
+                         }
+
+                         else {
+                             result <- get_patches_int(x, class, directions)
+                             return(result)
+                         }
+
+                                         },
+
+                     class = class,
+                     directions = directions,
+                     return_raster = return_raster,
+                     to_disk = to_disk)
+
+    return(result)
 }
 
-get_patches_int <- function(landscape, what, directions) {
+#' @name get_patches
+#' @export
+get_patches.matrix <- function(landscape,
+                               class = "all",
+                               directions = 8,
+                               to_disk = getOption("to_disk", default = FALSE),
+                               return_raster = TRUE) {
 
+    result <- get_patches_int(landscape,
+                              class = class,
+                              directions = directions)
+
+    if(return_raster || to_disk){
+        warning("return_raster = TRUE or to_disk = TRUE not able for matrix input")
+    }
+
+    return(result)
+}
+
+get_patches_int <- function(landscape,
+                            class,
+                            directions) {
+
+    # check if directions argument is valid
     if (directions != 4 && directions != 8) {
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)
         directions <- 8
     }
 
-    landscape_extent <- raster::extent(landscape)
+    # get unique classes
+    unique_classes <- get_unique_values(landscape)[[1]]
 
-    landscape_empty <- raster::raster(
-        x = landscape_extent,
-        resolution = raster::res(landscape),
-        crs = raster::crs(landscape)
-    )
-
+    # set-up filter matrix
     filter_matrix <- matrix(NA,
-                            nrow = raster::nrow(landscape),
-                            ncol = raster::ncol(landscape))
+                            nrow = nrow(landscape),
+                            ncol = ncol(landscape))
 
-    landscape_matrix <- raster::as.matrix(landscape)
+    # class is specified
+    if (any(class != "all")) {
 
-    if (what != "all") {
-
-        if (!isTRUE(what %in% raster::unique(landscape))) {
-            stop(paste("There is no class", what, "in your raster"))
+        # check if class is present in landscape
+        if (!any(class %in% unique_classes)) {
+            stop("Not all provided classes present in landscape")
         }
 
-        filter_matrix[landscape_matrix == what] <- 1
+        patch_landscape <- lapply(X = class, FUN = function(current_class) {
 
-        if (directions == 4) {
-            filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
-        }
+            # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
+            filter_matrix[landscape == current_class] <- 1
 
-        if (directions == 8) {
-            filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
-        }
+            # connected labeling with 4 neighbours
+            if (directions == 4) {
+                patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+            }
 
-        patch_landscape <- raster::setValues(x = landscape_empty,
-                                             values = filter_raster)
+            # connected labeling with 8 neighbours
+            if (directions == 8) {
+                patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+            }
 
-        names(patch_landscape) <- paste0("Class_", what)
+            return(patch_landscape)
+        })
 
+        names(patch_landscape) <- class
         return(patch_landscape)
     }
 
     else {
 
-        classes <- na.omit(unique(as.vector(landscape_matrix)))
+        patch_landscape <- lapply(X = unique_classes, FUN = function(class) {
 
-        patch_landscape <- lapply(X = classes, FUN = function(what) {
-
-            filter_matrix[landscape_matrix == what] <- 1
+            filter_matrix[landscape == class] <- 1
 
             if (directions == 4) {
-                filter_raster = .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
             if (directions == 8) {
-                filter_raster = .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+                patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
             }
 
-            patch_landscape <- raster::setValues(x = landscape_empty,
-                                                 values = filter_raster)
-
-            names(patch_landscape) <- paste0("Class_", what)
-
-            patch_landscape
-
+            return(patch_landscape)
         })
 
-        names(patch_landscape) <- sapply(patch_landscape, FUN = function(patches){
+        names(patch_landscape) <- unique_classes
 
-            as.numeric(strsplit(names(patches), "_")[[1]][2])
-
-        })
-
-        patch_landscape <- patch_landscape[order(as.numeric(names(patch_landscape)))]
+        patch_landscape <- patch_landscape[order(as.integer(names(patch_landscape)))]
 
         return(patch_landscape)
     }

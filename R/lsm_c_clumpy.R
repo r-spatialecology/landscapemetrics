@@ -98,52 +98,68 @@ lsm_c_clumpy.list <- function(landscape) {
                   layer = as.integer(layer))
 }
 
-lsm_c_clumpy_calc <- function(landscape){
+lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
+    # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster(landscape)
 
-    tb <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_padded),
+    # get coocurrence
+    tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))
 
-    like_adjacencies <- diag(tb)
-    like_adjacencies <- like_adjacencies[2:length(like_adjacencies)]
+    # like adacencies are on the diagonal and remove adjacencies to boundary
+    like_adjacencies <- diag(tb)[2:length(diag(tb))]
+
+    # all other adjacencies
     other_adjacencies <- as.matrix(tb[, 2:ncol(tb)])
 
-    area_class <- tibble::as.tibble(raster::freq(landscape, useNA = "no"))
+    # number cells in each class without -999 lansdcape boundary
+    cells_class <- rcpp_get_composition_vector(landscape_padded)[-1]
 
-    min_e <- dplyr::pull(dplyr::mutate(area_class,
-                                       value = count * 10000,
-                                       n = trunc(sqrt(count)),
-                                       m = count - n ^ 2,
+    # conver to tibble
+    cells_class <- tibble::tibble(class = names(cells_class),
+                                  value = cells_class)
+
+    # calculate minimum perimeter
+    min_e <- dplyr::mutate(cells_class,
+                                       n = trunc(sqrt(value)),
+                                       m = value - n ^ 2,
                                        min_e = dplyr::case_when(
                                            m == 0 ~ n * 4,
-                                           n ^ 2 < count & count <= n * (1 + n) ~ 4 * n + 2,
-                                           count > n * (1 + n) ~ 4 * n + 4
-                                           )
-                                       ), min_e)
+                                           n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
+                                           value > n * (1 + n) ~ 4 * n + 4)
+                           )
 
-    g <- like_adjacencies / (colSums(other_adjacencies) - min_e)
+    # calculate g_i
+    g_i <- like_adjacencies / (colSums(other_adjacencies) - min_e$min_e)
 
-    prop_class <- lsm_c_pland(landscape)$value / 100
+    # proportional class area - direction has no influence on PLAND
+    prop_class <- lsm_c_pland_calc(landscape,
+                                   directions = 8,
+                                   resolution = resolution)
 
-    clumpy <- sapply(seq_along(g), function(row_ind) {
+    prop_class <- prop_class$value / 100
 
-        if (is.nan(g[row_ind]) || is.na(g[row_ind]) || prop_class[row_ind] == 1) {
+    # calculate clumpy
+    clumpy <- vapply(seq_along(g_i), FUN = function(row_ind) {
+
+        # set to NA if mathematical not possible
+        if (is.nan(g_i[row_ind]) || is.na(g_i[row_ind]) || prop_class[row_ind] == 1) {
             clumpy <- NA
         }
 
-        else if (g[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
-            clumpy <- (g[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
+        else if (g_i[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
+            clumpy <- (g_i[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
         }
 
         else {
-            clumpy <- (g[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
+            clumpy <- (g_i[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
         }
-    })
+    }, FUN.VALUE = numeric(1))
 
     tibble::tibble(
         level = "class",
-        class = as.integer(names(g)),
+        class = as.integer(names(g_i)),
         id = as.integer(NA),
         metric = "clumpy",
         value = as.double(clumpy)

@@ -112,9 +112,11 @@ lsm_l_frac_sd.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_frac_sd_calc <- function(landscape, directions){
+lsm_l_frac_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_sd <- dplyr::summarise(lsm_p_frac_calc(landscape, directions = directions),
+    frac_sd <- dplyr::summarise(lsm_p_frac_calc(landscape,
+                                                directions = directions,
+                                                resolution = resolution),
                                 value = stats::sd(value))
 
     tibble::tibble(

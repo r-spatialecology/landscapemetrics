@@ -132,45 +132,69 @@ lsm_p_core.list <- function(landscape, directions = 8,
                   layer = as.integer(layer))
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    core <- lapply(landscape_labeled, function(patches_class) {
+    # get unique classes
+    classes <- get_unique_values(landscape)[[1]]
 
-        if(!isTRUE(consider_boundary)) {
-            patches_class <- pad_raster(patches_class, pad_raster_value = NA,
-                                        pad_raster_cells = 1,
-                                        global = FALSE)
+    core <- lapply(classes, function(patches_class) {
+
+        # get connected patches
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions,
+                                         return_raster = FALSE)[[1]]
+
+        # consider landscape boundary for core definition
+        if(!consider_boundary) {
+            # add cells around raster to consider landscape boundary
+            landscape_padded <- pad_raster(landscape_labeled,
+                                           pad_raster_value = NA,
+                                           pad_raster_cells = 1,
+                                           global = FALSE)
         }
 
-        class_edge <- raster::boundaries(patches_class,
-                                       directions = 4)
+        # label all edge cells
+        class_edge <- get_boundaries(landscape_labeled,
+                                     directions = 4,
+                                     return_raster = FALSE)
 
-        cells_edge_patch <- table(factor(raster::values(patches_class)[raster::values(class_edge) == 1],
-                                   levels = unique(raster::values(patches_class))))
+        # count number of edge cells in each patch (edge == 1)
+        cells_edge_patch <- table(landscape_labeled[class_edge == 1])
 
+        # loop if edge_depth > 1
         if(edge_depth > 1){
+
+            # first edge depth already labels
             for(i in seq_len(edge_depth - 1)){
 
-                raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
+                # set all already edge to NA
+                class_edge[class_edge == 1] <- NA
 
-                class_edge <- raster::boundaries(class_edge,
-                                               directions = 4)
+                # set current_edge + 1 to new edge
+                class_edge <- get_boundaries(class_edge,
+                                             directions = 4,
+                                             return_raster = FALSE)
 
-                cells_edge_patch <- cells_edge_patch + table(factor(raster::values(patches_class)[raster::values(class_edge) == 1],
-                                                              levels = unique(raster::values(patches_class))))
+                # count number of edge cells in each patch (edge == 1) and add to already counted edge
+                cells_edge_patch <- cells_edge_patch + tabulate(landscape_labeled[class_edge == 1],
+                                                                nbins = length(cells_edge_patch))
             }
         }
 
-        cells_patch <- table(factor(raster::values(patches_class),
-                                    levels = unique(raster::values(patches_class))))
+        # all cells of the patch
+        cells_patch <- table(landscape_labeled)
 
-        core_area <- (cells_patch - cells_edge_patch) * prod(raster::res(patches_class)) / 10000
+        # all cells minus edge cells equal core and convert to ha
+        core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
-        class <- sub("Class_", "", names(patches_class))
-
-        tibble::tibble(class = class,
+        tibble::tibble(class = patches_class,
                        value = core_area)
     })
 

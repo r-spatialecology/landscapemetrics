@@ -102,17 +102,24 @@ lsm_c_np.list <- function(landscape, directions = 8) {
 
 lsm_c_np_calc <- function(landscape, directions){
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    result <- lapply(X = landscape_labeled, FUN = function(patches_class) {
+    classes <- get_unique_values(landscape)[[1]]
 
-        class <- sub("Class_", "", names(patches_class))
+    result <- lapply(X = classes, FUN = function(patches_class) {
 
-        np <- max(raster::values(patches_class), na.rm = TRUE)
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions,
+                                         return_raster = FALSE)[[1]]
+
+        np <- max(landscape_labeled, na.rm = TRUE)
 
         tibble::tibble(
             level = "class",
-            class = as.integer(class),
+            class = as.integer(patches_class),
             id = as.integer(NA),
             metric = "np",
             value = as.double(np)

@@ -109,20 +109,33 @@ lsm_p_area.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_p_area_calc <- function(landscape, directions){
+lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        resolution <- raster::res(landscape)
+        landscape <- raster::as.matrix(landscape)
+    }
 
-    area_patch_list <- lapply(landscape_labeled, function(patches_class){
+    # factor to convert cell to area
+    factor_ha <- prod(resolution) / 10000
 
-        class <- sub("Class_", "", names(patches_class))
+    # get unique class id
+    classes <- get_unique_values(landscape)[[1]]
 
-        area_patch_ij <- rcpp_get_composition_vector(
-            x = raster::as.matrix(patches_class)) *
-            prod(raster::res(patches_class)) / 10000
+    area_patch_list <- lapply(classes, function(patches_class){
+
+        # get connected patches
+        landscape_labeled <- get_patches(landscape,
+                                         class = patches_class,
+                                         directions = directions,
+                                         return_raster = FALSE)[[1]]
+
+        # multiply number of cells within each patch with hectar factor
+        area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
 
         tibble::tibble(
-            class = as.integer(class),
+            class = as.integer(patches_class),
             value = area_patch_ij
         )
     })

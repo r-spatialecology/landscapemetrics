@@ -112,9 +112,11 @@ lsm_l_frac_mn.list <- function(landscape, directions = 8) {
                   layer = as.integer(layer))
 }
 
-lsm_l_frac_mn_calc <- function(landscape, directions){
+lsm_l_frac_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_mean <- dplyr::summarise(lsm_p_frac(landscape, directions = directions),
+    frac_mean <- dplyr::summarise(lsm_p_frac_calc(landscape,
+                                                  directions = directions,
+                                                  resolution = resolution),
                                   value = mean(value))
 
     tibble::tibble(

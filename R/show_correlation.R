@@ -163,10 +163,7 @@ show_correlation <-
                                             , " Level", sep="")) +
                 ggplot2::theme(
                     axis.text.x = ggplot2::element_text(
-                        angle = 45,
-                        vjust = 1,
-                        size = 12,
-                        hjust = 1
+                        angle = 90
                     ),
                     text = ggplot2::element_text(size = text_size)
                 ) +
@@ -226,10 +223,7 @@ show_correlation <-
                 ggplot2::labs(x = "", y = "") +
                 ggplot2::theme(
                     axis.text.x = ggplot2::element_text(
-                        angle = 45,
-                        vjust = 1,
-                        size = 12,
-                        hjust = 1
+                        angle = 90
                     ),
                     text = ggplot2::element_text(size = text_size)
                 )
