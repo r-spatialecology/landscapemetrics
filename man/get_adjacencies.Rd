@@ -42,10 +42,4 @@ The "unlike" adjacencies are counting the cellwise edges between different class
 # calculate full adjacency matrix
 get_adjacencies(landscape, neighbourhood = 4)
 
-# count diagonal neighbour adjacencies
-diagonal_matrix <- matrix(c(1,  NA,  1,
-                            NA,  0, NA,
-                            1,  NA,  1), 3, 3, byrow = TRUE)
-get_adjacencies(landscape, diagonal_matrix)
-
 }
