@@ -26,7 +26,6 @@
 #' @return matrix with adjacencies between classes in a raster and between cells from the same class.
 #'
 #' @examples
-#'
 #' # calculate full adjacency matrix
 #' get_adjacencies(landscape, 4)
 #'
@@ -35,10 +34,6 @@
 #'                             NA,  0, NA,
 #'                             1,  NA,  1), 3, 3, byrow = TRUE)
 #' get_adjacencies(landscape, diagonal_matrix)
-#'
-#' # equivalent with the raster package:
-#' adjacencies <- raster::adjacent(landscape, 1:raster::ncell(landscape), 4, pairs=TRUE)
-#' table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
 #'
 #' @aliases get_adjacencies
 #' @rdname get_adjacencies
@@ -53,8 +48,8 @@ get_adjacencies <- function(landscape,
      stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
     }
 
-    adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
-                                as.matrix(neighbourhood))
+    adjacencies <- rcpp_get_coocurrence_matrix(x = raster::as.matrix(landscape),
+                                               directions = as.matrix(neighbourhood))
 
     if (!isTRUE(upper)) {
         if (what == "like") {
