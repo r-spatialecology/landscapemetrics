@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Utility functions • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
@@ -134,7 +140,7 @@
     <div class="page-header toc-ignore">
       <h1>Utility functions</h1>
             
-            <h4 class="date">2018-12-05</h4>
+            <h4 class="date">2018-12-19</h4>
       
       
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -269,10 +275,10 @@
 <a class="sourceLine" id="cb7-33" data-line-number="33">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb7-34" data-line-number="34">)</a>
 <a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression     min    mean  median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac…   102µs 115.4µs 108.3µs 265µs    8664.     6.05KB     0   100</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste…  10.2ms  11.2ms  10.5ms  17ms      89.1    1.69MB     4    96</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression   min    mean  median   max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac… 125µs 163.3µs 142.5µs 565µs    6124.     6.05KB     1    99</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste…  10ms  13.4ms  12.7ms  22ms      74.9    1.69MB     4    96</span></a>
 <a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;bch:tm&gt;</span></a>
 <a class="sourceLine" id="cb7-41" data-line-number="41"></a>
 <a class="sourceLine" id="cb7-42" data-line-number="42"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
@@ -303,11 +309,11 @@
 <a class="sourceLine" id="cb8-15" data-line-number="15">    points_class &lt;-<span class="st"> </span>patches <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="st">        </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/rasterToPoints">rasterToPoints</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="st">        </span>tibble<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/tibble/topics/as_tibble">as.tibble</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/set_names">set_names</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"id"</span>))</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"id"</span>))</a>
 <a class="sourceLine" id="cb8-19" data-line-number="19">    </a>
 <a class="sourceLine" id="cb8-20" data-line-number="20">    minimum_distance &lt;-<span class="st"> </span>np_class <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-21" data-line-number="21"><span class="st">        </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/purrr/topics/map">map_dbl</a></span>(<span class="cf">function</span>(patch_ij) {</a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="st">        </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(<span class="cf">function</span>(patch_ij) {</a>
 <a class="sourceLine" id="cb8-23" data-line-number="23">            patch_focal &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(points_class, id <span class="op">==</span><span class="st"> </span>patch_ij)</a>
 <a class="sourceLine" id="cb8-24" data-line-number="24">            </a>
 <a class="sourceLine" id="cb8-25" data-line-number="25">            patch_others &lt;-</a>
@@ -334,11 +340,11 @@
 <a class="sourceLine" id="cb8-46" data-line-number="46">    <span class="dt">iterations =</span> <span class="dv">100</span></a>
 <a class="sourceLine" id="cb8-47" data-line-number="47">)</a>
 <a class="sourceLine" id="cb8-48" data-line-number="48"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb8-49" data-line-number="49"><span class="co">#&gt;   expression     min    mean  median     max `itr/sec` mem_alloc  n_gc</span></a>
-<a class="sourceLine" id="cb8-50" data-line-number="50"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt; 1 get_neare…  2.07ms  2.88ms  2.73ms  5.92ms     347.   141.72KB     1</span></a>
-<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt; 2 nearest_r… 12.73ms 14.33ms 13.46ms 23.57ms      69.8    1.24MB     6</span></a>
-<a class="sourceLine" id="cb8-53" data-line-number="53"><span class="co">#&gt; # ... with 2 more variables: n_itr &lt;int&gt;, total_time &lt;bch:tm&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-49" data-line-number="49"><span class="co">#&gt;   expression    min    mean  median     max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb8-50" data-line-number="50"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt; 1 get_neare…    2ms  2.27ms  2.09ms  3.59ms     441.   141.72KB     2    98</span></a>
+<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt; 2 nearest_r… 12.6ms  17.7ms 15.31ms 30.43ms      56.5    1.24MB    11    89</span></a>
+<a class="sourceLine" id="cb8-53" data-line-number="53"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;bch:tm&gt;</span></a></code></pre></div>
 </div>
 <div id="get-circumscribing-circle" class="section level3">
 <h3 class="hasAnchor">
@@ -373,7 +379,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
 </div>
