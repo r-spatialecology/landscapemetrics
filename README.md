@@ -175,7 +175,7 @@ calculate_lsm(landscape, level = "patch")
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
-e.g. show all labeld patches or the core area of all patches. All
+e.g. show all labeled patches or the core area of all patches. All
 visualization functions start with the prefix `show_` (e.g.
 `show_cores()`).
 
