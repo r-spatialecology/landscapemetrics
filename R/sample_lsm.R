@@ -3,16 +3,18 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param what Selected level of metrics: either "all", "patch", "class", "landscape".
-#' The default is "all". It is also possible to specify functions as a vector of strings,
-#' e.g. what = c("lsm_c_ca", "lsm_l_ta").
 #' @param points SpatialPoints, sf or 2-column matrix with coordinates of sample points
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or the
 #' side-length for squares in mapunits
+#' @param what Selected level of metrics: either "patch", "class" or "landscape".
+#' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
+#' @param level Level of metrics to calculate (e.g. 'landscape').
+#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
+#' @param name Full name of metrics to calculate (e.g. 'core area').
+#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
 #' @param return_plots Logical if the clipped raster of the sample plot should
 #' be returned
-#' @param ... Options for calculate_lsm()
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
@@ -38,22 +40,30 @@
 #' @rdname sample_lsm
 #'
 #' @export
-sample_lsm <- function(landscape, what,
-                       shape, points, size, return_plots, ...) UseMethod("sample_lsm")
+sample_lsm <- function(landscape,
+                       points, shape, size,
+                       what, level, metric, name, type,
+                       return_plots) UseMethod("sample_lsm")
 
 
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterLayer <- function(landscape,
-                                   what = "all",
-                                   shape = "square", points, size,
-                                   return_plots = FALSE,
-                                   ...) {
+                                   points, shape = "square", size,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   return_plots = FALSE) {
 
-    result <- sample_lsm_int(landscape,
+    result <- sample_lsm_int(landscape = landscape,
+                             points = points, shape = shape, size = size,
                              what = what,
-                             shape = shape, points = points, size = size,
-                             ...)
+                             level = level,
+                             metric = metric,
+                             name = name,
+                             type = type)
 
     if(return_plots == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
@@ -69,18 +79,22 @@ sample_lsm.RasterLayer <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterStack <- function(landscape,
-                                   what = "all",
-                                   shape = "square", points, size,
-                                   return_plots = FALSE,
-                                   ...) {
+                                   points, shape = "square", size,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   return_plots = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
+                     points = points, shape = shape, size = size,
                      what = what,
-                     shape = shape,
-                     points = points,
-                     size = size,
-                     ...)
+                     level = level,
+                     metric = metric,
+                     name = name,
+                     type = type)
 
     result <- dplyr::bind_rows(result)
 
@@ -105,18 +119,22 @@ sample_lsm.RasterStack <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterBrick <- function(landscape,
-                                   what = "all",
-                                   shape = "square", points, size,
-                                   return_plots = FALSE,
-                                   ...) {
+                                   points, shape = "square", size,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   return_plots = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
+                     points = points, shape = shape, size = size,
                      what = what,
-                     shape = shape,
-                     points = points,
-                     size = size,
-                     ...)
+                     level = level,
+                     metric = metric,
+                     name = name,
+                     type = type)
 
     result <- dplyr::bind_rows(result)
 
@@ -141,18 +159,22 @@ sample_lsm.RasterBrick <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.list <- function(landscape,
-                            what = "all",
-                            shape = "square", points, size,
-                            return_plots = FALSE,
-                            ...) {
+                            points, shape = "square", size,
+                            what = NULL,
+                            level = NULL,
+                            metric = NULL,
+                            name = NULL,
+                            type = NULL,
+                            return_plots = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = sample_lsm_int,
+                     points = points, shape = shape, size = size,
                      what = what,
-                     shape = shape,
-                     points = points,
-                     size = size,
-                     ...)
+                     level = level,
+                     metric = metric,
+                     name = name,
+                     type = type)
 
     result <- dplyr::bind_rows(result)
 
@@ -174,7 +196,9 @@ sample_lsm.list <- function(landscape,
     return(result)
 }
 
-sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
+sample_lsm_int <- function(landscape,
+                           points, shape, size,
+                           what, level, metric, name, type) {
 
     if (shape == "circle") {
         maximum_area <- (pi * size ^ 2) / 10000
@@ -209,7 +233,12 @@ sample_lsm_int <- function(landscape, what, shape, points, size, ...) {
                                      area <- lsm_l_ta_calc(landscape_plots[[current_plot]],
                                                            directions = 8)
 
-                                    result <- calculate_lsm(landscape = landscape_plots[[current_plot]], what = what, ...)
+                                    result <- calculate_lsm(landscape = landscape_plots[[current_plot]],
+                                                            what = what,
+                                                            level = level,
+                                                            metric = metric,
+                                                            name = name,
+                                                            type = type)
 
                                      result_plot <- dplyr::mutate(result,
                                                                   plot_id = current_plot,

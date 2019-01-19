@@ -10,7 +10,6 @@
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param simplify If true, function names are returned as vector.
 #' @param verbose Print warning messages
-
 #'
 #' @details List all available landscape metrics depending on the provided filter arguments.
 #' If an argument is not provided, automatically all possibilities are selected.

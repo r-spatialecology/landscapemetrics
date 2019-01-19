@@ -1,3 +1,6 @@
+# landscapemetrics 0.3.1
+* fixing bug in `sample_lsm()`
+
 # landscapemetrics 0.3
 * New functions
     * New function `check_landscape` to make sure your landscapes are feasible for landscapemetrics
