@@ -2,6 +2,10 @@ context("patch level lsm_p_core metric")
 
 landscapemetrics_patch_landscape_value <- lsm_p_core(landscape)
 
+test_that("lsm_p_core works for a single class landscape", {
+    expect_equal(lsm_p_core(setValues(landscape, 1)), 1)
+})
+
 test_that("lsm_p_core is typestable", {
     expect_is(lsm_p_core(landscape), "tbl_df")
     expect_is(lsm_p_core(landscape_stack), "tbl_df")
