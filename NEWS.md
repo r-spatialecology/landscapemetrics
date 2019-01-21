@@ -2,6 +2,7 @@
 * Bugfixes
     * fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
     * Bugfix in `lsm_p_core()` if only one patch is present
+    * Bugfix in `lsm_p_circle()` if only one cell is present in class
 * Improvements
     * `sample_lsm()` now returns a tibble including an extra column if `return_raster = TRUE` (and not a nested tibble as before)
 * Renaming
