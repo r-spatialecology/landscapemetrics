@@ -27,6 +27,15 @@
 #' the landscape will have a `percentage_inside = 50`. Please be aware that the
 #' output is sligthly different to all other `lsm`-function of `landscapemetrics`.
 #'
+#' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
+#' and/or `type` (combinations of different arguments are possible (e.g.
+#' `level = "class", type = "aggregation metric"`). If an argument is not provided,
+#' automatically all possibilities are selected. Therefore, to get **all**
+#' available metrics, don't specify any of the above arguments.
+#'
+#' @seealso
+#' \code{\link{list_lsm}}
+#'
 #' @return tibble
 #'
 #' @examples

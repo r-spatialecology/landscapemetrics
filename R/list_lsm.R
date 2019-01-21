@@ -11,8 +11,9 @@
 #' @param simplify If true, function names are returned as vector.
 #' @param verbose Print warning messages
 #'
-#' @details List all available landscape metrics depending on the provided filter arguments.
-#' If an argument is not provided, automatically all possibilities are selected.
+#' @details List all available landscape metrics depending on the provided filter
+#' arguments. If an argument is not provided, automatically all possibilities are
+#' selected. Therefore, to get **all** available metrics, use simply `list_lsm()`.
 #' Furthermore, it is possible to only get a vector with all function names instead of the full tibble.
 #'
 #' @return tibble

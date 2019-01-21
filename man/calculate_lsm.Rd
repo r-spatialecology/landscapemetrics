@@ -97,6 +97,14 @@ tibble
 \description{
 Calculate a selected group of metrics
 }
+\details{
+Wrapper to calculate several landscape metrics. The metrics can be specified
+by the arguments \code{what}, \code{level}, \code{metric}, \code{name} and/or \code{type} (combinations
+of different arguments are possible (e.g. \code{level = "class", type = "aggregation metric"}).
+If an argument is not provided, automatically all possibilities are
+selected. Therefore, to get \strong{all} available metrics, don't specify any of the
+above arguments.
+}
 \examples{
 \dontrun{
 calculate_lsm(landscape)
@@ -110,4 +118,7 @@ McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analys
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
 web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+}
+\seealso{
+\code{\link{list_lsm}}
 }

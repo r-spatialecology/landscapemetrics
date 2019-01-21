@@ -5,6 +5,7 @@
     * Bugfix in `lsm_p_circle()` if only one cell is present in class
 * Improvements
     * `sample_lsm()` now returns a tibble including an extra column if `return_raster = TRUE` (and not a nested tibble as before)
+    * Better explanation on how to specify metrics for `list_lsm()`, `calculate_lsm()` and ``sample_lsm()`
 * Renaming
     * Renamed argument `return_plots` to `return_raster` in `sample_lsm()`
 
