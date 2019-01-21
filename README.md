@@ -13,7 +13,7 @@ status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/gr
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active – The project has reached a stable, usable
+[![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
@@ -175,7 +175,7 @@ calculate_lsm(landscape, level = "patch")
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
-e.g. show all labeled patches or the core area of all patches. All
+e.g. show all labeld patches or the core area of all patches. All
 visualization functions start with the prefix `show_` (e.g.
 `show_cores()`).
 
@@ -197,7 +197,7 @@ metrics or functions and in the best case even contribute code, we
 warmly welcome to do so\! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repository’s [CODE OF
+Maintainers and contributors must follow this repositoryâ€™s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
