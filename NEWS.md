@@ -1,7 +1,8 @@
 # landscapemetrics 0.3.1
-* fixing bug in `sample_lsm()`
+* fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
 * Renamed argument `return_plots` to `return_raster` in `sample_lsm()`
 * Bugfix in `lsm_p_core()` if only one patch is present
+* `sample_lsm()` now returns a tibble including an extra column if `return_raster = TRUE` (and not a nested tibble as before)
 
 # landscapemetrics 0.3
 * New functions

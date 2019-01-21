@@ -65,12 +65,16 @@ sample_lsm.RasterLayer <- function(landscape,
                              name = name,
                              type = type)
 
-    if(return_raster == FALSE) {
-        result  <- dplyr::bind_rows(result$metrics)
-    }
-    else {
-        result <- dplyr::mutate(result, layer = as.integer(1))
-        result <- result[, c(4, 1, 2, 3)]
+    # if(return_raster == FALSE) {
+    #     result  <- dplyr::bind_rows(result$metrics)
+    # }
+    # else {
+    #     result <- dplyr::mutate(result, layer = as.integer(1))
+    #     result <- result[, c(4, 1, 2, 3)]
+    # }
+
+    if(!isTRUE(return_raster)) {
+        result  <- dplyr::select(result, -raster_sample_plots)
     }
 
     return(result)
@@ -98,19 +102,26 @@ sample_lsm.RasterStack <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
+    layer_id <- rep(x = seq_len(raster::nlayers(landscape)),
+                    each = nrow(as.data.frame(points)))
 
-    for(current_layer in seq_len(nrow(result))) {
-        result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    }
+    # for(current_layer in seq_len(nrow(result))) {
+    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
+    # }
+    #
+    # if(return_raster == FALSE) {
+    #     result  <- dplyr::bind_rows(result$metrics)
+    # }
+    #
+    # else {
+    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
+    #     result <- result[, c(4, 1, 2, 3)]
+    # }
 
-    if(return_raster == FALSE) {
-        result  <- dplyr::bind_rows(result$metrics)
-    }
+    result$layer <- layer_id
 
-    else {
-        result <- dplyr::mutate(result, layer = as.integer(layer_id))
-        result <- result[, c(4, 1, 2, 3)]
+    if(!isTRUE(return_raster)) {
+        result  <- dplyr::select(result, -raster_sample_plots)
     }
 
     return(result)
@@ -138,19 +149,26 @@ sample_lsm.RasterBrick <- function(landscape,
 
     result <- dplyr::bind_rows(result)
 
-    layer_id <- rep(x = seq_len(raster::nlayers(landscape)), each = nrow(points))
+    layer_id <- rep(x = seq_len(raster::nlayers(landscape)),
+                    each = nrow(as.data.frame(points)))
 
-    for(current_layer in seq_len(nrow(result))) {
-        result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    }
+    # for(current_layer in seq_len(nrow(result))) {
+    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
+    # }
+    #
+    # if(return_raster == FALSE) {
+    #     result  <- dplyr::bind_rows(result$metrics)
+    # }
+    #
+    # else {
+    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
+    #     result <- result[, c(4, 1, 2, 3)]
+    # }
 
-    if(return_raster == FALSE) {
-        result  <- dplyr::bind_rows(result$metrics)
-    }
+    result$layer <- layer_id
 
-    else {
-        result <- dplyr::mutate(result, layer = as.integer(layer_id))
-        result <- result[, c(4, 1, 2, 3)]
+    if(!isTRUE(return_raster)) {
+        result  <- dplyr::select(result, -raster_sample_plots)
     }
 
     return(result)
@@ -180,17 +198,23 @@ sample_lsm.list <- function(landscape,
 
     layer_id <- rep(x = seq_along(landscape), each = nrow(points))
 
-    for(current_layer in seq_len(nrow(result))) {
-        result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    }
+    # for(current_layer in seq_len(nrow(result))) {
+    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
+    # }
+    #
+    # if(return_raster == FALSE) {
+    #     result  <- dplyr::bind_rows(result$metrics)
+    # }
+    #
+    # else {
+    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
+    #     result <- result[, c(4, 1, 2, 3)]
+    # }
 
-    if(return_raster == FALSE) {
-        result  <- dplyr::bind_rows(result$metrics)
-    }
+    result$layer <- layer_id
 
-    else {
-        result <- dplyr::mutate(result, layer = as.integer(layer_id))
-        result <- result[, c(4, 1, 2, 3)]
+    if(!isTRUE(return_raster)) {
+        result  <- dplyr::select(result, -raster_sample_plots)
     }
 
     return(result)
@@ -250,9 +274,15 @@ sample_lsm_int <- function(landscape,
                                      }
                                  )
 
-    results <- tibble::enframe(results_landscapes, name = "plot_id", value = "metrics")
+    # results <- tibble::enframe(results_landscapes, name = "plot_id", value = "metrics")
+    #
+    # results_total <- dplyr::mutate(results, raster_sample_plots = landscape_plots)
+    #
+    # return(results_total)
 
-    results_total <- dplyr::mutate(results, raster_sample_plots = landscape_plots)
+    results <- dplyr::bind_rows(results_landscapes)
 
-    return(results_total)
+    results$raster_sample_plots <- landscape_plots[results$plot_id]
+
+    return(results)
 }
