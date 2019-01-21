@@ -185,12 +185,16 @@
 <ul>
 <li>fixing bug in <code><a href="../reference/sample_lsm.html">sample_lsm()</a></code> that occured when metrics where selected using <code>what</code> argument</li>
 <li>Bugfix in <code><a href="../reference/lsm_p_core.html">lsm_p_core()</a></code> if only one patch is present</li>
+<li>Bugfix in <code><a href="../reference/lsm_p_circle.html">lsm_p_circle()</a></code> if only one cell is present in class</li>
+<li>Bugfix in <code>lsm_p_hyrate()</code> if only one cell is present in class</li>
 </ul>
 </li>
 <li>Improvements
 <ul>
 <li>
 <code><a href="../reference/sample_lsm.html">sample_lsm()</a></code> now returns a tibble including an extra column if <code>return_raster = TRUE</code> (and not a nested tibble as before)</li>
+<li>Better explanation on how to specify metrics for <code><a href="../reference/list_lsm.html">list_lsm()</a></code>, <code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code> and `<code><a href="../reference/sample_lsm.html">sample_lsm()</a></code>
+</li>
 </ul>
 </li>
 <li>Renaming
@@ -322,7 +326,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>

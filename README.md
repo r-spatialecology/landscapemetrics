@@ -5,15 +5,15 @@
 
 [![Travis build
 status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/landscapemetrics)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active â€“ The project has reached a stable, usable
+[![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
@@ -131,7 +131,7 @@ lsm_p_enn(landscape)
     ##  8     1 patch     1     8 enn     2   
     ##  9     1 patch     1     9 enn     4.12
     ## 10     1 patch     2    10 enn     4.47
-    ## # ... with 17 more rows
+    ## # … with 17 more rows
 
 ``` r
 # calculate the total area and total class edge length
@@ -159,18 +159,18 @@ calculate_lsm(landscape, level = "patch")
 
     ## # A tibble: 324 x 6
     ##    layer level class    id metric  value
-    ##    <int> <chr> <int> <int> <chr>   <dbl>
-    ##  1     1 patch     1     1 area   0.0001
-    ##  2     1 patch     1     2 area   0.0148
-    ##  3     1 patch     1     3 area   0.0005
-    ##  4     1 patch     1     4 area   0.0014
-    ##  5     1 patch     1     5 area   0.0001
-    ##  6     1 patch     1     6 area   0.0005
-    ##  7     1 patch     1     7 area   0.0001
-    ##  8     1 patch     1     8 area   0.0001
-    ##  9     1 patch     1     9 area   0.0003
-    ## 10     1 patch     2    10 area   0.0035
-    ## # ... with 314 more rows
+    ##    <chr> <chr> <int> <int> <chr>   <dbl>
+    ##  1 1     patch     1     1 area   0.0001
+    ##  2 1     patch     1     2 area   0.0148
+    ##  3 1     patch     1     3 area   0.0005
+    ##  4 1     patch     1     4 area   0.0014
+    ##  5 1     patch     1     5 area   0.0001
+    ##  6 1     patch     1     6 area   0.0005
+    ##  7 1     patch     1     7 area   0.0001
+    ##  8 1     patch     1     8 area   0.0001
+    ##  9 1     patch     1     9 area   0.0003
+    ## 10 1     patch     2    10 area   0.0035
+    ## # … with 314 more rows
 
 ### Utility functions
 
@@ -197,7 +197,7 @@ metrics or functions and in the best case even contribute code, we
 warmly welcome to do so\! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repositoryâ€™s [CODE OF
+Maintainers and contributors must follow this repository’s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
