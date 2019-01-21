@@ -9,23 +9,23 @@
 \title{sample_lsm}
 \usage{
 sample_lsm(landscape, points, shape, size, what, level, metric, name, type,
-  return_plots)
+  return_raster)
 
 \method{sample_lsm}{RasterLayer}(landscape, points, shape = "square",
   size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_plots = FALSE)
+  type = NULL, return_raster = FALSE)
 
 \method{sample_lsm}{RasterStack}(landscape, points, shape = "square",
   size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_plots = FALSE)
+  type = NULL, return_raster = FALSE)
 
 \method{sample_lsm}{RasterBrick}(landscape, points, shape = "square",
   size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_plots = FALSE)
+  type = NULL, return_raster = FALSE)
 
 \method{sample_lsm}{list}(landscape, points, shape = "square", size,
   what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_plots = FALSE)
+  type = NULL, return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -48,7 +48,7 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 
 \item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
-\item{return_plots}{Logical if the clipped raster of the sample plot should
+\item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}
 }
 \value{
@@ -73,6 +73,6 @@ points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 
 points_sp <- sp::SpatialPoints(points)
-sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_plots = TRUE)
+sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 
 }

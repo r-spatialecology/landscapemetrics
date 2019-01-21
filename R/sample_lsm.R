@@ -13,7 +13,7 @@
 #' @param metric Abbreviation of metrics to calculate (e.g. 'area').
 #' @param name Full name of metrics to calculate (e.g. 'core area').
 #' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
-#' @param return_plots Logical if the clipped raster of the sample plot should
+#' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
 #'
 #' @details
@@ -34,7 +34,7 @@
 #' sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_plots = TRUE)
+#' sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 #'
 #' @aliases sample_lsm
 #' @rdname sample_lsm
@@ -43,7 +43,7 @@
 sample_lsm <- function(landscape,
                        points, shape, size,
                        what, level, metric, name, type,
-                       return_plots) UseMethod("sample_lsm")
+                       return_raster) UseMethod("sample_lsm")
 
 
 #' @name sample_lsm
@@ -55,7 +55,7 @@ sample_lsm.RasterLayer <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   return_plots = FALSE) {
+                                   return_raster = FALSE) {
 
     result <- sample_lsm_int(landscape = landscape,
                              points = points, shape = shape, size = size,
@@ -65,7 +65,7 @@ sample_lsm.RasterLayer <- function(landscape,
                              name = name,
                              type = type)
 
-    if(return_plots == FALSE) {
+    if(return_raster == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
     }
     else {
@@ -85,7 +85,7 @@ sample_lsm.RasterStack <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   return_plots = FALSE) {
+                                   return_raster = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
@@ -104,7 +104,7 @@ sample_lsm.RasterStack <- function(landscape,
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
-    if(return_plots == FALSE) {
+    if(return_raster == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
     }
 
@@ -125,7 +125,7 @@ sample_lsm.RasterBrick <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   return_plots = FALSE) {
+                                   return_raster = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
@@ -144,7 +144,7 @@ sample_lsm.RasterBrick <- function(landscape,
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
-    if(return_plots == FALSE) {
+    if(return_raster == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
     }
 
@@ -165,7 +165,7 @@ sample_lsm.list <- function(landscape,
                             metric = NULL,
                             name = NULL,
                             type = NULL,
-                            return_plots = FALSE) {
+                            return_raster = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = sample_lsm_int,
@@ -184,7 +184,7 @@ sample_lsm.list <- function(landscape,
         result$metrics[[current_layer]]$layer <- layer_id[current_layer]
     }
 
-    if(return_plots == FALSE) {
+    if(return_raster == FALSE) {
         result  <- dplyr::bind_rows(result$metrics)
     }
 
