@@ -20,4 +20,3 @@ vignettes/articles
 ^tic\.R$
 ^vignettes/articles$
 ^\.httr-oauth$
-_pkgdown.yml
