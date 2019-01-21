@@ -3,7 +3,14 @@ context("patch level lsm_p_core metric")
 landscapemetrics_patch_landscape_value <- lsm_p_core(landscape)
 
 test_that("lsm_p_core works for a single class landscape", {
-    expect_equal(lsm_p_core(setValues(landscape, 1)), 1)
+
+    landscape_single_patch <- landscape
+
+    landscape_single_patch[] <- 1
+
+    result <- lsm_p_core(landscape_single_patch, consider_boundary = TRUE)
+
+    expect_equal(result$value, 0.09)
 })
 
 test_that("lsm_p_core is typestable", {

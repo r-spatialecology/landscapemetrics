@@ -154,7 +154,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         # consider landscape boundary for core definition
         if(!consider_boundary) {
             # add cells around raster to consider landscape boundary
-            landscape_padded <- pad_raster(landscape_labeled,
+            landscape_labeled <- pad_raster(landscape_labeled,
                                            pad_raster_value = NA,
                                            pad_raster_cells = 1,
                                            global = FALSE)
@@ -190,6 +190,11 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
         # all cells of the patch
         cells_patch <- table(landscape_labeled)
+
+        # check if no cell is edge, i.e. only one patch is present
+        if(dim(cells_edge_patch) == 0) {
+            cells_edge_patch <- 0
+        }
 
         # all cells minus edge cells equal core and convert to ha
         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000

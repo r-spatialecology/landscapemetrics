@@ -1,6 +1,7 @@
 # landscapemetrics 0.3.1
 * fixing bug in `sample_lsm()`
 * Renamed argument `return_plots` to `return_raster` in `sample_lsm()`
+* Bugfix in `lsm_p_core()` if only one patch is present
 
 # landscapemetrics 0.3
 * New functions
