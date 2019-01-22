@@ -24,7 +24,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{msciain@uni-goettingen.de} (0000-0003-1125-9918)
 
 Authors:
 \itemize{
