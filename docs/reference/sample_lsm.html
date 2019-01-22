@@ -271,6 +271,15 @@ Therefore, we report the actual clipped sample plot area relative in relation
 to the theoretical, maximum sample plot area e.g. a sample plot only half within
 the landscape will have a <code>percentage_inside = 50</code>. Please be aware that the
 output is sligthly different to all other <code>lsm</code>-function of <code>landscapemetrics</code>.</p>
+<p>The metrics can be specified by the arguments <code>what</code>, <code>level</code>, <code>metric</code>, <code>name</code>
+and/or <code>type</code> (combinations of different arguments are possible (e.g.
+<code>level = "class", type = "aggregation metric"</code>). If an argument is not provided,
+automatically all possibilities are selected. Therefore, to get <strong>all</strong>
+available metrics, don't specify any of the above arguments.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='list_lsm.html'>list_lsm</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -298,6 +307,8 @@ output is sligthly different to all other <code>lsm</code>-function of <code>lan
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

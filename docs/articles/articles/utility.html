@@ -140,7 +140,7 @@
     <div class="page-header toc-ignore">
       <h1>Utility functions</h1>
             
-            <h4 class="date">2019-01-21</h4>
+            <h4 class="date">2019-01-22</h4>
       
       
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -275,10 +275,10 @@
 <a class="sourceLine" id="cb7-33" data-line-number="33">    <span class="dt">check =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb7-34" data-line-number="34">)</a>
 <a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression      min    mean   median     max `itr/sec` mem_alloc  n_gc</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:tm&gt; &lt;bch:t&gt; &lt;bch:tm&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac~ 476.24us 582.2us 556.32us  1.23ms    1718.     6.05KB     0</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste~   7.39ms  10.3ms   9.11ms 43.13ms      97.1    1.69MB     4</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;   expression     min    mean  median     max `itr/sec` mem_alloc  n_gc</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; 1 get_adjac~  64.6us 77.69us 68.36us 151.7us    12872.    6.05KB     0</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; 2 adj_raste~  7.52ms  8.65ms  8.43ms  13.3ms      116.    1.69MB     4</span></a>
 <a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; # ... with 2 more variables: n_itr &lt;int&gt;, total_time &lt;bch:tm&gt;</span></a>
 <a class="sourceLine" id="cb7-41" data-line-number="41"></a>
 <a class="sourceLine" id="cb7-42" data-line-number="42"><span class="kw">adj_raster</span>(landscape) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span>(landscape, <span class="dv">4</span>)</a>
@@ -342,10 +342,10 @@
 <a class="sourceLine" id="cb8-48" data-line-number="48"><span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span></a>
 <a class="sourceLine" id="cb8-49" data-line-number="49"><span class="co">#&gt; This warning is displayed once per session.</span></a>
 <a class="sourceLine" id="cb8-50" data-line-number="50"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt;   expression    min   mean  median    max `itr/sec` mem_alloc  n_gc n_itr</span></a>
-<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:&gt; &lt;bch:&gt; &lt;bch:t&gt; &lt;bch:&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb8-53" data-line-number="53"><span class="co">#&gt; 1 get_neare~ 2.16ms  2.5ms  2.42ms  3.9ms     399.   141.34KB     2    98</span></a>
-<a class="sourceLine" id="cb8-54" data-line-number="54"><span class="co">#&gt; 2 nearest_r~  8.8ms   11ms  10.7ms 16.9ms      90.8    1.33MB     6    94</span></a>
+<a class="sourceLine" id="cb8-51" data-line-number="51"><span class="co">#&gt;   expression    min   mean median     max `itr/sec` mem_alloc  n_gc n_itr</span></a>
+<a class="sourceLine" id="cb8-52" data-line-number="52"><span class="co">#&gt;   &lt;chr&gt;      &lt;bch:&gt; &lt;bch:&gt; &lt;bch:&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb8-53" data-line-number="53"><span class="co">#&gt; 1 get_neare~ 1.81ms 2.21ms 2.03ms  3.55ms      452.  141.34KB     2    98</span></a>
+<a class="sourceLine" id="cb8-54" data-line-number="54"><span class="co">#&gt; 2 nearest_r~  8.4ms 9.73ms 9.65ms 12.94ms      103.    1.33MB     6    94</span></a>
 <a class="sourceLine" id="cb8-55" data-line-number="55"><span class="co">#&gt; # ... with 1 more variable: total_time &lt;bch:tm&gt;</span></a></code></pre></div>
 </div>
 <div id="get-circumscribing-circle" class="section level3">
