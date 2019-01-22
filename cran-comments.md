@@ -44,10 +44,11 @@ with a suitable tolerance.
 
 
 ## Test environments
-* Windows 10, R 3.5.1
-* ubuntu 18.04, R 3.5.1
-* macOS Mojave, R 3.5.1
-* win-builder (devel and release)
+* Windows 10, R 3.5.2
+* ubuntu 18.04, R 3.5.2
+* macOS Mojave, R 3.5.2
+* Windows 10, R (unstable) (2019-01-18 r75994)
+* win-builder (release)
 
 ## R CMD check results
 
