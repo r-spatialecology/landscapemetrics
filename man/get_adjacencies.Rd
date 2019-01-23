@@ -39,11 +39,8 @@ like adjacencies, a count for how many edges a shared in each class with the sam
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{
-
-\dontrun{
 # calculate full adjacency matrix
 get_adjacencies(landscape, 4)
-
 
 # count diagonal neighbour adjacencies
 diagonal_matrix <- matrix(c(1,  NA,  1,
@@ -54,5 +51,5 @@ get_adjacencies(landscape, diagonal_matrix)
 # equivalent with the raster package:
 adjacencies <- raster::adjacent(landscape, 1:raster::ncell(landscape), 4, pairs=TRUE)
 table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
-}
+
 }
