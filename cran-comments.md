@@ -48,7 +48,7 @@ with a suitable tolerance.
 * ubuntu 18.04, R 3.5.2
 * macOS Mojave, R 3.5.2
 * Windows 10, R (unstable) (2019-01-18 r75994)
-* win-builder (release)
+* win-builder (release and devel)
 
 ## R CMD check results
 
