@@ -8,38 +8,48 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, what, shape, points, size, return_plots, ...)
+sample_lsm(landscape, points, shape, size, what, level, metric, name, type,
+  return_raster)
 
-\method{sample_lsm}{RasterLayer}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE, ...)
+\method{sample_lsm}{RasterLayer}(landscape, points, shape = "square",
+  size, what = NULL, level = NULL, metric = NULL, name = NULL,
+  type = NULL, return_raster = FALSE)
 
-\method{sample_lsm}{RasterStack}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE, ...)
+\method{sample_lsm}{RasterStack}(landscape, points, shape = "square",
+  size, what = NULL, level = NULL, metric = NULL, name = NULL,
+  type = NULL, return_raster = FALSE)
 
-\method{sample_lsm}{RasterBrick}(landscape, what = "all",
-  shape = "square", points, size, return_plots = FALSE, ...)
+\method{sample_lsm}{RasterBrick}(landscape, points, shape = "square",
+  size, what = NULL, level = NULL, metric = NULL, name = NULL,
+  type = NULL, return_raster = FALSE)
 
-\method{sample_lsm}{list}(landscape, what = "all", shape = "square",
-  points, size, return_plots = FALSE, ...)
+\method{sample_lsm}{list}(landscape, points, shape = "square", size,
+  what = NULL, level = NULL, metric = NULL, name = NULL,
+  type = NULL, return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{what}{Selected level of metrics: either "all", "patch", "class", "landscape".
-The default is "all". It is also possible to specify functions as a vector of strings,
-e.g. what = c("lsm_c_ca", "lsm_l_ta").}
+\item{points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
-
-\item{points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or the
 side-length for squares in mapunits}
 
-\item{return_plots}{Logical if the clipped raster of the sample plot should
-be returned}
+\item{what}{Selected level of metrics: either "patch", "class" or "landscape".
+It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
-\item{...}{Options for calculate_lsm()}
+\item{level}{Level of metrics to calculate (e.g. 'landscape').}
+
+\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
+
+\item{name}{Full name of metrics to calculate (e.g. 'core area').}
+
+\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+
+\item{return_raster}{Logical if the clipped raster of the sample plot should
+be returned}
 }
 \value{
 tibble
@@ -57,12 +67,21 @@ Therefore, we report the actual clipped sample plot area relative in relation
 to the theoretical, maximum sample plot area e.g. a sample plot only half within
 the landscape will have a \code{percentage_inside = 50}. Please be aware that the
 output is sligthly different to all other \code{lsm}-function of \code{landscapemetrics}.
+
+The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
+and/or \code{type} (combinations of different arguments are possible (e.g.
+\code{level = "class", type = "aggregation metric"}). If an argument is not provided,
+automatically all possibilities are selected. Therefore, to get \strong{all}
+available metrics, don't specify any of the above arguments.
 }
 \examples{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
 
 points_sp <- sp::SpatialPoints(points)
-sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_plots = TRUE)
+sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 
+}
+\seealso{
+\code{\link{list_lsm}}
 }

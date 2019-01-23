@@ -1,3 +1,16 @@
+# landscapemetrics 0.3.1
+* Bugfixes
+    * fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
+    * Bugfix in `lsm_p_core()` if only one patch is present
+    * Bugfix in `lsm_p_circle()` if only one cell is present in class
+    * Bugfix in `lsm_p_hyrate()` if only one cell is present in class
+    * Bugfix in `get_adjacencies()` that checks if `neighbourhood` was specified correctly did not work properly
+* Improvements
+    * `sample_lsm()` now returns a tibble including an extra column if `return_raster = TRUE` (and not a nested tibble as before)
+    * Better explanation on how to specify metrics for `list_lsm()`, `calculate_lsm()` and ``sample_lsm()`
+* Renaming
+    * Renamed argument `return_plots` to `return_raster` in `sample_lsm()`
+
 # landscapemetrics 0.3
 * New functions
     * New function `check_landscape` to make sure your landscapes are feasible for landscapemetrics

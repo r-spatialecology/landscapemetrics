@@ -38,7 +38,7 @@ get_boundaries <- function(landscape,
         stop("Please provide RasterLayer or matrix as input.", call. = FALSE)
     }
 
-    # check if either raster or matrix is provided
+    # check if either directions are possible
     if(directions != 4 && directions != 8) {
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }

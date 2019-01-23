@@ -8,6 +8,13 @@
 
 <title>Changelog • landscapemetrics | Landscape Metrics for Categorical Map Patterns</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -63,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -169,9 +176,39 @@
       
     </div>
 
+    <div id="landscapemetrics-0-3-1" class="section level1">
+<h1 class="page-header">
+<a href="#landscapemetrics-0-3-1" class="anchor"></a>landscapemetrics 0.3.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>Bugfixes
+<ul>
+<li>fixing bug in <code><a href="../reference/sample_lsm.html">sample_lsm()</a></code> that occured when metrics where selected using <code>what</code> argument</li>
+<li>Bugfix in <code><a href="../reference/lsm_p_core.html">lsm_p_core()</a></code> if only one patch is present</li>
+<li>Bugfix in <code><a href="../reference/lsm_p_circle.html">lsm_p_circle()</a></code> if only one cell is present in class</li>
+<li>Bugfix in <code>lsm_p_hyrate()</code> if only one cell is present in class</li>
+<li>Bugfix in <code><a href="../reference/get_adjacencies.html">get_adjacencies()</a></code> that checks if <code>neighbourhood</code> was specified correctly did not work properly</li>
+</ul>
+</li>
+<li>Improvements
+<ul>
+<li>
+<code><a href="../reference/sample_lsm.html">sample_lsm()</a></code> now returns a tibble including an extra column if <code>return_raster = TRUE</code> (and not a nested tibble as before)</li>
+<li>Better explanation on how to specify metrics for <code><a href="../reference/list_lsm.html">list_lsm()</a></code>, <code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code> and `<code><a href="../reference/sample_lsm.html">sample_lsm()</a></code>
+</li>
+</ul>
+</li>
+<li>Renaming
+<ul>
+<li>Renamed argument <code>return_plots</code> to <code>return_raster</code> in <code><a href="../reference/sample_lsm.html">sample_lsm()</a></code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
     <div id="landscapemetrics-0-3" class="section level1">
 <h1 class="page-header">
-<a href="#landscapemetrics-0-3" class="anchor"></a>landscapemetrics 0.3<small> Unreleased </small>
+<a href="#landscapemetrics-0-3" class="anchor"></a>landscapemetrics 0.3<small> 2018-12-07 </small>
 </h1>
 <ul>
 <li>New functions
@@ -273,6 +310,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#landscapemetrics-0-3-1">0.3.1</a></li>
         <li><a href="#landscapemetrics-0-3">0.3</a></li>
         <li><a href="#landscapemetrics-0-2">0.2</a></li>
         <li><a href="#landscapemetrics-0-1-1">0.1.1</a></li>
@@ -289,7 +327,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

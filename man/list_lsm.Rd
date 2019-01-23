@@ -30,8 +30,9 @@ tibble
 List landscape metrics
 }
 \details{
-List all available landscape metrics depending on the provided filter arguments.
-If an argument is not provided, automatically all possibilities are selected.
+List all available landscape metrics depending on the provided filter
+arguments. If an argument is not provided, automatically all possibilities are
+selected. Therefore, to get \strong{all} available metrics, use simply \code{list_lsm()}.
 Furthermore, it is possible to only get a vector with all function names instead of the full tibble.
 }
 \examples{

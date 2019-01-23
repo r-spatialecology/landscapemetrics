@@ -5,15 +5,15 @@
 
 [![Travis build
 status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/landscapemetrics?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/landscapemetrics)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active – The project has reached a stable, usable
+[![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
@@ -197,7 +197,7 @@ metrics or functions and in the best case even contribute code, we
 warmly welcome to do so\! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repository’s [CODE OF
+Maintainers and contributors must follow this repositoryâ€™s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
