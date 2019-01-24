@@ -104,48 +104,41 @@ library(landscapetools)
 show_landscape(landscape)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
 
 ``` r
+
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
-```
+#> # A tibble: 27 x 6
+#>    layer level class    id metric value
+#>    <int> <chr> <int> <int> <chr>  <dbl>
+#>  1     1 patch     1     1 enn     7   
+#>  2     1 patch     1     2 enn     2.83
+#>  3     1 patch     1     3 enn     4   
+#>  4     1 patch     1     4 enn     2.83
+#>  5     1 patch     1     5 enn     4.24
+#>  6     1 patch     1     6 enn     4.12
+#>  7     1 patch     1     7 enn     2   
+#>  8     1 patch     1     8 enn     2   
+#>  9     1 patch     1     9 enn     4.12
+#> 10     1 patch     2    10 enn     4.47
+#> # … with 17 more rows
 
-    ## # A tibble: 27 x 6
-    ##    layer level class    id metric value
-    ##    <int> <chr> <int> <int> <chr>  <dbl>
-    ##  1     1 patch     1     1 enn     7   
-    ##  2     1 patch     1     2 enn     2.83
-    ##  3     1 patch     1     3 enn     4   
-    ##  4     1 patch     1     4 enn     2.83
-    ##  5     1 patch     1     5 enn     4.24
-    ##  6     1 patch     1     6 enn     4.12
-    ##  7     1 patch     1     7 enn     2   
-    ##  8     1 patch     1     8 enn     2   
-    ##  9     1 patch     1     9 enn     4.12
-    ## 10     1 patch     2    10 enn     4.47
-    ## # … with 17 more rows
-
-``` r
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
-```
-
-    ## # A tibble: 1 x 6
-    ##   layer level     class    id metric value
-    ##   <int> <chr>     <int> <int> <chr>  <dbl>
-    ## 1     1 landscape    NA    NA ta      0.09
-
-``` r
+#> # A tibble: 1 x 6
+#>   layer level     class    id metric value
+#>   <int> <chr>     <int> <int> <chr>  <dbl>
+#> 1     1 landscape    NA    NA ta      0.09
 lsm_c_te(landscape)
+#> # A tibble: 3 x 6
+#>   layer level class    id metric value
+#>   <int> <chr> <int> <int> <chr>  <dbl>
+#> 1     1 class     1    NA te       180
+#> 2     1 class     2    NA te       227
+#> 3     1 class     3    NA te       321
 ```
-
-    ## # A tibble: 3 x 6
-    ##   layer level class    id metric value
-    ##   <int> <chr> <int> <int> <chr>  <dbl>
-    ## 1     1 class     1    NA te       180
-    ## 2     1 class     2    NA te       227
-    ## 3     1 class     3    NA te       321
 
 There is also a wrapper around every metric in the package to quickly
 calculate a bunch of metrics:
@@ -153,22 +146,21 @@ calculate a bunch of metrics:
 ``` r
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
+#> # A tibble: 324 x 6
+#>    layer level class    id metric  value
+#>    <int> <chr> <int> <int> <chr>   <dbl>
+#>  1     1 patch     1     1 area   0.0001
+#>  2     1 patch     1     2 area   0.0148
+#>  3     1 patch     1     3 area   0.0005
+#>  4     1 patch     1     4 area   0.0014
+#>  5     1 patch     1     5 area   0.0001
+#>  6     1 patch     1     6 area   0.0005
+#>  7     1 patch     1     7 area   0.0001
+#>  8     1 patch     1     8 area   0.0001
+#>  9     1 patch     1     9 area   0.0003
+#> 10     1 patch     2    10 area   0.0035
+#> # … with 314 more rows
 ```
-
-    ## # A tibble: 324 x 6
-    ##    layer level class    id metric  value
-    ##    <int> <chr> <int> <int> <chr>   <dbl>
-    ##  1     1 patch     1     1 area   0.0001
-    ##  2     1 patch     1     2 area   0.0148
-    ##  3     1 patch     1     3 area   0.0005
-    ##  4     1 patch     1     4 area   0.0014
-    ##  5     1 patch     1     5 area   0.0001
-    ##  6     1 patch     1     6 area   0.0005
-    ##  7     1 patch     1     7 area   0.0001
-    ##  8     1 patch     1     8 area   0.0001
-    ##  9     1 patch     1     9 area   0.0003
-    ## 10     1 patch     2    10 area   0.0035
-    ## # … with 314 more rows
 
 ### Utility functions
 

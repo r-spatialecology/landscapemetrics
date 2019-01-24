@@ -2,8 +2,6 @@
 output:
   github_document:
     html_preview: false
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
