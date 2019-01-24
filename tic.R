@@ -1,6 +1,6 @@
 add_package_checks()
 
-# if (Sys.getenv("id_rsa") != "") {
+if (Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
   # - `inherits(ci(), "TravisCI")`: Only for Travis CI
   # - `ci()$is_tag()`: Only for tags, not for branches
@@ -23,4 +23,4 @@ add_package_checks()
   get_stage("after_success") %>%
     step_run_code(covr::codecov(quiet = FALSE))
 
-# }
+}

@@ -6,6 +6,15 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />

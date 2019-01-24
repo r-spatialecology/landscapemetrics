@@ -3,8 +3,8 @@
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
-[![Travis build
-status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
+[![Build
+Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
@@ -13,7 +13,7 @@ status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/gr
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active â€“ The project has reached a stable, usable
+[![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
@@ -98,20 +98,13 @@ quite straightforward:
 
 ``` r
 library(landscapemetrics)
-library(dplyr)
+library(landscapetools)
 
 # landscape raster
-landscape
+show_landscape(landscape)
 ```
 
-    ## class       : RasterLayer 
-    ## dimensions  : 30, 30, 900  (nrow, ncol, ncell)
-    ## resolution  : 1, 1  (x, y)
-    ## extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : NA 
-    ## data source : in memory
-    ## names       : clumps 
-    ## values      : 1, 3  (min, max)
+![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ``` r
 # calculate for example the Euclidean nearest-neighbor distance on patch level
@@ -131,23 +124,28 @@ lsm_p_enn(landscape)
     ##  8     1 patch     1     8 enn     2   
     ##  9     1 patch     1     9 enn     4.12
     ## 10     1 patch     2    10 enn     4.47
-    ## # ... with 17 more rows
+    ## # … with 17 more rows
 
 ``` r
 # calculate the total area and total class edge length
-bind_rows(
-    lsm_l_ta(landscape), 
-    lsm_c_te(landscape)
-)
+lsm_l_ta(landscape)
 ```
 
-    ## # A tibble: 4 x 6
-    ##   layer level     class    id metric  value
-    ##   <int> <chr>     <int> <int> <chr>   <dbl>
-    ## 1     1 landscape    NA    NA ta       0.09
-    ## 2     1 class         1    NA te     180   
-    ## 3     1 class         2    NA te     227   
-    ## 4     1 class         3    NA te     321
+    ## # A tibble: 1 x 6
+    ##   layer level     class    id metric value
+    ##   <int> <chr>     <int> <int> <chr>  <dbl>
+    ## 1     1 landscape    NA    NA ta      0.09
+
+``` r
+lsm_c_te(landscape)
+```
+
+    ## # A tibble: 3 x 6
+    ##   layer level class    id metric value
+    ##   <int> <chr> <int> <int> <chr>  <dbl>
+    ## 1     1 class     1    NA te       180
+    ## 2     1 class     2    NA te       227
+    ## 3     1 class     3    NA te       321
 
 There is also a wrapper around every metric in the package to quickly
 calculate a bunch of metrics:
@@ -170,7 +168,7 @@ calculate_lsm(landscape, level = "patch")
     ##  8     1 patch     1     8 area   0.0001
     ##  9     1 patch     1     9 area   0.0003
     ## 10     1 patch     2    10 area   0.0035
-    ## # ... with 314 more rows
+    ## # … with 314 more rows
 
 ### Utility functions
 
@@ -197,7 +195,7 @@ metrics or functions and in the best case even contribute code, we
 warmly welcome to do so\! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
-Maintainers and contributors must follow this repositoryâ€™s [CODE OF
+Maintainers and contributors must follow this repository’s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
