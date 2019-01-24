@@ -11,6 +11,7 @@ if (Sys.getenv("id_rsa") != "") {
 
   if (ci()$get_branch() == "master") {
     get_stage("deploy") %>%
+      add_code_step(remotes::install_github("ropensci/landscapetools")) %>%
       add_code_step(rmarkdown::render("README.Rmd")) %>%
       add_step(step_push_deploy(commit_paths = "README.md", branch = "master")) %>%
       add_code_step(devtools::document()) %>%
