@@ -83,19 +83,17 @@ Every function follows the same implementation design, so the usage is quite str
 
 ```{r, message=FALSE, warning=FALSE}
 library(landscapemetrics)
-library(dplyr)
+library(landscapetools)
 
 # landscape raster
-landscape
+show_landscape(landscape)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 
 # calculate the total area and total class edge length
-bind_rows(
-    lsm_l_ta(landscape), 
-    lsm_c_te(landscape)
-)
+lsm_l_ta(landscape)
+lsm_c_te(landscape)
 ```
 
 There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:
