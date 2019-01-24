@@ -37,7 +37,7 @@ library(landscapemetrics)
 library(ggplot2)
 
 # Create plot of the landscape
-landscape_plot <- landscapetools::util_plot(landscape) + 
+landscape_plot <- landscapetools::show_landscape(landscape) + 
   ggplot2::theme_void() + 
   ggplot2::guides(fill = FALSE) + 
   ggplot2::coord_equal()
