@@ -10,8 +10,7 @@ editor_options:
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
-[![Travis build
-status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
+[![Build Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
 [![Build status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
