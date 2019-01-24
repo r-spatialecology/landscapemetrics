@@ -17,6 +17,7 @@ if (Sys.getenv("id_rsa") != "") {
       # add_step(step_push_deploy(commit_paths = "README.md", branch = "master")) %>%
       add_code_step(devtools::document()) %>%
       add_step(step_push_deploy(commit_paths = c("man/", "DESCRIPTION", "NAMESPACE", branch =  "master"))) %>%
+      add_code_step(pkgdown::build_favicon()) %>%
       add_step(step_build_pkgdown()) %>%
       add_step(step_push_deploy("docs", "gh-pages"))
   }
