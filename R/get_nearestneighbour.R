@@ -47,7 +47,10 @@ get_nearestneighbour.RasterLayer <- function(landscape) {
                           dist = min_dist[, 2],
                           id = min_dist[, 3])
 
-    dplyr::summarise(dplyr::group_by(tbl, id = id), distance = min(dist))
+    stats::setNames(tibble::as_tibble(stats::aggregate(x = tbl[, 2],
+                                                       by = tbl[,3],
+                                                       FUN = min)),
+                    c("id", "distance"))
 }
 
 
@@ -71,5 +74,8 @@ get_nearestneighbour.matrix <- function(landscape) {
                           dist = min_dist[, 2],
                           id = min_dist[, 3])
 
-    dplyr::summarise(dplyr::group_by(tbl, id = id), distance = min(dist))
+    stats::setNames(tibble::as_tibble(stats::aggregate(x = tbl[, 2],
+                                                       by = tbl[,3],
+                                                       FUN = min)),
+                    c("id", "distance"))
 }
