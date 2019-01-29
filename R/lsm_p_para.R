@@ -56,8 +56,12 @@ lsm_p_para.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_para_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_para
@@ -80,8 +84,12 @@ lsm_p_para.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_para_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_para
@@ -94,8 +102,12 @@ lsm_p_para.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_para_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_para
@@ -106,8 +118,12 @@ lsm_p_para.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_para_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
@@ -129,14 +145,13 @@ lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate ratio between area and perim
-    para_patch <- dplyr::mutate(area_patch, value = perimeter_patch$value /
-                                    (value * 10000))
+    para_patch <- perimeter_patch$value / (area_patch$value * 10000)
 
     tibble::tibble(
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "para",
-        value = as.double(para_patch$value)
+        value = as.double(para_patch)
     )
 }

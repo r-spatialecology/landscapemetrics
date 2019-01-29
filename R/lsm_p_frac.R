@@ -60,8 +60,12 @@ lsm_p_frac.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_frac_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_frac
@@ -72,8 +76,12 @@ lsm_p_frac.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_frac_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_frac
@@ -84,8 +92,12 @@ lsm_p_frac.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_frac_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_frac
@@ -98,8 +110,12 @@ lsm_p_frac.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_frac_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_frac
@@ -110,8 +126,12 @@ lsm_p_frac.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_frac_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
@@ -133,9 +153,7 @@ lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate frac
-    frac_patch <- dplyr::mutate(area_patch,
-                                value = 2 * log (0.25 * perimeter_patch$value) /
-                                    log(value * 10000))
+    frac_patch <- 2 * log (0.25 * perimeter_patch$value) / log(area_patch$value * 10000)
 
     # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
@@ -145,6 +163,6 @@ lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "frac",
-        value = as.double(frac_patch$value)
+        value = as.double(frac_patch)
     )
 }

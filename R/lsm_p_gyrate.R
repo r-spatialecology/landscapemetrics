@@ -56,8 +56,12 @@ lsm_p_gyrate.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_gyrate
@@ -68,8 +72,12 @@ lsm_p_gyrate.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_gyrate
@@ -80,8 +88,12 @@ lsm_p_gyrate.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_gyrate
@@ -95,8 +107,12 @@ lsm_p_gyrate.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_gyrate
@@ -107,8 +123,12 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_gyrate_calc <- function(landscape, directions,
@@ -127,7 +147,8 @@ lsm_p_gyrate_calc <- function(landscape, directions,
     # get uniuqe class id
     classes <- get_unique_values(landscape)[[1]]
 
-    gyrate <- lapply(classes, function(patches_class) {
+    gyrate <- do.call(rbind,
+                      lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -150,24 +171,27 @@ lsm_p_gyrate_calc <- function(landscape, directions,
         names(points) <- c("x", "y", "id")
 
         # calcuale the centroid of each patch (mean of all coords)
-        centroid <- dplyr::summarise(dplyr::group_by(points, id),
-                                     x_centroid = mean(x),
-                                     y_centroid = mean(y))
+        centroid <- stats::aggregate(points[, c(1, 2)],
+                                     by = list(id = points$id),
+                                     FUN = mean)
 
         # create full data set with raster-points and patch centroids
-        full_data <- dplyr::left_join(x = points, y = centroid, by = "id")
+        full_data <- tibble::as_tibble(merge(x = points, y = centroid, by = "id",
+                           suffixes = c("","_centroid")))
 
         # calculate distance from each cell center to centroid
-        gyrate_class <- dplyr::mutate(full_data, dist = sqrt((x - x_centroid) ^ 2 + (y - y_centroid) ^ 2))
+        full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
+                                   (full_data$y - full_data$y_centroid) ^ 2)
 
         # mean distance for each patch
-        gyrate_class <- dplyr::summarise(dplyr::group_by(gyrate_class, id), value = mean(dist))
+        gyrate_class <- stats::aggregate(x = full_data[, 6],
+                                         by = full_data[, 1],
+                                         FUN = mean)
 
         tibble::tibble(class = as.integer(patches_class),
-                       value = as.double(gyrate_class$value))
-    })
-
-    gyrate <- dplyr::bind_rows(gyrate)
+                       value = as.double(gyrate_class$dist))
+        })
+    )
 
     tibble::tibble(level = "patch",
                    class = as.integer(gyrate$class),

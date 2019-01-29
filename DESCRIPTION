@@ -60,6 +60,7 @@ Imports:
     raster,
     Rcpp,
     sp,
+    stats,
     tibble
 Suggests: 
     covr,
