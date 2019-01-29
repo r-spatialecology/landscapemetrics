@@ -166,7 +166,7 @@ lsm_p_gyrate_calc <- function(landscape, directions,
         # set ID from class ID to unique patch ID
         points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-        # conver to tibble to use dplyr
+        # conver to tibble -> do we still need to do this?
         points <- tibble::as_tibble(points)
         names(points) <- c("x", "y", "id")
 
