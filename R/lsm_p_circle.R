@@ -60,8 +60,12 @@ lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_circle
@@ -72,8 +76,12 @@ lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_circle
@@ -84,8 +92,12 @@ lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_circle
@@ -98,8 +110,12 @@ lsm_p_circle.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_circle
@@ -110,8 +126,12 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_circle_calc <- function(landscape, directions,
@@ -145,7 +165,8 @@ lsm_p_circle_calc <- function(landscape, directions,
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
-    circle_patch <- lapply(classes, function(patches_class) {
+    circle_patch <- do.call(rbind,
+                            lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -182,14 +203,11 @@ lsm_p_circle_calc <- function(landscape, directions,
 
         tibble::tibble(class = patches_class,
                        value = circle[,2])
-    })
+        })
+    )
 
     # calculate circle metric
-    circle_patch <- dplyr::bind_rows(circle_patch)
-
-    # calculate circle metric
-    circle_patch <- dplyr::mutate(circle_patch,
-                                  value = 1 - ((area_patch$value * 10000) / value))
+    circle_patch$value <- 1 - (area_patch$value * 10000) / circle_patch$value
 
     # set all one-cell patches to 0
     circle_patch$value[one_cell] <- 0
