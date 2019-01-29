@@ -1,3 +1,7 @@
+# landscapemetrics 0.3.2
+* Improvements
+    * Removing all functions from `dplyr`
+
 # landscapemetrics 0.3.1
 * Bugfixes
     * fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
