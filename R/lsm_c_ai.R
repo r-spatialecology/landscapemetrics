@@ -49,8 +49,12 @@ lsm_c_ai.RasterLayer <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ai
@@ -60,8 +64,12 @@ lsm_c_ai.RasterStack <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ai
@@ -71,8 +79,12 @@ lsm_c_ai.RasterBrick <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ai
@@ -84,8 +96,12 @@ lsm_c_ai.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ai
@@ -95,8 +111,12 @@ lsm_c_ai.list <- function(landscape) {
     result <- lapply(X = landscape,
                      FUN = lsm_c_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_ai_calc <- function(landscape) {
@@ -118,18 +138,23 @@ lsm_c_ai_calc <- function(landscape) {
                                  value = cells_class)
 
     # calculate maximum adjacencies
-    max_adj <- dplyr::mutate(cells_class,
-                             n = trunc(sqrt(value)),
-                             m = value - n ^ 2,
-                             max_adj = dplyr::case_when(
-                                 m == 0 ~ 2 * n * (n - 1),
-                                 m <= n ~ 2 * n * (n - 1) + 2 * m - 1,
-                                 m > n ~ 2 * n * (n - 1) + 2 * m - 2
-                                 )
-                             )
+    cells_class$n <- trunc(sqrt(cells_class$value))
+    cells_class$m <- cells_class$value - cells_class$n ^ 2
+    cells_class$max_adj <- ifelse(test = cells_class$m == 0,
+                                  yes = 2 * cells_class$n * (cells_class$n - 1),
+                                  no = ifelse(test = cells_class$m <= cells_class$n ,
+                                              yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 1,
+                                              no = ifelse(test = cells_class$m > cells_class$n,
+                                                          yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 2,
+                                                          no = NA)))
+
+    # warning if NAs are introduced by ifelse
+    if(anyNA(cells_class$max_adj)) {
+        warning("NAs introduced by lsm_c_ai", call. = FALSE)
+    }
 
     # get only max_adj as vector
-    max_adj <- max_adj$max_adj
+    max_adj <- cells_class$max_adj
 
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100

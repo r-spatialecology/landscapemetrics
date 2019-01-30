@@ -66,8 +66,12 @@ lsm_c_area_sd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_area_sd
@@ -78,8 +82,12 @@ lsm_c_area_sd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_area_sd
@@ -92,8 +100,12 @@ lsm_c_area_sd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_area_sd
@@ -104,8 +116,12 @@ lsm_c_area_sd.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_area_sd_calc <- function(landscape, directions, resolution = NULL){
@@ -116,8 +132,7 @@ lsm_c_area_sd_calc <- function(landscape, directions, resolution = NULL){
                             resolution = resolution)
 
     # calculate sd
-    area_sd <- dplyr::summarise(dplyr::group_by(area, class),
-                                value = stats::sd(value))
+    area_sd <- stats::aggregate(area[, 5], by = area[, 2], FUN = stats::sd)
 
     tibble::tibble(
         level = "class",
