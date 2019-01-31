@@ -52,8 +52,12 @@ lsm_c_nlsi.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_nlsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_nlsi
@@ -64,8 +68,12 @@ lsm_c_nlsi.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_nlsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_nlsi
@@ -76,8 +84,12 @@ lsm_c_nlsi.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_nlsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_nlsi
@@ -90,8 +102,12 @@ lsm_c_nlsi.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_nlsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_nlsi
@@ -102,8 +118,12 @@ lsm_c_nlsi.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_nlsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
@@ -139,23 +159,27 @@ lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
                            B  = B,
                            Z  = Z)
 
-    min_e <- dplyr::mutate(nlsi,
-                           n = trunc(sqrt(ai)),
-                           m = ai - n ^ 2,
-                           min_e = dplyr::case_when(m == 0 ~ n * 4,
-                                                    n ^ 2 < ai & ai <= n * (1 + n) ~ 4 * n + 2,
-                                                    ai > n * (1 + n) ~ 4 * n + 4))
+    nlsi$n <- trunc(sqrt(nlsi$ai))
+    nlsi$m <- nlsi$ai - nlsi$n ^ 2
+    nlsi$min_e <- ifelse(test = nlsi$m == 0,
+                         yes = nlsi$n * 4,
+                         no = ifelse(test = nlsi$n ^ 2 < nlsi$ai & nlsi$ai <= nlsi$n * (1 + nlsi$n),
+                                     yes = 4 * nlsi$n + 2,
+                                     no = ifelse(test = nlsi$ai > nlsi$n * (1 + nlsi$n),
+                                                 yes = 4 * nlsi$n + 4,
+                                                 no = NA)))
 
+    nlsi$max_e <- ifelse(test = nlsi$pi <= 0.5,
+                         yes = 4 * nlsi$ai,
+                         no = ifelse(test = nlsi$A %% 2 == 0 & nlsi$pi > .5 & nlsi$pi <= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
+                                     yes = 3 * nlsi$A - 2 * nlsi$ai,
+                                     no = ifelse(test = nlsi$A %% 2 != 0 & nlsi$pi > .5 & nlsi$pi <= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
+                                                 yes = 3 * nlsi$A - 2 * nlsi$ai + 3,
+                                                 no = ifelse(test = nlsi$pi >= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
+                                                             yes = nlsi$Z + 4 * (nlsi$A - nlsi$ai),
+                                                             no = NA))))
 
-    max_e <- dplyr::mutate(nlsi,
-                           max_e = dplyr::case_when(pi <= 0.5 ~ 4 * ai,
-                                                    A %% 2 == 0 & pi > .5 & pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai,
-                                                    A %% 2 != 0 & pi > .5 & pi <= (.5 * A + .5 * B)/A ~ 3 * A - 2 * ai + 3,
-                                                    pi >= (.5 * A + .5 * B)/A ~ Z + 4 * (A - ai)
-                           )
-    )
-
-    result <- (class_edge$value - min_e$min_e) / (max_e$max_e - min_e$min_e)
+    result <- (class_edge$value - nlsi$min_e) / (nlsi$max_e - nlsi$min_e)
     result[is.nan(result)] <- NA
 
     tibble::tibble(

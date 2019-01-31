@@ -49,8 +49,12 @@ lsm_c_pland.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_pland_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pland
@@ -61,8 +65,12 @@ lsm_c_pland.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_pland_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pland
@@ -73,8 +81,12 @@ lsm_c_pland.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_pland_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pland
@@ -87,8 +99,12 @@ lsm_c_pland.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_pland_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pland
@@ -99,8 +115,12 @@ lsm_c_pland.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_pland_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_pland_calc <- function(landscape, directions, resolution = NULL){
@@ -109,9 +129,9 @@ lsm_c_pland_calc <- function(landscape, directions, resolution = NULL){
                              directions = directions,
                              resolution = resolution)
 
-    pland <- dplyr::mutate(dplyr::summarise(dplyr::group_by(pland, class),
-                                            value = sum(value)),
-                           value = value / sum(value) * 100)
+    pland <- stats::aggregate(x = pland[, 5], by = pland[, 2], FUN = sum)
+
+    pland$value <- pland$value / sum(pland$value) * 100
 
     tibble::tibble(
         level = "class",

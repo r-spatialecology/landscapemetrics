@@ -62,8 +62,12 @@ lsm_c_enn_cv.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_enn_cv
@@ -75,8 +79,12 @@ lsm_c_enn_cv.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_enn_cv
@@ -88,8 +96,12 @@ lsm_c_enn_cv.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_enn_cv
@@ -103,8 +115,12 @@ lsm_c_enn_cv.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_enn_cv
@@ -116,8 +132,12 @@ lsm_c_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_enn_cv_calc <- function(landscape, directions, verbose,
@@ -128,8 +148,7 @@ lsm_c_enn_cv_calc <- function(landscape, directions, verbose,
                           verbose = verbose,
                           points = points)
 
-    enn_cv <-  dplyr::summarize(dplyr::group_by(enn, class),
-                                value = raster::cv(value))
+    enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = raster::cv)
 
     tibble::tibble(
         level = "class",

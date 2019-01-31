@@ -51,8 +51,12 @@ lsm_c_pd.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_pd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pd
@@ -63,8 +67,12 @@ lsm_c_pd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_pd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pd
@@ -75,8 +83,12 @@ lsm_c_pd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_pd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pd
@@ -89,8 +101,12 @@ lsm_c_pd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_pd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pd
@@ -101,8 +117,12 @@ lsm_c_pd.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_pd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_pd_calc <- function(landscape, directions, resolution = NULL) {
@@ -119,20 +139,19 @@ lsm_c_pd_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise to total area
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_patch <- sum(area_patch$value)
 
     # get number of patches
     np_class <- lsm_c_np_calc(landscape, directions = directions)
 
     # calculate relative patch density
-    patch_density <- dplyr::mutate(np_class,
-                                   value = (value / area_total$value) * 100)
+    np_class$value <- (np_class$value / area_patch) * 100
 
     tibble::tibble(
         level = "class",
-        class = as.integer(patch_density$class),
+        class = as.integer(np_class$class),
         id = as.integer(NA),
         metric = "pd",
-        value = as.double(patch_density$value)
+        value = as.double(np_class$value)
     )
 }

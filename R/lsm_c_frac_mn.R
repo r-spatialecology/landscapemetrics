@@ -56,8 +56,12 @@ lsm_c_frac_mn.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_frac_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_frac_mn
@@ -68,8 +72,12 @@ lsm_c_frac_mn.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_frac_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_frac_mn
@@ -80,8 +88,12 @@ lsm_c_frac_mn.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_frac_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_frac_mn
@@ -94,8 +106,12 @@ lsm_c_frac_mn.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_frac_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_frac_mn
@@ -106,8 +122,12 @@ lsm_c_frac_mn.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_frac_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL){
@@ -116,8 +136,7 @@ lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
-    frac_mean <- dplyr::summarise(dplyr::group_by(frac, class),
-                                  value = mean(value))
+    frac_mean <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = mean)
 
     tibble::tibble(
         level = "class",

@@ -58,8 +58,12 @@ lsm_c_ed.RasterLayer <- function(landscape,
                      count_boundary = count_boundary,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ed
@@ -73,8 +77,12 @@ lsm_c_ed.RasterStack <- function(landscape,
                      count_boundary = count_boundary,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ed
@@ -88,8 +96,12 @@ lsm_c_ed.RasterBrick <- function(landscape,
                      count_boundary = count_boundary,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ed
@@ -105,8 +117,12 @@ lsm_c_ed.stars <- function(landscape,
                      count_boundary = count_boundary,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ed
@@ -120,8 +136,12 @@ lsm_c_ed.list <- function(landscape,
                      count_boundary = count_boundary,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
@@ -138,21 +158,21 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
                             resolution = resolution)
 
     # summarise to total area
-    area <- dplyr::summarise(area, value = sum(value))
+    area <- sum(area$value)
 
     # get total edge length
-    edge_landscape <- lsm_c_te_calc(landscape,
-                                    count_boundary = count_boundary,
-                                    directions = directions,
-                                    resolution = resolution)
+    edge_class <- lsm_c_te_calc(landscape,
+                                count_boundary = count_boundary,
+                                directions = directions,
+                                resolution = resolution)
 
-    ed <- dplyr::mutate(edge_landscape, value = value / area$value)
+    edge_class$value <- edge_class$value / area
 
     tibble::tibble(
         level = "class",
-        class = as.integer(ed$class),
+        class = as.integer(edge_class$class),
         id = as.integer(NA),
         metric = "ed",
-        value = as.double(ed$value)
+        value = as.double(edge_class$value)
     )
 }
