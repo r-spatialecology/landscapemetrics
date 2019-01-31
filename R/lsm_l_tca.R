@@ -157,18 +157,19 @@ lsm_l_tca.list <- function(landscape,
 
 lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
-    total_core_area <- dplyr::summarise(lsm_p_core_calc(landscape,
-                                                        directions = directions,
-                                                        consider_boundary = consider_boundary,
-                                                        edge_depth = edge_depth,
-                                                        resolution = resolution),
-                                        value = sum(value))
+    core_area_patch <- lsm_p_core_calc(landscape,
+                                       directions = directions,
+                                       consider_boundary = consider_boundary,
+                                       edge_depth = edge_depth,
+                                       resolution = resolution)
+
+    total_core_area <- sum(core_area_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "tca",
-        value = as.double(total_core_area$value)
+        value = as.double(total_core_area)
     )
 }

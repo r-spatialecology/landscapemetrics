@@ -132,16 +132,17 @@ lsm_l_para_mn.list <- function(landscape, directions = 8) {
 
 lsm_l_para_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    para_mn <- dplyr::summarise(lsm_p_para_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = mean(value))
+    para_patch <- lsm_p_para_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    para_mn <- mean(para_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "para_mn",
-        value = as.double(para_mn$value)
+        value = as.double(para_mn)
     )
 }

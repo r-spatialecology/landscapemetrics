@@ -153,7 +153,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
                                   resolution = resolution)
 
     # summarise to total area
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
     # get total edge
     edge_landscape <- lsm_l_te_calc(landscape,
@@ -161,14 +161,13 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
                                     resolution = resolution)
 
     # relative edge density
-    ed <- dplyr::mutate(edge_landscape,
-                        value = value / area_total$value)
+    ed <- edge_landscape$value / area_total
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "ed",
-        value = as.double(ed$value)
+        value = as.double(ed)
     )
 }

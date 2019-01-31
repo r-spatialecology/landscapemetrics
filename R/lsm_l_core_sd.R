@@ -159,18 +159,19 @@ lsm_l_core_sd.list <- function(landscape,
 
 lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    core_sd <- dplyr::summarise(lsm_p_core_calc(landscape,
-                                                directions = directions,
-                                                consider_boundary = consider_boundary,
-                                                edge_depth = edge_depth,
-                                                resolution = resolution),
-                                value = stats::sd(value))
+    core_patch <- lsm_p_core_calc(landscape,
+                                  directions = directions,
+                                  consider_boundary = consider_boundary,
+                                  edge_depth = edge_depth,
+                                  resolution = resolution)
+
+    core_sd <- stats::sd(core_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "core_sd",
-        value = as.double(core_sd$value)
+        value = as.double(core_sd)
     )
 }

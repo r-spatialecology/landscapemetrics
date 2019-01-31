@@ -139,14 +139,13 @@ lsm_l_shape_mn_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate mean
-    shape_mn <- dplyr::summarise(shape,
-                                 value = mean(value))
+    shape_mn <- mean(shape$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shape_mn",
-        value = as.double(shape_mn$value)
+        value = as.double(shape_mn)
     )
 }

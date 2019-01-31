@@ -137,17 +137,18 @@ lsm_l_gyrate_cv.list <- function(landscape, directions = 8) {
 lsm_l_gyrate_cv_calc <- function(landscape, directions,
                                  points = NULL) {
 
-    gyrate_cv <- dplyr::summarize(lsm_p_gyrate_calc(landscape,
-                                                    directions = directions,
-                                                    points = points),
-                                  value = raster::cv(value))
+    gyrate_patch <- lsm_p_gyrate_calc(landscape,
+                                      directions = directions,
+                                      points = points)
+
+    gyrate_cv <- raster::cv(gyrate_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "gyrate_cv",
-        value = as.double(gyrate_cv$value)
+        value = as.double(gyrate_cv)
     )
 }
 

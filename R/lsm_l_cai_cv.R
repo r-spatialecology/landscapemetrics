@@ -163,18 +163,19 @@ lsm_l_cai_cv.list <- function(landscape,
 
 lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    cai_cv <- dplyr::summarise(lsm_p_cai_calc(landscape,
-                                              directions = directions,
-                                              consider_boundary = consider_boundary,
-                                              edge_depth = edge_depth,
-                                              resolution = resolution),
-                               value = raster::cv(value))
+    cai_patch <- lsm_p_cai_calc(landscape,
+                                directions = directions,
+                                consider_boundary = consider_boundary,
+                                edge_depth = edge_depth,
+                                resolution = resolution)
+
+    cai_cv <- raster::cv(cai_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "cai_cv",
-        value = as.double(cai_cv$value)
+        value = as.double(cai_cv)
     )
 }

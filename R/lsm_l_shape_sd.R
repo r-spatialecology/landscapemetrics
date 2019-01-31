@@ -139,14 +139,13 @@ lsm_l_shape_sd_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate sd
-    shape_sd <- dplyr::summarise(shape,
-                                 value = stats::sd(value))
+    shape_sd <- stats::sd(shape$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shape_sd",
-        value = as.double(shape_sd$value)
+        value = as.double(shape_sd)
     )
 }

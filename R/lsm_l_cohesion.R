@@ -136,10 +136,11 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
     ncells_landscape <- length(landscape[!is.na(landscape)])
 
     # get number of cells in each patch: area = n_cells * res / 10000
-    ncells_patch <- dplyr::mutate(lsm_p_area_calc(landscape,
-                                                  directions = directions,
-                                                  resolution = resolution),
-                                  value = value * 10000 / prod(resolution))
+    ncells_patch <- lsm_p_area_calc(landscape,
+                                    directions = directions,
+                                    resolution = resolution)
+
+    ncells_patch$value <- ncells_patch$value * 10000 / prod(resolution)
 
     # get perim for each patch
     perim_patch <- lsm_p_perim_calc(landscape,
@@ -147,21 +148,17 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
                                     resolution = resolution)
 
     # denominator for cohesion (perim / n_cells) for landscape
-    denominator <- dplyr::summarise(dplyr::mutate(perim_patch,
-                                                  value = value * sqrt(ncells_patch$value)),
-                                    value = sum(value))
+    denominator <- sum(perim_patch$value * sqrt(ncells_patch$value))
 
     # calcualte cohesion
-    cohesion <- dplyr::mutate(dplyr::summarise(perim_patch,
-                                               value = sum(value)),
-                              value = (1 - (value / denominator$value)) *
-                                  ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100)
+    cohesion <- (1 - (sum(perim_patch$value) / denominator)) *
+        ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "cohesion",
-        value = as.double(cohesion$value)
+        value = as.double(cohesion)
     )
 }

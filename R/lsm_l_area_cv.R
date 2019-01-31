@@ -135,15 +135,13 @@ lsm_l_area_cv_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate cv
-     area_cv <- dplyr::summarise(area_patch, value = raster::cv(value))
+    area_cv <- raster::cv(area_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "area_cv",
-        value = as.double(area_cv$value)
+        value = as.double(area_cv)
     )
 }
-
-

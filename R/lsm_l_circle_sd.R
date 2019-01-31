@@ -137,18 +137,19 @@ lsm_l_circle_sd.list <- function(landscape, directions = 8) {
 lsm_l_circle_sd_calc <- function(landscape, directions,
                                  resolution = NULL, points = NULL) {
 
-    circle_sd <- dplyr::summarize(lsm_p_circle_calc(landscape,
-                                                    directions = directions,
-                                                    resolution = resolution,
-                                                    points = points),
-                                  value = stats::sd(value))
+    circle_patch <- lsm_p_circle_calc(landscape,
+                                      directions = directions,
+                                      resolution = resolution,
+                                      points = points)
+
+    circle_sd <- stats::sd(circle_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "circle_sd",
-        value = as.double(circle_sd$value)
+        value = as.double(circle_sd)
     )
 
 }

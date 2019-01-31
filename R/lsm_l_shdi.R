@@ -126,9 +126,9 @@ lsm_l_shdi_calc <- function(landscape, resolution = NULL) {
                              directions = 8,
                              resolution = resolution)
 
-    prop <- dplyr::mutate(prop, value = value / 100)
+    prop <- prop$value / 100
 
-    shdi <- sum(-prop$value * log(prop$value, exp(1)))
+    shdi <- sum(-prop * log(prop, exp(1)))
 
     tibble::tibble(
         level = 'landscape',

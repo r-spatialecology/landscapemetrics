@@ -142,14 +142,16 @@ lsm_l_contig_sd.list <- function(landscape, directions = 8) {
 
 lsm_l_contig_sd_calc <- function(landscape, directions) {
 
-    contig_sd <- dplyr::summarize(lsm_p_contig_calc(landscape, directions = directions),
-                                  value = sd(value))
+    contig_patch <- lsm_p_contig_calc(landscape,
+                                      directions = directions)
+
+    contig_sd <- stats::sd(contig_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "contig_sd",
-        value = as.double(contig_sd$value)
+        value = as.double(contig_sd)
     )
 }

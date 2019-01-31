@@ -143,16 +143,17 @@ lsm_l_enn_mn.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_l_enn_mn_calc <- function(landscape, directions, verbose,
                               points = NULL) {
 
-    enn_mn <- dplyr::summarize(lsm_p_enn_calc(landscape,
-                                              directions = directions, verbose = verbose,
-                                              points = points),
-                               value = mean(value))
+    enn_patch <- lsm_p_enn_calc(landscape,
+                                directions = directions, verbose = verbose,
+                                points = points)
+
+    enn_mn <- mean(enn_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "enn_mn",
-        value = as.double(enn_mn$value)
+        value = as.double(enn_mn)
     )
 }

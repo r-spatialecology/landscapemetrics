@@ -142,14 +142,16 @@ lsm_l_contig_cv.list <- function(landscape, directions = 8) {
 
 lsm_l_contig_cv_calc <- function(landscape, directions) {
 
-    contig_cv <- dplyr::summarize(lsm_p_contig_calc(landscape, directions = directions),
-                                  value = raster::cv(value))
+    contig_patch <- lsm_p_contig_calc(landscape,
+                                      directions = directions)
+
+    contig_cv <- raster::cv(contig_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "contig_cv",
-        value = as.double(contig_cv$value)
+        value = as.double(contig_cv)
     )
 }

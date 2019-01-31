@@ -143,16 +143,17 @@ lsm_l_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_l_enn_cv_calc <- function(landscape, directions, verbose,
                               points = NULL) {
 
-    enn_cv <- dplyr::summarize(lsm_p_enn_calc(landscape,
-                                              directions = directions, verbose = verbose,
-                                              points = points),
-                               value = raster::cv(value))
+    enn_patch <- lsm_p_enn_calc(landscape,
+                                directions = directions, verbose = verbose,
+                                points = points)
+
+    enn_cv <- raster::cv(enn_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "enn_cv",
-        value = as.double(enn_cv$value)
+        value = as.double(enn_cv)
     )
 }

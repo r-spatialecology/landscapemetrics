@@ -160,18 +160,19 @@ lsm_l_dcore_mn.list <- function(landscape,
 lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth,
                                 points = NULL){
 
-    dcore_mean <- dplyr::summarise(lsm_p_ncore_calc(landscape,
-                                                    directions = directions,
-                                                    consider_boundary = consider_boundary,
-                                                    edge_depth = edge_depth,
-                                                    points = points),
-                                   value = mean(value))
+    dcore_patch <- lsm_p_ncore_calc(landscape,
+                                    directions = directions,
+                                    consider_boundary = consider_boundary,
+                                    edge_depth = edge_depth,
+                                    points = points)
+
+    dcore_mn <- mean(dcore_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "dcore_mn",
-        value = as.double(dcore_mean$value)
+        value = as.double(dcore_mn)
     )
 }

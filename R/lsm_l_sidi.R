@@ -132,14 +132,13 @@ lsm_l_sidi_calc <- function(landscape, directions, resolution = NULL) {
                              directions = directions,
                              resolution = resolution)
 
-    sidi <- dplyr::summarise(dplyr::mutate(sidi, value = (value / 100) ^ 2),
-                             value = 1 - sum(value))
+    sidi <- 1 - sum((sidi$value / 100) ^ 2)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "sidi",
-        value = as.double(sidi$value)
+        value = as.double(sidi)
     )
 }

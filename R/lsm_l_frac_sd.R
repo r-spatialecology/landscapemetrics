@@ -134,16 +134,17 @@ lsm_l_frac_sd.list <- function(landscape, directions = 8) {
 
 lsm_l_frac_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_sd <- dplyr::summarise(lsm_p_frac_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = stats::sd(value))
+    frac_patch <- lsm_p_frac_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    frac_sd <- stats::sd(frac_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "frac_sd",
-        value = as.double(frac_sd$value)
+        value = as.double(frac_sd)
     )
 }

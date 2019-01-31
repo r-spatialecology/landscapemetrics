@@ -160,10 +160,10 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
                                     directions = directions)
 
     # summarise for total landscape
-    number_patches <- dplyr::summarise(number_patches, value = sum(value))
+    number_patches <- sum(number_patches$value)
 
     # PAFRAC NA for less than 10 patches
-    if(number_patches$value < 10){
+    if(number_patches < 10){
 
         pafrac <-  NA
 

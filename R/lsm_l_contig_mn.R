@@ -141,14 +141,16 @@ lsm_l_contig_mn.list <- function(landscape, directions = 8) {
 
 lsm_l_contig_mn_calc <- function(landscape, directions) {
 
-    contig_mn <- dplyr::summarize(lsm_p_contig_calc(landscape, directions = directions),
-                                  value = mean(value))
+    contig_patch <- lsm_p_contig_calc(landscape,
+                                      directions = directions)
+
+    contig_mn <- mean(contig_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "contig_mn",
-        value = as.double(contig_mn$value)
+        value = as.double(contig_mn)
     )
 }

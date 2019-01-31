@@ -132,16 +132,17 @@ lsm_l_para_cv.list <- function(landscape, directions = 8) {
 
 lsm_l_para_cv_calc <- function(landscape, directions, resolution = NULL){
 
-    para_cv <- dplyr::summarise(lsm_p_para_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = raster::cv(value))
+    para_patch <- lsm_p_para_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    para_cv <- raster::cv(para_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "para_cv",
-        value = as.double(para_cv$value)
+        value = as.double(para_cv)
     )
 }

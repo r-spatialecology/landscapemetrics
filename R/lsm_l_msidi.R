@@ -134,21 +134,19 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
         landscape <- raster::as.matrix(landscape)
     }
 
-    msidi <- lsm_p_area_calc(landscape,
-                             directions = directions,
-                             resolution = resolution)
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
-    msidi <- dplyr::summarise(dplyr::group_by(msidi, class),
-                              value = sum(value))
+    msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
 
-    msidi <- dplyr::summarise(dplyr::mutate(msidi, value = (value / sum(value)) ^ 2),
-                              value = -log(sum(value)))
+    msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "msidi",
-        value = as.double(msidi$value)
+        value = as.double(msidi)
     )
 }

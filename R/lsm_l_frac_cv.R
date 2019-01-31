@@ -135,16 +135,17 @@ lsm_l_frac_cv.list <- function(landscape, directions = 8) {
 
 lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_cv <- dplyr::summarise(lsm_p_frac_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = raster::cv(value))
+    frac_patch <- lsm_p_frac_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    frac_cv <- raster::cv(frac_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "frac_cv",
-        value = as.double(frac_cv$value)
+        value = as.double(frac_cv)
     )
 }

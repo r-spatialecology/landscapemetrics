@@ -159,18 +159,19 @@ lsm_l_ndca.list <- function(landscape,
 lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
                             points = NULL){
 
-    ndca <- dplyr::summarise(lsm_p_ncore_calc(landscape,
-                                              directions = directions,
-                                              consider_boundary = consider_boundary,
-                                              edge_depth = edge_depth,
-                                              points = points),
-                             value = sum(value))
+    ncore_patch <- lsm_p_ncore_calc(landscape,
+                                    directions = directions,
+                                    consider_boundary = consider_boundary,
+                                    edge_depth = edge_depth,
+                                    points = points)
+
+    ndca <- sum(ncore_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class =  as.integer(NA),
         id = as.integer(NA),
         metric = "ndca",
-        value = as.double(ndca$value)
+        value = as.double(ndca)
     )
 }

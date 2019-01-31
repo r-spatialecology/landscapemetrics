@@ -135,20 +135,16 @@ lsm_l_split_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise for total landscape
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
-    # area squared for each patch
-    split <- dplyr::mutate(area_patch, value = value ^ 2)
-
-    # sum of all patches divided by total area
-    split <- dplyr::mutate(dplyr::summarise(split, value = sum(value)),
-                           value = (area_total$value ^ 2) / value)
+    # total area squared divided by sum of area squared for each patch
+    split <- (area_total ^ 2) / sum(area_patch$value ^ 2)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "split",
-        value = as.double(split$value)
+        value = as.double(split)
     )
 }

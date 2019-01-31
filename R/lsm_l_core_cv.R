@@ -160,18 +160,19 @@ lsm_l_core_cv.list <- function(landscape,
 
 lsm_l_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    core_cv <- dplyr::summarise(lsm_p_core_calc(landscape,
-                                                directions = directions,
-                                                consider_boundary = consider_boundary,
-                                                edge_depth = edge_depth,
-                                                resolution = resolution),
-                                value = raster::cv(value))
+    core_patch <- lsm_p_core_calc(landscape,
+                                  directions = directions,
+                                  consider_boundary = consider_boundary,
+                                  edge_depth = edge_depth,
+                                  resolution = resolution)
+
+    core_cv <- raster::cv(core_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "core_cv",
-        value = as.double(core_cv$value)
+        value = as.double(core_cv)
     )
 }

@@ -123,15 +123,16 @@ lsm_l_np.list <- function(landscape, directions = 8) {
 
 lsm_l_np_calc <- function(landscape, directions) {
 
-    n_patches <- dplyr::summarise(lsm_c_np_calc(landscape,
-                                                directions = directions),
-                                  value = sum(value))
+    n_patches <- lsm_c_np_calc(landscape,
+                               directions = directions)
+
+    n_patches <- sum(n_patches$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "np",
-        value = as.double(n_patches$value)
+        value = as.double(n_patches)
     )
 }

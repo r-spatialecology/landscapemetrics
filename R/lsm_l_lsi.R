@@ -146,23 +146,32 @@ lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise to total area in sqm
-    total_area <- dplyr::summarise(patch_area, value = sum(value) * 10000)
+    total_area <- sum(patch_area$value) * 10000
 
-    lsi <- dplyr::mutate(total_area,
-                         n = trunc(sqrt(value)),
-                         m = value - n^ 2,
-                         minp = dplyr::case_when(
-                             m == 0 ~ n * 4,
-                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                             value > n * (1 + n) ~ 4 * n + 4),
-                         value = edge_landscape$value / minp)
+    n <- trunc(sqrt(total_area))
+    m <- total_area - n^ 2
+
+    min_p <- ifelse(test = m == 0,
+                    yes = n * 4,
+                    no = ifelse(test =  n ^ 2 < total_area & total_area <= n * (1 + n),
+                                yes = 4 * n + 2,
+                                no = ifelse(test = total_area > n * (1 + n),
+                                            yes = 4 * n + 4,
+                                            no = NA)))
+
+    # warning if NA is introduced
+    if(anyNA(min_p)) {
+        warning("NA introduced by lsm_l_lsi", call. = FALSE)
+    }
+
+    lsi <- edge_landscape$value / min_p
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(edge_landscape$class),
         id = as.integer(edge_landscape$id),
         metric = "lsi",
-        value = as.double(lsi$value)
+        value = as.double(lsi)
     )
 
 }

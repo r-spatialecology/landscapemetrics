@@ -134,16 +134,17 @@ lsm_l_frac_mn.list <- function(landscape, directions = 8) {
 
 lsm_l_frac_mn_calc <- function(landscape, directions, resolution = NULL){
 
-    frac_mean <- dplyr::summarise(lsm_p_frac_calc(landscape,
-                                                  directions = directions,
-                                                  resolution = resolution),
-                                  value = mean(value))
+    frac_patch <- lsm_p_frac_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    frac_mn <- mean(frac_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "frac_mn",
-        value = as.double(frac_mean$value)
+        value = as.double(frac_mn)
     )
 }

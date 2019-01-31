@@ -160,18 +160,19 @@ lsm_l_cai_mn.list <- function(landscape,
 
 lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    cai_mean <- dplyr::summarise(lsm_p_cai_calc(landscape,
-                                                directions = directions,
-                                                consider_boundary = consider_boundary,
-                                                edge_depth = edge_depth,
-                                                resolution = resolution),
-                                 value = mean(value))
+    cai_patch <- lsm_p_cai_calc(landscape,
+                                directions = directions,
+                                consider_boundary = consider_boundary,
+                                edge_depth = edge_depth,
+                                resolution = resolution)
+
+    cai_mean <- mean(cai_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "cai_mn",
-        value = as.double(cai_mean$value)
+        value = as.double(cai_mean)
     )
 }

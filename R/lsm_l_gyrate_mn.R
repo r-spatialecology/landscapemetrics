@@ -136,17 +136,18 @@ lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
 lsm_l_gyrate_mn_calc <- function(landscape, directions,
                                  points = NULL) {
 
-    gyrate_mn <- dplyr::summarize(lsm_p_gyrate_calc(landscape,
-                                                    directions = directions,
-                                                    points = points),
-                                  value = mean(value))
+    gyrate_patch <- lsm_p_gyrate_calc(landscape,
+                                      directions = directions,
+                                      points = points)
+
+    gyrate_mn <- mean(gyrate_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "gyrate_mn",
-        value = as.double(gyrate_mn$value)
+        value = as.double(gyrate_mn)
     )
 }
 

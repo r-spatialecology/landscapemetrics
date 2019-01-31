@@ -135,18 +135,19 @@ lsm_l_circle_mn.list <- function(landscape, directions = 8) {
 lsm_l_circle_mn_calc <- function(landscape, directions,
                                  resolution = NULL, points = NULL) {
 
-    circle_mn <- dplyr::summarize(lsm_p_circle_calc(landscape,
-                                                    directions = directions,
-                                                    resolution = resolution,
-                                                    points = points),
-                                  value = mean(value))
+    circle_patch <- lsm_p_circle_calc(landscape,
+                                      directions = directions,
+                                      resolution = resolution,
+                                      points = points)
+
+    circle_mn <- mean(circle_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "circle_mn",
-        value = as.double(circle_mn$value)
+        value = as.double(circle_mn)
     )
 
 }

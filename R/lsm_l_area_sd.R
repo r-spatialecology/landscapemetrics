@@ -135,14 +135,14 @@ lsm_l_area_sd_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate sd
-    area_sd <- dplyr::summarise(area_patch, value = stats::sd(value))
+    area_sd <- stats::sd(area_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "area_sd",
-        value = as.double(area_sd$value)
+        value = as.double(area_sd)
     )
 }
 

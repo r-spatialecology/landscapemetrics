@@ -132,16 +132,17 @@ lsm_l_para_sd.list <- function(landscape, directions = 8) {
 
 lsm_l_para_sd_calc <- function(landscape, directions, resolution = NULL){
 
-    para_sd <- dplyr::summarise(lsm_p_para_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = stats::sd(value))
+    para_patch <- lsm_p_para_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    para_sd <- stats::sd(para_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "para_sd",
-        value = as.double(para_sd$value)
+        value = as.double(para_sd)
     )
 }

@@ -138,17 +138,17 @@ lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise for total landscape
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
     # number of patches for each class
     number_patches <- lsm_c_np_calc(landscape,
                                     directions = directions)
 
     # summarise for total landscape
-    number_patches <- dplyr::summarise(number_patches, value = sum(value))
+    number_patches <- sum(number_patches$value)
 
     # relative patch density
-    patch_density <- (number_patches$value / area_total$value) * 100
+    patch_density <- number_patches / area_total * 100
 
     tibble::tibble(
         level = "landscape",

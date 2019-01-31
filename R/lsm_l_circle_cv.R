@@ -136,18 +136,19 @@ lsm_l_circle_cv.list <- function(landscape, directions = 8) {
 lsm_l_circle_cv_calc <- function(landscape, directions,
                                  resolution = NULL, points = NULL) {
 
-    circle_cv <- dplyr::summarize(lsm_p_circle_calc(landscape,
-                                                    directions = directions,
-                                                    resolution = resolution,
-                                                    points = points),
-                                  value = raster::cv(value))
+    circle_patch <- lsm_p_circle_calc(landscape,
+                                      directions = directions,
+                                      resolution = resolution,
+                                      points = points)
+
+    circle_cv <- raster::cv(circle_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "circle_cv",
-        value = as.double(circle_cv$value)
+        value = as.double(circle_cv)
     )
 }
 

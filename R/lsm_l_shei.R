@@ -126,9 +126,9 @@ lsm_l_shei_calc <- function(landscape, resolution = NULL){
                              directions = 8,
                              resolution = resolution)
 
-    prop <- dplyr::mutate(prop, value = value / 100)
+    prop <- prop$value / 100
 
-    shei <- sum(-prop$value * log(prop$value, exp(1))) / log(length(prop$value), exp(1))
+    shei <- sum(-prop * log(prop, exp(1))) / log(length(prop), exp(1))
 
     tibble::tibble(
         level = "landscape",

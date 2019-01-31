@@ -124,16 +124,17 @@ lsm_l_ta.list <- function(landscape, directions = 8) {
 
 lsm_l_ta_calc <- function(landscape, directions, resolution = NULL) {
 
-    total_area <- dplyr::summarise(lsm_p_area_calc(landscape,
-                                                   directions = directions,
-                                                   resolution = resolution),
-                                   value = sum(value))
+    patch_area <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    total_area <- sum(patch_area$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "ta",
-        value = as.double(total_area$value)
+        value = as.double(total_area)
     )
 }

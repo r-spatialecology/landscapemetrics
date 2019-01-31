@@ -151,15 +151,6 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
                                    FUN = function(x) sum(x) * 10000)
 
     # calculate lsi index
-    lsi <- dplyr::mutate(class_area,
-                         n = trunc(sqrt(value)),
-                         m = value - n^ 2,
-                         minp = dplyr::case_when(
-                             m == 0 ~ n * 4,
-                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                             value > n * (1 + n) ~ 4 * n + 4),
-                         value = class_edge$value / minp)
-
     class_area$n <- trunc(sqrt(class_area$value))
     class_area$m <- class_area$value - class_area$n ^ 2
     class_area$minp <- ifelse(test = class_area$m == 0,
@@ -175,12 +166,14 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
         warning("NAs introduced by lsm_c_lsi", call. = FALSE)
     }
 
+    lsi <- class_edge$value / class_area$minp
+
     tibble::tibble(
         level = "class",
         class = as.integer(class_edge$class),
         id = as.integer(class_edge$id),
         metric = "lsi",
-        value = as.double(lsi$value)
+        value = as.double(lsi)
     )
 
 }

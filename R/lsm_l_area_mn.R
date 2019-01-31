@@ -136,14 +136,14 @@ lsm_l_area_mn_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate mean
-    area_mean <- dplyr::summarise(area_patch, value = mean(value))
+    area_mean <- mean(area_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "area_mn",
-        value = as.double(area_mean$value)
+        value = as.double(area_mean)
     )
 }
 

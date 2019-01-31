@@ -143,8 +143,7 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
         pr <- lsm_l_pr_calc(landscape)
 
-        rpr <- dplyr::mutate(pr, value = value / classes_max * 100)
-        rpr <- rpr$value
+        rpr <- pr$value / classes_max * 100
     }
 
     tibble::tibble(

@@ -139,14 +139,13 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate cv
-    shape_cv <- dplyr::summarise(shape,
-                                 value = raster::cv(value))
+    shape_cv <- raster::cv(shape$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "shape_cv",
-        value = as.double(shape_cv$value)
+        value = as.double(shape_cv)
     )
 }
