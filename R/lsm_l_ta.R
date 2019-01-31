@@ -48,8 +48,12 @@ lsm_l_ta.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_ta_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ta
@@ -60,8 +64,12 @@ lsm_l_ta.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_ta_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ta
@@ -72,8 +80,12 @@ lsm_l_ta.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_ta_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ta
@@ -86,8 +98,12 @@ lsm_l_ta.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_ta_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ta
@@ -98,8 +114,12 @@ lsm_l_ta.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_ta_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_ta_calc <- function(landscape, directions, resolution = NULL) {

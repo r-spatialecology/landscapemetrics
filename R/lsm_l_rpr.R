@@ -51,8 +51,12 @@ lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_rpr
@@ -64,8 +68,12 @@ lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_rpr
@@ -77,8 +85,12 @@ lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_rpr
@@ -92,8 +104,12 @@ lsm_l_rpr.stars <- function(landscape, classes_max = NULL, verbose = TRUE) {
                      classes_max = classes_max,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_rpr
@@ -105,8 +121,12 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
                      classes_max = classes_max,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {

@@ -48,8 +48,12 @@ lsm_l_shdi.RasterLayer <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shdi_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_shdi
@@ -59,8 +63,12 @@ lsm_l_shdi.RasterStack <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shdi_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_shdi
@@ -70,8 +78,12 @@ lsm_l_shdi.RasterBrick<- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shdi_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_shdi
@@ -83,8 +95,12 @@ lsm_l_shdi.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shdi_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 
@@ -95,8 +111,12 @@ lsm_l_shdi.list <- function(landscape) {
     result <- lapply(X = landscape,
                      FUN = lsm_l_shdi_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_shdi_calc <- function(landscape, resolution = NULL) {

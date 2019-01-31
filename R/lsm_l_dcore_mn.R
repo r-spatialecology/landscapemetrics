@@ -63,8 +63,12 @@ lsm_l_dcore_mn.RasterLayer <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_dcore_mn
@@ -80,8 +84,12 @@ lsm_l_dcore_mn.RasterStack <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_dcore_mn
@@ -97,8 +105,12 @@ lsm_l_dcore_mn.RasterBrick <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_dcore_mn
@@ -116,8 +128,12 @@ lsm_l_dcore_mn.stars <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_dcore_mn
@@ -133,8 +149,12 @@ lsm_l_dcore_mn.list <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth,
