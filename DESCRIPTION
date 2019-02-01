@@ -54,7 +54,6 @@ Depends:
 Imports: 
     cli,
     crayon,
-    dplyr,
     ggplot2,
     methods,
     raster,
@@ -64,9 +63,10 @@ Imports:
     tibble
 Suggests: 
     covr,
-    testthat,
+    dplyr,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    testthat
 Enhances:
     stars, 
     sf
