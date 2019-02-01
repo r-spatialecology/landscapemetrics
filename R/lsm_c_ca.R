@@ -53,8 +53,12 @@ lsm_c_ca.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ca
@@ -65,8 +69,12 @@ lsm_c_ca.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ca
@@ -77,8 +85,12 @@ lsm_c_ca.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ca
@@ -91,8 +103,12 @@ lsm_c_ca.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_ca
@@ -103,16 +119,21 @@ lsm_c_ca.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_ca_calc <- function(landscape, directions) {
 
+    # calculate core area for each patch
     core_patch <- lsm_p_area_calc(landscape, directions = directions)
 
-    ca <- dplyr::summarise(dplyr::group_by(core_patch, class),
-                           value = sum(value))
+    # summarise for each class
+    ca <- stats::aggregate(x = core_patch[, 5], by = core_patch[, 2], FUN = sum)
 
     tibble::tibble(
         level = "class",

@@ -55,8 +55,12 @@ lsm_c_cohesion.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cohesion
@@ -67,8 +71,12 @@ lsm_c_cohesion.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cohesion
@@ -79,8 +87,12 @@ lsm_c_cohesion.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cohesion
@@ -93,8 +105,12 @@ lsm_c_cohesion.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 
@@ -106,8 +122,12 @@ lsm_c_cohesion.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
@@ -127,8 +147,7 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # get number of cells for each patch -> area = n_cells * res / 10000
-    ncells_patch <-  dplyr::mutate(patch_area,
-                                   value = value * 10000 / prod(resolution))
+    patch_area$ncells <- patch_area$value * 10000 / prod(resolution)
 
     # get perim of patch
     perim_patch <- lsm_p_perim_calc(landscape,
@@ -136,18 +155,18 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
                                     resolution = resolution)
 
     # calculate denominator of cohesion
-    denominator <- dplyr::mutate(perim_patch, value = value * sqrt(ncells_patch$value))
+    perim_patch$denominator <- perim_patch$value * sqrt(patch_area$ncells)
 
     # group by class and sum
-    denominator <-  dplyr::summarise(dplyr::group_by(denominator, class),
-                                     value = sum(value))
+    denominator <- stats::aggregate(x = perim_patch[, 6], by = perim_patch[, 2],
+                                    FUN = sum)
 
-    cohesion <- dplyr::summarise(dplyr::group_by(perim_patch, class),
-                                 value = sum(value))
+    cohesion <- stats::aggregate(x = perim_patch[, 5], by = perim_patch[, 2],
+                                 FUN = sum)
 
-    cohesion <- dplyr::mutate(cohesion,
-                              value = (1 - (value / denominator$value)) *
-                                  ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100)
+    # calculate cohesion
+    cohesion$value <- (1 - (cohesion$value / denominator$denominator)) *
+        ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100
 
    tibble::tibble(
        level = "class",

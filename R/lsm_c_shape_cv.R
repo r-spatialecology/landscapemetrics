@@ -57,8 +57,12 @@ lsm_c_shape_cv.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_shape_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_shape_cv
@@ -69,8 +73,12 @@ lsm_c_shape_cv.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_shape_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_shape_cv
@@ -81,8 +89,12 @@ lsm_c_shape_cv.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_shape_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_shape_cv
@@ -95,8 +107,12 @@ lsm_c_shape_cv.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_shape_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_shape_cv
@@ -107,8 +123,12 @@ lsm_c_shape_cv.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_shape_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
@@ -119,8 +139,7 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate cv
-    shape_cv <- dplyr::summarise(dplyr::group_by(shape, class),
-                                 value = raster::cv(value))
+    shape_cv <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = raster::cv)
 
     tibble::tibble(
         level = "class",

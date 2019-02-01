@@ -52,8 +52,12 @@ lsm_l_area_sd.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_area_sd
@@ -64,8 +68,12 @@ lsm_l_area_sd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_area_sd
@@ -76,8 +84,12 @@ lsm_l_area_sd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_area_sd
@@ -90,8 +102,12 @@ lsm_l_area_sd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_area_sd
@@ -102,8 +118,12 @@ lsm_l_area_sd.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 # Not working yet!
@@ -115,14 +135,14 @@ lsm_l_area_sd_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate sd
-    area_sd <- dplyr::summarise(area_patch, value = stats::sd(value))
+    area_sd <- stats::sd(area_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "area_sd",
-        value = as.double(area_sd$value)
+        value = as.double(area_sd)
     )
 }
 

@@ -65,8 +65,12 @@ lsm_l_contig_mn.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_contig_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_contig_mn
@@ -77,8 +81,12 @@ lsm_l_contig_mn.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_contig_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_contig_mn
@@ -89,8 +97,12 @@ lsm_l_contig_mn.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_contig_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_contig_mn
@@ -103,8 +115,12 @@ lsm_l_contig_mn.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_contig_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_contig_mn
@@ -115,20 +131,26 @@ lsm_l_contig_mn.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_contig_mn_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_contig_mn_calc <- function(landscape, directions) {
 
-    contig_mn <- dplyr::summarize(lsm_p_contig_calc(landscape, directions = directions),
-                                  value = mean(value))
+    contig_patch <- lsm_p_contig_calc(landscape,
+                                      directions = directions)
+
+    contig_mn <- mean(contig_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "contig_mn",
-        value = as.double(contig_mn$value)
+        value = as.double(contig_mn)
     )
 }

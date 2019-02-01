@@ -1,6 +1,6 @@
 #' Show landscape metrics
 #'
-#' @description Show patches
+#' @description Show landscape metrics on patch level printed in their corresponding patch.
 #'
 #' @param landscape *Raster object
 #' @param what Patch level what to plot
@@ -14,7 +14,7 @@
 #' @param label_lsm If true, the value of the landscape metric is used as label
 #' @param nrow,ncol Number of rows and columns for the facet.
 #'
-#' @details The function plots all patches with a fill corresponding to the value of the chosen what
+#' @details The function plots all patches with a fill corresponding to the value of the chosen landscape metric on patch level.
 #'
 #' @return ggplot
 #'
@@ -191,9 +191,9 @@ show_lsm_intern <- function(landscape, what, class,
 
     for(i in seq_len(length(landscape_labeled) - 1)){
 
-        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
+        max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
+        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
     }
 
     lsm_fun <- match.fun(what)
@@ -213,50 +213,50 @@ show_lsm_intern <- function(landscape, what, class,
                                                     na.rm = TRUE),
                                                 xy = TRUE)
 
-        names(patches_tibble) <- c("x", "y", "patch_id")
+        names(patches_tibble) <- c("x", "y", "id")
 
-        patches_tibble <- dplyr::mutate(patches_tibble,
-                                        patch_id = replace(patch_id,
-                                                           patch_id == 0, NA))
+        patches_tibble$id <- replace(patches_tibble$id,
+                                     patches_tibble$id == 0,
+                                     NA)
 
-        patches_tibble <- dplyr::left_join(x = patches_tibble,
-                                           y = fill_value,
-                                           by = c("patch_id" = "id"))
+        patches_tibble <- merge(x = patches_tibble,
+                                y = fill_value,
+                                by = "id",
+                                all.x = TRUE)
 
         patches_tibble$class.get_patches <- "global"
 
         if (!labels) {
             patches_tibble$label <- NA
-        }
-
-        else {
-            if(label_lsm){
+        } else {
+            if (label_lsm) {
                 patches_tibble$label <- round(patches_tibble$value, 2)
-            }
-
-            else{
-                patches_tibble$label <- patches_tibble$patch_id
+            } else{
+                patches_tibble$label <- patches_tibble$id
             }
         }
     }
 
     if (any(class != "global")) {
 
-        patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
-            names(x) <- "patch_id"
-            x <- raster::as.data.frame(x, xy = TRUE)
+        patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
+            names(landscape_labeled[[i]]) <- "id"
+            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            x$class <- as.numeric(names(landscape_labeled[i]))
             return(x)}
         )
 
-        patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
+        patches_tibble <- do.call(rbind, patches_tibble)
 
-        patches_tibble <- dplyr::left_join(x = patches_tibble,
-                                           y = fill_value,
-                                           by = c("patch_id" = "id"),
-                                           suffix = c(".get_patches", ".lsm"))
+        patches_tibble <- merge(x = patches_tibble,
+                                y = fill_value,
+                                by = "id",
+                                all.x = TRUE,
+                                suffixes = c(".get_patches", ".lsm"))
 
         if (any(!(class %in% "all"))){
-            patches_tibble <- dplyr::filter(patches_tibble, class.get_patches %in% !!class)
+            class_index <- which(patches_tibble$class.get_patches %in% class)
+            patches_tibble <- patches_tibble[class_index, ]
         }
 
         if (!labels) {
@@ -269,7 +269,7 @@ show_lsm_intern <- function(landscape, what, class,
             }
 
             else{
-                patches_tibble$label <- patches_tibble$patch_id
+                patches_tibble$label <- patches_tibble$id
             }
         }
     }

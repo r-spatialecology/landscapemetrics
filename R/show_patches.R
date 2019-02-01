@@ -145,8 +145,7 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
 
         names(patches_tibble) <- c("x", "y", "value")
 
-        patches_tibble <- dplyr::mutate(patches_tibble,
-                                        value = replace(value, value == 0, NA))
+        patches_tibble$value <- replace(patches_tibble$value, patches_tibble$value == 0, NA)
 
         if (isTRUE(labels)) {
             patches_tibble$labels <- patches_tibble$value
@@ -161,16 +160,18 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
 
     if (any(class != "global")) {
 
-        patches_tibble <- lapply(X = landscape_labeled, FUN = function(x){
-            names(x) <- "value"
-            x <- raster::as.data.frame(x, xy = TRUE)
+        patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
+            names(landscape_labeled[[i]]) <- "value"
+            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            x$class <- as.numeric(names(landscape_labeled[i]))
             return(x)}
         )
 
-        patches_tibble <- dplyr::bind_rows(patches_tibble, .id = "class")
+        patches_tibble <- do.call(rbind, patches_tibble)
 
         if (any(!(class %in% c("all", "global")))){
-            patches_tibble <- dplyr::filter(patches_tibble, class %in% !!class)
+            class_index <- which(patches_tibble$class %in% class)
+            patches_tibble <- patches_tibble[class_index, ]
         }
 
         if (isTRUE(labels)) {

@@ -57,10 +57,10 @@ connected: 4 (rook's case) or 8 (queen's case).}
 ggplot
 }
 \description{
-Show patches
+Show landscape metrics on patch level printed in their corresponding patch.
 }
 \details{
-The function plots all patches with a fill corresponding to the value of the chosen what
+The function plots all patches with a fill corresponding to the value of the chosen landscape metric on patch level.
 }
 \examples{
 show_lsm(landscape, what = "lsm_p_area", directions = 4)

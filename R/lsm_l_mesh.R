@@ -55,8 +55,12 @@ lsm_l_mesh.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_mesh_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_mesh
@@ -67,8 +71,12 @@ lsm_l_mesh.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_mesh_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_mesh
@@ -79,8 +87,12 @@ lsm_l_mesh.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_mesh_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_mesh
@@ -93,8 +105,12 @@ lsm_l_mesh.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_mesh_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_mesh
@@ -105,9 +121,14 @@ lsm_l_mesh.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_mesh_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
+
 lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
 
     # get patch area
@@ -116,18 +137,16 @@ lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise to total area
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
     # calculate mesh first take area ^ 2, than sum for whole landscape dividied by landscape area total
-    mesh <- dplyr::mutate(dplyr::summarise(dplyr::mutate(area_patch, value = value ^ 2),
-                                           value = sum(value)),
-                          value = (value / area_total$value))
+    mesh <- sum(area_patch$value ^ 2) / area_total
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "mesh",
-        value = as.double(mesh$value)
+        value = as.double(mesh)
     )
 }

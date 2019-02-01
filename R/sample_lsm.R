@@ -66,27 +66,27 @@ sample_lsm.RasterLayer <- function(landscape,
                                    type = NULL,
                                    return_raster = FALSE) {
 
-    result <- sample_lsm_int(landscape = landscape,
-                             points = points, shape = shape, size = size,
-                             what = what,
-                             level = level,
-                             metric = metric,
-                             name = name,
-                             type = type)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = sample_lsm_int,
+                     points = points, shape = shape, size = size,
+                     what = what,
+                     level = level,
+                     metric = metric,
+                     name = name,
+                     type = type)
 
-    # if(return_raster == FALSE) {
-    #     result  <- dplyr::bind_rows(result$metrics)
-    # }
-    # else {
-    #     result <- dplyr::mutate(result, layer = as.integer(1))
-    #     result <- result[, c(4, 1, 2, 3)]
-    # }
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
 
     if(!isTRUE(return_raster)) {
-        result  <- dplyr::select(result, -raster_sample_plots)
+        result  <- result[, -9]
     }
 
-    return(result)
+    result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
 #' @name sample_lsm
@@ -109,31 +109,18 @@ sample_lsm.RasterStack <- function(landscape,
                      name = name,
                      type = type)
 
-    result <- dplyr::bind_rows(result)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    layer_id <- rep(x = seq_len(raster::nlayers(landscape)),
-                    each = nrow(as.data.frame(points)))
+    result <- do.call(rbind, result)
 
-    # for(current_layer in seq_len(nrow(result))) {
-    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    # }
-    #
-    # if(return_raster == FALSE) {
-    #     result  <- dplyr::bind_rows(result$metrics)
-    # }
-    #
-    # else {
-    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
-    #     result <- result[, c(4, 1, 2, 3)]
-    # }
-
-    result$layer <- layer_id
+    result$layer <- layer
 
     if(!isTRUE(return_raster)) {
-        result  <- dplyr::select(result, -raster_sample_plots)
+        result  <- result[, -9]
     }
 
-    return(result)
+    result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
 #' @name sample_lsm
@@ -156,31 +143,18 @@ sample_lsm.RasterBrick <- function(landscape,
                      name = name,
                      type = type)
 
-    result <- dplyr::bind_rows(result)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    layer_id <- rep(x = seq_len(raster::nlayers(landscape)),
-                    each = nrow(as.data.frame(points)))
+    result <- do.call(rbind, result)
 
-    # for(current_layer in seq_len(nrow(result))) {
-    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    # }
-    #
-    # if(return_raster == FALSE) {
-    #     result  <- dplyr::bind_rows(result$metrics)
-    # }
-    #
-    # else {
-    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
-    #     result <- result[, c(4, 1, 2, 3)]
-    # }
-
-    result$layer <- layer_id
+    result$layer <- layer
 
     if(!isTRUE(return_raster)) {
-        result  <- dplyr::select(result, -raster_sample_plots)
+        result  <- result[, -9]
     }
 
-    return(result)
+    result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
 #' @name sample_lsm
@@ -203,95 +177,79 @@ sample_lsm.list <- function(landscape,
                      name = name,
                      type = type)
 
-    result <- dplyr::bind_rows(result)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    layer_id <- rep(x = seq_along(landscape), each = nrow(points))
+    result <- do.call(rbind, result)
 
-    # for(current_layer in seq_len(nrow(result))) {
-    #     result$metrics[[current_layer]]$layer <- layer_id[current_layer]
-    # }
-    #
-    # if(return_raster == FALSE) {
-    #     result  <- dplyr::bind_rows(result$metrics)
-    # }
-    #
-    # else {
-    #     result <- dplyr::mutate(result, layer = as.integer(layer_id))
-    #     result <- result[, c(4, 1, 2, 3)]
-    # }
-
-    result$layer <- layer_id
+    result$layer <- layer
 
     if(!isTRUE(return_raster)) {
-        result  <- dplyr::select(result, -raster_sample_plots)
+        result  <- result[, -9]
     }
 
-    return(result)
+    result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
 sample_lsm_int <- function(landscape,
                            points, shape, size,
                            what, level, metric, name, type) {
 
+    # calculate theoretical, maximum area
     if (shape == "circle") {
         maximum_area <- (pi * size ^ 2) / 10000
     }
 
+    # calculate theoretical, maximum area
     else if (shape == "square") {
         maximum_area <- (size ^ 2) / 10000
     }
 
+    # Unkown shape argument
     else{
-        stop(paste0("Shape=", shape, " unknown"))
+        stop(paste0("Shape = ", shape, " unknown"))
     }
 
+    # construct plot area around sample points
     sample_plots <- construct_buffer(points = points,
                                      shape = shape,
                                      size = size)
 
-    landscape_plots <- lapply(X = seq_along(sample_plots),
-                              FUN = function(current_plot) {
-                                  landscape_crop <- raster::crop(x = landscape,
-                                                                 y = sample_plots[current_plot])
-                                  landscape_mask <- raster::mask(x = landscape_crop,
-                                                                 mask = sample_plots[current_plot])
-                                  names(landscape_mask) <- paste0("plot_", current_plot)
-                                  return(landscape_mask)
-                                  }
-                              )
+    # loop through each sample point and calculate metrics
+    result <- do.call(rbind, lapply(X = seq_along(sample_plots), FUN = function(current_plot) {
 
-    results_landscapes <- lapply(X = seq_along(landscape_plots),
-                                 FUN = function(current_plot) {
+        # crop sample plot
+        landscape_crop <- raster::crop(x = landscape,
+                                       y = sample_plots[current_plot])
 
-                                     area <- lsm_l_ta_calc(landscape_plots[[current_plot]],
-                                                           directions = 8)
+        # mask sample plot
+        landscape_mask <- raster::mask(x = landscape_crop,
+                                       mask = sample_plots[current_plot])
 
-                                    result <- calculate_lsm(landscape = landscape_plots[[current_plot]],
-                                                            what = what,
-                                                            level = level,
-                                                            metric = metric,
-                                                            name = name,
-                                                            type = type)
+        # calculate actual area of sample plot
+        area <- lsm_l_ta_calc(landscape_mask,
+                              directions = 8)
 
-                                     result_plot <- dplyr::mutate(result,
-                                                                  plot_id = current_plot,
-                                                                  percentage_inside = (area$value / maximum_area) * 100)
+        # calculate lsm
+        result_current_plot <- calculate_lsm(landscape = landscape_mask,
+                                             what = what,
+                                             level = level,
+                                             metric = metric,
+                                             name = name,
+                                             type = type)
 
-                                     result_plot <- result_plot[, c(1, 7, 2, 3, 4, 5, 6, 8)]
+        # add plot id
+        result_current_plot$plot_id <- current_plot
 
-                                     return(result_plot)
-                                     }
-                                 )
+        # calculate ratio between actual area and theoretical area
+        result_current_plot$percentage_inside <- area$value / maximum_area * 100
 
-    # results <- tibble::enframe(results_landscapes, name = "plot_id", value = "metrics")
-    #
-    # results_total <- dplyr::mutate(results, raster_sample_plots = landscape_plots)
-    #
-    # return(results_total)
+        # add sample plot raster
+        result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
 
-    results <- dplyr::bind_rows(results_landscapes)
+        return(result_current_plot)
+        })
+    )
 
-    results$raster_sample_plots <- landscape_plots[results$plot_id]
-
-    return(results)
+    return(result)
 }

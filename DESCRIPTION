@@ -54,18 +54,19 @@ Depends:
 Imports: 
     cli,
     crayon,
-    dplyr,
     ggplot2,
     methods,
     raster,
     Rcpp,
     sp,
+    stats,
     tibble
 Suggests: 
     covr,
-    testthat,
+    dplyr,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    testthat
 Enhances:
     stars, 
     sf

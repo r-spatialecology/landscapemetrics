@@ -62,8 +62,12 @@ lsm_l_enn_sd.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_enn_sd
@@ -75,8 +79,12 @@ lsm_l_enn_sd.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_enn_sd
@@ -88,8 +96,12 @@ lsm_l_enn_sd.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_enn_sd
@@ -103,8 +115,12 @@ lsm_l_enn_sd.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_enn_sd
@@ -116,23 +132,28 @@ lsm_l_enn_sd.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_enn_sd_calc <- function(landscape, directions, verbose,
                               points = NULL) {
 
-    enn_sd <- dplyr::summarize(lsm_p_enn_calc(landscape,
-                                              directions = directions, verbose = verbose,
-                                              points = points),
-                               value = stats::sd(value))
+    enn_patch <- lsm_p_enn_calc(landscape,
+                                directions = directions, verbose = verbose,
+                                points = points)
+
+    enn_sd <- stats::sd(enn_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "enn_sd",
-        value = as.double(enn_sd$value)
+        value = as.double(enn_sd)
     )
 }

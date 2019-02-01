@@ -59,8 +59,12 @@ lsm_c_core_sd.RasterLayer <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_core_sd
@@ -73,8 +77,12 @@ lsm_c_core_sd.RasterStack <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_core_sd
@@ -87,8 +95,12 @@ lsm_c_core_sd.RasterBrick <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_core_sd
@@ -103,8 +115,12 @@ lsm_c_core_sd.stars <- function(landscape, directions = 8, consider_boundary = F
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_core_sd
@@ -117,8 +133,12 @@ lsm_c_core_sd.list <- function(landscape, directions = 8, consider_boundary = FA
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
@@ -129,8 +149,8 @@ lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_de
                             edge_depth = edge_depth,
                             resolution = resolution)
 
-    core_sd <- dplyr::summarise(dplyr::group_by(core, class),
-                                value = stats::sd(value))
+    # summarise for class
+    core_sd <- stats::aggregate(x = core[, 5], by = core[, 2], FUN = stats::sd)
 
     tibble::tibble(
         level = "class",

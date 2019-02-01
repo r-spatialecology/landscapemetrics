@@ -64,8 +64,12 @@ lsm_l_core_cv.RasterLayer <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_cv
@@ -81,8 +85,12 @@ lsm_l_core_cv.RasterStack <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_cv
@@ -98,8 +106,12 @@ lsm_l_core_cv.RasterBrick <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_cv
@@ -117,8 +129,12 @@ lsm_l_core_cv.stars <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_cv
@@ -134,24 +150,29 @@ lsm_l_core_cv.list <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    core_cv <- dplyr::summarise(lsm_p_core_calc(landscape,
-                                                directions = directions,
-                                                consider_boundary = consider_boundary,
-                                                edge_depth = edge_depth,
-                                                resolution = resolution),
-                                value = raster::cv(value))
+    core_patch <- lsm_p_core_calc(landscape,
+                                  directions = directions,
+                                  consider_boundary = consider_boundary,
+                                  edge_depth = edge_depth,
+                                  resolution = resolution)
+
+    core_cv <- raster::cv(core_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "core_cv",
-        value = as.double(core_cv$value)
+        value = as.double(core_cv)
     )
 }

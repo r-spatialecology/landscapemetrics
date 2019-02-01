@@ -1,6 +1,6 @@
 #' data_info
 #'
-#' @description Adding padding to raster
+#' @description Data info
 #'
 #' @param landscape RasterLayer
 #'
@@ -34,9 +34,9 @@ data_info <- function(landscape){
     landscape_values <- landscape_values[!is.na(landscape_values)]
 
     # check if integer value
-    class <- dplyr::if_else(condition = all(landscape_values %% 1 == 0),
-                            true = "integer",
-                            false = "non-integer")
+    class <- ifelse(test = all(landscape_values %% 1 == 0),
+                    yes = "integer",
+                    no = "non-integer")
 
     tibble::tibble(class = class,
                    n_classes = length(landscape_values))

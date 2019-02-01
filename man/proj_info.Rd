@@ -13,6 +13,7 @@ proj_info(landscape)
 raster
 }
 \description{
+Projection info
 Adding padding to raster
 }
 \details{

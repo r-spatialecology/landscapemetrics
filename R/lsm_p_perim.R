@@ -45,8 +45,12 @@ lsm_p_perim.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_perim
@@ -57,8 +61,12 @@ lsm_p_perim.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_perim
@@ -69,8 +77,12 @@ lsm_p_perim.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_perim
@@ -79,13 +91,16 @@ lsm_p_perim.stars <- function(landscape, directions = 8) {
 
     landscape <- methods::as(landscape, "Raster")
 
-
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_perim
@@ -96,8 +111,12 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
@@ -127,7 +146,8 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
                                       NA, 1, NA), 3, 3, byrow = TRUE)
     }
 
-    perimeter_patch <- lapply(classes, function(patches_class) {
+    perimeter_patch <- do.call(rbind,
+                               lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -181,8 +201,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         tibble::tibble(class = patches_class,
                        value = perimeter_patch_ij)
         })
-
-    perimeter_patch <- dplyr::bind_rows(perimeter_patch)
+    )
 
     tibble::tibble(
         level = "patch",

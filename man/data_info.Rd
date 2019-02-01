@@ -13,7 +13,8 @@ data_info(landscape)
 raster
 }
 \description{
-Adding padding to raster
+Data info
+
 }
 \details{
 Check class of raster values and number of classes

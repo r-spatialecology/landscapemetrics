@@ -28,7 +28,8 @@ show_correlation <-
         present_levels <- unique(metrics$level)
 
         if ("patch" %in% present_levels) {
-            metrics_patch <- dplyr::filter(metrics, level == "patch")
+            patch_index <- which(metrics$level == "patch")
+            metrics_patch <- metrics[patch_index, ]
 
             if (length(unique(metrics_patch$metric)) == 1) {
                 stop("Please provide input with more than one metric")
@@ -59,7 +60,8 @@ show_correlation <-
         }
 
         if ("class" %in% present_levels) {
-            metrics_class <- dplyr::filter(metrics, level == "class")
+            class_index <- which(metrics$level == "class")
+            metrics_class <- metrics[class_index, ]
 
             if (length(unique(metrics_class$metric)) == 1) {
                 stop("Please provide input with more than one metric")
@@ -90,7 +92,8 @@ show_correlation <-
         }
 
         if ("landscape" %in% present_levels) {
-            metrics_landscape <- dplyr::filter(metrics, level == "landscape")
+            landscape_index <- which(metrics$level == "landscape")
+            metrics_landscape <- metrics[landscape_index, ]
 
             if (length(unique(metrics_landscape$layer)) == 1) {
                 stop("Correlation on landscape level only possible for several landscapes")
@@ -191,12 +194,9 @@ show_correlation <-
                     ifnotfound = list(NA)
                 )
 
-            corrs_df <- dplyr::filter(
-                dplyr::group_by(
-                    do.call(rbind, corrs_list),
-                    id),
-                !all(is.na(value))
-                )
+
+            corrs_df <- do.call(rbind, corrs_list)
+            corrs_df <- corrs_df[!is.na(corrs_df$value),]
 
             corrs_df$id <-
                 factor(corrs_df$id, levels = unique(corrs_df$id))

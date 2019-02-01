@@ -55,8 +55,12 @@ lsm_p_area.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_area_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_area
@@ -67,8 +71,12 @@ lsm_p_area.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_area_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                  vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_area
@@ -79,8 +87,12 @@ lsm_p_area.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_area_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_area
@@ -93,8 +105,12 @@ lsm_p_area.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_area_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_area
@@ -105,8 +121,12 @@ lsm_p_area.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_area_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
@@ -123,7 +143,8 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
     # get unique class id
     classes <- get_unique_values(landscape)[[1]]
 
-    area_patch_list <- lapply(classes, function(patches_class){
+    area_patch <- do.call(rbind,
+                          lapply(classes, function(patches_class){
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -138,9 +159,8 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
             class = as.integer(patches_class),
             value = area_patch_ij
         )
-    })
-
-    area_patch <- dplyr::bind_rows(area_patch_list)
+        })
+    )
 
     tibble::tibble(
         level = "patch",
@@ -150,5 +170,3 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
         value = as.double(area_patch$value)
     )
 }
-
-

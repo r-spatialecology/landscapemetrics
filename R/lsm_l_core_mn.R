@@ -62,8 +62,12 @@ lsm_l_core_mn.RasterLayer <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_mn
@@ -79,8 +83,12 @@ lsm_l_core_mn.RasterStack <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_mn
@@ -96,8 +104,12 @@ lsm_l_core_mn.RasterBrick <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_mn
@@ -115,8 +127,12 @@ lsm_l_core_mn.stars <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_core_mn
@@ -132,24 +148,29 @@ lsm_l_core_mn.list <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_core_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-    core_mean <- dplyr::summarise(lsm_p_core_calc(landscape,
-                                                  directions = directions,
-                                                  consider_boundary = consider_boundary,
-                                                  edge_depth = edge_depth,
-                                                  resolution = resolution),
-                                  value = mean(value))
+    core_patch <- lsm_p_core_calc(landscape,
+                                  directions = directions,
+                                  consider_boundary = consider_boundary,
+                                  edge_depth = edge_depth,
+                                  resolution = resolution)
+
+    core_mn <- mean(core_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "core_mn",
-        value = as.double(core_mean$value)
+        value = as.double(core_mn)
     )
 }

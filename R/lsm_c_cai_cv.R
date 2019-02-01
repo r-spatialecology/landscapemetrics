@@ -64,8 +64,12 @@ lsm_c_cai_cv.RasterLayer <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cai_cv
@@ -78,8 +82,12 @@ lsm_c_cai_cv.RasterStack <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cai_cv
@@ -92,8 +100,12 @@ lsm_c_cai_cv.RasterBrick <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cai_cv
@@ -108,8 +120,12 @@ lsm_c_cai_cv.stars <- function(landscape, directions = 8, consider_boundary = FA
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cai_cv
@@ -122,19 +138,24 @@ lsm_c_cai_cv.list <- function(landscape, directions = 8, consider_boundary = FAL
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
 
+    # calculate core area index for each patch
     cai <- lsm_p_cai_calc(landscape,
                           directions = directions,
                           consider_boundary = consider_boundary,
                           edge_depth = edge_depth)
 
-    cai_cv <- dplyr::summarise(dplyr::group_by(cai, class),
-                               value = raster::cv(value))
+    # summarise for classes
+    cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = raster::cv)
 
     tibble::tibble(
         level = "class",

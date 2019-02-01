@@ -53,8 +53,12 @@ lsm_c_division.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_division_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_division
@@ -65,8 +69,12 @@ lsm_c_division.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_division_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_division
@@ -77,8 +85,12 @@ lsm_c_division.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_division_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_area_sd
@@ -91,8 +103,12 @@ lsm_c_division.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_division_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_division
@@ -103,8 +119,12 @@ lsm_c_division.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_division_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_division_calc <- function(landscape, directions, resolution = NULL) {
@@ -115,16 +135,15 @@ lsm_c_division_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # get total area
-    total_area <- dplyr::summarise(patch_area, value = sum(value))
+    total_area <- sum(patch_area$value)
 
     # calculate division for each patch
-    division <- dplyr::mutate(patch_area,
-                              value = (value / total_area$value) ^ 2)
+    patch_area$value <- (patch_area$value / total_area) ^ 2
 
-    # calculate over division for classes
-    division <-  dplyr::mutate(dplyr::summarise(dplyr::group_by(division, class),
-                                                value = sum(value)),
-                               value = 1 - value)
+    # summarise for classes
+    division <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
+
+    division$value <- 1 - division$value
 
     tibble::tibble(
         level = "class",

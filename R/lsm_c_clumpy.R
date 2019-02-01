@@ -47,8 +47,12 @@ lsm_c_clumpy.RasterLayer <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_clumpy_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_clumpy
@@ -58,8 +62,12 @@ lsm_c_clumpy.RasterStack <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_clumpy_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_clumpy
@@ -69,8 +77,12 @@ lsm_c_clumpy.RasterBrick <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_clumpy_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_clumpy
@@ -82,8 +94,12 @@ lsm_c_clumpy.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_clumpy_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 
@@ -94,8 +110,12 @@ lsm_c_clumpy.list <- function(landscape) {
     result <- lapply(X = landscape,
                      FUN = lsm_c_clumpy_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
@@ -121,17 +141,23 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
                                   value = cells_class)
 
     # calculate minimum perimeter
-    min_e <- dplyr::mutate(cells_class,
-                                       n = trunc(sqrt(value)),
-                                       m = value - n ^ 2,
-                                       min_e = dplyr::case_when(
-                                           m == 0 ~ n * 4,
-                                           n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                           value > n * (1 + n) ~ 4 * n + 4)
-                           )
+    cells_class$n <- trunc(sqrt(cells_class$value))
+    cells_class$m <- cells_class$value - cells_class$n ^ 2
+    cells_class$min_e <- ifelse(test = cells_class$m == 0,
+                                yes = cells_class$n * 4,
+                                no = ifelse(test = cells_class$n ^ 2 < cells_class$value & cells_class$value <= cells_class$n * (1 + cells_class$n),
+                                            yes = 4 * cells_class$n + 2,
+                                            no = ifelse(test = cells_class$value > cells_class$n * (1 + cells_class$n),
+                                                        yes = 4 * cells_class$n + 4,
+                                                        no = NA)))
+
+    # test if any NAs introduced
+    if(anyNA(cells_class$min_e)) {
+        warning("NAs introduced by lsm_c_clumpy", ccall. = FALSE)
+    }
 
     # calculate g_i
-    g_i <- like_adjacencies / (colSums(other_adjacencies) - min_e$min_e)
+    g_i <- like_adjacencies / (colSums(other_adjacencies) - cells_class$min_e)
 
     # proportional class area - direction has no influence on PLAND
     prop_class <- lsm_c_pland_calc(landscape,

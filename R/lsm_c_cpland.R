@@ -55,8 +55,12 @@ lsm_c_cpland.RasterLayer <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cpland
@@ -69,8 +73,12 @@ lsm_c_cpland.RasterStack <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cpland
@@ -83,8 +91,12 @@ lsm_c_cpland.RasterBrick <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cpland
@@ -99,8 +111,12 @@ lsm_c_cpland.stars <- function(landscape, directions = 8, consider_boundary = FA
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_cpland
@@ -113,8 +129,12 @@ lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FAL
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
@@ -132,7 +152,7 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
                             resolution = resolution)
 
     # total landscape area
-    area <- dplyr::summarise(area, value = sum(value))
+    area <- sum(area$value)
 
     # get core area for each patch
     core_area <- lsm_p_core_calc(landscape,
@@ -141,18 +161,17 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
                                  edge_depth = edge_depth,
                                  resolution = resolution)
 
-    # summarise to class core area
-    core_area <- dplyr::summarise(dplyr::group_by(core_area, class),
-                                  value = sum(value))
+    # summarise core area for classes
+    core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2], FUN = sum)
 
-    cpland <- dplyr::mutate(core_area,
-                            value = value / area$value * 100)
+    # relative core area of each class
+    core_area$value <- core_area$value / area * 100
 
     tibble::tibble(
         level = "class",
-        class = as.integer(cpland$class),
+        class = as.integer(core_area$class),
         id = as.integer(NA),
         metric = "cpland",
-        value = as.double(cpland$value)
+        value = as.double(core_area$value)
     )
 }

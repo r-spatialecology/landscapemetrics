@@ -54,8 +54,12 @@ lsm_l_iji.RasterLayer <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_iji
@@ -66,8 +70,12 @@ lsm_l_iji.RasterStack <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_iji
@@ -78,8 +86,12 @@ lsm_l_iji.RasterBrick <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_iji
@@ -92,8 +104,12 @@ lsm_l_iji.stars <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_iji
@@ -104,8 +120,12 @@ lsm_l_iji.list <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_iji_calc <- function(landscape, verbose) {

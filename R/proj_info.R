@@ -1,6 +1,6 @@
 #' proj_info
 #'
-#' @description Adding padding to raster
+#' @description Projection info
 #'
 #' @param landscape RasterLayer
 #'

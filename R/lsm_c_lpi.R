@@ -50,8 +50,12 @@ lsm_c_lpi.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_lpi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lpi
@@ -62,8 +66,12 @@ lsm_c_lpi.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_lpi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lpi
@@ -74,8 +82,12 @@ lsm_c_lpi.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_lpi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lpi
@@ -88,8 +100,12 @@ lsm_c_lpi.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_lpi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lpi
@@ -100,8 +116,12 @@ lsm_c_lpi.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_lpi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
@@ -112,15 +132,13 @@ lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise to total area
-    total_area <- dplyr::summarise(patch_area, value = sum(value))
+    total_area <- sum(patch_area$value)
 
     # calculate largest patch index
-    lpi <- dplyr::mutate(patch_area,
-                         value = value / total_area$value * 100)
+    patch_area$value <- patch_area$value / total_area * 100
 
     # summarise for each class
-    lpi <- dplyr::summarise(dplyr::group_by(lpi, class),
-                            value = max(value))
+    lpi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = max)
 
     tibble::tibble(
         level = "class",
