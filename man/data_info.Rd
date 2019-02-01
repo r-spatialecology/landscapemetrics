@@ -14,6 +14,7 @@ raster
 }
 \description{
 Data info
+
 }
 \details{
 Check class of raster values and number of classes

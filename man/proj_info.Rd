@@ -14,6 +14,7 @@ raster
 }
 \description{
 Projection info
+Adding padding to raster
 }
 \details{
 Check projection of RasterLayer
