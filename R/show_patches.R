@@ -145,7 +145,7 @@ show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol
 
         names(patches_tibble) <- c("x", "y", "value")
 
-        patches_tibble <- replace(value, value == 0, NA)
+        patches_tibble$value <- replace(patches_tibble$value, patches_tibble$value == 0, NA)
 
         if (isTRUE(labels)) {
             patches_tibble$labels <- patches_tibble$value
