@@ -233,15 +233,11 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
                                                     xy = TRUE)
     names(boundary_labeled_stack) <- c("x", "y", "values")
 
-    boundary_labeled_stack <- dplyr::mutate(boundary_labeled_stack,
-                                            class = raster::values(landscape),
-                                            core_label = values)
+    boundary_labeled_stack$class <-  raster::values(landscape)
+    boundary_labeled_stack$core_label <- boundary_labeled_stack$values
 
-    boundary_labeled_stack <- dplyr::mutate(boundary_labeled_stack,
-                                            values = dplyr::case_when(values == -999 ~ 0,
-                                                                      values != -999 ~ 1),
-                                            core_label = dplyr::case_when(core_label == -999 ~ as.numeric(NA),
-                                                                          TRUE ~ core_label))
+    boundary_labeled_stack$values <-  ifelse(boundary_labeled_stack$values == -999, 0, 1)
+    boundary_labeled_stack$core_label <- ifelse(boundary_labeled_stack$core_label == -999, as.numeric(NA), boundary_labeled_stack$core_label)
 
     if (!isTRUE(labels)){
         boundary_labeled_stack$core_label <- NA
@@ -254,7 +250,8 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
     if (any(class != "global")) {
 
         if (any(!(class %in% "all"))){
-            boundary_labeled_stack <- dplyr::filter(boundary_labeled_stack, class %in% !!class)
+            class_index <- which(boundary_labeled_stack$class %in% class)
+            boundary_labeled_stack <- boundary_labeled_stack[class_index, ]
         }
     }
 
