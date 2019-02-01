@@ -68,8 +68,10 @@ list_lsm <- function(level = NULL,
             what <- what[!what %in% c("patch", "class", "landscape")]
         }
 
-        result <- dplyr::filter(lsm_abbreviations_names_modified,
-                                function_name %in% what | level %in% !!level)
+        which_rows <- which(lsm_abbreviations_names_modified$function_name %in% what |
+                                lsm_abbreviations_names_modified$level %in% level)
+
+        result <- lsm_abbreviations_names_modified[which_rows, ]
     }
 
     else{
@@ -90,14 +92,15 @@ list_lsm <- function(level = NULL,
             type <- unique(lsm_abbreviations_names_modified$type)
         }
 
-        result <- dplyr::filter(lsm_abbreviations_names_modified,
-                                level %in% !!level,
-                                metric_new %in% !!metric,
-                                name %in% !!name,
-                                type %in% !!type)
+        which_rows <- which(lsm_abbreviations_names_modified$level %in% level &
+                                lsm_abbreviations_names_modified$metric_new %in% metric &
+                                lsm_abbreviations_names_modified$name %in% name &
+                                lsm_abbreviations_names_modified$type %in% type)
+
+        result <- lsm_abbreviations_names_modified[which_rows, ]
     }
 
-    result <- dplyr::select(result, -metric_new)
+    result <- result[, -6]
 
     if(simplify) {
         result <- result$function_name
