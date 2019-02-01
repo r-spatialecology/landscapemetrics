@@ -41,8 +41,6 @@ values and the number of classes found in the landscape.
 \examples{
 check_landscape(augusta_nlcd)
 check_landscape(podlasie_ccilc)
-check_landscape(landscape)
-landscape_stack = raster::stack(landscape, landscape)
-check_landscape(landscape_stack)
+check_landscape(raster::stack(landscape, landscape))
 
 }

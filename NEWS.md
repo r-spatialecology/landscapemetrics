@@ -1,3 +1,10 @@
+# landscapemetrics 0.3.2
+* Bugfixes
+    * Bugfix in `check_landscape()` if NA values were present
+* Improvements
+    * Better structure for helping functions of `check_landscape()`
+    * Better handling of RasterStacks for `check_landscape()`
+
 # landscapemetrics 0.3.1
 * Bugfixes
     * fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
