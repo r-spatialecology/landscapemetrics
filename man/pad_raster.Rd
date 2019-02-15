@@ -6,6 +6,7 @@
 \alias{pad_raster.RasterStack}
 \alias{pad_raster.RasterBrick}
 \alias{pad_raster.list}
+\alias{pad_raster.matrix}
 \title{pad_raster}
 \usage{
 pad_raster(landscape, pad_raster_value, pad_raster_cells, global)
@@ -20,6 +21,9 @@ pad_raster(landscape, pad_raster_value, pad_raster_cells, global)
   pad_raster_cells = 1, global = FALSE)
 
 \method{pad_raster}{list}(landscape, pad_raster_value = -999,
+  pad_raster_cells = 1, global = FALSE)
+
+\method{pad_raster}{matrix}(landscape, pad_raster_value = -999,
   pad_raster_cells = 1, global = FALSE)
 }
 \arguments{
@@ -41,7 +45,7 @@ Adding padding to raster
 Adds equally (in all four directions) additional cells around the raster
 }
 \examples{
-pad_raster(landscape)
+pad_raster(landscape, -999, 2)
 
 }
 \keyword{internal}

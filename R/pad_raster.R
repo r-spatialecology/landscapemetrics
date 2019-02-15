@@ -13,7 +13,7 @@
 #' @return raster
 #'
 #' @examples
-#' pad_raster(landscape)
+#' pad_raster(landscape, -999, 2)
 #'
 #' @aliases pad_raster
 #' @rdname pad_raster
@@ -87,6 +87,8 @@ pad_raster.list <- function(landscape,
            global = global)
 }
 
+#' @name pad_raster
+#' @export
 pad_raster.matrix <- function(landscape,
                               pad_raster_value = -999,
                               pad_raster_cells = 1,
@@ -103,17 +105,26 @@ pad_raster_internal <- function(landscape,
                                 pad_raster_cells,
                                 global){
 
-    for(i in seq_len(pad_raster_cells)){
+    # get pad_raster_values as often as columns times pad_raster_cells add in y direction
+    y_direction <- matrix(rep(x = pad_raster_value,
+                              times = ncol(landscape) * pad_raster_cells),
+                          nrow = pad_raster_cells)
 
-        landscape_padded <- rbind(pad_raster_value,
-                                  landscape,
-                                  pad_raster_value,
-                                  deparse.level = 0)
-        landscape_padded <- cbind(pad_raster_value,
-                                  landscape_padded,
-                                  pad_raster_value,
-                                  deparse.level = 0)
-    }
+    # add columns on both sides
+    landscape_padded <- rbind(y_direction,
+                              landscape,
+                              y_direction,
+                              deparse.level = 0)
+    # get pad_raster_values as often as rows time spad_raster_cells to add in x direction
+    x_direction <- matrix(rep(x = pad_raster_value,
+                              times = nrow(landscape_padded) * pad_raster_cells),
+                          ncol = pad_raster_cells)
+
+    # add rows on both sides
+    landscape_padded <- cbind(x_direction,
+                              landscape_padded,
+                              x_direction,
+                              deparse.level = 0)
 
     if(isTRUE(global)){
         landscape_padded[is.na(landscape_padded)] <- pad_raster_value
