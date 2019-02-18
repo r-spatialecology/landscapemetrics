@@ -121,7 +121,7 @@ lsm_c_clumpy.list <- function(landscape) {
 lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
-    landscape_padded <- pad_raster(landscape)
+    landscape_padded <- pad_raster(landscape)[[1]]
 
     # get coocurrence
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,

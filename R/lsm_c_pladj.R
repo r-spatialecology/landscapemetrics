@@ -122,7 +122,7 @@ lsm_c_pladj_calc <- function(landscape) {
     }
 
     landscape_padded <- pad_raster(landscape, pad_raster_value = -999,
-                                   pad_raster_cells = 1)
+                                   pad_raster_cells = 1)[[1]]
 
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))

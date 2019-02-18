@@ -6,6 +6,7 @@
     * Removing all functions from `dplyr`
     * Better structure for helping functions of `check_landscape()`
     * Better handling of RasterStacks for `check_landscape()`
+    * `pad_raster()` is now typestable and always returns a list
 
 # landscapemetrics 0.3.1
 * Bugfixes

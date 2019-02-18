@@ -33,10 +33,11 @@ pad_raster.RasterLayer <- function(landscape,
                                    pad_raster_cells = 1,
                                    global = FALSE) {
 
-    pad_raster_internal(raster::as.matrix(landscape),
-                        pad_raster_value = pad_raster_value,
-                        pad_raster_cells = pad_raster_cells,
-                        global = global)
+    lapply(X = raster::as.list(landscape),
+           FUN = pad_raster_internal,
+           pad_raster_value = pad_raster_value,
+           pad_raster_cells = pad_raster_cells,
+           global = global)
 }
 
 #' @name pad_raster
@@ -47,10 +48,7 @@ pad_raster.RasterStack <- function(landscape,
                                    global = FALSE) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = function(x, pad_raster_value, pad_raster_cells, global) {
-               x <- raster::as.matrix(x)
-               pad_raster_internal(x, pad_raster_value, pad_raster_cells, global)
-               },
+           FUN = pad_raster_internal,
            pad_raster_value = pad_raster_value,
            pad_raster_cells = pad_raster_cells,
            global = global)
@@ -64,10 +62,7 @@ pad_raster.RasterBrick <- function(landscape,
                                    global = FALSE) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = function(x, pad_raster_value, pad_raster_cells, global) {
-               x <- raster::as.matrix(x)
-               pad_raster_internal(x, pad_raster_value, pad_raster_cells, global)
-           },
+           FUN = pad_raster_internal,
            pad_raster_value = pad_raster_value,
            pad_raster_cells = pad_raster_cells,
            global = global)
@@ -94,16 +89,22 @@ pad_raster.matrix <- function(landscape,
                               pad_raster_cells = 1,
                               global = FALSE) {
 
-    pad_raster_internal(landscape,
-                        pad_raster_value = pad_raster_value,
-                        pad_raster_cells = pad_raster_cells,
-                        global = global)
+    lapply(X = list(landscape),
+           FUN = pad_raster_internal,
+           pad_raster_value = pad_raster_value,
+           pad_raster_cells = pad_raster_cells,
+           global = global)
 }
 
 pad_raster_internal <- function(landscape,
                                 pad_raster_value,
                                 pad_raster_cells,
                                 global){
+
+    # convert to matrix
+    if(class(landscape) != "matrix") {
+        landscape <- raster::as.matrix(landscape)
+    }
 
     # get pad_raster_values as often as columns times pad_raster_cells add in y direction
     y_direction <- matrix(rep(x = pad_raster_value,

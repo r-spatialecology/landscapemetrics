@@ -191,7 +191,7 @@ show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
             landscape_padded <- pad_raster(patches_class,
                                            pad_raster_value = NA,
                                            pad_raster_cells = 1,
-                                           global = FALSE)
+                                           global = FALSE)[[1]]
 
             patches_class <- raster::setValues(landscape_labeled_empty, landscape_padded)
         }

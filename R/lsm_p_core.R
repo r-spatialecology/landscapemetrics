@@ -176,9 +176,9 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         if(!consider_boundary) {
             # add cells around raster to consider landscape boundary
             landscape_labeled <- pad_raster(landscape_labeled,
-                                           pad_raster_value = NA,
-                                           pad_raster_cells = 1,
-                                           global = FALSE)
+                                            pad_raster_value = NA,
+                                            pad_raster_cells = 1,
+                                            global = FALSE)[[1]]
         }
 
         # label all edge cells
