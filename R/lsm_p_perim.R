@@ -158,7 +158,8 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         # cells at the boundary of the landscape need neighbours to calculate perim
         landscape_labeled <- pad_raster(landscape_labeled,
                                         pad_raster_value = NA,
-                                        pad_raster_cells = 1)[[1]]
+                                        pad_raster_cells = 1,
+                                        return_raster = FALSE)[[1]]
 
         # which cells are NA (i.e. background)
         target_na <- which(is.na(landscape_labeled))

@@ -178,7 +178,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
             landscape_labeled <- pad_raster(landscape_labeled,
                                             pad_raster_value = NA,
                                             pad_raster_cells = 1,
-                                            global = FALSE)[[1]]
+                                            global = FALSE,
+                                            return_raster = FALSE)[[1]]
         }
 
         # label all edge cells

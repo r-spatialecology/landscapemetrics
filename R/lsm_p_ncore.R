@@ -197,7 +197,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             landscape_labeled <- pad_raster(landscape_labeled,
                                             pad_raster_value = NA,
                                             pad_raster_cells = 1,
-                                            global = FALSE)[[1]]
+                                            global = FALSE,
+                                            return_raster = FALSE)[[1]]
         }
 
         # get unique patch id (must be 1 to number_patches)

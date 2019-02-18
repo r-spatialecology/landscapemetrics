@@ -9,22 +9,28 @@
 \alias{pad_raster.matrix}
 \title{pad_raster}
 \usage{
-pad_raster(landscape, pad_raster_value, pad_raster_cells, global)
+pad_raster(landscape, pad_raster_value, pad_raster_cells, global,
+  return_raster, to_disk)
 
 \method{pad_raster}{RasterLayer}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE)
+  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE))
 
 \method{pad_raster}{RasterStack}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE)
+  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE))
 
 \method{pad_raster}{RasterBrick}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE)
+  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE))
 
 \method{pad_raster}{list}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE)
+  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE))
 
 \method{pad_raster}{matrix}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE)
+  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE))
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -34,6 +40,12 @@ pad_raster(landscape, pad_raster_value, pad_raster_cells, global)
 \item{pad_raster_cells}{Number of rows and columns added}
 
 \item{global}{Only pad around the raster extent or also NA holes "inside"}
+
+\item{return_raster}{If false, matrix is returned}
+
+\item{to_disk}{Logical argument, if FALSE results of get_patches are hold
+in memory. If true, pad_raster writes temporary files and hence, does not hold
+everything in memory. Can be set with a global option, e.g. \code{option(to_disk = TRUE)}.}
 }
 \value{
 raster
@@ -45,7 +57,7 @@ Adding padding to raster
 Adds equally (in all four directions) additional cells around the raster
 }
 \examples{
-pad_raster(landscape, -999, 2)
+pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
 
 }
 \keyword{internal}

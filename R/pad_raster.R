@@ -6,6 +6,10 @@
 #' @param pad_raster_value Value of cells added
 #' @param pad_raster_cells Number of rows and columns added
 #' @param global Only pad around the raster extent or also NA holes "inside"
+#' @param return_raster If false, matrix is returned
+#' @param to_disk Logical argument, if FALSE results of get_patches are hold
+#' in memory. If true, pad_raster writes temporary files and hence, does not hold
+#' everything in memory. Can be set with a global option, e.g. `option(to_disk = TRUE)`.
 #'
 #' @details
 #' Adds equally (in all four directions) additional cells around the raster
@@ -13,7 +17,7 @@
 #' @return raster
 #'
 #' @examples
-#' pad_raster(landscape, -999, 2)
+#' pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
 #'
 #' @aliases pad_raster
 #' @rdname pad_raster
@@ -24,20 +28,43 @@
 pad_raster <- function(landscape,
                        pad_raster_value,
                        pad_raster_cells,
-                       global) UseMethod("pad_raster")
+                       global,
+                       return_raster,
+                       to_disk) UseMethod("pad_raster")
 
 #' @name pad_raster
 #' @export
 pad_raster.RasterLayer <- function(landscape,
                                    pad_raster_value = -999,
                                    pad_raster_cells = 1,
-                                   global = FALSE) {
+                                   global = FALSE,
+                                   return_raster = TRUE,
+                                   to_disk = getOption("to_disk", default = FALSE)) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = pad_raster_internal,
-           pad_raster_value = pad_raster_value,
-           pad_raster_cells = pad_raster_cells,
-           global = global)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = pad_raster_internal,
+                     pad_raster_value = pad_raster_value,
+                     pad_raster_cells = pad_raster_cells,
+                     global = global)
+
+    # convert back to raster
+    if(return_raster){
+
+        extent <- raster::extent(landscape)
+
+        resolution <- raster::res(landscape)
+
+        crs <- raster::crs(landscape)
+
+        result <- lapply(result,
+                         FUN = matrix_to_raster,
+                         extent = extent + resolution * pad_raster_cells * 2,
+                         resolution = resolution,
+                         crs = crs,
+                         to_disk = to_disk)
+    }
+
+    return(result)
 }
 
 #' @name pad_raster
@@ -45,13 +72,34 @@ pad_raster.RasterLayer <- function(landscape,
 pad_raster.RasterStack <- function(landscape,
                                    pad_raster_value = -999,
                                    pad_raster_cells = 1,
-                                   global = FALSE) {
+                                   global = FALSE,
+                                   return_raster = TRUE,
+                                   to_disk = getOption("to_disk", default = FALSE)) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = pad_raster_internal,
-           pad_raster_value = pad_raster_value,
-           pad_raster_cells = pad_raster_cells,
-           global = global)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = pad_raster_internal,
+                     pad_raster_value = pad_raster_value,
+                     pad_raster_cells = pad_raster_cells,
+                     global = global)
+
+    # convert back to raster
+    if(return_raster){
+
+        extent <- raster::extent(landscape)
+
+        resolution <- raster::res(landscape)
+
+        crs <- raster::crs(landscape)
+
+        result <- lapply(result,
+                         FUN = matrix_to_raster,
+                         extent = extent + resolution * pad_raster_cells * 2,
+                         resolution = resolution,
+                         crs = crs,
+                         to_disk = to_disk)
+    }
+
+    return(result)
 }
 
 #' @name pad_raster
@@ -59,13 +107,34 @@ pad_raster.RasterStack <- function(landscape,
 pad_raster.RasterBrick <- function(landscape,
                                    pad_raster_value = -999,
                                    pad_raster_cells = 1,
-                                   global = FALSE) {
+                                   global = FALSE,
+                                   return_raster = TRUE,
+                                   to_disk = getOption("to_disk", default = FALSE)) {
 
-    lapply(X = raster::as.list(landscape),
-           FUN = pad_raster_internal,
-           pad_raster_value = pad_raster_value,
-           pad_raster_cells = pad_raster_cells,
-           global = global)
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = pad_raster_internal,
+                     pad_raster_value = pad_raster_value,
+                     pad_raster_cells = pad_raster_cells,
+                     global = global)
+
+    # convert back to raster
+    if(return_raster){
+
+        extent <- raster::extent(landscape)
+
+        resolution <- raster::res(landscape)
+
+        crs <- raster::crs(landscape)
+
+        result <- lapply(result,
+                         FUN = matrix_to_raster,
+                         extent = extent + resolution * pad_raster_cells * 2,
+                         resolution = resolution,
+                         crs = crs,
+                         to_disk = to_disk)
+    }
+
+    return(result)
 }
 
 #' @name pad_raster
@@ -73,13 +142,36 @@ pad_raster.RasterBrick <- function(landscape,
 pad_raster.list <- function(landscape,
                             pad_raster_value = -999,
                             pad_raster_cells = 1,
-                            global = FALSE) {
+                            global = FALSE,
+                            return_raster = TRUE,
+                            to_disk = getOption("to_disk", default = FALSE)) {
 
-    lapply(X = landscape,
-           FUN = pad_raster_internal,
-           pad_raster_value = pad_raster_value,
-           pad_raster_cells = pad_raster_cells,
-           global = global)
+    result <- lapply(X = landscape,
+                     FUN = pad_raster_internal,
+                     pad_raster_value = pad_raster_value,
+                     pad_raster_cells = pad_raster_cells,
+                     global = global)
+
+    # convert back to raster
+    if(return_raster){
+
+        result <- lapply(seq_along(result),
+                         FUN = function(x) {
+
+                             extent <- raster::extent(landscape[[x]])
+
+                             resolution <- raster::res(landscape[[x]])
+
+                             crs <- raster::crs(landscape[[x]])
+
+                             matrix_to_raster(result[[x]],
+                                              extent = extent + resolution * pad_raster_cells * 2,
+                                              resolution = resolution,
+                                              crs = crs,
+                                              to_disk = to_disk)})
+    }
+
+    return(result)
 }
 
 #' @name pad_raster
@@ -87,13 +179,21 @@ pad_raster.list <- function(landscape,
 pad_raster.matrix <- function(landscape,
                               pad_raster_value = -999,
                               pad_raster_cells = 1,
-                              global = FALSE) {
+                              global = FALSE,
+                              return_raster = TRUE,
+                              to_disk = getOption("to_disk", default = FALSE)) {
 
-    lapply(X = list(landscape),
-           FUN = pad_raster_internal,
-           pad_raster_value = pad_raster_value,
-           pad_raster_cells = pad_raster_cells,
-           global = global)
+    result <- lapply(X = list(landscape),
+                     FUN = pad_raster_internal,
+                     pad_raster_value = pad_raster_value,
+                     pad_raster_cells = pad_raster_cells,
+                     global = global)
+
+    if(return_raster || to_disk){
+        warning("return_raster = TRUE or to_disk = TRUE not able for matrix input")
+    }
+
+    return(result)
 }
 
 pad_raster_internal <- function(landscape,

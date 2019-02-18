@@ -191,7 +191,8 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
             if(count_boundary){
                 landscape_labeled <- pad_raster(landscape = landscape_labeled,
                                                 pad_raster_value = -999,
-                                                pad_raster_cells = 1)[[1]]
+                                                pad_raster_cells = 1,
+                                                return_raster = FALSE)[[1]]
             }
 
             # resolution identical in x and y direction

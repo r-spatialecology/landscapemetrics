@@ -7,6 +7,7 @@
     * Better structure for helping functions of `check_landscape()`
     * Better handling of RasterStacks for `check_landscape()`
     * `pad_raster()` is now typestable and always returns a list
+    * `pad_raster()` can now return also a RasterLayer (and not just a matrix as before)
 
 # landscapemetrics 0.3.1
 * Bugfixes
