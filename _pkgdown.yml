@@ -204,9 +204,6 @@ navbar:
        - text: "New Metrics outside FRAGSTATS"
          icon: fa-sticky-note
          href: articles/articles/new_metrics.html
-       - text: "Use Case 1: Sampling around points of interest"
-         icon: fa-calculator
-         href: articles/articles/guide_sample_lsm.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/articles/publication_record.html
