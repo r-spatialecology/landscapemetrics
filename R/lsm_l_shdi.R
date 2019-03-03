@@ -5,7 +5,7 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #'
 #' @details
-#' \deqn{SHID = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})}
+#' \deqn{SHDI = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})}
 #' where \eqn{P_{i}} is the proportion of class i.
 #'
 #' SHDI is a 'Diversity metric'. It is a widely used metric in biodiversity and ecology
