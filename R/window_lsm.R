@@ -86,7 +86,7 @@ window_lsm.RasterLayer <- function(landscape,
     # check if non-landscape-level metrics are selected
     if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
                                                           simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+        stop("window_lsm is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
