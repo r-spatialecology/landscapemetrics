@@ -26,12 +26,18 @@
 #' which compute entropy in "bits". "log" and "log10" can be also used.
 #'
 #' @details
-#' < ADD TEXT HERE >
+#' The function calculates for each focal cell the selected landscape metrics (currently only landscape level
+#' metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
+#' details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
+#' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
+#' To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
+#' for selected landscape metrics).
 #'
 #' @seealso
-#' \code{\link{list_lsm}}
+#' \code{\link{list_lsm}} \cr
+#' \code{\link{focal}}
 #'
-#' @return tibble
+#' @return list
 #'
 #' @examples
 #' \dontrun{
@@ -42,6 +48,19 @@
 #'
 #' @aliases window_lsm
 #' @rdname window_lsm
+#'
+#' @references
+#' Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling: Applications
+#' with R. Springer International Publishing. 523 pages
+#'
+#' Hagen-Zanker, A. (2016). A computational framework for generalized moving windows
+#' and its application to landscape pattern analysis. International journal of applied
+#' earth observation and geoinformation, 44, 205-216.
+#'
+#' McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical and Continuous Maps. Computer software program produced by
+#' the authors at the University of Massachusetts, Amherst. Available at the following
+#' website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
 #'
 #' @export
 window_lsm <- function(landscape, window,
