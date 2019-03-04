@@ -5,16 +5,16 @@ output: rmarkdown::html_vignette
 ---
 
 Landscape analysis are scale dependent (Šímová 2012).
-One approach to deal with this, is using a moving window (Hagen-Zanker 2016).
+One approach to deal with this is by using a moving window (Hagen-Zanker 2016).
 For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012).
-Following, the result will be a raster with the identical extent as the input, however each cell now describes the neighborhood in regard of the variability of the chosen metric (Hagen-Zanker 2016). 
+Following, the result will be a raster with the identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016). 
 Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).
 
 ## Implementation in **landscapemetrics**
 
-To analyse a input raster using the moving window approach in **landscapemetrics** we provide the function `window_lsm()`. 
+To analyse an input raster using the moving window approach in **landscapemetrics** we provide the function `window_lsm()`. 
 The function allows to specify the neighborhood using a matrix and uses internally the `raster::focal()` function. 
-Currently, only landscape level metrics are possible to calculate and can be specified similar to `calculate_lsm()`.
+Currently, only landscape level metrics are possible to calculate and can be specified similarly to `calculate_lsm()`.
 For details, see `?list_lsm()`.
 
 ```{r packages, message = FALSE}
