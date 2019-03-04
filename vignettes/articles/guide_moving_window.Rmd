@@ -4,7 +4,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 ---
 
-Landscape analysis are scale dependent (Šímová 2012). One approach to deal with this, is using a moving window (Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). Following, the result will be a raster with the identical extent as the input, however each cell now describes the neighborhood in regard of the variability of the chosen metric (Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Zanker 2016).
+Landscape analysis are scale dependent (Šímová 2012). One approach to deal with this, is using a moving window (Hagen-Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). Following, the result will be a raster with the identical extent as the input, however each cell now describes the neighborhood in regard of the variability of the chosen metric (Hagen-Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).
 
 ## Implementation in **landscapemetrics**
 
