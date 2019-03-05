@@ -1,4 +1,6 @@
-# landscapemetrics 0.3.2
+# landscapemetrics 0.4
+* New functions
+    * New function `moving_window()` to calculate landscape level metrics within a moving window
 * Bugfixes
     * Bugfix in `check_landscape()` if NA values were present
     * Bugfix in `pad_raster()` that pad_raster_cells > 1 did not work

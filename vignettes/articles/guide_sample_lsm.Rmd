@@ -1,5 +1,5 @@
 ---
-title: "Use Case 1: Sampling around points of interest"
+title: "Sampling around points of interest"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 ---
