@@ -9,7 +9,7 @@ options_landscapemetrics(to_disk = NULL)
 \arguments{
 \item{to_disk}{Logical argument, if FALSE results of get_patches are hold
 in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
-Can be set with a global option, e.g. \code{option(to_disk = TRUE)}. See Details.}
+Can be set with a global option, e.g. \code{options(to_disk = TRUE)}. See Details.}
 }
 \value{
 Global option to be used internally in the package
