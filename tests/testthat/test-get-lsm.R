@@ -33,6 +33,22 @@ test_that("get_lsm returns returns CRS", {
                  expected = raster::crs(podlasie_ccilc))
 })
 
+test_that("get_lsm works for all data types", {
+
+    expect_length(object = get_lsm(landscape_stack, what = "lsm_p_area",
+                                   verbose = FALSE),
+                  n = 2)
+
+    expect_length(object = get_lsm(landscape_brick, what = "lsm_p_area",
+                                   verbose = FALSE),
+                  n = 2)
+
+    expect_length(object = get_lsm(list(landscape, landscape), what = "lsm_p_area",
+                                   verbose = FALSE),
+                  n = 2)
+})
+
+
 test_that("get_lsm returns all errors", {
 
     expect_error(get_lsm(landscape, level = "landscape",
