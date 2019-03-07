@@ -276,6 +276,11 @@ get_lsm_internal <- function(landscape,
     # get all patch level metrics to check
     patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
 
+    # set level null if what is provided
+    if(!is.null(what)) {
+        level = NULL
+    }
+
     # get name of metrics
     metrics <- landscapemetrics::list_lsm(level = level,
                                           metric = metric,
