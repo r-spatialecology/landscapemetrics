@@ -5,6 +5,7 @@
 * Bugfixes
     * Bugfix in `check_landscape()` if NA values were present
     * Bugfix in `pad_raster()` that pad_raster_cells > 1 did not work
+    * Bugfix in `calculate_lsm()` calculating class area where resolution was lost
 * Improvements
     * Removing all functions from `dplyr`
     * Better structure for helping functions of `check_landscape()`

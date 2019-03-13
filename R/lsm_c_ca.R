@@ -127,10 +127,12 @@ lsm_c_ca.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ca_calc <- function(landscape, directions) {
+lsm_c_ca_calc <- function(landscape, directions, resolution = NULL) {
 
     # calculate core area for each patch
-    core_patch <- lsm_p_area_calc(landscape, directions = directions)
+    core_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
 
     # summarise for each class
     ca <- stats::aggregate(x = core_patch[, 5], by = core_patch[, 2], FUN = sum)
