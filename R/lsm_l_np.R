@@ -47,8 +47,12 @@ lsm_l_np.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_np
@@ -59,8 +63,12 @@ lsm_l_np.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_np
@@ -71,8 +79,12 @@ lsm_l_np.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_np
@@ -85,8 +97,12 @@ lsm_l_np.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_np
@@ -97,21 +113,26 @@ lsm_l_np.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_np_calc <- function(landscape, directions) {
 
-    n_patches <- dplyr::summarise(lsm_c_np_calc(landscape,
-                                                directions = directions),
-                                  value = sum(value))
+    n_patches <- lsm_c_np_calc(landscape,
+                               directions = directions)
+
+    n_patches <- sum(n_patches$value)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "np",
-        value = as.double(n_patches$value)
+        value = as.double(n_patches)
     )
 }

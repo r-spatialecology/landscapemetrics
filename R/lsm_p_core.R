@@ -66,8 +66,12 @@ lsm_p_core.RasterLayer <- function(landscape, directions = 8,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_core
@@ -81,8 +85,12 @@ lsm_p_core.RasterStack <- function(landscape, directions = 8,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_core
@@ -96,8 +104,12 @@ lsm_p_core.RasterBrick <- function(landscape, directions = 8,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_core
@@ -113,8 +125,12 @@ lsm_p_core.stars <- function(landscape, directions = 8,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_core
@@ -128,8 +144,12 @@ lsm_p_core.list <- function(landscape, directions = 8,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
@@ -143,7 +163,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
-    core <- lapply(classes, function(patches_class) {
+    core <- do.call(rbind,
+                    lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -155,9 +176,10 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         if(!consider_boundary) {
             # add cells around raster to consider landscape boundary
             landscape_labeled <- pad_raster(landscape_labeled,
-                                           pad_raster_value = NA,
-                                           pad_raster_cells = 1,
-                                           global = FALSE)
+                                            pad_raster_value = NA,
+                                            pad_raster_cells = 1,
+                                            global = FALSE,
+                                            return_raster = FALSE)[[1]]
         }
 
         # label all edge cells
@@ -201,9 +223,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
 
         tibble::tibble(class = patches_class,
                        value = core_area)
-    })
-
-    core <- dplyr::bind_rows(core)
+        })
+    )
 
     tibble::tibble(
         level = "patch",

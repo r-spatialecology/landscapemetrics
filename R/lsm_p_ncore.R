@@ -71,8 +71,12 @@ lsm_p_ncore.RasterLayer <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_ncore
@@ -88,8 +92,12 @@ lsm_p_ncore.RasterStack <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_ncore
@@ -105,8 +113,12 @@ lsm_p_ncore.RasterBrick <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_ncore
@@ -124,8 +136,12 @@ lsm_p_ncore.stars <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_ncore
@@ -141,8 +157,12 @@ lsm_p_ncore.list <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
@@ -161,7 +181,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
-    core_class <- lapply(classes, function(patches_class) {
+    core_class <- do.call(rbind,
+                          lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- get_patches(landscape,
@@ -176,7 +197,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             landscape_labeled <- pad_raster(landscape_labeled,
                                             pad_raster_value = NA,
                                             pad_raster_cells = 1,
-                                            global = FALSE)
+                                            global = FALSE,
+                                            return_raster = FALSE)[[1]]
         }
 
         # get unique patch id (must be 1 to number_patches)
@@ -256,9 +278,8 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             class = patches_class,
             value = result
         )
-    })
-
-    core_class <- dplyr::bind_rows(core_class)
+        })
+    )
 
     tibble::tibble(
         level = "patch",
@@ -268,126 +289,3 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         value = as.double(core_class$value)
     )
 }
-
-# lsm_p_ncore_calc_old <- function(landscape, directions, consider_boundary, edge_depth,
-#                              extent = NULL, resolution = NULL, crs = NULL){
-#
-#     # use raster instead of landscape
-#     if(class(landscape) == "matrix") {
-#         landscape <- matrix_to_raster(landscape,
-#                                       extent = extent,
-#                                       resolution = resolution,
-#                                       crs =crs)
-#     }
-#
-#     # get resolution (could go in else{})
-#     resolution <- raster::res(landscape)
-#
-#     # get unique classes
-#     classes <- get_unique_values(landscape)[[1]]
-#
-#     # consider landscape boundary for core definition
-#     if(!consider_boundary) {
-#         # create empty raster for matrix_to_raster()
-#         landscape_empty <- raster::raster(x = raster::extent(landscape) + (2 * resolution),
-#                                           resolution = resolution,
-#                                           crs = raster::crs(landscape))
-#     }
-#
-#     core_class <- lapply(classes, function(patches_class) {
-#
-#         # get connected patches
-#         landscape_labeled <- get_patches(landscape,
-#                                          class = patches_class,
-#                                          directions = directions)[[1]]
-#
-#         # consider landscape boundary for core definition
-#         if(!consider_boundary) {
-#
-#             # add cells around raster to consider landscape boundary
-#             landscape_padded <- pad_raster(landscape_labeled,
-#                                            pad_raster_value = NA,
-#                                            pad_raster_cells = 1,
-#                                            global = FALSE)
-#
-#             # convert to back raster
-#             landscape_labeled <- matrix_to_raster(matrix = landscape_padded,
-#                                                   landscape = landscape_empty,
-#                                                   landscape_empty = TRUE)
-#         }
-#
-#         # get unique patch id (must be 1 to number_patches)
-#         patches_id <- 1:raster::maxValue(landscape_labeled)
-#
-#         # label all edge cells
-#         class_edge <- get_boundaries(landscape_labeled,
-#                                      directions = 4)
-#
-#         # loop if edge_depth is more than 1
-#         if(edge_depth > 1){
-#
-#             for(i in seq_len(edge_depth - 1)){
-#
-#                 # set all already edge to NA
-#                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
-#
-#                 # set current_edge + 1 to new edge
-#                 class_edge <- get_boundaries(class_edge,
-#                                              directions = 4)
-#             }
-#         }
-#
-#         # set all edge and background to -999
-#         raster::values(class_edge)[raster::values(class_edge) == 1 | raster::values(is.na(class_edge))] <- -999
-#
-#         # no core area present
-#         if(raster::maxValue(class_edge) == -999){
-#             result <- c(rep(0, length(patches_id)))
-#             names(result)  <- patches_id
-#         }
-#
-#         else {
-#
-#             # get all core patches
-#             patch_core <- get_patches(class_edge,
-#                                       class = 0,
-#                                       directions = directions)[[1]]
-#
-#             # convert to points to extract original patch id and convert to matrix
-#             points <- raster::rasterToPoints(patch_core)
-#             points <- matrix(points[!duplicated(points[, 3]),], ncol = 3)
-#
-#             # extract original patch id of core patches
-#             n_core_area <- table(raster::extract(x = landscape_labeled,
-#                                                  y = matrix(points[, 1:2],
-#                                                             ncol = 2)))
-#
-#             # set up results samel length as number of patches (in case patch has no core)
-#             result <- c(rep(0, length(patches_id)))
-#             names(result)  <- patches_id
-#
-#             # add number of core patches if present for corresponding patch
-#             result[as.numeric(names(n_core_area))] <- n_core_area
-#         }
-#
-#         tibble::tibble(
-#             class = patches_class,
-#             value = result
-#         )
-#     })
-#
-#     core_class <- dplyr::bind_rows(core_class)
-#
-#     tibble::tibble(
-#         level = "patch",
-#         class = as.integer(core_class$class),
-#         id = as.integer(seq_len(nrow(core_class))),
-#         metric = "ncore",
-#         value = as.double(core_class$value)
-#     )
-# }
-
-# bench::mark(
-#     new <- lsm_p_ncore_calc(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1),
-#     old <- lsm_p_ncore_calc_old(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1),
-# iterations = 25)

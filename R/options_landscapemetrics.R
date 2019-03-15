@@ -4,7 +4,7 @@
 #'
 #' @param to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, get_patches writes temporary files and hence, does not hold everything in memory.
-#' Can be set with a global option, e.g. `option(to_disk = TRUE)`. See Details.
+#' Can be set with a global option, e.g. `options(to_disk = TRUE)`. See Details.
 #'
 #' @details
 #'

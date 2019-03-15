@@ -53,8 +53,12 @@ lsm_l_split.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_split
@@ -65,8 +69,12 @@ lsm_l_split.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_split
@@ -77,8 +85,12 @@ lsm_l_split.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_split
@@ -91,8 +103,12 @@ lsm_l_split.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_split
@@ -103,8 +119,12 @@ lsm_l_split.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_split_calc <- function(landscape, directions, resolution = NULL) {
@@ -115,20 +135,16 @@ lsm_l_split_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise for total landscape
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
-    # area squared for each patch
-    split <- dplyr::mutate(area_patch, value = value ^ 2)
-
-    # sum of all patches divided by total area
-    split <- dplyr::mutate(dplyr::summarise(split, value = sum(value)),
-                           value = (area_total$value ^ 2) / value)
+    # total area squared divided by sum of area squared for each patch
+    split <- (area_total ^ 2) / sum(area_patch$value ^ 2)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "split",
-        value = as.double(split$value)
+        value = as.double(split)
     )
 }

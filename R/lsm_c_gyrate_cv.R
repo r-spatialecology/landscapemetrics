@@ -60,8 +60,12 @@ lsm_c_gyrate_cv.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_gyrate_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_gyrate_cv
@@ -72,8 +76,12 @@ lsm_c_gyrate_cv.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_gyrate_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_gyrate_cv
@@ -84,8 +92,12 @@ lsm_c_gyrate_cv.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_gyrate_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_gyrate_cv
@@ -98,8 +110,12 @@ lsm_c_gyrate_cv.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_gyrate_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_gyrate_cv
@@ -110,8 +126,12 @@ lsm_c_gyrate_cv.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_gyrate_cv_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_gyrate_cv_calc <- function(landscape, directions,
@@ -121,8 +141,7 @@ lsm_c_gyrate_cv_calc <- function(landscape, directions,
                                 directions = directions,
                                 points = points)
 
-    gyrate_cv <- dplyr::summarize(dplyr::group_by(gyrate, class),
-                                  value = raster::cv(value))
+    gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2], FUN = raster::cv)
 
     tibble::tibble(
         level = "class",

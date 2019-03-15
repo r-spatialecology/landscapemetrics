@@ -58,8 +58,12 @@ lsm_p_shape.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_shape_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_shape
@@ -70,8 +74,12 @@ lsm_p_shape.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_shape_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_shape
@@ -82,8 +90,12 @@ lsm_p_shape.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_shape_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_shape
@@ -96,8 +108,12 @@ lsm_p_shape.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_shape_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_shape
@@ -108,8 +124,12 @@ lsm_p_shape.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_shape_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
@@ -131,20 +151,28 @@ lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
                                   resolution = resolution)
 
     # calculate shape index
-    shape_patch <- dplyr::mutate(area_patch,
-                                 value = value * 10000,
-                                 n = trunc(sqrt(value)),
-                                 m = value - n^ 2,
-                                 minp = dplyr::case_when(m == 0 ~ n * 4,
-                                                         n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                                                         value > n * (1 + n) ~ 4 * n + 4),
-                                 value = perimeter_patch$value / minp)
+    area_patch$value <- area_patch$value * 10000
+
+    area_patch$n <- trunc(sqrt(area_patch$value))
+
+    area_patch$m <- area_patch$value - area_patch$n ^ 2
+
+    area_patch$minp <- ifelse(test = area_patch$m == 0, yes = area_patch$n * 4,
+                              no = ifelse(test = area_patch$n ^ 2 < area_patch$value & area_patch$value <= area_patch$n * (1 + area_patch$n),
+                                          yes = 4 * area_patch$n + 2,
+                                          no = ifelse(test = area_patch$value > area_patch$n * (1 + area_patch$n),
+                                                      yes = 4 * area_patch$n + 4,
+                                                      no = NA)))
+    # Throw warning that ifelse didn't work
+    if(anyNA(area_patch$minp)) {
+        warning("Calculation of shape index produced NA", call. = FALSE)
+    }
 
     tibble::tibble(
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "shape",
-        value = as.double(shape_patch$value)
+        value = as.double(perimeter_patch$value / area_patch$minp)
     )
 }

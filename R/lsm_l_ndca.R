@@ -62,8 +62,12 @@ lsm_l_ndca.RasterLayer <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ndca
@@ -79,8 +83,12 @@ lsm_l_ndca.RasterStack <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ndca
@@ -96,8 +104,12 @@ lsm_l_ndca.RasterBrick <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ndca
@@ -115,8 +127,12 @@ lsm_l_ndca.stars <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ndca
@@ -132,25 +148,30 @@ lsm_l_ndca.list <- function(landscape,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
                             points = NULL){
 
-    ndca <- dplyr::summarise(lsm_p_ncore_calc(landscape,
-                                              directions = directions,
-                                              consider_boundary = consider_boundary,
-                                              edge_depth = edge_depth,
-                                              points = points),
-                             value = sum(value))
+    ncore_patch <- lsm_p_ncore_calc(landscape,
+                                    directions = directions,
+                                    consider_boundary = consider_boundary,
+                                    edge_depth = edge_depth,
+                                    points = points)
+
+    ndca <- sum(ncore_patch$value)
 
     tibble::tibble(
         level = "landscape",
         class =  as.integer(NA),
         id = as.integer(NA),
         metric = "ndca",
-        value = as.double(ndca$value)
+        value = as.double(ndca)
     )
 }

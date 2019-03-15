@@ -46,8 +46,12 @@ lsm_l_prd.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_prd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_prd
@@ -58,8 +62,12 @@ lsm_l_prd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_prd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_prd
@@ -70,8 +78,12 @@ lsm_l_prd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_prd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_prd
@@ -84,8 +96,12 @@ lsm_l_prd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_prd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_prd
@@ -96,8 +112,12 @@ lsm_l_prd.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_prd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
@@ -108,20 +128,19 @@ lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise for total landscape
-    area_total <- dplyr::summarise(area_patch, value = sum(value))
+    area_total <- sum(area_patch$value)
 
     # get number of classes
     pr_landscape <- lsm_l_pr_calc(landscape)
 
     # relative number of classes
-    prd <- dplyr::mutate(pr_landscape,
-                         value = (value / area_total$value) * 100)
+    prd <- pr_landscape$value / area_total * 100
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "prd",
-        value = as.double(prd$value)
+        value = as.double(prd)
     )
 }

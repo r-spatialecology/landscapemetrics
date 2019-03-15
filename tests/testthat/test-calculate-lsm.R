@@ -14,7 +14,6 @@ test_that("calculate_lsm can calculate class metrics", {
     expect_true(ncol(class_metrics) > 0)
 })
 
-
 test_that("calculate_lsm can calculate landscape metrics", {
     landscape_metrics <- calculate_lsm(landscape, what = "landscape")
     expect_is(landscape_metrics, "tbl_df")
@@ -62,7 +61,6 @@ test_that("calculate_lsm can take metric argument", {
     expect_true(ncol(specific_metrics) > 0)
 })
 
-
 test_that("calculate_lsm can take name argument", {
     specific_metrics <- calculate_lsm(landscape, name = "core area")
 
@@ -77,7 +75,9 @@ test_that("calculate_lsm can take name argument", {
 })
 
 test_that("calculate_lsm can take type argument", {
-    specific_metrics <- calculate_lsm(landscape, type = "aggregation metric", full_name = T)
+    specific_metrics <- calculate_lsm(landscape,
+                                      type = "aggregation metric",
+                                      full_name = TRUE)
 
     expect_true(all(specific_metrics$type == "aggregation metric"))
 

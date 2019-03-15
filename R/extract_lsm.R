@@ -79,21 +79,29 @@ extract_lsm.RasterLayer <- function(landscape,
                                     progress = FALSE,
                                     ...) {
 
-    result <- extract_lsm_int(landscape,
-                    y = y,
-                    what = what,
-                    metric = metric,
-                    name = name,
-                    type = type,
-                    directions = directions,
-                    consider_boundary = consider_boundary,
-                    edge_depth = edge_depth,
-                    full_name = full_name,
-                    verbose = verbose,
-                    progress = progress,
-                    ...)
+  result <- lapply(raster::as.list(landscape),
+                   FUN = extract_lsm_int,
+                   y = y,
+                   what = what,
+                   metric = metric,
+                   name = name,
+                   type = type,
+                   directions = directions,
+                   consider_boundary = consider_boundary,
+                   edge_depth = edge_depth,
+                   full_name = full_name,
+                   verbose = verbose,
+                   progress = progress,
+                   ...)
 
-    return(result)
+  layer <- rep(seq_len(length(result)),
+               vapply(result, nrow, FUN.VALUE = integer(1)))
+
+  result <- do.call(rbind, result)
+
+  result$layer <- layer
+
+  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -127,14 +135,14 @@ extract_lsm.RasterStack <- function(landscape,
          progress = progress,
          ...)
 
-  for(current_layer in seq_along(result)) {
-      result[[current_layer]]$layer <- current_layer
-  }
+  layer <- rep(seq_len(length(result)),
+               vapply(result, nrow, FUN.VALUE = integer(1)))
 
-  result <- dplyr::bind_rows(result)
+  result <- do.call(rbind, result)
 
-  # result <- result[, c(1, 7, 2, 3, 4, 5, 6)]
-  return(result)
+  result$layer <- layer
+
+  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -168,13 +176,14 @@ extract_lsm.RasterBrick <- function(landscape,
                      progress = progress,
                      ...)
 
-    for(current_layer in seq_along(result)) {
-        result[[current_layer]]$layer <- current_layer
-    }
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::bind_rows(result)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result$layer <- layer
+
+    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -210,13 +219,14 @@ extract_lsm.stars <- function(landscape,
                      progress = progress,
                      ...)
 
-    for(current_layer in seq_along(result)) {
-        result[[current_layer]]$layer <- current_layer
-    }
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::bind_rows(result)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result$layer <- layer
+
+    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -250,13 +260,14 @@ extract_lsm.list <- function(landscape,
                      progress = progress,
                      ...)
 
-    for(current_layer in seq_along(result)) {
-        result[[current_layer]]$layer <- current_layer
-    }
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::bind_rows(result)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result$layer <- layer
+
+    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 extract_lsm_int <- function(landscape,
@@ -273,14 +284,17 @@ extract_lsm_int <- function(landscape,
                             progress,
                             ...) {
 
+  # get all patch level metrics if not specified
   if(is.null(what)){
     level <- "patch"
   }
 
+  # what already specified
   else {
     level <- NULL
   }
 
+  # get list of metrics to calculate
   metrics_list <- landscapemetrics::list_lsm(level = level,
                                              metric = metric,
                                              name = name,
@@ -289,10 +303,12 @@ extract_lsm_int <- function(landscape,
                                              simplify = TRUE,
                                              verbose = verbose)
 
+  # check if non-patch-level metrics are selected
   if (!any(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
     stop("extract_lsm only takes patch level metrics as what argument.")
   }
 
+  # check if points have the right class
   if (any(class(y) %in% c("MULTIPOINT",
                           "POINT"))) {
     y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
@@ -315,34 +331,46 @@ extract_lsm_int <- function(landscape,
     )
   }
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+  # get patches of landscape
+  landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)) {
+  # label patch id continuously
+  for(i in seq_len(length(landscape_labeled) - 1)) {
 
-        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
+    # max patch id of current layer
+    max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
-    }
+    # add max patch id to ids of next layer
+    landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
+  }
 
-    landscape_id <- raster::merge(raster::stack(landscape_labeled))
+  # combine to one raster layer
+  landscape_id <- raster::merge(raster::stack(landscape_labeled))
 
-    point_id <- raster::extract(landscape_id, y, df = TRUE, ...)
-    names(point_id) <- c("extract_id", "id")
+  # get patch id of sample points
+  point_id <- raster::extract(landscape_id, y, df = TRUE, ...)
 
-    metrics <- calculate_lsm(landscape,
-                             what = metrics_list,
-                             directions = directions,
-                             edge_depth = edge_depth,
-                             consider_boundary = consider_boundary,
-                             full_name = full_name,
-                             verbose = verbose,
-                             progress = progress)
+  # rename df
+  names(point_id) <- c("extract_id", "id")
 
-    extract_metrics <- dplyr::mutate(dplyr::left_join(metrics,
-                                                      point_id, by = "id"),
-                                     extract_id = as.integer(extract_id))
+  # calculate metrics
+  metrics <- calculate_lsm(landscape,
+                           what = metrics_list,
+                           directions = directions,
+                           edge_depth = edge_depth,
+                           consider_boundary = consider_boundary,
+                           full_name = full_name,
+                           verbose = verbose,
+                           progress = progress)
 
-    extract_metrics <- dplyr::filter(extract_metrics, !is.na(extract_id))
 
-    extract_metrics <- dplyr::arrange(extract_metrics, layer, extract_id)
+  # only patchs that contain a sample point
+  extract_metrics <- merge(x = metrics, y = point_id,
+                           by = "id", all.x = FALSE, all.y = FALSE, sort = FALSE)
+
+  # order cols
+  extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]
+
+  # order rows
+  tibble::as_tibble(extract_metrics)
 }

@@ -59,8 +59,12 @@ lsm_l_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pafrac
@@ -72,8 +76,12 @@ lsm_l_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pafrac
@@ -85,8 +93,12 @@ lsm_l_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pafrac
@@ -100,8 +112,12 @@ lsm_l_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pafrac
@@ -113,8 +129,12 @@ lsm_l_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
@@ -140,10 +160,10 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
                                     directions = directions)
 
     # summarise for total landscape
-    number_patches <- dplyr::summarise(number_patches, value = sum(value))
+    number_patches <- sum(number_patches$value)
 
     # PAFRAC NA for less than 10 patches
-    if(number_patches$value < 10){
+    if(number_patches < 10){
 
         pafrac <-  NA
 

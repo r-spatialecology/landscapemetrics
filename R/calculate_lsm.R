@@ -116,13 +116,14 @@ calculate_lsm.RasterLayer <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer")
-    result$layer <- as.integer(result$layer)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result <- result[with(result, order(layer, level, metric, class, id)), ]
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name calculate_lsm
@@ -164,13 +165,14 @@ calculate_lsm.RasterStack <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer")
-    result$layer <- as.integer(result$layer)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result <- result[with(result, order(layer, level, metric, class, id)), ]
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name calculate_lsm
@@ -212,13 +214,14 @@ calculate_lsm.RasterBrick <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer")
-    result$layer <- as.integer(result$layer)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result <- result[with(result, order(layer, level, metric, class, id)), ]
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name calculate_lsm
@@ -262,13 +265,14 @@ calculate_lsm.stars <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer")
-    result$layer <- as.integer(result$layer)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result <- result[with(result, order(layer, level, metric, class, id)), ]
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 
@@ -311,13 +315,14 @@ calculate_lsm.list <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    result <- dplyr::bind_rows(result, .id = "layer")
-    result$layer <- as.integer(result$layer)
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
-    result <- dplyr::arrange(result,
-                             layer, level, metric, class, id)
+    result <- do.call(rbind, result)
 
-    return(result)
+    result <- result[with(result, order(layer, level, metric, class, id)), ]
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 calculate_lsm_internal <- function(landscape,
@@ -349,6 +354,7 @@ calculate_lsm_internal <- function(landscape,
 
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
+
     # how many metrics need to be calculated?
     number_metrics <- length(metrics_calc)
 
@@ -361,7 +367,7 @@ calculate_lsm_internal <- function(landscape,
     # convert to matrix
     landscape <- raster::as.matrix(landscape)
 
-    result_all_list <- lapply(seq_along(metrics_calc), FUN = function(current_metric) {
+    result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
 
         # print progess using the non-internal name
         if(isTRUE(progress)){
@@ -379,14 +385,20 @@ calculate_lsm_internal <- function(landscape,
         # run function
         do.call(what = foo,
                 args = mget(arguments, envir = parent.env(environment())))
-    })
-
-    result <- dplyr::bind_rows(result_all_list)
+        })
+    )
 
     if(full_name == TRUE){
-        result <- dplyr::left_join(x = result,
-                                   y = landscapemetrics::lsm_abbreviations_names,
-                                   by = c("metric", "level"))
+
+        col_ordering <- c("level", "class", "id", "metric", "value",
+                          "name", "type", "function_name")
+
+        result <- merge(x = result,
+                        y = landscapemetrics::lsm_abbreviations_names,
+                        by = c("level", "metric"),
+                        all.x = TRUE, sort = FALSE, suffixes = c("", ""))
+
+        result <- tibble::as_tibble(result[ ,col_ordering])
     }
 
     return(result)

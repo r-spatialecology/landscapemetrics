@@ -35,6 +35,7 @@ reference:
     - get_unique_values
     - extract_lsm
     - sample_lsm
+    - window_lsm
   - title: Visualisation functions
     contents:
     - show_patches
@@ -197,15 +198,18 @@ navbar:
          href: articles/articles/general-background.html
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
-         href: articles/articles/comparing_fragstats_landscapemetrics.html
-       - text: "Utility functions"
-         icon: fa-comment
-         href: articles/articles/utility.html
+         href: articles/articles/comparing_tools.html
        - text: "New Metrics outside FRAGSTATS"
          icon: fa-sticky-note
          href: articles/articles/new_metrics.html
-       - text: "Use Case 1: Sampling around points of interest"
-         icon: fa-calculator
+       - text: "Utility functions"
+         icon: fa-comment
+         href: articles/articles/utility.html
+       - text: "Moving window"
+         icon: fa-comment
+         href: articles/articles/guide_moving_window.html
+       - text: "Sample metrics"
+         icon: fa-comment
          href: articles/articles/guide_sample_lsm.html
        - text: "Publication Record"
          icon: fa-file-text-o

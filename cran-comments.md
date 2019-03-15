@@ -1,3 +1,6 @@
+## Update Version: 1.0
+Minor bugfixes, less dependencies and new function
+
 ## Update Version: 0.3.1
 Minor bugfixes
 

@@ -67,20 +67,29 @@ lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_contig
 #' @export
 lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
 
+
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_contig
@@ -91,8 +100,12 @@ lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_contig
@@ -105,8 +118,12 @@ lsm_p_contig.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_p_contig
@@ -117,10 +134,13 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
-}
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
 
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
+}
 
 lsm_p_contig_calc <- function(landscape, directions) {
 
@@ -142,7 +162,8 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
-    contig_patch <- lapply(classes, function(patches_class) {
+    contig_patch <- do.call(rbind,
+                            lapply(classes, function(patches_class) {
 
         # get connected patches
         patch_mat <- get_patches(landscape,
@@ -179,9 +200,8 @@ lsm_p_contig_calc <- function(landscape, directions) {
         tibble::tibble(class = class,
                        value = contiguity)
 
-    })
-
-    contig_patch <- dplyr::bind_rows(contig_patch)
+        })
+    )
 
     tibble::tibble(
         level = "patch",

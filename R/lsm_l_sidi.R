@@ -52,8 +52,12 @@ lsm_l_sidi.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_sidi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_sidi
@@ -64,8 +68,12 @@ lsm_l_sidi.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_sidi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_sidi
@@ -76,8 +84,12 @@ lsm_l_sidi.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_sidi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_sidi
@@ -90,8 +102,12 @@ lsm_l_sidi.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_sidi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_sidi
@@ -102,8 +118,12 @@ lsm_l_sidi.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_sidi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_sidi_calc <- function(landscape, directions, resolution = NULL) {
@@ -112,14 +132,13 @@ lsm_l_sidi_calc <- function(landscape, directions, resolution = NULL) {
                              directions = directions,
                              resolution = resolution)
 
-    sidi <- dplyr::summarise(dplyr::mutate(sidi, value = (value / 100) ^ 2),
-                             value = 1 - sum(value))
+    sidi <- 1 - sum((sidi$value / 100) ^ 2)
 
     tibble::tibble(
         level = "landscape",
         class = as.integer(NA),
         id = as.integer(NA),
         metric = "sidi",
-        value = as.double(sidi$value)
+        value = as.double(sidi)
     )
 }

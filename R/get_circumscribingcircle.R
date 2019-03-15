@@ -58,11 +58,13 @@ get_circumscribingcircle.matrix <- function(landscape,
                                             resolution_y = NULL) {
 
     if (ncol(landscape) != 3){
-        stop("Coordinate matrix must have 3 (x, y, id) columns.", call. = TRUE)
+        stop("Coordinate matrix must have 3 (x, y, id) columns.",
+             call. = FALSE)
     }
 
     if (is.null(resolution_x) || is.null(resolution_y)){
-        stop("Resolution must be provided to correctly calculate the edges. ", call. = TRUE)
+        stop("Resolution must be provided to correctly calculate the edges. ",
+             call. = FALSE)
     }
 
     circle <- rcpp_get_circle(landscape,

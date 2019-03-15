@@ -2,16 +2,22 @@
 output:
   github_document:
     html_preview: false
-editor_options: 
-  chunk_output_type: console
 ---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
-[![Travis build
-status](https://travis-ci.com/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.com/r-spatialecology/landscapemetrics)
+[![Build Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
 [![Build status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
@@ -84,19 +90,17 @@ Every function follows the same implementation design, so the usage is quite str
 
 ```{r, message=FALSE, warning=FALSE}
 library(landscapemetrics)
-library(dplyr)
+library(landscapetools)
 
 # landscape raster
-landscape
+show_landscape(landscape)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 
 # calculate the total area and total class edge length
-bind_rows(
-    lsm_l_ta(landscape), 
-    lsm_c_te(landscape)
-)
+lsm_l_ta(landscape)
+lsm_c_te(landscape)
 ```
 
 There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:

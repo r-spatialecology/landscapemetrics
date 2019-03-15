@@ -50,8 +50,12 @@ lsm_l_ai.RasterLayer <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ai
@@ -61,8 +65,12 @@ lsm_l_ai.RasterStack <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ai
@@ -72,8 +80,12 @@ lsm_l_ai.RasterBrick <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ai
@@ -85,8 +97,12 @@ lsm_l_ai.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_ai
@@ -96,8 +112,12 @@ lsm_l_ai.list <- function(landscape) {
     result <- lapply(X = landscape,
                      FUN = lsm_l_ai_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_ai_calc <- function(landscape, resolution = NULL) {

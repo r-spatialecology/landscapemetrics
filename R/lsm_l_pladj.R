@@ -44,8 +44,12 @@ lsm_l_pladj.RasterLayer <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pladj_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pladj
@@ -55,8 +59,12 @@ lsm_l_pladj.RasterStack <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pladj_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pladj
@@ -66,8 +74,12 @@ lsm_l_pladj.RasterBrick <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pladj_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_l_pladj
@@ -79,8 +91,12 @@ lsm_l_pladj.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pladj_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 
@@ -91,8 +107,12 @@ lsm_l_pladj.list <- function(landscape) {
     result <- lapply(X = landscape,
                      FUN = lsm_l_pladj_calc)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_l_pladj_calc <- function(landscape) {
@@ -103,7 +123,8 @@ lsm_l_pladj_calc <- function(landscape) {
 
     landscape_padded <- pad_raster(landscape,
                                    pad_raster_value = -999,
-                                   pad_raster_cells = 1)
+                                   pad_raster_cells = 1,
+                                   return_raster = FALSE)[[1]]
 
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))

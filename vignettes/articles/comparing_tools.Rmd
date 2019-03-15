@@ -7,7 +7,6 @@ output:
 ---
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
-library(landscapetools)
 library(patchwork)
 library(raster)
 library(tidyverse)

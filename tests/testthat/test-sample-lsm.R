@@ -13,8 +13,6 @@ sample_matrix_test_brick_circle <- sample_lsm(landscape_brick, points = points, 
 sample_matrix_test_list <- sample_lsm(landscape_list, points = points, size = 15, what = "patch")
 sample_matrix_test_list_circle <- sample_lsm(landscape_list, points = points, size = 15, shape = 'circle', what = "patch")
 
-
-
 points_sp <- sp::SpatialPoints(points)
 sample_points_test <- sample_lsm(landscape, points = points_sp, size = 15, what = "patch")
 sample_points_test_circle <- sample_lsm(landscape, points = points_sp, size = 15, shape = 'circle', what = "patch")

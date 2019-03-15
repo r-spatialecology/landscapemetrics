@@ -59,8 +59,12 @@ lsm_c_circle_sd.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_circle_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_circle_sd
@@ -71,8 +75,12 @@ lsm_c_circle_sd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_circle_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_circle_sd
@@ -83,8 +91,12 @@ lsm_c_circle_sd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_circle_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_circle_sd
@@ -97,8 +109,12 @@ lsm_c_circle_sd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_circle_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_circle_sd
@@ -109,19 +125,24 @@ lsm_c_circle_sd.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_circle_sd_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_circle_sd_calc <- function(landscape, directions,
                                  resolution = NULL, points = NULL) {
 
+    # calculate circumscribing circle for each patch
     circle <- lsm_p_circle_calc(landscape,
                                 directions = directions,
                                 resolution = resolution, points = points)
 
-    circle_sd <-  dplyr::summarize(dplyr::group_by(circle, class),
-                                   value = stats::sd(value))
+    # summarise for classes
+    circle_sd <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = stats::sd)
 
     tibble::tibble(
         level = "class",

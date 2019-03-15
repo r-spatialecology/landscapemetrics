@@ -28,3 +28,18 @@ test_that("get_adjacencies runs also for the upper triangle", {
 
     expect_true(is.na(adjacencies_uppertriangle[3,1]))
 })
+
+new_r <- raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
+adjacencies_4 <- get_adjacencies(new_r, 4)
+adjacencies_8 <- get_adjacencies(new_r, 8)
+diagonal_matrix <- matrix(c(1,  NA,  1,
+                            NA,  0, NA,
+                            1,  NA,  1), 3, 3, byrow = TRUE)
+adjacencies_diag <- get_adjacencies(new_r, diagonal_matrix)
+
+test_that("get_adjacencies works for different values of neighborhood than 4", {
+    expect_equivalent(adjacencies_4, matrix(c(20L, 2L, 2L, 0L), ncol = 2))
+    expect_equivalent(adjacencies_8, matrix(c(34L, 3L, 3L, 0L), ncol = 2))
+    expect_equivalent(adjacencies_diag, matrix(c(14L, 1L, 1L, 0L), ncol = 2))
+
+})

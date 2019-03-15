@@ -59,8 +59,12 @@ lsm_c_dcad.RasterLayer <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_dcad
@@ -73,8 +77,12 @@ lsm_c_dcad.RasterStack <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_dcad
@@ -87,8 +95,12 @@ lsm_c_dcad.RasterBrick <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_dcad
@@ -103,8 +115,12 @@ lsm_c_dcad.stars <- function(landscape, directions = 8, consider_boundary = FALS
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_dcad
@@ -117,8 +133,12 @@ lsm_c_dcad.list <- function(landscape, directions = 8, consider_boundary = FALSE
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
@@ -130,7 +150,7 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                             resolution = resolution)
 
     # summarise to total area
-    area <- dplyr::summarise(area, value = sum(value))
+    area <- sum(area$value)
 
     # get number of core area
     ndca <- lsm_p_ncore_calc(landscape,
@@ -140,17 +160,16 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                              points = points)
 
     # summarise for classes
-    ndca <- dplyr::summarise(dplyr::group_by(ndca, class), value = sum(value))
+    ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
 
     # calculate relative value
-    dcad <- dplyr::mutate(ndca,
-                          value = (value / area$value) * 100)
+    ndca$value <- ndca$value / area * 100
 
     tibble::tibble(
         level = "class",
-        class = as.integer(dcad$class),
+        class = as.integer(ndca$class),
         id = as.integer(NA),
         metric = "dcad",
-        value = as.double(dcad$value)
+        value = as.double(ndca$value)
     )
 }

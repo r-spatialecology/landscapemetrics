@@ -53,8 +53,12 @@ lsm_c_lsi.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_lsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lsi
@@ -65,8 +69,12 @@ lsm_c_lsi.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_lsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lsi
@@ -77,8 +85,12 @@ lsm_c_lsi.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_lsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lsi
@@ -91,8 +103,12 @@ lsm_c_lsi.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_lsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_lsi
@@ -103,8 +119,12 @@ lsm_c_lsi.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_lsi_calc,
                      directions = directions)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
@@ -127,24 +147,33 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
                                   resolution = resolution)
 
     # summarise to class area in sqm
-    class_area <- dplyr::summarise(dplyr::group_by(patch_area, class), value = sum(value) * 10000)
+    class_area <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2],
+                                   FUN = function(x) sum(x) * 10000)
 
     # calculate lsi index
-    lsi <- dplyr::mutate(class_area,
-                         n = trunc(sqrt(value)),
-                         m = value - n^ 2,
-                         minp = dplyr::case_when(
-                             m == 0 ~ n * 4,
-                             n ^ 2 < value & value <= n * (1 + n) ~ 4 * n + 2,
-                             value > n * (1 + n) ~ 4 * n + 4),
-                         value = class_edge$value / minp)
+    class_area$n <- trunc(sqrt(class_area$value))
+    class_area$m <- class_area$value - class_area$n ^ 2
+    class_area$minp <- ifelse(test = class_area$m == 0,
+                              yes = class_area$n * 4,
+                              no = ifelse(test = class_area$n ^ 2 < class_area$value & class_area$value <= class_area$n * (1 + class_area$n),
+                                          yes = 4 * class_area$n + 2,
+                                          no = ifelse(test = class_area$value > class_area$n * (1 + class_area$n),
+                                                      yes = 4 * class_area$n + 4,
+                                                      no = NA)))
+
+    # test if any NAs introduced
+    if(anyNA(class_area$minp)) {
+        warning("NAs introduced by lsm_c_lsi", call. = FALSE)
+    }
+
+    lsi <- class_edge$value / class_area$minp
 
     tibble::tibble(
         level = "class",
         class = as.integer(class_edge$class),
         id = as.integer(class_edge$id),
         metric = "lsi",
-        value = as.double(lsi$value)
+        value = as.double(lsi)
     )
 
 }

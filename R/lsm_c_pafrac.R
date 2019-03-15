@@ -59,8 +59,12 @@ lsm_c_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pafrac
@@ -72,8 +76,12 @@ lsm_c_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pafrac
@@ -85,8 +93,12 @@ lsm_c_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pafrac
@@ -100,8 +112,12 @@ lsm_c_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 #' @name lsm_c_pafrac
@@ -113,8 +129,12 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    dplyr::mutate(dplyr::bind_rows(result, .id = "layer"),
-                  layer = as.integer(layer))
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    tibble::add_column(result, layer, .before = TRUE)
 }
 
 lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
@@ -126,10 +146,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     }
 
     # get patch area in sqm
-    area_patch <- dplyr::mutate(lsm_p_area_calc(landscape,
-                                                directions = directions,
-                                                resolution = resolution),
-                                value = value * 10000)
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution)
+
+    area_patch$value <- area_patch$value * 10000
 
     # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
@@ -140,7 +161,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 
-    pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
+    do.call(rbind, lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
         class_name <- as.integer(np_class[class_current, "class"])
 
@@ -152,13 +173,14 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
                 warning(paste0("Class ", class_name, ": PAFRAC = NA for class with < 10 patches"),
                         call. = FALSE)
             }
+
         } else {
 
-            area_class <- dplyr::filter(area_patch, class == class_name)
+            area_patch <- area_patch[area_patch$class == class_name, ]
 
-            perimeter_class <- dplyr::filter(perimeter_patch, class == class_name)
+            perimeter_patch <- perimeter_patch[perimeter_patch$class == class_name, ]
 
-            regression_model_class <- stats::lm(log(area_class$value) ~ log(perimeter_class$value))
+            regression_model_class <- stats::lm(log(area_patch$value) ~ log(perimeter_patch$value))
 
             pafrac <- 2 / regression_model_class$coefficients[[2]]
         }
@@ -169,7 +191,6 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
             id = as.integer(NA),
             metric = "pafrac",
             value = as.double(pafrac))
-    })
-
-    pafrac_class <- dplyr::bind_rows(pafrac_class)
+        })
+    )
 }
