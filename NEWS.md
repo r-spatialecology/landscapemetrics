@@ -1,3 +1,7 @@
+# landscapemetrics 1.0.1
+* Bugfixes
+    * Bugfix in `lsm_c_ai()` if only one class and NA values were present
+
 # landscapemetrics 1.0
 * New functions
     * New function `moving_window()` to calculate metrics within a moving window
