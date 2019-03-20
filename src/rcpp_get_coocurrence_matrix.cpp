@@ -27,6 +27,9 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
         neig_coords.push_back(b);
     }
 
+    // NAs need an index, otherwise they are counted as neighbors of class[0]
+    class_index.insert(std::make_pair(na, n_classes));
+
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
             const int tmp = x[col * nrows + row];

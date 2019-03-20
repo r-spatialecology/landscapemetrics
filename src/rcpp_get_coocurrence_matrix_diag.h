@@ -3,6 +3,6 @@
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
-IntegerVector rcpp_get_cooccurrence_matrix_diag(const IntegerMatrix x,
-                                           const arma::imat directions);
+IntegerVector rcpp_get_coocurrence_matrix_diag(IntegerMatrix x,
+                                               const arma::imat directions);
 #endif // RCPP_GET_CONTIG_MEAN_H

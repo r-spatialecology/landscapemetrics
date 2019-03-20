@@ -26,6 +26,8 @@ IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix x,
         std::vector<int> b(a.begin(), a.end());
         neig_coords.push_back(b);
     }
+    // NAs need an index, otherwise they are counted as neighbors of class[0]
+    patch_index.insert(std::make_pair(na, n_classes));
 
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {

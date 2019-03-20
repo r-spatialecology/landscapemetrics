@@ -29,7 +29,7 @@ test_that("get_adjacencies runs also for the upper triangle", {
     expect_true(is.na(adjacencies_uppertriangle[3,1]))
 })
 
-new_r <- raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
+new_r <- raster::raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
 adjacencies_4 <- get_adjacencies(new_r, 4)
 adjacencies_8 <- get_adjacencies(new_r, 8)
 diagonal_matrix <- matrix(c(1,  NA,  1,

@@ -126,16 +126,6 @@ lsm_c_ai_calc <- function(landscape) {
         landscape <- raster::as.matrix(landscape)
     }
 
-    # check if any NA in landscape
-    na_present <- ifelse(test = anyNA(landscape),
-                         yes = TRUE, no = FALSE)
-
-
-    # convert NA to -999
-    if(na_present) {
-        landscape[is.na(landscape)] <- -999
-    }
-
     # get coocurrence matrix of like_adjacencies
     like_adjacencies <- rcpp_get_coocurrence_matrix_diag(landscape,
                                                          directions = as.matrix(4)) / 2
@@ -165,15 +155,6 @@ lsm_c_ai_calc <- function(landscape) {
 
     # get only max_adj as vector
     max_adj <- cells_class$max_adj
-
-
-    # remove -999 class
-    if(na_present) {
-
-        like_adjacencies <- like_adjacencies[-1]
-
-        max_adj <- max_adj[-1]
-    }
 
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100
