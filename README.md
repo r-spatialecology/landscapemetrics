@@ -44,7 +44,7 @@ install.packages("landscapemetrics")
 
 # Alternatively, you can install the development version from Github
 # install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics", ref = "stable")
+devtools::install_github("r-spatialecology/landscapemetrics")
 ```
 
 ## Using landscapemetrics
@@ -57,8 +57,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric (e.g.
-`enn`for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric
+(e.g. `enn`for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -123,7 +123,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     2   
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # … with 17 more rows
+#> # ... with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -159,15 +159,15 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0001
 #>  9     1 patch     1     9 area   0.0003
 #> 10     1 patch     2    10 area   0.0035
-#> # … with 314 more rows
+#> # ... with 314 more rows
 ```
 
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeld patches or the core area of all patches. All
-visualization functions start with the prefix `show_` (e.g.
-`show_cores()`).
+visualization functions start with the prefix `show_`
+(e.g. `show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
