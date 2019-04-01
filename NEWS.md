@@ -1,6 +1,7 @@
 # landscapemetrics 1.0.1
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
+    * Bugfix in `show_correlation()` that first col was lost
 
 # landscapemetrics 1.0
 * New functions
