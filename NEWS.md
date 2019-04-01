@@ -2,6 +2,8 @@
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
     * Bugfix in `show_correlation()` that first col was lost
+* Improvements
+    * The values can be added as geom_text in `show_correlation()`
 
 # landscapemetrics 1.0
 * New functions

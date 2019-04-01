@@ -5,6 +5,8 @@
 #' @param metrics Tibble with results of as returned by the landscapemetrics package.
 #' @param method Type of correlation. See \code{link{cor}} for details.
 #' @param diag If FALSE, values on the diagonal will be NA and not plotted.
+#' @param labels If TRUE, the correlation value will be added as text.
+#' @param vjust Will be passed on to ggplot2 as vertical justification of x-axis text.
 #' @param text_size Text size of the plot.
 #'
 #' @details The functions calculates the correlation between all metrics. In order to calculate correlations,
@@ -21,7 +23,9 @@
 #' @rdname show_correlation
 #'
 #' @export
-show_correlation <- function(metrics, method = "pearson", diag = TRUE, text_size = 15) {
+show_correlation <- function(metrics, method = "pearson",
+                             diag = TRUE, labels = FALSE,
+                             vjust = 0, text_size = 15) {
 
     present_levels <- unique(metrics$level)
 
@@ -162,11 +166,21 @@ show_correlation <- function(metrics, method = "pearson", diag = TRUE, text_size
                                         , " Level", sep="")) +
             ggplot2::theme(
                 axis.text.x = ggplot2::element_text(
-                    angle = 90
+                    angle = 90, vjust = vjust
                 ),
                 text = ggplot2::element_text(size = text_size)
             ) +
             ggplot2::coord_fixed()
+
+        if(labels) {
+            plot_corrs <- plot_corrs +
+                ggplot2::geom_text(data = plot_list[[present_levels]],
+                                   ggplot2::aes(
+                                       x = metric_1,
+                                       y = metric_2,
+                                       label = round(value, 2)
+                                   ))
+        }
 
     } else {
         if (all(!is.na(plot_list$patch))) {
@@ -217,12 +231,19 @@ show_correlation <- function(metrics, method = "pearson", diag = TRUE, text_size
             ) +
             ggplot2::theme_minimal() +
             ggplot2::labs(x = "", y = "") +
-            ggplot2::theme(
-                axis.text.x = ggplot2::element_text(
-                    angle = 90
-                ),
-                text = ggplot2::element_text(size = text_size)
+            ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = vjust),
+                           text = ggplot2::element_text(size = text_size)
             )
+
+        if(labels) {
+            plot_corrs <- plot_corrs +
+                ggplot2::geom_text(data = corrs_df,
+                                   ggplot2::aes(
+                                       x = metric_1,
+                                       y = metric_2,
+                                       label = round(value, 2)
+                                   ))
+        }
 
     }
 

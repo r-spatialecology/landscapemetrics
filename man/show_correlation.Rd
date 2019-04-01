@@ -5,7 +5,7 @@
 \title{Show correlation}
 \usage{
 show_correlation(metrics, method = "pearson", diag = TRUE,
-  text_size = 15)
+  labels = FALSE, vjust = 0, text_size = 15)
 }
 \arguments{
 \item{metrics}{Tibble with results of as returned by the landscapemetrics package.}
@@ -13,6 +13,10 @@ show_correlation(metrics, method = "pearson", diag = TRUE,
 \item{method}{Type of correlation. See \code{link{cor}} for details.}
 
 \item{diag}{If FALSE, values on the diagonal will be NA and not plotted.}
+
+\item{labels}{If TRUE, the correlation value will be added as text.}
+
+\item{vjust}{Will be passed on to ggplot2 as vertical justification of x-axis text.}
 
 \item{text_size}{Text size of the plot.}
 }
