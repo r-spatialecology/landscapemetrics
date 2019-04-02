@@ -4,6 +4,7 @@
     * Bugfix in `show_correlation()` that first col was lost
 * Improvements
     * The values can be added as geom_text in `show_correlation()`
+    * `list_lsm()` allows to return all BUT the selected metrics
 
 # landscapemetrics 1.0
 * New functions

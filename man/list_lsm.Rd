@@ -33,10 +33,14 @@ List landscape metrics
 List all available landscape metrics depending on the provided filter
 arguments. If an argument is not provided, automatically all possibilities are
 selected. Therefore, to get \strong{all} available metrics, use simply \code{list_lsm()}.
-Furthermore, it is possible to only get a vector with all function names instead of the full tibble.
+For all arguments with exception of the \code{what} argument, it is also possible to
+use a negative subset, i.e. all metrics  \strong{but} the selected ones. Therefore,
+simply use e.g. \code{level = "-patch".} Furthermore, it is possible to only
+get a vector with all function names instead of the full tibble.
 }
 \examples{
 list_lsm(level = c("patch", "landscape"), type = "aggregation metric")
+list_lsm(level = "-patch", type = "area and edge metric")
 list_lsm(metric = "area", simplify = TRUE)
 
 list_lsm(metric = "area", what = "lsm_p_shape")
