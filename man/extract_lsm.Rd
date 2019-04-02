@@ -9,31 +9,31 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, what, metric, name, type, negative, directions,
+extract_lsm(landscape, y, what, metric, name, type, directions,
   consider_boundary, edge_depth, full_name, verbose, progress, ...)
 
 \method{extract_lsm}{RasterLayer}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, negative = FALSE,
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{RasterStack}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, negative = FALSE,
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{RasterBrick}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, negative = FALSE,
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  full_name = FALSE, verbose = TRUE, progress = FALSE, ...)
+  metric = NULL, name = NULL, type = NULL, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
+  verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{stars}(landscape, y, what = NULL, metric = NULL,
-  name = NULL, type = NULL, negative = FALSE, directions = 8,
+  name = NULL, type = NULL, directions = 8,
   consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
   verbose = TRUE, progress = FALSE, ...)
 
 \method{extract_lsm}{list}(landscape, y, what = NULL, metric = NULL,
-  name = NULL, type = NULL, negative = FALSE, directions = 8,
+  name = NULL, type = NULL, directions = 8,
   consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
   verbose = TRUE, progress = FALSE, ...)
 }
@@ -49,8 +49,6 @@ extract_lsm(landscape, y, what, metric, name, type, negative, directions,
 \item{name}{Full name of metrics to calculate (e.g. 'core area').}
 
 \item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
-
-\item{negative}{If true, all metrics BUT the selected ones are returned.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

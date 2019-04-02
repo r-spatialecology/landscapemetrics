@@ -10,7 +10,6 @@
 #' @param metric Abbreviation of metrics to calculate (e.g. 'area').
 #' @param name Full name of metrics to calculate (e.g. 'core area').
 #' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
-#' @param negative If true, all metrics BUT the selected ones are returned.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
@@ -65,7 +64,7 @@
 #'
 #' @export
 window_lsm <- function(landscape, window,
-                       what, level, metric, name, type, negative,
+                       what, level, metric, name, type,
                        directions,
                        count_boundary,
                        consider_boundary,
@@ -85,7 +84,6 @@ window_lsm.RasterLayer <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   negative = FALSE,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -101,7 +99,6 @@ window_lsm.RasterLayer <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
-                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -150,7 +147,6 @@ window_lsm.RasterStack <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   negative = FALSE,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -166,7 +162,6 @@ window_lsm.RasterStack <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
-                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -215,7 +210,6 @@ window_lsm.RasterBrick <- function(landscape,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
-                                   negative = FALSE,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -231,7 +225,6 @@ window_lsm.RasterBrick <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
-                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -280,7 +273,6 @@ window_lsm.stars <- function(landscape,
                              metric = NULL,
                              name = NULL,
                              type = NULL,
-                             negative = FALSE,
                              directions = 8,
                              count_boundary = FALSE,
                              consider_boundary = FALSE,
@@ -296,7 +288,6 @@ window_lsm.stars <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
-                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -342,7 +333,6 @@ window_lsm.list <- function(landscape,
                             metric = NULL,
                             name = NULL,
                             type = NULL,
-                            negative = FALSE,
                             directions = 8,
                             count_boundary = FALSE,
                             consider_boundary = FALSE,
@@ -358,7 +348,6 @@ window_lsm.list <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
-                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 

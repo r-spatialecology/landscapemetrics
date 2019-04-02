@@ -5,7 +5,7 @@
 \title{List landscape metrics}
 \usage{
 list_lsm(level = NULL, metric = NULL, name = NULL, type = NULL,
-  what = NULL, negative = FALSE, simplify = FALSE, verbose = TRUE)
+  what = NULL, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
@@ -18,8 +18,6 @@ list_lsm(level = NULL, metric = NULL, name = NULL, type = NULL,
 
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{negative}{If true, all metrics BUT the selected ones are returned.}
 
 \item{simplify}{If true, function names are returned as vector.}
 
@@ -35,10 +33,14 @@ List landscape metrics
 List all available landscape metrics depending on the provided filter
 arguments. If an argument is not provided, automatically all possibilities are
 selected. Therefore, to get \strong{all} available metrics, use simply \code{list_lsm()}.
-Furthermore, it is possible to only get a vector with all function names instead of the full tibble.
+For all arguments with exception of the \code{what} argument, it is also possible to
+use a negative subset, i.e. all metrics  \strong{but} the selected ones. Therefore,
+simply use e.g. \code{level = "-patch".} Furthermore, it is possible to only
+get a vector with all function names instead of the full tibble.
 }
 \examples{
 list_lsm(level = c("patch", "landscape"), type = "aggregation metric")
+list_lsm(level = "-patch", type = "area and edge metric")
 list_lsm(metric = "area", simplify = TRUE)
 
 list_lsm(metric = "area", what = "lsm_p_shape")
