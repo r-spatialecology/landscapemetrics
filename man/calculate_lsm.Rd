@@ -9,43 +9,43 @@
 \alias{calculate_lsm.list}
 \title{calculate_lsm}
 \usage{
-calculate_lsm(landscape, what, level, metric, name, type, directions,
-  count_boundary, consider_boundary, edge_depth, classes_max,
+calculate_lsm(landscape, what, level, metric, name, type, negative,
+  directions, count_boundary, consider_boundary, edge_depth, classes_max,
   neighbourhood, ordered, base, full_name, verbose, progress)
 
 \method{calculate_lsm}{RasterLayer}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  negative = FALSE, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2",
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_lsm}{RasterStack}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  negative = FALSE, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2",
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
 
 \method{calculate_lsm}{RasterBrick}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
+  negative = FALSE, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2",
+  full_name = FALSE, verbose = TRUE, progress = FALSE)
+
+\method{calculate_lsm}{stars}(landscape, what = NULL, level = NULL,
+  metric = NULL, name = NULL, type = NULL, negative = FALSE,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
-\method{calculate_lsm}{stars}(landscape, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
-
 \method{calculate_lsm}{list}(landscape, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
+  metric = NULL, name = NULL, type = NULL, negative = FALSE,
+  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
+  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
+  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 }
 \arguments{
@@ -61,6 +61,8 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 \item{name}{Full name of metrics to calculate (e.g. 'core area').}
 
 \item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+
+\item{negative}{If true, all metrics BUT the selected ones are returned.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

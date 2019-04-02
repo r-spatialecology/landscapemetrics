@@ -10,6 +10,7 @@
 #' @param metric Abbreviation of metrics to calculate (e.g. 'area').
 #' @param name Full name of metrics to calculate (e.g. 'core area').
 #' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
+#' @param negative If true, all metrics BUT the selected ones are returned.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
@@ -64,34 +65,35 @@
 #'
 #' @export
 window_lsm <- function(landscape, window,
-                           what, level, metric, name, type,
-                           directions,
-                           count_boundary,
-                           consider_boundary,
-                           edge_depth,
-                           classes_max,
-                           neighbourhood,
-                           ordered,
-                           base) UseMethod("window_lsm")
+                       what, level, metric, name, type, negative,
+                       directions,
+                       count_boundary,
+                       consider_boundary,
+                       edge_depth,
+                       classes_max,
+                       neighbourhood,
+                       ordered,
+                       base) UseMethod("window_lsm")
 
 
 #' @name window_lsm
 #' @export
 window_lsm.RasterLayer <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   negative = FALSE,
+                                   directions = 8,
+                                   count_boundary = FALSE,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1,
+                                   classes_max = NULL,
+                                   neighbourhood = 4,
+                                   ordered = TRUE,
+                                   base = "log2") {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -99,6 +101,7 @@ window_lsm.RasterLayer <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
+                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -141,20 +144,21 @@ window_lsm.RasterLayer <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.RasterStack <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   negative = FALSE,
+                                   directions = 8,
+                                   count_boundary = FALSE,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1,
+                                   classes_max = NULL,
+                                   neighbourhood = 4,
+                                   ordered = TRUE,
+                                   base = "log2") {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -162,6 +166,7 @@ window_lsm.RasterStack <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
+                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -204,20 +209,21 @@ window_lsm.RasterStack <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.RasterBrick <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   what = NULL,
+                                   level = NULL,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   negative = FALSE,
+                                   directions = 8,
+                                   count_boundary = FALSE,
+                                   consider_boundary = FALSE,
+                                   edge_depth = 1,
+                                   classes_max = NULL,
+                                   neighbourhood = 4,
+                                   ordered = TRUE,
+                                   base = "log2") {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -225,6 +231,7 @@ window_lsm.RasterBrick <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
+                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -267,20 +274,21 @@ window_lsm.RasterBrick <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.stars <- function(landscape,
-                                 window,
-                                 what = NULL,
-                                 level = NULL,
-                                 metric = NULL,
-                                 name = NULL,
-                                 type = NULL,
-                                 directions = 8,
-                                 count_boundary = FALSE,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1,
-                                 classes_max = NULL,
-                                 neighbourhood = 4,
-                                 ordered = TRUE,
-                                 base = "log2") {
+                             window,
+                             what = NULL,
+                             level = NULL,
+                             metric = NULL,
+                             name = NULL,
+                             type = NULL,
+                             negative = FALSE,
+                             directions = 8,
+                             count_boundary = FALSE,
+                             consider_boundary = FALSE,
+                             edge_depth = 1,
+                             classes_max = NULL,
+                             neighbourhood = 4,
+                             ordered = TRUE,
+                             base = "log2") {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -288,6 +296,7 @@ window_lsm.stars <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
+                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -327,20 +336,21 @@ window_lsm.stars <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.list <- function(landscape,
-                                window,
-                                what = NULL,
-                                level = NULL,
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                directions = 8,
-                                count_boundary = FALSE,
-                                consider_boundary = FALSE,
-                                edge_depth = 1,
-                                classes_max = NULL,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2") {
+                            window,
+                            what = NULL,
+                            level = NULL,
+                            metric = NULL,
+                            name = NULL,
+                            type = NULL,
+                            negative = FALSE,
+                            directions = 8,
+                            count_boundary = FALSE,
+                            consider_boundary = FALSE,
+                            edge_depth = 1,
+                            classes_max = NULL,
+                            neighbourhood = 4,
+                            ordered = TRUE,
+                            base = "log2") {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -348,6 +358,7 @@ window_lsm.list <- function(landscape,
                                                name = name,
                                                type = type,
                                                what = what,
+                                               negative = negative,
                                                simplify = TRUE,
                                                verbose = FALSE)
 
@@ -387,15 +398,17 @@ window_lsm.list <- function(landscape,
     return(result)
 }
 
-calculate_lsm_focal <- function(landscape, nrow, ncol, what,
-                                    directions,
-                                    count_boundary,
-                                    consider_boundary,
-                                    edge_depth,
-                                    classes_max,
-                                    neighbourhood,
-                                    ordered,
-                                    base) {
+calculate_lsm_focal <- function(landscape,
+                                nrow, ncol,
+                                what,
+                                directions,
+                                count_boundary,
+                                consider_boundary,
+                                edge_depth,
+                                classes_max,
+                                neighbourhood,
+                                ordered,
+                                base) {
 
     raster_window <- matrix(landscape, nrow, ncol)
 

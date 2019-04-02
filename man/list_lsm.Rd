@@ -5,7 +5,7 @@
 \title{List landscape metrics}
 \usage{
 list_lsm(level = NULL, metric = NULL, name = NULL, type = NULL,
-  what = NULL, simplify = FALSE, verbose = TRUE)
+  what = NULL, negative = FALSE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
@@ -18,6 +18,8 @@ list_lsm(level = NULL, metric = NULL, name = NULL, type = NULL,
 
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
+
+\item{negative}{If true, all metrics BUT the selected ones are returned.}
 
 \item{simplify}{If true, function names are returned as vector.}
 

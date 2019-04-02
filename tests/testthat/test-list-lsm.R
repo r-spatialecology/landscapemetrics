@@ -35,7 +35,7 @@ test_that("simplify returns vector", {
     expect_is(result, "character")
 })
 
-test_that("returns warning if what and other argument is specifiedr", {
+test_that("returns warning if what and other argument is specified", {
 
     expect_warning(list_lsm(level = "landscape", what = "class"),
                    regexp = "only using 'what' argument")
@@ -44,3 +44,20 @@ test_that("returns warning if what and other argument is specifiedr", {
     expect_true(all(result$level == "class"))
 })
 
+test_that("negative = TRUE works for list_lsm()", {
+
+    result_level <- list_lsm(level = "landscape", negative = TRUE)
+    result_metric <- list_lsm(metric = "iji", negative = TRUE)
+    result_name <- list_lsm(name = "patch area", negative = TRUE)
+    result_type <- list_lsm(type = "aggregation metric", negative = TRUE)
+
+    expect_false(all(result_level$level == "landscape"))
+    expect_false(all(result_metric$metric == "iji"))
+    expect_false(all(result_name$name == "patch area"))
+    expect_false(all(result_type$type == "aggregation metric"))
+
+    expect_is(result_level, "data.frame")
+    expect_is(result_metric, "data.frame")
+    expect_is(result_name, "data.frame")
+    expect_is(result_type, "data.frame")
+})

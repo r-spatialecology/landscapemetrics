@@ -8,6 +8,7 @@
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
+#' @param negative If true, all metrics BUT the selected ones are returned.
 #' @param simplify If true, function names are returned as vector.
 #' @param verbose Print warning messages
 #'
@@ -41,6 +42,7 @@ list_lsm <- function(level = NULL,
                      name = NULL,
                      type = NULL,
                      what = NULL,
+                     negative = FALSE,
                      simplify = FALSE,
                      verbose = TRUE) {
 
@@ -71,6 +73,10 @@ list_lsm <- function(level = NULL,
         which_rows <- which(lsm_abbreviations_names_modified$function_name %in% what |
                                 lsm_abbreviations_names_modified$level %in% level)
 
+        if(negative) {
+            which_rows <- which(!(seq_len(nrow(lsm_abbreviations_names_modified)) %in% which_rows))
+        }
+
         result <- lsm_abbreviations_names_modified[which_rows, ]
     }
 
@@ -96,6 +102,11 @@ list_lsm <- function(level = NULL,
                                 lsm_abbreviations_names_modified$metric_new %in% metric &
                                 lsm_abbreviations_names_modified$name %in% name &
                                 lsm_abbreviations_names_modified$type %in% type)
+
+
+        if(negative) {
+            which_rows <- which(!(seq_len(nrow(lsm_abbreviations_names_modified)) %in% which_rows))
+        }
 
         result <- lsm_abbreviations_names_modified[which_rows, ]
     }
