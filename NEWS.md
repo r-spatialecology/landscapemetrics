@@ -1,3 +1,7 @@
+# landscapemetrics 1.0.2
+* Improvements
+    * Updates the way of calculating `lsm_l_ent()` and thus `lsm_l_condent()` and `lsm_l_mutinf()`. (Explanation: Variable x is a color of a cell and y is a color of the cell but located just next to the focus cell. When you calculate H(z) from the histogram of all cells in the landscape (SHDI), z is not exactly the same as x or y. The way to do it consistently is to calculate H(x) and H(y) as entropies of marginal distributions x and y calculated from the co-occurrence matrix.)
+
 # landscapemetrics 1.0.1
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
