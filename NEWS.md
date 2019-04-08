@@ -2,9 +2,12 @@
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
     * Bugfix in `show_correlation()` that first col was lost
+    * Bugfix in `sample_lsm()` and `extract_lsm()` to forward arguments to
+    `calculate_lsm()`
 * Improvements
     * The values can be added as geom_text in `show_correlation()`
     * `list_lsm()` allows to return all BUT the selected metrics
+    * `sample_lsm()` can now use SpatialPolygons to sample metrics
 
 # landscapemetrics 1.0
 * New functions
