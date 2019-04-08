@@ -236,7 +236,7 @@ sample_lsm_int <- function(landscape,
 
         # Unkown shape argument
         else{
-            stop(paste0("Shape = ", shape, " unknown"))
+            stop(paste0("Shape = ", shape, " unknown."), call. = FALSE)
         }
 
         # construct plot area around sample points
