@@ -8,27 +8,23 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, points, shape, size, sample_plots, what, level,
-  metric, name, type, return_raster)
+sample_lsm(landscape, points, shape, size, sample_plots, ...,
+  return_raster)
 
 \method{sample_lsm}{RasterLayer}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+  shape = "square", size, sample_plots = NULL, ...,
   return_raster = FALSE)
 
 \method{sample_lsm}{RasterStack}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+  shape = "square", size, sample_plots = NULL, ...,
   return_raster = FALSE)
 
 \method{sample_lsm}{RasterBrick}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+  shape = "square", size, sample_plots = NULL, ...,
   return_raster = FALSE)
 
 \method{sample_lsm}{list}(landscape, points = NULL, shape = "square",
-  size, sample_plots = NULL, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, return_raster = FALSE)
+  size, sample_plots = NULL, ..., return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -42,16 +38,7 @@ side-length for squares in mapunits}
 
 \item{sample_plots}{SpatialPolygons in which should be sampled.}
 
-\item{what}{Selected level of metrics: either "patch", "class" or "landscape".
-It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{level}{Level of metrics to calculate (e.g. 'landscape').}
-
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
-
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
-
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 
 \item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}
@@ -100,5 +87,6 @@ sample_lsm(landscape, sample_plots = sample_plots, what = "lsm_l_np")
 
 }
 \seealso{
-\code{\link{list_lsm}}
+\code{\link{list_lsm}} \cr
+\code{\link{calculate_lsm}}
 }
