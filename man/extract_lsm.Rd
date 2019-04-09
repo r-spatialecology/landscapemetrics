@@ -40,7 +40,7 @@ extract_lsm(landscape, y, what, metric, name, type, directions,
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{y}{Spatial object (Spatial*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
+\item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
 
 \item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
 
