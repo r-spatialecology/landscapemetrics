@@ -112,4 +112,10 @@ test_that("sample_lsm returns errors", {
     expect_error(sample_lsm(landscape,
                             sample_plots = 1:3),
                  regexp = "sample_plots must be SpatialPolygons.")
+
+    expect_error(sample_lsm(landscape,
+                            points = 1:3, size = 15,
+                            shape = "rectangle",
+                            what = c("lsm_l_ta", "lsm_l_np")),
+                 regexp = "Points must be a matrix or SpatialPoints.")
 })

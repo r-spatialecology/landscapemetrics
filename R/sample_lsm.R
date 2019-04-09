@@ -221,7 +221,7 @@ sample_lsm_int <- function(landscape,
 
         # wrong class of points
         else {
-            stop("Points must be matrix or SpatialPoints.", call. = FALSE)
+            stop("Points must be a matrix or SpatialPoints.", call. = FALSE)
         }
 
         # calculate theoretical, maximum area n times
