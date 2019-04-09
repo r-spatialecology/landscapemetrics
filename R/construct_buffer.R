@@ -170,8 +170,10 @@ construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {
         # convex hull arround points
         convex_hull <- grDevices::chull(current_coords)
 
-        # closed polygon
-        current_coords <- current_coords[c(convex_hull, convex_hull[1]), ]
+        # all outside points
+        current_coords <- current_coords[convex_hull, ]
+
+        current_coords <- current_coords[order(current_coords[, 1], current_coords[, 2]), ]
 
         # convert to sp polygon
         sp::Polygon(current_coords)
