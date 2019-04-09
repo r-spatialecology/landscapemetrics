@@ -292,7 +292,7 @@ sample_lsm_int <- function(landscape,
         # calculate theoretical, maximum area
         else if (shape == "square") {
 
-            maximum_area <- rep((size ^ 2) / 10000, times = n)
+            maximum_area <- rep(((size * 2) ^ 2) / 10000, times = n)
         }
 
         # Unkown shape argument
@@ -301,7 +301,7 @@ sample_lsm_int <- function(landscape,
         }
 
         # construct plot area around sample sample_points
-        sample_plots <- construct_buffer(points = sample_points,
+        sample_plots <- construct_buffer(coords = sample_points,
                                          shape = shape,
                                          size = size)
     }
