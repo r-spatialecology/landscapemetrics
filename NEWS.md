@@ -4,6 +4,7 @@
     * Bugfix in `show_correlation()` that first col was lost
     * Bugfix in `sample_lsm()` and `extract_lsm()` to forward arguments to
     `calculate_lsm()`
+    * size argument in `sample_lsm()` is now comparable between squares and circles
 * Improvements
     * The values can be added as geom_text in `show_correlation()`
     * `list_lsm()` allows to return all BUT the selected metrics

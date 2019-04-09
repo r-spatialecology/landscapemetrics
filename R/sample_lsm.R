@@ -5,8 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param sample_points SpatialPoints, sf or 2-column matrix with coordinates of sample points
 #' @param shape String specifying plot shape. Either "circle" or "square"
-#' @param size Approximated size of sample plot. Equals the radius for circles or the
-#' side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' @param size Approximated size of sample plot. Equals the radius for circles or half of
+#' the side-length for squares in mapunits. For lines size equals the width of the buffer.
 #' @param sample_lines SpatialLines around which a buffer is created
 #' @param sample_plots SpatialPolygons in which should be sampled.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.

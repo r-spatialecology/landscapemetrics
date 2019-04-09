@@ -26,7 +26,7 @@ construct_buffer <- function(points, shape, size) UseMethod("construct_buffer")
 #' @export
 construct_buffer.matrix <- function(points, shape, size) {
 
-    if(shape == "circle") {
+    if (shape == "circle") {
 
         circle_points_x <- sin(seq(0, 2 * pi, length.out = 100)) * size
         circle_points_y <- cos(seq(0, 2 * pi, length.out = 100)) * size
@@ -53,17 +53,17 @@ construct_buffer.matrix <- function(points, shape, size) {
 
         sample_plots_coords <- cbind(
             matrix(
-                c(points[, 1] - size / 2,
-                  points[, 1] - size / 2,
-                  points[, 1] + size / 2,
-                  points[, 1] + size / 2),
+                c(points[, 1] - size,
+                  points[, 1] - size,
+                  points[, 1] + size,
+                  points[, 1] + size),
                 ncol = 1),
 
             matrix(
-                c(points[, 2] - size / 2,
-                  points[, 2] + size / 2,
-                  points[, 2] + size / 2,
-                  points[, 2] - size / 2),
+                c(points[, 2] - size,
+                  points[, 2] + size,
+                  points[, 2] + size,
+                  points[, 2] - size),
                 ncol = 1),
             rep(seq_len(nrow(points)), times = 4)
         )
@@ -90,6 +90,7 @@ construct_buffer.matrix <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.SpatialPoints <- function(points, shape, size) {
+
     points <- matrix(sp::coordinates(points), ncol = 2)
     construct_buffer(points, shape, size)
 }
@@ -97,6 +98,7 @@ construct_buffer.SpatialPoints <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.SpatialPointsDataFrame <- function(points, shape, size) {
+
     points <- matrix(sp::coordinates(points), ncol = 2)
     construct_buffer(points, shape, size)
 }
@@ -104,6 +106,7 @@ construct_buffer.SpatialPointsDataFrame <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.MULTIPOINT <- function(points, shape, size) {
+
     points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
     construct_buffer(points, shape, size)
 }
@@ -111,6 +114,7 @@ construct_buffer.MULTIPOINT <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.POINT <- function(points, shape, size) {
+
     points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
     construct_buffer(points, shape, size)
 }
@@ -118,7 +122,8 @@ construct_buffer.POINT <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.sf <- function(points, shape, size) {
-    if(all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))){
+    if (all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))) {
+
         points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
         construct_buffer(points, shape, size)
     }
@@ -129,7 +134,8 @@ construct_buffer.sf <- function(points, shape, size) {
 #' @name construct_buffer
 #' @export
 construct_buffer.sfc <- function(points, shape, size) {
-    if(all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))){
+    if (all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))) {
+
         points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
         construct_buffer(points, shape, size)
     }
