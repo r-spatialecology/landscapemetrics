@@ -1,10 +1,10 @@
 context("sample_lsm")
 
 # use a matrix
-points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 
 # use sp points
-points_sp <- sp::SpatialPoints(points)
+points_sp <- sp::SpatialPoints(sample_points)
 
 # use polygons
 poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
@@ -16,10 +16,19 @@ poly_2 <- sp::Polygons(list(poly_2), "p2")
 
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
+# use lines
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)), sp::Line(cbind(x2, y2))), ID = "a")))
+
 test_that("sample_lsm works for a matrix", {
 
     result_mat <- sample_lsm(landscape,
-                             points = points, size = 15,
+                             sample_points = sample_points, size = 15,
                              shape = "circle",
                              what = c("lsm_l_ta", "lsm_l_np"))
 
@@ -30,7 +39,7 @@ test_that("sample_lsm works for a matrix", {
 test_that("sample_lsm works for sp points", {
 
     result_sp <- sample_lsm(landscape,
-                            points = points_sp, size = 15,
+                            sample_points = points_sp, size = 15,
                             shape = "square",
                             what = "lsm_l_np")
 
@@ -43,18 +52,28 @@ test_that("sample_lsm works for polygons ", {
 
     result_poly <- sample_lsm(landscape,
                               sample_plots = sample_plots,
-                              level = "patch",
-                              classes_max = 3)
+                              level = "patch")
 
     expect_is(object = result_poly, class = "tbl_df")
 
     expect_true(all("patch" %in% result_poly$level))
 })
 
-test_that("sample_lsm works forwards arguments to calculae_lsm", {
+test_that("sample_lsm works for lines ", {
+
+    result_lines <- sample_lsm(landscape,
+                               sample_plots = sample_plots,
+                               level = "landscape")
+
+    expect_is(object = result_lines, class = "tbl_df")
+
+    expect_true(all("landscape" %in% result_lines$level))
+})
+
+test_that("sample_lsm works forwards arguments to calculate_lsm", {
 
     result_mat <- sample_lsm(landscape,
-                             points = points, size = 15,
+                             sample_points = sample_points, size = 15,
                              shape = "circle",
                              what = "lsm_p_core",
                              edge_depth = 100)
@@ -96,26 +115,34 @@ test_that("sample_lsm works for all data type", {
 test_that("sample_lsm returns errors", {
 
     expect_error(sample_lsm(landscape,
-                            points = points, size = 15,
+                            sample_points = sample_points, size = 15,
                             shape = "rectangle",
                             what = c("lsm_l_ta", "lsm_l_np")),
                  regexp = "Shape = rectangle unknown.")
 
     expect_error(sample_lsm(landscape),
-                 regexp = "Please provide either sample points locations or sample polygons.")
+                 regexp = "Please provide either sample point locations, sample lines or sample plots.")
 
     expect_error(sample_lsm(landscape,
+                            sample_points = sample_points,
+                            sample_lines = sample_lines,
                             sample_plots = sample_plots,
-                            points = points),
-                 regexp = "Please provide only sample points locations or only sample polygons.")
+                            size = 10),
+                 regexp = "Please provide only sample point locations, sample lines or only sample plots.")
+
+    expect_error(sample_lsm(landscape,
+                            sample_points = sample_points,
+                            sample_plots = sample_plots,
+                            size = 10),
+                 regexp = "Please provide only sample point locations, sample lines or only sample plots.")
 
     expect_error(sample_lsm(landscape,
                             sample_plots = 1:3),
-                 regexp = "sample_plots must be SpatialPolygons.")
+                 regexp = "Sample plots must be SpatialPolygons.")
 
     expect_error(sample_lsm(landscape,
-                            points = 1:3, size = 15,
+                            sample_points = 1:3, size = 15,
                             shape = "rectangle",
                             what = c("lsm_l_ta", "lsm_l_np")),
-                 regexp = "Points must be a matrix or SpatialPoints.")
+                 regexp = "Sample points must be a matrix or SpatialPoints.")
 })

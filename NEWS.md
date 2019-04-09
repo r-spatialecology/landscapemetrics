@@ -8,6 +8,7 @@
     * The values can be added as geom_text in `show_correlation()`
     * `list_lsm()` allows to return all BUT the selected metrics
     * `sample_lsm()` can now use SpatialPolygons to sample metrics
+    * `sample_lsm()` can now handle SpatialLines to sample metrics
 
 # landscapemetrics 1.0
 * New functions

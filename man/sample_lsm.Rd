@@ -5,36 +5,44 @@
 \alias{sample_lsm.RasterLayer}
 \alias{sample_lsm.RasterStack}
 \alias{sample_lsm.RasterBrick}
+\alias{sample_lsm.stars}
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, points, shape, size, sample_plots, ...,
-  return_raster)
+sample_lsm(landscape, sample_points, shape, size, sample_lines,
+  sample_plots, ..., return_raster)
 
-\method{sample_lsm}{RasterLayer}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, ...,
-  return_raster = FALSE)
+\method{sample_lsm}{RasterLayer}(landscape, sample_points = NULL,
+  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+  ..., return_raster = FALSE)
 
-\method{sample_lsm}{RasterStack}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, ...,
-  return_raster = FALSE)
+\method{sample_lsm}{RasterStack}(landscape, sample_points = NULL,
+  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+  ..., return_raster = FALSE)
 
-\method{sample_lsm}{RasterBrick}(landscape, points = NULL,
-  shape = "square", size, sample_plots = NULL, ...,
-  return_raster = FALSE)
+\method{sample_lsm}{RasterBrick}(landscape, sample_points = NULL,
+  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+  ..., return_raster = FALSE)
 
-\method{sample_lsm}{list}(landscape, points = NULL, shape = "square",
-  size, sample_plots = NULL, ..., return_raster = FALSE)
+\method{sample_lsm}{stars}(landscape, sample_points = NULL,
+  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+  ..., return_raster = FALSE)
+
+\method{sample_lsm}{list}(landscape, sample_points = NULL,
+  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+  ..., return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
+\item{sample_points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or the
-side-length for squares in mapunits}
+side-length for squares in mapunits. For lines size equals the width of the buffer.}
+
+\item{sample_lines}{SpatialLines around which a buffer is created}
 
 \item{sample_plots}{SpatialPolygons in which should be sampled.}
 
@@ -68,12 +76,23 @@ available metrics, don't specify any of the above arguments.
 }
 \examples{
 # use a matrix
-points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
+sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+sample_lsm(landscape, sample_points = sample_points, size = 15, what = "lsm_l_np")
 
 # use sp points
-points_sp <- sp::SpatialPoints(points)
-sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+points_sp <- sp::SpatialPoints(sample_points)
+sample_lsm(landscape, sample_points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+
+# use lines
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+sp::Line(cbind(x2, y2))), ID = "a")))
+sample_lsm(landscape, sample_lines = sample_lines, size = 10, what = "lsm_l_np")
 
 # use polygons
 poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
