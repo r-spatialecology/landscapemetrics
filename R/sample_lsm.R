@@ -267,26 +267,31 @@ sample_lsm_int <- function(landscape,
 
         # how many sample sample_points are present for SP
         if (methods::is(sample_points, "SpatialPoints")) {
+
             n <- length(sample_points)
         }
 
         # how many sample sample_points are present for matrix
         else if (methods::is(sample_points, "matrix")) {
+
             n <- nrow(sample_points)
         }
 
         # wrong class of sample_points
         else {
+
             stop("Sample points must be a matrix or SpatialPoints.", call. = FALSE)
         }
 
         # calculate theoretical, maximum area n times
         if (shape == "circle") {
+
             maximum_area <- rep((pi * size ^ 2) / 10000, times = n)
         }
 
         # calculate theoretical, maximum area
         else if (shape == "square") {
+
             maximum_area <- rep((size ^ 2) / 10000, times = n)
         }
 
