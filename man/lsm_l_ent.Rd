@@ -9,20 +9,26 @@
 \alias{lsm_l_ent.list}
 \title{ENT (landscape level)}
 \usage{
-lsm_l_ent(landscape, base = "log2")
+lsm_l_ent(landscape, neighbourhood, base)
 
-\method{lsm_l_ent}{RasterLayer}(landscape, base = "log2")
+\method{lsm_l_ent}{RasterLayer}(landscape, neighbourhood = 4,
+  base = "log2")
 
-\method{lsm_l_ent}{RasterStack}(landscape, base = "log2")
+\method{lsm_l_ent}{RasterStack}(landscape, neighbourhood = 4,
+  base = "log2")
 
-\method{lsm_l_ent}{RasterBrick}(landscape, base = "log2")
+\method{lsm_l_ent}{RasterBrick}(landscape, neighbourhood = 4,
+  base = "log2")
 
-\method{lsm_l_ent}{stars}(landscape, base = "log2")
+\method{lsm_l_ent}{stars}(landscape, neighbourhood = 4, base = "log2")
 
-\method{lsm_l_ent}{list}(landscape, base = "log2")
+\method{lsm_l_ent}{list}(landscape, neighbourhood = 4, base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
+4 (rook's case) or 8 (queen's case). The default is 4.}
 
 \item{base}{The unit in which entropy is measured.
 The default is "log2", which compute entropy in "bits".
@@ -32,7 +38,8 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
-Shannon entropy
+A metric of a compositional complexity of a pattern (a pattern
+diversity)
 }
 \details{
 It measures a diversity (thematic complexity) of landscape classes.
