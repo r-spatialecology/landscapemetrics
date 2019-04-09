@@ -1,8 +1,8 @@
 #' construct_buffer
 #'
-#' @description Internal function to construct plot area around points
+#' @description Internal function to construct plot area around coordinates
 #'
-#' @param points SpatialPoints or 2-column matrix with coordinates of sample points
+#' @param coords SpatialPoints or 2-column matrix with coordinates of sample points
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Size of sample plot. Equals the radius for circles or the
 #' side-length for squares in mapunits
@@ -11,8 +11,8 @@
 #' SpatialPolygons
 #'
 #' @examples
-#' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-#' construct_buffer(points = points, shape = "square", size = 5)
+#' coords <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+#' construct_buffer(coords = coords, shape = "square", size = 5)
 #'
 #' @aliases construct_buffer
 #' @rdname construct_buffer
@@ -20,23 +20,23 @@
 #' @keywords internal
 #'
 #' @export
-construct_buffer <- function(points, shape, size) UseMethod("construct_buffer")
+construct_buffer <- function(coords, shape, size) UseMethod("construct_buffer")
 
 #' @name construct_buffer
 #' @export
-construct_buffer.matrix <- function(points, shape, size) {
+construct_buffer.matrix <- function(coords, shape , size) {
 
     if (shape == "circle") {
 
         circle_points_x <- sin(seq(0, 2 * pi, length.out = 100)) * size
         circle_points_y <- cos(seq(0, 2 * pi, length.out = 100)) * size
 
-        x_circle <- outer(circle_points_x,  points[, 1], `+`)
-        y_circle <- outer(circle_points_y,  points[, 2], `+`)
+        x_circle <- outer(circle_points_x,  coords[, 1], `+`)
+        y_circle <- outer(circle_points_y,  coords[, 2], `+`)
 
         sample_plots_coords <- cbind(matrix(x_circle, ncol = 1),
                                      matrix(y_circle, ncol = 1),
-                                     rep(seq_len(nrow(points)), each = 100))
+                                     rep(seq_len(nrow(coords)), each = 100))
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3], sample_plots_coords[, 3])
 
@@ -53,19 +53,19 @@ construct_buffer.matrix <- function(points, shape, size) {
 
         sample_plots_coords <- cbind(
             matrix(
-                c(points[, 1] - size,
-                  points[, 1] - size,
-                  points[, 1] + size,
-                  points[, 1] + size),
+                c(coords[, 1] - size,
+                  coords[, 1] - size,
+                  coords[, 1] + size,
+                  coords[, 1] + size),
                 ncol = 1),
 
             matrix(
-                c(points[, 2] - size,
-                  points[, 2] + size,
-                  points[, 2] + size,
-                  points[, 2] - size),
+                c(coords[, 2] - size,
+                  coords[, 2] + size,
+                  coords[, 2] + size,
+                  coords[, 2] - size),
                 ncol = 1),
-            rep(seq_len(nrow(points)), times = 4)
+            rep(seq_len(nrow(coords)), times = 4)
         )
 
         sample_plots_coords_split <- split(sample_plots_coords[, -3],
@@ -89,43 +89,43 @@ construct_buffer.matrix <- function(points, shape, size) {
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPoints <- function(points, shape, size) {
+construct_buffer.SpatialPoints <- function(coords, shape, size) {
 
-    points <- matrix(sp::coordinates(points), ncol = 2)
-    construct_buffer(points, shape, size)
+    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    construct_buffer(coords, shape, size)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPointsDataFrame <- function(points, shape, size) {
+construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size) {
 
-    points <- matrix(sp::coordinates(points), ncol = 2)
-    construct_buffer(points, shape, size)
+    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    construct_buffer(coords, shape, size)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.MULTIPOINT <- function(points, shape, size) {
+construct_buffer.MULTIPOINT <- function(coords, shape, size) {
 
-    points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
-    construct_buffer(points, shape, size)
+    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+    construct_buffer(coords, shape, size)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.POINT <- function(points, shape, size) {
+construct_buffer.POINT <- function(coords, shape, size) {
 
-    points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
-    construct_buffer(points, shape, size)
+    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+    construct_buffer(coords, shape, size)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sf <- function(points, shape, size) {
-    if (all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))) {
+construct_buffer.sf <- function(coords, shape, size) {
+    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
-        points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
-        construct_buffer(points, shape, size)
+        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+        construct_buffer(coords, shape, size)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
@@ -133,12 +133,54 @@ construct_buffer.sf <- function(points, shape, size) {
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sfc <- function(points, shape, size) {
-    if (all(sf::st_geometry_type(points) %in% c("POINT", "MULTIPOINT"))) {
+construct_buffer.sfc <- function(coords, shape, size) {
+    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
-        points <- matrix(sf::st_coordinates(points)[, 1:2], ncol = 2)
-        construct_buffer(points, shape, size)
+        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+        construct_buffer(coords, shape, size)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
 }
+
+#' @name construct_buffer
+#' @export
+construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {
+
+    # get coordinates
+    coords <- sp::coordinates(coords)
+
+    sample_plots <- lapply(seq_along(coords), function(current_i) {
+
+        # get old coords
+        x_old <- coords[[current_i]][[1]][, 1]
+        y_old <- coords[[current_i]][[1]][, 2]
+
+        # calculate buffer points around coords
+        x_pos <- x_old + size
+        x_neg <- x_old - size
+
+        y_pos <- y_old + size
+        y_neg <- y_old - size
+
+        # combine current coords
+        current_coords <- cbind(x = c(x_neg, x_old, x_pos, x_old),
+                                y = c(y_old, y_pos, y_old, y_neg))
+
+        # convex hull arround points
+        convex_hull <- grDevices::chull(current_coords)
+
+        # closed polygon
+        current_coords <- current_coords[c(convex_hull, convex_hull[1]), ]
+
+        # convert to sp polygon
+        sp::Polygon(current_coords)
+    })
+
+    # save into SpatialPolygons
+    sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
+        sp::Polygons(list(sample_plots[[y]]), ID = y)
+    }))
+}
+
+

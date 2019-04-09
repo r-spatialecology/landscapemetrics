@@ -313,6 +313,9 @@ sample_lsm_int <- function(landscape,
        sample_plots <- raster::buffer(sample_lines,
                                       width = size, dissolve = FALSE)
 
+       sample_plots <- construct_buffer(coords = sample_lines,
+                                        size = size)
+
        # get area of all polygons
        maximum_area <- vapply(sample_plots@polygons, function(x) x@area / 10000,
                               FUN.VALUE = numeric(1))
