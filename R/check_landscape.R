@@ -101,7 +101,7 @@ check_landscape.list <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-check_landscape_calc <- function(landscape){
+check_landscape_calc <- function(landscape) {
 
     # get info about projection and class of values
     info <- cbind(proj_info(landscape), data_info(landscape))
@@ -131,28 +131,15 @@ check_landscape_calc <- function(landscape){
     info <- info[, c("crs", "units", "class", "n_classes", "OK")]
 
     if (info$class != "integer") {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat("\n Only integer values for your classes are allowed as input for landscapemetrics.\n")
+        message("> Caution: Land-cover classes must be decoded as integer values.")
     }
 
     if (is.na(info$units) || info$units == "degrees") {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat(
-            "\n Only metric coordinates make sense for landscapemetrics. You will still get results, but these are not comparable with other studies and the interpretation of metrics that use the cellsize as input becomes error prone.\n"
-        )
+        message("> Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.")
     }
 
     if (info$n_classes > 30) {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat(
-            "\n Landscape metrics describe categorical landscape patterns.
-            You have more than 30 land cover classes, which seems very high (but can make sense in some cases, if so ignore this message).
-            However, if you did not think about classifying your landscapes before using landscapemetrics, we recommend reading our background vignette to familiarize yourself with
-            the basic concepts behind the metrics: https://r-spatialecology.github.io/landscapemetrics/articles/articles/general-background.html\n"
-        )
+        message("> Caution: More than 30 land cover-classes - Please check if discrete land-cover classes are present.")
     }
 
     return(info)
