@@ -13,6 +13,8 @@
     * `sample_lsm()` automatically detects provided data type
     * `extract_lsm()` can now handle SpatialLines to extract metrics
     * Updates the way of calculating `lsm_l_ent()` and thus `lsm_l_condent()` and `lsm_l_mutinf()`.
+    * `calculate_lsm()` can now print the nlayers progress for RasterStacks, RasterBricks and lists
+    * replaced `cat()` with `message()`
 
 # landscapemetrics 1.0
 * New functions
