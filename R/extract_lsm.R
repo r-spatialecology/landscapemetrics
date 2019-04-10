@@ -3,7 +3,7 @@
 #' @description Extract metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param y Spatial object (Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
 #' @param metric Abbreviation of metrics to calculate (e.g. 'area').
 #' @param name Full name of metrics to calculate (e.g. 'core area').
 #' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
@@ -30,7 +30,20 @@
 #' extract_lsm(landscape, y = points, type = "aggregation metric")
 #'
 #' points_sp <- sp::SpatialPoints(points)
-#' extract_lsm(landscape, y = points, what = "lsm_p_area")
+#' extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
+#'
+#' \dontrun{
+#' # use lines (works only if rgeos is installed)
+#' x1 <- c(1, 5, 15, 10)
+#' y1 <- c(1, 5, 15, 25)
+#'
+#' x2 <- c(10, 25)
+#' y2 <- c(5, 5)
+#'
+#' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+#' sp::Line(cbind(x2, y2))), ID = "a")))
+#' extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
+#' }
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
@@ -204,7 +217,6 @@ extract_lsm_int <- function(landscape,
                             metric, name, type, what,
                             directions,
                             ...) {
-
   # get all patch level metrics if not specified
   if (is.null(what)) {
     level <- "patch"
@@ -224,33 +236,54 @@ extract_lsm_int <- function(landscape,
                                              simplify = TRUE,
                                              verbose = FALSE)
 
-  # check if non-patch-level metrics are selected
+  # Convert all sf objects
   if (!any(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
 
     stop("extract_lsm only takes patch level metrics as what argument.")
   }
 
-  # check if points have the right class
-  if (any(class(y) %in% c("MULTIPOINT",
-                          "POINT"))) {
-    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-  } else if (any(class(y) %in% c("sf",
-                                 "sfc"))) {
-    if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+  # check if sf object is provided
+  if (methods::is(y, "sf")) {
+
+    # check if points have the right class
+    if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
+
       y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-    } else {
+    }
+
+    else if (any(class(y) %in% c("sf", "sfc"))) {
+
+      if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+
+        y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+      }
+
+      else {
+
+        stop(
+          "landscapemetrics currently only supports point features for landscape metrics extraction."
+        )
+      }
+    }
+
+    else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+
       stop(
         "landscapemetrics currently only supports point features for landscape metrics extraction."
       )
     }
+  }
 
-  } else if (any(class(y) %in% c("LINESTRING",
-                                 "POLYGON",
-                                 "MULTILINESTRING",
-                                 "MULTIPOLYGON"))) {
-    stop(
-      "landscapemetrics currently only supports point features for landscape metrics extraction."
-    )
+  # if Spatial Lines disaggregate
+  else if (methods::is(y, "SpatialLines")) {
+
+    y <- sp::disaggregate(y)
+  }
+
+  else if (!methods::is(y, "matrix") & !methods::is(y, "SpatialPoints")) {
+
+    stop("'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.",
+         call. = FALSE)
   }
 
   # get patches of landscape
@@ -274,11 +307,14 @@ extract_lsm_int <- function(landscape,
   landscape_id <- raster::merge(raster::stack(landscape_labeled))
 
   # get patch id of sample points
-  point_id <- raster::extract(x = landscape_id, y = y,
+  point_id <- raster::extract(x = landscape_id,
+                              y = y,
                               df = TRUE)
 
   # rename df
   names(point_id) <- c("extract_id", "id")
+
+  point_id <- point_id[!duplicated(point_id), ]
 
   # calculate metrics
   # can we somehow calculate only the patches we actually want?

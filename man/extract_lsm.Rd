@@ -29,7 +29,7 @@ extract_lsm(landscape, y, metric, name, type, what, directions, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{y}{Spatial object (Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
 
 \item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
 
@@ -63,7 +63,20 @@ extract_lsm(landscape, y = points)
 extract_lsm(landscape, y = points, type = "aggregation metric")
 
 points_sp <- sp::SpatialPoints(points)
-extract_lsm(landscape, y = points, what = "lsm_p_area")
+extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
+
+\dontrun{
+# use lines (works only if rgeos is installed)
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+sp::Line(cbind(x2, y2))), ID = "a")))
+extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
+}
 
 }
 \seealso{

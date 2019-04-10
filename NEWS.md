@@ -11,6 +11,7 @@
     * `sample_lsm()` can now use SpatialPolygons to sample metrics
     * `sample_lsm()` can now handle SpatialLines to sample metrics
     * `sample_lsm()` automatically detects provided data type
+    * `extract_lsm()` can now handle SpatialLines to extract metrics
 
 # landscapemetrics 1.0
 * New functions
