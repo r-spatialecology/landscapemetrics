@@ -5,51 +5,43 @@
 \alias{sample_lsm.RasterLayer}
 \alias{sample_lsm.RasterStack}
 \alias{sample_lsm.RasterBrick}
+\alias{sample_lsm.stars}
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, points, shape, size, what, level, metric, name, type,
-  return_raster)
+sample_lsm(landscape, y, shape, size, return_raster, verbose, ...)
 
-\method{sample_lsm}{RasterLayer}(landscape, points, shape = "square",
-  size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_raster = FALSE)
+\method{sample_lsm}{RasterLayer}(landscape, y, shape = "square", size,
+  return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{RasterStack}(landscape, points, shape = "square",
-  size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_raster = FALSE)
+\method{sample_lsm}{RasterStack}(landscape, y, shape = "square", size,
+  return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{RasterBrick}(landscape, points, shape = "square",
-  size, what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_raster = FALSE)
+\method{sample_lsm}{RasterBrick}(landscape, y, shape = "square", size,
+  return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{list}(landscape, points, shape = "square", size,
-  what = NULL, level = NULL, metric = NULL, name = NULL,
-  type = NULL, return_raster = FALSE)
+\method{sample_lsm}{stars}(landscape, y, shape = "square", size,
+  return_raster = FALSE, verbose = TRUE, ...)
+
+\method{sample_lsm}{list}(landscape, y, shape = "square", size,
+  return_raster = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
-\item{size}{Approximated size of sample plot. Equals the radius for circles or the
-side-length for squares in mapunits}
-
-\item{what}{Selected level of metrics: either "patch", "class" or "landscape".
-It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{level}{Level of metrics to calculate (e.g. 'landscape').}
-
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
-
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
-
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+\item{size}{Approximated size of sample plot. Equals the radius for circles or half of
+the side-length for squares in mapunits. For lines size equals the width of the buffer.}
 
 \item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}
+
+\item{verbose}{Print warning messages.}
+
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
 tibble
@@ -59,13 +51,13 @@ Sample metrics
 }
 \details{
 This function samples the selected metrics in a buffer area (sample plot)
-around sample points. The size of the actual sampled landscape can be different
-to the provided size due to two reasons. Firstly, because clipping raster
-cells using a circle or a sample plot not directly at a cell center lead
-to inaccuracies. Secondly, sample plots can exceed the landscape boundary.
-Therefore, we report the actual clipped sample plot area relative in relation
-to the theoretical, maximum sample plot area e.g. a sample plot only half within
-the landscape will have a \code{percentage_inside = 50}. Please be aware that the
+around sample points, sample lines or within provided SpatialPolygons. The size of the actual
+sampled landscape can be different to the provided size due to two reasons.
+Firstly, because clipping raster cells using a circle or a sample plot not directly
+at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
+landscape boundary. Therefore, we report the actual clipped sample plot area relative
+in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
+within the landscape will have a \code{percentage_inside = 50}. Please be aware that the
 output is sligthly different to all other \code{lsm}-function of \code{landscapemetrics}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
@@ -75,13 +67,41 @@ automatically all possibilities are selected. Therefore, to get \strong{all}
 available metrics, don't specify any of the above arguments.
 }
 \examples{
-points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
+# use a matrix
+sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 
-points_sp <- sp::SpatialPoints(points)
-sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+# use sp points
+points_sp <- sp::SpatialPoints(sample_points)
+sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+
+
+\dontrun{
+# use lines (works only if rgeos is installed)
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+sp::Line(cbind(x2, y2))), ID = "a")))
+sample_lsm(landscape, y = sample_lines, size = 10, what = "lsm_l_np")
+
+# use polygons
+poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
+                           c(-2.5, 12.5, 12.5, -2.5)))
+poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
+                           c(-7.5, 23.5, 23.5, -7.5)))
+poly_1 <- sp::Polygons(list(poly_1), "p1")
+poly_2 <- sp::Polygons(list(poly_2), "p2")
+sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
+
+sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+}
 
 }
 \seealso{
-\code{\link{list_lsm}}
+\code{\link{list_lsm}} \cr
+\code{\link{calculate_lsm}}
 }
