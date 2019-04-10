@@ -60,7 +60,7 @@ test_that("sample_lsm works for polygons ", {
 
     if (!nzchar(system.file(package = "rgeos"))) {
         expect_warning(sample_lsm(landscape,
-                                  sample_plots = sample_plots,
+                                  y = sample_plots,
                                   what = "lsm_p_area"),
                        regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.")
     }
