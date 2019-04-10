@@ -143,46 +143,44 @@ construct_buffer.sfc <- function(coords, shape, size) {
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
 }
 
-#' @name construct_buffer
-#' @export
-construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {
-
-    # get coordinates
-    coords <- sp::coordinates(coords)
-
-    sample_plots <- lapply(seq_along(coords), function(current_i) {
-
-        # get old coords
-        x_old <- coords[[current_i]][[1]][, 1]
-        y_old <- coords[[current_i]][[1]][, 2]
-
-        # calculate buffer points around coords
-        x_pos <- x_old + size
-        x_neg <- x_old - size
-
-        y_pos <- y_old + size
-        y_neg <- y_old - size
-
-        # combine current coords
-        current_coords <- cbind(x = c(x_neg, x_old, x_pos, x_old),
-                                y = c(y_old, y_pos, y_old, y_neg))
-
-        # convex hull arround points
-        convex_hull <- grDevices::chull(current_coords)
-
-        # all outside points
-        current_coords <- current_coords[convex_hull, ]
-
-        current_coords <- current_coords[order(current_coords[, 1], current_coords[, 2]), ]
-
-        # convert to sp polygon
-        sp::Polygon(current_coords)
-    })
-
-    # save into SpatialPolygons
-    sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
-        sp::Polygons(list(sample_plots[[y]]), ID = y)
-    }))
-}
+#' construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {
+#'
+#'     # get coordinates
+#'     coords <- sp::coordinates(coords)
+#'
+#'     sample_plots <- lapply(seq_along(coords), function(current_i) {
+#'
+#'         # get old coords
+#'         x_old <- coords[[current_i]][[1]][, 1]
+#'         y_old <- coords[[current_i]][[1]][, 2]
+#'
+#'         # calculate buffer points around coords
+#'         x_pos <- x_old + size
+#'         x_neg <- x_old - size
+#'
+#'         y_pos <- y_old + size
+#'         y_neg <- y_old - size
+#'
+#'         # combine current coords
+#'         current_coords <- cbind(x = c(x_neg, x_old, x_pos, x_old),
+#'                                 y = c(y_old, y_pos, y_old, y_neg))
+#'
+#'         # convex hull arround points
+#'         convex_hull <- grDevices::chull(current_coords)
+#'
+#'         # all outside points
+#'         current_coords <- current_coords[convex_hull, ]
+#'
+#'         current_coords <- current_coords[order(current_coords[, 1], current_coords[, 2]), ]
+#'
+#'         # convert to sp polygon
+#'         sp::Polygon(current_coords)
+#'     })
+#'
+#'     # save into SpatialPolygons
+#'     sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
+#'         sp::Polygons(list(sample_plots[[y]]), ID = y)
+#'     }))
+#' }
 
 

@@ -10,27 +10,27 @@
 \title{sample_lsm}
 \usage{
 sample_lsm(landscape, sample_points, shape, size, sample_lines,
-  sample_plots, ..., return_raster)
+  sample_plots, return_raster, verbose, ...)
 
 \method{sample_lsm}{RasterLayer}(landscape, sample_points = NULL,
   shape = "square", size, sample_lines = NULL, sample_plots = NULL,
-  ..., return_raster = FALSE)
+  return_raster = FALSE, verbose = TRUE, ...)
 
 \method{sample_lsm}{RasterStack}(landscape, sample_points = NULL,
   shape = "square", size, sample_lines = NULL, sample_plots = NULL,
-  ..., return_raster = FALSE)
+  return_raster = FALSE, verbose = TRUE, ...)
 
 \method{sample_lsm}{RasterBrick}(landscape, sample_points = NULL,
   shape = "square", size, sample_lines = NULL, sample_plots = NULL,
-  ..., return_raster = FALSE)
+  return_raster = FALSE, verbose = TRUE, ...)
 
 \method{sample_lsm}{stars}(landscape, sample_points = NULL,
   shape = "square", size, sample_lines = NULL, sample_plots = NULL,
-  ..., return_raster = FALSE)
+  return_raster = FALSE, verbose = TRUE, ...)
 
 \method{sample_lsm}{list}(landscape, sample_points = NULL,
   shape = "square", size, sample_lines = NULL, sample_plots = NULL,
-  ..., return_raster = FALSE)
+  return_raster = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -46,10 +46,12 @@ the side-length for squares in mapunits. For lines size equals the width of the 
 
 \item{sample_plots}{SpatialPolygons in which should be sampled.}
 
-\item{...}{Arguments passed on to \code{calculate_lsm()}.}
-
 \item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}
+
+\item{verbose}{Print warning messages.}
+
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
 tibble
@@ -83,7 +85,9 @@ sample_lsm(landscape, sample_points = sample_points, size = 15, what = "lsm_l_np
 points_sp <- sp::SpatialPoints(sample_points)
 sample_lsm(landscape, sample_points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 
-# use lines
+
+\dontrun{
+# use lines (works only if rgeos is installed)
 x1 <- c(1, 5, 15, 10)
 y1 <- c(1, 5, 15, 25)
 
@@ -102,7 +106,9 @@ poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
 poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
+
 sample_lsm(landscape, sample_plots = sample_plots, what = "lsm_l_np")
+}
 
 }
 \seealso{

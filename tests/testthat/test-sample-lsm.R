@@ -57,17 +57,36 @@ test_that("sample_lsm works for polygons ", {
     expect_is(object = result_poly, class = "tbl_df")
 
     expect_true(all("patch" %in% result_poly$level))
+
+    if (!nzchar(system.file(package = "rgeos"))) {
+        expect_warning(sample_lsm(landscape,
+                                  sample_plots = sample_plots,
+                                  what = "lsm_p_area"),
+                       regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.")
+    }
 })
 
 test_that("sample_lsm works for lines ", {
 
-    result_lines <- sample_lsm(landscape,
-                               sample_plots = sample_plots,
-                               level = "landscape")
+    if (!nzchar(system.file(package = "rgeos"))) {
 
-    expect_is(object = result_lines, class = "tbl_df")
+        expect_error(sample_lsm(landscape,
+                                sample_lines = sample_lines,
+                                level = "landscape"),
+                     regexp = "To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.")
 
-    expect_true(all("landscape" %in% result_lines$level))
+    }
+
+    else {
+
+        result_lines <- sample_lsm(landscape,
+                                   sample_lines = sample_lines,
+                                   level = "landscape")
+
+        expect_is(object = result_lines, class = "tbl_df")
+
+        expect_true(all("landscape" %in% result_lines$level))
+    }
 })
 
 test_that("sample_lsm works forwards arguments to calculate_lsm", {
