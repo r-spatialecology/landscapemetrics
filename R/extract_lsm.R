@@ -236,10 +236,10 @@ extract_lsm_int <- function(landscape,
                                              simplify = TRUE,
                                              verbose = FALSE)
 
-  # Convert all sf objects
-  if (!any(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
+  # check if only patch level metrics are selected
+  if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
 
-    stop("extract_lsm only takes patch level metrics as what argument.")
+    stop("'extract_lsm()' only takes patch level metrics.", call. = FALSE)
   }
 
   # check if sf object is provided

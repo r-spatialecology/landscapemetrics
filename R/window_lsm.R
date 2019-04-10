@@ -103,9 +103,10 @@ window_lsm.RasterLayer <- function(landscape,
                                                verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
+    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
                                                           simplify = TRUE))) {
-        stop("window_lsm is only able to calculate landscape level metrics.",
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
@@ -113,20 +114,28 @@ window_lsm.RasterLayer <- function(landscape,
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
+            # get coordinates of cells
+            points <- raster_to_points(current_landscape)
+
+            # resolution of original raster
+            resolution <- raster::res(current_landscape)
+
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                        nrow = nrow(window),
-                                        ncol = ncol(window),
-                                        what = current_metric,
-                                        directions = directions,
-                                        count_boundary = count_boundary,
-                                        consider_boundary = consider_boundary,
-                                        edge_depth = edge_depth,
-                                        classes_max = classes_max,
-                                        neighbourhood = neighbourhood,
-                                        ordered = ordered,
-                                        base = base)},
+                                    nrow = nrow(window),
+                                    ncol = ncol(window),
+                                    resolution = resolution,
+                                    points = points,
+                                    what = current_metric,
+                                    directions = directions,
+                                    count_boundary = count_boundary,
+                                    consider_boundary = consider_boundary,
+                                    edge_depth = edge_depth,
+                                    classes_max = classes_max,
+                                    neighbourhood = neighbourhood,
+                                    ordered = ordered,
+                                    base = base)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -166,13 +175,20 @@ window_lsm.RasterStack <- function(landscape,
                                                verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
+    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
                                                           simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
+
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
@@ -181,6 +197,8 @@ window_lsm.RasterStack <- function(landscape,
                 calculate_lsm_focal(landscape = x,
                                     nrow = nrow(window),
                                     ncol = ncol(window),
+                                    resolution = resolution,
+                                    points = points,
                                     what = current_metric,
                                     directions = directions,
                                     count_boundary = count_boundary,
@@ -229,13 +247,20 @@ window_lsm.RasterBrick <- function(landscape,
                                                verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
+    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
                                                           simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
+
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
@@ -245,6 +270,8 @@ window_lsm.RasterBrick <- function(landscape,
                                     nrow = nrow(window),
                                     ncol = ncol(window),
                                     what = current_metric,
+                                    resolution = resolution,
+                                    points = points,
                                     directions = directions,
                                     count_boundary = count_boundary,
                                     consider_boundary = consider_boundary,
@@ -300,26 +327,45 @@ window_lsm.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    result <- lapply(metrics_list, function(current_metric) {
+    # get coordinates of cells
+    points <- raster_to_points(current_landscape)
 
-        raster::focal(x = landscape, w = window, fun = function(x) {
+    # resolution of original raster
+    resolution <- raster::res(current_landscape)
 
-            calculate_lsm_focal(landscape = x,
-                                nrow = nrow(window),
-                                ncol = ncol(window),
-                                what = current_metric,
-                                directions = directions,
-                                count_boundary = count_boundary,
-                                consider_boundary = consider_boundary,
-                                edge_depth = edge_depth,
-                                classes_max = classes_max,
-                                neighbourhood = neighbourhood,
-                                ordered = ordered,
-                                base = base)},
-            pad = TRUE, padValue = NA)
+    result <- lapply(raster::as.list(landscape), function(current_landscape) {
+
+        result_layer <- lapply(metrics_list, function(current_metric) {
+
+            # get coordinates of cells
+            points <- raster_to_points(current_landscape)
+
+            # resolution of original raster
+            resolution <- raster::res(current_landscape)
+
+            raster::focal(x = current_landscape, w = window, fun = function(x) {
+
+                calculate_lsm_focal(landscape = x,
+                                    nrow = nrow(window),
+                                    ncol = ncol(window),
+                                    resolution = resolution,
+                                    points = points,
+                                    what = current_metric,
+                                    directions = directions,
+                                    count_boundary = count_boundary,
+                                    consider_boundary = consider_boundary,
+                                    edge_depth = edge_depth,
+                                    classes_max = classes_max,
+                                    neighbourhood = neighbourhood,
+                                    ordered = ordered,
+                                    base = base)},
+                pad = TRUE, padValue = NA)
+        })
+
+        names(result_layer) <- metrics_list
+
+        return(result_layer)
     })
-
-    names(result) <- metrics_list
 
     return(result)
 }
@@ -352,13 +398,20 @@ window_lsm.list <- function(landscape,
                                                verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
+    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
                                                           simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
     result <- lapply(landscape, function(current_landscape) {
+
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
@@ -368,6 +421,8 @@ window_lsm.list <- function(landscape,
                                     nrow = nrow(window),
                                     ncol = ncol(window),
                                     what = current_metric,
+                                    resolution = resolution,
+                                    points = points,
                                     directions = directions,
                                     count_boundary = count_boundary,
                                     consider_boundary = consider_boundary,
@@ -389,6 +444,8 @@ window_lsm.list <- function(landscape,
 
 calculate_lsm_focal <- function(landscape,
                                 nrow, ncol,
+                                resolution,
+                                points,
                                 what,
                                 directions,
                                 count_boundary,
@@ -400,6 +457,8 @@ calculate_lsm_focal <- function(landscape,
                                 base) {
 
     raster_window <- matrix(landscape, nrow, ncol)
+
+    verbose <- FALSE
 
     what <- paste0(what, "_calc")
 
