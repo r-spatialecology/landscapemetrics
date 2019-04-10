@@ -3,12 +3,10 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param sample_points SpatialPoints, sf or 2-column matrix with coordinates of sample points
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in mapunits. For lines size equals the width of the buffer.
-#' @param sample_lines SpatialLines around which a buffer is created
-#' @param sample_plots SpatialPolygons in which should be sampled.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
 #' @param verbose Print warning messages.
@@ -16,7 +14,7 @@
 
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
-#' around sample points or within provided SpatialPolygons. The size of the actual
+#' around sample points, sample lines or within provided SpatialPolygons. The size of the actual
 #' sampled landscape can be different to the provided size due to two reasons.
 #' Firstly, because clipping raster cells using a circle or a sample plot not directly
 #' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
@@ -40,11 +38,11 @@
 #' @examples
 #' # use a matrix
 #' sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-#' sample_lsm(landscape, sample_points = sample_points, size = 15, what = "lsm_l_np")
+#' sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 #'
 #' # use sp points
 #' points_sp <- sp::SpatialPoints(sample_points)
-#' sample_lsm(landscape, sample_points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+#' sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 #'
 #'
 #' \dontrun{
@@ -57,7 +55,7 @@
 #'
 #' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
 #' sp::Line(cbind(x2, y2))), ID = "a")))
-#' sample_lsm(landscape, sample_lines = sample_lines, size = 10, what = "lsm_l_np")
+#' sample_lsm(landscape, y = sample_lines, size = 10, what = "lsm_l_np")
 #'
 #' # use polygons
 #' poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
@@ -68,7 +66,7 @@
 #' poly_2 <- sp::Polygons(list(poly_2), "p2")
 #' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 #'
-#' sample_lsm(landscape, sample_plots = sample_plots, what = "lsm_l_np")
+#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
 #' }
 #'
 #' @aliases sample_lsm
@@ -76,9 +74,8 @@
 #'
 #' @export
 sample_lsm <- function(landscape,
-                       sample_points, shape, size,
-                       sample_lines,
-                       sample_plots,
+                       y,
+                       shape, size,
                        return_raster,
                        verbose,
                        ...) UseMethod("sample_lsm")
@@ -86,18 +83,16 @@ sample_lsm <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterLayer <- function(landscape,
-                                   sample_points = NULL, shape = "square", size,
-                                   sample_lines = NULL,
-                                   sample_plots = NULL,
+                                   y,
+                                   shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
-                     sample_points = sample_points, shape = shape, size = size,
-                     sample_lines = sample_lines,
-                     sample_plots = sample_plots,
+                     y = y,
+                     shape = shape, size = size,
                      verbose = verbose,
                      ...)
 
@@ -118,18 +113,16 @@ sample_lsm.RasterLayer <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterStack <- function(landscape,
-                                   sample_points = NULL, shape = "square", size,
-                                   sample_lines = NULL,
-                                   sample_plots = NULL,
+                                   y,
+                                   shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
-                     sample_points = sample_points, shape = shape, size = size,
-                     sample_lines = sample_lines,
-                     sample_plots = sample_plots,
+                     y = y,
+                     shape = shape, size = size,
                      verbose = verbose,
                      ...)
 
@@ -150,18 +143,16 @@ sample_lsm.RasterStack <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterBrick <- function(landscape,
-                                   sample_points = NULL, shape = "square", size,
-                                   sample_lines = NULL,
-                                   sample_plots = NULL,
+                                   y,
+                                   shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
-                     sample_points = sample_points, shape = shape, size = size,
-                     sample_lines = sample_lines,
-                     sample_plots = sample_plots,
+                     y = y,
+                     shape = shape, size = size,
                      verbose = verbose,
                      ...)
 
@@ -182,9 +173,8 @@ sample_lsm.RasterBrick <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.stars <- function(landscape,
-                             sample_points = NULL, shape = "square", size,
-                             sample_lines = NULL,
-                             sample_plots = NULL,
+                             y,
+                             shape = "square", size,
                              return_raster = FALSE,
                              verbose = TRUE,
                              ...) {
@@ -193,9 +183,8 @@ sample_lsm.stars <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
-                     sample_points = sample_points, shape = shape, size = size,
-                     sample_lines = sample_lines,
-                     sample_plots = sample_plots,
+                     y = y,
+                     shape = shape, size = size,
                      verbose = verbose,
                      ...)
 
@@ -216,18 +205,16 @@ sample_lsm.stars <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.list <- function(landscape,
-                            sample_points = NULL, shape = "square", size,
-                            sample_lines = NULL,
-                            sample_plots = NULL,
+                            y,
+                            shape = "square", size,
                             return_raster = FALSE,
                             verbose = TRUE,
                             ...) {
 
     result <- lapply(X = landscape,
                      FUN = sample_lsm_int,
-                     sample_points = sample_points, shape = shape, size = size,
-                     sample_lines = sample_lines,
-                     sample_plots = sample_plots,
+                     y = y,
+                     shape = shape, size = size,
                      verbose = verbose,
                      ...)
 
@@ -246,69 +233,55 @@ sample_lsm.list <- function(landscape,
 }
 
 sample_lsm_int <- function(landscape,
-                           sample_points, shape, size,
-                           sample_lines,
-                           sample_plots,
+                           y,
+                           shape, size,
                            verbose,
                            ...) {
 
-    # neither sample_points nor polygons are provided
-    if (is.null(sample_points) & is.null(sample_plots) & is.null(sample_lines)) {
+    # use polygon
+    if (methods::is(y, "SpatialPolygons")) {
 
-        stop("Please provide either sample point locations, sample lines or sample plots.",
-             call. = FALSE)
-    }
-
-    # both sample_points and polygon are provided
-    if (sum(c(!is.null(sample_points), !is.null(sample_plots), !is.null(sample_lines))) > 1) {
-
-        stop("Please provide only sample point locations, sample lines or only sample plots.",
-             call. = FALSE)
-    }
-
-    # use polygon (important to check first)
-    if (!is.null(sample_plots)) {
-
-        if (!methods::is(sample_plots, "SpatialPolygons")) {
-            stop("Sample plots must be SpatialPolygons.", call. = FALSE)
-        }
-
-
+        # disaggregate if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
-            sample_plots <- sp::disaggregate(sample_plots)
+
+            y <- sp::disaggregate(y)
         }
 
+        # warning that rgeos is not installed
         else {
+
             if (verbose) {
+
                 warning("Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
                         call. = FALSE)
             }
         }
 
         # get area of all polygons
-        maximum_area <- vapply(sample_plots@polygons, function(x) x@area / 10000,
+        maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
                                FUN.VALUE = numeric(1))
     }
 
-    # check if sample_points are provided
-    if (!is.null(sample_points)) {
+    # use points
+    else if (methods::is(y, "SpatialPoints") | methods::is(y, "matrix")) {
 
-        # how many sample sample_points are present for SP
-        if (methods::is(sample_points, "SpatialPoints")) {
+        # points are matrix
+        if (methods::is(y, "matrix")) {
 
-            n <- length(sample_points)
+            # get number of points for max area
+            n <- nrow(y)
+
+            if (ncol(y) != 2 & verbose) {
+                warning("'y' should be a two column matrix including x- and y-coordinates.",
+                        call. = FALSE)
+            }
         }
 
-        # how many sample sample_points are present for matrix
-        else if (methods::is(sample_points, "matrix")) {
-
-            n <- nrow(sample_points)
-        }
-
-        # wrong class of sample_points
+        # points are Spatial Points
         else {
 
-            stop("Sample points must be a matrix or SpatialPoints.", call. = FALSE)
+            # get number of points for max area
+            n <- length(y)
         }
 
         # calculate theoretical, maximum area n times
@@ -325,29 +298,30 @@ sample_lsm_int <- function(landscape,
 
         # Unkown shape argument
         else{
+
             stop(paste0("Shape = ", shape, " unknown."), call. = FALSE)
         }
 
         # construct plot area around sample sample_points
-        sample_plots <- construct_buffer(coords = sample_points,
-                                         shape = shape,
-                                         size = size)
+        y <- construct_buffer(coords = y,
+                              shape = shape,
+                              size = size)
     }
 
-    if (!is.null(sample_lines)) {
+    else if (methods::is(y, "SpatialLines")) {
 
         # check if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
 
             # disaggregate lines
-            sample_lines <- sp::disaggregate(sample_lines)
+            y <- sp::disaggregate(y)
 
             # create buffer around lines
-            sample_plots <- raster::buffer(sample_lines,
-                                           width = size, dissolve = FALSE)
+            y <- raster::buffer(x = y,
+                                width = size, dissolve = FALSE)
 
             # get area of all polygons
-            maximum_area <- vapply(sample_plots@polygons, function(x) x@area / 10000,
+            maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
                                    FUN.VALUE = numeric(1))
         }
 
@@ -357,16 +331,22 @@ sample_lsm_int <- function(landscape,
         }
     }
 
+    else {
+
+        stop("'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
+             call. = FALSE)
+    }
+
     # loop through each sample point and calculate metrics
-    result <- do.call(rbind, lapply(X = seq_along(sample_plots), FUN = function(current_plot) {
+    result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
 
         # crop sample plot
         landscape_crop <- raster::crop(x = landscape,
-                                       y = sample_plots[current_plot])
+                                       y = y[current_plot])
 
         # mask sample plot
         landscape_mask <- raster::mask(x = landscape_crop,
-                                       mask = sample_plots[current_plot])
+                                       mask = y[current_plot])
 
         # calculate actual area of sample plot
         area <- lsm_l_ta_calc(landscape_mask,

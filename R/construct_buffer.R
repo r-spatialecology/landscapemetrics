@@ -24,6 +24,66 @@ construct_buffer <- function(coords, shape, size) UseMethod("construct_buffer")
 
 #' @name construct_buffer
 #' @export
+construct_buffer.SpatialPoints <- function(coords, shape, size) {
+
+    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    construct_buffer(coords, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size) {
+
+    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    construct_buffer(coords, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.MULTIPOINT <- function(coords, shape, size) {
+
+    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+    construct_buffer(coords, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.POINT <- function(coords, shape, size) {
+
+    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+    construct_buffer(coords, shape, size)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.sf <- function(coords, shape, size) {
+
+    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
+
+        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+
+        construct_buffer(coords, shape, size)
+    }
+
+    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer.sfc <- function(coords, shape, size) {
+
+    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
+
+        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
+
+        construct_buffer(coords, shape, size)
+    }
+
+    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
+}
+
+#' @name construct_buffer
+#' @export
 construct_buffer.matrix <- function(coords, shape , size) {
 
     if (shape == "circle") {
@@ -85,62 +145,6 @@ construct_buffer.matrix <- function(coords, shape , size) {
     }
 
     return(sample_plots)
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.SpatialPoints <- function(coords, shape, size) {
-
-    coords <- matrix(sp::coordinates(coords), ncol = 2)
-    construct_buffer(coords, shape, size)
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size) {
-
-    coords <- matrix(sp::coordinates(coords), ncol = 2)
-    construct_buffer(coords, shape, size)
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.MULTIPOINT <- function(coords, shape, size) {
-
-    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
-    construct_buffer(coords, shape, size)
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.POINT <- function(coords, shape, size) {
-
-    coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
-    construct_buffer(coords, shape, size)
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.sf <- function(coords, shape, size) {
-    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
-
-        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
-        construct_buffer(coords, shape, size)
-    }
-
-    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
-}
-
-#' @name construct_buffer
-#' @export
-construct_buffer.sfc <- function(coords, shape, size) {
-    if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
-
-        coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
-        construct_buffer(coords, shape, size)
-    }
-
-    else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
 }
 
 #' construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {

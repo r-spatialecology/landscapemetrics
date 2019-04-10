@@ -10,6 +10,7 @@
     * `list_lsm()` allows to return all BUT the selected metrics
     * `sample_lsm()` can now use SpatialPolygons to sample metrics
     * `sample_lsm()` can now handle SpatialLines to sample metrics
+    * `sample_lsm()` automatically detects provided data type
 
 # landscapemetrics 1.0
 * New functions

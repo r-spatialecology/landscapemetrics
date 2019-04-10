@@ -9,42 +9,32 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, sample_points, shape, size, sample_lines,
-  sample_plots, return_raster, verbose, ...)
+sample_lsm(landscape, y, shape, size, return_raster, verbose, ...)
 
-\method{sample_lsm}{RasterLayer}(landscape, sample_points = NULL,
-  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+\method{sample_lsm}{RasterLayer}(landscape, y, shape = "square", size,
   return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{RasterStack}(landscape, sample_points = NULL,
-  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+\method{sample_lsm}{RasterStack}(landscape, y, shape = "square", size,
   return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{RasterBrick}(landscape, sample_points = NULL,
-  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+\method{sample_lsm}{RasterBrick}(landscape, y, shape = "square", size,
   return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{stars}(landscape, sample_points = NULL,
-  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+\method{sample_lsm}{stars}(landscape, y, shape = "square", size,
   return_raster = FALSE, verbose = TRUE, ...)
 
-\method{sample_lsm}{list}(landscape, sample_points = NULL,
-  shape = "square", size, sample_lines = NULL, sample_plots = NULL,
+\method{sample_lsm}{list}(landscape, y, shape = "square", size,
   return_raster = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{sample_points}{SpatialPoints, sf or 2-column matrix with coordinates of sample points}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in mapunits. For lines size equals the width of the buffer.}
-
-\item{sample_lines}{SpatialLines around which a buffer is created}
-
-\item{sample_plots}{SpatialPolygons in which should be sampled.}
 
 \item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}
@@ -61,7 +51,7 @@ Sample metrics
 }
 \details{
 This function samples the selected metrics in a buffer area (sample plot)
-around sample points or within provided SpatialPolygons. The size of the actual
+around sample points, sample lines or within provided SpatialPolygons. The size of the actual
 sampled landscape can be different to the provided size due to two reasons.
 Firstly, because clipping raster cells using a circle or a sample plot not directly
 at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
@@ -79,11 +69,11 @@ available metrics, don't specify any of the above arguments.
 \examples{
 # use a matrix
 sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-sample_lsm(landscape, sample_points = sample_points, size = 15, what = "lsm_l_np")
+sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 
 # use sp points
 points_sp <- sp::SpatialPoints(sample_points)
-sample_lsm(landscape, sample_points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 
 
 \dontrun{
@@ -96,7 +86,7 @@ y2 <- c(5, 5)
 
 sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
 sp::Line(cbind(x2, y2))), ID = "a")))
-sample_lsm(landscape, sample_lines = sample_lines, size = 10, what = "lsm_l_np")
+sample_lsm(landscape, y = sample_lines, size = 10, what = "lsm_l_np")
 
 # use polygons
 poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
@@ -107,7 +97,7 @@ poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
-sample_lsm(landscape, sample_plots = sample_plots, what = "lsm_l_np")
+sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
 }
 
 }

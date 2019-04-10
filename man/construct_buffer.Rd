@@ -2,18 +2,16 @@
 % Please edit documentation in R/construct_buffer.R
 \name{construct_buffer}
 \alias{construct_buffer}
-\alias{construct_buffer.matrix}
 \alias{construct_buffer.SpatialPoints}
 \alias{construct_buffer.SpatialPointsDataFrame}
 \alias{construct_buffer.MULTIPOINT}
 \alias{construct_buffer.POINT}
 \alias{construct_buffer.sf}
 \alias{construct_buffer.sfc}
+\alias{construct_buffer.matrix}
 \title{construct_buffer}
 \usage{
 construct_buffer(coords, shape, size)
-
-\method{construct_buffer}{matrix}(coords, shape, size)
 
 \method{construct_buffer}{SpatialPoints}(coords, shape, size)
 
@@ -26,6 +24,8 @@ construct_buffer(coords, shape, size)
 \method{construct_buffer}{sf}(coords, shape, size)
 
 \method{construct_buffer}{sfc}(coords, shape, size)
+
+\method{construct_buffer}{matrix}(coords, shape, size)
 }
 \arguments{
 \item{coords}{SpatialPoints or 2-column matrix with coordinates of sample points}
