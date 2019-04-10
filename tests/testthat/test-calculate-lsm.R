@@ -91,3 +91,8 @@ test_that("calculate_lsm can take different raster inputs", {
     expect_is(calculate_lsm(landscape_brick, what = "lsm_l_ta", progress = TRUE), "tbl_df")
     expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta", progress = TRUE), "tbl_df")
 })
+
+test_that("calculate_lsm returns error if metric does not exists", {
+
+    expect_error(calculate_lsm(landscape, what = "lsm_p_made_up"))
+})

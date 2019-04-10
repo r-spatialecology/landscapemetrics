@@ -392,6 +392,10 @@ calculate_lsm_internal <- function(landscape,
                                           simplify = TRUE,
                                           verbose = verbose)
 
+    if (length(metrics) == 0) {
+        stop("Selected metrics do not exist. Please use list_lsm() to see all available metrics.", call. = FALSE)
+    }
+
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
 
@@ -411,9 +415,7 @@ calculate_lsm_internal <- function(landscape,
 
         # print progess using the non-internal name
         if (isTRUE(progress)) {
-            # message("\r> Progress: ", current_metric, "/",
-            #         number_metrics, " \tCurrent metric: ",
-            #         metrics[[current_metric]], appendLF = FALSE)
+
             message("\r> Progress metrics: ", current_metric, "/",
                     number_metrics, appendLF = FALSE)
         }
@@ -443,7 +445,7 @@ calculate_lsm_internal <- function(landscape,
         result <- tibble::as_tibble(result[ ,col_ordering])
     }
 
-    if(progress) {
+    if (progress) {
         message("")
     }
 
