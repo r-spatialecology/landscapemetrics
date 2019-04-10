@@ -107,7 +107,7 @@ above arguments.
 }
 \examples{
 \dontrun{
-calculate_lsm(landscape)
+calculate_lsm(landscape, progress = TRUE)
 calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
 calculate_lsm(landscape, level = c("class", "landscape"), type = "aggregation metric")
 }
