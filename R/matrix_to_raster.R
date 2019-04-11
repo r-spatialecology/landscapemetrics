@@ -1,6 +1,6 @@
 #' matrix_to_raster
 #'
-#' @description Adding padding to raster
+#' @description Convert matrix to raster
 #'
 #' @param matrix matrix with values.
 #' @param landscape RasterLayer.

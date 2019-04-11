@@ -39,7 +39,7 @@ sample_lines
 ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
     ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
     ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-                        ggplot2::aes(x = x, y = y), pch = 19, size = 1) + 
+                        ggplot2::aes(x = x, y = y), pch = 19, size = 1.5) + 
     ggplot2::geom_path(data = data.frame(x = c(x1, x2), 
                                          y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)), 
                        ggplot2::aes(x = x, y = y, group = id), size = 1) + 
@@ -87,7 +87,7 @@ ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) +
                                                             group = sample_plots[, 3]),
                           col = "black", fill = NA) +
     ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-                        ggplot2::aes(x = x, y = y), pch = 19, size = 1) + 
+                        ggplot2::aes(x = x, y = y), pch = 19, size = 1.5) + 
     ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
     ggplot2::coord_equal() + 
     ggplot2::theme(axis.line = ggplot2::element_blank(),
@@ -104,7 +104,7 @@ sample_lsm(landscape, y = points, size = 10,
            verbose = FALSE)
 ```
 
-It's also possible to construct buffers around lines, however, only if the (**rgeos**)[https://cran.r-project.org/web/packages/rgeos/index.html](Bivand & Rundel 2018) package is installed. Also, it's possibe to directly provide SpatialPolygons as sample plots.
+It's also possible to construct buffers around lines, however, only if the [**rgeos**](https://cran.r-project.org/web/packages/rgeos/index.html) (Bivand & Rundel 2018) package is installed. Also, it's possibe to directly provide SpatialPolygons as sample plots.
 
 ### References
 

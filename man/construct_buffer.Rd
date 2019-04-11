@@ -38,7 +38,7 @@ construct_buffer(coords, shape, size, return_sp)
 \item{size}{Size of sample plot. Equals the radius for circles or the
 side-length for squares in mapunits}
 
-\item{return_sp}{If true, sp object is returned.}
+\item{return_sp}{If true, SpatialPolygons are returned.}
 }
 \value{
 matrix or SpatialPolygons
