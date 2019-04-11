@@ -11,21 +11,24 @@
 \alias{construct_buffer.matrix}
 \title{construct_buffer}
 \usage{
-construct_buffer(coords, shape, size)
+construct_buffer(coords, shape, size, return_sp)
 
-\method{construct_buffer}{SpatialPoints}(coords, shape, size)
+\method{construct_buffer}{SpatialPoints}(coords, shape, size,
+  return_sp = TRUE)
 
-\method{construct_buffer}{SpatialPointsDataFrame}(coords, shape, size)
+\method{construct_buffer}{SpatialPointsDataFrame}(coords, shape, size,
+  return_sp = TRUE)
 
-\method{construct_buffer}{MULTIPOINT}(coords, shape, size)
+\method{construct_buffer}{MULTIPOINT}(coords, shape, size,
+  return_sp = TRUE)
 
-\method{construct_buffer}{POINT}(coords, shape, size)
+\method{construct_buffer}{POINT}(coords, shape, size, return_sp = TRUE)
 
-\method{construct_buffer}{sf}(coords, shape, size)
+\method{construct_buffer}{sf}(coords, shape, size, return_sp = TRUE)
 
-\method{construct_buffer}{sfc}(coords, shape, size)
+\method{construct_buffer}{sfc}(coords, shape, size, return_sp = TRUE)
 
-\method{construct_buffer}{matrix}(coords, shape, size)
+\method{construct_buffer}{matrix}(coords, shape, size, return_sp = TRUE)
 }
 \arguments{
 \item{coords}{SpatialPoints or 2-column matrix with coordinates of sample points}
@@ -34,9 +37,11 @@ construct_buffer(coords, shape, size)
 
 \item{size}{Size of sample plot. Equals the radius for circles or the
 side-length for squares in mapunits}
+
+\item{return_sp}{If true, sp object is returned.}
 }
 \value{
-SpatialPolygons
+matrix or SpatialPolygons
 }
 \description{
 Internal function to construct plot area around coordinates

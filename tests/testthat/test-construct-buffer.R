@@ -1,13 +1,24 @@
 context("construct_buffer")
 
+sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+points_sp <- sp::SpatialPoints(sample_points)
+
 test_that("construct_buffer is typestable", {
-    expect_is(construct_buffer(points_matrix, shape = "circle", size = 5), "SpatialPolygons")
+
+    expect_is(construct_buffer(sample_points, shape = "circle", size = 5), "SpatialPolygons")
     expect_is(construct_buffer(points_sp, shape = "square", size = 5), "SpatialPolygons")
-    expect_is(construct_buffer(points_spdf, shape = "circle", size = 5), "SpatialPolygons")
-    # expect_is(construct_buffer(points_point, shape = "square", size = 5), "SpatialPolygons")
-    # expect_is(construct_buffer(points_multipoint, shape = "circle", size = 5), "SpatialPolygons")
-    # expect_is(construct_buffer(points_sfc, shape = "square", size = 5), "SpatialPolygons")
-    # expect_is(construct_buffer(points_sf, shape = "circle", size = 5), "SpatialPolygons")
+})
+
+test_that("construct_buffer can return a matrix", {
+
+    expect_is(construct_buffer(sample_points,
+                               shape = "circle", size = 5,
+                               return_sp = FALSE), "matrix")
+
+    expect_is(construct_buffer(points_sp,
+                               shape = "circle", size = 5,
+                               return_sp = FALSE), "matrix")
+
 })
 
 test_that("construct_buffer returns error for unkown shape", {
