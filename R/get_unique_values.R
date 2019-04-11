@@ -39,7 +39,7 @@ get_unique_values.numeric <- function(x,
 
     if(typeof(x) != "integer") {
         if(verbose) {
-            warning("Double values will be converted to integer", call. = FALSE)
+            warning("Double values will be converted to integer.", call. = FALSE)
         }
     }
 

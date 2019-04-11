@@ -53,5 +53,7 @@ test_that("get_lsm returns all errors", {
 
     expect_error(get_lsm(landscape, level = "landscape",
                          verbose = FALSE),
-                 grep = "Please provide (at least one) patch level metrics only. To list available metrics, run list_lsm(level = 'patch').")
+                 grep = "Please provide (at least one) patch level metrics only.
+                 To list available metrics, run list_lsm(level = 'patch').",
+                 fixed = TRUE)
 })

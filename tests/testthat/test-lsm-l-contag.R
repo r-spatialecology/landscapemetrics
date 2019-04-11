@@ -3,6 +3,7 @@ context("landscape level lsm_l_contag metric")
 landscapemetrics_landscape_landscape_value <- lsm_l_contag(landscape)
 
 test_that("lsm_l_contag is typestable", {
+
     expect_is(lsm_l_contag(landscape), "tbl_df")
     expect_is(lsm_l_contag(landscape_stack), "tbl_df")
     expect_is(lsm_l_contag(landscape_brick), "tbl_df")
@@ -10,10 +11,12 @@ test_that("lsm_l_contag is typestable", {
 })
 
 test_that("lsm_l_contag returns the desired number of columns", {
+
     expect_equal(ncol(landscapemetrics_landscape_landscape_value), 6)
 })
 
 test_that("lsm_l_contag returns in every column the correct type", {
+
     expect_type(landscapemetrics_landscape_landscape_value$layer, "integer")
     expect_type(landscapemetrics_landscape_landscape_value$level, "character")
     expect_type(landscapemetrics_landscape_landscape_value$class, "integer")
@@ -23,6 +26,8 @@ test_that("lsm_l_contag returns in every column the correct type", {
 })
 
 test_that("lsm_l_contag returns warning for less than 2 classes", {
+
     expect_warning(lsm_l_contag(landscape_uniform),
-                   regexp = "Number of classes must be >= 2: CONTAG = NA.")
+                   grep = "Number of classes must be >= 2: CONTAG = NA.",
+                   fixed = TRUE)
     })

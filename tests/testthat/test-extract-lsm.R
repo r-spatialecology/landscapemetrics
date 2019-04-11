@@ -61,10 +61,13 @@ test_that("extract_lsm forwards arguments to calculate_lsm", {
 
 test_that("extract_lsm throws errors", {
 
-    expect_error(extract_lsm(landscape, y = points, what = "lsm_l_area"),
-                 regexp = "extract_lsm only takes patch level metrics as what argument.")
+    expect_error(extract_lsm(landscape, y = points, what = "lsm_l_ta"),
+                 grep = "'extract_lsm()' only takes patch level metrics.",
+                 fixed = TRUE)
 
     expect_error(extract_lsm(landscape, y = 1:3),
-                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.")
+                 grep = "'y' must be a matrix, SpatialPoints, SpatialLines or
+                 sf point geometries.",
+                 fixed = TRUE)
 })
 

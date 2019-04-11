@@ -94,5 +94,8 @@ test_that("calculate_lsm can take different raster inputs", {
 
 test_that("calculate_lsm returns error if metric does not exists", {
 
-    expect_error(calculate_lsm(landscape, what = "lsm_p_made_up"))
+    expect_error(calculate_lsm(landscape, what = "lsm_p_made_up"),
+                 grep = "Selected metrics do not exist. Please use list_lsm()
+                 to see all available metrics.",
+                 fixed = TRUE)
 })

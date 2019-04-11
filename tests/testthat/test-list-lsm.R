@@ -38,7 +38,8 @@ test_that("simplify returns vector", {
 test_that("returns warning if what and other argument is specified", {
 
     expect_warning(list_lsm(level = "landscape", what = "class"),
-                   regexp = "Only using 'what' argument.")
+                   grep = "Only using 'what' argument.",
+                   fixed = TRUE)
 
     result <- list_lsm(level = "landscape", what = "class", verbose = FALSE)
 
@@ -76,9 +77,13 @@ test_that("Negative subset works for list_lsm()", {
 test_that("list_lsm returns error", {
 
     expect_error(list_lsm(what = "-patch"),
-                 regexp = "Negative strings not allowed for 'what' argument. Please use other arguments for negative subsets.")
+                 grep = "Negative strings not allowed for 'what' argument.
+                 Please use other arguments for negative subsets.",
+                 fixed = TRUE)
 
     expect_error(list_lsm(level = c("-patch", "landscape")),
-                 regexp = "Mixing of positive and negative strings as subset not allowed for the same argument.")
+                 grep = "Mixing of positive and negative strings as subset not
+                 allowed for the same argument.",
+                 fixed = TRUE)
 
 })

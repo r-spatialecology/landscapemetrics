@@ -62,7 +62,9 @@ test_that("sample_lsm works for polygons ", {
         expect_warning(sample_lsm(landscape,
                                   y = sample_plots,
                                   what = "lsm_p_area"),
-                       regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.")
+                       grep = "Package 'rgeos' not installed. Please make sure
+                       polygons are disaggregated.",
+                       fixed = TRUE)
     }
 })
 
@@ -74,7 +76,9 @@ test_that("sample_lsm works for lines ", {
                                 y = sample_lines,
                                 size = 5,
                                 level = "landscape"),
-                     regexp = "To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.")
+                     grep = "To sample landscape metrics in buffers around lines,
+                     the package 'rgeos' must be installed.",
+                     fixed = TRUE)
 
     }
 
@@ -139,11 +143,13 @@ test_that("sample_lsm returns errors", {
                             y = sample_points, size = 15,
                             shape = "rectangle",
                             what = c("lsm_l_ta", "lsm_l_np")),
-                 regexp = "Shape = rectangle unknown.")
+                 grep = "Shape = rectangle unknown.", fixed = TRUE)
 
     expect_error(sample_lsm(landscape,
                             y = 1:3),
-                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.")
+                 grep = "'y' must be a matrix, SpatialPoints, SpatialLines
+                 or SpatialPolygons.",
+                 fixed = TRUE)
 })
 
 test_that("sample_lsm returns warnings", {
@@ -153,10 +159,7 @@ test_that("sample_lsm returns warnings", {
     expect_warning(sample_lsm(landscape,
                               y = sample_points_wrong, size = 15,
                               what = "lsm_l_pr"),
-                   regexp = "'y' should be a two column matrix including x- and y-coordinates.")
-
-
-
+                   grep = "'y' should be a two column matrix including
+                   x- and y-coordinates.",
+                   fixed = TRUE)
 })
-
-
