@@ -4,57 +4,112 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 ---
 
-## Use case
-Ecologists are often interested what the effect of a certain configuration and/or composition of a landscape has on ecological processes, i.e. such as species abundance. To further complicate this, we often ask at what scale around our sampling points (where we measured the species abundance) does this have an influence? Does landscape configuration only matter in the surrounding next 500 meters or 2000 meter? 
-
-One way of inferring this influence is to subsequently buffer around our sampling points and check for this. A visual guide for this procedure could for example look like this:
-
-```{r, message = FALSE, include = FALSE}
-# library(NLMR)
-# library(sf)
-# library(purrr)
-# library(rcartocolor)
-# library(gganimate)
-# library(classInt)
-# 
-# landscape <- NLMR::nlm_fbm(50, 100, fract_dim = 1.2) 
-# 
-# y <- landscape %>%
-#   raster::extent() %>%
-#   magrittr::subtract(., 10 * 2) %>%
-#   as('SpatialPolygons') %>%
-#   sp::spsample(n = 25, type = "random") %>% 
-#   st_as_sfc()
-# 
-# breaks <- landscape %>%
-#   raster::getValues() %>%
-#   na.omit() %>%
-#   classInt::classIntervals(n = 5, style = "jenks")
-# 
-# landscape <-  raster::cut(landscape, breaks=breaks$brks, include.lowest=T)
-# landscape <- raster::as.data.frame(landscape, xy = TRUE)
-# 
-# y_buffered <- purrr::map(seq_len(5), function(buffer_width){
-#   st_sf(bufferwidth = rep(buffer_width, length(y)), st_buffer(y, buffer_width))
-# }) %>% do.call(rbind, .)
-# 
-# a1 <- ggplot(y_buffered) +
-#   geom_raster(data = landscape, 
-#               aes(x,y,fill = layer)) +
-#   coord_equal() +
-#   geom_sf(data = y_buffered,
-#           inherit.aes = FALSE,
-#           alpha = 0.01) +
-#   rcartocolor::scale_fill_carto_c(palette = "TealRose") + 
-#   theme_void() +
-#   theme(panel.grid.major = element_line(colour = 'transparent')) +
-#   transition_states(bufferwidth, transition_length = 1, state_length = 1) +
-#   shadow_mark(past = TRUE) +
-#   guides(fill = FALSE) 
-#   
-# 
-# animate(a1, width = 500, height = 1000, duration = 6)
+```{r packages, message = FALSE}
+library(ggplot2)
+library(landscapemetrics)
+library(raster)
 ```
 
-[to be continued]
+**landscapemetrics** provides several functions to sample metrics *at* or *around* sample points. On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points. For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), SpatialPoints and SpatialLines ([**sp**](https://cran.r-project.org/web/packages/sp/index.html); Roger et al. 2013) and even [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported. For some functions, also SpatialPolygons (i.e. sample plots) can be provided.
 
+First, we create some example sample locations.
+
+```{r, collapse = TRUE}
+# create some example points
+points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+
+points
+
+# create some example lines
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)), 
+                                                     sp::Line(cbind(x2, y2))), ID = "a")))
+
+sample_lines
+```
+
+## Extract landscape metrics at sample points
+
+`extract_lsm()` returns the metrics of all patches in which a sample point is located. However, since this only makes sense for individual patches, it's only possible to extract patch-level metrics.
+
+```{r, echo = FALSE, fig.align = "center"}
+ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
+    ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
+                        ggplot2::aes(x = x, y = y), pch = 19, size = 1) + 
+    ggplot2::geom_path(data = data.frame(x = c(x1, x2), 
+                                         y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)), 
+                       ggplot2::aes(x = x, y = y, group = id), size = 1) + 
+    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
+    ggplot2::coord_equal() + 
+    ggplot2::theme(axis.line = ggplot2::element_blank(), 
+                   axis.ticks = ggplot2::element_blank(), 
+                   axis.text = ggplot2::element_blank(), 
+                   axis.title = ggplot2::element_blank(), 
+                   legend.position = "bottom")
+```
+
+Now, it's straightforward to extract e.g. the patch area of all patches in which a sample point is located. Similar to all functions calculating several landscape metrics, the selected metrics can be specified by various arguments (see `list_lsm()` for more details). The resulting tibble includes one extra column (compared to `calculate_lsm()`), indicating the ID of the sample points.
+
+Because three sample points were provided and only the patch area was requested, the resulting tibble also has three rows - one for each sample point. The first and the second sample point are actually located in the same patch and following also the area is identical. The third sample point is located in a much smaller patch. The *tibble* gives also information about the patch ids and the land-cover classes in which sample points are located.
+
+```{r, collapse = TRUE}
+extract_lsm(landscape, y = points, what = "lsm_p_area")
+```
+
+If a line is provided, the results include the patch-level metric for all patches touched by the line. The use of the function is exactly the same as for points. 
+
+For each patch, all core area metrics are returned. While the long line touches three patches (2, 12, 20), line two only touches two patches (20, 25). In this example, all core are metrics are selected for extraction.
+
+```{r, collapse = TRUE}
+extract_lsm(landscape, y = sample_lines, type = "core area metric")
+```
+
+## Sample landscape metrics at sample points
+
+To sample landscape metrics within a certain buffer *around* sample points, there is `sample_lsm()`. Now, the size of the buffers around the sample locations must be specified. The functions clips the landscape within the buffer (in other words sample plots) and calculates the selected metrics. 
+
+The resulting *tibble* incldues two extra columns. Again, the id of the sample point is included. Furthermore, the size of the actual sampled landscape can be different to the provided size due to two reasons. Firstly, because clipping raster cells using a circle or a sample plot not directly at a cell center lead to inaccuracies. Secondly, sample plots can exceed the landscape boundary. Therefore, we report the actual clipped sample plot area relative in relation to the theoretical, maximum sample plot area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
+
+```{r, echo = FALSE, fig.align = "center"}
+sample_plots <- data.frame(construct_buffer(coords = points, 
+                                            shape = "circle", 
+                                            size = 10, 
+                                            return_sp = FALSE))
+
+ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) +
+    ggplot2::geom_polygon(data = sample_plots, ggplot2::aes(x = sample_plots[, 1],
+                                                            y = sample_plots[, 2],
+                                                            group = sample_plots[, 3]),
+                          col = "black", fill = NA) +
+    ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
+                        ggplot2::aes(x = x, y = y), pch = 19, size = 1) + 
+    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
+    ggplot2::coord_equal() + 
+    ggplot2::theme(axis.line = ggplot2::element_blank(),
+                   axis.ticks = ggplot2::element_blank(),
+                   axis.text = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   legend.position = "bottom") 
+```
+
+```{r, collapse = TRUE}
+sample_lsm(landscape, y = points, size = 10, 
+           level = "landscape", type = "diversity metric", 
+           classes_max = 3,
+           verbose = FALSE)
+```
+
+It's also possible to construct buffers around lines, however, only if the (**rgeos**)[https://cran.r-project.org/web/packages/rgeos/index.html](Bivand & Rundel 2018) package is installed. Also, it's possibe to directly provide SpatialPolygons as sample plots.
+
+### References
+
+Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal, https://journal.r-project.org/archive/2018/RJ-2018-009/
+
+Roger Bivand and Colin Rundel (2018). rgeos: Interface to Geometry Engine - Open Source ('GEOS'). R package version 0.4-2. https://CRAN.R-project.org/package=rgeos
+
+Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013. Applied spatial data analysis with R, Second edition. Springer, NY. http://www.asdar-book.org/

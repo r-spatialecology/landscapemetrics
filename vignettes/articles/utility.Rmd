@@ -23,8 +23,7 @@ library(landscapetools)
 ## Visualisization functions
 
 ### Visualizing landscapes
-We can use the `show_landscape` function from [landscapetools](https://github.com/ropensci/landscapetools) to have look
-at our landscape.
+We can use the `show_landscape` function from [landscapetools](https://github.com/ropensci/landscapetools) to have look at our landscape.
 
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
 library(landscapetools)
@@ -33,9 +32,7 @@ library(landscapetools)
 show_landscape(landscape) 
 ```
 
-This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics 
-we are interested in. This why we show in the following how to dissect this landscape visually into the compoments,
-that drive the calculation of landscape metrics.
+This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. This why we show in the following how to dissect this landscape visually into the compoments, that drive the calculation of landscape metrics.
 
 ### Visualizing patches
 
@@ -62,7 +59,7 @@ To show only the core area, there is the visualization function `show_cores`. Th
 show_cores(landscape, class = c(1, 2), labels = FALSE)
 ```
 
-Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`).
+Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`). To get the result as a *RasterLayer*, there is `get_lsm()`.
 
 ```{r fig.width=7, fig.height=7, fig.asp=0.50, fig.align='center', fig.retina = 2}
 # fill patch according to area
