@@ -11,37 +11,37 @@
 \usage{
 window_lsm(landscape, window, what, level, metric, name, type, directions,
   count_boundary, consider_boundary, edge_depth, classes_max,
-  neighbourhood, ordered, base)
+  neighbourhood, ordered, base, verbose)
 
 \method{window_lsm}{RasterLayer}(landscape, window, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+  ordered = TRUE, base = "log2", verbose = TRUE)
 
 \method{window_lsm}{RasterStack}(landscape, window, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+  ordered = TRUE, base = "log2", verbose = TRUE)
 
 \method{window_lsm}{RasterBrick}(landscape, window, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+  ordered = TRUE, base = "log2", verbose = TRUE)
 
 \method{window_lsm}{stars}(landscape, window, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+  ordered = TRUE, base = "log2", verbose = TRUE)
 
 \method{window_lsm}{list}(landscape, window, what = NULL, level = NULL,
   metric = NULL, name = NULL, type = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2")
+  base = "log2", verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -80,6 +80,8 @@ The default is TRUE.}
 
 \item{base}{The unit in which entropy is measured. The default is "log2",
 which compute entropy in "bits". "log" and "log10" can be also used.}
+
+\item{verbose}{Print warning messages}
 }
 \value{
 list

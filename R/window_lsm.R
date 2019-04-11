@@ -24,6 +24,7 @@
 #' The default is TRUE.
 #' @param base The unit in which entropy is measured. The default is "log2",
 #' which compute entropy in "bits". "log" and "log10" can be also used.
+#' @param verbose Print warning messages
 #'
 #' @details
 #' The function calculates for each focal cell the selected landscape metrics (currently only landscape level
@@ -72,7 +73,8 @@ window_lsm <- function(landscape, window,
                        classes_max,
                        neighbourhood,
                        ordered,
-                       base) UseMethod("window_lsm")
+                       base,
+                       verbose) UseMethod("window_lsm")
 
 
 #' @name window_lsm
@@ -91,7 +93,8 @@ window_lsm.RasterLayer <- function(landscape,
                                    classes_max = NULL,
                                    neighbourhood = 4,
                                    ordered = TRUE,
-                                   base = "log2") {
+                                   base = "log2",
+                                   verbose = TRUE) {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -112,19 +115,23 @@ window_lsm.RasterLayer <- function(landscape,
 
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
         result_layer <- lapply(metrics_list, function(current_metric) {
-
-            # get coordinates of cells
-            points <- raster_to_points(current_landscape)
-
-            # resolution of original raster
-            resolution <- raster::res(current_landscape)
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
                                     resolution = resolution,
                                     points = points,
                                     what = current_metric,
@@ -135,7 +142,8 @@ window_lsm.RasterLayer <- function(landscape,
                                     classes_max = classes_max,
                                     neighbourhood = neighbourhood,
                                     ordered = ordered,
-                                    base = base)},
+                                    base = base,
+                                    verbose = verbose)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -163,7 +171,8 @@ window_lsm.RasterStack <- function(landscape,
                                    classes_max = NULL,
                                    neighbourhood = 4,
                                    ordered = TRUE,
-                                   base = "log2") {
+                                   base = "log2",
+                                   verbose = TRUE) {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -190,13 +199,17 @@ window_lsm.RasterStack <- function(landscape,
         # resolution of original raster
         resolution <- raster::res(current_landscape)
 
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
         result_layer <- lapply(metrics_list, function(current_metric) {
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
                                     resolution = resolution,
                                     points = points,
                                     what = current_metric,
@@ -207,7 +220,8 @@ window_lsm.RasterStack <- function(landscape,
                                     classes_max = classes_max,
                                     neighbourhood = neighbourhood,
                                     ordered = ordered,
-                                    base = base)},
+                                    base = base,
+                                    verbose = verbose)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -235,7 +249,8 @@ window_lsm.RasterBrick <- function(landscape,
                                    classes_max = NULL,
                                    neighbourhood = 4,
                                    ordered = TRUE,
-                                   base = "log2") {
+                                   base = "log2",
+                                   verbose = TRUE) {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -262,13 +277,17 @@ window_lsm.RasterBrick <- function(landscape,
         # resolution of original raster
         resolution <- raster::res(current_landscape)
 
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
         result_layer <- lapply(metrics_list, function(current_metric) {
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
                                     what = current_metric,
                                     resolution = resolution,
                                     points = points,
@@ -279,7 +298,8 @@ window_lsm.RasterBrick <- function(landscape,
                                     classes_max = classes_max,
                                     neighbourhood = neighbourhood,
                                     ordered = ordered,
-                                    base = base)},
+                                    base = base,
+                                    verbose = verbose)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -307,7 +327,8 @@ window_lsm.stars <- function(landscape,
                              classes_max = NULL,
                              neighbourhood = 4,
                              ordered = TRUE,
-                             base = "log2") {
+                             base = "log2",
+                             verbose = TRUE) {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -327,27 +348,25 @@ window_lsm.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    # get coordinates of cells
-    points <- raster_to_points(current_landscape)
-
-    # resolution of original raster
-    resolution <- raster::res(current_landscape)
-
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
         result_layer <- lapply(metrics_list, function(current_metric) {
-
-            # get coordinates of cells
-            points <- raster_to_points(current_landscape)
-
-            # resolution of original raster
-            resolution <- raster::res(current_landscape)
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
                                     resolution = resolution,
                                     points = points,
                                     what = current_metric,
@@ -358,7 +377,8 @@ window_lsm.stars <- function(landscape,
                                     classes_max = classes_max,
                                     neighbourhood = neighbourhood,
                                     ordered = ordered,
-                                    base = base)},
+                                    base = base,
+                                    verbose = verbose)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -386,7 +406,8 @@ window_lsm.list <- function(landscape,
                             classes_max = NULL,
                             neighbourhood = 4,
                             ordered = TRUE,
-                            base = "log2") {
+                            base = "log2",
+                            verbose = TRUE) {
 
     # get list of metrics to calculate
     metrics_list <- landscapemetrics::list_lsm(level = level,
@@ -413,13 +434,17 @@ window_lsm.list <- function(landscape,
         # resolution of original raster
         resolution <- raster::res(current_landscape)
 
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
         result_layer <- lapply(metrics_list, function(current_metric) {
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
                                     what = current_metric,
                                     resolution = resolution,
                                     points = points,
@@ -430,7 +455,8 @@ window_lsm.list <- function(landscape,
                                     classes_max = classes_max,
                                     neighbourhood = neighbourhood,
                                     ordered = ordered,
-                                    base = base)},
+                                    base = base,
+                                    verbose = verbose)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -443,7 +469,7 @@ window_lsm.list <- function(landscape,
 }
 
 calculate_lsm_focal <- function(landscape,
-                                nrow, ncol,
+                                n_row, n_col,
                                 resolution,
                                 points,
                                 what,
@@ -454,11 +480,11 @@ calculate_lsm_focal <- function(landscape,
                                 classes_max,
                                 neighbourhood,
                                 ordered,
-                                base) {
+                                base,
+                                verbose) {
 
-    raster_window <- matrix(landscape, nrow, ncol)
-
-    verbose <- FALSE
+    # convert focal window to matrix
+    raster_window <- matrix(landscape, n_row, n_col)
 
     what <- paste0(what, "_calc")
 
@@ -467,7 +493,9 @@ calculate_lsm_focal <- function(landscape,
 
     # get argument
     arguments <- names(formals(foo))[-1]
+
     arguments <- mget(arguments)
+
     arguments$landscape <- raster_window
 
     # run function
