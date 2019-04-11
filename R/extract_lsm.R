@@ -280,7 +280,7 @@ extract_lsm_int <- function(landscape,
     y <- sp::disaggregate(y)
   }
 
-  else if (!methods::is(y, "matrix") & !methods::is(y, "SpatialPoints")) {
+  else if (!methods::is(y, "matrix") & !methods::is(y, "SpatialPoints") & !methods::is(y, "SpatialPointsDataFrame")) {
 
     stop("'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.",
          call. = FALSE)
