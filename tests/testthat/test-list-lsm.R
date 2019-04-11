@@ -86,4 +86,9 @@ test_that("list_lsm returns error", {
                  allowed for the same argument.",
                  fixed = TRUE)
 
+    expect_error(list_lsm(what = "lsm_p_made_up"),
+                 grep = "Selected metrics do not exist. Please use 'list_lsm()'
+                 to see all available metrics.",
+                 fixed = TRUE)
+
 })

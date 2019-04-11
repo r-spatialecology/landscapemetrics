@@ -48,31 +48,31 @@ list_lsm <- function(level = NULL,
                      simplify = FALSE,
                      verbose = TRUE) {
 
-    lsm_abbreviations_names_modified <- landscapemetrics::lsm_abbreviations_names
+    lsm_abbreviations_names_modified <- lsm_abbreviations_names
 
     lsm_abbreviations_names_modified$metric_new <- vapply(X = strsplit(lsm_abbreviations_names_modified$metric,
                                                                        split = "_"),
                                                           FUN = function(x) x[1],
                                                           FUN.VALUE = character(1))
 
-    if(!is.null(what)) {
+    if (!is.null(what)) {
 
-        if(any(grepl(pattern = "[-]", x = what))) {
+        if (any(grepl(pattern = "[-]", x = what))) {
             stop("Negative strings not allowed for 'what' argument. Please use other arguments for negative subsets.",
                  call. = FALSE)
         }
 
-        if(!is.null(c(level, metric, name, type))) {
+        if (!is.null(c(level, metric, name, type))) {
 
             level  <- NULL
             metric <- NULL
             name <- NULL
             type <- NULL
 
-            if(verbose) {warning("Only using 'what' argument.", call. = FALSE)}
+            if (verbose) {warning("Only using 'what' argument.", call. = FALSE)}
         }
 
-        if(any(what %in% c("patch", "class", "landscape"))){
+        if (any(what %in% c("patch", "class", "landscape"))) {
             level <- what[what %in% c("patch", "class", "landscape")]
             what <- what[!what %in% c("patch", "class", "landscape")]
         }
@@ -85,15 +85,17 @@ list_lsm <- function(level = NULL,
 
     else{
 
-        if(is.null(level)) {
+        if (is.null(level)) {
 
             level <- unique(lsm_abbreviations_names_modified$level)
 
-        } else {
+        }
 
-            if(any(grepl(pattern = "[-]", x = level))) {
+        else {
 
-                if(!all(pattern = grepl("[-]", x = level))) {
+            if (any(grepl(pattern = "[-]", x = level))) {
+
+                if (!all(pattern = grepl("[-]", x = level))) {
                     stop("Mixing of positive and negative strings as subset not allowed for the same argument.")
                 }
 
@@ -108,15 +110,17 @@ list_lsm <- function(level = NULL,
             }
         }
 
-        if(is.null(metric)){
+        if (is.null(metric)) {
 
             metric <- unique(lsm_abbreviations_names_modified$metric_new)
 
-        } else {
+        }
 
-            if(any(grepl(pattern = "[-]", x = metric))) {
+        else {
 
-                if(!all(pattern = grepl("[-]", x = metric))) {
+            if (any(grepl(pattern = "[-]", x = metric))) {
+
+                if (!all(pattern = grepl("[-]", x = metric))) {
                     stop("Mixing of positive and negative strings as subset not allowed for the same argument.")
                 }
 
@@ -130,15 +134,17 @@ list_lsm <- function(level = NULL,
             }
         }
 
-        if(is.null(name)){
+        if (is.null(name)) {
 
             name <- unique(lsm_abbreviations_names_modified$name)
 
-        } else {
+        }
 
-            if(any(grepl(pattern = "[-]", x = name))) {
+        else {
 
-                if(!all(pattern = grepl("[-]", x = name))) {
+            if (any(grepl(pattern = "[-]", x = name))) {
+
+                if (!all(pattern = grepl("[-]", x = name))) {
                     stop("Mixing of positive and negative strings as subset not allowed for the same argument.")
                 }
 
@@ -152,14 +158,15 @@ list_lsm <- function(level = NULL,
             }
         }
 
-        if(is.null(type)){
+        if (is.null(type)) {
 
             type <- unique(lsm_abbreviations_names_modified$type)
 
         } else {
-            if(any(grepl(pattern = "[-]", x = type))) {
 
-                if(!all(pattern = grepl("[-]", x = type))) {
+            if (any(grepl(pattern = "[-]", x = type))) {
+
+                if (!all(pattern = grepl("[-]", x = type))) {
                     stop("Mixing of positive and negative strings as subset not allowed for the same argument.")
                 }
 
@@ -183,7 +190,13 @@ list_lsm <- function(level = NULL,
 
     result <- result[, -6]
 
-    if(simplify) {
+    if (nrow(result) == 0) {
+
+        stop("Selected metrics do not exist. Please use 'list_lsm()' to see all available metrics.",
+             call. = FALSE)
+    }
+
+    if (simplify) {
         result <- result$function_name
     }
 
