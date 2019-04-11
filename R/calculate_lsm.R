@@ -3,12 +3,12 @@
 #' @description Calculate a selected group of metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param level Level of metrics to calculate (e.g. 'landscape').
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
@@ -384,17 +384,13 @@ calculate_lsm_internal <- function(landscape,
                                    progress) {
 
     # get name of metrics
-    metrics <- landscapemetrics::list_lsm(level = level,
-                                          metric = metric,
-                                          name = name,
-                                          type = type,
-                                          what = what,
-                                          simplify = TRUE,
-                                          verbose = verbose)
-
-    if (length(metrics) == 0) {
-        stop("Selected metrics do not exist. Please use list_lsm() to see all available metrics.", call. = FALSE)
-    }
+    metrics <- list_lsm(level = level,
+                        metric = metric,
+                        name = name,
+                        type = type,
+                        what = what,
+                        simplify = TRUE,
+                        verbose = verbose)
 
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
@@ -438,7 +434,7 @@ calculate_lsm_internal <- function(landscape,
                           "name", "type", "function_name")
 
         result <- merge(x = result,
-                        y = landscapemetrics::lsm_abbreviations_names,
+                        y = lsm_abbreviations_names,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 

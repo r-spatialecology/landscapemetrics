@@ -168,28 +168,30 @@ show_lsm_intern <- function(landscape, what, class,
                             labels, label_lsm,
                             nrow, ncol) {
 
-    patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
+    if (!what %in% list_lsm(level = "patch", simplify = TRUE) || length(what) > 1) {
 
-    if(!what %in% patch_metrics || length(what) > 1){
         stop("Please provide one patch level metric only. To list available metrics, run list_lsm(level = 'patch').",
              call. = FALSE)
     }
 
-    if(any(!(class %in% c("all", "global")))){
-        if (!any(class %in% raster::unique(landscape))){
+    if (any(!(class %in% c("all", "global")))) {
+
+        if (!any(class %in% raster::unique(landscape))) {
+
             stop("'class' must contain at least one value of a class existing in the landscape.",
                  call. = FALSE)
         }
     }
 
-    if(length(class) > 1 & any(class %in% c("all", "global"))){
+    if (length(class) > 1 & any(class %in% c("all", "global"))) {
+
         warning("'global' and 'all' can't be combined with any other class-argument.",
                 call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)){
+    for (i in seq_len(length(landscape_labeled) - 1)) {
 
         max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
@@ -198,12 +200,16 @@ show_lsm_intern <- function(landscape, what, class,
 
     lsm_fun <- match.fun(what)
 
-    if(what %in% c("lsm_p_core", "lsm_p_ncore")) {
+    if (what %in% c("lsm_p_core", "lsm_p_ncore")) {
+
         fill_value <- lsm_fun(landscape,
                               directions = directions,
                               consider_boundary = consider_boundary,
                               edge_depth = edge_depth)
-    } else {
+    }
+
+    else {
+
         fill_value <- lsm_fun(landscape, directions = directions)
     }
 
@@ -254,21 +260,26 @@ show_lsm_intern <- function(landscape, what, class,
                                 all.x = TRUE,
                                 suffixes = c(".get_patches", ".lsm"))
 
-        if (any(!(class %in% "all"))){
+        if (any(!(class %in% "all"))) {
+
             class_index <- which(patches_tibble$class.get_patches %in% class)
             patches_tibble <- patches_tibble[class_index, ]
         }
 
         if (!labels) {
+
             patches_tibble$label <- NA
         }
 
         else {
-            if(label_lsm){
+
+            if (label_lsm) {
+
                 patches_tibble$label <- round(patches_tibble$value, 2)
             }
 
             else{
+
                 patches_tibble$label <- patches_tibble$id
             }
         }

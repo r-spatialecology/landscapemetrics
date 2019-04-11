@@ -31,13 +31,14 @@ extract_lsm(landscape, y, metric, name, type, what, directions, ...)
 
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
 
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
+\item{metric}{Abbreviation of metrics (e.g. 'area').}
 
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
+\item{name}{Full name of metrics (e.g. 'core area')}
 
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+\item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
 
-\item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
+\item{what}{Selected level of metrics: either "patch", "class" or "landscape".
+It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

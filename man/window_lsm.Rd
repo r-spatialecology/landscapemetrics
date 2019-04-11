@@ -9,36 +9,36 @@
 \alias{window_lsm.list}
 \title{window_lsm}
 \usage{
-window_lsm(landscape, window, what, level, metric, name, type, directions,
+window_lsm(landscape, window, metric, name, type, what, directions,
   count_boundary, consider_boundary, edge_depth, classes_max,
   neighbourhood, ordered, base, verbose)
 
-\method{window_lsm}{RasterLayer}(landscape, window, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", verbose = TRUE)
+\method{window_lsm}{RasterLayer}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", verbose = TRUE)
 
-\method{window_lsm}{RasterStack}(landscape, window, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", verbose = TRUE)
+\method{window_lsm}{RasterStack}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", verbose = TRUE)
 
-\method{window_lsm}{RasterBrick}(landscape, window, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", verbose = TRUE)
+\method{window_lsm}{RasterBrick}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", verbose = TRUE)
 
-\method{window_lsm}{stars}(landscape, window, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", verbose = TRUE)
+\method{window_lsm}{stars}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
+  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
+  base = "log2", verbose = TRUE)
 
-\method{window_lsm}{list}(landscape, window, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
+\method{window_lsm}{list}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
   base = "log2", verbose = TRUE)
@@ -48,16 +48,14 @@ window_lsm(landscape, window, what, level, metric, name, type, directions,
 
 \item{window}{matrix}
 
+\item{metric}{Abbreviation of metrics (e.g. 'area').}
+
+\item{name}{Full name of metrics (e.g. 'core area')}
+
+\item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
+
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{level}{Level of metrics to calculate (e.g. 'landscape').}
-
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
-
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
-
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

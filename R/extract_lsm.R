@@ -4,10 +4,11 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
-#' @param what String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
+#' @param what Selected level of metrics: either "patch", "class" or "landscape".
+#' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param ... Arguments passed to \code{calculate_lsm()}.
@@ -217,24 +218,15 @@ extract_lsm_int <- function(landscape,
                             metric, name, type, what,
                             directions,
                             ...) {
-  # get all patch level metrics if not specified
-  if (is.null(what)) {
-    level <- "patch"
-  }
-
-  # what already specified
-  else {
-    level <- NULL
-  }
 
   # get list of metrics to calculate
-  metrics_list <- landscapemetrics::list_lsm(level = level,
-                                             metric = metric,
-                                             name = name,
-                                             type = type,
-                                             what = what,
-                                             simplify = TRUE,
-                                             verbose = FALSE)
+  metrics_list <- list_lsm(level = "patch",
+                           metric = metric,
+                           name = name,
+                           type = type,
+                           what = what,
+                           simplify = TRUE,
+                           verbose = FALSE)
 
   # check if only patch level metrics are selected
   if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {

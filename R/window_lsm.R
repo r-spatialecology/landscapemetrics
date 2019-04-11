@@ -4,12 +4,11 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param window matrix
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param level Level of metrics to calculate (e.g. 'landscape').
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
@@ -65,7 +64,7 @@
 #'
 #' @export
 window_lsm <- function(landscape, window,
-                       what, level, metric, name, type,
+                       metric, name, type, what,
                        directions,
                        count_boundary,
                        consider_boundary,
@@ -81,11 +80,10 @@ window_lsm <- function(landscape, window,
 #' @export
 window_lsm.RasterLayer <- function(landscape,
                                    window,
-                                   what = NULL,
-                                   level = NULL,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
+                                   what = NULL,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -97,17 +95,16 @@ window_lsm.RasterLayer <- function(landscape,
                                    verbose = TRUE) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
 
         stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
@@ -159,11 +156,10 @@ window_lsm.RasterLayer <- function(landscape,
 #' @export
 window_lsm.RasterStack <- function(landscape,
                                    window,
-                                   what = NULL,
-                                   level = NULL,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
+                                   what = NULL,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -175,17 +171,16 @@ window_lsm.RasterStack <- function(landscape,
                                    verbose = TRUE) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
 
         stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
@@ -237,11 +232,10 @@ window_lsm.RasterStack <- function(landscape,
 #' @export
 window_lsm.RasterBrick <- function(landscape,
                                    window,
-                                   what = NULL,
-                                   level = NULL,
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
+                                   what = NULL,
                                    directions = 8,
                                    count_boundary = FALSE,
                                    consider_boundary = FALSE,
@@ -253,17 +247,16 @@ window_lsm.RasterBrick <- function(landscape,
                                    verbose = TRUE) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
 
         stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
@@ -315,11 +308,10 @@ window_lsm.RasterBrick <- function(landscape,
 #' @export
 window_lsm.stars <- function(landscape,
                              window,
-                             what = NULL,
-                             level = NULL,
                              metric = NULL,
                              name = NULL,
                              type = NULL,
+                             what = NULL,
                              directions = 8,
                              count_boundary = FALSE,
                              consider_boundary = FALSE,
@@ -331,18 +323,18 @@ window_lsm.stars <- function(landscape,
                              verbose = TRUE) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
@@ -394,11 +386,10 @@ window_lsm.stars <- function(landscape,
 #' @export
 window_lsm.list <- function(landscape,
                             window,
-                            what = NULL,
-                            level = NULL,
                             metric = NULL,
                             name = NULL,
                             type = NULL,
+                            what = NULL,
                             directions = 8,
                             count_boundary = FALSE,
                             consider_boundary = FALSE,
@@ -410,17 +401,16 @@ window_lsm.list <- function(landscape,
                             verbose = TRUE) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
 
         stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)

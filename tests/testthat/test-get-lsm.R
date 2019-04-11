@@ -8,7 +8,7 @@ test_that("get_lsm returns all selected metrics", {
                       verbose = FALSE)
 
     expect_length(object = result, n = 1)
-    expect_equal(object =names(result[[1]]),
+    expect_equal(object = names(result[[1]]),
                  expected = c("lsm_p_area", "lsm_p_contig", "lsm_p_perim"))
     expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
 })

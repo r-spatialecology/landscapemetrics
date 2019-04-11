@@ -3,12 +3,11 @@
 #' @description Get landscape metric values
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param level Level of metrics to calculate (e.g. 'landscape').
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param count_boundary Include landscape boundary in edge length
@@ -50,11 +49,7 @@
 #'
 #' @export
 get_lsm <- function(landscape,
-                    what,
-                    level,
-                    metric,
-                    name,
-                    type,
+                    metric, name, type, what,
                     directions,
                     count_boundary,
                     consider_boundary,
@@ -68,11 +63,10 @@ get_lsm <- function(landscape,
 #' @name get_lsm
 #' @export
 get_lsm.RasterLayer <- function(landscape,
-                                what = NULL,
-                                level = "patch",
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
+                                what = NULL,
                                 directions = 8,
                                 count_boundary = FALSE,
                                 consider_boundary = FALSE,
@@ -106,11 +100,10 @@ get_lsm.RasterLayer <- function(landscape,
 #' @name get_lsm
 #' @export
 get_lsm.RasterStack <- function(landscape,
-                                what = NULL,
-                                level = "patch",
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
+                                what = NULL,
                                 directions = 8,
                                 count_boundary = FALSE,
                                 consider_boundary = FALSE,
@@ -144,11 +137,10 @@ get_lsm.RasterStack <- function(landscape,
 #' @name get_lsm
 #' @export
 get_lsm.RasterBrick <- function(landscape,
-                                what = NULL,
-                                level = "patch",
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
+                                what = NULL,
                                 directions = 8,
                                 count_boundary = FALSE,
                                 consider_boundary = FALSE,
@@ -182,11 +174,10 @@ get_lsm.RasterBrick <- function(landscape,
 #' @name get_lsm
 #' @export
 get_lsm.stars <- function(landscape,
-                          what = NULL,
-                          level = "patch",
                           metric = NULL,
                           name = NULL,
                           type = NULL,
+                          what = NULL,
                           directions = 8,
                           count_boundary = FALSE,
                           consider_boundary = FALSE,
@@ -222,11 +213,10 @@ get_lsm.stars <- function(landscape,
 #' @name get_lsm
 #' @export
 get_lsm.list <- function(landscape,
-                         what = NULL,
-                         level = "patch",
                          metric = NULL,
                          name = NULL,
                          type = NULL,
+                         what = NULL,
                          directions = 8,
                          count_boundary = FALSE,
                          consider_boundary = FALSE,
@@ -273,26 +263,18 @@ get_lsm_internal <- function(landscape,
                              base,
                              verbose) {
 
-    # get all patch level metrics to check
-    patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
-
-    # set level null if what is provided
-    if(!is.null(what)) {
-        level = NULL
-    }
-
     # get name of metrics
-    metrics <- landscapemetrics::list_lsm(level = level,
-                                          metric = metric,
-                                          name = name,
-                                          type = type,
-                                          what = what,
-                                          simplify = TRUE,
-                                          verbose = verbose)
+    metrics <- list_lsm(level = "patch",
+                        metric = metric,
+                        name = name,
+                        type = type,
+                        what = what,
+                        simplify = TRUE,
+                        verbose = verbose)
 
     # error if no patch level metrics are provided
-    if(!all(metrics %in% patch_metrics) || length(metrics) == 0){
-        stop("Please provide (at least one) patch level metrics only. To list available metrics, run list_lsm(level = 'patch').",
+    if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {
+        stop("'get_lsm()' only takes patch level metrics.",
              call. = FALSE)
     }
 
@@ -303,7 +285,7 @@ get_lsm_internal <- function(landscape,
     landscape_labeled <- get_patches(landscape, directions = directions)
 
     # continious, unique patch id
-    for(i in seq_len(length(landscape_labeled) - 1)){
+    for (i in seq_len(length(landscape_labeled) - 1)) {
 
         max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 

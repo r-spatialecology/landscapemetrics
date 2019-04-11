@@ -9,53 +9,46 @@
 \alias{get_lsm.list}
 \title{get_lsm}
 \usage{
-get_lsm(landscape, what, level, metric, name, type, directions,
-  count_boundary, consider_boundary, edge_depth, classes_max,
-  neighbourhood, ordered, base, verbose)
+get_lsm(landscape, metric, name, type, what, directions, count_boundary,
+  consider_boundary, edge_depth, classes_max, neighbourhood, ordered, base,
+  verbose)
 
-\method{get_lsm}{RasterLayer}(landscape, what = NULL, level = "patch",
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+\method{get_lsm}{RasterLayer}(landscape, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
 
-\method{get_lsm}{RasterStack}(landscape, what = NULL, level = "patch",
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+\method{get_lsm}{RasterStack}(landscape, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
 
-\method{get_lsm}{RasterBrick}(landscape, what = NULL, level = "patch",
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+\method{get_lsm}{RasterBrick}(landscape, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
 
-\method{get_lsm}{stars}(landscape, what = NULL, level = "patch",
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+\method{get_lsm}{stars}(landscape, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
 
-\method{get_lsm}{list}(landscape, what = NULL, level = "patch",
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+\method{get_lsm}{list}(landscape, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
+  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
+  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
+\item{metric}{Abbreviation of metrics (e.g. 'area').}
+
+\item{name}{Full name of metrics (e.g. 'core area')}
+
+\item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
+
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{level}{Level of metrics to calculate (e.g. 'landscape').}
-
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
-
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
-
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
