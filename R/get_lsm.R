@@ -38,10 +38,7 @@
 #' @return list
 #'
 #' @examples
-#' \dontrun{
 #' get_lsm(landscape, what = "lsm_p_area")
-#' get_lsm(landscape_stack, what = c("lsm_p_area", "lsm_p_perim"))
-#' }
 #'
 #' @aliases get_lsm
 #'
@@ -270,7 +267,7 @@ get_lsm_internal <- function(landscape,
                         type = type,
                         what = what,
                         simplify = TRUE,
-                        verbose = verbose)
+                        verbose = FALSE)
 
     # error if no patch level metrics are provided
     if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {

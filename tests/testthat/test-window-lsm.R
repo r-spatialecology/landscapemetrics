@@ -7,6 +7,7 @@ test_that("window_lsm returns a list with selected metrics", {
     result <- window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 
     expect_equal(names(result[[1]]), expected = c("lsm_l_joinent", "lsm_l_pr"))
+
     expect_length(result[[1]], n = 2)
 })
 

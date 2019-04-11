@@ -88,10 +88,7 @@ The second level contains a \code{RasterLayer} for each selected metric
 value of the patch it belongs to. Only patch level metrics are allowed.
 }
 \examples{
-\dontrun{
 get_lsm(landscape, what = "lsm_p_area")
-get_lsm(landscape_stack, what = c("lsm_p_area", "lsm_p_perim"))
-}
 
 }
 \seealso{

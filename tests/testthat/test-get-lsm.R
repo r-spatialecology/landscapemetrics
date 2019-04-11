@@ -20,8 +20,13 @@ test_that("get_lsm returns returns correct type of metrics", {
     result <- get_lsm(landscape, type = "shape metric",
                       verbose = FALSE)
 
+    result_all <- get_lsm(landscape, verbose = FALSE)
+
     expect_equal(object = names(result[[1]]),
                  expected = metrics)
+
+    expect_equal(object = names(result_all[[1]]),
+                 expected = list_lsm(level = "patch", simplify = TRUE))
 })
 
 test_that("get_lsm returns returns CRS", {
