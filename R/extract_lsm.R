@@ -261,13 +261,13 @@ extract_lsm_int <- function(landscape,
     else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
 
       stop(
-        "landscapemetrics currently only supports point features for landscape metrics extraction."
+        "landscapemetrics currently only supports sf point features for landscape metrics extraction."
       )
     }
   }
 
   # if Spatial Lines disaggregate
-  else if (methods::is(y, "SpatialLines")) {
+  else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
 
     y <- sp::disaggregate(y)
   }

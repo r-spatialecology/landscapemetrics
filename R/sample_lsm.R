@@ -239,7 +239,7 @@ sample_lsm_int <- function(landscape,
                            ...) {
 
     # use polygon
-    if (methods::is(y, "SpatialPolygons")) {
+    if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
 
         # disaggregate if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
@@ -263,7 +263,7 @@ sample_lsm_int <- function(landscape,
     }
 
     # use points
-    else if (methods::is(y, "SpatialPoints") | methods::is(y, "matrix")) {
+    else if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
 
         # points are matrix
         if (methods::is(y, "matrix")) {
@@ -308,7 +308,7 @@ sample_lsm_int <- function(landscape,
                               size = size)
     }
 
-    else if (methods::is(y, "SpatialLines")) {
+    else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
 
         # check if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
