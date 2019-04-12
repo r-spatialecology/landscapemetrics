@@ -124,7 +124,7 @@ show_lsm.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    lapply(X = landscape,
+    lapply(X = raster::as.list(landscape),
            FUN = show_lsm_intern,
            what = what,
            class = class,

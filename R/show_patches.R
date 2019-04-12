@@ -89,7 +89,7 @@ show_patches.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    lapply(X = landscape,
+    lapply(X = raster::as.list(landscape),
            FUN = show_patches_intern,
            class = class,
            directions = directions,

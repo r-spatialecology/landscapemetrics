@@ -113,7 +113,7 @@ window_lsm.RasterLayer <- function(landscape,
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
         # get coordinates of cells
-        points <- raster_to_points(current_landscape)
+        points <- raster_to_points(current_landscape)[, 2:4]
 
         # resolution of original raster
         resolution <- raster::res(current_landscape)
@@ -189,7 +189,7 @@ window_lsm.RasterStack <- function(landscape,
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
         # get coordinates of cells
-        points <- raster_to_points(current_landscape)
+        points <- raster_to_points(current_landscape)[, 2:4]
 
         # resolution of original raster
         resolution <- raster::res(current_landscape)
@@ -265,7 +265,7 @@ window_lsm.RasterBrick <- function(landscape,
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
         # get coordinates of cells
-        points <- raster_to_points(current_landscape)
+        points <- raster_to_points(current_landscape)[, 2:4]
 
         # resolution of original raster
         resolution <- raster::res(current_landscape)
@@ -343,7 +343,7 @@ window_lsm.stars <- function(landscape,
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
         # get coordinates of cells
-        points <- raster_to_points(current_landscape)
+        points <- raster_to_points(current_landscape)[, 2:4]
 
         # resolution of original raster
         resolution <- raster::res(current_landscape)
@@ -419,7 +419,7 @@ window_lsm.list <- function(landscape,
     result <- lapply(landscape, function(current_landscape) {
 
         # get coordinates of cells
-        points <- raster_to_points(current_landscape)
+        points <- raster_to_points(current_landscape)[, 2:4]
 
         # resolution of original raster
         resolution <- raster::res(current_landscape)

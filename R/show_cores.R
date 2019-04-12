@@ -121,7 +121,7 @@ show_cores.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    lapply(X = landscape,
+    lapply(X = raster::as.list(landscape),
            FUN = show_cores_intern,
            directions = directions,
            class = class,

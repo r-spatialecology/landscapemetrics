@@ -29,78 +29,196 @@
 #'
 #' @export
 get_boundaries <- function(landscape,
-                           directions = 4,
-                           as_NA = FALSE,
-                           return_raster = TRUE){
+                           directions,
+                           as_NA,
+                           return_raster) UseMethod("get_boundaries")
 
-    # check if either raster or matrix is provided
-    if(class(landscape) != "RasterLayer" && class(landscape) != "matrix") {
-        stop("Please provide RasterLayer or matrix as input.", call. = FALSE)
-    }
+#' @name get_boundaries
+#' @export
+get_boundaries.RasterLayer <- function(landscape,
+                                       directions = 4,
+                                       as_NA = FALSE,
+                                       return_raster = TRUE) {
 
     # check if either directions are possible
-    if(directions != 4 && directions != 8) {
+    if (directions != 4 && directions != 8) {
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }
 
-    # input is raster
-    if(class(landscape) == "RasterLayer") {
+    # get boundaries
+    result <- rcpp_get_boundaries(raster::as.matrix(landscape),
+                                  directions = directions)
 
-        # get boundaries
-        result <- rcpp_get_boundaries(raster::as.matrix(landscape),
-                                      directions = directions)
-
-        if(as_NA) {
-            result[which(result == 0)] <- NA
-        }
-
-        # convert back to raster
-        if(return_raster) {
-            result <- matrix_to_raster(matrix = result,
-                                       landscape = landscape)
-        }
-
-        return(result)
+    if (as_NA) {
+        result[which(result == 0)] <- NA
     }
 
-    # input is matrix
-    else{
-
-        # get boundaries
-        result <- rcpp_get_boundaries(landscape,
-                                      directions = directions)
-
-        if(as_NA) {
-            result[which(result == 0)] <- NA
-        }
-
-        if(return_raster) {
-            warning("return_raster = TRUE not able for matrix input")
-        }
-
-        return(result)
+    # convert back to raster
+    if (return_raster) {
+        result <- matrix_to_raster(matrix = result,
+                                   landscape = landscape)
     }
+
+    return(result)
 }
 
-# get_boundaries_old <- function(landscape, directions = 4){
-#
-#     if(class(landscape) == "RasterLayer") {
-#         landscape <- raster::as.matrix(landscape)
-#     }
-#
-#     if(class(landscape) != "matrix") {
-#         stop("Please provide matrix as input.", call. = FALSE)
-#     }
-#
-#     landscape <- cbind(landscape[, 1], landscape, landscape[, ncol(landscape)])
-#     landscape <- rbind(landscape[1,], landscape, landscape[nrow(landscape),])
-#     paddim <- as.integer(dim(landscape))
-#     classes <- 0L
-#     type <- 0L
-#     directions <- as.integer(directions)
-#
-#     x <- .Call('_edge', as.integer(t(landscape)), paddim, classes, type, directions, NAOK=TRUE, PACKAGE='raster')
-#     x <- matrix(x, nrow=paddim[1], ncol=paddim[2], byrow=TRUE)
-#     x <- x[2:(nrow(x)-1), 2:(ncol(x)-1)]
-#     return(x)
-# }
+#' @name get_boundaries
+#' @export
+get_boundaries.RasterStack <- function(landscape,
+                                       directions = 4,
+                                       as_NA = FALSE,
+                                       return_raster = TRUE) {
+
+    # check if either directions are possible
+    if (directions != 4 && directions != 8) {
+        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+    }
+
+    # get boundaries
+    result <- lapply(X = raster::as.list(landscape), function(x)
+        rcpp_get_boundaries(raster::as.matrix(x),
+                            directions = directions))
+
+    if (as_NA) {
+        result[which(result == 0)] <- NA
+    }
+
+    # convert back to raster
+    if (return_raster) {
+
+        result <- lapply(seq_along(result),
+                         function(x) matrix_to_raster(matrix = result[[x]],
+                                                      landscape = landscape[[x]]))
+
+        result <- raster::stack(result)
+    }
+
+    return(result)
+}
+
+#' @name get_boundaries
+#' @export
+get_boundaries.RasterBrick <- function(landscape,
+                                       directions = 4,
+                                       as_NA = FALSE,
+                                       return_raster = TRUE) {
+
+    # check if either directions are possible
+    if (directions != 4 && directions != 8) {
+        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+    }
+
+    # get boundaries
+    result <- lapply(X = raster::as.list(landscape), function(x)
+        rcpp_get_boundaries(raster::as.matrix(x),
+                            directions = directions))
+
+    if (as_NA) {
+        result[which(result == 0)] <- NA
+    }
+
+    # convert back to raster
+    if (return_raster) {
+
+        result <- lapply(seq_along(result),
+                         function(x) matrix_to_raster(matrix = result[[x]],
+                                                      landscape = landscape[[x]]))
+
+        result <- raster::stack(result)
+    }
+
+    return(result)
+}
+
+#' @name get_boundaries
+#' @export
+get_boundaries.stars <- function(landscape,
+                                 directions = 4,
+                                 as_NA = FALSE,
+                                 return_raster = TRUE) {
+
+    # check if either directions are possible
+    if (directions != 4 && directions != 8) {
+        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+    }
+
+    landscape <- methods::as(landscape, "Raster")
+
+    # get boundaries
+    result <- lapply(X = raster::as.list(landscape), function(x)
+        rcpp_get_boundaries(raster::as.matrix(x),
+                            directions = directions))
+
+    if (as_NA) {
+        result[which(result == 0)] <- NA
+    }
+
+    # convert back to raster
+    if (return_raster) {
+
+        result <- lapply(seq_along(result),
+                         function(x) matrix_to_raster(matrix = result[[x]],
+                                                      landscape = landscape[[x]]))
+
+        result <- raster::stack(result)
+    }
+
+    return(result)
+}
+
+#' @name get_boundaries
+#' @export
+get_boundaries.list <- function(landscape,
+                                directions = 4,
+                                as_NA = FALSE,
+                                return_raster = TRUE) {
+
+    # check if either directions are possible
+    if (directions != 4 && directions != 8) {
+        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+    }
+
+    # get boundaries
+    result <- lapply(X = landscape, function(x)
+        rcpp_get_boundaries(raster::as.matrix(x),
+                            directions = directions))
+
+    if (as_NA) {
+        result[which(result == 0)] <- NA
+    }
+
+    # convert back to raster
+    if (return_raster) {
+
+        result <- lapply(seq_along(result),
+                         function(x) matrix_to_raster(matrix = result[[x]],
+                                                      landscape = landscape[[x]]))
+
+        result <- raster::stack(result)
+    }
+
+    return(result)
+}
+
+
+#' @name get_boundaries
+#' @export
+get_boundaries.matrix <- function(landscape,
+                                  directions = 4,
+                                  as_NA = FALSE,
+                                  return_raster = TRUE) {
+
+    # get boundaries
+    result <- rcpp_get_boundaries(landscape,
+                                  directions = directions)
+
+    if (as_NA) {
+        result[which(result == 0)] <- NA
+    }
+
+    if (return_raster) {
+        warning("return_raster = TRUE not able for matrix input")
+    }
+
+    return(result)
+}

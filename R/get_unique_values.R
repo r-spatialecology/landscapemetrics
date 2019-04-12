@@ -37,15 +37,17 @@ get_unique_values.numeric <- function(x,
                                       simplify = FALSE,
                                       verbose = TRUE){
 
-    if(typeof(x) != "integer") {
-        if(verbose) {
+    if (typeof(x) != "integer") {
+
+        if (verbose) {
+
             warning("Double values will be converted to integer.", call. = FALSE)
         }
     }
 
     unique_values <- rcpp_get_unique_values(x)
 
-    if(simplify) {
+    if (simplify) {
         return(unique_values)
     }
 
@@ -62,7 +64,8 @@ get_unique_values.matrix <- function(x,
 
     unique_values <- rcpp_get_unique_values(x)
 
-    if(simplify) {
+    if (simplify) {
+
         return(unique_values)
     }
 
@@ -118,11 +121,13 @@ get_unique_values.RasterLayer <- function(x,
         unique_values <- rcpp_get_unique_values(c(block_1, block_2))
     }
 
-    if(simplify) {
+    if (simplify) {
+
         return(unique_values)
     }
 
     else {
+
         return(list(unique_values))
     }
 }
@@ -136,13 +141,13 @@ get_unique_values.list <- function(x,
     unique_values <- lapply(x, FUN = function(current_element) {
 
         # use simplify = TRUE here to avoid lists of lists
-        if(class(current_element) == "RasterLayer") {
+        if (class(current_element) == "RasterLayer") {
 
             return(get_unique_values.RasterLayer(current_element,
                                                  simplify = TRUE,
                                                  verbose = verbose))
 
-        } else if(class(current_element) %in% c("numeric",
+        } else if (class(current_element) %in% c("numeric",
                                                 "double",
                                                 "integer")) {
 
@@ -150,7 +155,7 @@ get_unique_values.list <- function(x,
                                              simplify = TRUE,
                                              verbose = verbose))
 
-        } else if(class(current_element) == "matrix") {
+        } else if (class(current_element) == "matrix") {
 
             get_unique_values.matrix(current_element,
                                      simplify = TRUE,
@@ -163,13 +168,16 @@ get_unique_values.list <- function(x,
         }
     })
 
-    if(simplify) {
-        if(length(unique_values) == 1) {
+    if (simplify) {
+
+        if (length(unique_values) == 1) {
+
             return(unique_values[[1]])
         }
 
         else {
-            if(verbose) {
+            if (verbose) {
+
                 warning("Not able to simply list with more than 1 element.", call. = FALSE)
             }
         }
@@ -188,8 +196,10 @@ get_unique_values.RasterStack <- function(x,
 
     unique_values <- get_unique_values.list(x)
 
-    if(simplify) {
-        if(verbose) {
+    if (simplify) {
+
+        if (verbose) {
+
             warning("Not able to simplify RasterStack.", call. = FALSE)
         }
     }
@@ -207,11 +217,37 @@ get_unique_values.RasterBrick <- function(x,
 
     unique_values <- get_unique_values.list(x)
 
-    if(simplify) {
-        if(verbose) {
+    if (simplify) {
+
+        if (verbose) {
+
             warning("Not able to simplify RasterBrick.", call. = FALSE)
         }
     }
 
     return(unique_values)
 }
+
+#' @name get_unique_values
+#' @export
+get_unique_values.stars <- function(x,
+                                    simplify = FALSE,
+                                    verbose = TRUE){
+
+    x <- methods::as(x, "Raster")
+
+    x <- raster::as.list(x)
+
+    unique_values <- get_unique_values.list(x)
+
+    if (simplify) {
+
+        if (verbose) {
+
+            warning("Not able to simplify stars", call. = FALSE)
+        }
+    }
+
+    return(unique_values)
+}
+
