@@ -27,6 +27,8 @@
 #' tibble.
 #' @param verbose Print warning messages
 #' @param progress Print progress report
+#' @param future Use \code{future.apply::future_apply}.
+#' The default is FALSE.
 #'
 #' @details
 #' Wrapper to calculate several landscape metrics. The metrics can be specified

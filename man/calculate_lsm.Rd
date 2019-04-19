@@ -90,6 +90,9 @@ tibble.}
 \item{verbose}{Print warning messages}
 
 \item{progress}{Print progress report}
+
+\item{future}{Use \code{future.apply::future_apply}.
+The default is FALSE.}
 }
 \value{
 tibble
