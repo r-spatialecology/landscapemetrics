@@ -11,42 +11,42 @@
 \usage{
 calculate_lsm(landscape, what, level, metric, name, type, directions,
   count_boundary, consider_boundary, edge_depth, classes_max,
-  neighbourhood, ordered, base, full_name, verbose, progress)
+  neighbourhood, ordered, base, full_name, verbose, progress, future)
 
 \method{calculate_lsm}{RasterLayer}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  progress = FALSE, future = FALSE)
 
 \method{calculate_lsm}{RasterStack}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  progress = FALSE, future = FALSE)
 
 \method{calculate_lsm}{RasterBrick}(landscape, what = NULL,
   level = NULL, metric = NULL, name = NULL, type = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  progress = FALSE, future = FALSE)
 
 \method{calculate_lsm}{stars}(landscape, what = NULL, level = NULL,
   metric = NULL, name = NULL, type = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
   base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  progress = FALSE, future = FALSE)
 
 \method{calculate_lsm}{list}(landscape, what = NULL, level = NULL,
   metric = NULL, name = NULL, type = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
   base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+  progress = FALSE, future = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

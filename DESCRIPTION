@@ -64,6 +64,7 @@ Imports:
 Suggests: 
     covr,
     dplyr,
+    future.apply,
     knitr,
     rmarkdown, 
     testthat

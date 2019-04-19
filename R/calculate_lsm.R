@@ -75,7 +75,8 @@ calculate_lsm <- function(landscape,
                           base,
                           full_name,
                           verbose,
-                          progress) UseMethod("calculate_lsm")
+                          progress,
+                          future) UseMethod("calculate_lsm")
 
 #' @name calculate_lsm
 #' @export
@@ -95,7 +96,8 @@ calculate_lsm.RasterLayer <- function(landscape,
                                       base = "log2",
                                       full_name = FALSE,
                                       verbose = TRUE,
-                                      progress = FALSE) {
+                                      progress = FALSE,
+                                      future = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = calculate_lsm_internal,
@@ -114,7 +116,8 @@ calculate_lsm.RasterLayer <- function(landscape,
                      base = base,
                      full_name = full_name,
                      verbose = verbose,
-                     progress = progress)
+                     progress = progress,
+                     future = future)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -144,7 +147,8 @@ calculate_lsm.RasterStack <- function(landscape,
                                       base = "log2",
                                       full_name = FALSE,
                                       verbose = TRUE,
-                                      progress = FALSE) {
+                                      progress = FALSE,
+                                      future = FALSE) {
 
     landscape <- raster::as.list(landscape)
 
@@ -174,7 +178,8 @@ calculate_lsm.RasterStack <- function(landscape,
                                base = "log2",
                                full_name = FALSE,
                                verbose = TRUE,
-                               progress = progress)
+                               progress = progress,
+                               future = future)
         })
 
     layer <- rep(seq_len(length(result)),
@@ -207,7 +212,8 @@ calculate_lsm.RasterBrick <- function(landscape,
                                       base = "log2",
                                       full_name = FALSE,
                                       verbose = TRUE,
-                                      progress = FALSE) {
+                                      progress = FALSE,
+                                      future = FALSE) {
 
     landscape <- raster::as.list(landscape)
 
@@ -237,7 +243,8 @@ calculate_lsm.RasterBrick <- function(landscape,
                                base = "log2",
                                full_name = FALSE,
                                verbose = TRUE,
-                               progress = progress)
+                               progress = progress,
+                               future = future)
     })
 
     layer <- rep(seq_len(length(result)),
@@ -270,7 +277,8 @@ calculate_lsm.stars <- function(landscape,
                                 base = "log2",
                                 full_name = FALSE,
                                 verbose = TRUE,
-                                progress = FALSE) {
+                                progress = FALSE,
+                                future = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
@@ -291,7 +299,8 @@ calculate_lsm.stars <- function(landscape,
                      base = base,
                      full_name = full_name,
                      verbose = verbose,
-                     progress = progress)
+                     progress = progress,
+                     future = future)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -322,7 +331,8 @@ calculate_lsm.list <- function(landscape,
                                base = "log2",
                                full_name = FALSE,
                                verbose = TRUE,
-                               progress = FALSE) {
+                               progress = FALSE,
+                               future = FALSE) {
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -350,7 +360,8 @@ calculate_lsm.list <- function(landscape,
                                base = "log2",
                                full_name = FALSE,
                                verbose = TRUE,
-                               progress = progress)
+                               progress = progress,
+                               future = future)
     })
 
     layer <- rep(seq_len(length(result)),
@@ -381,7 +392,8 @@ calculate_lsm_internal <- function(landscape,
                                    base,
                                    full_name,
                                    verbose,
-                                   progress) {
+                                   progress,
+                                   future) {
 
     # get name of metrics
     metrics <- list_lsm(level = level,
@@ -407,7 +419,7 @@ calculate_lsm_internal <- function(landscape,
     # convert to matrix
     landscape <- raster::as.matrix(landscape)
 
-    result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
+    calculate_lsm_fun = function(current_metric) {
 
         # print progess using the non-internal name
         if (isTRUE(progress)) {
@@ -425,8 +437,16 @@ calculate_lsm_internal <- function(landscape,
         # run function
         do.call(what = foo,
                 args = mget(arguments, envir = parent.env(environment())))
-        })
-    )
+    }
+
+    if (!future){
+        result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = calculate_lsm_fun))
+    } else {
+        if (!requireNamespace("future.apply", quietly = TRUE)){
+            stop("The future.apply package required, please install it first")
+        }
+        result <- do.call(rbind, future.apply::future_lapply(seq_along(metrics_calc), FUN = calculate_lsm_fun))
+    }
 
     if (full_name == TRUE) {
 
