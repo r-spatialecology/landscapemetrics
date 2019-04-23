@@ -9,26 +9,34 @@
 \alias{construct_buffer.sf}
 \alias{construct_buffer.sfc}
 \alias{construct_buffer.matrix}
+\alias{construct_buffer_internal}
 \title{construct_buffer}
 \usage{
-construct_buffer(coords, shape, size, return_sp)
+construct_buffer(coords, shape, size, return_sp, verbose)
 
 \method{construct_buffer}{SpatialPoints}(coords, shape, size,
-  return_sp = TRUE)
+  return_sp = TRUE, verbose = TRUE)
 
 \method{construct_buffer}{SpatialPointsDataFrame}(coords, shape, size,
-  return_sp = TRUE)
+  return_sp = TRUE, verbose = TRUE)
 
 \method{construct_buffer}{MULTIPOINT}(coords, shape, size,
-  return_sp = TRUE)
+  return_sp = TRUE, verbose = TRUE)
 
-\method{construct_buffer}{POINT}(coords, shape, size, return_sp = TRUE)
+\method{construct_buffer}{POINT}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{sf}(coords, shape, size, return_sp = TRUE)
+\method{construct_buffer}{sf}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{sfc}(coords, shape, size, return_sp = TRUE)
+\method{construct_buffer}{sfc}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{matrix}(coords, shape, size, return_sp = TRUE)
+\method{construct_buffer}{matrix}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
+
+construct_buffer_internal(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{coords}{SpatialPoints or 2-column matrix with coordinates of sample points}
