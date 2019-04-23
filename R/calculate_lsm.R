@@ -60,11 +60,11 @@
 #'
 #' @export
 calculate_lsm <- function(landscape,
-                          what,
                           level,
                           metric,
                           name,
                           type,
+                          what,
                           directions,
                           count_boundary,
                           consider_boundary,
@@ -80,11 +80,11 @@ calculate_lsm <- function(landscape,
 #' @name calculate_lsm
 #' @export
 calculate_lsm.RasterLayer <- function(landscape,
-                                      what = NULL,
                                       level = NULL,
                                       metric = NULL,
                                       name = NULL,
                                       type = NULL,
+                                      what = NULL,
                                       directions = 8,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
@@ -99,11 +99,11 @@ calculate_lsm.RasterLayer <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = calculate_lsm_internal,
-                     what = what,
                      level = level,
                      metric = metric,
                      name = name,
                      type = type,
+                     what = what,
                      directions = directions,
                      count_boundary = count_boundary,
                      consider_boundary = consider_boundary,
@@ -129,11 +129,11 @@ calculate_lsm.RasterLayer <- function(landscape,
 #' @name calculate_lsm
 #' @export
 calculate_lsm.RasterStack <- function(landscape,
-                                      what = NULL,
                                       level = NULL,
                                       metric = NULL,
                                       name = NULL,
                                       type = NULL,
+                                      what = NULL,
                                       directions = 8,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
@@ -159,22 +159,22 @@ calculate_lsm.RasterStack <- function(landscape,
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
-                               what = NULL,
-                               level = NULL,
-                               metric = NULL,
-                               name = NULL,
-                               type = NULL,
-                               directions = 8,
-                               count_boundary = FALSE,
-                               consider_boundary = FALSE,
-                               edge_depth = 1,
-                               classes_max = NULL,
-                               neighbourhood = 4,
-                               ordered = TRUE,
-                               base = "log2",
-                               full_name = FALSE,
-                               verbose = TRUE,
-                               progress = progress)
+                               level = level,
+                               metric = metric,
+                               name = name,
+                               type = type,
+                               what = what,
+                               directions = directions,
+                               count_boundary = count_boundary,
+                               consider_boundary = consider_boundary,
+                               edge_depth = edge_depth,
+                               classes_max = classes_max,
+                               neighbourhood = neighbourhood,
+                               ordered = ordered,
+                               base = base,
+                               full_name = full_name,
+                               verbose = verbose,
+                               progress = FALSE)
         })
 
     layer <- rep(seq_len(length(result)),
@@ -192,11 +192,11 @@ calculate_lsm.RasterStack <- function(landscape,
 #' @name calculate_lsm
 #' @export
 calculate_lsm.RasterBrick <- function(landscape,
-                                      what = NULL,
                                       level = NULL,
                                       metric = NULL,
                                       name = NULL,
                                       type = NULL,
+                                      what = NULL,
                                       directions = 8,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
@@ -222,22 +222,22 @@ calculate_lsm.RasterBrick <- function(landscape,
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
-                               what = NULL,
-                               level = NULL,
-                               metric = NULL,
-                               name = NULL,
-                               type = NULL,
-                               directions = 8,
-                               count_boundary = FALSE,
-                               consider_boundary = FALSE,
-                               edge_depth = 1,
-                               classes_max = NULL,
-                               neighbourhood = 4,
-                               ordered = TRUE,
-                               base = "log2",
-                               full_name = FALSE,
-                               verbose = TRUE,
-                               progress = progress)
+                               level = level,
+                               metric = metric,
+                               name = name,
+                               type = type,
+                               what = what,
+                               directions = directions,
+                               count_boundary = count_boundary,
+                               consider_boundary = consider_boundary,
+                               edge_depth = edge_depth,
+                               classes_max = classes_max,
+                               neighbourhood = neighbourhood,
+                               ordered = ordered,
+                               base = base,
+                               full_name = full_name,
+                               verbose = verbose,
+                               progress = FALSE)
     })
 
     layer <- rep(seq_len(length(result)),
@@ -255,11 +255,11 @@ calculate_lsm.RasterBrick <- function(landscape,
 #' @name calculate_lsm
 #' @export
 calculate_lsm.stars <- function(landscape,
-                                what = NULL,
                                 level = NULL,
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
+                                what = NULL,
                                 directions = 8,
                                 count_boundary = FALSE,
                                 consider_boundary = FALSE,
@@ -272,26 +272,36 @@ calculate_lsm.stars <- function(landscape,
                                 verbose = TRUE,
                                 progress = FALSE) {
 
-    landscape <- methods::as(landscape, "Raster")
+    landscape <- raster::as.list(methods::as(landscape, "Raster"))
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = calculate_lsm_internal,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     full_name = full_name,
-                     verbose = verbose,
-                     progress = progress)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+
+            progress <- FALSE
+        }
+
+        calculate_lsm_internal(landscape = landscape[[x]],
+                               level = level,
+                               metric = metric,
+                               name = name,
+                               type = type,
+                               what = what,
+                               directions = directions,
+                               count_boundary = count_boundary,
+                               consider_boundary = consider_boundary,
+                               edge_depth = edge_depth,
+                               classes_max = classes_max,
+                               neighbourhood = neighbourhood,
+                               ordered = ordered,
+                               base = base,
+                               full_name = full_name,
+                               verbose = verbose,
+                               progress = FALSE)
+    })
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -300,6 +310,8 @@ calculate_lsm.stars <- function(landscape,
 
     result <- result[with(result, order(layer, level, metric, class, id)), ]
 
+    if (progress) {message("")}
+
     tibble::add_column(result, layer, .before = TRUE)
 }
 
@@ -307,11 +319,11 @@ calculate_lsm.stars <- function(landscape,
 #' @name calculate_lsm
 #' @export
 calculate_lsm.list <- function(landscape,
-                               what = NULL,
                                level = NULL,
                                metric = NULL,
                                name = NULL,
                                type = NULL,
+                               what = NULL,
                                directions = 8,
                                count_boundary = FALSE,
                                consider_boundary = FALSE,
@@ -335,22 +347,22 @@ calculate_lsm.list <- function(landscape,
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
-                               what = NULL,
-                               level = NULL,
-                               metric = NULL,
-                               name = NULL,
-                               type = NULL,
-                               directions = 8,
-                               count_boundary = FALSE,
-                               consider_boundary = FALSE,
-                               edge_depth = 1,
-                               classes_max = NULL,
-                               neighbourhood = 4,
-                               ordered = TRUE,
-                               base = "log2",
-                               full_name = FALSE,
-                               verbose = TRUE,
-                               progress = progress)
+                               level = level,
+                               metric = metric,
+                               name = name,
+                               type = type,
+                               what = what,
+                               directions = directions,
+                               count_boundary = count_boundary,
+                               consider_boundary = consider_boundary,
+                               edge_depth = edge_depth,
+                               classes_max = classes_max,
+                               neighbourhood = neighbourhood,
+                               ordered = ordered,
+                               base = base,
+                               full_name = full_name,
+                               verbose = verbose,
+                               progress = FALSE)
     })
 
     layer <- rep(seq_len(length(result)),
@@ -366,11 +378,11 @@ calculate_lsm.list <- function(landscape,
 }
 
 calculate_lsm_internal <- function(landscape,
-                                   what,
                                    level,
                                    metric,
                                    name,
                                    type,
+                                   what,
                                    directions,
                                    count_boundary,
                                    consider_boundary,
