@@ -21,53 +21,53 @@
 #' @keywords internal
 #'
 #' @export
-construct_buffer <- function(coords, shape, size, return_sp) UseMethod("construct_buffer")
+construct_buffer <- function(coords, shape, size, return_sp, verbose) UseMethod("construct_buffer")
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPoints <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.SpatialPoints <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sp::coordinates(coords), ncol = 2)
 
-    construct_buffer(coords, shape, size, return_sp = return_sp)
+    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sp::coordinates(coords), ncol = 2)
 
-    construct_buffer(coords, shape, size, return_sp = return_sp)
+    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.MULTIPOINT <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.MULTIPOINT <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer(coords, shape, size, return_sp = return_sp)
+    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.POINT <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.POINT <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer(coords, shape, size, return_sp = return_sp)
+    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sf <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.sf <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
         coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-        construct_buffer(coords, shape, size, return_sp = return_sp)
+        construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
@@ -75,13 +75,13 @@ construct_buffer.sf <- function(coords, shape, size, return_sp = TRUE) {
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sfc <- function(coords, shape, size, return_sp = TRUE) {
+construct_buffer.sfc <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
 
     if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
         coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-        construct_buffer(coords, shape, size, return_sp = return_sp)
+        construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
@@ -89,7 +89,23 @@ construct_buffer.sfc <- function(coords, shape, size, return_sp = TRUE) {
 
 #' @name construct_buffer
 #' @export
-construct_buffer.matrix <- function(coords, shape , size, return_sp = TRUE) {
+construct_buffer.matrix <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {
+
+    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+}
+
+#' @name construct_buffer
+#' @export
+construct_buffer_internal <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {
+
+    if (verbose) {
+
+        if (nrow(coords) != 2) {
+
+            warning("'coords' should be a two column matrix including x- and y-coordinates.",
+                    call. = FALSE)
+        }
+    }
 
     if (shape == "circle") {
 
@@ -150,50 +166,9 @@ construct_buffer.matrix <- function(coords, shape , size, return_sp = TRUE) {
     }
 
     else{
+
         stop(paste0("Shape option ", shape, " unkown"), call. = FALSE)
     }
 
     return(sample_plots)
 }
-
-#' construct_buffer.SpatialLines <- function(coords, shape = NULL, size) {
-#'
-#'     # get coordinates
-#'     coords <- sp::coordinates(coords)
-#'
-#'     sample_plots <- lapply(seq_along(coords), function(current_i) {
-#'
-#'         # get old coords
-#'         x_old <- coords[[current_i]][[1]][, 1]
-#'         y_old <- coords[[current_i]][[1]][, 2]
-#'
-#'         # calculate buffer points around coords
-#'         x_pos <- x_old + size
-#'         x_neg <- x_old - size
-#'
-#'         y_pos <- y_old + size
-#'         y_neg <- y_old - size
-#'
-#'         # combine current coords
-#'         current_coords <- cbind(x = c(x_neg, x_old, x_pos, x_old),
-#'                                 y = c(y_old, y_pos, y_old, y_neg))
-#'
-#'         # convex hull arround points
-#'         convex_hull <- grDevices::chull(current_coords)
-#'
-#'         # all outside points
-#'         current_coords <- current_coords[convex_hull, ]
-#'
-#'         current_coords <- current_coords[order(current_coords[, 1], current_coords[, 2]), ]
-#'
-#'         # convert to sp polygon
-#'         sp::Polygon(current_coords)
-#'     })
-#'
-#'     # save into SpatialPolygons
-#'     sample_plots <- sp::SpatialPolygons(lapply(X = seq_along(sample_plots), FUN = function(y) {
-#'         sp::Polygons(list(sample_plots[[y]]), ID = y)
-#'     }))
-#' }
-
-
