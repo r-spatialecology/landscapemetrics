@@ -234,9 +234,7 @@ get_unique_values.stars <- function(x,
                                     simplify = FALSE,
                                     verbose = TRUE){
 
-    x <- methods::as(x, "Raster")
-
-    x <- raster::as.list(x)
+    x <- raster::as.list(methods::as(x, "Raster"))
 
     unique_values <- get_unique_values.list(x)
 

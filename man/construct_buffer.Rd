@@ -43,6 +43,8 @@ construct_buffer(coords, shape, size, return_sp, verbose)
 side-length for squares in mapunits}
 
 \item{return_sp}{If true, SpatialPolygons are returned.}
+
+\item{verbose}{Print warning messages.}
 }
 \value{
 matrix or SpatialPolygons

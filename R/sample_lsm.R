@@ -305,7 +305,8 @@ sample_lsm_int <- function(landscape,
         # construct plot area around sample sample_points
         y <- construct_buffer(coords = y,
                               shape = shape,
-                              size = size)
+                              size = size,
+                              verbose = verbose)
     }
 
     else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {

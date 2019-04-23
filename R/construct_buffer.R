@@ -7,6 +7,7 @@
 #' @param size Size of sample plot. Equals the radius for circles or the
 #' side-length for squares in mapunits
 #' @param return_sp If true, SpatialPolygons are returned.
+#' @param verbose Print warning messages.
 #'
 #' @return
 #' matrix or SpatialPolygons
