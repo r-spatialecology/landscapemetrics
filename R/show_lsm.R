@@ -45,16 +45,16 @@ show_lsm.RasterLayer <- function(landscape,
                                  nrow = NULL,
                                  ncol = NULL) {
 
-    show_lsm_intern(landscape,
-                    what = what,
-                    class = class,
-                    directions = directions,
-                    consider_boundary = consider_boundary,
-                    edge_depth = edge_depth,
-                    labels = labels,
-                    label_lsm = label_lsm,
-                    nrow = nrow,
-                    ncol = ncol)
+    show_lsm_internal(landscape,
+                      what = what,
+                      class = class,
+                      directions = directions,
+                      consider_boundary = consider_boundary,
+                      edge_depth = edge_depth,
+                      labels = labels,
+                      label_lsm = label_lsm,
+                      nrow = nrow,
+                      ncol = ncol)
 }
 
 #' @name show_lsm
@@ -71,7 +71,7 @@ show_lsm.RasterStack <- function(landscape,
                                  ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -97,7 +97,7 @@ show_lsm.RasterBrick <- function(landscape,
                                  ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -125,7 +125,7 @@ show_lsm.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -151,7 +151,7 @@ show_lsm.list <- function(landscape,
                           ncol = NULL) {
 
     lapply(X = landscape,
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -163,10 +163,10 @@ show_lsm.list <- function(landscape,
            ncol = ncol)
 }
 
-show_lsm_intern <- function(landscape, what, class,
-                            directions, consider_boundary, edge_depth,
-                            labels, label_lsm,
-                            nrow, ncol) {
+show_lsm_internal <- function(landscape, what, class,
+                              directions, consider_boundary, edge_depth,
+                              labels, label_lsm,
+                              nrow, ncol) {
 
     if (!what %in% list_lsm(level = "patch", simplify = TRUE) || length(what) > 1) {
 

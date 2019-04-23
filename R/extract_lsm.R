@@ -68,7 +68,7 @@ extract_lsm.RasterLayer <- function(landscape,
                                     ...) {
 
   result <- lapply(raster::as.list(landscape),
-                   FUN = extract_lsm_int,
+                   FUN = extract_lsm_internal,
                    y = y,
                    metric = metric,
                    name = name,
@@ -99,7 +99,7 @@ extract_lsm.RasterStack <- function(landscape,
                                     ...) {
 
   result <- lapply(X = raster::as.list(landscape),
-                   FUN = extract_lsm_int,
+                   FUN = extract_lsm_internal,
                    y = y,
                    metric = metric,
                    name = name,
@@ -130,7 +130,7 @@ extract_lsm.RasterBrick <- function(landscape,
                                     ...) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = extract_lsm_int,
+                     FUN = extract_lsm_internal,
                      y = y,
                      metric = metric,
                      name = name,
@@ -163,7 +163,7 @@ extract_lsm.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = extract_lsm_int,
+                     FUN = extract_lsm_internal,
                      y = y,
                      metric = metric,
                      name = name,
@@ -194,7 +194,7 @@ extract_lsm.list <- function(landscape,
                              ...) {
 
     result <- lapply(X = landscape,
-                     FUN = extract_lsm_int,
+                     FUN = extract_lsm_internal,
                      y = y,
                      metric = metric,
                      name = name,
@@ -213,11 +213,11 @@ extract_lsm.list <- function(landscape,
     result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
-extract_lsm_int <- function(landscape,
-                            y,
-                            metric, name, type, what,
-                            directions,
-                            ...) {
+extract_lsm_internal <- function(landscape,
+                                 y,
+                                 metric, name, type, what,
+                                 directions,
+                                 ...) {
 
   # get list of metrics to calculate
   metrics_list <- list_lsm(level = "patch",

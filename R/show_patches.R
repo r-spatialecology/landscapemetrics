@@ -34,12 +34,12 @@ show_patches.RasterLayer <- function(landscape,
                                      nrow = NULL,
                                      ncol = NULL) {
 
-    show_patches_intern(landscape,
-                        class = class,
-                        directions = directions,
-                        labels = labels,
-                        nrow = nrow,
-                        ncol = ncol)
+    show_patches_internal(landscape,
+                          class = class,
+                          directions = directions,
+                          labels = labels,
+                          nrow = nrow,
+                          ncol = ncol)
 }
 
 #' @name show_patches
@@ -52,7 +52,7 @@ show_patches.RasterStack <- function(landscape,
                                      ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_patches_intern,
+           FUN = show_patches_internal,
            class = class,
            directions = directions,
            labels = labels,
@@ -70,7 +70,7 @@ show_patches.RasterBrick <- function(landscape,
                                      ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_patches_intern,
+           FUN = show_patches_internal,
            class = class,
            directions = directions,
            labels = labels,
@@ -90,7 +90,7 @@ show_patches.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_patches_intern,
+           FUN = show_patches_internal,
            class = class,
            directions = directions,
            labels = labels,
@@ -108,7 +108,7 @@ show_patches.list <- function(landscape,
                               ncol = NULL) {
 
     lapply(X = landscape,
-           FUN = show_patches_intern,
+           FUN = show_patches_internal,
            class = class,
            directions = directions,
            labels = labels,
@@ -116,7 +116,7 @@ show_patches.list <- function(landscape,
            ncol = ncol)
 }
 
-show_patches_intern <- function(landscape, class, directions, labels, nrow, ncol) {
+show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){

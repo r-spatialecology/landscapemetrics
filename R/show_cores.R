@@ -54,14 +54,14 @@ show_cores.RasterLayer <- function(landscape,
                                    consider_boundary = FALSE,
                                    edge_depth = 1) {
 
-    show_cores_intern(landscape,
-                      directions = directions,
-                      class = class,
-                      labels = labels,
-                      nrow = nrow,
-                      ncol = ncol,
-                      consider_boundary = consider_boundary,
-                      edge_depth = edge_depth)
+    show_cores_internal(landscape,
+                        directions = directions,
+                        class = class,
+                        labels = labels,
+                        nrow = nrow,
+                        ncol = ncol,
+                        consider_boundary = consider_boundary,
+                        edge_depth = edge_depth)
 }
 
 #' @name show_cores
@@ -76,7 +76,7 @@ show_cores.RasterStack <- function(landscape,
                                    edge_depth = 1) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_cores_intern,
+           FUN = show_cores_internal,
            directions = directions,
            class = class,
            labels = labels,
@@ -98,7 +98,7 @@ show_cores.RasterBrick <- function(landscape,
                                    edge_depth = 1) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_cores_intern,
+           FUN = show_cores_internal,
            directions = directions,
            class = class,
            labels = labels,
@@ -122,7 +122,7 @@ show_cores.stars <- function(landscape,
     landscape <- methods::as(landscape, "Raster")
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_cores_intern,
+           FUN = show_cores_internal,
            directions = directions,
            class = class,
            labels = labels,
@@ -144,7 +144,7 @@ show_cores.list <- function(landscape,
                             edge_depth = 1) {
 
     lapply(X = landscape,
-           FUN = show_cores_intern,
+           FUN = show_cores_internal,
            directions = directions,
            class = class,
            labels = labels,
@@ -154,8 +154,8 @@ show_cores.list <- function(landscape,
            edge_depth = edge_depth)
 }
 
-show_cores_intern <- function(landscape, directions, class, labels, nrow, ncol,
-                              consider_boundary, edge_depth ) {
+show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol,
+                                consider_boundary, edge_depth ) {
 
     if(any(!(class %in% c("all", "global")))){
         if (!any(class %in% raster::unique(landscape))){
