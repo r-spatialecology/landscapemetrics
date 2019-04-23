@@ -9,7 +9,6 @@
 \alias{construct_buffer.sf}
 \alias{construct_buffer.sfc}
 \alias{construct_buffer.matrix}
-\alias{construct_buffer_internal}
 \title{construct_buffer}
 \usage{
 construct_buffer(coords, shape, size, return_sp, verbose)
@@ -33,9 +32,6 @@ construct_buffer(coords, shape, size, return_sp, verbose)
   verbose = TRUE)
 
 \method{construct_buffer}{matrix}(coords, shape, size, return_sp = TRUE,
-  verbose = TRUE)
-
-construct_buffer_internal(coords, shape, size, return_sp = TRUE,
   verbose = TRUE)
 }
 \arguments{

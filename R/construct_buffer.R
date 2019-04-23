@@ -94,9 +94,7 @@ construct_buffer.matrix <- function(coords, shape , size, return_sp = TRUE, verb
     construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
 }
 
-#' @name construct_buffer
-#' @export
-construct_buffer_internal <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer_int <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {
 
     if (verbose) {
 
