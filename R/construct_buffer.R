@@ -99,7 +99,7 @@ construct_buffer_internal <- function(coords, shape , size, return_sp = TRUE, ve
 
     if (verbose) {
 
-        if (nrow(coords) != 2) {
+        if (ncol(coords) != 2) {
 
             warning("'coords' should be a two column matrix including x- and y-coordinates.",
                     call. = FALSE)
