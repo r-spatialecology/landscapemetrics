@@ -169,7 +169,7 @@ nearest_raster_fun <- function(patches) {
 # compare the two implementations
 library(bench)
 bench::mark(
-    get_nearestneighbour(patches),
+    get_nearestneighbour(patches)[, 2:3],
     nearest_raster_fun(patches),
     iterations = 100
 )
