@@ -59,7 +59,7 @@ To show only the core area, there is the visualization function `show_cores`. Th
 show_cores(landscape, class = c(1, 2), labels = FALSE)
 ```
 
-Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`). To get the result as a *RasterLayer*, there is `get_lsm()`.
+Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`). To get the result as a *RasterLayer*, there is `spatialize_lsm()`.
 
 ```{r fig.width=7, fig.height=7, fig.asp=0.50, fig.align='center', fig.retina = 2}
 # fill patch according to area

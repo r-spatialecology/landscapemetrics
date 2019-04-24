@@ -1,6 +1,6 @@
-#' get_lsm
+#' spatialize_lsm
 #'
-#' @description Get landscape metric values
+#' @description Spatialize landscape metric values
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param metric Abbreviation of metrics (e.g. 'area').
@@ -28,22 +28,22 @@
 #' @return list
 #'
 #' @examples
-#' get_lsm(landscape, what = "lsm_p_area")
+#' spatialize_lsm(landscape, what = "lsm_p_area")
 #'
-#' @aliases get_lsm
+#' @aliases spatialize_lsm
 #'
-#' @rdname get_lsm
+#' @rdname spatialize_lsm
 #'
 #' @export
-get_lsm <- function(landscape,
+spatialize_lsm <- function(landscape,
                     metric, name, type, what,
                     directions,
                     progress,
-                    ...) UseMethod("get_lsm")
+                    ...) UseMethod("spatialize_lsm")
 
-#' @name get_lsm
+#' @name spatialize_lsm
 #' @export
-get_lsm.RasterLayer <- function(landscape,
+spatialize_lsm.RasterLayer <- function(landscape,
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
@@ -53,7 +53,7 @@ get_lsm.RasterLayer <- function(landscape,
                                 ...) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_lsm_internal,
+                     FUN = spatialize_lsm_internal,
                      metric = metric,
                      name = name,
                      type = type,
@@ -65,9 +65,9 @@ get_lsm.RasterLayer <- function(landscape,
     return(result)
 }
 
-#' @name get_lsm
+#' @name spatialize_lsm
 #' @export
-get_lsm.RasterStack <- function(landscape,
+spatialize_lsm.RasterStack <- function(landscape,
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
@@ -86,7 +86,7 @@ get_lsm.RasterStack <- function(landscape,
                     appendLF = FALSE)
         }
 
-        get_lsm_internal(landscape = landscape[[x]],
+        spatialize_lsm_internal(landscape = landscape[[x]],
                          metric = metric,
                          name = name,
                          type = type,
@@ -101,9 +101,9 @@ get_lsm.RasterStack <- function(landscape,
     return(result)
 }
 
-#' @name get_lsm
+#' @name spatialize_lsm
 #' @export
-get_lsm.RasterBrick <- function(landscape,
+spatialize_lsm.RasterBrick <- function(landscape,
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
@@ -122,7 +122,7 @@ get_lsm.RasterBrick <- function(landscape,
                     appendLF = FALSE)
         }
 
-        get_lsm_internal(landscape = landscape[[x]],
+        spatialize_lsm_internal(landscape = landscape[[x]],
                          metric = metric,
                          name = name,
                          type = type,
@@ -137,9 +137,9 @@ get_lsm.RasterBrick <- function(landscape,
     return(result)
 }
 
-#' @name get_lsm
+#' @name spatialize_lsm
 #' @export
-get_lsm.stars <- function(landscape,
+spatialize_lsm.stars <- function(landscape,
                           metric = NULL,
                           name = NULL,
                           type = NULL,
@@ -158,7 +158,7 @@ get_lsm.stars <- function(landscape,
                     appendLF = FALSE)
         }
 
-        get_lsm_internal(landscape = landscape[[x]],
+        spatialize_lsm_internal(landscape = landscape[[x]],
                          metric = metric,
                          name = name,
                          type = type,
@@ -173,9 +173,9 @@ get_lsm.stars <- function(landscape,
     return(result)
 }
 
-#' @name get_lsm
+#' @name spatialize_lsm
 #' @export
-get_lsm.list <- function(landscape,
+spatialize_lsm.list <- function(landscape,
                          metric = NULL,
                          name = NULL,
                          type = NULL,
@@ -192,7 +192,7 @@ get_lsm.list <- function(landscape,
                     appendLF = FALSE)
         }
 
-        get_lsm_internal(landscape = landscape[[x]],
+        spatialize_lsm_internal(landscape = landscape[[x]],
                          metric = metric,
                          name = name,
                          type = type,
@@ -207,7 +207,7 @@ get_lsm.list <- function(landscape,
     return(result)
 }
 
-get_lsm_internal <- function(landscape,
+spatialize_lsm_internal <- function(landscape,
                              metric, name, type, what,
                              directions,
                              progress,
@@ -227,7 +227,7 @@ get_lsm_internal <- function(landscape,
 
     # error if no patch level metrics are provided
     if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {
-        stop("'get_lsm()' only takes patch level metrics.",
+        stop("'spatialize_lsm()' only takes patch level metrics.",
              call. = FALSE)
     }
 

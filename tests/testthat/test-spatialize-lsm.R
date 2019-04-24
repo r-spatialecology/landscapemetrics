@@ -1,8 +1,8 @@
-context("get_lsm")
+context("spatialize_lsm")
 
-test_that("get_lsm returns all selected metrics", {
+test_that("spatialize_lsm returns all selected metrics", {
 
-    result <- get_lsm(landscape, what = c("lsm_p_area",
+    result <- spatialize_lsm(landscape, what = c("lsm_p_area",
                                           "lsm_p_contig",
                                           "lsm_p_perim"),
                       verbose = FALSE)
@@ -16,14 +16,14 @@ test_that("get_lsm returns all selected metrics", {
     expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
 })
 
-test_that("get_lsm returns returns correct type of metrics", {
+test_that("spatialize_lsm returns returns correct type of metrics", {
 
     metrics <- list_lsm(level = "patch", type = "shape metric", simplify = TRUE)
 
-    result <- get_lsm(landscape, type = "shape metric",
+    result <- spatialize_lsm(landscape, type = "shape metric",
                       verbose = FALSE)
 
-    result_all <- get_lsm(landscape, verbose = FALSE)
+    result_all <- spatialize_lsm(landscape, verbose = FALSE)
 
     expect_equal(object = names(result[[1]]),
                  expected = metrics)
@@ -32,43 +32,43 @@ test_that("get_lsm returns returns correct type of metrics", {
                  expected = list_lsm(level = "patch", simplify = TRUE))
 })
 
-test_that("get_lsm returns CRS", {
+test_that("spatialize_lsm returns CRS", {
 
-    result <- get_lsm(podlasie_ccilc, what = "lsm_p_area",
+    result <- spatialize_lsm(podlasie_ccilc, what = "lsm_p_area",
                       verbose = FALSE)
 
     expect_equal(object = raster::crs(result[[1]][[1]]),
                  expected = raster::crs(podlasie_ccilc))
 })
 
-test_that("get_lsm forwards arguments to calculate_lsm", {
+test_that("spatialize_lsm forwards arguments to calculate_lsm", {
 
-    result <- get_lsm(landscape, what = "lsm_p_core",
+    result <- spatialize_lsm(landscape, what = "lsm_p_core",
                       verbose = FALSE, edge_depth = 10)
 
     expect_true(all(result[[1]][[1]][] == 0))
 })
 
-test_that("get_lsm works for all data types", {
+test_that("spatialize_lsm works for all data types", {
 
-    expect_length(object = get_lsm(landscape_stack, what = "lsm_p_area",
+    expect_length(object = spatialize_lsm(landscape_stack, what = "lsm_p_area",
                                    verbose = FALSE),
                   n = 2)
 
-    expect_length(object = get_lsm(landscape_brick, what = "lsm_p_area",
+    expect_length(object = spatialize_lsm(landscape_brick, what = "lsm_p_area",
                                    verbose = FALSE),
                   n = 2)
 
-    expect_length(object = get_lsm(list(landscape, landscape), what = "lsm_p_area",
+    expect_length(object = spatialize_lsm(list(landscape, landscape), what = "lsm_p_area",
                                    verbose = FALSE),
                   n = 2)
 })
 
 
-test_that("get_lsm returns all errors", {
+test_that("spatialize_lsm returns all errors", {
 
-    expect_error(get_lsm(landscape, what = "lsm_l_ta",
+    expect_error(spatialize_lsm(landscape, what = "lsm_l_ta",
                          verbose = FALSE),
-                 grep = "'get_lsm()' only takes patch level metrics.",
+                 grep = "'spatialize_lsm()' only takes patch level metrics.",
                  fixed = TRUE)
 })
