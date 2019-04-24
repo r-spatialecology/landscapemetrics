@@ -47,7 +47,7 @@ lsm_l_np.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -63,7 +63,7 @@ lsm_l_np.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -79,7 +79,7 @@ lsm_l_np.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -97,7 +97,7 @@ lsm_l_np.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -113,7 +113,7 @@ lsm_l_np.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_np_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

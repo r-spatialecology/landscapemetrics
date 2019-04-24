@@ -56,7 +56,7 @@ lsm_c_para_cv.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_para_cv_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -72,7 +72,7 @@ lsm_c_para_cv.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_para_cv_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -88,7 +88,7 @@ lsm_c_para_cv.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_para_cv_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -106,7 +106,7 @@ lsm_c_para_cv.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_para_cv_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -122,7 +122,7 @@ lsm_c_para_cv.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_para_cv_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

@@ -60,7 +60,7 @@ lsm_c_ndca.RasterLayer <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -78,7 +78,7 @@ lsm_c_ndca.RasterStack <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -96,7 +96,7 @@ lsm_c_ndca.RasterBrick <- function(landscape, directions = 8, consider_boundary 
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -116,7 +116,7 @@ lsm_c_ndca.stars <- function(landscape, directions = 8, consider_boundary = FALS
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -134,7 +134,7 @@ lsm_c_ndca.list <- function(landscape, directions = 8, consider_boundary = FALSE
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

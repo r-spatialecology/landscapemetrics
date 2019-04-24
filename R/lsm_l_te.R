@@ -49,7 +49,7 @@ lsm_l_te.RasterLayer <- function(landscape,  count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -65,7 +65,7 @@ lsm_l_te.RasterStack <- function(landscape,  count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -81,7 +81,7 @@ lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -99,7 +99,7 @@ lsm_l_te.stars <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

@@ -49,7 +49,7 @@ lsm_l_msiei.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_msiei_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -65,7 +65,7 @@ lsm_l_msiei.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_msiei_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -81,7 +81,7 @@ lsm_l_msiei.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_msiei_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -99,7 +99,7 @@ lsm_l_msiei.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_msiei_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_l_msiei.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_msiei_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

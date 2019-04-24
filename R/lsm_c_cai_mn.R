@@ -61,7 +61,7 @@ lsm_c_cai_mn.RasterLayer <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -79,7 +79,7 @@ lsm_c_cai_mn.RasterStack <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -97,7 +97,7 @@ lsm_c_cai_mn.RasterBrick <- function(landscape, directions = 8, consider_boundar
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -117,7 +117,7 @@ lsm_c_cai_mn.stars <- function(landscape, directions = 8, consider_boundary = FA
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -135,7 +135,7 @@ lsm_c_cai_mn.list <- function(landscape, directions = 8, consider_boundary = FAL
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

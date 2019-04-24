@@ -59,7 +59,7 @@ lsm_c_core_sd.RasterLayer <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -77,7 +77,7 @@ lsm_c_core_sd.RasterStack <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -95,7 +95,7 @@ lsm_c_core_sd.RasterBrick <- function(landscape, directions = 8, consider_bounda
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_c_core_sd.stars <- function(landscape, directions = 8, consider_boundary = F
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -133,7 +133,7 @@ lsm_c_core_sd.list <- function(landscape, directions = 8, consider_boundary = FA
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

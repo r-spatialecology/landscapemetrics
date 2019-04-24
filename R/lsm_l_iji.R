@@ -54,7 +54,7 @@ lsm_l_iji.RasterLayer <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -70,7 +70,7 @@ lsm_l_iji.RasterStack <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -86,7 +86,7 @@ lsm_l_iji.RasterBrick <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_l_iji.stars <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -120,7 +120,7 @@ lsm_l_iji.list <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_iji_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

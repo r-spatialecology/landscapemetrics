@@ -51,7 +51,7 @@ lsm_l_joinent.RasterLayer <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -72,7 +72,7 @@ lsm_l_joinent.RasterStack <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -93,7 +93,7 @@ lsm_l_joinent.RasterBrick <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -116,7 +116,7 @@ lsm_l_joinent.stars <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -137,7 +137,7 @@ lsm_l_joinent.list <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

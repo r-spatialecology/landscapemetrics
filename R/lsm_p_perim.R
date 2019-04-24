@@ -45,7 +45,7 @@ lsm_p_perim.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -61,7 +61,7 @@ lsm_p_perim.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -77,7 +77,7 @@ lsm_p_perim.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -95,7 +95,7 @@ lsm_p_perim.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -111,7 +111,7 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

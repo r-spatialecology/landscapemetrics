@@ -42,7 +42,7 @@ lsm_l_pr.RasterLayer <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pr_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -57,7 +57,7 @@ lsm_l_pr.RasterStack <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pr_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -72,7 +72,7 @@ lsm_l_pr.RasterBrick <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pr_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -89,7 +89,7 @@ lsm_l_pr.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_pr_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_l_pr.list <- function(landscape){
     result <- lapply(X = landscape,
                      FUN = lsm_l_pr_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

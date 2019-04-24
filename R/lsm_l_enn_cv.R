@@ -62,7 +62,7 @@ lsm_l_enn_cv.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -79,7 +79,7 @@ lsm_l_enn_cv.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -96,7 +96,7 @@ lsm_l_enn_cv.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_l_enn_cv.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -132,7 +132,7 @@ lsm_l_enn_cv.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

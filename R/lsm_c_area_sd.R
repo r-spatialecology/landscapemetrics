@@ -54,7 +54,7 @@ lsm_c_area_sd.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -70,7 +70,7 @@ lsm_c_area_sd.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -86,7 +86,7 @@ lsm_c_area_sd.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_c_area_sd.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -120,7 +120,7 @@ lsm_c_area_sd.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_area_sd_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

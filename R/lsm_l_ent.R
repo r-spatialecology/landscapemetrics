@@ -46,7 +46,7 @@ lsm_l_ent.RasterLayer <- function(landscape,
                      neighbourhood = neighbourhood,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -65,7 +65,7 @@ lsm_l_ent.RasterStack <- function(landscape,
                      neighbourhood = neighbourhood,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -84,7 +84,7 @@ lsm_l_ent.RasterBrick <- function(landscape,
                      neighbourhood = neighbourhood,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -105,7 +105,7 @@ lsm_l_ent.stars <- function(landscape,
                      neighbourhood = neighbourhood,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -124,7 +124,7 @@ lsm_l_ent.list <- function(landscape,
                      neighbourhood = neighbourhood,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

@@ -60,7 +60,7 @@ lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -76,7 +76,7 @@ lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -92,7 +92,7 @@ lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -110,7 +110,7 @@ lsm_p_circle.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -126,7 +126,7 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
