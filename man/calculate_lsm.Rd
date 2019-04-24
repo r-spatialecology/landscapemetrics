@@ -87,9 +87,9 @@ which compute entropy in "bits". "log" and "log10" can be also used.}
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
 
-\item{verbose}{Print warning messages}
+\item{verbose}{Print warning messages.}
 
-\item{progress}{Print progress report}
+\item{progress}{Print progress report.}
 }
 \value{
 tibble

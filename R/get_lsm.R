@@ -10,19 +10,9 @@
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param count_boundary Include landscape boundary in edge length
-#' @param consider_boundary Logical if cells that only neighbour the landscape
-#' boundary should be considered as core
-#' @param edge_depth Distance (in cells) a cell has the be away from the patch
-#' edge to be considered as core cell
-#' @param classes_max Potential maximum number of present classes
-#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
-#' 4 (rook's case) or 8 (queen's case). The default is 4.
-#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
-#' @param base The unit in which entropy is measured. The default is "log2",
-#' which compute entropy in "bits". "log" and "log10" can be also used.
-#' @param verbose Print warning messages
+#' @param progress Print progress report.
+#' @param ... Arguments passed on to \code{calculate_lsm()}.
+
 #'
 #' @details
 #' The functions returns a nested list with \code{RasterLayer}s. The first level
@@ -48,14 +38,8 @@
 get_lsm <- function(landscape,
                     metric, name, type, what,
                     directions,
-                    count_boundary,
-                    consider_boundary,
-                    edge_depth,
-                    classes_max,
-                    neighbourhood,
-                    ordered,
-                    base,
-                    verbose) UseMethod("get_lsm")
+                    progress,
+                    ...) UseMethod("get_lsm")
 
 #' @name get_lsm
 #' @export
@@ -65,31 +49,18 @@ get_lsm.RasterLayer <- function(landscape,
                                 type = NULL,
                                 what = NULL,
                                 directions = 8,
-                                count_boundary = FALSE,
-                                consider_boundary = FALSE,
-                                edge_depth = 1,
-                                classes_max = NULL,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2",
-                                verbose = TRUE) {
+                                progress = FALSE,
+                                ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = get_lsm_internal,
-                     what = what,
-                     level = level,
                      metric = metric,
                      name = name,
                      type = type,
+                     what = what,
                      directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     verbose = verbose)
+                     progress = progress,
+                     ...)
 
     return(result)
 }
@@ -102,31 +73,30 @@ get_lsm.RasterStack <- function(landscape,
                                 type = NULL,
                                 what = NULL,
                                 directions = 8,
-                                count_boundary = FALSE,
-                                consider_boundary = FALSE,
-                                edge_depth = 1,
-                                classes_max = NULL,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2",
-                                verbose = TRUE) {
+                                progress = FALSE,
+                                ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_lsm_internal,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     verbose = verbose)
+    landscape <- raster::as.list(landscape)
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        get_lsm_internal(landscape = landscape[[x]],
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+    })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -139,31 +109,30 @@ get_lsm.RasterBrick <- function(landscape,
                                 type = NULL,
                                 what = NULL,
                                 directions = 8,
-                                count_boundary = FALSE,
-                                consider_boundary = FALSE,
-                                edge_depth = 1,
-                                classes_max = NULL,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2",
-                                verbose = TRUE) {
+                                progress = FALSE,
+                                ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_lsm_internal,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     verbose = verbose)
+    landscape <- raster::as.list(landscape)
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        get_lsm_internal(landscape = landscape[[x]],
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+    })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -176,33 +145,30 @@ get_lsm.stars <- function(landscape,
                           type = NULL,
                           what = NULL,
                           directions = 8,
-                          count_boundary = FALSE,
-                          consider_boundary = FALSE,
-                          edge_depth = 1,
-                          classes_max = NULL,
-                          neighbourhood = 4,
-                          ordered = TRUE,
-                          base = "log2",
-                          verbose = TRUE) {
+                          progress = FALSE,
+                          ...) {
 
-    landscape <- methods::as(landscape, "Raster")
+    landscape <- raster::as.list(methods::as(landscape, "Raster"))
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_lsm_internal,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     verbose = verbose)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        get_lsm_internal(landscape = landscape[[x]],
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+    })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -215,50 +181,37 @@ get_lsm.list <- function(landscape,
                          type = NULL,
                          what = NULL,
                          directions = 8,
-                         count_boundary = FALSE,
-                         consider_boundary = FALSE,
-                         edge_depth = 1,
-                         classes_max = NULL,
-                         neighbourhood = 4,
-                         ordered = TRUE,
-                         base = "log2",
-                         verbose = TRUE) {
+                         progress = FALSE,
+                         ...) {
 
-    result <- lapply(X = landscape,
-                     FUN = get_lsm_internal,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     directions = directions,
-                     count_boundary = count_boundary,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth,
-                     classes_max = classes_max,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base,
-                     verbose = verbose)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        get_lsm_internal(landscape = landscape[[x]],
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+    })
+
+    if (progress) {message("")}
 
     return(result)
 }
 
 get_lsm_internal <- function(landscape,
-                             what,
-                             level,
-                             metric,
-                             name,
-                             type,
+                             metric, name, type, what,
                              directions,
-                             count_boundary,
-                             consider_boundary,
-                             edge_depth,
-                             classes_max,
-                             neighbourhood,
-                             ordered,
-                             base,
-                             verbose) {
+                             progress,
+                             ...) {
 
     # get name of metrics
     metrics <- list_lsm(level = "patch",
@@ -268,6 +221,9 @@ get_lsm_internal <- function(landscape,
                         what = what,
                         simplify = TRUE,
                         verbose = FALSE)
+
+    # how many metrics need to be calculated?
+    number_metrics <- length(metrics)
 
     # error if no patch level metrics are provided
     if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {
@@ -303,19 +259,20 @@ get_lsm_internal <- function(landscape,
                                  NA)
 
     # loop through metrics and return raster with value for each patch
-    result <- lapply(metrics, function(x) {
+    result <- lapply(seq_along(metrics), function(x) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress metrics: ", x, "/",
+                    number_metrics, appendLF = FALSE)
+        }
 
         # get metric value
-        fill_value <- calculate_lsm(landscape, what = x,
-                                    directions = directions,
-                                    count_boundary = count_boundary,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    classes_max = classes_max,
-                                    neighbourhood = neighbourhood,
-                                    ordered = ordered,
-                                    base = base,
-                                    verbose = verbose)
+        fill_value <- calculate_lsm(landscape,
+                                    what = metrics[[x]],
+                                    progress = FALSE,
+                                    ...)
 
         # merge with coords data frame
         fill_value <-  merge(x = patches_tibble,
@@ -329,6 +286,11 @@ get_lsm_internal <- function(landscape,
 
     # using metrics to name list
     names(result) <- metrics
+
+    if (progress) {
+
+        message("")
+    }
 
     return(result)
 }

@@ -9,22 +9,23 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, y, shape, size, return_raster, verbose, ...)
+sample_lsm(landscape, y, shape, size, return_raster, verbose, progress,
+  ...)
 
 \method{sample_lsm}{RasterLayer}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, ...)
+  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{sample_lsm}{RasterStack}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, ...)
+  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{sample_lsm}{RasterBrick}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, ...)
+  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{sample_lsm}{stars}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, ...)
+  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
 
 \method{sample_lsm}{list}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, ...)
+  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -40,6 +41,8 @@ the side-length for squares in mapunits. For lines size equals the width of the 
 be returned}
 
 \item{verbose}{Print warning messages.}
+
+\item{progress}{Print progress report.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
@@ -74,7 +77,6 @@ sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 # use sp points
 points_sp <- sp::SpatialPoints(sample_points)
 sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
-
 
 \dontrun{
 # use lines (works only if rgeos is installed)

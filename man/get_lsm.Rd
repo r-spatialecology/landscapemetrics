@@ -9,34 +9,22 @@
 \alias{get_lsm.list}
 \title{get_lsm}
 \usage{
-get_lsm(landscape, metric, name, type, what, directions, count_boundary,
-  consider_boundary, edge_depth, classes_max, neighbourhood, ordered, base,
-  verbose)
+get_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
 \method{get_lsm}{RasterLayer}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
-  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 
 \method{get_lsm}{RasterStack}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
-  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 
 \method{get_lsm}{RasterBrick}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
-  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 
 \method{get_lsm}{stars}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
-  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 
 \method{get_lsm}{list}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, count_boundary = FALSE,
-  consider_boundary = FALSE, edge_depth = 1, classes_max = NULL,
-  neighbourhood = 4, ordered = TRUE, base = "log2", verbose = TRUE)
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -53,26 +41,9 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{count_boundary}{Include landscape boundary in edge length}
+\item{progress}{Print progress report.}
 
-\item{consider_boundary}{Logical if cells that only neighbour the landscape
-boundary should be considered as core}
-
-\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
-edge to be considered as core cell}
-
-\item{classes_max}{Potential maximum number of present classes}
-
-\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
-4 (rook's case) or 8 (queen's case). The default is 4.}
-
-\item{ordered}{The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
-
-\item{base}{The unit in which entropy is measured. The default is "log2",
-which compute entropy in "bits". "log" and "log10" can be also used.}
-
-\item{verbose}{Print warning messages}
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
 list

@@ -11,6 +11,7 @@
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param progress Print progress report.
 #' @param ... Arguments passed to \code{calculate_lsm()}.
 #'
 #' @details
@@ -54,6 +55,7 @@ extract_lsm <- function(landscape,
                         y,
                         metric, name, type, what,
                         directions,
+                        progress,
                         ...) UseMethod("extract_lsm")
 
 #' @name extract_lsm
@@ -65,6 +67,7 @@ extract_lsm.RasterLayer <- function(landscape,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
+                                    progress = FALSE,
                                     ...) {
 
   result <- lapply(raster::as.list(landscape),
@@ -75,9 +78,10 @@ extract_lsm.RasterLayer <- function(landscape,
                    type = type,
                    what = what,
                    directions = directions,
+                   progress = progress,
                    ...)
 
-  layer <- rep(seq_len(length(result)),
+  layer <- rep(seq_along(result),
                vapply(result, nrow, FUN.VALUE = integer(1)))
 
   result <- do.call(rbind, result)
@@ -96,24 +100,38 @@ extract_lsm.RasterStack <- function(landscape,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
+                                    progress = FALSE,
                                     ...) {
 
-  result <- lapply(X = raster::as.list(landscape),
-                   FUN = extract_lsm_internal,
-                   y = y,
-                   metric = metric,
-                   name = name,
-                   type = type,
-                   what = what,
-                   directions = directions,
-                   ...)
+  landscape <- raster::as.list(landscape)
 
-  layer <- rep(seq_len(length(result)),
+  result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+    if (progress) {
+
+      message("\r> Progress nlayers: ", x , "/", length(landscape),
+              appendLF = FALSE)
+    }
+
+    extract_lsm_internal(landscape = landscape[[x]],
+                         y = y,
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+  })
+
+  layer <- rep(seq_along(result),
                vapply(result, nrow, FUN.VALUE = integer(1)))
 
   result <- do.call(rbind, result)
 
   result$layer <- layer
+
+  if (progress) {message("")}
 
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
@@ -127,26 +145,40 @@ extract_lsm.RasterBrick <- function(landscape,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
+                                    progress = FALSE,
                                     ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = extract_lsm_internal,
-                     y = y,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     what = what,
-                     directions = directions,
-                     ...)
+  landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
+  result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    result <- do.call(rbind, result)
+    if (progress) {
 
-    result$layer <- layer
+      message("\r> Progress nlayers: ", x , "/", length(landscape),
+              appendLF = FALSE)
+    }
 
-    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
+    extract_lsm_internal(landscape = landscape[[x]],
+                         y = y,
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+  })
+
+  layer <- rep(seq_along(result),
+               vapply(result, nrow, FUN.VALUE = integer(1)))
+
+  result <- do.call(rbind, result)
+
+  result$layer <- layer
+
+  if (progress) {message("")}
+
+  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -158,28 +190,42 @@ extract_lsm.stars <- function(landscape,
                               type = NULL,
                               what = NULL,
                               directions = 8,
+                              progress = FALSE,
                               ...) {
 
-    landscape <- methods::as(landscape, "Raster")
+  landscape <- methods::as(landscape, "Raster")
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = extract_lsm_internal,
-                     y = y,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     what = what,
-                     directions = directions,
-                     ...)
+  landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
+  result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    result <- do.call(rbind, result)
+    if (progress) {
 
-    result$layer <- layer
+      message("\r> Progress nlayers: ", x , "/", length(landscape),
+              appendLF = FALSE)
+    }
 
-    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
+    extract_lsm_internal(landscape = landscape[[x]],
+                         y = y,
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+  })
+
+  layer <- rep(seq_along(result),
+               vapply(result, nrow, FUN.VALUE = integer(1)))
+
+  result <- do.call(rbind, result)
+
+  result$layer <- layer
+
+  if (progress) {message("")}
+
+  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 #' @name extract_lsm
@@ -191,32 +237,45 @@ extract_lsm.list <- function(landscape,
                              type = NULL,
                              what = NULL,
                              directions = 8,
+                             progress = FALSE,
                              ...) {
 
-    result <- lapply(X = landscape,
-                     FUN = extract_lsm_internal,
-                     y = y,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     what = what,
-                     directions = directions,
-                     ...)
+  result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
+    if (progress) {
 
-    result <- do.call(rbind, result)
+      message("\r> Progress nlayers: ", x , "/", length(landscape),
+              appendLF = FALSE)
+    }
 
-    result$layer <- layer
+    extract_lsm_internal(landscape = landscape[[x]],
+                         y = y,
+                         metric = metric,
+                         name = name,
+                         type = type,
+                         what = what,
+                         directions = directions,
+                         progress = FALSE,
+                         ...)
+  })
 
-    result[with(result, order(layer, extract_id, level, metric, class, id)), ]
+  layer <- rep(seq_along(result),
+               vapply(result, nrow, FUN.VALUE = integer(1)))
+
+  result <- do.call(rbind, result)
+
+  result$layer <- layer
+
+  if (progress) {message("")}
+
+  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
 extract_lsm_internal <- function(landscape,
                                  y,
                                  metric, name, type, what,
                                  directions,
+                                 progress,
                                  ...) {
 
   # get list of metrics to calculate
@@ -312,6 +371,7 @@ extract_lsm_internal <- function(landscape,
   # can we somehow calculate only the patches we actually want?
   metrics <- calculate_lsm(landscape,
                            what = metrics_list,
+                           progress = progress,
                            ...)
 
   # only patchs that contain a sample point

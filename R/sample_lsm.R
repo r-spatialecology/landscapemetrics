@@ -10,6 +10,7 @@
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
 #' @param verbose Print warning messages.
+#' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
 
 #' @details
@@ -44,7 +45,6 @@
 #' points_sp <- sp::SpatialPoints(sample_points)
 #' sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 #'
-#'
 #' \dontrun{
 #' # use lines (works only if rgeos is installed)
 #' x1 <- c(1, 5, 15, 10)
@@ -78,6 +78,7 @@ sample_lsm <- function(landscape,
                        shape, size,
                        return_raster,
                        verbose,
+                       progress,
                        ...) UseMethod("sample_lsm")
 
 #' @name sample_lsm
@@ -87,6 +88,7 @@ sample_lsm.RasterLayer <- function(landscape,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
+                                   progress = FALSE,
                                    ...) {
 
     result <- lapply(X = raster::as.list(landscape),
@@ -94,6 +96,7 @@ sample_lsm.RasterLayer <- function(landscape,
                      y = y,
                      shape = shape, size = size,
                      verbose = verbose,
+                     progress = progress,
                      ...)
 
     layer <- rep(seq_len(length(result)),
@@ -117,16 +120,29 @@ sample_lsm.RasterStack <- function(landscape,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
+                                   progress = FALSE,
                                    ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_lsm_int,
-                     y = y,
-                     shape = shape, size = size,
-                     verbose = verbose,
-                     ...)
+    landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -136,6 +152,8 @@ sample_lsm.RasterStack <- function(landscape,
     if (!isTRUE(return_raster)) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -147,16 +165,29 @@ sample_lsm.RasterBrick <- function(landscape,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
+                                   progress = FALSE,
                                    ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_lsm_int,
-                     y = y,
-                     shape = shape, size = size,
-                     verbose = verbose,
-                     ...)
+    landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -166,6 +197,8 @@ sample_lsm.RasterBrick <- function(landscape,
     if (!isTRUE(return_raster)) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -177,18 +210,29 @@ sample_lsm.stars <- function(landscape,
                              shape = "square", size,
                              return_raster = FALSE,
                              verbose = TRUE,
+                             progress = FALSE,
                              ...) {
 
-    landscape <- methods::as(landscape, "Raster")
+    landscape <-  raster::as.list(methods::as(landscape, "Raster"))
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_lsm_int,
-                     y = y,
-                     shape = shape, size = size,
-                     verbose = verbose,
-                     ...)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    layer <- rep(seq_len(length(result)),
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -198,6 +242,8 @@ sample_lsm.stars <- function(landscape,
     if (!isTRUE(return_raster)) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -209,16 +255,27 @@ sample_lsm.list <- function(landscape,
                             shape = "square", size,
                             return_raster = FALSE,
                             verbose = TRUE,
+                            progress = FALSE,
                             ...) {
 
-    result <- lapply(X = landscape,
-                     FUN = sample_lsm_int,
-                     y = y,
-                     shape = shape, size = size,
-                     verbose = verbose,
-                     ...)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    layer <- rep(seq_len(length(result)),
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -229,6 +286,8 @@ sample_lsm.list <- function(landscape,
         result  <- result[, -9]
     }
 
+    if (progress) {message("")}
+
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -236,6 +295,7 @@ sample_lsm_int <- function(landscape,
                            y,
                            shape, size,
                            verbose,
+                           progress,
                            ...) {
 
     # use polygon
@@ -257,9 +317,8 @@ sample_lsm_int <- function(landscape,
             }
         }
 
-        # get area of all polygons
-        maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
-                               FUN.VALUE = numeric(1))
+        # how many plots are present
+        number_plots <- length(y)
     }
 
     # use points
@@ -268,38 +327,10 @@ sample_lsm_int <- function(landscape,
         # points are matrix
         if (methods::is(y, "matrix")) {
 
-            # get number of points for max area
-            n <- nrow(y)
-
             if (ncol(y) != 2 & verbose) {
                 warning("'y' should be a two column matrix including x- and y-coordinates.",
                         call. = FALSE)
             }
-        }
-
-        # points are Spatial Points
-        else {
-
-            # get number of points for max area
-            n <- length(y)
-        }
-
-        # calculate theoretical, maximum area n times
-        if (shape == "circle") {
-
-            maximum_area <- rep((pi * size ^ 2) / 10000, times = n)
-        }
-
-        # calculate theoretical, maximum area
-        else if (shape == "square") {
-
-            maximum_area <- rep(((size * 2) ^ 2) / 10000, times = n)
-        }
-
-        # Unkown shape argument
-        else{
-
-            stop(paste0("Shape = ", shape, " unknown."), call. = FALSE)
         }
 
         # construct plot area around sample sample_points
@@ -320,10 +351,6 @@ sample_lsm_int <- function(landscape,
             # create buffer around lines
             y <- raster::buffer(x = y,
                                 width = size, dissolve = FALSE)
-
-            # get area of all polygons
-            maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
-                                   FUN.VALUE = numeric(1))
         }
 
         else{
@@ -338,8 +365,21 @@ sample_lsm_int <- function(landscape,
              call. = FALSE)
     }
 
+    # get area of all polygons
+    maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
+                           FUN.VALUE = numeric(1))
+
+    number_plots <- length(maximum_area)
+
     # loop through each sample point and calculate metrics
     result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress sample plots: ", current_plot, "/",
+                    number_plots, appendLF = FALSE)
+        }
 
         # crop sample plot
         landscape_crop <- raster::crop(x = landscape,
@@ -356,6 +396,7 @@ sample_lsm_int <- function(landscape,
         # calculate lsm
         result_current_plot <- calculate_lsm(landscape = landscape_mask,
                                              verbose = verbose,
+                                             progress = FALSE,
                                              ...)
 
         # add plot id
@@ -370,6 +411,11 @@ sample_lsm_int <- function(landscape,
         return(result_current_plot)
         })
     )
+
+    if (progress) {
+
+        message("")
+    }
 
     return(result)
 }

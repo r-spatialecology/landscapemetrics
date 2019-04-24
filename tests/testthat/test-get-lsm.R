@@ -8,8 +8,11 @@ test_that("get_lsm returns all selected metrics", {
                       verbose = FALSE)
 
     expect_length(object = result, n = 1)
+
     expect_equal(object = names(result[[1]]),
+
                  expected = c("lsm_p_area", "lsm_p_contig", "lsm_p_perim"))
+
     expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
 })
 
@@ -29,13 +32,21 @@ test_that("get_lsm returns returns correct type of metrics", {
                  expected = list_lsm(level = "patch", simplify = TRUE))
 })
 
-test_that("get_lsm returns returns CRS", {
+test_that("get_lsm returns CRS", {
 
     result <- get_lsm(podlasie_ccilc, what = "lsm_p_area",
                       verbose = FALSE)
 
     expect_equal(object = raster::crs(result[[1]][[1]]),
                  expected = raster::crs(podlasie_ccilc))
+})
+
+test_that("get_lsm forwards arguments to calculate_lsm", {
+
+    result <- get_lsm(landscape, what = "lsm_p_core",
+                      verbose = FALSE, edge_depth = 10)
+
+    expect_true(all(result[[1]][[1]][] == 0))
 })
 
 test_that("get_lsm works for all data types", {
@@ -56,9 +67,8 @@ test_that("get_lsm works for all data types", {
 
 test_that("get_lsm returns all errors", {
 
-    expect_error(get_lsm(landscape, level = "landscape",
+    expect_error(get_lsm(landscape, what = "lsm_l_ta",
                          verbose = FALSE),
-                 grep = "Please provide (at least one) patch level metrics only.
-                 To list available metrics, run list_lsm(level = 'patch').",
+                 grep = "'get_lsm()' only takes patch level metrics.",
                  fixed = TRUE)
 })

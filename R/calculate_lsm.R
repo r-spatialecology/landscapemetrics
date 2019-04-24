@@ -25,8 +25,8 @@
 #' which compute entropy in "bits". "log" and "log10" can be also used.
 #' @param full_name Should the full names of all functions be included in the
 #' tibble.
-#' @param verbose Print warning messages
-#' @param progress Print progress report
+#' @param verbose Print warning messages.
+#' @param progress Print progress report.
 #'
 #' @details
 #' Wrapper to calculate several landscape metrics. The metrics can be specified
@@ -116,7 +116,7 @@ calculate_lsm.RasterLayer <- function(landscape,
                      verbose = verbose,
                      progress = progress)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -154,8 +154,6 @@ calculate_lsm.RasterStack <- function(landscape,
 
             message("\r> Progress nlayers: ", x , "/", length(landscape),
                     appendLF = FALSE)
-
-            progress <- FALSE
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -175,9 +173,9 @@ calculate_lsm.RasterStack <- function(landscape,
                                full_name = full_name,
                                verbose = verbose,
                                progress = FALSE)
-        })
+    })
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -217,8 +215,6 @@ calculate_lsm.RasterBrick <- function(landscape,
 
             message("\r> Progress nlayers: ", x , "/", length(landscape),
                     appendLF = FALSE)
-
-            progress <- FALSE
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -240,7 +236,7 @@ calculate_lsm.RasterBrick <- function(landscape,
                                progress = FALSE)
     })
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -280,8 +276,6 @@ calculate_lsm.stars <- function(landscape,
 
             message("\r> Progress nlayers: ", x , "/", length(landscape),
                     appendLF = FALSE)
-
-            progress <- FALSE
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -303,7 +297,7 @@ calculate_lsm.stars <- function(landscape,
                                progress = FALSE)
     })
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -342,8 +336,6 @@ calculate_lsm.list <- function(landscape,
 
             message("\r> Progress nlayers: ", x , "/", length(landscape),
                     appendLF = FALSE)
-
-            progress <- FALSE
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -365,7 +357,7 @@ calculate_lsm.list <- function(landscape,
                                progress = FALSE)
     })
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -422,7 +414,7 @@ calculate_lsm_internal <- function(landscape,
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
 
         # print progess using the non-internal name
-        if (isTRUE(progress)) {
+        if (progress) {
 
             message("\r> Progress metrics: ", current_metric, "/",
                     number_metrics, appendLF = FALSE)
@@ -454,6 +446,7 @@ calculate_lsm_internal <- function(landscape,
     }
 
     if (progress) {
+
         message("")
     }
 
