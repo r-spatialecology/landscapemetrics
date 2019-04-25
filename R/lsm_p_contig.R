@@ -67,7 +67,7 @@ lsm_p_contig.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -84,7 +84,7 @@ lsm_p_contig.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -100,7 +100,7 @@ lsm_p_contig.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -118,7 +118,7 @@ lsm_p_contig.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -134,7 +134,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_contig_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

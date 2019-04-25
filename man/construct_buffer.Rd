@@ -2,48 +2,59 @@
 % Please edit documentation in R/construct_buffer.R
 \name{construct_buffer}
 \alias{construct_buffer}
-\alias{construct_buffer.matrix}
 \alias{construct_buffer.SpatialPoints}
 \alias{construct_buffer.SpatialPointsDataFrame}
 \alias{construct_buffer.MULTIPOINT}
 \alias{construct_buffer.POINT}
 \alias{construct_buffer.sf}
 \alias{construct_buffer.sfc}
+\alias{construct_buffer.matrix}
 \title{construct_buffer}
 \usage{
-construct_buffer(points, shape, size)
+construct_buffer(coords, shape, size, return_sp, verbose)
 
-\method{construct_buffer}{matrix}(points, shape, size)
+\method{construct_buffer}{SpatialPoints}(coords, shape, size,
+  return_sp = TRUE, verbose = TRUE)
 
-\method{construct_buffer}{SpatialPoints}(points, shape, size)
+\method{construct_buffer}{SpatialPointsDataFrame}(coords, shape, size,
+  return_sp = TRUE, verbose = TRUE)
 
-\method{construct_buffer}{SpatialPointsDataFrame}(points, shape, size)
+\method{construct_buffer}{MULTIPOINT}(coords, shape, size,
+  return_sp = TRUE, verbose = TRUE)
 
-\method{construct_buffer}{MULTIPOINT}(points, shape, size)
+\method{construct_buffer}{POINT}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{POINT}(points, shape, size)
+\method{construct_buffer}{sf}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{sf}(points, shape, size)
+\method{construct_buffer}{sfc}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 
-\method{construct_buffer}{sfc}(points, shape, size)
+\method{construct_buffer}{matrix}(coords, shape, size, return_sp = TRUE,
+  verbose = TRUE)
 }
 \arguments{
-\item{points}{SpatialPoints or 2-column matrix with coordinates of sample points}
+\item{coords}{SpatialPoints or 2-column matrix with coordinates of sample points}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
 \item{size}{Size of sample plot. Equals the radius for circles or the
 side-length for squares in mapunits}
+
+\item{return_sp}{If true, SpatialPolygons are returned.}
+
+\item{verbose}{Print warning messages.}
 }
 \value{
-SpatialPolygons
+matrix or SpatialPolygons
 }
 \description{
-Internal function to construct plot area around points
+Internal function to construct plot area around coordinates
 }
 \examples{
-points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-construct_buffer(points = points, shape = "square", size = 5)
+coords <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+construct_buffer(coords = coords, shape = "square", size = 5)
 
 }
 \keyword{internal}

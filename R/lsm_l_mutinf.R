@@ -52,7 +52,7 @@ lsm_l_mutinf.RasterLayer <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -73,7 +73,7 @@ lsm_l_mutinf.RasterStack <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -94,7 +94,7 @@ lsm_l_mutinf.RasterBrick <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -117,7 +117,7 @@ lsm_l_mutinf.stars <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -138,7 +138,7 @@ lsm_l_mutinf.list <- function(landscape,
                      ordered = ordered,
                      base = base)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -153,13 +153,15 @@ lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
         landscape <- raster::as.matrix(landscape)
     }
 
-    cmh  <- rcpp_get_composition_vector(landscape)
+    com <- rcpp_get_coocurrence_matrix(landscape,
+                                       directions = as.matrix(neighbourhood))
+    com_c <- colSums(com)
 
     coh <- rcpp_get_coocurrence_vector(landscape,
                                        directions = as.matrix(neighbourhood),
                                        ordered = ordered)
 
-    comp <- rcpp_get_entropy(cmh, base)
+    comp <- rcpp_get_entropy(com_c, base)
     cplx <- rcpp_get_entropy(coh, base)
     conf <- cplx - comp
     aggr <- comp - conf

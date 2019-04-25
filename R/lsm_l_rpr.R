@@ -51,7 +51,7 @@ lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -68,7 +68,7 @@ lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -85,7 +85,7 @@ lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE)
                      classes_max = classes_max,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_l_rpr.stars <- function(landscape, classes_max = NULL, verbose = TRUE) {
                      classes_max = classes_max,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -121,7 +121,7 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
                      classes_max = classes_max,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -133,7 +133,7 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
     if(is.null(classes_max)) {
 
-        if(isTRUE(verbose)) {
+        if (verbose) {
             warning("No maximum number of classes provided: RPR = NA", call. = FALSE)
         }
         rpr <- NA

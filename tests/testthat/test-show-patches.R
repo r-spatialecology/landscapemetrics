@@ -28,8 +28,12 @@ test_that("show_patches returns a plot for each list entry", {
 test_that("show_patches returns warnings and errors", {
 
     expect_warning(show_patches(landscape, class = c(1, "global")),
-                   regexp = "'global' and 'all' can't be combined with any other class-argument.")
+                   grep = "'global' and 'all' can't be combined with any
+                   other class-argument.",
+                   fixed = TRUE)
 
     expect_error(show_patches(landscape, class = 42),
-                 regexp = "'class' must at least contain one value of a class contained in the landscape.")
+                 grep = "'class' must at least contain one value of a class
+                 contained in the landscape.",
+                 fixed = TRUE)
 })

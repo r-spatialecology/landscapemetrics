@@ -26,7 +26,7 @@ matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
 raster
 }
 \description{
-Adding padding to raster
+Convert matrix to raster
 }
 \details{
 Converts \code{matrix} to a raster with same characteristics as \code{landscape}. Either

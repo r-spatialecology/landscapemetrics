@@ -11,7 +11,7 @@ test_that("get_boundaries works for RasterLayer", {
 
 test_that("get_boundaries works for matrix", {
 
-    result <- get_boundaries(landscape = raster::as.matrix(landscape),
+    result <- get_boundaries(landscape = landscape,
                              return_raster = FALSE)
 
     expect_is(result, "matrix")
@@ -19,6 +19,17 @@ test_that("get_boundaries works for matrix", {
                  expected = raster::ncell(landscape))
     expect_equal(get_unique_values(result)[[1]],
                  expected = c(0, 1))
+})
+
+test_that("get_boundaries works for all other data types", {
+
+    result_stack <- get_boundaries(landscape_stack)
+    result_brick <- get_boundaries(landscape_brick)
+    result_list <- get_boundaries(landscape_list)
+
+    expect_is(result_stack, "RasterStack")
+    expect_is(result_brick, "RasterStack")
+    expect_is(result_list, "RasterStack")
 })
 
 test_that("get_boundaries returns only 1 and NA", {

@@ -30,10 +30,15 @@ test_that("show_lsm can handle stacks, bricks and lists", {
 test_that("show_lsm returns warnings and errors", {
 
     expect_warning(show_lsm(landscape, what = "lsm_p_area", class = c(1, "global")),
-                   regexp = "'global' and 'all' can't be combined with any other class-argument.")
+                   grep = "'global' and 'all' can't be combined with any other class-argument.",
+                   fixed = TRUE)
 
-    expect_error(show_lsm(landscape, what = "lsm_p_invented_metric"))
+    expect_error(show_lsm(landscape, what = "lsm_p_invented_metric"),
+                 grep = "Please provide one patch level metric only.
+                 To list available metrics, run list_lsm(level = 'patch').",
+                 fixed = TRUE)
 
     expect_error(show_lsm(landscape, what = "lsm_p_area", class = 5),
-                 "'class' must contain at least one value of a class existing in the landscape.")
+                 grep = "'class' must contain at least one value of a class existing in the landscape.",
+                 fixed = TRUE)
 })

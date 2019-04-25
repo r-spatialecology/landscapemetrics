@@ -142,7 +142,7 @@ lsm_c_ai_calc <- function(landscape) {
     cells_class$m <- cells_class$value - cells_class$n ^ 2
     cells_class$max_adj <- ifelse(test = cells_class$m == 0,
                                   yes = 2 * cells_class$n * (cells_class$n - 1),
-                                  no = ifelse(test = cells_class$m <= cells_class$n ,
+                                  no = ifelse(test = cells_class$m <= cells_class$n,
                                               yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 1,
                                               no = ifelse(test = cells_class$m > cells_class$n,
                                                           yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 2,

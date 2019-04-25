@@ -2,9 +2,24 @@
 % Please edit documentation in R/raster_to_points.R
 \name{raster_to_points}
 \alias{raster_to_points}
+\alias{raster_to_points.RasterLayer}
+\alias{raster_to_points.RasterStack}
+\alias{raster_to_points.RasterBrick}
+\alias{raster_to_points.stars}
+\alias{raster_to_points.list}
 \title{raster_to_points}
 \usage{
-raster_to_points(landscape, return_NA = TRUE)
+raster_to_points(landscape, return_NA)
+
+\method{raster_to_points}{RasterLayer}(landscape, return_NA = TRUE)
+
+\method{raster_to_points}{RasterStack}(landscape, return_NA = TRUE)
+
+\method{raster_to_points}{RasterBrick}(landscape, return_NA = TRUE)
+
+\method{raster_to_points}{stars}(landscape, return_NA = TRUE)
+
+\method{raster_to_points}{list}(landscape, return_NA = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

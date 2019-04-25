@@ -56,7 +56,7 @@ lsm_p_gyrate.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -72,7 +72,7 @@ lsm_p_gyrate.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -88,7 +88,7 @@ lsm_p_gyrate.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -107,7 +107,7 @@ lsm_p_gyrate.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -123,7 +123,7 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_gyrate_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -138,7 +138,7 @@ lsm_p_gyrate_calc <- function(landscape, directions,
     if(class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
-        points <- raster_to_points(landscape)
+        points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)

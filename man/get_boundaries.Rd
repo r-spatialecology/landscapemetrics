@@ -2,10 +2,33 @@
 % Please edit documentation in R/get_boundaries.R
 \name{get_boundaries}
 \alias{get_boundaries}
+\alias{get_boundaries.RasterLayer}
+\alias{get_boundaries.RasterStack}
+\alias{get_boundaries.RasterBrick}
+\alias{get_boundaries.stars}
+\alias{get_boundaries.list}
+\alias{get_boundaries.matrix}
 \title{get_boundaries}
 \usage{
-get_boundaries(landscape, directions = 4, as_NA = FALSE,
+get_boundaries(landscape, directions, as_NA, return_raster)
+
+\method{get_boundaries}{RasterLayer}(landscape, directions = 4,
+  as_NA = FALSE, return_raster = TRUE)
+
+\method{get_boundaries}{RasterStack}(landscape, directions = 4,
+  as_NA = FALSE, return_raster = TRUE)
+
+\method{get_boundaries}{RasterBrick}(landscape, directions = 4,
+  as_NA = FALSE, return_raster = TRUE)
+
+\method{get_boundaries}{stars}(landscape, directions = 4,
+  as_NA = FALSE, return_raster = TRUE)
+
+\method{get_boundaries}{list}(landscape, directions = 4, as_NA = FALSE,
   return_raster = TRUE)
+
+\method{get_boundaries}{matrix}(landscape, directions = 4,
+  as_NA = FALSE, return_raster = TRUE)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}

@@ -2,10 +2,33 @@
 % Please edit documentation in R/get_adjacencies.R
 \name{get_adjacencies}
 \alias{get_adjacencies}
+\alias{get_adjacencies.RasterLayer}
+\alias{get_adjacencies.RasterStack}
+\alias{get_adjacencies.RasterBrick}
+\alias{get_adjacencies.stars}
+\alias{get_adjacencies.list}
+\alias{get_adjacencies.matrix}
 \title{get_adjacencies}
 \usage{
-get_adjacencies(landscape, neighbourhood = 4, what = "full",
-  upper = FALSE)
+get_adjacencies(landscape, neighbourhood, what, upper)
+
+\method{get_adjacencies}{RasterLayer}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
+
+\method{get_adjacencies}{RasterStack}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
+
+\method{get_adjacencies}{RasterBrick}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
+
+\method{get_adjacencies}{stars}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
+
+\method{get_adjacencies}{list}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
+
+\method{get_adjacencies}{matrix}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

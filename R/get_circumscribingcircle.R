@@ -28,7 +28,9 @@
 #' @rdname get_circumscribingcircle
 #'
 #' @export
-get_circumscribingcircle <- function(landscape, resolution_x, resolution_y) UseMethod("get_circumscribingcircle")
+get_circumscribingcircle <- function(landscape,
+                                     resolution_x,
+                                     resolution_y) UseMethod("get_circumscribingcircle")
 
 #' @name get_circumscribingcircle
 #' @export
@@ -36,20 +38,141 @@ get_circumscribingcircle.RasterLayer <- function(landscape,
                                                  resolution_x = NULL,
                                                  resolution_y = NULL) {
 
-    points_mat <- raster_to_points(landscape, return_NA = FALSE)
+    result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
 
-    resolution_xy <- raster::res(landscape)
-    resolution_x <- resolution_xy[[1]]
-    resolution_y <- resolution_xy[[2]]
+        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
 
-    circle <- rcpp_get_circle(points_mat,
-                              resolution_x = resolution_x,
-                              resolution_y = resolution_y)
+        resolution_xy <- raster::res(landscape[[x]])
+        resolution_x <- resolution_xy[[1]]
+        resolution_y <- resolution_xy[[2]]
 
-    tibble::tibble(id = circle[, 1],
-                   dist = circle[, 2])
+        circle <- rcpp_get_circle(points_mat,
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
+        tibble::tibble(layer = x,
+                       id = circle[, 1],
+                       dist = circle[, 2])
+    })
+
+    result <- do.call(rbind, result)
+
+    return(result)
 }
 
+#' @name get_circumscribingcircle
+#' @export
+get_circumscribingcircle.RasterStack <- function(landscape,
+                                                 resolution_x = NULL,
+                                                 resolution_y = NULL) {
+
+    result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
+
+        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
+
+        resolution_xy <- raster::res(landscape[[x]])
+        resolution_x <- resolution_xy[[1]]
+        resolution_y <- resolution_xy[[2]]
+
+        circle <- rcpp_get_circle(points_mat,
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
+        tibble::tibble(layer = x,
+                       id = circle[, 1],
+                       dist = circle[, 2])
+    })
+
+    result <- do.call(rbind, result)
+
+    return(result)
+}
+
+#' @name get_circumscribingcircle
+#' @export
+get_circumscribingcircle.RasterBrick <- function(landscape,
+                                                 resolution_x = NULL,
+                                                 resolution_y = NULL) {
+
+    result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
+
+        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
+
+        resolution_xy <- raster::res(landscape[[x]])
+        resolution_x <- resolution_xy[[1]]
+        resolution_y <- resolution_xy[[2]]
+
+        circle <- rcpp_get_circle(points_mat,
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
+        tibble::tibble(layer = x,
+                       id = circle[, 1],
+                       dist = circle[, 2])
+    })
+
+    result <- do.call(rbind, result)
+
+    return(result)
+}
+
+#' @name get_circumscribingcircle
+#' @export
+get_circumscribingcircle.stars <- function(landscape,
+                                           resolution_x = NULL,
+                                           resolution_y = NULL) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
+
+        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
+
+        resolution_xy <- raster::res(landscape[[x]])
+        resolution_x <- resolution_xy[[1]]
+        resolution_y <- resolution_xy[[2]]
+
+        circle <- rcpp_get_circle(points_mat,
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
+        tibble::tibble(layer = x,
+                       id = circle[, 1],
+                       dist = circle[, 2])
+    })
+
+    result <- do.call(rbind, result)
+
+    return(result)
+}
+
+#' @name get_circumscribingcircle
+#' @export
+get_circumscribingcircle.list <- function(landscape,
+                                          resolution_x = NULL,
+                                          resolution_y = NULL) {
+
+    result <- lapply(seq_along(landscape), function(x) {
+
+        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
+
+        resolution_xy <- raster::res(landscape[[x]])
+        resolution_x <- resolution_xy[[1]]
+        resolution_y <- resolution_xy[[2]]
+
+        circle <- rcpp_get_circle(points_mat,
+                                  resolution_x = resolution_x,
+                                  resolution_y = resolution_y)
+
+        tibble::tibble(layer = x,
+                       id = circle[, 1],
+                       dist = circle[, 2])
+    })
+
+    result <- do.call(rbind, result)
+
+    return(result)
+}
 
 #' @name get_circumscribingcircle
 #' @export
@@ -57,12 +180,12 @@ get_circumscribingcircle.matrix <- function(landscape,
                                             resolution_x = NULL,
                                             resolution_y = NULL) {
 
-    if (ncol(landscape) != 3){
+    if (ncol(landscape) != 3) {
         stop("Coordinate matrix must have 3 (x, y, id) columns.",
              call. = FALSE)
     }
 
-    if (is.null(resolution_x) || is.null(resolution_y)){
+    if (is.null(resolution_x) || is.null(resolution_y)) {
         stop("Resolution must be provided to correctly calculate the edges. ",
              call. = FALSE)
     }
@@ -71,7 +194,8 @@ get_circumscribingcircle.matrix <- function(landscape,
                               resolution_x = resolution_x,
                               resolution_y = resolution_y)
 
-    tibble::tibble(id = circle[, 1],
-                   dist = circle[, 2])
+    tibble::add_column(tibble::tibble(id = circle[, 1],
+                                      dist = circle[, 2]),
+                       layer = 1, .before = TRUE)
 
 }

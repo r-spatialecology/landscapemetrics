@@ -4,26 +4,13 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param window matrix
+#' @param metric Abbreviation of metrics (e.g. 'area').
+#' @param name Full name of metrics (e.g. 'core area')
+#' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param level Level of metrics to calculate (e.g. 'landscape').
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
-#' @param directions The number of directions in which patches should be
-#' connected: 4 (rook's case) or 8 (queen's case).
-#' @param count_boundary Include landscape boundary in edge length
-#' @param consider_boundary Logical if cells that only neighbour the landscape
-#' boundary should be considered as core
-#' @param edge_depth Distance (in cells) a cell has the be away from the patch
-#' edge to be considered as core cell
-#' @param classes_max Potential maximum number of present classes
-#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
-#' 4 (rook's case) or 8 (queen's case). The default is 4.
-#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
-#' @param base The unit in which entropy is measured. The default is "log2",
-#' which compute entropy in "bits". "log" and "log10" can be also used.
+#' @param progress Print progress report.
+#' @param ... Arguments passed on to \code{calculate_lsm()}.
 #'
 #' @details
 #' The function calculates for each focal cell the selected landscape metrics (currently only landscape level
@@ -35,6 +22,7 @@
 #'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
+#' \code{\link{calculate_lsm}} \cr
 #' \code{\link{focal}}
 #'
 #' @return list
@@ -64,69 +52,70 @@
 #'
 #' @export
 window_lsm <- function(landscape, window,
-                           what, level, metric, name, type,
-                           directions,
-                           count_boundary,
-                           consider_boundary,
-                           edge_depth,
-                           classes_max,
-                           neighbourhood,
-                           ordered,
-                           base) UseMethod("window_lsm")
+                       metric, name, type, what,
+                       progress,
+                       ...) UseMethod("window_lsm")
 
 
 #' @name window_lsm
 #' @export
 window_lsm.RasterLayer <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   what = NULL,
+                                   progress = FALSE,
+                                   ...) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
+
+    number_metrics <- length(metrics_list)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("window_lsm is only able to calculate landscape level metrics.",
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
-        result_layer <- lapply(metrics_list, function(current_metric) {
+        # get coordinates of cells
+        points <- raster_to_points(current_landscape)[, 2:4]
+
+        # resolution of original raster
+        resolution <- raster::res(current_landscape)
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
+        result_layer <- lapply(seq_along(metrics_list), function(current_metric) {
+
+            # print progess using the non-internal name
+            if (progress) {
+
+                message("\r> Progress metrics: ", current_metric, "/",
+                        number_metrics, appendLF = FALSE)
+            }
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                        nrow = nrow(window),
-                                        ncol = ncol(window),
-                                        what = current_metric,
-                                        directions = directions,
-                                        count_boundary = count_boundary,
-                                        consider_boundary = consider_boundary,
-                                        edge_depth = edge_depth,
-                                        classes_max = classes_max,
-                                        neighbourhood = neighbourhood,
-                                        ordered = ordered,
-                                        base = base)},
+                                    n_row = n_row,
+                                    n_col = n_col,
+                                    resolution = resolution,
+                                    points = points,
+                                    what = metrics_list[[current_metric]],
+                                    ...)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -134,6 +123,8 @@ window_lsm.RasterLayer <- function(landscape,
 
         return(result_layer)
     })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -141,55 +132,66 @@ window_lsm.RasterLayer <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.RasterStack <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   what = NULL,
+                                   progress = FALSE,
+                                   ...) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
-    result <- lapply(raster::as.list(landscape), function(current_landscape) {
+    # convert to list
+    landscape <- raster::as.list(landscape)
+
+    # how many landscapes are present for progress
+    number_layers <- length(landscape)
+
+    result <- lapply(seq_along(landscape), function(current_landscape) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress nlayers: ", current_landscape, "/",
+                    number_layers, appendLF = FALSE)
+        }
+
+        # get coordinates of cells
+        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
+
+        # resolution of original raster
+        resolution <- raster::res(landscape[[current_landscape]])
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
-            raster::focal(x = current_landscape, w = window, fun = function(x) {
+            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
+                                    resolution = resolution,
+                                    points = points,
                                     what = current_metric,
-                                    directions = directions,
-                                    count_boundary = count_boundary,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    classes_max = classes_max,
-                                    neighbourhood = neighbourhood,
-                                    ordered = ordered,
-                                    base = base)},
+                                    ...)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -197,6 +199,8 @@ window_lsm.RasterStack <- function(landscape,
 
         return(result_layer)
     })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -204,55 +208,66 @@ window_lsm.RasterStack <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.RasterBrick <- function(landscape,
-                                       window,
-                                       what = NULL,
-                                       level = NULL,
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       directions = 8,
-                                       count_boundary = FALSE,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1,
-                                       classes_max = NULL,
-                                       neighbourhood = 4,
-                                       ordered = TRUE,
-                                       base = "log2") {
+                                   window,
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   what = NULL,
+                                   progress = FALSE,
+                                   ...) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
-    result <- lapply(raster::as.list(landscape), function(current_landscape) {
+    # convert to list
+    landscape <- raster::as.list(landscape)
+
+    # how many landscapes are present for progress
+    number_layers <- length(landscape)
+
+    result <- lapply(seq_along(landscape), function(current_landscape) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress nlayers: ", current_landscape, "/",
+                    number_layers, appendLF = FALSE)
+        }
+
+        # get coordinates of cells
+        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
+
+        # resolution of original raster
+        resolution <- raster::res(landscape[[current_landscape]])
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
-            raster::focal(x = current_landscape, w = window, fun = function(x) {
+            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
+                                    resolution = resolution,
+                                    points = points,
                                     what = current_metric,
-                                    directions = directions,
-                                    count_boundary = count_boundary,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    classes_max = classes_max,
-                                    neighbourhood = neighbourhood,
-                                    ordered = ordered,
-                                    base = base)},
+                                    ...)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -260,6 +275,8 @@ window_lsm.RasterBrick <- function(landscape,
 
         return(result_layer)
     })
+
+    if (progress) {message("")}
 
     return(result)
 }
@@ -267,115 +284,66 @@ window_lsm.RasterBrick <- function(landscape,
 #' @name window_lsm
 #' @export
 window_lsm.stars <- function(landscape,
-                                 window,
-                                 what = NULL,
-                                 level = NULL,
-                                 metric = NULL,
-                                 name = NULL,
-                                 type = NULL,
-                                 directions = 8,
-                                 count_boundary = FALSE,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1,
-                                 classes_max = NULL,
-                                 neighbourhood = 4,
-                                 ordered = TRUE,
-                                 base = "log2") {
+                             window,
+                             metric = NULL,
+                             name = NULL,
+                             type = NULL,
+                             what = NULL,
+                             progress = FALSE,
+                             ...) {
 
     # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
     # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
-    landscape <- methods::as(landscape, "Raster")
+    # convert to list
+    landscape <- raster::as.list(methods::as(landscape, "Raster"))
 
-    result <- lapply(metrics_list, function(current_metric) {
+    # how many landscapes are present for progress
+    number_layers <- length(landscape)
 
-        raster::focal(x = landscape, w = window, fun = function(x) {
+    result <- lapply(seq_along(landscape), function(current_landscape) {
 
-            calculate_lsm_focal(landscape = x,
-                                nrow = nrow(window),
-                                ncol = ncol(window),
-                                what = current_metric,
-                                directions = directions,
-                                count_boundary = count_boundary,
-                                consider_boundary = consider_boundary,
-                                edge_depth = edge_depth,
-                                classes_max = classes_max,
-                                neighbourhood = neighbourhood,
-                                ordered = ordered,
-                                base = base)},
-            pad = TRUE, padValue = NA)
-    })
+        # print progess using the non-internal name
+        if (progress) {
 
-    names(result) <- metrics_list
+            message("\r> Progress nlayers: ", current_landscape, "/",
+                    number_layers, appendLF = FALSE)
+        }
 
-    return(result)
-}
+        # get coordinates of cells
+        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
 
-#' @name window_lsm
-#' @export
-window_lsm.list <- function(landscape,
-                                window,
-                                what = NULL,
-                                level = NULL,
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                directions = 8,
-                                count_boundary = FALSE,
-                                consider_boundary = FALSE,
-                                edge_depth = 1,
-                                classes_max = NULL,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2") {
+        # resolution of original raster
+        resolution <- raster::res(landscape[[current_landscape]])
 
-    # get list of metrics to calculate
-    metrics_list <- landscapemetrics::list_lsm(level = level,
-                                               metric = metric,
-                                               name = name,
-                                               type = type,
-                                               what = what,
-                                               simplify = TRUE,
-                                               verbose = FALSE)
-
-    # check if non-landscape-level metrics are selected
-    if (!any(metrics_list %in% landscapemetrics::list_lsm(level = "landscape",
-                                                          simplify = TRUE))) {
-        stop("extract_lsm only takes landscape level metrics as what argument.",
-             call. = FALSE)
-    }
-
-    result <- lapply(landscape, function(current_landscape) {
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
 
         result_layer <- lapply(metrics_list, function(current_metric) {
 
-            raster::focal(x = current_landscape, w = window, fun = function(x) {
+            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
 
                 calculate_lsm_focal(landscape = x,
-                                    nrow = nrow(window),
-                                    ncol = ncol(window),
+                                    n_row = n_row,
+                                    n_col = n_col,
+                                    resolution = resolution,
+                                    points = points,
                                     what = current_metric,
-                                    directions = directions,
-                                    count_boundary = count_boundary,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    classes_max = classes_max,
-                                    neighbourhood = neighbourhood,
-                                    ordered = ordered,
-                                    base = base)},
+                                    ...)},
                 pad = TRUE, padValue = NA)
         })
 
@@ -384,21 +352,96 @@ window_lsm.list <- function(landscape,
         return(result_layer)
     })
 
+    if (progress) {message("")}
+
     return(result)
 }
 
-calculate_lsm_focal <- function(landscape, nrow, ncol, what,
-                                    directions,
-                                    count_boundary,
-                                    consider_boundary,
-                                    edge_depth,
-                                    classes_max,
-                                    neighbourhood,
-                                    ordered,
-                                    base) {
+#' @name window_lsm
+#' @export
+window_lsm.list <- function(landscape,
+                            window,
+                            metric = NULL,
+                            name = NULL,
+                            type = NULL,
+                            what = NULL,
+                            progress = FALSE,
+                            ...) {
 
-    raster_window <- matrix(landscape, nrow, ncol)
+    # get list of metrics to calculate
+    metrics_list <- list_lsm(level = "landscape",
+                             metric = metric,
+                             name = name,
+                             type = type,
+                             what = what,
+                             simplify = TRUE,
+                             verbose = FALSE)
 
+    # check if non-landscape-level metrics are selected
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
+             call. = FALSE)
+    }
+
+    # how many landscapes are present for progress
+    number_layers <- length(landscape)
+
+    result <- lapply(seq_along(landscape), function(current_landscape) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress nlayers: ", current_landscape, "/",
+                    number_layers, appendLF = FALSE)
+        }
+
+        # get coordinates of cells
+        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
+
+        # resolution of original raster
+        resolution <- raster::res(landscape[[current_landscape]])
+
+        # get dimensions of window
+        n_row = nrow(window)
+        n_col = ncol(window)
+
+        result_layer <- lapply(metrics_list, function(current_metric) {
+
+            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
+
+                calculate_lsm_focal(landscape = x,
+                                    n_row = n_row,
+                                    n_col = n_col,
+                                    resolution = resolution,
+                                    points = points,
+                                    what = current_metric,
+                                    ...)},
+                pad = TRUE, padValue = NA)
+        })
+
+        names(result_layer) <- metrics_list
+
+        return(result_layer)
+    })
+
+    if (progress) {message("")}
+
+    return(result)
+}
+
+calculate_lsm_focal <- function(landscape,
+                                n_row,
+                                n_col,
+                                resolution,
+                                points,
+                                what,
+                                ...) {
+
+    # convert focal window to matrix
+    raster_window <- matrix(landscape, n_row, n_col)
+
+    # get internal calculation function
     what <- paste0(what, "_calc")
 
     # match function name
@@ -406,12 +449,42 @@ calculate_lsm_focal <- function(landscape, nrow, ncol, what,
 
     # get argument
     arguments <- names(formals(foo))[-1]
-    arguments <- mget(arguments)
-    arguments$landscape <- raster_window
+
+    arguments_values <- list(resolution = resolution,
+                             points = points,
+                             directions = 8,
+                             count_boundary = FALSE,
+                             consider_boundary = FALSE,
+                             edge_depth = 1,
+                             classes_max = NULL,
+                             neighbourhood = 4,
+                             ordered = TRUE,
+                             base = "log2",
+                             verbose = TRUE)
+
+    # which arguments are needed
+    arguments_values <- arguments_values[names(arguments_values) %in% arguments]
+
+    # sort alphabetically to match later with provided
+    arguments_values <- arguments_values[order(names(arguments_values))]
+
+    # get provided arguments
+    arguments_provided <- substitute(...())
+
+    # sort alphabetically to match later with defaults
+    if (!is.null(arguments_provided)) {
+        arguments_provided <- arguments_provided[order(names(arguments_provided))]
+
+        # exchange arguments
+        arguments_values[names(arguments_values) %in% names(arguments_provided)] <- arguments_provided
+    }
+
+    # landscape argument
+    arguments_values$landscape <- raster_window
 
     # run function
     result <- do.call(what = foo,
-                      args = arguments)
+                      args = arguments_values)
 
     return(result$value)
 }

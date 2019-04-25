@@ -53,7 +53,7 @@ lsm_l_split.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -69,7 +69,7 @@ lsm_l_split.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -85,7 +85,7 @@ lsm_l_split.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -103,7 +103,7 @@ lsm_l_split.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -119,7 +119,7 @@ lsm_l_split.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_split_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

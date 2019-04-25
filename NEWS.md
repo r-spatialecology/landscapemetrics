@@ -1,3 +1,28 @@
+# landscapemetrics 1.1
+* Bugfixes
+    * Bugfix in `lsm_c_ai()` if only one class and NA values were present
+    * Bugfix in `show_correlation()` that first col was lost
+    * Bugfix in `sample_lsm()` and `extract_lsm()` to forward arguments to
+    `calculate_lsm()`
+    * size argument in `sample_lsm()` is now comparable between squares and circles
+    * Bugfix in `window_lsm()` that some arguments were not passed on (resolution and points)
+    * Bugfix in `extract_lsm()` and `window_lsm()` that allowed metric subset was wrong
+* Improvements
+    * The values can be added as geom_text in `show_correlation()`
+    * `list_lsm()` allows to return all BUT the selected metrics
+    * `sample_lsm()` can now use SpatialPolygons to sample metrics
+    * `sample_lsm()` can now handle SpatialLines to sample metrics
+    * `sample_lsm()` automatically detects provided data type
+    * `extract_lsm()` can now handle SpatialLines to extract metrics
+    * Updates the way of calculating `lsm_l_ent()` and thus `lsm_l_condent()` and `lsm_l_mutinf()`.
+    * `calculate_lsm()`/`extract_lsm()`/`sample_lsm()`/`spatialize_lsm()`/`window_lsm()` can print progress
+    * replaced `cat()` with `message()`
+    * `calculate_lsm()` returns an error message if selected metrics do not exist
+    * `construct_buffer()` can now return a matrix with coords instead of polygons
+    * `calculate_lsm()` checks the input data before calculating metrics
+* Renaming
+    * `get_lsm()` is now called `spatialize_lsm()`
+
 # landscapemetrics 1.0
 * New functions
     * New function `moving_window()` to calculate metrics within a moving window

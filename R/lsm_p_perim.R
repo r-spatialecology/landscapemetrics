@@ -45,7 +45,7 @@ lsm_p_perim.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -61,7 +61,7 @@ lsm_p_perim.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -77,7 +77,7 @@ lsm_p_perim.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -95,7 +95,7 @@ lsm_p_perim.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -111,7 +111,7 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_perim_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -135,7 +135,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     classes <- get_unique_values(landscape)[[1]]
 
     # raster resolution not identical in x-y directions
-    if(!isTRUE(resolution_x == resolution_y)){
+    if (!resolution_x == resolution_y){
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,
@@ -168,7 +168,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         landscape_labeled[target_na] <- -999
 
         # x-y resolution is identical
-        if(isTRUE(resolution_x == resolution_y)) {
+        if (resolution_x == resolution_y) {
 
             # get coocurrence matrix
             neighbour_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,

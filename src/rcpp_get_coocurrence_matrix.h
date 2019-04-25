@@ -8,7 +8,4 @@ using namespace Rcpp;
 
 IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
                                           const arma::imat directions);
-
-std::map<int, unsigned> get_class_index_map(const std::vector<int> &classes);
-
 #endif // GET_COOCURRENCE_MATRIX_H

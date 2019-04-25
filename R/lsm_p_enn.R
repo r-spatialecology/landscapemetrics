@@ -62,7 +62,7 @@ lsm_p_enn.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -79,7 +79,7 @@ lsm_p_enn.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -96,7 +96,7 @@ lsm_p_enn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-     layer <- rep(seq_len(length(result)),
+     layer <- rep(seq_along(result),
                   vapply(result, nrow, FUN.VALUE = integer(1)))
 
      result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_p_enn.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -132,7 +132,7 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -147,7 +147,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     if(class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
-        points <- raster_to_points(landscape)
+        points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)
@@ -174,7 +174,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
             enn <- tibble::tibble(class = patches_class,
                                   dist = as.double(NA))
 
-            if(isTRUE(verbose)) {
+            if(verbose) {
                 warning(paste0("Class ", patches_class,
                                ": ENN = NA for class with only 1 patch"),
                         call. = FALSE)

@@ -8,6 +8,7 @@
 \alias{get_unique_values.list}
 \alias{get_unique_values.RasterStack}
 \alias{get_unique_values.RasterBrick}
+\alias{get_unique_values.stars}
 \title{get_unique_values}
 \usage{
 get_unique_values(x, simplify, verbose)
@@ -27,6 +28,8 @@ get_unique_values(x, simplify, verbose)
 
 \method{get_unique_values}{RasterBrick}(x, simplify = FALSE,
   verbose = TRUE)
+
+\method{get_unique_values}{stars}(x, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{x}{vector, matrix or Raster* object}

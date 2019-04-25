@@ -54,7 +54,7 @@ lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_contag_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -70,7 +70,7 @@ lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_contag_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -86,7 +86,7 @@ lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_contag_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_l_contag.stars <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_contag_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -120,7 +120,7 @@ lsm_l_contag.list <- function(landscape, verbose = TRUE) {
                      FUN = lsm_l_contag_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -138,7 +138,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
     t <- length(get_unique_values(landscape)[[1]])
 
     if (t < 2) {
-        if(isTRUE(verbose)) {
+        if (verbose) {
             warning("Number of classes must be >= 2: CONTAG = NA.",
                     call. = FALSE)
         }

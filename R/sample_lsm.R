@@ -3,28 +3,25 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param points SpatialPoints, sf or 2-column matrix with coordinates of sample points
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.
 #' @param shape String specifying plot shape. Either "circle" or "square"
-#' @param size Approximated size of sample plot. Equals the radius for circles or the
-#' side-length for squares in mapunits
-#' @param what Selected level of metrics: either "patch", "class" or "landscape".
-#' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
-#' @param level Level of metrics to calculate (e.g. 'landscape').
-#' @param metric Abbreviation of metrics to calculate (e.g. 'area').
-#' @param name Full name of metrics to calculate (e.g. 'core area').
-#' @param type Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').
+#' @param size Approximated size of sample plot. Equals the radius for circles or half of
+#' the side-length for squares in mapunits. For lines size equals the width of the buffer.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
-#'
+#' @param verbose Print warning messages.
+#' @param progress Print progress report.
+#' @param ... Arguments passed on to \code{calculate_lsm()}.
+
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
-#' around sample points. The size of the actual sampled landscape can be different
-#' to the provided size due to two reasons. Firstly, because clipping raster
-#' cells using a circle or a sample plot not directly at a cell center lead
-#' to inaccuracies. Secondly, sample plots can exceed the landscape boundary.
-#' Therefore, we report the actual clipped sample plot area relative in relation
-#' to the theoretical, maximum sample plot area e.g. a sample plot only half within
-#' the landscape will have a `percentage_inside = 50`. Please be aware that the
+#' around sample points, sample lines or within provided SpatialPolygons. The size of the actual
+#' sampled landscape can be different to the provided size due to two reasons.
+#' Firstly, because clipping raster cells using a circle or a sample plot not directly
+#' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
+#' landscape boundary. Therefore, we report the actual clipped sample plot area relative
+#' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
+#' within the landscape will have a `percentage_inside = 50`. Please be aware that the
 #' output is sligthly different to all other `lsm`-function of `landscapemetrics`.
 #'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
@@ -34,46 +31,73 @@
 #' available metrics, don't specify any of the above arguments.
 #'
 #' @seealso
-#' \code{\link{list_lsm}}
+#' \code{\link{list_lsm}} \cr
+#' \code{\link{calculate_lsm}}
 #'
 #' @return tibble
 #'
 #' @examples
-#' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-#' sample_lsm(landscape, points = points, size = 15, what = "lsm_l_np")
+#' # use a matrix
+#' sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+#' sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 #'
-#' points_sp <- sp::SpatialPoints(points)
-#' sample_lsm(landscape, points = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+#' # use sp points
+#' points_sp <- sp::SpatialPoints(sample_points)
+#' sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
+#'
+#' \dontrun{
+#' # use lines (works only if rgeos is installed)
+#' x1 <- c(1, 5, 15, 10)
+#' y1 <- c(1, 5, 15, 25)
+#'
+#' x2 <- c(10, 25)
+#' y2 <- c(5, 5)
+#'
+#' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+#' sp::Line(cbind(x2, y2))), ID = "a")))
+#' sample_lsm(landscape, y = sample_lines, size = 10, what = "lsm_l_np")
+#'
+#' # use polygons
+#' poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
+#'                            c(-2.5, 12.5, 12.5, -2.5)))
+#' poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
+#'                            c(-7.5, 23.5, 23.5, -7.5)))
+#' poly_1 <- sp::Polygons(list(poly_1), "p1")
+#' poly_2 <- sp::Polygons(list(poly_2), "p2")
+#' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
+#'
+#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+#' }
 #'
 #' @aliases sample_lsm
 #' @rdname sample_lsm
 #'
 #' @export
 sample_lsm <- function(landscape,
-                       points, shape, size,
-                       what, level, metric, name, type,
-                       return_raster) UseMethod("sample_lsm")
-
+                       y,
+                       shape, size,
+                       return_raster,
+                       verbose,
+                       progress,
+                       ...) UseMethod("sample_lsm")
 
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterLayer <- function(landscape,
-                                   points, shape = "square", size,
-                                   what = NULL,
-                                   level = NULL,
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   return_raster = FALSE) {
+                                   y,
+                                   shape = "square", size,
+                                   return_raster = FALSE,
+                                   verbose = TRUE,
+                                   progress = FALSE,
+                                   ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
-                     points = points, shape = shape, size = size,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type)
+                     y = y,
+                     shape = shape, size = size,
+                     verbose = verbose,
+                     progress = progress,
+                     ...)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -82,7 +106,7 @@ sample_lsm.RasterLayer <- function(landscape,
 
     result$layer <- layer
 
-    if(!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 
@@ -92,33 +116,44 @@ sample_lsm.RasterLayer <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterStack <- function(landscape,
-                                   points, shape = "square", size,
-                                   what = NULL,
-                                   level = NULL,
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   return_raster = FALSE) {
+                                   y,
+                                   shape = "square", size,
+                                   return_raster = FALSE,
+                                   verbose = TRUE,
+                                   progress = FALSE,
+                                   ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_lsm_int,
-                     points = points, shape = shape, size = size,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type)
+    landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
 
     result$layer <- layer
 
-    if(!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -126,33 +161,89 @@ sample_lsm.RasterStack <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.RasterBrick <- function(landscape,
-                                   points, shape = "square", size,
-                                   what = NULL,
-                                   level = NULL,
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   return_raster = FALSE) {
+                                   y,
+                                   shape = "square", size,
+                                   return_raster = FALSE,
+                                   verbose = TRUE,
+                                   progress = FALSE,
+                                   ...) {
 
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = sample_lsm_int,
-                     points = points, shape = shape, size = size,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type)
+    landscape <- raster::as.list(landscape)
 
-    layer <- rep(seq_len(length(result)),
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
 
     result$layer <- layer
 
-    if(!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
+
+    result[with(result, order(layer, plot_id, level, metric, class, id)), ]
+}
+
+#' @name sample_lsm
+#' @export
+sample_lsm.stars <- function(landscape,
+                             y,
+                             shape = "square", size,
+                             return_raster = FALSE,
+                             verbose = TRUE,
+                             progress = FALSE,
+                             ...) {
+
+    landscape <-  raster::as.list(methods::as(landscape, "Raster"))
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    if (!return_raster) {
+        result  <- result[, -9]
+    }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -160,71 +251,143 @@ sample_lsm.RasterBrick <- function(landscape,
 #' @name sample_lsm
 #' @export
 sample_lsm.list <- function(landscape,
-                            points, shape = "square", size,
-                            what = NULL,
-                            level = NULL,
-                            metric = NULL,
-                            name = NULL,
-                            type = NULL,
-                            return_raster = FALSE) {
+                            y,
+                            shape = "square", size,
+                            return_raster = FALSE,
+                            verbose = TRUE,
+                            progress = FALSE,
+                            ...) {
 
-    result <- lapply(X = landscape,
-                     FUN = sample_lsm_int,
-                     points = points, shape = shape, size = size,
-                     what = what,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type)
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
-    layer <- rep(seq_len(length(result)),
+        if (progress) {
+
+            message("\r> Progress nlayers: ", x , "/", length(landscape),
+                    appendLF = FALSE)
+        }
+
+        sample_lsm_int(landscape = landscape[[x]],
+                       y = y,
+                       shape = shape,
+                       size = size,
+                       verbose = verbose,
+                       progress = FALSE,
+                       ...)
+    })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
 
     result$layer <- layer
 
-    if(!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
+
+    if (progress) {message("")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
 sample_lsm_int <- function(landscape,
-                           points, shape, size,
-                           what, level, metric, name, type) {
+                           y,
+                           shape, size,
+                           verbose,
+                           progress,
+                           ...) {
 
-    # calculate theoretical, maximum area
-    if (shape == "circle") {
-        maximum_area <- (pi * size ^ 2) / 10000
+    # use polygon
+    if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
+
+        # disaggregate if rgeos is installed
+        if (nzchar(system.file(package = "rgeos"))) {
+
+            y <- sp::disaggregate(y)
+        }
+
+        # warning that rgeos is not installed
+        else {
+
+            if (verbose) {
+
+                warning("Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
+                        call. = FALSE)
+            }
+        }
+
+        # how many plots are present
+        number_plots <- length(y)
     }
 
-    # calculate theoretical, maximum area
-    else if (shape == "square") {
-        maximum_area <- (size ^ 2) / 10000
+    # use points
+    else if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+
+        # points are matrix
+        if (methods::is(y, "matrix")) {
+
+            if (ncol(y) != 2 & verbose) {
+                warning("'y' should be a two column matrix including x- and y-coordinates.",
+                        call. = FALSE)
+            }
+        }
+
+        # construct plot area around sample sample_points
+        y <- construct_buffer(coords = y,
+                              shape = shape,
+                              size = size,
+                              verbose = verbose)
     }
 
-    # Unkown shape argument
-    else{
-        stop(paste0("Shape = ", shape, " unknown"))
+    else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+
+        # check if rgeos is installed
+        if (nzchar(system.file(package = "rgeos"))) {
+
+            # disaggregate lines
+            y <- sp::disaggregate(y)
+
+            # create buffer around lines
+            y <- raster::buffer(x = y,
+                                width = size, dissolve = FALSE)
+        }
+
+        else{
+            stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
+                 call. = FALSE)
+        }
     }
 
-    # construct plot area around sample points
-    sample_plots <- construct_buffer(points = points,
-                                     shape = shape,
-                                     size = size)
+    else {
+
+        stop("'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
+             call. = FALSE)
+    }
+
+    # get area of all polygons
+    maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
+                           FUN.VALUE = numeric(1))
+
+    number_plots <- length(maximum_area)
 
     # loop through each sample point and calculate metrics
-    result <- do.call(rbind, lapply(X = seq_along(sample_plots), FUN = function(current_plot) {
+    result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            message("\r> Progress sample plots: ", current_plot, "/",
+                    number_plots, appendLF = FALSE)
+        }
 
         # crop sample plot
         landscape_crop <- raster::crop(x = landscape,
-                                       y = sample_plots[current_plot])
+                                       y = y[current_plot])
 
         # mask sample plot
         landscape_mask <- raster::mask(x = landscape_crop,
-                                       mask = sample_plots[current_plot])
+                                       mask = y[current_plot])
 
         # calculate actual area of sample plot
         area <- lsm_l_ta_calc(landscape_mask,
@@ -232,17 +395,15 @@ sample_lsm_int <- function(landscape,
 
         # calculate lsm
         result_current_plot <- calculate_lsm(landscape = landscape_mask,
-                                             what = what,
-                                             level = level,
-                                             metric = metric,
-                                             name = name,
-                                             type = type)
+                                             verbose = verbose,
+                                             progress = FALSE,
+                                             ...)
 
         # add plot id
         result_current_plot$plot_id <- current_plot
 
         # calculate ratio between actual area and theoretical area
-        result_current_plot$percentage_inside <- area$value / maximum_area * 100
+        result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
 
         # add sample plot raster
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
@@ -250,6 +411,11 @@ sample_lsm_int <- function(landscape,
         return(result_current_plot)
         })
     )
+
+    if (progress) {
+
+        message("")
+    }
 
     return(result)
 }

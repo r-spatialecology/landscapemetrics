@@ -55,7 +55,7 @@ lsm_c_cohesion.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -71,7 +71,7 @@ lsm_c_cohesion.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -87,7 +87,7 @@ lsm_c_cohesion.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -105,7 +105,7 @@ lsm_c_cohesion.stars <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -122,7 +122,7 @@ lsm_c_cohesion.list <- function(landscape, directions = 8) {
                      FUN = lsm_c_cohesion_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

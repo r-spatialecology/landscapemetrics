@@ -79,7 +79,8 @@ get_patches.RasterLayer <- function(landscape,
                               directions = directions)
 
     # convert back to raster
-    if(return_raster){
+    if (return_raster){
+
         result <- lapply(result,
                          FUN = matrix_to_raster,
                          landscape = landscape,
@@ -106,7 +107,8 @@ get_patches.RasterStack <- function(landscape,
 
                          result <- get_patches_int(x_matrix, class, directions)
 
-                         if(return_raster){
+                         if (return_raster) {
+
                             result <- lapply(result,
                                              FUN = matrix_to_raster,
                                              landscape = x,
@@ -140,7 +142,44 @@ get_patches.RasterBrick <- function(landscape,
 
                          result <- get_patches_int(x_matrix, class, directions)
 
-                         if(return_raster){
+                         if (return_raster) {
+
+                             result <- lapply(result,
+                                              FUN = matrix_to_raster,
+                                              landscape = x,
+                                              to_disk = to_disk)
+                         }
+
+                         return(result)
+                     },
+
+                     class = class,
+                     directions = directions,
+                     return_raster = return_raster,
+                     to_disk = to_disk)
+
+    return(result)
+}
+
+#' @name get_patches
+#' @export
+get_patches.stars <- function(landscape,
+                              class = "all",
+                              directions = 8,
+                              to_disk = getOption("to_disk", default = FALSE),
+                              return_raster = TRUE) {
+
+    landscape <- methods::as(landscape, "Raster")
+
+    result <- lapply(X = raster::as.list(landscape),
+
+                     FUN = function(x, class, directions, return_raster, to_disk) {
+
+                         x_matrix <- raster::as.matrix(x)
+
+                         result <- get_patches_int(x_matrix, class, directions)
+
+                         if (return_raster) {
                              result <- lapply(result,
                                               FUN = matrix_to_raster,
                                               landscape = x,
@@ -170,10 +209,14 @@ get_patches.list <- function(landscape,
 
                      FUN = function(x, class, directions, return_raster, to_disk) {
 
-                         if(class(x) == "RasterLayer"){
+                         if (class(x) == "RasterLayer") {
+
                             x_matrix <- raster::as.matrix(x)
+
                             result <- get_patches_int(x_matrix, class, directions)
-                            if(return_raster){
+
+                            if (return_raster) {
+
                                 result <- lapply(result,
                                                  FUN = matrix_to_raster,
                                                  landscape = x,
@@ -209,7 +252,7 @@ get_patches.matrix <- function(landscape,
                               class = class,
                               directions = directions)
 
-    if(return_raster || to_disk){
+    if (return_raster || to_disk) {
         warning("return_raster = TRUE or to_disk = TRUE not able for matrix input")
     }
 

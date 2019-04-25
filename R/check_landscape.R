@@ -3,6 +3,7 @@
 #' @description Check input landscape
 #'
 #' @param landscape Raster* Layer, Stack, Brick, Stars or a list of rasterLayers
+#' @param verbose Print warning messages.
 #'
 #' @details This function extracts basic information about
 #' the input landscape.
@@ -22,14 +23,15 @@
 #' @rdname check_landscape
 #'
 #' @export
-check_landscape <- function(landscape) UseMethod("check_landscape")
+check_landscape <- function(landscape, verbose) UseMethod("check_landscape")
 
 #' @name check_landscape
 #' @export
-check_landscape.RasterLayer <- function(landscape) {
+check_landscape.RasterLayer <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc)
+                     FUN = check_landscape_calc,
+                     verbose = verbose)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -41,10 +43,11 @@ check_landscape.RasterLayer <- function(landscape) {
 
 #' @name check_landscape
 #' @export
-check_landscape.RasterStack <- function(landscape) {
+check_landscape.RasterStack <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc)
+                     FUN = check_landscape_calc,
+                     verbose = verbose)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -56,10 +59,11 @@ check_landscape.RasterStack <- function(landscape) {
 
 #' @name check_landscape
 #' @export
-check_landscape.RasterBrick <- function(landscape) {
+check_landscape.RasterBrick <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc)
+                     FUN = check_landscape_calc,
+                     verbose = verbose)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,12 +75,13 @@ check_landscape.RasterBrick <- function(landscape) {
 
 #' @name check_landscape
 #' @export
-check_landscape.stars <- function(landscape) {
+check_landscape.stars <- function(landscape, verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc)
+                     FUN = check_landscape_calc,
+                     verbose = verbose)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -88,10 +93,11 @@ check_landscape.stars <- function(landscape) {
 
 #' @name check_landscape
 #' @export
-check_landscape.list <- function(landscape) {
+check_landscape.list <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = landscape,
-                     FUN = check_landscape_calc)
+                     FUN = check_landscape_calc,
+                     verbose = verbose)
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -101,7 +107,7 @@ check_landscape.list <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-check_landscape_calc <- function(landscape){
+check_landscape_calc <- function(landscape, verbose) {
 
     # get info about projection and class of values
     info <- cbind(proj_info(landscape), data_info(landscape))
@@ -130,29 +136,21 @@ check_landscape_calc <- function(landscape){
 
     info <- info[, c("crs", "units", "class", "n_classes", "OK")]
 
-    if (info$class != "integer") {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat("\n Only integer values for your classes are allowed as input for landscapemetrics.\n")
-    }
+    if (verbose) {
+        if (info$class != "integer") {
+            warning("Caution: Land-cover classes must be decoded as integer values.",
+                    call. = FALSE)
+        }
 
-    if (is.na(info$units) || info$units == "degrees") {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat(
-            "\n Only metric coordinates make sense for landscapemetrics. You will still get results, but these are not comparable with other studies and the interpretation of metrics that use the cellsize as input becomes error prone.\n"
-        )
-    }
+        if (is.na(info$units) || info$units == "degrees") {
+            warning("Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.",
+                    call. = FALSE)
+        }
 
-    if (info$n_classes > 30) {
-        cat("\n")
-        cat(crayon::yellow$bold("Caution:"))
-        cat(
-            "\n Landscape metrics describe categorical landscape patterns.
-            You have more than 30 land cover classes, which seems very high (but can make sense in some cases, if so ignore this message).
-            However, if you did not think about classifying your landscapes before using landscapemetrics, we recommend reading our background vignette to familiarize yourself with
-            the basic concepts behind the metrics: https://r-spatialecology.github.io/landscapemetrics/articles/articles/general-background.html\n"
-        )
+        if (info$n_classes > 30) {
+            warning("Caution: More than 30 land cover-classes - Please check if discrete land-cover classes are present.",
+                    call. = FALSE)
+        }
     }
 
     return(info)

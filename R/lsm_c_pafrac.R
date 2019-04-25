@@ -59,7 +59,7 @@ lsm_c_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -76,7 +76,7 @@ lsm_c_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -93,7 +93,7 @@ lsm_c_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) 
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -112,7 +112,7 @@ lsm_c_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -129,7 +129,7 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
                      directions = directions,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -165,11 +165,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
 
         class_name <- as.integer(np_class[class_current, "class"])
 
-        if(np_class$value[np_class$class == class_name] < 10){
+        if (np_class$value[np_class$class == class_name] < 10){
 
             pafrac <- NA
 
-            if(isTRUE(verbose)) {
+            if (verbose) {
                 warning(paste0("Class ", class_name, ": PAFRAC = NA for class with < 10 patches"),
                         call. = FALSE)
             }

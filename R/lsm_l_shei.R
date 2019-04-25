@@ -49,7 +49,7 @@ lsm_l_shei.RasterLayer <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shei_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -64,7 +64,7 @@ lsm_l_shei.RasterStack <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shei_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -79,7 +79,7 @@ lsm_l_shei.RasterBrick <- function(landscape){
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shei_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -96,7 +96,7 @@ lsm_l_shei.stars <- function(landscape) {
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_shei_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -111,7 +111,7 @@ lsm_l_shei.list <- function(landscape){
     result <- lapply(X = landscape,
                      FUN = lsm_l_shei_calc)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

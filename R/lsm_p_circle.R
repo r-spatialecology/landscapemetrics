@@ -60,7 +60,7 @@ lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -76,7 +76,7 @@ lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -92,7 +92,7 @@ lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -110,7 +110,7 @@ lsm_p_circle.stars <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -126,7 +126,7 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
                      FUN = lsm_p_circle_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -138,10 +138,10 @@ lsm_p_circle_calc <- function(landscape, directions,
                               points = NULL, resolution = NULL) {
 
     # conver to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
-        points <- raster_to_points(landscape)
+        points <- raster_to_points(landscape)[, 2:4]
 
         # get resolution
         resolution <- raster::res(landscape)

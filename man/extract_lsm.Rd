@@ -9,64 +9,47 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, what, metric, name, type, directions,
-  consider_boundary, edge_depth, full_name, verbose, progress, ...)
+extract_lsm(landscape, y, metric, name, type, what, directions, progress,
+  ...)
 
-\method{extract_lsm}{RasterLayer}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
-  verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterLayer}(landscape, y, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  progress = FALSE, ...)
 
-\method{extract_lsm}{RasterStack}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
-  verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterStack}(landscape, y, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  progress = FALSE, ...)
 
-\method{extract_lsm}{RasterBrick}(landscape, y, what = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
-  verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{RasterBrick}(landscape, y, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
+  progress = FALSE, ...)
 
-\method{extract_lsm}{stars}(landscape, y, what = NULL, metric = NULL,
-  name = NULL, type = NULL, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
-  verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{stars}(landscape, y, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 
-\method{extract_lsm}{list}(landscape, y, what = NULL, metric = NULL,
-  name = NULL, type = NULL, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1, full_name = FALSE,
-  verbose = TRUE, progress = FALSE, ...)
+\method{extract_lsm}{list}(landscape, y, metric = NULL, name = NULL,
+  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
 
-\item{what}{String indicating what metric to calculate, either "patch" (default) for all patch level metrics or any of the patch metrics functions.}
+\item{metric}{Abbreviation of metrics (e.g. 'area').}
 
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
+\item{name}{Full name of metrics (e.g. 'core area')}
 
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
+\item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
 
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
+\item{what}{Selected level of metrics: either "patch", "class" or "landscape".
+It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{consider_boundary}{Logical if cells that only neighbour the landscape
-boundary should be considered as core}
+\item{progress}{Print progress report.}
 
-\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
-edge to be considered as core cell}
-
-\item{full_name}{Should the full names of all functions be included in the
-tibble.}
-
-\item{verbose}{Print warning message if not sufficient patches are present}
-
-\item{progress}{Print progress report}
-
-\item{...}{Arguments passed to \code{raster::extract}.}
+\item{...}{Arguments passed to \code{calculate_lsm()}.}
 }
 \value{
 tibble
@@ -83,18 +66,26 @@ metrics and the ID of the spatial objects.
 }
 \examples{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-extract_lsm(landscape, points)
-extract_lsm(landscape, points, type = "aggregation metric")
+extract_lsm(landscape, y = points)
+extract_lsm(landscape, y = points, type = "aggregation metric")
 
 points_sp <- sp::SpatialPoints(points)
-extract_lsm(landscape, points, what = "lsm_p_area")
+extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
+
+\dontrun{
+# use lines (works only if rgeos is installed)
+x1 <- c(1, 5, 15, 10)
+y1 <- c(1, 5, 15, 25)
+
+x2 <- c(10, 25)
+y2 <- c(5, 5)
+
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+sp::Line(cbind(x2, y2))), ID = "a")))
+extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
+}
 
 }
 \seealso{
-\code{\link{lsm_c_enn_mn}},
-\code{\link{lsm_c_enn_sd}},
-\code{\link{lsm_c_enn_cv}}, \cr
-\code{\link{lsm_l_enn_mn}},
-\code{\link{lsm_l_enn_sd}},
-\code{\link{lsm_l_enn_cv}}
+\code{\link{calculate_lsm}}
 }

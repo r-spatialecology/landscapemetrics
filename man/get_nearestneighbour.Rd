@@ -3,12 +3,24 @@
 \name{get_nearestneighbour}
 \alias{get_nearestneighbour}
 \alias{get_nearestneighbour.RasterLayer}
+\alias{get_nearestneighbour.RasterStack}
+\alias{get_nearestneighbour.RasterBrick}
+\alias{get_nearestneighbour.stars}
+\alias{get_nearestneighbour.list}
 \alias{get_nearestneighbour.matrix}
 \title{get_nearestneighbour}
 \usage{
 get_nearestneighbour(landscape)
 
 \method{get_nearestneighbour}{RasterLayer}(landscape)
+
+\method{get_nearestneighbour}{RasterStack}(landscape)
+
+\method{get_nearestneighbour}{RasterBrick}(landscape)
+
+\method{get_nearestneighbour}{stars}(landscape)
+
+\method{get_nearestneighbour}{list}(landscape)
 
 \method{get_nearestneighbour}{matrix}(landscape)
 }

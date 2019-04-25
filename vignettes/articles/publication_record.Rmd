@@ -10,4 +10,6 @@ We try to maintain a list of publications that have used the `landscapemetrics` 
 
 ## A list of publications
 
+- Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing.
+
 - Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. https://doi.org/10.1101/383281

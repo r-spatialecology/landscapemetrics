@@ -9,40 +9,40 @@
 \alias{calculate_lsm.list}
 \title{calculate_lsm}
 \usage{
-calculate_lsm(landscape, what, level, metric, name, type, directions,
+calculate_lsm(landscape, level, metric, name, type, what, directions,
   count_boundary, consider_boundary, edge_depth, classes_max,
   neighbourhood, ordered, base, full_name, verbose, progress)
 
-\method{calculate_lsm}{RasterLayer}(landscape, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+\method{calculate_lsm}{RasterLayer}(landscape, level = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
-\method{calculate_lsm}{RasterStack}(landscape, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+\method{calculate_lsm}{RasterStack}(landscape, level = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
-\method{calculate_lsm}{RasterBrick}(landscape, what = NULL,
-  level = NULL, metric = NULL, name = NULL, type = NULL,
+\method{calculate_lsm}{RasterBrick}(landscape, level = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
   directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
   edge_depth = 1, classes_max = NULL, neighbourhood = 4,
   ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
-\method{calculate_lsm}{stars}(landscape, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
+\method{calculate_lsm}{stars}(landscape, level = NULL, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
   base = "log2", full_name = FALSE, verbose = TRUE,
   progress = FALSE)
 
-\method{calculate_lsm}{list}(landscape, what = NULL, level = NULL,
-  metric = NULL, name = NULL, type = NULL, directions = 8,
+\method{calculate_lsm}{list}(landscape, level = NULL, metric = NULL,
+  name = NULL, type = NULL, what = NULL, directions = 8,
   count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
   classes_max = NULL, neighbourhood = 4, ordered = TRUE,
   base = "log2", full_name = FALSE, verbose = TRUE,
@@ -51,16 +51,16 @@ calculate_lsm(landscape, what, level, metric, name, type, directions,
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
+
+\item{metric}{Abbreviation of metrics (e.g. 'area').}
+
+\item{name}{Full name of metrics (e.g. 'core area')}
+
+\item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
+
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
-
-\item{level}{Level of metrics to calculate (e.g. 'landscape').}
-
-\item{metric}{Abbreviation of metrics to calculate (e.g. 'area').}
-
-\item{name}{Full name of metrics to calculate (e.g. 'core area').}
-
-\item{type}{Metric types to calculate according to FRAGSTATS grouping (e.g. 'aggregation metric').}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -87,9 +87,9 @@ which compute entropy in "bits". "log" and "log10" can be also used.}
 \item{full_name}{Should the full names of all functions be included in the
 tibble.}
 
-\item{verbose}{Print warning messages}
+\item{verbose}{Print warning messages.}
 
-\item{progress}{Print progress report}
+\item{progress}{Print progress report.}
 }
 \value{
 tibble
@@ -107,7 +107,7 @@ above arguments.
 }
 \examples{
 \dontrun{
-calculate_lsm(landscape)
+calculate_lsm(landscape, progress = TRUE)
 calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
 calculate_lsm(landscape, level = c("class", "landscape"), type = "aggregation metric")
 }

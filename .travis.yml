@@ -46,8 +46,11 @@ env:
 
 notifications:
   email:
-  on_success: change
-  on_failure: change
+    recipients:
+      - maximilian.hesselbarth@uni-goettingen.de
+      - msciain@gwdg.de
+    on_success: change # default: change
+    on_failure: always # default: always
 
 #services
 services:

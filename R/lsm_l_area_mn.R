@@ -54,7 +54,7 @@ lsm_l_area_mn.RasterLayer <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_mn_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -70,7 +70,7 @@ lsm_l_area_mn.RasterStack <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_mn_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -86,7 +86,7 @@ lsm_l_area_mn.RasterBrick <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_mn_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -104,7 +104,7 @@ lsm_l_area_mn.stars <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_mn_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -120,7 +120,7 @@ lsm_l_area_mn.list <- function(landscape, directions = 8) {
                      FUN = lsm_l_area_mn_calc,
                      directions = directions)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)

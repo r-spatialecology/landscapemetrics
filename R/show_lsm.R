@@ -45,16 +45,16 @@ show_lsm.RasterLayer <- function(landscape,
                                  nrow = NULL,
                                  ncol = NULL) {
 
-    show_lsm_intern(landscape,
-                    what = what,
-                    class = class,
-                    directions = directions,
-                    consider_boundary = consider_boundary,
-                    edge_depth = edge_depth,
-                    labels = labels,
-                    label_lsm = label_lsm,
-                    nrow = nrow,
-                    ncol = ncol)
+    show_lsm_internal(landscape,
+                      what = what,
+                      class = class,
+                      directions = directions,
+                      consider_boundary = consider_boundary,
+                      edge_depth = edge_depth,
+                      labels = labels,
+                      label_lsm = label_lsm,
+                      nrow = nrow,
+                      ncol = ncol)
 }
 
 #' @name show_lsm
@@ -71,7 +71,7 @@ show_lsm.RasterStack <- function(landscape,
                                  ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -97,7 +97,7 @@ show_lsm.RasterBrick <- function(landscape,
                                  ncol = NULL) {
 
     lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -124,8 +124,8 @@ show_lsm.stars <- function(landscape,
 
     landscape <- methods::as(landscape, "Raster")
 
-    lapply(X = landscape,
-           FUN = show_lsm_intern,
+    lapply(X = raster::as.list(landscape),
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -151,7 +151,7 @@ show_lsm.list <- function(landscape,
                           ncol = NULL) {
 
     lapply(X = landscape,
-           FUN = show_lsm_intern,
+           FUN = show_lsm_internal,
            what = what,
            class = class,
            directions = directions,
@@ -163,33 +163,35 @@ show_lsm.list <- function(landscape,
            ncol = ncol)
 }
 
-show_lsm_intern <- function(landscape, what, class,
-                            directions, consider_boundary, edge_depth,
-                            labels, label_lsm,
-                            nrow, ncol) {
+show_lsm_internal <- function(landscape, what, class,
+                              directions, consider_boundary, edge_depth,
+                              labels, label_lsm,
+                              nrow, ncol) {
 
-    patch_metrics <- landscapemetrics::list_lsm(level = "patch", simplify = TRUE)
+    if (!what %in% list_lsm(level = "patch", simplify = TRUE) || length(what) > 1) {
 
-    if(!what %in% patch_metrics || length(what) > 1){
         stop("Please provide one patch level metric only. To list available metrics, run list_lsm(level = 'patch').",
              call. = FALSE)
     }
 
-    if(any(!(class %in% c("all", "global")))){
-        if (!any(class %in% raster::unique(landscape))){
+    if (any(!(class %in% c("all", "global")))) {
+
+        if (!any(class %in% raster::unique(landscape))) {
+
             stop("'class' must contain at least one value of a class existing in the landscape.",
                  call. = FALSE)
         }
     }
 
-    if(length(class) > 1 & any(class %in% c("all", "global"))){
+    if (length(class) > 1 & any(class %in% c("all", "global"))) {
+
         warning("'global' and 'all' can't be combined with any other class-argument.",
                 call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)){
+    for (i in seq_len(length(landscape_labeled) - 1)) {
 
         max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
@@ -198,12 +200,16 @@ show_lsm_intern <- function(landscape, what, class,
 
     lsm_fun <- match.fun(what)
 
-    if(what %in% c("lsm_p_core", "lsm_p_ncore")) {
+    if (what %in% c("lsm_p_core", "lsm_p_ncore")) {
+
         fill_value <- lsm_fun(landscape,
                               directions = directions,
                               consider_boundary = consider_boundary,
                               edge_depth = edge_depth)
-    } else {
+    }
+
+    else {
+
         fill_value <- lsm_fun(landscape, directions = directions)
     }
 
@@ -254,21 +260,26 @@ show_lsm_intern <- function(landscape, what, class,
                                 all.x = TRUE,
                                 suffixes = c(".get_patches", ".lsm"))
 
-        if (any(!(class %in% "all"))){
+        if (any(!(class %in% "all"))) {
+
             class_index <- which(patches_tibble$class.get_patches %in% class)
             patches_tibble <- patches_tibble[class_index, ]
         }
 
         if (!labels) {
+
             patches_tibble$label <- NA
         }
 
         else {
-            if(label_lsm){
+
+            if (label_lsm) {
+
                 patches_tibble$label <- round(patches_tibble$value, 2)
             }
 
             else{
+
                 patches_tibble$label <- patches_tibble$id
             }
         }

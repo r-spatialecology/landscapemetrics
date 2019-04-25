@@ -5,6 +5,7 @@
 \alias{get_patches.RasterLayer}
 \alias{get_patches.RasterStack}
 \alias{get_patches.RasterBrick}
+\alias{get_patches.stars}
 \alias{get_patches.list}
 \alias{get_patches.matrix}
 \title{get_patches}
@@ -21,6 +22,10 @@ get_patches(landscape, class, directions, to_disk, return_raster)
 
 \method{get_patches}{RasterBrick}(landscape, class = "all",
   directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
+
+\method{get_patches}{stars}(landscape, class = "all", directions = 8,
+  to_disk = getOption("to_disk", default = FALSE),
   return_raster = TRUE)
 
 \method{get_patches}{list}(landscape, class = "all", directions = 8,

@@ -49,7 +49,7 @@ lsm_l_te.RasterLayer <- function(landscape,  count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -65,7 +65,7 @@ lsm_l_te.RasterStack <- function(landscape,  count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -81,7 +81,7 @@ lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -99,7 +99,7 @@ lsm_l_te.stars <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -115,7 +115,7 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
                      FUN = lsm_l_te_calc,
                      count_boundary = count_boundary)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -135,14 +135,14 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 
-    if(isTRUE(count_boundary)){
+    if (count_boundary) {
         landscape <- pad_raster(landscape = landscape,
                                 pad_raster_value = max(landscape, na.rm = TRUE) + 1,
                                 pad_raster_cells = 1,
                                 return_raster = FALSE)[[1]]
     }
 
-    if (isTRUE(resolution_x == resolution_y)) {
+    if (resolution_x == resolution_y) {
 
         neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape,
                                                        directions = as.matrix(4))
