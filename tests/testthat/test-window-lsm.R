@@ -11,7 +11,14 @@ test_that("window_lsm returns a list with selected metrics", {
     expect_length(result[[1]], n = 2)
 })
 
-test_that("window_lsm returns workds for all data types", {
+test_that("window_lsm takes argument", {
+
+    result <- window_lsm(landscape, window = window, what = "lsm_l_core_mn", edge_depth = 10)
+
+    expect_true(all(result[[1]][[1]][] == 0))
+})
+
+test_that("window_lsm returns works for all data types", {
 
     expect_is(window_lsm(landscape, window = window, what = "lsm_l_pr"),
               class = "list")
@@ -28,7 +35,7 @@ test_that("window_lsm returns workds for all data types", {
 
 test_that("window_lsm returns all errors", {
 
-    expect_error(window_lsm(landscape, window = window, level = "patch"),
+    expect_error(window_lsm(landscape, window = window, what = "lsm_p_area"),
                  grep = "'window_lsm()' is only able to calculate landscape level metrics.",
                  fixed = TRUE)
 })

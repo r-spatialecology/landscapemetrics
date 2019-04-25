@@ -15,7 +15,7 @@
     * `sample_lsm()` automatically detects provided data type
     * `extract_lsm()` can now handle SpatialLines to extract metrics
     * Updates the way of calculating `lsm_l_ent()` and thus `lsm_l_condent()` and `lsm_l_mutinf()`.
-    * `calculate_lsm()`/`extract_lsm()`/`sample_lsm()`/`spatialize_lsm()` can print progress for RasterStacks, RasterBricks and lists
+    * `calculate_lsm()`/`extract_lsm()`/`sample_lsm()`/`spatialize_lsm()`/`window_lsm()` can print progress
     * replaced `cat()` with `message()`
     * `calculate_lsm()` returns an error message if selected metrics do not exist
     * `construct_buffer()` can now return a matrix with coords instead of polygons

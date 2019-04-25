@@ -9,39 +9,22 @@
 \alias{window_lsm.list}
 \title{window_lsm}
 \usage{
-window_lsm(landscape, window, metric, name, type, what, directions,
-  count_boundary, consider_boundary, edge_depth, classes_max,
-  neighbourhood, ordered, base, verbose)
+window_lsm(landscape, window, metric, name, type, what, progress, ...)
 
 \method{window_lsm}{RasterLayer}(landscape, window, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
 \method{window_lsm}{RasterStack}(landscape, window, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
 \method{window_lsm}{RasterBrick}(landscape, window, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
 \method{window_lsm}{stars}(landscape, window, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
 \method{window_lsm}{list}(landscape, window, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", verbose = TRUE)
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -57,29 +40,9 @@ window_lsm(landscape, window, metric, name, type, what, directions,
 \item{what}{Selected level of metrics: either "patch", "class" or "landscape".
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_c_ca", "lsm_l_ta")}.}
 
-\item{directions}{The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).}
+\item{progress}{Print progress report.}
 
-\item{count_boundary}{Include landscape boundary in edge length}
-
-\item{consider_boundary}{Logical if cells that only neighbour the landscape
-boundary should be considered as core}
-
-\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
-edge to be considered as core cell}
-
-\item{classes_max}{Potential maximum number of present classes}
-
-\item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
-4 (rook's case) or 8 (queen's case). The default is 4.}
-
-\item{ordered}{The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-The default is TRUE.}
-
-\item{base}{The unit in which entropy is measured. The default is "log2",
-which compute entropy in "bits". "log" and "log10" can be also used.}
-
-\item{verbose}{Print warning messages}
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
 list
@@ -118,5 +81,6 @@ website: \url{http://www.umass.edu/landeco/research/fragstats/fragstats.html}
 }
 \seealso{
 \code{\link{list_lsm}} \cr
+\code{\link{calculate_lsm}} \cr
 \code{\link{focal}}
 }
