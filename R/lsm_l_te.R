@@ -135,14 +135,14 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 
-    if(isTRUE(count_boundary)){
+    if (count_boundary) {
         landscape <- pad_raster(landscape = landscape,
                                 pad_raster_value = max(landscape, na.rm = TRUE) + 1,
                                 pad_raster_cells = 1,
                                 return_raster = FALSE)[[1]]
     }
 
-    if (isTRUE(resolution_x == resolution_y)) {
+    if (resolution_x == resolution_y) {
 
         neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape,
                                                        directions = as.matrix(4))

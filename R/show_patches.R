@@ -147,11 +147,11 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
         patches_tibble$value <- replace(patches_tibble$value, patches_tibble$value == 0, NA)
 
-        if (isTRUE(labels)) {
+        if (labels) {
             patches_tibble$labels <- patches_tibble$value
         }
 
-        if (!isTRUE(labels)) {
+        if (!labels) {
             patches_tibble$labels <- NA
         }
 
@@ -174,11 +174,11 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
             patches_tibble <- patches_tibble[class_index, ]
         }
 
-        if (isTRUE(labels)) {
+        if (labels) {
             patches_tibble$labels <- patches_tibble$value
         }
 
-        if (!isTRUE(labels)) {
+        if (!labels) {
             patches_tibble$labels <- NA
         }
     }

@@ -264,7 +264,7 @@ pad_raster_internal <- function(landscape,
                               x_direction,
                               deparse.level = 0)
 
-    if (isTRUE(global)) {
+    if (global) {
         landscape_padded[is.na(landscape_padded)] <- pad_raster_value
     }
 

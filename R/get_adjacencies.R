@@ -64,7 +64,7 @@ get_adjacencies.RasterLayer <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }
@@ -112,7 +112,7 @@ get_adjacencies.RasterStack <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }
@@ -160,7 +160,7 @@ get_adjacencies.RasterBrick <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }
@@ -210,7 +210,7 @@ get_adjacencies.stars <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }
@@ -258,7 +258,7 @@ get_adjacencies.list <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }
@@ -306,7 +306,7 @@ get_adjacencies.matrix <- function(landscape,
         adjacencies <- rcpp_get_coocurrence_matrix(x,
                                                    as.matrix(neighbourhood))
 
-        if (!isTRUE(upper)) {
+        if (!upper) {
             if (what == "like") {
                 adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
             }

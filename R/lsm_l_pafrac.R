@@ -167,7 +167,7 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
 
         pafrac <-  NA
 
-        if(isTRUE(verbose)){
+        if (verbose){
             warning("PAFRAC = NA for NP < 10",
                     call. = FALSE)
         }

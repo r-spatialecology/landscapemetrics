@@ -174,7 +174,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
             enn <- tibble::tibble(class = patches_class,
                                   dist = as.double(NA))
 
-            if(isTRUE(verbose)) {
+            if(verbose) {
                 warning(paste0("Class ", patches_class,
                                ": ENN = NA for class with only 1 patch"),
                         call. = FALSE)

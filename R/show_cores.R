@@ -240,7 +240,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
     boundary_labeled_stack$values <-  ifelse(boundary_labeled_stack$values == -999, 0, 1)
     boundary_labeled_stack$core_label <- ifelse(boundary_labeled_stack$core_label == -999, as.numeric(NA), boundary_labeled_stack$core_label)
 
-    if (!isTRUE(labels)){
+    if (!labels) {
         boundary_labeled_stack$core_label <- NA
     }
 

@@ -165,11 +165,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
 
         class_name <- as.integer(np_class[class_current, "class"])
 
-        if(np_class$value[np_class$class == class_name] < 10){
+        if (np_class$value[np_class$class == class_name] < 10){
 
             pafrac <- NA
 
-            if(isTRUE(verbose)) {
+            if (verbose) {
                 warning(paste0("Class ", class_name, ": PAFRAC = NA for class with < 10 patches"),
                         call. = FALSE)
             }

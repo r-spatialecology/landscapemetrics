@@ -106,7 +106,7 @@ sample_lsm.RasterLayer <- function(landscape,
 
     result$layer <- layer
 
-    if (!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 
@@ -149,7 +149,7 @@ sample_lsm.RasterStack <- function(landscape,
 
     result$layer <- layer
 
-    if (!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 
@@ -194,7 +194,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
     result$layer <- layer
 
-    if (!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 
@@ -239,7 +239,7 @@ sample_lsm.stars <- function(landscape,
 
     result$layer <- layer
 
-    if (!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 
@@ -282,7 +282,7 @@ sample_lsm.list <- function(landscape,
 
     result$layer <- layer
 
-    if (!isTRUE(return_raster)) {
+    if (!return_raster) {
         result  <- result[, -9]
     }
 

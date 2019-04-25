@@ -133,7 +133,7 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
     if(is.null(classes_max)) {
 
-        if(isTRUE(verbose)) {
+        if (verbose) {
             warning("No maximum number of classes provided: RPR = NA", call. = FALSE)
         }
         rpr <- NA

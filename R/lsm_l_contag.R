@@ -138,7 +138,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
     t <- length(get_unique_values(landscape)[[1]])
 
     if (t < 2) {
-        if(isTRUE(verbose)) {
+        if (verbose) {
             warning("Number of classes must be >= 2: CONTAG = NA.",
                     call. = FALSE)
         }
