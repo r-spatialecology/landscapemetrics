@@ -9,20 +9,22 @@
 \alias{check_landscape.list}
 \title{Check input landscape}
 \usage{
-check_landscape(landscape)
+check_landscape(landscape, verbose)
 
-\method{check_landscape}{RasterLayer}(landscape)
+\method{check_landscape}{RasterLayer}(landscape, verbose = TRUE)
 
-\method{check_landscape}{RasterStack}(landscape)
+\method{check_landscape}{RasterStack}(landscape, verbose = TRUE)
 
-\method{check_landscape}{RasterBrick}(landscape)
+\method{check_landscape}{RasterBrick}(landscape, verbose = TRUE)
 
-\method{check_landscape}{stars}(landscape)
+\method{check_landscape}{stars}(landscape, verbose = TRUE)
 
-\method{check_landscape}{list}(landscape)
+\method{check_landscape}{list}(landscape, verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, Stars or a list of rasterLayers}
+
+\item{verbose}{Print warning messages.}
 }
 \value{
 tibble

@@ -19,6 +19,7 @@
     * replaced `cat()` with `message()`
     * `calculate_lsm()` returns an error message if selected metrics do not exist
     * `construct_buffer()` can now return a matrix with coords instead of polygons
+    * `calculate_lsm()` checks the input data before calculating metrics
 * Renaming
     * `get_lsm()` is now called `spatialize_lsm()`
 

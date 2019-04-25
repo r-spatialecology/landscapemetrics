@@ -387,6 +387,18 @@ calculate_lsm_internal <- function(landscape,
                                    verbose,
                                    progress) {
 
+
+    # check if landscape is ok...
+    check <- check_landscape(landscape, verbose = FALSE)
+
+    # ...print warning if not
+    if (verbose) {
+        if (check$OK != cli::symbol$tick) {
+            warning("Please use check_landscape() to ensure the input data is valid.",
+                    call. = FALSE)
+        }
+    }
+
     # get name of metrics
     metrics <- list_lsm(level = level,
                         metric = metric,
