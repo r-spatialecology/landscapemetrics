@@ -65,6 +65,7 @@ Suggests:
     covr,
     dplyr,
     knitr,
+    regos,
     rmarkdown, 
     testthat
 Enhances:
