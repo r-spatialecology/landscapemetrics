@@ -32,7 +32,7 @@ matrix_to_raster <- function(matrix,
                              extent = NULL,
                              resolution = NULL,
                              crs = NULL,
-                             to_disk = FALSE) {
+                             to_disk = getOption("to_disk", default = FALSE)) {
 
   # create empty raster with same characteristics as reference raster
   if(!is.null(landscape)){
