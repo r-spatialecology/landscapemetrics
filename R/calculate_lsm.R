@@ -429,7 +429,7 @@ calculate_lsm_internal <- function(landscape,
         if (progress) {
 
             message("\r> Progress metrics: ", current_metric, "/",
-                    number_metrics, appendLF = FALSE)
+                    number_metrics,  appendLF = FALSE)
         }
 
         # match function name
@@ -439,8 +439,11 @@ calculate_lsm_internal <- function(landscape,
         arguments <- names(formals(foo))
 
         # run function
-        do.call(what = foo,
-                args = mget(arguments, envir = parent.env(environment())))
+        tryCatch(do.call(what = foo,
+                         args = mget(arguments, envir = parent.env(environment()))),
+                 error=function(e){
+                     message("")
+                     stop(e)})
         })
     )
 
