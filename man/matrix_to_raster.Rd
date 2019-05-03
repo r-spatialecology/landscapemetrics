@@ -5,7 +5,8 @@
 \title{matrix_to_raster}
 \usage{
 matrix_to_raster(matrix, landscape = NULL, landscape_empty = FALSE,
-  extent = NULL, resolution = NULL, crs = NULL, to_disk = FALSE)
+  extent = NULL, resolution = NULL, crs = NULL,
+  to_disk = getOption("to_disk", default = FALSE))
 }
 \arguments{
 \item{matrix}{matrix with values.}
