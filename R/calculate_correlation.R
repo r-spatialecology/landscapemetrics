@@ -22,7 +22,7 @@
 #'
 #' @export
 calculate_correlation <- function(metrics, method = "pearson",
-                            diag = TRUE, simplify = FALSE) {
+                                  diag = TRUE, simplify = FALSE) {
 
     # get all present levels
     present_levels <- unique(metrics$level)

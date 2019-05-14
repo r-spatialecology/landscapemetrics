@@ -1,6 +1,8 @@
 # landscapemetrics 1.2
 * New functions
     * `calculate_correlation()` returns a tibble with all correlations between metrics
+* Improvements
+    * `show_correlation()` can take result from `calculate_correlation()`
 
 # landscapemetrics 1.2
 * Bugfixes
