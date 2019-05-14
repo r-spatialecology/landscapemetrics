@@ -1,4 +1,8 @@
-# landscapemetrics 1.1
+# landscapemetrics 1.2
+* New functions
+    * `calculate_correlation()` returns a tibble with all correlations between metrics
+
+# landscapemetrics 1.2
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
     * Bugfix in `show_correlation()` that first col was lost
