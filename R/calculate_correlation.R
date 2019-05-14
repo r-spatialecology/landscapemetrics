@@ -67,7 +67,7 @@ calculate_correlation <- function(metrics, method = "pearson",
             )
 
         # only complete cases
-        patch <- correlation_matrix_patch_df[stats::complete.cases(correlation_matrix_patch_df),]
+        patch <- tibble::as_tibble(correlation_matrix_patch_df[stats::complete.cases(correlation_matrix_patch_df),])
     }
 
     # class level metrics
@@ -110,7 +110,7 @@ calculate_correlation <- function(metrics, method = "pearson",
             )
 
         # only complete cases
-        class <- correlation_matrix_class_df[stats::complete.cases(correlation_matrix_class_df),]
+        class <- tibble::as_tibble(correlation_matrix_class_df[stats::complete.cases(correlation_matrix_class_df),])
     }
 
     # landscape e
@@ -155,8 +155,7 @@ calculate_correlation <- function(metrics, method = "pearson",
                 )
 
             # only complete casses
-            landscape <- correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df),]
-
+            landscape <- tibble::as_tibble(correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df),])
         }
     }
 
