@@ -4,11 +4,11 @@
 \alias{show_correlation}
 \title{Show correlation}
 \usage{
-show_correlation(metrics, method = "pearson", diag = TRUE,
+show_correlation(data, method = "pearson", diag = TRUE,
   labels = FALSE, vjust = 0, text_size = 15)
 }
 \arguments{
-\item{metrics}{Tibble with results of as returned by the landscapemetrics package.}
+\item{data}{Tibble with results of as returned by the landscapemetrics package.}
 
 \item{method}{Type of correlation. See \code{link{cor}} for details.}
 
@@ -33,6 +33,13 @@ must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
 metrics <- calculate_lsm(landscape, what = c("patch", "class"))
-show_correlation(metrics, method = "pearson")
+show_correlation(data = metrics, method = "pearson")
+
+\dontrun{
+metrics <- calculate_lsm(landscape, what = c("patch", "class"))#'
+correlations <- calculate_correlation(metrics)
+show_correlation(data = correlations, method = "pearson")
+
+}
 
 }
