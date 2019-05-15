@@ -66,8 +66,8 @@ Suggests:
     dplyr,
     knitr,
     rgeos,
-    rmarkdown, 
-    testthat
+    rmarkdown,
+    testthat (>= 2.1.0)
 Enhances:
     stars, 
     sf
