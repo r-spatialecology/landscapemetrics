@@ -441,7 +441,7 @@ calculate_lsm_internal <- function(landscape,
         # run function
         tryCatch(do.call(what = foo,
                          args = mget(arguments, envir = parent.env(environment()))),
-                 error=function(e){
+                 error = function(e){
                      message("")
                      stop(e)})
         })
@@ -453,7 +453,7 @@ calculate_lsm_internal <- function(landscape,
                           "name", "type", "function_name")
 
         result <- merge(x = result,
-                        y = lsm_abbreviations_names,
+                        y = landscapemetrics::lsm_abbreviations_names,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 
