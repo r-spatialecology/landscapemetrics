@@ -14,8 +14,7 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
     std::map<int, unsigned> class_index = get_class_index_map(classes);
 
     unsigned n_classes = class_index.size();
-    std::vector<std::vector<unsigned> > cooc_mat(n_classes,
-                                                 std::vector<unsigned>(n_classes));
+    IntegerMatrix cooc_mat(n_classes, n_classes);
 
     // create neighbors coordinates
     IntegerMatrix tmp = rcpp_create_neighborhood(directions);
@@ -47,23 +46,16 @@ IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,
                     if (tmp == na)
                         continue;
                     unsigned neig_class = class_index[tmp];
-                    cooc_mat[focal_class][neig_class]++;
+                    cooc_mat(focal_class,neig_class)++;
                 }
             }
         }
     }
 
-    IntegerMatrix result(n_classes, n_classes);
-    for (unsigned col = 0; col < cooc_mat.size(); col++) {
-        for (unsigned row = 0; row < cooc_mat[col].size(); row++) {
-            result(col, row) = cooc_mat[col][row];
-        }
-    }
-
     // add names
     List u_names = List::create(classes, classes);
-    result.attr("dimnames") = u_names;
-    return result;
+    cooc_mat.attr("dimnames") = u_names;
+    return cooc_mat;
 }
 
 /*** R
