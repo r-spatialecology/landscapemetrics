@@ -11,7 +11,7 @@
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
 
 #' @details
-#' This function calculates the selected metricsin subsequential buffers around
+#' This function calculates the selected metrics in subsequential buffers around
 #' a/multiple point(s) of interest.
 #'
 #' The size of the actual
