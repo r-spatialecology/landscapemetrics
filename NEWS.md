@@ -5,7 +5,7 @@
     * `show_correlation()` can take result from `calculate_correlation()`
     * `sample_lsm()` and `extract_lsm()` can now be used with sample_ids (rather than just 1...n)
 
-# landscapemetrics 1.2
+# landscapemetrics 1.1
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present
     * Bugfix in `show_correlation()` that first col was lost
