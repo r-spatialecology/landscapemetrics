@@ -9,21 +9,21 @@
 \alias{scale_lsm.list}
 \title{scale_lsm}
 \usage{
-scale_lsm(landscape, y, buffer_width, max_width, verbose, progress, ...)
+scale_lsm(landscape, y, shape, size, max_size, verbose, progress, ...)
 
-\method{scale_lsm}{RasterLayer}(landscape, y, buffer_width, max_width,
+\method{scale_lsm}{RasterLayer}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
+
+\method{scale_lsm}{RasterStack}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
+
+\method{scale_lsm}{RasterBrick}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
+
+\method{scale_lsm}{stars}(landscape, y, shape = "square", size, max_size,
   verbose = TRUE, progress = FALSE, ...)
 
-\method{scale_lsm}{RasterStack}(landscape, y, buffer_width, max_width,
-  verbose = TRUE, progress = FALSE, ...)
-
-\method{scale_lsm}{RasterBrick}(landscape, y, buffer_width, max_width,
-  verbose = TRUE, progress = FALSE, ...)
-
-\method{scale_lsm}{stars}(landscape, y, buffer_width, max_width,
-  verbose = TRUE, progress = FALSE, ...)
-
-\method{scale_lsm}{list}(landscape, y, buffer_width, max_width,
+\method{scale_lsm}{list}(landscape, y, shape = "square", size, max_size,
   verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
@@ -31,9 +31,12 @@ scale_lsm(landscape, y, buffer_width, max_width, verbose, progress, ...)
 
 \item{y}{2-column matrix with coordinates or SpatialPoints.}
 
-\item{buffer_width}{Buffer width in which a landscape metric is measured}
+\item{shape}{String specifying plot shape. Either "circle" or "square"}
 
-\item{max_width}{Max distance to which buffer_width is summed up}
+\item{size}{Approximated size of sample plot. Equals the radius for circles or half of
+the side-length for squares in mapunits. For lines size equals the width of the buffer.}
+
+\item{max_size}{Maximum size to which sample plot size is summed up.}
 
 \item{verbose}{Print warning messages.}
 
@@ -45,20 +48,20 @@ scale_lsm(landscape, y, buffer_width, max_width, verbose, progress, ...)
 tibble
 }
 \description{
-Metrics on changing scale
+Metrics on changing sample scale
 }
 \details{
-This function calculates the selected metricsin subsequential buffers around
+This function calculates the selected metrics in subsequential buffers around
 a/multiple point(s) of interest.
 
-The size of the actual
-sampled landscape can be different to the provided size due to two reasons.
-Firstly, because clipping raster cells using a circle or a sample plot not directly
-at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
-landscape boundary. Therefore, we report the actual clipped sample plot area relative
-in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
-within the landscape will have a \code{percentage_inside = 50}. Please be aware that the
-output is sligthly different to all other \code{lsm}-function of \code{landscapemetrics}.
+The size of the actual sampled landscape can be different to the provided size
+due to two reasons. Firstly, because clipping raster cells using a circle or a
+sample plot not directly at a cell center lead to inaccuracies. Secondly,
+sample plots can exceed the landscape boundary. Therefore, we report the actual
+clipped sample plot area relative in relation to the theoretical, maximum sample
+plot area e.g. a sample plot only half within the landscape will have a
+\code{percentage_inside = 50}. Please be aware that the output is sligthly different
+to all other \code{lsm}-function of \code{landscapemetrics}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
@@ -70,8 +73,8 @@ available metrics, don't specify any of the above arguments.
 my_points = matrix(c(1265000, 1250000, 1255000, 1257000),
                   ncol = 2, byrow = TRUE)
 
-scale_lsm(augusta_nlcd, my_points, buffer_width = 500, max_width = 5000,
- what = c("lsm_l_ent", "lsm_l_mutinf"))
+scale_lsm(landscape = augusta_nlcd, y = my_points,
+size = 500, max_size = 5000, what = c("lsm_l_ent", "lsm_l_mutinf"))
 
 }
 \seealso{
