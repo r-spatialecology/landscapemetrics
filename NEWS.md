@@ -3,6 +3,7 @@
     * `calculate_correlation()` returns a tibble with all correlations between metrics
 * Improvements
     * `show_correlation()` can take result from `calculate_correlation()`
+    * `sample_lsm()` and `extract_lsm()` can now be used with sample_ids (rather than just 1...n)
 
 # landscapemetrics 1.2
 * Bugfixes
