@@ -14,6 +14,9 @@ poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
 poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 
+# wrong plots
+sample_points_wrong <- cbind(sample_points, 1)
+
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
 # use lines
@@ -52,7 +55,7 @@ test_that("sample_lsm works for polygons ", {
 
     result_poly <- sample_lsm(landscape,
                               y = sample_plots,
-                              level = "patch")
+                              level = "patch", size = 15)
 
     expect_is(object = result_poly, class = "tbl_df")
 
@@ -110,14 +113,17 @@ test_that("sample_lsm works for all data type", {
 
     result_stack <- sample_lsm(landscape_stack,
                                y = sample_plots,
+                               size = 15,
                                what = "lsm_l_ta")
 
     result_brick <- sample_lsm(landscape_brick,
                               y = sample_plots,
+                              size = 15,
                               what = "lsm_l_ta")
 
     result_list <- sample_lsm(landscape_list,
                               y = sample_plots,
+                              size = 15,
                               what = "lsm_l_ta")
 
     expect_is(result_stack, class = "tbl_df")
@@ -150,16 +156,26 @@ test_that("sample_lsm returns errors", {
                  grep = "'y' must be a matrix, SpatialPoints, SpatialLines
                  or SpatialPolygons.",
                  fixed = TRUE)
+
+    expect_error(sample_lsm(landscape,
+                            y = sample_points,
+                            size = c(5, 15),
+                            what = "lsm_l_ta"),
+                 regexp = "Please provide only one value as size argument.",
+                 fixed = TRUE)
 })
 
 test_that("sample_lsm returns warnings", {
-
-    sample_points_wrong <- cbind(sample_points, 1)
 
     expect_warning(sample_lsm(landscape,
                               y = sample_points_wrong, size = 15,
                               what = "lsm_l_pr"),
                    grep = "'y' should be a two column matrix including
                    x- and y-coordinates.",
+                   fixed = TRUE)
+
+    expect_warning(sample_lsm(landscape,
+                              y = sample_points, size = 50, what = "lsm_l_ta"),
+                   regexp = "Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
                    fixed = TRUE)
 })
