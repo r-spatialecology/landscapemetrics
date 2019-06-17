@@ -98,7 +98,7 @@ test_that("sample_lsm works for lines ", {
     }
 })
 
-test_that("sample_lsm works forwards arguments to calculate_lsm", {
+test_that("sample_lsm forwards arguments to calculate_lsm", {
 
     result_mat <- sample_lsm(landscape,
                              y = sample_points, size = 15,
@@ -107,6 +107,27 @@ test_that("sample_lsm works forwards arguments to calculate_lsm", {
                              edge_depth = 100)
 
     expect_true(all(result_mat$value == 0))
+})
+
+test_that("sample_lsm uses sample_ids", {
+
+    result <- sample_lsm(landscape,
+                         y = sample_points,
+                         plot_id = c(5, 25, 15),
+                         size = 15,
+                         shape = "circle",
+                         what = "lsm_l_ta")
+
+    expect_equal(result$plot_id, expected = c(5, 15, 25))
+
+    result_wrong_id <- sample_lsm(landscape,
+                                  y = sample_points,
+                                  plot_id = c(5, 25, 15, 1),
+                                  size = 15,
+                                  shape = "circle",
+                                  what = "lsm_l_ta")
+
+    expect_equal(result_wrong_id$plot_id, expected = 1:3)
 })
 
 test_that("sample_lsm works for all data type", {
@@ -170,12 +191,20 @@ test_that("sample_lsm returns warnings", {
     expect_warning(sample_lsm(landscape,
                               y = sample_points_wrong, size = 15,
                               what = "lsm_l_pr"),
-                   grep = "'y' should be a two column matrix including
-                   x- and y-coordinates.",
+                   regexp = "'y' should be a two column matrix including x- and y-coordinates.",
                    fixed = TRUE)
 
     expect_warning(sample_lsm(landscape,
                               y = sample_points, size = 50, what = "lsm_l_ta"),
                    regexp = "Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+                   fixed = TRUE)
+
+    expect_warning(sample_lsm(landscape,
+                              y = sample_points,
+                              plot_id = c(5, 25, 15, 1),
+                              size = 15,
+                              shape = "circle",
+                              what = "lsm_l_ta"),
+                   regexp = "Length of plot_id is not identical to length of y. Using 1...n as plot_id.",
                    fixed = TRUE)
 })
