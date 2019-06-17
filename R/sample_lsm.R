@@ -12,7 +12,7 @@
 #' @param verbose Print warning messages.
 #' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
-
+#'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
 #' around sample points, sample lines or within provided SpatialPolygons. The size of the actual
@@ -110,12 +110,6 @@ sample_lsm.RasterLayer <- function(landscape,
         result  <- result[, -9]
     }
 
-    # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
-    }
-
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -160,12 +154,6 @@ sample_lsm.RasterStack <- function(landscape,
     }
 
     if (progress) {message("")}
-
-    # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
-    }
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -212,12 +200,6 @@ sample_lsm.RasterBrick <- function(landscape,
 
     if (progress) {message("")}
 
-    # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
-    }
-
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -263,12 +245,6 @@ sample_lsm.stars <- function(landscape,
 
     if (progress) {message("")}
 
-    # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
-    }
-
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -312,12 +288,6 @@ sample_lsm.list <- function(landscape,
 
     if (progress) {message("")}
 
-    # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
-    }
-
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -327,6 +297,11 @@ sample_lsm_int <- function(landscape,
                            verbose,
                            progress,
                            ...) {
+
+    # check if size argument is only one number
+    if (length(size) != 1) {
+        stop("Please provide only one value as size argument.", call. = FALSE)
+    }
 
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
@@ -439,12 +414,18 @@ sample_lsm_int <- function(landscape,
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
 
         return(result_current_plot)
-        })
+    })
     )
 
     if (progress) {
 
         message("")
+    }
+
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+                call. = FALSE)
     }
 
     return(result)
