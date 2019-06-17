@@ -1,11 +1,13 @@
 #' scale_lsm
 #'
-#' @description Metrics on changing scale
+#' @description Metrics on changing sample scale
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates or SpatialPoints.
-#' @param buffer_width Buffer width in which a landscape metric is measured
-#' @param max_width Max distance to which buffer_width is summed up
+#' @param shape String specifying plot shape. Either "circle" or "square"
+#' @param size Approximated size of sample plot. Equals the radius for circles or half of
+#' the side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' @param max_size Maximum size to which sample plot size is summed up.
 #' @param verbose Print warning messages.
 #' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
@@ -14,14 +16,14 @@
 #' This function calculates the selected metrics in subsequential buffers around
 #' a/multiple point(s) of interest.
 #'
-#' The size of the actual
-#' sampled landscape can be different to the provided size due to two reasons.
-#' Firstly, because clipping raster cells using a circle or a sample plot not directly
-#' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
-#' landscape boundary. Therefore, we report the actual clipped sample plot area relative
-#' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
-#' within the landscape will have a `percentage_inside = 50`. Please be aware that the
-#' output is sligthly different to all other `lsm`-function of `landscapemetrics`.
+#' The size of the actual sampled landscape can be different to the provided size
+#' due to two reasons. Firstly, because clipping raster cells using a circle or a
+#' sample plot not directly at a cell center lead to inaccuracies. Secondly,
+#' sample plots can exceed the landscape boundary. Therefore, we report the actual
+#' clipped sample plot area relative in relation to the theoretical, maximum sample
+#' plot area e.g. a sample plot only half within the landscape will have a
+#' `percentage_inside = 50`. Please be aware that the output is sligthly different
+#' to all other `lsm`-function of `landscapemetrics`.
 #'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
 #' and/or `type` (combinations of different arguments are possible (e.g.
@@ -41,33 +43,36 @@
 #' my_points = matrix(c(1265000, 1250000, 1255000, 1257000),
 #'                   ncol = 2, byrow = TRUE)
 #'
-#' scale_lsm(augusta_nlcd, my_points, buffer_width = 500, max_width = 5000,
-#'  what = c("lsm_l_ent", "lsm_l_mutinf"))
+#' scale_lsm(landscape = augusta_nlcd, y = my_points,
+#' size = 500, max_size = 5000, what = c("lsm_l_ent", "lsm_l_mutinf"))
 #'
 #' @aliases scale_lsm
 #' @rdname scale_lsm
 #'
 #' @export
 scale_lsm <- function(landscape,
-                       y,
-                       buffer_width, max_width,
-                       verbose,
-                       progress,
-                       ...) UseMethod("scale_lsm")
+                      y,
+                      shape,
+                      size, max_size,
+                      verbose,
+                      progress,
+                      ...) UseMethod("scale_lsm")
 
 #' @name scale_lsm
 #' @export
 scale_lsm.RasterLayer <- function(landscape,
-                                   y,
-                                   buffer_width, max_width,
-                                   verbose = TRUE,
-                                   progress = FALSE,
-                                   ...) {
+                                  y,
+                                  shape = "square",
+                                  size, max_size,
+                                  verbose = TRUE,
+                                  progress = FALSE,
+                                  ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = scale_lsm_int_multibuffer,
                      y = y,
-                     buffer_width = buffer_width, max_width = max_width,
+                     shape = shape,
+                     size = size, max_size = max_size,
                      verbose = verbose,
                      progress = progress,
                      ...)
@@ -79,23 +84,24 @@ scale_lsm.RasterLayer <- function(landscape,
 
     result$layer <- layer
 
-    if(any(result < 99)){
-        warning(c("Some of buffers extend over the landscape border. ",
-                  "Consider decreasing of the max_width argument value."),
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
 
-    result[with(result, order(layer, plot_id, level, metric, class, id, value, size, percentage_inside)), ]
+    result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
 #' @name scale_lsm
 #' @export
 scale_lsm.RasterStack <- function(landscape,
-                                   y,
-                                   buffer_width, max_width,
-                                   verbose = TRUE,
-                                   progress = FALSE,
-                                   ...) {
+                                  y,
+                                  shape = "square",
+                                  size, max_size,
+                                  verbose = TRUE,
+                                  progress = FALSE,
+                                  ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -108,12 +114,13 @@ scale_lsm.RasterStack <- function(landscape,
         }
 
         scale_lsm_int_multibuffer(landscape = landscape[[x]],
-                       y = y,
-                       buffer_width = buffer_width,
-                       max_width = max_width,
-                       verbose = verbose,
-                       progress = FALSE,
-                       ...)
+                                  y = y,
+                                  shape = shape,
+                                  size = size,
+                                  max_size = max_size,
+                                  verbose = verbose,
+                                  progress = FALSE,
+                                  ...)
     })
 
     layer <- rep(seq_along(result),
@@ -125,23 +132,24 @@ scale_lsm.RasterStack <- function(landscape,
 
     if (progress) {message("")}
 
-    if(any(result < 99)){
-        warning(c("Some of buffers extend over the landscape border. ",
-                  "Consider decreasing of the max_width argument value."),
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
 
-    result[with(result, order(layer, plot_id, level, metric, class, id, value, size, percentage_inside)), ]
+    result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
 #' @name scale_lsm
 #' @export
 scale_lsm.RasterBrick <- function(landscape,
-                                   y,
-                                   buffer_width, max_width,
-                                   verbose = TRUE,
-                                   progress = FALSE,
-                                   ...) {
+                                  y,
+                                  shape = "square",
+                                  size, max_size,
+                                  verbose = TRUE,
+                                  progress = FALSE,
+                                  ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -154,12 +162,13 @@ scale_lsm.RasterBrick <- function(landscape,
         }
 
         scale_lsm_int_multibuffer(landscape = landscape[[x]],
-                       y = y,
-                       buffer_width = buffer_width,
-                       max_width = max_width,
-                       verbose = verbose,
-                       progress = FALSE,
-                       ...)
+                                  y = y,
+                                  shape = shape,
+                                  size = size,
+                                  max_size = max_size,
+                                  verbose = verbose,
+                                  progress = FALSE,
+                                  ...)
     })
 
     layer <- rep(seq_along(result),
@@ -171,23 +180,24 @@ scale_lsm.RasterBrick <- function(landscape,
 
     if (progress) {message("")}
 
-    if(any(result < 99)){
-        warning(c("Some of buffers extend over the landscape border. ",
-                  "Consider decreasing of the max_width argument value."),
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
 
-    result[with(result, order(layer, plot_id, level, metric, class, id, value, size, percentage_inside)), ]
+    result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
 #' @name scale_lsm
 #' @export
 scale_lsm.stars <- function(landscape,
-                             y,
-                             buffer_width, max_width,
-                             verbose = TRUE,
-                             progress = FALSE,
-                             ...) {
+                            y,
+                            shape = "square",
+                            size, max_size,
+                            verbose = TRUE,
+                            progress = FALSE,
+                            ...) {
 
     landscape <-  raster::as.list(methods::as(landscape, "Raster"))
 
@@ -200,12 +210,13 @@ scale_lsm.stars <- function(landscape,
         }
 
         scale_lsm_int_multibuffer(landscape = landscape[[x]],
-                       y = y,
-                       buffer_width = buffer_width,
-                       max_width = max_width,
-                       verbose = verbose,
-                       progress = FALSE,
-                       ...)
+                                  y = y,
+                                  shape = shape,
+                                  size = size,
+                                  max_size = max_size,
+                                  verbose = verbose,
+                                  progress = FALSE,
+                                  ...)
     })
 
     layer <- rep(seq_along(result),
@@ -217,23 +228,24 @@ scale_lsm.stars <- function(landscape,
 
     if (progress) {message("")}
 
-    if(any(result < 99)){
-        warning(c("Some of buffers extend over the landscape border. ",
-                  "Consider decreasing of the max_width argument value."),
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
 
-    result[with(result, order(layer, plot_id, level, metric, class, id, value, size, percentage_inside)), ]
+    result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
 #' @name scale_lsm
 #' @export
 scale_lsm.list <- function(landscape,
-                            y,
-                            buffer_width, max_width,
-                            verbose = TRUE,
-                            progress = FALSE,
-                            ...) {
+                           y,
+                           shape = "square",
+                           size, max_size,
+                           verbose = TRUE,
+                           progress = FALSE,
+                           ...) {
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -244,12 +256,13 @@ scale_lsm.list <- function(landscape,
         }
 
         scale_lsm_int_multibuffer(landscape = landscape[[x]],
-                       y = y,
-                       buffer_width = buffer_width,
-                       max_width = max_width,
-                       verbose = verbose,
-                       progress = FALSE,
-                       ...)
+                                  y = y,
+                                  shape = shape,
+                                  size = size,
+                                  max_size = max_size,
+                                  verbose = verbose,
+                                  progress = FALSE,
+                                  ...)
     })
 
     layer <- rep(seq_along(result),
@@ -261,21 +274,21 @@ scale_lsm.list <- function(landscape,
 
     if (progress) {message("")}
 
-    if(any(result < 99)){
-        warning(c("Some of buffers extend over the landscape border. ",
-                  "Consider decreasing of the max_width argument value."),
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
 
-    result[with(result, order(layer, plot_id, level, metric, class, id, value, size, percentage_inside)), ]
+    result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-scale_lsm_int <- function(size,
-                           landscape,
-                           y,
-                           verbose,
-                           progress,
-                           ...) {
+scale_lsm_int <- function(landscape,
+                          y,
+                          shape, size,
+                          verbose,
+                          progress,
+                          ...) {
 
     # use points
     if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
@@ -291,7 +304,7 @@ scale_lsm_int <- function(size,
 
         # construct plot area around sample sample_points
         y <- construct_buffer(coords = y,
-                              shape = "circle",
+                              shape = shape,
                               size = size,
                               verbose = verbose)
 
@@ -346,8 +359,7 @@ scale_lsm_int <- function(size,
         result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
 
         return(result_current_plot)
-    })
-    )
+    }))
 
     if (progress) {
 
@@ -358,14 +370,21 @@ scale_lsm_int <- function(size,
 }
 
 scale_lsm_int_multibuffer <- function(landscape,
-                           y,
-                           buffer_width, max_width,
-                           verbose,
-                           progress,
-                           ...) {
-    buffers <- seq(buffer_width, max_width, buffer_width)
+                                      y,
+                                      shape, size, max_size,
+                                      verbose,
+                                      progress,
+                                      ...) {
 
-    result <- do.call(rbind, lapply(X = buffers, FUN = scale_lsm_int, landscape, y, verbose = verbose, progress = progress, ...))
+    # create buffer sequence
+    size <- seq(from = size, to = max_size, by = size)
 
+    # loop through buffers
+    result <- do.call(rbind, lapply(X = size, FUN = function(x) {
+
+        scale_lsm_int(landscape = landscape, y = y,
+                      shape = shape, size = x,
+                      verbose = verbose,
+                      progress = progress, ...)}))
     return(result)
 }

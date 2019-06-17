@@ -110,6 +110,12 @@ sample_lsm.RasterLayer <- function(landscape,
         result  <- result[, -9]
     }
 
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                call. = FALSE)
+    }
+
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -154,6 +160,12 @@ sample_lsm.RasterStack <- function(landscape,
     }
 
     if (progress) {message("")}
+
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                call. = FALSE)
+    }
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -200,6 +212,12 @@ sample_lsm.RasterBrick <- function(landscape,
 
     if (progress) {message("")}
 
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                call. = FALSE)
+    }
+
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -245,6 +263,12 @@ sample_lsm.stars <- function(landscape,
 
     if (progress) {message("")}
 
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                call. = FALSE)
+    }
+
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
@@ -287,6 +311,12 @@ sample_lsm.list <- function(landscape,
     }
 
     if (progress) {message("")}
+
+    # return warning of only 3/4 of sample plot are in landscape
+    if (any(result$percentage_inside < 75)) {
+        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                call. = FALSE)
+    }
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }

@@ -1,8 +1,10 @@
 # landscapemetrics 1.2
 * New functions
     * `calculate_correlation()` returns a tibble with all correlations between metrics
+    * `scale_lsm()` allows to sample landscape metrics in buffer with increasing size
 * Improvements
     * `show_correlation()` can take result from `calculate_correlation()`
+    * `sample_lsm()` returns a warning if `percentage_inside` < 75%
 
 # landscapemetrics 1.2
 * Bugfixes
