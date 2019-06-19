@@ -9,13 +9,16 @@
 \alias{scale_window.list}
 \title{scale_window}
 \usage{
-scale_window(landscape, y, shape, size, max_size, verbose, progress, ...)
+scale_window(landscape, percentages_col, percentages_row, what, stat,
+  progress, ...)
 
-\method{scale_window}{RasterLayer}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, progress = FALSE, ...)
+\method{scale_window}{RasterLayer}(landscape, percentages_col = c(2, 4,
+  8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
+  progress = FALSE, ...)
 
-\method{scale_window}{RasterStack}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, progress = FALSE, ...)
+\method{scale_window}{RasterStack}(landscape, percentages_col = c(2, 4,
+  8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
+  progress = FALSE, ...)
 
 \method{scale_window}{RasterBrick}(landscape, percentages_col = NULL,
   percentages_row = NULL, what, stat, progress = FALSE, ...)
@@ -29,10 +32,6 @@ scale_window(landscape, y, shape, size, max_size, verbose, progress, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{progress}{Print progress report.}
-
-\item{...}{Arguments passed on to \code{calculate_lsm()}.}
-
 \item{percentages_col}{2-column matrix with coordinates or SpatialPoints.}
 
 \item{percentages_row}{String specifying plot shape. Either "circle" or "square"}
@@ -41,6 +40,10 @@ scale_window(landscape, y, shape, size, max_size, verbose, progress, ...)
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_l_mutinf", "lsm_l_ta")}.}
 
 \item{stat}{The function to be applied. See Details}
+
+\item{progress}{Print progress report.}
+
+\item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
 tibble
@@ -49,17 +52,11 @@ tibble
 Metrics on changing sample scale
 }
 \details{
-This function calculates the selected metrics in subsequential buffers around
-a/multiple point(s) of interest.
+This function calculates the selected metrics in moving windows over the provided
+landscape.
 
-The size of the actual sampled landscape can be different to the provided size
-due to two reasons. Firstly, because clipping raster cells using a circle or a
-sample plot not directly at a cell center lead to inaccuracies. Secondly,
-sample plots can exceed the landscape boundary. Therefore, we report the actual
-clipped sample plot area relative in relation to the theoretical, maximum sample
-plot area e.g. a sample plot only half within the landscape will have a
-\code{percentage_inside = 50}. Please be aware that the output is sligthly different
-to all other \code{lsm}-function of \code{landscapemetrics}.
+Please be aware that the output is sligthly different to all other \code{lsm}-function
+of \code{landscapemetrics}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
@@ -68,18 +65,19 @@ automatically all possibilities are selected. Only metrics on landscape level
 are supported for this function.
 }
 \examples{
-percentages_col <- c(5, 10, 25, 50, 75, 100)
-percentages_row <- c(5, 10, 25, 50, 75, 100)
+percentages_col <- c(2, 4, 8, 16, 32, 64, 100)
+percentages_row <- c(2, 4, 8, 16, 32, 64, 100)
 
 what =  c("lsm_l_pr", "lsm_l_joinent")
 
 stat <- "mean"
 
 scale_window(landscape, percentages_col, percentages_row, what, stat)
+scale_window(landscape_stack, percentages_col, percentages_row, what, stat)
 
 }
 \seealso{
 \code{\link{list_lsm}} \cr
 \code{\link{window_lsm}} \cr
-\code{\link{sample_sclae}}
+\code{\link{scale_sample}}
 }

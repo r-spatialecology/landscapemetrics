@@ -27,7 +27,7 @@
 #' @seealso
 #' \code{\link{list_lsm}} \cr
 #' \code{\link{window_lsm}} \cr
-#' \code{\link{sample_sclae}}
+#' \code{\link{scale_sample}}
 #'
 #' @return tibble
 #'
