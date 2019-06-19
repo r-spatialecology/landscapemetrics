@@ -1,4 +1,4 @@
-#' scale_lsm
+#' scale_sample
 #'
 #' @description Metrics on changing sample scale
 #'
@@ -43,24 +43,24 @@
 #' my_points = matrix(c(1265000, 1250000, 1255000, 1257000),
 #'                   ncol = 2, byrow = TRUE)
 #'
-#' scale_lsm(landscape = augusta_nlcd, y = my_points,
+#' scale_sample(landscape = augusta_nlcd, y = my_points,
 #' size = 500, max_size = 5000, what = c("lsm_l_ent", "lsm_l_mutinf"))
 #'
-#' @aliases scale_lsm
-#' @rdname scale_lsm
+#' @aliases scale_sample
+#' @rdname scale_sample
 #'
 #' @export
-scale_lsm <- function(landscape,
+scale_sample <- function(landscape,
                       y,
                       shape,
                       size, max_size,
                       verbose,
                       progress,
-                      ...) UseMethod("scale_lsm")
+                      ...) UseMethod("scale_sample")
 
-#' @name scale_lsm
+#' @name scale_sample
 #' @export
-scale_lsm.RasterLayer <- function(landscape,
+scale_sample.RasterLayer <- function(landscape,
                                   y,
                                   shape = "square",
                                   size, max_size,
@@ -69,7 +69,7 @@ scale_lsm.RasterLayer <- function(landscape,
                                   ...) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = scale_lsm_int_multibuffer,
+                     FUN = scale_sample_int_multibuffer,
                      y = y,
                      shape = shape,
                      size = size, max_size = max_size,
@@ -93,9 +93,9 @@ scale_lsm.RasterLayer <- function(landscape,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-#' @name scale_lsm
+#' @name scale_sample
 #' @export
-scale_lsm.RasterStack <- function(landscape,
+scale_sample.RasterStack <- function(landscape,
                                   y,
                                   shape = "square",
                                   size, max_size,
@@ -113,7 +113,7 @@ scale_lsm.RasterStack <- function(landscape,
                     appendLF = FALSE)
         }
 
-        scale_lsm_int_multibuffer(landscape = landscape[[x]],
+        scale_sample_int_multibuffer(landscape = landscape[[x]],
                                   y = y,
                                   shape = shape,
                                   size = size,
@@ -141,9 +141,9 @@ scale_lsm.RasterStack <- function(landscape,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-#' @name scale_lsm
+#' @name scale_sample
 #' @export
-scale_lsm.RasterBrick <- function(landscape,
+scale_sample.RasterBrick <- function(landscape,
                                   y,
                                   shape = "square",
                                   size, max_size,
@@ -161,7 +161,7 @@ scale_lsm.RasterBrick <- function(landscape,
                     appendLF = FALSE)
         }
 
-        scale_lsm_int_multibuffer(landscape = landscape[[x]],
+        scale_sample_int_multibuffer(landscape = landscape[[x]],
                                   y = y,
                                   shape = shape,
                                   size = size,
@@ -189,9 +189,9 @@ scale_lsm.RasterBrick <- function(landscape,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-#' @name scale_lsm
+#' @name scale_sample
 #' @export
-scale_lsm.stars <- function(landscape,
+scale_sample.stars <- function(landscape,
                             y,
                             shape = "square",
                             size, max_size,
@@ -209,7 +209,7 @@ scale_lsm.stars <- function(landscape,
                     appendLF = FALSE)
         }
 
-        scale_lsm_int_multibuffer(landscape = landscape[[x]],
+        scale_sample_int_multibuffer(landscape = landscape[[x]],
                                   y = y,
                                   shape = shape,
                                   size = size,
@@ -237,9 +237,9 @@ scale_lsm.stars <- function(landscape,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-#' @name scale_lsm
+#' @name scale_sample
 #' @export
-scale_lsm.list <- function(landscape,
+scale_sample.list <- function(landscape,
                            y,
                            shape = "square",
                            size, max_size,
@@ -255,7 +255,7 @@ scale_lsm.list <- function(landscape,
                     appendLF = FALSE)
         }
 
-        scale_lsm_int_multibuffer(landscape = landscape[[x]],
+        scale_sample_int_multibuffer(landscape = landscape[[x]],
                                   y = y,
                                   shape = shape,
                                   size = size,
@@ -283,7 +283,7 @@ scale_lsm.list <- function(landscape,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-scale_lsm_int <- function(landscape,
+scale_sample_int <- function(landscape,
                           y,
                           shape, size,
                           verbose,
@@ -369,7 +369,7 @@ scale_lsm_int <- function(landscape,
     return(result)
 }
 
-scale_lsm_int_multibuffer <- function(landscape,
+scale_sample_int_multibuffer <- function(landscape,
                                       y,
                                       shape, size, max_size,
                                       verbose,
@@ -382,7 +382,7 @@ scale_lsm_int_multibuffer <- function(landscape,
     # loop through buffers
     result <- do.call(rbind, lapply(X = size, FUN = function(x) {
 
-        scale_lsm_int(landscape = landscape, y = y,
+        scale_sample_int(landscape = landscape, y = y,
                       shape = shape, size = x,
                       verbose = verbose,
                       progress = progress, ...)}))
