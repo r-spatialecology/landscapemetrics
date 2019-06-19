@@ -1,0 +1,285 @@
+#' scale_window
+#'
+#' @description Metrics on changing sample scale
+#'
+#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param percentages_col 2-column matrix with coordinates or SpatialPoints.
+#' @param percentages_row String specifying plot shape. Either "circle" or "square"
+#' @param what Selected level of metrics: either "patch", "class" or "landscape".
+#' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_l_mutinf", "lsm_l_ta")`.
+#' @param stat The function to be applied. See Details
+#' @param progress Print progress report.
+#' @param ... Arguments passed on to \code{calculate_lsm()}.
+#'
+#' @details
+#' This function calculates the selected metrics in moving windows over the provided
+#' landscape.
+#'
+#' Please be aware that the output is sligthly different to all other `lsm`-function
+#' of `landscapemetrics`.
+#'
+#' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
+#' and/or `type` (combinations of different arguments are possible (e.g.
+#' `level = "class", type = "aggregation metric"`). If an argument is not provided,
+#' automatically all possibilities are selected. Only metrics on landscape level
+#' are supported for this function.
+#'
+#' @seealso
+#' \code{\link{list_lsm}} \cr
+#' \code{\link{window_lsm}} \cr
+#' \code{\link{sample_sclae}}
+#'
+#' @return tibble
+#'
+#' @examples
+#' percentages_col <- c(5, 10, 25, 50, 75, 100)
+#' percentages_row <- c(5, 10, 25, 50, 75, 100)
+#'
+#' what =  c("lsm_l_pr", "lsm_l_joinent")
+#'
+#' stat <- "mean"
+#'
+#' scale_window(landscape, percentages_col, percentages_row, what, stat)
+#'
+#' @aliases scale_window
+#' @rdname scale_window
+#'
+#' @export
+scale_window <- function(landscape,
+                         percentages_col,
+                         percentages_row,
+                         what,
+                         stat,
+                         progress,
+                         ...) UseMethod("scale_window")
+
+#' @name scale_window
+#' @export
+scale_window.RasterLayer <- function(landscape,
+                                     percentages_col = NULL,
+                                     percentages_row = NULL,
+                                     what,
+                                     stat,
+                                     progress = FALSE,
+                                     ...) {
+
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = scale_window_int,
+                     percentages_col = percentages_col,
+                     percentages_row = percentages_row,
+                     what = what,
+                     stat = stat,
+                     progress = progress,
+                     ...)
+
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
+                             c(8,5,6,7,2,1,3,4)])
+
+}
+
+#' @name scale_window
+#' @export
+scale_window.RasterStack <- function(landscape,
+                                     percentages_col = NULL,
+                                     percentages_row = NULL,
+                                     what,
+                                     stat,
+                                     progress = FALSE,
+                                     ...) {
+
+    landscape <- raster::as.list(landscape_stack)
+
+    result <- lapply(X = landscape,
+                     FUN = scale_window_int,
+                     percentages_col = percentages_col,
+                     percentages_row = percentages_row,
+                     what = what,
+                     stat = stat,
+                     progress = progress,
+                     ...)
+
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
+                             c(8,5,6,7,2,1,3,4)])
+
+}
+
+#' @name scale_window
+#' @export
+scale_window.RasterBrick <- function(landscape,
+                                     percentages_col = NULL,
+                                     percentages_row = NULL,
+                                     what,
+                                     stat,
+                                     progress = FALSE,
+                                     ...) {
+
+    landscape <- raster::as.list(landscape_stack)
+
+    result <- lapply(X = landscape,
+                     FUN = scale_window_int,
+                     percentages_col = percentages_col,
+                     percentages_row = percentages_row,
+                     what = what,
+                     stat = stat,
+                     progress = progress,
+                     ...)
+
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
+                             c(8,5,6,7,2,1,3,4)])
+
+}
+
+#' @name scale_window
+#' @export
+scale_window.stars <- function(landscape,
+                                     percentages_col = NULL,
+                                     percentages_row = NULL,
+                                     what,
+                                     stat,
+                                     progress = FALSE,
+                                     ...) {
+
+    landscape <-  raster::as.list(methods::as(landscape, "Raster"))
+
+    result <- lapply(X = landscape,
+                     FUN = scale_window_int,
+                     percentages_col = percentages_col,
+                     percentages_row = percentages_row,
+                     what = what,
+                     stat = stat,
+                     progress = progress,
+                     ...)
+
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
+                             c(8,5,6,7,2,1,3,4)])
+
+}
+
+#' @name scale_window
+#' @export
+scale_window.list <- function(landscape,
+                               percentages_col = NULL,
+                               percentages_row = NULL,
+                               what,
+                               stat,
+                               progress = FALSE,
+                               ...) {
+
+    result <- lapply(X = landscape,
+                     FUN = scale_window_int,
+                     percentages_col = percentages_col,
+                     percentages_row = percentages_row,
+                     what = what,
+                     stat = stat,
+                     progress = progress,
+                     ...)
+
+    layer <- rep(seq_len(length(result)),
+                 vapply(result, nrow, FUN.VALUE = integer(1)))
+
+    result <- do.call(rbind, result)
+
+    result$layer <- layer
+
+    tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
+                             c(8,5,6,7,2,1,3,4)])
+
+}
+
+scale_window_int <- function(landscape,
+                         percentages_col = NULL,
+                         percentages_row = NULL,
+                         what,
+                         stat,
+                         progress = FALSE,
+                         ...) {
+
+    if (is.null(percentages_row)) percentages_row <- percentages_col
+
+    ncols <- raster::ncol(landscape)
+    nrows <- raster::nrow(landscape)
+
+    ncols_perc  <- round((percentages_col / 100) * ncols)
+    nrows_perc  <- round((percentages_row / 100) * nrows)
+
+
+    ncols_perc[ncols_perc %% 2 == 0] <-
+        ncols_perc[ncols_perc %% 2 == 0] + 1
+    nrows_perc[nrows_perc %% 2 == 0] <-
+        nrows_perc[nrows_perc %% 2 == 0] + 1
+
+    result <- do.call("rbind", lapply(
+        seq_along(ncols_perc),
+        FUN = function(i) {
+            window <- matrix(1, nrow = nrows_perc[i], ncol = ncols_perc[i])
+
+            win_raster <-
+                window_lsm(landscape,
+                           window = window,
+                           what =  what,
+                           ...)
+
+            win_raster <- unlist(win_raster)
+
+            value <- sapply(seq_along(win_raster), function(i) {
+                raster::cellStats(win_raster[[i]],
+                                  stat = stat,
+                                  na.rm = TRUE)
+            })
+
+            # print progess using the non-internal name
+            if (progress) {
+                message("\r> Progress scaling percantages: ",
+                        i,
+                        "/",
+                        length(ncols_perc),
+                        appendLF = FALSE)
+            }
+
+            value <- as.data.frame(value)
+            value$metric <- names(win_raster)
+            value$percentages_col <- percentages_col[i]
+            value$percentages_row <- percentages_row[i]
+
+            return(value)
+
+        }
+    ))
+
+    result$level <- "landscape"
+    result$class <- NA
+    result$id <- NA
+
+    return(result)
+}
+
+
+
