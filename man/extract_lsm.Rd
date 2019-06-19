@@ -35,10 +35,14 @@ extract_lsm(landscape, y, extract_id, metric, name, type, what, directions,
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
+<<<<<<< HEAD
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
 
 \item{extract_id}{Vector with id of sample points. If not provided, sample
 points will be labelled 1...n.}
+=======
+\item{y}{Spatial object ( Spatialy*; SpatialPolygons*; SpatialLines; Extent or sf equivalents); two-column matrix/data.frame/tibble or cellnumbers that are used to extract landscapemetrics.}
+>>>>>>> updates-ent
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 

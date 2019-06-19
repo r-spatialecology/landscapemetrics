@@ -45,7 +45,7 @@ The default is "log2", which compute entropy in "bits".
 tibble
 }
 \description{
-Conditional entropy
+Conditional entropy \[H(y|x)\]
 }
 \details{
 Complexity of a landscape pattern configuration.
@@ -57,8 +57,8 @@ lsm_l_condent(landscape)
 
 }
 \references{
-Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure
-landscape complexity. https://doi.org/10.1101/383281
+Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework
+for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 }
 \seealso{
 \code{\link{lsm_l_ent}},
