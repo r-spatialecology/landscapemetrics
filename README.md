@@ -24,10 +24,9 @@ for categorical landscape patterns in a tidy workflow. The package can
 be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
 2012), as it offers a reproducible workflow for landscape analysis in a
 single environment. It also allows for calculations of four theoretical
-metrics of landscape complexity: an overall spatio-thematic complexity,
-a thematic complexity, a configurational complexity, and a disambiguator
-of pattern types having the same overall complexity (Nowosad and
-Stepinski 2018).
+metrics of landscape complexity: a marginal entropy, a conditional
+entropy, a joint entropy, and a mutual information (Nowosad and
+Stepinski 2019).
 
 **landscapemetrics** supports `raster` spatial objects and takes
 `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
@@ -57,8 +56,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric
-(e.g. `enn`for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric (e.g.
+`enn`for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -123,7 +122,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     2   
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # ... with 17 more rows
+#> # … with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -146,6 +145,7 @@ calculate a bunch of metrics:
 ``` r
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
+#> Warning: Please use check_landscape() to ensure the input data is valid.
 #> # A tibble: 324 x 6
 #>    layer level class    id metric  value
 #>    <int> <chr> <int> <int> <chr>   <dbl>
@@ -159,15 +159,15 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0001
 #>  9     1 patch     1     9 area   0.0003
 #> 10     1 patch     2    10 area   0.0035
-#> # ... with 314 more rows
+#> # … with 314 more rows
 ```
 
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeld patches or the core area of all patches. All
-visualization functions start with the prefix `show_`
-(e.g. `show_cores()`).
+visualization functions start with the prefix `show_` (e.g.
+`show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
@@ -197,5 +197,6 @@ CONDUCT](CODE_OF_CONDUCT.md).
     Computer software program produced by the authors at the University
     of Massachusetts, Amherst. Available at the following website:
     <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
-  - Nowosad J., TF Stepinski. 2018. Information-theoretical approach to
-    measure landscape complexity. <https://doi.org/10.1101/383281>
+  - \#’ Nowosad J., TF Stepinski. 2019. Information theory as a
+    consistent framework for quantification and classification of
+    landscape patterns. <https://doi.org/10.1007/s10980-019-00830-x>
