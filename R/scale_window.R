@@ -32,14 +32,15 @@
 #' @return tibble
 #'
 #' @examples
-#' percentages_col <- c(5, 10, 25, 50, 75, 100)
-#' percentages_row <- c(5, 10, 25, 50, 75, 100)
+#' percentages_col <- c(2, 4, 8, 16, 32, 64, 100)
+#' percentages_row <- c(2, 4, 8, 16, 32, 64, 100)
 #'
 #' what =  c("lsm_l_pr", "lsm_l_joinent")
 #'
 #' stat <- "mean"
 #'
 #' scale_window(landscape, percentages_col, percentages_row, what, stat)
+#' scale_window(landscape_stack, percentages_col, percentages_row, what, stat)
 #'
 #' @aliases scale_window
 #' @rdname scale_window
@@ -56,7 +57,7 @@ scale_window <- function(landscape,
 #' @name scale_window
 #' @export
 scale_window.RasterLayer <- function(landscape,
-                                     percentages_col = NULL,
+                                     percentages_col = c(2, 4, 8, 16, 32, 64, 100),
                                      percentages_row = NULL,
                                      what,
                                      stat,
@@ -87,23 +88,36 @@ scale_window.RasterLayer <- function(landscape,
 #' @name scale_window
 #' @export
 scale_window.RasterStack <- function(landscape,
-                                     percentages_col = NULL,
+                                     percentages_col = c(2, 4, 8, 16, 32, 64, 100),
                                      percentages_row = NULL,
                                      what,
                                      stat,
                                      progress = FALSE,
                                      ...) {
 
-    landscape <- raster::as.list(landscape_stack)
+    landscape <- raster::as.list(landscape)
 
-    result <- lapply(X = landscape,
-                     FUN = scale_window_int,
-                     percentages_col = percentages_col,
-                     percentages_row = percentages_row,
-                     what = what,
-                     stat = stat,
-                     progress = progress,
-                     ...)
+    result <- lapply(
+        X = seq_along(landscape),
+        FUN = function(x) {
+            if (progress) {
+                message("\r> Progress nlayers: ",
+                        x ,
+                        "/",
+                        length(landscape),
+                        appendLF = FALSE)
+            }
+
+            scale_window_int(
+                landscape = landscape[[x]],
+                percentages_col = percentages_col,
+                percentages_row = percentages_row,
+                what = what,
+                stat = stat,
+                progress = FALSE
+            )
+        }
+    )
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -127,16 +141,29 @@ scale_window.RasterBrick <- function(landscape,
                                      progress = FALSE,
                                      ...) {
 
-    landscape <- raster::as.list(landscape_stack)
+    landscape <- raster::as.list(landscape)
 
-    result <- lapply(X = landscape,
-                     FUN = scale_window_int,
-                     percentages_col = percentages_col,
-                     percentages_row = percentages_row,
-                     what = what,
-                     stat = stat,
-                     progress = progress,
-                     ...)
+    result <- lapply(
+        X = seq_along(landscape),
+        FUN = function(x) {
+            if (progress) {
+                message("\r> Progress nlayers: ",
+                        x ,
+                        "/",
+                        length(landscape),
+                        appendLF = FALSE)
+            }
+
+            scale_window_int(
+                landscape = landscape[[x]],
+                percentages_col = percentages_col,
+                percentages_row = percentages_row,
+                what = what,
+                stat = stat,
+                progress = FALSE
+            )
+        }
+    )
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -162,14 +189,27 @@ scale_window.stars <- function(landscape,
 
     landscape <-  raster::as.list(methods::as(landscape, "Raster"))
 
-    result <- lapply(X = landscape,
-                     FUN = scale_window_int,
-                     percentages_col = percentages_col,
-                     percentages_row = percentages_row,
-                     what = what,
-                     stat = stat,
-                     progress = progress,
-                     ...)
+    result <- lapply(
+        X = seq_along(landscape),
+        FUN = function(x) {
+            if (progress) {
+                message("\r> Progress nlayers: ",
+                        x ,
+                        "/",
+                        length(landscape),
+                        appendLF = FALSE)
+            }
+
+            scale_window_int(
+                landscape = landscape[[x]],
+                percentages_col = percentages_col,
+                percentages_row = percentages_row,
+                what = what,
+                stat = stat,
+                progress = FALSE
+            )
+        }
+    )
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -193,14 +233,27 @@ scale_window.list <- function(landscape,
                                progress = FALSE,
                                ...) {
 
-    result <- lapply(X = landscape,
-                     FUN = scale_window_int,
-                     percentages_col = percentages_col,
-                     percentages_row = percentages_row,
-                     what = what,
-                     stat = stat,
-                     progress = progress,
-                     ...)
+    result <- lapply(
+        X = seq_along(landscape),
+        FUN = function(x) {
+            if (progress) {
+                message("\r> Progress nlayers: ",
+                        x ,
+                        "/",
+                        length(landscape),
+                        appendLF = FALSE)
+            }
+
+            scale_window_int(
+                landscape = landscape[[x]],
+                percentages_col = percentages_col,
+                percentages_row = percentages_row,
+                what = what,
+                stat = stat,
+                progress = FALSE
+            )
+        }
+    )
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -228,8 +281,18 @@ scale_window_int <- function(landscape,
     nrows <- raster::nrow(landscape)
 
     ncols_perc  <- round((percentages_col / 100) * ncols)
+
+    if(any(ncols_perc < 3)) {
+        ncols_perc[which(ncols_perc < 3)] <- 3
+        warning("percentages_col produced a movind window with a side < 3 cells, scale_window set this side to 3 for this scale.")
+    }
+
     nrows_perc  <- round((percentages_row / 100) * nrows)
 
+    if(any(nrows_perc < 3)) {
+        nrows_perc[which(nrows_perc < 3)] <- 3
+        warning("percentages_col produced a movind window with a side < 3 cells, scale_window set this side to 3 for this scale.")
+    }
 
     ncols_perc[ncols_perc %% 2 == 0] <-
         ncols_perc[ncols_perc %% 2 == 0] + 1
@@ -244,8 +307,7 @@ scale_window_int <- function(landscape,
             win_raster <-
                 window_lsm(landscape,
                            window = window,
-                           what =  what,
-                           ...)
+                           what =  what)
 
             win_raster <- unlist(win_raster)
 
@@ -257,7 +319,7 @@ scale_window_int <- function(landscape,
 
             # print progess using the non-internal name
             if (progress) {
-                message("\r> Progress scaling percantages: ",
+                message("\r> Progress scales: ",
                         i,
                         "/",
                         length(ncols_perc),
