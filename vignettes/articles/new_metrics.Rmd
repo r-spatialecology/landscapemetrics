@@ -19,7 +19,7 @@ library(landscapemetrics)
 
 One of the reason to start `landscapemetrics` was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.
 
-## Landscape complexity metrics
+## Information theory-based framework for the analysis of landscape patterns
 
 > Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 
@@ -43,7 +43,7 @@ It quantifies the information that one random variable (x) provides about anothe
 It tells how much easier is to predict a category of an adjacent cell if the category of the focus cell is known.
 Mutual information disambiguates landscape pattern types characterized by the same value of overall complexity.
 
-![it-metrics-example.png]()
+![https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png]()
 
 <!--the link will be available starting 2019-06-25-->
 For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
