@@ -23,7 +23,7 @@ One of the reason to start `landscapemetrics` was also to have a collection of m
 
 > Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 
-Information-theoretical framework can be applied to derive four metrics of landscape complexity: `H(x)`, `[H(y|x)]`, `[H(x, y)]`, `[I(y,x)]`
+Information-theoretical framework can be applied to derive four metrics of landscape complexity: Marginal entropy `[H(x)]`, Conditional entropy `[H(y|x)]`, Joint entropy `[H(x, y)]`, and Mutual information `[I(y,x)]`.
 
 All of these metrics are implemented in `landscapemetrics`:
 
@@ -42,6 +42,8 @@ In other words, it measures diversity of values in a co-occurrence matrix -- the
 It quantifies the information that one random variable (x) provides about another random variable (y). 
 It tells how much easier is to predict a category of an adjacent cell if the category of the focus cell is known.
 Mutual information disambiguates landscape pattern types characterized by the same value of overall complexity.
+
+![it-metrics-example.png]
 
 <!--the link will be available starting 2019-06-25-->
 For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
