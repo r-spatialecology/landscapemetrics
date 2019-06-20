@@ -43,7 +43,9 @@ It quantifies the information that one random variable (x) provides about anothe
 It tells how much easier is to predict a category of an adjacent cell if the category of the focus cell is known.
 Mutual information disambiguates landscape pattern types characterized by the same value of overall complexity.
 
-![https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png]()
+<div class="figure" style="text-align: center">
+<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
+</div>
 
 <!--the link will be available starting 2019-06-25-->
 For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
