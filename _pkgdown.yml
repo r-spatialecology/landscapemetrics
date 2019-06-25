@@ -37,6 +37,7 @@ reference:
     - sample_lsm
     - scale_sample
     - scale_window
+    - spatialize_lsm
     - window_lsm
   - title: Visualisation functions
     contents:
