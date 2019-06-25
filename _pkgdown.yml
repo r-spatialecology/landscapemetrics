@@ -35,6 +35,8 @@ reference:
     - get_unique_values
     - extract_lsm
     - sample_lsm
+    - scale_sample
+    - scale_window
     - window_lsm
   - title: Visualisation functions
     contents:
