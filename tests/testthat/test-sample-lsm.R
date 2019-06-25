@@ -26,12 +26,13 @@ y1 <- c(1, 5, 15, 25)
 x2 <- c(10, 25)
 y2 <- c(5, 5)
 
-sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)), sp::Line(cbind(x2, y2))), ID = "a")))
+sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+                                                     sp::Line(cbind(x2, y2))), ID = "a")))
 
 test_that("sample_lsm works for a matrix", {
 
     result_mat <- sample_lsm(landscape,
-                             y = sample_points, size = 15,
+                             y = sample_points, size = 5,
                              shape = "circle",
                              what = c("lsm_l_ta", "lsm_l_np"))
 
@@ -42,7 +43,7 @@ test_that("sample_lsm works for a matrix", {
 test_that("sample_lsm works for sp points", {
 
     result_sp <- sample_lsm(landscape,
-                            y = points_sp, size = 15,
+                            y = points_sp, size = 5,
                             shape = "square",
                             what = "lsm_l_np")
 
@@ -54,8 +55,8 @@ test_that("sample_lsm works for sp points", {
 test_that("sample_lsm works for polygons ", {
 
     result_poly <- sample_lsm(landscape,
-                              y = sample_plots,
-                              level = "patch", size = 15)
+                              y = sample_plots, size = 5,
+                              level = "patch")
 
     expect_is(object = result_poly, class = "tbl_df")
 
@@ -63,7 +64,7 @@ test_that("sample_lsm works for polygons ", {
 
     if (!nzchar(system.file(package = "rgeos"))) {
         expect_warning(sample_lsm(landscape,
-                                  y = sample_plots,
+                                  y = sample_plots, size = 5,
                                   what = "lsm_p_area"),
                        grep = "Package 'rgeos' not installed. Please make sure
                        polygons are disaggregated.",
@@ -101,7 +102,7 @@ test_that("sample_lsm works for lines ", {
 test_that("sample_lsm forwards arguments to calculate_lsm", {
 
     result_mat <- sample_lsm(landscape,
-                             y = sample_points, size = 15,
+                             y = sample_points, size = 5,
                              shape = "circle",
                              what = "lsm_p_core",
                              edge_depth = 100)
@@ -134,17 +135,17 @@ test_that("sample_lsm works for all data type", {
 
     result_stack <- sample_lsm(landscape_stack,
                                y = sample_plots,
-                               size = 15,
+                               size = 5,
                                what = "lsm_l_ta")
 
     result_brick <- sample_lsm(landscape_brick,
                               y = sample_plots,
-                              size = 15,
+                              size = 5,
                               what = "lsm_l_ta")
 
     result_list <- sample_lsm(landscape_list,
                               y = sample_plots,
-                              size = 15,
+                              size = 5,
                               what = "lsm_l_ta")
 
     expect_is(result_stack, class = "tbl_df")
@@ -167,13 +168,14 @@ test_that("sample_lsm works for all data type", {
 test_that("sample_lsm returns errors", {
 
     expect_error(sample_lsm(landscape,
-                            y = sample_points, size = 15,
+                            y = sample_points, size = 5,
                             shape = "rectangle",
                             what = c("lsm_l_ta", "lsm_l_np")),
                  grep = "Shape = rectangle unknown.", fixed = TRUE)
 
     expect_error(sample_lsm(landscape,
-                            y = 1:3),
+                            y = 1:3,
+                            size = 5),
                  grep = "'y' must be a matrix, SpatialPoints, SpatialLines
                  or SpatialPolygons.",
                  fixed = TRUE)
@@ -189,7 +191,7 @@ test_that("sample_lsm returns errors", {
 test_that("sample_lsm returns warnings", {
 
     expect_warning(sample_lsm(landscape,
-                              y = sample_points_wrong, size = 15,
+                              y = sample_points_wrong, size = 5,
                               what = "lsm_l_pr"),
                    regexp = "'y' should be a two column matrix including x- and y-coordinates.",
                    fixed = TRUE)
