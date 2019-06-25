@@ -51,22 +51,22 @@
 #'
 #' @export
 scale_sample <- function(landscape,
-                      y,
-                      shape,
-                      size, max_size,
-                      verbose,
-                      progress,
-                      ...) UseMethod("scale_sample")
+                         y,
+                         shape,
+                         size, max_size,
+                         verbose,
+                         progress,
+                         ...) UseMethod("scale_sample")
 
 #' @name scale_sample
 #' @export
 scale_sample.RasterLayer <- function(landscape,
-                                  y,
-                                  shape = "square",
-                                  size, max_size,
-                                  verbose = TRUE,
-                                  progress = FALSE,
-                                  ...) {
+                                     y,
+                                     shape = "square",
+                                     size, max_size,
+                                     verbose = TRUE,
+                                     progress = FALSE,
+                                     ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = scale_sample_int_multibuffer,
@@ -85,7 +85,7 @@ scale_sample.RasterLayer <- function(landscape,
     result$layer <- layer
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
@@ -96,12 +96,12 @@ scale_sample.RasterLayer <- function(landscape,
 #' @name scale_sample
 #' @export
 scale_sample.RasterStack <- function(landscape,
-                                  y,
-                                  shape = "square",
-                                  size, max_size,
-                                  verbose = TRUE,
-                                  progress = FALSE,
-                                  ...) {
+                                     y,
+                                     shape = "square",
+                                     size, max_size,
+                                     verbose = TRUE,
+                                     progress = FALSE,
+                                     ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -114,13 +114,13 @@ scale_sample.RasterStack <- function(landscape,
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
-                                  y = y,
-                                  shape = shape,
-                                  size = size,
-                                  max_size = max_size,
-                                  verbose = verbose,
-                                  progress = FALSE,
-                                  ...)
+                                     y = y,
+                                     shape = shape,
+                                     size = size,
+                                     max_size = max_size,
+                                     verbose = verbose,
+                                     progress = FALSE,
+                                     ...)
     })
 
     layer <- rep(seq_along(result),
@@ -133,7 +133,7 @@ scale_sample.RasterStack <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
@@ -144,12 +144,12 @@ scale_sample.RasterStack <- function(landscape,
 #' @name scale_sample
 #' @export
 scale_sample.RasterBrick <- function(landscape,
-                                  y,
-                                  shape = "square",
-                                  size, max_size,
-                                  verbose = TRUE,
-                                  progress = FALSE,
-                                  ...) {
+                                     y,
+                                     shape = "square",
+                                     size, max_size,
+                                     verbose = TRUE,
+                                     progress = FALSE,
+                                     ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -162,13 +162,13 @@ scale_sample.RasterBrick <- function(landscape,
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
-                                  y = y,
-                                  shape = shape,
-                                  size = size,
-                                  max_size = max_size,
-                                  verbose = verbose,
-                                  progress = FALSE,
-                                  ...)
+                                     y = y,
+                                     shape = shape,
+                                     size = size,
+                                     max_size = max_size,
+                                     verbose = verbose,
+                                     progress = FALSE,
+                                     ...)
     })
 
     layer <- rep(seq_along(result),
@@ -181,7 +181,7 @@ scale_sample.RasterBrick <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
@@ -192,12 +192,12 @@ scale_sample.RasterBrick <- function(landscape,
 #' @name scale_sample
 #' @export
 scale_sample.stars <- function(landscape,
-                            y,
-                            shape = "square",
-                            size, max_size,
-                            verbose = TRUE,
-                            progress = FALSE,
-                            ...) {
+                               y,
+                               shape = "square",
+                               size, max_size,
+                               verbose = TRUE,
+                               progress = FALSE,
+                               ...) {
 
     landscape <-  raster::as.list(methods::as(landscape, "Raster"))
 
@@ -210,13 +210,13 @@ scale_sample.stars <- function(landscape,
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
-                                  y = y,
-                                  shape = shape,
-                                  size = size,
-                                  max_size = max_size,
-                                  verbose = verbose,
-                                  progress = FALSE,
-                                  ...)
+                                     y = y,
+                                     shape = shape,
+                                     size = size,
+                                     max_size = max_size,
+                                     verbose = verbose,
+                                     progress = FALSE,
+                                     ...)
     })
 
     layer <- rep(seq_along(result),
@@ -229,7 +229,7 @@ scale_sample.stars <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
@@ -240,12 +240,12 @@ scale_sample.stars <- function(landscape,
 #' @name scale_sample
 #' @export
 scale_sample.list <- function(landscape,
-                           y,
-                           shape = "square",
-                           size, max_size,
-                           verbose = TRUE,
-                           progress = FALSE,
-                           ...) {
+                              y,
+                              shape = "square",
+                              size, max_size,
+                              verbose = TRUE,
+                              progress = FALSE,
+                              ...) {
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -256,13 +256,13 @@ scale_sample.list <- function(landscape,
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
-                                  y = y,
-                                  shape = shape,
-                                  size = size,
-                                  max_size = max_size,
-                                  verbose = verbose,
-                                  progress = FALSE,
-                                  ...)
+                                     y = y,
+                                     shape = shape,
+                                     size = size,
+                                     max_size = max_size,
+                                     verbose = verbose,
+                                     progress = FALSE,
+                                     ...)
     })
 
     layer <- rep(seq_along(result),
@@ -275,7 +275,7 @@ scale_sample.list <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
                 call. = FALSE)
     }
@@ -284,11 +284,11 @@ scale_sample.list <- function(landscape,
 }
 
 scale_sample_int <- function(landscape,
-                          y,
-                          shape, size,
-                          verbose,
-                          progress,
-                          ...) {
+                             y,
+                             shape, size,
+                             verbose,
+                             progress,
+                             ...) {
 
     # use points
     if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {

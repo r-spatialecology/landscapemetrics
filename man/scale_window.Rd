@@ -65,6 +65,7 @@ automatically all possibilities are selected. Only metrics on landscape level
 are supported for this function.
 }
 \examples{
+\dontrun{
 percentages_col <- c(2, 4, 8, 16, 32, 64, 100)
 percentages_row <- c(2, 4, 8, 16, 32, 64, 100)
 
@@ -73,7 +74,7 @@ what =  c("lsm_l_pr", "lsm_l_joinent")
 stat <- "mean"
 
 scale_window(landscape, percentages_col, percentages_row, what, stat)
-scale_window(landscape_stack, percentages_col, percentages_row, what, stat)
+}
 
 }
 \seealso{

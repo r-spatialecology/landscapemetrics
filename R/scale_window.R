@@ -32,6 +32,7 @@
 #' @return tibble
 #'
 #' @examples
+#' \dontrun{
 #' percentages_col <- c(2, 4, 8, 16, 32, 64, 100)
 #' percentages_row <- c(2, 4, 8, 16, 32, 64, 100)
 #'
@@ -40,7 +41,7 @@
 #' stat <- "mean"
 #'
 #' scale_window(landscape, percentages_col, percentages_row, what, stat)
-#' scale_window(landscape_stack, percentages_col, percentages_row, what, stat)
+#' }
 #'
 #' @aliases scale_window
 #' @rdname scale_window

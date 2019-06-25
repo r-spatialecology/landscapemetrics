@@ -423,7 +423,7 @@ sample_lsm_int <- function(landscape,
     }
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 75)) {
+    if (any(result$percentage_inside < 90)) {
         warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
                 call. = FALSE)
     }

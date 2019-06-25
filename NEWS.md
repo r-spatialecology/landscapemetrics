@@ -4,7 +4,7 @@
     * `scale_lsm()` allows to sample landscape metrics in buffer with increasing size
 * Improvements
     * `show_correlation()` can take result from `calculate_correlation()`
-    * `sample_lsm()` returns a warning if `percentage_inside` < 75%
+    * `sample_lsm()` returns a warning if `percentage_inside` < 90%
 
 # landscapemetrics 1.2
 * Bugfixes
