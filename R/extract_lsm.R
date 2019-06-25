@@ -4,6 +4,8 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
+#' @param extract_id Vector with id of sample points. If not provided, sample
+#' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
@@ -53,6 +55,7 @@
 #' @export
 extract_lsm <- function(landscape,
                         y,
+                        extract_id,
                         metric, name, type, what,
                         directions,
                         progress,
@@ -62,6 +65,7 @@ extract_lsm <- function(landscape,
 #' @export
 extract_lsm.RasterLayer <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
@@ -73,6 +77,7 @@ extract_lsm.RasterLayer <- function(landscape,
   result <- lapply(raster::as.list(landscape),
                    FUN = extract_lsm_internal,
                    y = y,
+                   extract_id = extract_id,
                    metric = metric,
                    name = name,
                    type = type,
@@ -95,6 +100,7 @@ extract_lsm.RasterLayer <- function(landscape,
 #' @export
 extract_lsm.RasterStack <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
@@ -115,6 +121,7 @@ extract_lsm.RasterStack <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
@@ -140,6 +147,7 @@ extract_lsm.RasterStack <- function(landscape,
 #' @export
 extract_lsm.RasterBrick <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
@@ -160,6 +168,7 @@ extract_lsm.RasterBrick <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
@@ -185,6 +194,7 @@ extract_lsm.RasterBrick <- function(landscape,
 #' @export
 extract_lsm.stars <- function(landscape,
                               y,
+                              extract_id = NULL,
                               metric = NULL,
                               name = NULL,
                               type = NULL,
@@ -207,6 +217,7 @@ extract_lsm.stars <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
@@ -232,6 +243,7 @@ extract_lsm.stars <- function(landscape,
 #' @export
 extract_lsm.list <- function(landscape,
                              y,
+                             extract_id = NULL,
                              metric = NULL,
                              name = NULL,
                              type = NULL,
@@ -250,6 +262,7 @@ extract_lsm.list <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
@@ -273,6 +286,7 @@ extract_lsm.list <- function(landscape,
 
 extract_lsm_internal <- function(landscape,
                                  y,
+                                 extract_id,
                                  metric, name, type, what,
                                  directions,
                                  progress,
@@ -364,6 +378,22 @@ extract_lsm_internal <- function(landscape,
 
   # rename df
   names(point_id) <- c("extract_id", "id")
+
+  # check if length is identical if ids are provided
+  if (!is.null(extract_id)) {
+
+    if (length(extract_id) != nrow(point_id)) {
+
+      warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.", call. = FALSE)
+
+      extract_id <- seq_len(nrow(point_id))
+    }
+  }
+
+
+  if (!is.null(extract_id)) {
+    point_id[, 1] <- extract_id
+  }
 
   point_id <- point_id[!duplicated(point_id), ]
 

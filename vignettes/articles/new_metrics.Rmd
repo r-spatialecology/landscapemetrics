@@ -19,15 +19,33 @@ library(landscapemetrics)
 
 One of the reason to start `landscapemetrics` was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.
 
-## Landscape complexity metrics
+## Information theory-based framework for the analysis of landscape patterns
 
-> Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure landscape complexity. https://doi.org/10.1101/383281
+> Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 
-The standard set of landscape metrics lacks the bona fide indicator of complexity. Information-theoretical framework can be applied to derive four metrics of landscape complexity: `H(x,y)` -- an overall spatio-thematic complexity metric; `H(x)` -- a thematic complexity of landscape classes; `H(y|x)` -- a configurational complexity of landscape pattern; and `I(y;x)` -- a metric disambiguating landscape pattern types having the same value of an overall complexity.
+Information-theoretical framework can be applied to derive four metrics of landscape complexity: Marginal entropy `[H(x)]`, Conditional entropy `[H(y|x)]`, Joint entropy `[H(x, y)]`, and Mutual information `[I(y,x)]`.
 
 All of these metrics are implemented in `landscapemetrics`:
 
-- [lsm_l_joinent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_joinent.html): an overall spatio-thematic complexity metric.
-- [lsm_l_ent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html): a diversity (thematic complexity) of landscape classes
-- [lsm_l_condent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_condent.html): a complexity of a landscape pattern configuration. It measures a only a geometric intricacy (configurational complexity) of a landscape pattern.
-- [lsm_l_mutinf](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html):  disambiguates landscape pattern types characterize by the same value of an overall complexity.
+- [lsm_l_ent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html) - Marginal entropy `[H(x)]`.
+It represents a diversity (thematic complexity, composition) of spatial categories.
+It is calculated as the entropy of the marginal distribution.
+- [lsm_l_condent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_condent.html) - Conditional entropy `[H(y|x)]`.
+It represents a configurational complexity (geometric intricacy) of a spatial pattern. 
+If the value of **conditional entropy** is small, cells of one category are predominantly adjacent to only one category of cells.
+On the other hand, the high value of **conditional entropy** shows that cells of one category are adjacent to cells of many different categories.
+- [lsm_l_joinent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_joinent.html) - Joint entropy `[H(x, y)]`.
+It is an overall spatio-thematic complexity metric. 
+It represents the uncertainty in determining a category of the focus cell and the category of the adjacent cell.
+In other words, it measures diversity of values in a co-occurrence matrix -- the smaller the diversity, the larger the value of **joint entropy**.
+- [lsm_l_mutinf](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html) - Mutual information `[I(y,x)]`.
+It quantifies the information that one random variable (x) provides about another random variable (y). 
+It tells how much easier is to predict a category of an adjacent cell if the category of the focus cell is known.
+Mutual information disambiguates landscape pattern types characterized by the same value of overall complexity.
+
+<div class="figure" style="text-align: center">
+<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
+</div>
+
+<!--the link will be available starting 2019-06-25-->
+For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
