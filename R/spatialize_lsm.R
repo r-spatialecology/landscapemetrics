@@ -36,21 +36,21 @@
 #'
 #' @export
 spatialize_lsm <- function(landscape,
-                    metric, name, type, what,
-                    directions,
-                    progress,
-                    ...) UseMethod("spatialize_lsm")
+                           metric, name, type, what,
+                           directions,
+                           progress,
+                           ...) UseMethod("spatialize_lsm")
 
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterLayer <- function(landscape,
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                what = NULL,
-                                directions = 8,
-                                progress = FALSE,
-                                ...) {
+                                       metric = NULL,
+                                       name = NULL,
+                                       type = NULL,
+                                       what = NULL,
+                                       directions = 8,
+                                       progress = FALSE,
+                                       ...) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = spatialize_lsm_internal,
@@ -68,13 +68,13 @@ spatialize_lsm.RasterLayer <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterStack <- function(landscape,
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                what = NULL,
-                                directions = 8,
-                                progress = FALSE,
-                                ...) {
+                                       metric = NULL,
+                                       name = NULL,
+                                       type = NULL,
+                                       what = NULL,
+                                       directions = 8,
+                                       progress = FALSE,
+                                       ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -87,13 +87,13 @@ spatialize_lsm.RasterStack <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         ...)
+                                metric = metric,
+                                name = name,
+                                type = type,
+                                what = what,
+                                directions = directions,
+                                progress = FALSE,
+                                ...)
     })
 
     if (progress) {message("")}
@@ -104,13 +104,13 @@ spatialize_lsm.RasterStack <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterBrick <- function(landscape,
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                what = NULL,
-                                directions = 8,
-                                progress = FALSE,
-                                ...) {
+                                       metric = NULL,
+                                       name = NULL,
+                                       type = NULL,
+                                       what = NULL,
+                                       directions = 8,
+                                       progress = FALSE,
+                                       ...) {
 
     landscape <- raster::as.list(landscape)
 
@@ -123,13 +123,13 @@ spatialize_lsm.RasterBrick <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         ...)
+                                metric = metric,
+                                name = name,
+                                type = type,
+                                what = what,
+                                directions = directions,
+                                progress = FALSE,
+                                ...)
     })
 
     if (progress) {message("")}
@@ -140,13 +140,13 @@ spatialize_lsm.RasterBrick <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.stars <- function(landscape,
-                          metric = NULL,
-                          name = NULL,
-                          type = NULL,
-                          what = NULL,
-                          directions = 8,
-                          progress = FALSE,
-                          ...) {
+                                 metric = NULL,
+                                 name = NULL,
+                                 type = NULL,
+                                 what = NULL,
+                                 directions = 8,
+                                 progress = FALSE,
+                                 ...) {
 
     landscape <- raster::as.list(methods::as(landscape, "Raster"))
 
@@ -159,13 +159,13 @@ spatialize_lsm.stars <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         ...)
+                                metric = metric,
+                                name = name,
+                                type = type,
+                                what = what,
+                                directions = directions,
+                                progress = FALSE,
+                                ...)
     })
 
     if (progress) {message("")}
@@ -176,13 +176,13 @@ spatialize_lsm.stars <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.list <- function(landscape,
-                         metric = NULL,
-                         name = NULL,
-                         type = NULL,
-                         what = NULL,
-                         directions = 8,
-                         progress = FALSE,
-                         ...) {
+                                metric = NULL,
+                                name = NULL,
+                                type = NULL,
+                                what = NULL,
+                                directions = 8,
+                                progress = FALSE,
+                                ...) {
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -193,13 +193,13 @@ spatialize_lsm.list <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         ...)
+                                metric = metric,
+                                name = name,
+                                type = type,
+                                what = what,
+                                directions = directions,
+                                progress = FALSE,
+                                ...)
     })
 
     if (progress) {message("")}
@@ -208,10 +208,10 @@ spatialize_lsm.list <- function(landscape,
 }
 
 spatialize_lsm_internal <- function(landscape,
-                             metric, name, type, what,
-                             directions,
-                             progress,
-                             ...) {
+                                    metric, name, type, what,
+                                    directions,
+                                    progress,
+                                    ...) {
 
     # get name of metrics
     metrics <- list_lsm(level = "patch",
@@ -275,10 +275,10 @@ spatialize_lsm_internal <- function(landscape,
                                     ...)
 
         # merge with coords data frame
-        fill_value <-  merge(x = patches_tibble,
-                             y = fill_value,
-                             by = "id",
-                             all.x = TRUE)
+        fill_value <- merge(x = patches_tibble,
+                            y = fill_value,
+                            by = "id",
+                            all.x = TRUE)
 
         # convert to raster
         raster::rasterFromXYZ(fill_value[, c(2,3, 8)], crs = crs_input)

@@ -10,27 +10,27 @@
 \title{extract_lsm}
 \usage{
 extract_lsm(landscape, y, extract_id, metric, name, type, what, directions,
-  progress, ...)
+  progress, verbose, ...)
 
 \method{extract_lsm}{RasterLayer}(landscape, y, extract_id = NULL,
   metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, progress = FALSE, ...)
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
 \method{extract_lsm}{RasterStack}(landscape, y, extract_id = NULL,
   metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, progress = FALSE, ...)
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
 \method{extract_lsm}{RasterBrick}(landscape, y, extract_id = NULL,
   metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, progress = FALSE, ...)
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
 \method{extract_lsm}{stars}(landscape, y, extract_id = NULL,
   metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, progress = FALSE, ...)
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
 \method{extract_lsm}{list}(landscape, y, extract_id = NULL,
   metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, progress = FALSE, ...)
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -53,6 +53,8 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{progress}{Print progress report.}
+
+\item{verbose}{Print warning messages.}
 
 \item{...}{Arguments passed to \code{calculate_lsm()}.}
 }

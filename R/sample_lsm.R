@@ -389,7 +389,10 @@ sample_lsm_int <- function(landscape,
 
         if (length(plot_id) != length(y)) {
 
-            warning("Length of plot_id is not identical to length of y. Using 1...n as plot_id.", call. = FALSE)
+            if (verbose) {
+                warning("Length of plot_id is not identical to length of y. Using 1...n as plot_id.",
+                        call. = FALSE)
+            }
 
             plot_id <- NULL
         }
@@ -455,10 +458,12 @@ sample_lsm_int <- function(landscape,
     }
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
 
-        warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
-                call. = FALSE)
+            warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+                    call. = FALSE)
+        }
     }
 
     return(result)

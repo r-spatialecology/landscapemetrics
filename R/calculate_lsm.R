@@ -387,7 +387,6 @@ calculate_lsm_internal <- function(landscape,
                                    verbose,
                                    progress) {
 
-
     # check if landscape is ok...
     check <- check_landscape(landscape, verbose = FALSE)
 

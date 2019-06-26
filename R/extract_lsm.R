@@ -14,6 +14,7 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param progress Print progress report.
+#' @param verbose Print warning messages.
 #' @param ... Arguments passed to \code{calculate_lsm()}.
 #'
 #' @details
@@ -59,6 +60,7 @@ extract_lsm <- function(landscape,
                         metric, name, type, what,
                         directions,
                         progress,
+                        verbose,
                         ...) UseMethod("extract_lsm")
 
 #' @name extract_lsm
@@ -72,6 +74,7 @@ extract_lsm.RasterLayer <- function(landscape,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   result <- lapply(raster::as.list(landscape),
@@ -84,6 +87,7 @@ extract_lsm.RasterLayer <- function(landscape,
                    what = what,
                    directions = directions,
                    progress = progress,
+                   verbose = verbose,
                    ...)
 
   layer <- rep(seq_along(result),
@@ -107,6 +111,7 @@ extract_lsm.RasterStack <- function(landscape,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   landscape <- raster::as.list(landscape)
@@ -128,6 +133,7 @@ extract_lsm.RasterStack <- function(landscape,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -154,6 +160,7 @@ extract_lsm.RasterBrick <- function(landscape,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   landscape <- raster::as.list(landscape)
@@ -175,6 +182,7 @@ extract_lsm.RasterBrick <- function(landscape,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -201,6 +209,7 @@ extract_lsm.stars <- function(landscape,
                               what = NULL,
                               directions = 8,
                               progress = FALSE,
+                              verbose = TRUE,
                               ...) {
 
   landscape <- methods::as(landscape, "Raster")
@@ -224,6 +233,7 @@ extract_lsm.stars <- function(landscape,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -250,6 +260,7 @@ extract_lsm.list <- function(landscape,
                              what = NULL,
                              directions = 8,
                              progress = FALSE,
+                             verbose = TRUE,
                              ...) {
 
   result <- lapply(X = seq_along(landscape), FUN = function(x) {
@@ -269,6 +280,7 @@ extract_lsm.list <- function(landscape,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -290,6 +302,7 @@ extract_lsm_internal <- function(landscape,
                                  metric, name, type, what,
                                  directions,
                                  progress,
+                                 verbose,
                                  ...) {
 
   # get list of metrics to calculate
@@ -299,7 +312,7 @@ extract_lsm_internal <- function(landscape,
                            type = type,
                            what = what,
                            simplify = TRUE,
-                           verbose = FALSE)
+                           verbose = verbose)
 
   # check if only patch level metrics are selected
   if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
@@ -384,7 +397,11 @@ extract_lsm_internal <- function(landscape,
 
     if (length(extract_id) != nrow(point_id)) {
 
-      warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.", call. = FALSE)
+      if (verbose) {
+
+        warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
+                call. = FALSE)
+      }
 
       extract_id <- seq_len(nrow(point_id))
     }
@@ -401,6 +418,7 @@ extract_lsm_internal <- function(landscape,
   # can we somehow calculate only the patches we actually want?
   metrics <- calculate_lsm(landscape,
                            what = metrics_list,
+                           verbose = verbose,
                            progress = progress,
                            ...)
 
