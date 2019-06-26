@@ -338,7 +338,7 @@ scale_window_int <- function(landscape,
         }
     ))
 
-    result$metric <- vapply(strsplit(metric, split = "_"), function(x) x[3],
+    result$metric <- vapply(strsplit(result$metric, split = "_"), function(x) x[3],
                             FUN.VALUE = character(1))
 
     result$level <- "landscape"
