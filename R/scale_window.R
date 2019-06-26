@@ -285,14 +285,14 @@ scale_window_int <- function(landscape,
 
     if(any(ncols_perc < 3)) {
         ncols_perc[which(ncols_perc < 3)] <- 3
-        warning("percentages_col produced a movind window with a side < 3 cells, scale_window set this side to 3 for this scale.")
+        warning("percentages_col produced a moving window with a side < 3 cells, scale_window set this side to 3 for this scale.")
     }
 
     nrows_perc  <- round((percentages_row / 100) * nrows)
 
     if(any(nrows_perc < 3)) {
         nrows_perc[which(nrows_perc < 3)] <- 3
-        warning("percentages_col produced a movind window with a side < 3 cells, scale_window set this side to 3 for this scale.")
+        warning("percentages_col produced a moving window with a side < 3 cells, scale_window set this side to 3 for this scale.")
     }
 
     ncols_perc[ncols_perc %% 2 == 0] <-
@@ -337,6 +337,9 @@ scale_window_int <- function(landscape,
 
         }
     ))
+
+    result$metric <- sapply(strsplit(result$metric, split = "_"), tail, 1)
+
 
     result$level <- "landscape"
     result$class <- NA
