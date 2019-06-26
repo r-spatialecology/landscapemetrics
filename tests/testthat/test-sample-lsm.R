@@ -34,7 +34,8 @@ test_that("sample_lsm works for a matrix", {
     result_mat <- sample_lsm(landscape,
                              y = sample_points, size = 5,
                              shape = "circle",
-                             what = c("lsm_l_ta", "lsm_l_np"))
+                             what = c("lsm_l_ta", "lsm_l_np"),
+                             verbose = FALSE)
 
     expect_is(object = result_mat, class = "tbl_df")
     expect_true(all(c("np", "ta") %in% result_mat$metric))
@@ -45,7 +46,8 @@ test_that("sample_lsm works for sp points", {
     result_sp <- sample_lsm(landscape,
                             y = points_sp, size = 5,
                             shape = "square",
-                            what = "lsm_l_np")
+                            what = "lsm_l_np",
+                            verbose = FALSE)
 
     expect_is(object = result_sp, class = "tbl_df")
 
@@ -56,18 +58,19 @@ test_that("sample_lsm works for polygons ", {
 
     result_poly <- sample_lsm(landscape,
                               y = sample_plots, size = 5,
-                              level = "patch")
+                              level = "patch",
+                              verbose = FALSE)
 
     expect_is(object = result_poly, class = "tbl_df")
 
     expect_true(all("patch" %in% result_poly$level))
 
     if (!nzchar(system.file(package = "rgeos"))) {
+
         expect_warning(sample_lsm(landscape,
                                   y = sample_plots, size = 5,
                                   what = "lsm_p_area"),
-                       grep = "Package 'rgeos' not installed. Please make sure
-                       polygons are disaggregated.",
+                       regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
                        fixed = TRUE)
     }
 })
@@ -80,8 +83,7 @@ test_that("sample_lsm works for lines ", {
                                 y = sample_lines,
                                 size = 5,
                                 level = "landscape"),
-                     grep = "To sample landscape metrics in buffers around lines,
-                     the package 'rgeos' must be installed.",
+                     regexp = "To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
                      fixed = TRUE)
 
     }
@@ -105,7 +107,8 @@ test_that("sample_lsm forwards arguments to calculate_lsm", {
                              y = sample_points, size = 5,
                              shape = "circle",
                              what = "lsm_p_core",
-                             edge_depth = 100)
+                             edge_depth = 100,
+                             verbose = FALSE)
 
     expect_true(all(result_mat$value == 0))
 })
@@ -117,7 +120,8 @@ test_that("sample_lsm uses sample_ids", {
                          plot_id = c(5, 25, 15),
                          size = 15,
                          shape = "circle",
-                         what = "lsm_l_ta")
+                         what = "lsm_l_ta",
+                         verbose = FALSE)
 
     expect_equal(result$plot_id, expected = c(5, 15, 25))
 
@@ -126,7 +130,8 @@ test_that("sample_lsm uses sample_ids", {
                                   plot_id = c(5, 25, 15, 1),
                                   size = 15,
                                   shape = "circle",
-                                  what = "lsm_l_ta")
+                                  what = "lsm_l_ta",
+                                  verbose = FALSE)
 
     expect_equal(result_wrong_id$plot_id, expected = 1:3)
 })
@@ -136,17 +141,20 @@ test_that("sample_lsm works for all data type", {
     result_stack <- sample_lsm(landscape_stack,
                                y = sample_plots,
                                size = 5,
-                               what = "lsm_l_ta")
+                               what = "lsm_l_ta",
+                               verbose = FALSE)
 
     result_brick <- sample_lsm(landscape_brick,
                               y = sample_plots,
                               size = 5,
-                              what = "lsm_l_ta")
+                              what = "lsm_l_ta",
+                              verbose = FALSE)
 
     result_list <- sample_lsm(landscape_list,
                               y = sample_plots,
                               size = 5,
-                              what = "lsm_l_ta")
+                              what = "lsm_l_ta",
+                              verbose = FALSE)
 
     expect_is(result_stack, class = "tbl_df")
     expect_is(result_brick, class = "tbl_df")
@@ -168,16 +176,9 @@ test_that("sample_lsm works for all data type", {
 test_that("sample_lsm returns errors", {
 
     expect_error(sample_lsm(landscape,
-                            y = sample_points, size = 5,
-                            shape = "rectangle",
-                            what = c("lsm_l_ta", "lsm_l_np")),
-                 grep = "Shape = rectangle unknown.", fixed = TRUE)
-
-    expect_error(sample_lsm(landscape,
                             y = 1:3,
                             size = 5),
-                 grep = "'y' must be a matrix, SpatialPoints, SpatialLines
-                 or SpatialPolygons.",
+                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
                  fixed = TRUE)
 
     expect_error(sample_lsm(landscape,

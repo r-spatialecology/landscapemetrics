@@ -3,7 +3,10 @@ context("scale_window")
 percentages_col <- c(50, 100)
 percentages_row <- c(50, 100)
 
-test_that("scale_window works returns data frame with percentages ", {
+test_that("scale_window returns data frame with percentages", {
+
+    skip_on_cran()
+    skip_on_ci()
 
     result <- scale_window(landscape = landscape,
                            percentages_col = percentages_col,
@@ -16,7 +19,10 @@ test_that("scale_window works returns data frame with percentages ", {
     expect_equal(object = result$percentages_row, expected = c(50, 100))
 })
 
-test_that("scale_window takes argument", {
+test_that("scale_window forwards arguments", {
+
+    skip_on_cran()
+    skip_on_ci()
 
     result <- scale_window(landscape = landscape,
                            percentages_col = percentages_col,
@@ -27,8 +33,10 @@ test_that("scale_window takes argument", {
     expect_equal(object = result$value, expected = c(0, 0))
 })
 
-test_that("window_lsm returns works for all data types", {
+test_that("scale_window works for all data types", {
 
+    skip_on_cran()
+    skip_on_ci()
 
     result_stack <- scale_window(landscape = landscape_stack,
                                  percentages_col = percentages_col,
@@ -55,6 +63,9 @@ test_that("window_lsm returns works for all data types", {
 })
 
 test_that("scale_window returns warnings", {
+
+    skip_on_cran()
+    skip_on_ci()
 
     expect_error(scale_window(landscape = landscape,
                                 percentages_col = percentages_col,

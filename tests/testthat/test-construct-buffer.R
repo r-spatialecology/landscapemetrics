@@ -26,6 +26,6 @@ test_that("construct_buffer returns error for unkown shape", {
     shape <- "3D"
 
     expect_error(construct_buffer(points_matrix, shape = "3D", size = 5),
-                 grep = paste0("Shape option " , shape, " unkown"),
+                 regexp = paste0("Shape option " , shape, " unkown."),
                  fixed = TRUE)
 })

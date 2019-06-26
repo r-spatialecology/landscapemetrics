@@ -28,6 +28,6 @@ test_that("lsm_l_contag returns in every column the correct type", {
 test_that("lsm_l_contag returns warning for less than 2 classes", {
 
     expect_warning(lsm_l_contag(landscape_uniform),
-                   grep = "Number of classes must be >= 2: CONTAG = NA.",
+                   regexp = "Number of classes must be >= 2: CONTAG = NA.",
                    fixed = TRUE)
     })

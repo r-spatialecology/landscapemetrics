@@ -27,9 +27,9 @@ test_that("scale_sample works for a sp points", {
                               verbose = FALSE,
                               what = c("lsm_l_ta", "lsm_l_np"))
 
-    expect_is(object = result_mat, class = "tbl_df")
-    expect_true(all(c("np", "ta") %in% result_mat$metric))
-    expect_equal(object = unique(result_mat$size), expected = c(5, 10, 15))
+    expect_is(object = result_sp, class = "tbl_df")
+    expect_true(all(c("np", "ta") %in% result_sp$metric))
+    expect_equal(object = unique(result_sp$size), expected = c(5, 10, 15))
 })
 
 test_that("scale_sample forwards arguments to calculate_lsm", {

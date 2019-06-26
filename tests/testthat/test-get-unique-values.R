@@ -15,7 +15,7 @@ test_that("get_unique_values works for vector", {
                  expected = c(1, 2))
 
     expect_warning(get_unique_values(as.numeric(vector_x)),
-                   grep = "Double values will be converted to integer.",
+                   regexp = "Double values will be converted to integer.",
                    fixed = TRUE)
 })
 
@@ -36,7 +36,7 @@ test_that("get_unique_values works for list", {
     expect_length(get_unique_values(list_x), n = 3)
 
     expect_warning(get_unique_values(list_x, simplify = TRUE),
-                   grep = "Not able to simply list with more than 1 element.",
+                   regexp = "Not able to simply list with more than 1 element.",
                    fixed = TRUE)
 })
 
@@ -56,7 +56,7 @@ test_that("get_unique_values works for RasterStack", {
     expect_length(get_unique_values(landscape_stack), n = 2)
 
     expect_warning(get_unique_values(landscape_stack, simplify = TRUE),
-                   grep = "Not able to simplify RasterStack.",
+                   regexp = "Not able to simplify RasterStack.",
                    fixed = TRUE)
 })
 
@@ -66,14 +66,14 @@ test_that("get_unique_values works for RasterBrick", {
     expect_length(get_unique_values(landscape_brick), n = 2)
 
     expect_warning(get_unique_values(landscape_brick, simplify = TRUE),
-                   grep = "Not able to simplify RasterBrick",
+                   regexp = "Not able to simplify RasterBrick",
                    fixed = TRUE)
 })
 
 test_that("get_unique_values works only for correct data types", {
 
 expect_error(get_unique_values(list_y),
-             grep = "List elements must be a RasterLayer, matrix or vector.",
+             regexp = "List elements must be a RasterLayer, matrix or vector.",
              fixed = TRUE)
 })
 

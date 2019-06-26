@@ -28,6 +28,6 @@ test_that("lsm_l_pafrac returns in every column the correct type", {
 test_that("lsm_l_pafrac throws error for less than 10 patches",  {
 
     expect_warning(lsm_l_pafrac(landscape_uniform),
-                   grep = "PAFRAC = NA for NP < 10",
+                   regexp = "PAFRAC = NA for NP < 10",
                    fixed = TRUE)
 })
