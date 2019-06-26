@@ -308,7 +308,8 @@ scale_window_int <- function(landscape,
             win_raster <-
                 window_lsm(landscape,
                            window = window,
-                           what =  what)
+                           what =  what,
+                           ...)
 
             win_raster <- unlist(win_raster)
 
