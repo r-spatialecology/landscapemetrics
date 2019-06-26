@@ -14,10 +14,10 @@ poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
 poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 
+sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
+
 # wrong plots
 sample_points_wrong <- cbind(sample_points, 1)
-
-sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
 # use lines
 x1 <- c(1, 5, 15, 10)

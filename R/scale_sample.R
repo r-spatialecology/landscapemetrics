@@ -72,7 +72,8 @@ scale_sample.RasterLayer <- function(landscape,
                      FUN = scale_sample_int_multibuffer,
                      y = y,
                      shape = shape,
-                     size = size, max_size = max_size,
+                     size = size,
+                     max_size = max_size,
                      verbose = verbose,
                      progress = progress,
                      ...)
@@ -85,9 +86,11 @@ scale_sample.RasterLayer <- function(landscape,
     result$layer <- layer
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                    call. = FALSE)
+        }
     }
 
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
@@ -133,9 +136,11 @@ scale_sample.RasterStack <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                    call. = FALSE)
+        }
     }
 
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
@@ -181,9 +186,11 @@ scale_sample.RasterBrick <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                    call. = FALSE)
+        }
     }
 
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
@@ -229,9 +236,11 @@ scale_sample.stars <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                    call. = FALSE)
+        }
     }
 
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
@@ -275,12 +284,34 @@ scale_sample.list <- function(landscape,
     if (progress) {message("")}
 
     # return warning of only 3/4 of sample plot are in landscape
-    if (any(result$percentage_inside < 90)) {
-        warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
-                call. = FALSE)
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                    call. = FALSE)
+        }
     }
 
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
+}
+
+scale_sample_int_multibuffer <- function(landscape,
+                                         y,
+                                         shape, size, max_size,
+                                         verbose,
+                                         progress,
+                                         ...) {
+
+    # create buffer sequence
+    size <- seq(from = size, to = max_size, by = size)
+
+    # loop through buffers
+    result <- do.call(rbind, lapply(X = size, FUN = function(x) {
+
+        scale_sample_int(landscape = landscape, y = y,
+                         shape = shape, size = x,
+                         verbose = verbose,
+                         progress = progress, ...)}))
+    return(result)
 }
 
 scale_sample_int <- function(landscape,
@@ -366,25 +397,5 @@ scale_sample_int <- function(landscape,
         message("")
     }
 
-    return(result)
-}
-
-scale_sample_int_multibuffer <- function(landscape,
-                                      y,
-                                      shape, size, max_size,
-                                      verbose,
-                                      progress,
-                                      ...) {
-
-    # create buffer sequence
-    size <- seq(from = size, to = max_size, by = size)
-
-    # loop through buffers
-    result <- do.call(rbind, lapply(X = size, FUN = function(x) {
-
-        scale_sample_int(landscape = landscape, y = y,
-                      shape = shape, size = x,
-                      verbose = verbose,
-                      progress = progress, ...)}))
     return(result)
 }
