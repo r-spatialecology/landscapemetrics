@@ -25,6 +25,7 @@ reference:
     - options_landscapemetrics
   - title: Auxiliary/Utility functions
     contents:
+    - calculate_correlation
     - check_landscape
     - list_lsm
     - get_adjacencies
