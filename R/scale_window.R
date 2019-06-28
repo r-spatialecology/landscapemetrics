@@ -127,9 +127,10 @@ scale_window.RasterStack <- function(landscape,
 
     result$layer <- layer
 
+    if (progress) {message("")}
+
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
-
 }
 
 #' @name scale_window
@@ -173,9 +174,10 @@ scale_window.RasterBrick <- function(landscape,
 
     result$layer <- layer
 
+    if (progress) {message("")}
+
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
-
 }
 
 #' @name scale_window
@@ -219,9 +221,10 @@ scale_window.stars <- function(landscape,
 
     result$layer <- layer
 
+    if (progress) {message("")}
+
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
-
 }
 
 #' @name scale_window
@@ -263,9 +266,10 @@ scale_window.list <- function(landscape,
 
     result$layer <- layer
 
+    if (progress) {message("")}
+
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
-
 }
 
 scale_window_int <- function(landscape,
@@ -276,67 +280,82 @@ scale_window_int <- function(landscape,
                          progress = FALSE,
                          ...) {
 
-    if (is.null(percentages_row)) percentages_row <- percentages_col
+    # only percentages_col provided
+    if (is.null(percentages_row)) {
 
+        percentages_row <- percentages_col
+    }
+
+    # get dimensions of raster
     ncols <- raster::ncol(landscape)
     nrows <- raster::nrow(landscape)
 
+    # calculate percentage of cols
     ncols_perc  <- round((percentages_col / 100) * ncols)
 
-    if (any(ncols_perc < 3)) {
-        ncols_perc[which(ncols_perc < 3)] <- 3
-        warning("percentages_col produced a moving window with a side < 3 cells, scale_window set this side to 3 for this scale.")
-    }
-
+    # calculate percentage of rows
     nrows_perc  <- round((percentages_row / 100) * nrows)
 
-    if (any(nrows_perc < 3)) {
+    # warning if window would be smaller than 3 x 3
+    if (any(ncols_perc < 3) | any(nrows_perc < 3)) {
+
+        ncols_perc[which(ncols_perc < 3)] <- 3
         nrows_perc[which(nrows_perc < 3)] <- 3
-        warning("percentages_col produced a moving window with a side < 3 cells, scale_window set this side to 3 for this scale.")
+
+        warning("The percentages produced a moving window with a side < 3 cells. scale_window set this side to 3 for this scale.",
+                call. = FALSE)
     }
 
-    ncols_perc[ncols_perc %% 2 == 0] <-
-        ncols_perc[ncols_perc %% 2 == 0] + 1
-    nrows_perc[nrows_perc %% 2 == 0] <-
-        nrows_perc[nrows_perc %% 2 == 0] + 1
+    # add one col to even ncols_perc/nrows_perc
+    ncols_perc[ncols_perc %% 2 == 0] <- ncols_perc[ncols_perc %% 2 == 0] + 1
+    nrows_perc[nrows_perc %% 2 == 0] <- nrows_perc[nrows_perc %% 2 == 0] + 1
 
-    result <- do.call("rbind", lapply(
-        seq_along(ncols_perc),
-        FUN = function(i) {
-            window <- matrix(1, nrow = nrows_perc[i], ncol = ncols_perc[i])
+    # make sure ncols_perc/nrows_perc can't be bigger than landscape
+    if (any(ncols_perc > ncols) | any(nrows_perc > nrows)) {
 
-            win_raster <-
-                window_lsm(landscape,
-                           window = window,
-                           what =  what,
-                           ...)
+        ncols_perc[ncols_perc > ncols] <- ncols - 1
+        nrows_perc[nrows_perc > nrows] <- nrows - 1
 
-            win_raster <- unlist(win_raster)
+        warning("The percentages produced a moving window larger than the landscape. scale_window set this to the next smaller uneven number.",
+                call. = FALSE)
 
-            value <- sapply(seq_along(win_raster), function(i) {
-                raster::cellStats(win_raster[[i]],
-                                  stat = stat,
-                                  na.rm = TRUE)
-            })
+    }
 
-            # print progess using the non-internal name
-            if (progress) {
-                message("\r> Progress scales: ",
-                        i,
-                        "/",
-                        length(ncols_perc),
-                        appendLF = FALSE)
-            }
+    result <- do.call("rbind", lapply(seq_along(ncols_perc), FUN = function(i) {
 
-            value <- as.data.frame(value)
-            value$metric <- names(win_raster)
-            value$percentages_col <- percentages_col[i]
-            value$percentages_row <- percentages_row[i]
+        window <- matrix(data = 1,
+                         nrow = nrows_perc[i],
+                         ncol = ncols_perc[i])
 
-            return(value)
+        win_raster <- window_lsm(landscape,
+                                 window = window,
+                                 what = what,
+                                 ...)
 
+        win_raster <- unlist(win_raster)
+
+        value <- sapply(seq_along(win_raster), function(i) {
+
+            raster::cellStats(win_raster[[i]],
+                              stat = stat,
+                              na.rm = TRUE)
+        })
+
+        if (progress) {
+
+            message("\r> Progress scales: ", i, "/", length(ncols_perc),
+                    appendLF = FALSE)
         }
-    ))
+
+        value <- as.data.frame(value)
+
+        value$metric <- names(win_raster)
+
+        value$percentages_col <- percentages_col[i]
+        value$percentages_row <- percentages_row[i]
+
+        return(value)
+    }))
 
     result$metric <- vapply(strsplit(result$metric, split = "_"), function(x) x[3],
                             FUN.VALUE = character(1))
@@ -345,8 +364,10 @@ scale_window_int <- function(landscape,
     result$class <- NA
     result$id <- NA
 
+    if (progress) {
+
+        message("")
+    }
+
     return(result)
 }
-
-
-
