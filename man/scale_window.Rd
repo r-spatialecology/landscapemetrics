@@ -10,24 +10,27 @@
 \title{scale_window}
 \usage{
 scale_window(landscape, percentages_col, percentages_row, what, stat,
-  progress, ...)
+  verbose, progress, ...)
 
 \method{scale_window}{RasterLayer}(landscape, percentages_col = c(2, 4,
   8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
-  progress = FALSE, ...)
+  verbose = TRUE, progress = FALSE, ...)
 
 \method{scale_window}{RasterStack}(landscape, percentages_col = c(2, 4,
   8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
-  progress = FALSE, ...)
+  verbose = TRUE, progress = FALSE, ...)
 
 \method{scale_window}{RasterBrick}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, progress = FALSE, ...)
+  percentages_row = NULL, what, stat, verbose = TRUE,
+  progress = FALSE, ...)
 
 \method{scale_window}{stars}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, progress = FALSE, ...)
+  percentages_row = NULL, what, stat, verbose = TRUE,
+  progress = FALSE, ...)
 
 \method{scale_window}{list}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, progress = FALSE, ...)
+  percentages_row = NULL, what, stat, verbose = TRUE,
+  progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -40,6 +43,8 @@ scale_window(landscape, percentages_col, percentages_row, what, stat,
 It is also possible to specify functions as a vector of strings, e.g. \code{what = c("lsm_l_mutinf", "lsm_l_ta")}.}
 
 \item{stat}{The function to be applied. See Details}
+
+\item{verbose}{If TRUE, warnings are printed.}
 
 \item{progress}{Print progress report.}
 
