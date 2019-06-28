@@ -93,7 +93,8 @@ test_that("sample_lsm works for lines ", {
         result_lines <- sample_lsm(landscape,
                                    y = sample_lines,
                                    size = 5,
-                                   level = "landscape")
+                                   level = "landscape",
+                                   verbose = FALSE)
 
         expect_is(object = result_lines, class = "tbl_df")
 

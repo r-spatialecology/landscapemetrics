@@ -8,6 +8,7 @@
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_l_mutinf", "lsm_l_ta")`.
 #' @param stat The function to be applied. See Details
+#' @param verbose If TRUE, warnings are printed.
 #' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
 #'
@@ -52,6 +53,7 @@ scale_window <- function(landscape,
                          percentages_row,
                          what,
                          stat,
+                         verbose,
                          progress,
                          ...) UseMethod("scale_window")
 
@@ -62,6 +64,7 @@ scale_window.RasterLayer <- function(landscape,
                                      percentages_row = NULL,
                                      what,
                                      stat,
+                                     verbose = TRUE,
                                      progress = FALSE,
                                      ...) {
 
@@ -71,6 +74,7 @@ scale_window.RasterLayer <- function(landscape,
                      percentages_row = percentages_row,
                      what = what,
                      stat = stat,
+                     verbose = verbose,
                      progress = progress,
                      ...)
 
@@ -93,6 +97,7 @@ scale_window.RasterStack <- function(landscape,
                                      percentages_row = NULL,
                                      what,
                                      stat,
+                                     verbose = TRUE,
                                      progress = FALSE,
                                      ...) {
 
@@ -115,6 +120,7 @@ scale_window.RasterStack <- function(landscape,
                 percentages_row = percentages_row,
                 what = what,
                 stat = stat,
+                verbose = verbose,
                 progress = FALSE
             )
         }
@@ -140,6 +146,7 @@ scale_window.RasterBrick <- function(landscape,
                                      percentages_row = NULL,
                                      what,
                                      stat,
+                                     verbose = TRUE,
                                      progress = FALSE,
                                      ...) {
 
@@ -162,6 +169,7 @@ scale_window.RasterBrick <- function(landscape,
                 percentages_row = percentages_row,
                 what = what,
                 stat = stat,
+                verbose = verbose,
                 progress = FALSE
             )
         }
@@ -183,12 +191,13 @@ scale_window.RasterBrick <- function(landscape,
 #' @name scale_window
 #' @export
 scale_window.stars <- function(landscape,
-                                     percentages_col = NULL,
-                                     percentages_row = NULL,
-                                     what,
-                                     stat,
-                                     progress = FALSE,
-                                     ...) {
+                               percentages_col = NULL,
+                               percentages_row = NULL,
+                               what,
+                               stat,
+                               verbose = TRUE,
+                               progress = FALSE,
+                               ...) {
 
     landscape <-  raster::as.list(methods::as(landscape, "Raster"))
 
@@ -209,6 +218,7 @@ scale_window.stars <- function(landscape,
                 percentages_row = percentages_row,
                 what = what,
                 stat = stat,
+                verbose = verbose,
                 progress = FALSE
             )
         }
@@ -230,12 +240,13 @@ scale_window.stars <- function(landscape,
 #' @name scale_window
 #' @export
 scale_window.list <- function(landscape,
-                               percentages_col = NULL,
-                               percentages_row = NULL,
-                               what,
-                               stat,
-                               progress = FALSE,
-                               ...) {
+                              percentages_col = NULL,
+                              percentages_row = NULL,
+                              what,
+                              stat,
+                              verbose = TRUE,
+                              progress = FALSE,
+                              ...) {
 
     result <- lapply(
         X = seq_along(landscape),
@@ -254,6 +265,7 @@ scale_window.list <- function(landscape,
                 percentages_row = percentages_row,
                 what = what,
                 stat = stat,
+                verbose = verbose,
                 progress = FALSE
             )
         }
@@ -273,12 +285,13 @@ scale_window.list <- function(landscape,
 }
 
 scale_window_int <- function(landscape,
-                         percentages_col = NULL,
-                         percentages_row = NULL,
-                         what,
-                         stat,
-                         progress = FALSE,
-                         ...) {
+                             percentages_col,
+                             percentages_row,
+                             what,
+                             stat,
+                             verbose,
+                             progress,
+                             ...) {
 
     # only percentages_col provided
     if (is.null(percentages_row)) {
@@ -302,8 +315,10 @@ scale_window_int <- function(landscape,
         ncols_perc[which(ncols_perc < 3)] <- 3
         nrows_perc[which(nrows_perc < 3)] <- 3
 
-        warning("The percentages produced a moving window with a side < 3 cells. scale_window set this side to 3 for this scale.",
-                call. = FALSE)
+        if (verbose) {
+            warning("The percentages produced a moving window with a side < 3 cells. scale_window set this side to 3 for this scale.",
+                    call. = FALSE)
+        }
     }
 
     # add one col to even ncols_perc/nrows_perc
@@ -316,8 +331,10 @@ scale_window_int <- function(landscape,
         ncols_perc[ncols_perc > ncols] <- ncols - 1
         nrows_perc[nrows_perc > nrows] <- nrows - 1
 
-        warning("The percentages produced a moving window larger than the landscape. scale_window set this to the next smaller uneven number.",
-                call. = FALSE)
+        if (verbose) {
+            warning("The percentages produced a moving window larger than the landscape. scale_window set this to the next smaller uneven number.",
+                    call. = FALSE)
+        }
 
     }
 

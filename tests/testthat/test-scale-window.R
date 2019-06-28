@@ -11,7 +11,8 @@ test_that("scale_window returns data frame with percentages", {
     result <- scale_window(landscape = landscape,
                            percentages_col = percentages_col,
                            percentages_row = percentages_row,
-                           what = "lsm_l_ta", stat = "mean")
+                           what = "lsm_l_ta", stat = "mean",
+                           verbose = FALSE)
 
     expect_is(object = result, class = "tbl_df")
     expect_equal(object = nrow(result), expected = 2)
@@ -28,7 +29,8 @@ test_that("scale_window forwards arguments", {
                            percentages_col = percentages_col,
                            percentages_row = percentages_row,
                            what = "lsm_l_core_mn", edge_depth = 10,
-                           stat = "mean")
+                           stat = "mean",
+                           verbose = FALSE)
 
     expect_equal(object = result$value, expected = c(0, 0))
 })
@@ -41,17 +43,20 @@ test_that("scale_window works for all data types", {
     result_stack <- scale_window(landscape = landscape_stack,
                                  percentages_col = percentages_col,
                                  percentages_row = percentages_row,
-                                 what = "lsm_l_ta", stat = "mean")
+                                 what = "lsm_l_ta", stat = "mean",
+                                 verbose = FALSE)
 
     result_brick <- scale_window(landscape = landscape_brick,
                                  percentages_col = percentages_col,
                                  percentages_row = percentages_row,
-                                 what = "lsm_l_ta", stat = "mean")
+                                 what = "lsm_l_ta", stat = "mean",
+                                 verbose = FALSE)
 
     result_list <- scale_window(landscape = landscape_list,
                                 percentages_col = percentages_col,
                                 percentages_row = percentages_row,
-                                what = "lsm_l_ta", stat = "mean")
+                                what = "lsm_l_ta", stat = "mean",
+                                verbose = FALSE)
 
     expect_is(object = result_stack, class = "tbl_df")
     expect_is(object = result_brick, class = "tbl_df")
@@ -68,9 +73,10 @@ test_that("scale_window returns warnings", {
     skip_on_ci()
 
     expect_error(scale_window(landscape = landscape,
-                                percentages_col = percentages_col,
-                                percentages_row = percentages_row,
-                                what = "lsm_p_area", stat = "mean"),
+                              percentages_col = percentages_col,
+                              percentages_row = percentages_row,
+                              what = "lsm_p_area", stat = "mean",
+                              verbose = FALSE),
                    regexp = "'window_lsm()' is only able to calculate landscape level metrics.",
                    fixed = TRUE)
 })
