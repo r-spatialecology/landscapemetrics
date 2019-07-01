@@ -1,21 +1,58 @@
-context("show_patches")
+context("show_correlation")
 
-metrics_patch <- calculate_lsm(landscape, what = 'patch')
-metrics_plot_patch <- show_correlation(metrics_patch, method = "pearson")
+# patch level
+metrics_patch <- calculate_lsm(landscape,
+                               what = 'patch',
+                               verbose = FALSE)
 
-metrics_class <- calculate_lsm(landscape, what = 'class')
-metrics_plot_class <- show_correlation(metrics_class, method = "pearson")
+metrics_plot_patch <- show_correlation(metrics_patch)
 
-metrics_mult <- calculate_lsm(landscape, what = c("patch", "class"))
-metrics_plot_mult <- show_correlation(metrics_mult, method = "pearson")
+# class level
+metrics_class <- calculate_lsm(landscape, what = 'class',
+                               verbose = FALSE)
 
-test_that("show_patches returns a plot", {
+metrics_plot_class <- show_correlation(metrics_class)
+
+# patch and class level
+metrics_mult <- calculate_lsm(landscape,
+                              what = c("patch", "class"),
+                              verbose = FALSE)
+
+metrics_plot_mult <- show_correlation(metrics_mult)
+
+# landscape level
+metrics_land <- calculate_lsm(landscape_stack,
+                              level = "landscape",
+                              type = "area and edge metric",
+                              verbose = FALSE)
+
+metrics_plot_land <- show_correlation(metrics_land)
+
+# correlation tibble
+correlations <- calculate_correlation(metrics_mult)
+
+metrics_plot_class_corr <- show_correlation(correlations)
+
+test_that("show_correlation returns a plot on patch level", {
+
     expect_equal(class(metrics_plot_patch), c("gg","ggplot"))
 })
-test_that("show_patches returns a plot", {
+test_that("show_correlation returns a plot on class level", {
+
     expect_equal(class(metrics_plot_class), c("gg","ggplot"))
 })
 
-test_that("show_patches returns a plot", {
+test_that("show_correlation returns a plot for patch and class level", {
+
     expect_equal(class(metrics_plot_mult), c("gg","ggplot"))
+})
+
+test_that("show_correlation returns a plot for landscape level", {
+
+    expect_equal(class(metrics_plot_land), c("gg","ggplot"))
+})
+
+test_that("show_correlation returns a plot for correlation list", {
+
+    expect_equal(class(metrics_plot_class_corr), c("gg","ggplot"))
 })

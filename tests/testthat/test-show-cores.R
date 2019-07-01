@@ -35,8 +35,7 @@ test_that("show_patches returns a plot for each list entry", {
 test_that("show_patches returns error if class is not present", {
 
     expect_error(show_cores(landscape, class = 42),
-                 grep = "class must at least contain one value of a class
-                 contained in the landscape.",
+                 regexp = "class must at least contain one value of a class contained in the landscape.",
                  fixed = TRUE)
 })
 
@@ -48,8 +47,7 @@ test_that("show_cores can increase edge_depth", {
 test_that("show_cores returns warnning for wrong combination of class argument", {
 
     expect_warning(show_cores(landscape, class = c(1, "global")),
-                   grep = "'global' and 'all' can't be combined with any other
-                   class-argument.",
+                   regexp = "'global' and 'all' can't be combined with any other class-argument.",
                    fixed = TRUE)
 })
 

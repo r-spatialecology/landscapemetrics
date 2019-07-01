@@ -387,7 +387,6 @@ calculate_lsm_internal <- function(landscape,
                                    verbose,
                                    progress) {
 
-
     # check if landscape is ok...
     check <- check_landscape(landscape, verbose = FALSE)
 
@@ -429,7 +428,7 @@ calculate_lsm_internal <- function(landscape,
         if (progress) {
 
             message("\r> Progress metrics: ", current_metric, "/",
-                    number_metrics, appendLF = FALSE)
+                    number_metrics,  appendLF = FALSE)
         }
 
         # match function name
@@ -439,8 +438,11 @@ calculate_lsm_internal <- function(landscape,
         arguments <- names(formals(foo))
 
         # run function
-        do.call(what = foo,
-                args = mget(arguments, envir = parent.env(environment())))
+        tryCatch(do.call(what = foo,
+                         args = mget(arguments, envir = parent.env(environment()))),
+                 error = function(e){
+                     message("")
+                     stop(e)})
         })
     )
 
@@ -450,7 +452,7 @@ calculate_lsm_internal <- function(landscape,
                           "name", "type", "function_name")
 
         result <- merge(x = result,
-                        y = lsm_abbreviations_names,
+                        y = landscapemetrics::lsm_abbreviations_names,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 

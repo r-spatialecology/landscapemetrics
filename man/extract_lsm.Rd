@@ -9,31 +9,36 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(landscape, y, metric, name, type, what, directions, progress,
-  ...)
+extract_lsm(landscape, y, extract_id, metric, name, type, what, directions,
+  progress, verbose, ...)
 
-\method{extract_lsm}{RasterLayer}(landscape, y, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterLayer}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{RasterStack}(landscape, y, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterStack}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{RasterBrick}(landscape, y, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{extract_lsm}{RasterBrick}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{stars}(landscape, y, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
+\method{extract_lsm}{stars}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{list}(landscape, y, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
+\method{extract_lsm}{list}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
+
+\item{extract_id}{Vector with id of sample points. If not provided, sample
+points will be labelled 1...n.}
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 
@@ -48,6 +53,8 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{progress}{Print progress report.}
+
+\item{verbose}{Print warning messages.}
 
 \item{...}{Arguments passed to \code{calculate_lsm()}.}
 }

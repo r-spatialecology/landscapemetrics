@@ -1,13 +1,18 @@
 context("class level lsm_c_pafrac metric")
 
-landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape)
+landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape,
+                                                       verbose = FALSE)
 
 test_that("lsm_c_pafrac is typestable", {
 
-    expect_is(lsm_c_pafrac(landscape), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_stack), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_brick), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_list), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape,
+                           verbose = FALSE), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape_stack,
+                           verbose = FALSE), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape_brick,
+                           verbose = FALSE), "tbl_df")
+    expect_is(lsm_c_pafrac(landscape_list,
+                           verbose = FALSE), "tbl_df")
 })
 
 test_that("lsm_c_pafrac returns the desired number of columns", {
@@ -25,9 +30,9 @@ test_that("lsm_c_pafrac returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
-test_that("lsm_c_pafrac throws error for less than 10 patches",  {
+test_that("lsm_c_pafrac throws warning for less than 10 patches",  {
 
     expect_warning(lsm_c_pafrac(landscape_uniform),
-                   grep = "Class 1: PAFRAC = NA for class with < 10 patches",
+                   regexp = "Class 1: PAFRAC = NA for class with < 10 patches",
                    fixed = TRUE)
 })

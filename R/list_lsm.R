@@ -48,7 +48,7 @@ list_lsm <- function(level = NULL,
                      simplify = FALSE,
                      verbose = TRUE) {
 
-    lsm_abbreviations_names_modified <- lsm_abbreviations_names
+    lsm_abbreviations_names_modified <- landscapemetrics::lsm_abbreviations_names
 
     lsm_abbreviations_names_modified$metric_new <- vapply(X = strsplit(lsm_abbreviations_names_modified$metric,
                                                                        split = "_"),

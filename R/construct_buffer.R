@@ -166,7 +166,7 @@ construct_buffer_internal <- function(coords, shape , size, return_sp = TRUE, ve
 
     else{
 
-        stop(paste0("Shape option ", shape, " unkown"), call. = FALSE)
+        stop(paste0("Shape option ", shape, " unkown."), call. = FALSE)
     }
 
     return(sample_plots)

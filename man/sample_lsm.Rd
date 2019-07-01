@@ -9,28 +9,36 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(landscape, y, shape, size, return_raster, verbose, progress,
-  ...)
+sample_lsm(landscape, y, plot_id, shape, size, return_raster, verbose,
+  progress, ...)
 
-\method{sample_lsm}{RasterLayer}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{sample_lsm}{RasterLayer}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{RasterStack}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{sample_lsm}{RasterStack}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{RasterBrick}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{sample_lsm}{RasterBrick}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{stars}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{sample_lsm}{stars}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{list}(landscape, y, shape = "square", size,
-  return_raster = FALSE, verbose = TRUE, progress = FALSE, ...)
+\method{sample_lsm}{list}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.}
+
+\item{plot_id}{Vector with id of sample points. If not provided, sample
+points will be labelled 1...n.}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 

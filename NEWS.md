@@ -1,3 +1,13 @@
+# landscapemetrics 1.2
+* New functions
+    * `calculate_correlation()` returns a tibble with all correlations between metrics
+    * `scale_sample()` allows to sample landscape metrics in buffer with increasing size
+    * `scale_window()` allows calculate selected metrics in moving windows over the provided landscape.
+* Improvements
+    * `show_correlation()` can take result from `calculate_correlation()`
+    * `sample_lsm()` returns a warning if `percentage_inside` < 90%
+    * `sample_lsm()` and `extract_lsm()` can now be used with sample_ids (rather than just 1...n)
+
 # landscapemetrics 1.1
 * Bugfixes
     * Bugfix in `lsm_c_ai()` if only one class and NA values were present

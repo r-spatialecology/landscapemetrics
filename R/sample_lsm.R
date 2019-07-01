@@ -4,6 +4,8 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.
+#' @param plot_id Vector with id of sample points. If not provided, sample
+#' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in mapunits. For lines size equals the width of the buffer.
@@ -12,7 +14,7 @@
 #' @param verbose Print warning messages.
 #' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
-
+#'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
 #' around sample points, sample lines or within provided SpatialPolygons. The size of the actual
@@ -75,6 +77,7 @@
 #' @export
 sample_lsm <- function(landscape,
                        y,
+                       plot_id,
                        shape, size,
                        return_raster,
                        verbose,
@@ -85,6 +88,7 @@ sample_lsm <- function(landscape,
 #' @export
 sample_lsm.RasterLayer <- function(landscape,
                                    y,
+                                   plot_id = NULL,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
@@ -94,6 +98,7 @@ sample_lsm.RasterLayer <- function(landscape,
     result <- lapply(X = raster::as.list(landscape),
                      FUN = sample_lsm_int,
                      y = y,
+                     plot_id = plot_id,
                      shape = shape, size = size,
                      verbose = verbose,
                      progress = progress,
@@ -117,6 +122,7 @@ sample_lsm.RasterLayer <- function(landscape,
 #' @export
 sample_lsm.RasterStack <- function(landscape,
                                    y,
+                                   plot_id = NULL,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
@@ -135,6 +141,7 @@ sample_lsm.RasterStack <- function(landscape,
 
         sample_lsm_int(landscape = landscape[[x]],
                        y = y,
+                       plot_id = plot_id,
                        shape = shape,
                        size = size,
                        verbose = verbose,
@@ -162,6 +169,7 @@ sample_lsm.RasterStack <- function(landscape,
 #' @export
 sample_lsm.RasterBrick <- function(landscape,
                                    y,
+                                   plot_id = NULL,
                                    shape = "square", size,
                                    return_raster = FALSE,
                                    verbose = TRUE,
@@ -180,6 +188,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
         sample_lsm_int(landscape = landscape[[x]],
                        y = y,
+                       plot_id = plot_id,
                        shape = shape,
                        size = size,
                        verbose = verbose,
@@ -207,6 +216,7 @@ sample_lsm.RasterBrick <- function(landscape,
 #' @export
 sample_lsm.stars <- function(landscape,
                              y,
+                             plot_id = NULL,
                              shape = "square", size,
                              return_raster = FALSE,
                              verbose = TRUE,
@@ -225,6 +235,7 @@ sample_lsm.stars <- function(landscape,
 
         sample_lsm_int(landscape = landscape[[x]],
                        y = y,
+                       plot_id = plot_id,
                        shape = shape,
                        size = size,
                        verbose = verbose,
@@ -252,6 +263,7 @@ sample_lsm.stars <- function(landscape,
 #' @export
 sample_lsm.list <- function(landscape,
                             y,
+                            plot_id = NULL,
                             shape = "square", size,
                             return_raster = FALSE,
                             verbose = TRUE,
@@ -268,6 +280,7 @@ sample_lsm.list <- function(landscape,
 
         sample_lsm_int(landscape = landscape[[x]],
                        y = y,
+                       plot_id = plot_id,
                        shape = shape,
                        size = size,
                        verbose = verbose,
@@ -293,10 +306,16 @@ sample_lsm.list <- function(landscape,
 
 sample_lsm_int <- function(landscape,
                            y,
+                           plot_id,
                            shape, size,
                            verbose,
                            progress,
                            ...) {
+
+    # check if size argument is only one number
+    if (length(size) != 1) {
+        stop("Please provide only one value as size argument.", call. = FALSE)
+    }
 
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
@@ -353,7 +372,7 @@ sample_lsm_int <- function(landscape,
                                 width = size, dissolve = FALSE)
         }
 
-        else{
+        else {
             stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
                  call. = FALSE)
         }
@@ -363,6 +382,20 @@ sample_lsm_int <- function(landscape,
 
         stop("'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
              call. = FALSE)
+    }
+
+    # check if length is identical if ids are provided
+    if (!is.null(plot_id)) {
+
+        if (length(plot_id) != length(y)) {
+
+            if (verbose) {
+                warning("Length of plot_id is not identical to length of y. Using 1...n as plot_id.",
+                        call. = FALSE)
+            }
+
+            plot_id <- NULL
+        }
     }
 
     # get area of all polygons
@@ -399,8 +432,15 @@ sample_lsm_int <- function(landscape,
                                              progress = FALSE,
                                              ...)
 
-        # add plot id
-        result_current_plot$plot_id <- current_plot
+        # add plot id 1...n
+        if (is.null(plot_id)) {
+            result_current_plot$plot_id <- current_plot
+        }
+
+        # add plot_id
+        else {
+            result_current_plot$plot_id <- plot_id[current_plot]
+        }
 
         # calculate ratio between actual area and theoretical area
         result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
@@ -409,12 +449,21 @@ sample_lsm_int <- function(landscape,
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
 
         return(result_current_plot)
-        })
+    })
     )
 
     if (progress) {
 
         message("")
+    }
+
+    # return warning of only 3/4 of sample plot are in landscape
+    if (verbose) {
+        if (any(result$percentage_inside < 90)) {
+
+            warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+                    call. = FALSE)
+        }
     }
 
     return(result)

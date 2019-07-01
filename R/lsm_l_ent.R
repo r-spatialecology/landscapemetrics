@@ -1,7 +1,6 @@
 #' ENT (landscape level)
 #'
-#' @description A metric of a compositional complexity of a pattern (a pattern
-#' diversity)
+#' @description Marginal entropy \\[H(x)\\]
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
@@ -27,8 +26,8 @@
 #' @rdname lsm_l_ent
 #'
 #' @references
-#' Nowosad J., TF Stepinski. 2018. Information-theoretical approach to measure
-#' landscape complexity. https://doi.org/10.1101/383281
+#' Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework
+#' for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 #'
 #' @export
 lsm_l_ent <- function(landscape,

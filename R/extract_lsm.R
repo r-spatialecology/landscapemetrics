@@ -4,6 +4,8 @@
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
+#' @param extract_id Vector with id of sample points. If not provided, sample
+#' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
@@ -12,6 +14,7 @@
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param progress Print progress report.
+#' @param verbose Print warning messages.
 #' @param ... Arguments passed to \code{calculate_lsm()}.
 #'
 #' @details
@@ -53,32 +56,38 @@
 #' @export
 extract_lsm <- function(landscape,
                         y,
+                        extract_id,
                         metric, name, type, what,
                         directions,
                         progress,
+                        verbose,
                         ...) UseMethod("extract_lsm")
 
 #' @name extract_lsm
 #' @export
 extract_lsm.RasterLayer <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   result <- lapply(raster::as.list(landscape),
                    FUN = extract_lsm_internal,
                    y = y,
+                   extract_id = extract_id,
                    metric = metric,
                    name = name,
                    type = type,
                    what = what,
                    directions = directions,
                    progress = progress,
+                   verbose = verbose,
                    ...)
 
   layer <- rep(seq_along(result),
@@ -95,12 +104,14 @@ extract_lsm.RasterLayer <- function(landscape,
 #' @export
 extract_lsm.RasterStack <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   landscape <- raster::as.list(landscape)
@@ -115,12 +126,14 @@ extract_lsm.RasterStack <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -140,12 +153,14 @@ extract_lsm.RasterStack <- function(landscape,
 #' @export
 extract_lsm.RasterBrick <- function(landscape,
                                     y,
+                                    extract_id = NULL,
                                     metric = NULL,
                                     name = NULL,
                                     type = NULL,
                                     what = NULL,
                                     directions = 8,
                                     progress = FALSE,
+                                    verbose = TRUE,
                                     ...) {
 
   landscape <- raster::as.list(landscape)
@@ -160,12 +175,14 @@ extract_lsm.RasterBrick <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -185,12 +202,14 @@ extract_lsm.RasterBrick <- function(landscape,
 #' @export
 extract_lsm.stars <- function(landscape,
                               y,
+                              extract_id = NULL,
                               metric = NULL,
                               name = NULL,
                               type = NULL,
                               what = NULL,
                               directions = 8,
                               progress = FALSE,
+                              verbose = TRUE,
                               ...) {
 
   landscape <- methods::as(landscape, "Raster")
@@ -207,12 +226,14 @@ extract_lsm.stars <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -232,12 +253,14 @@ extract_lsm.stars <- function(landscape,
 #' @export
 extract_lsm.list <- function(landscape,
                              y,
+                             extract_id = NULL,
                              metric = NULL,
                              name = NULL,
                              type = NULL,
                              what = NULL,
                              directions = 8,
                              progress = FALSE,
+                             verbose = TRUE,
                              ...) {
 
   result <- lapply(X = seq_along(landscape), FUN = function(x) {
@@ -250,12 +273,14 @@ extract_lsm.list <- function(landscape,
 
     extract_lsm_internal(landscape = landscape[[x]],
                          y = y,
+                         extract_id = extract_id,
                          metric = metric,
                          name = name,
                          type = type,
                          what = what,
                          directions = directions,
                          progress = FALSE,
+                         verbose = verbose,
                          ...)
   })
 
@@ -273,9 +298,11 @@ extract_lsm.list <- function(landscape,
 
 extract_lsm_internal <- function(landscape,
                                  y,
+                                 extract_id,
                                  metric, name, type, what,
                                  directions,
                                  progress,
+                                 verbose,
                                  ...) {
 
   # get list of metrics to calculate
@@ -285,7 +312,7 @@ extract_lsm_internal <- function(landscape,
                            type = type,
                            what = what,
                            simplify = TRUE,
-                           verbose = FALSE)
+                           verbose = verbose)
 
   # check if only patch level metrics are selected
   if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
@@ -365,12 +392,33 @@ extract_lsm_internal <- function(landscape,
   # rename df
   names(point_id) <- c("extract_id", "id")
 
+  # check if length is identical if ids are provided
+  if (!is.null(extract_id)) {
+
+    if (length(extract_id) != nrow(point_id)) {
+
+      if (verbose) {
+
+        warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
+                call. = FALSE)
+      }
+
+      extract_id <- seq_len(nrow(point_id))
+    }
+  }
+
+
+  if (!is.null(extract_id)) {
+    point_id[, 1] <- extract_id
+  }
+
   point_id <- point_id[!duplicated(point_id), ]
 
   # calculate metrics
   # can we somehow calculate only the patches we actually want?
   metrics <- calculate_lsm(landscape,
                            what = metrics_list,
+                           verbose = verbose,
                            progress = progress,
                            ...)
 

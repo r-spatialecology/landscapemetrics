@@ -36,12 +36,13 @@ test_that("get_circumscribingcircle works for irregular raster", {
 
 test_that("get_circumscribingcircle returns errors", {
 
-    expect_error(object = get_circumscribingcircle(class_1_mat),
-                 grep = "Resolution must be provided to correctly calculate the edges.",
+    expect_error(object = get_circumscribingcircle(class_1_mat[, 2:4]),
+                 regexp = "Resolution must be provided to correctly calculate the edges.",
                  fixed = TRUE)
 
-    expect_error(object = get_circumscribingcircle(class_1_mat[, 1:2]),
-                 grep = "Coordinate matrix must have 3 (x, y, id) columns.",
+    expect_error(object = get_circumscribingcircle(class_1_mat,
+                                                   resolution_x = 1, resolution_y = 1),
+                 regexp = "Coordinate matrix must have 3 (x, y, id) columns.",
                  fixed = TRUE)
 
 })

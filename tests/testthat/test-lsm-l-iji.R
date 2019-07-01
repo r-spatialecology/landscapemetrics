@@ -28,7 +28,7 @@ test_that("lsm_l_iji returns in every column the correct type", {
 test_that("lsm_l_iji returns warning for less than 3 classes", {
 
     expect_warning(lsm_l_iji(landscape_simple),
-                   grep = "Number of classes must be >= 3, IJI = NA.",
+                   regexp = "Number of classes must be >= 3, IJI = NA.",
                    fixed = TRUE)
 })
 
