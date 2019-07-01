@@ -1,0 +1,15 @@
+citHeader("To cite landscapemetrics or acknowledge its use, please cite this Software note, substituting the version of the application that you used for ‘version 0’")
+
+citEntry(entry = "Article",
+  title        = "landscapemetrics: an open-source R tool to calculate landscape metrics",
+  author       = personList(as.person("Maximilian H.K. Hesselbarth"),
+                   as.person("Marco Sciaini"),
+                   as.person("Kimberly A. With"),
+                   as.person("Kerstin Wiegand"),
+                   as.person("Jakub Nowosad")),
+  journal      = "Ecography",
+  year         = "2019",
+  notes        = "in press",
+  doi          = "10.1111/ecog.04617",
+  url          = "http://www.google.de",
+  textVersion  = "Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography (in press). https://doi.org/10.1111/ecog.04617")
