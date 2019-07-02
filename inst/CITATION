@@ -10,5 +10,4 @@ citEntry(entry = "Article",
   journal      = "Ecography",
   year         = "2019",
   notes        = "in press",
-  doi          = "10.1111/ecog.04617",
-  textVersion  = "Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography (in press). https://doi.org/10.1111/ecog.04617")
+  textVersion  = "Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography (in press).")
