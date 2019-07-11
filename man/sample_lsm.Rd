@@ -35,7 +35,7 @@ sample_lsm(landscape, y, plot_id, shape, size, return_raster, verbose,
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons of sf points.}
 
 \item{plot_id}{Vector with id of sample points. If not provided, sample
 points will be labelled 1...n.}

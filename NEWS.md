@@ -1,6 +1,7 @@
 # landscapemetrics 1.2.1
 * Bugfixes
     * Allow sf points for sampling metrics
+    * Make sure x-y coordinates are used in sample_lsm()
 
 # landscapemetrics 1.2
 * New functions
