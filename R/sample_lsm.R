@@ -359,6 +359,44 @@ sample_lsm_int <- function(landscape,
                               verbose = verbose)
     }
 
+    # check if sf object is provided
+    else if (methods::is(y, "sf")) {
+
+        # check if points have the right class
+        if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
+
+            y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+        }
+
+        else if (any(class(y) %in% c("sf", "sfc"))) {
+
+            if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+
+                y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+            }
+
+            else {
+
+                stop(
+                    "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                )
+            }
+        }
+
+        else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+
+            stop(
+                "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+            )
+        }
+
+        # construct plot area around sample sample_points
+        y <- construct_buffer(coords = y,
+                              shape = shape,
+                              size = size,
+                              verbose = verbose)
+    }
+
     else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
 
         # check if rgeos is installed
@@ -380,7 +418,7 @@ sample_lsm_int <- function(landscape,
 
     else {
 
-        stop("'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
+        stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
              call. = FALSE)
     }
 

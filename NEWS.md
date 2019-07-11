@@ -1,3 +1,7 @@
+# landscapemetrics 1.2.1
+* Bugfixes
+    * Allow sf points for sampling metrics
+
 # landscapemetrics 1.2
 * New functions
     * `calculate_correlation()` returns a tibble with all correlations between metrics
