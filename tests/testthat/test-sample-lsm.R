@@ -186,7 +186,7 @@ test_that("sample_lsm returns errors", {
                             y = sample_points,
                             size = c(5, 15),
                             what = "lsm_l_ta"),
-                 regexp = "Please provide only one value as size argument.",
+                 regexp = "Please provide only one value as size argument (size > 0).",
                  fixed = TRUE)
 })
 

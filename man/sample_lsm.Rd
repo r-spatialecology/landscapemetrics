@@ -107,7 +107,7 @@ poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
-sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+sample_lsm(landscape, y = sample_plots, what = "lsm_l_np", size = 5)
 }
 
 }

@@ -2,6 +2,7 @@
 * Bugfixes
     * Allow sf points for sampling metrics
     * Make sure x-y coordinates are used in sample_lsm()
+    * size argument is not needed for polygons in sample_lsm()
 
 # landscapemetrics 1.2
 * New functions

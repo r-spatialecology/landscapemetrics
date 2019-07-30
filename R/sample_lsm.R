@@ -68,7 +68,7 @@
 #' poly_2 <- sp::Polygons(list(poly_2), "p2")
 #' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 #'
-#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np", size = 5)
 #' }
 #'
 #' @aliases sample_lsm
@@ -312,11 +312,6 @@ sample_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
-    # check if size argument is only one number
-    if (length(size) != 1) {
-        stop("Please provide only one value as size argument.", call. = FALSE)
-    }
-
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
 
@@ -340,86 +335,95 @@ sample_lsm_int <- function(landscape,
         number_plots <- length(y)
     }
 
-    # use points
-    else if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+    else {
 
-        # points are matrix
-        if (methods::is(y, "matrix")) {
+        # check if size argument is only one number
+        if (length(size) != 1 | any(size <= 0)) {
+            stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
+        }
 
-            if (ncol(y) != 2 & verbose) {
-                warning("'y' should be a two column matrix including x- and y-coordinates.",
-                        call. = FALSE)
+        # use points
+        if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+
+            # points are matrix
+            if (methods::is(y, "matrix")) {
+
+                if (ncol(y) != 2 & verbose) {
+                    warning("'y' should be a two column matrix including x- and y-coordinates.",
+                            call. = FALSE)
+                }
             }
+
+            # construct plot area around sample sample_points
+            y <- construct_buffer(coords = y,
+                                  shape = shape,
+                                  size = size,
+                                  verbose = verbose)
         }
 
-        # construct plot area around sample sample_points
-        y <- construct_buffer(coords = y,
-                              shape = shape,
-                              size = size,
-                              verbose = verbose)
-    }
+        # check if sf object is provided
+        else if (methods::is(y, "sf")) {
 
-    # check if sf object is provided
-    else if (methods::is(y, "sf")) {
-
-        # check if points have the right class
-        if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
-
-            y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-        }
-
-        else if (any(class(y) %in% c("sf", "sfc"))) {
-
-            if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+            # check if points have the right class
+            if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
 
                 y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
             }
 
-            else {
+            else if (any(class(y) %in% c("sf", "sfc"))) {
+
+                if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+
+                    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+                }
+
+                else {
+
+                    stop(
+                        "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                    )
+                }
+            }
+
+            else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
 
                 stop(
                     "landscapemetrics currently only supports sf point features for landscape metrics sampling"
                 )
             }
+
+            # construct plot area around sample sample_points
+            y <- construct_buffer(coords = y,
+                                  shape = shape,
+                                  size = size,
+                                  verbose = verbose)
         }
 
-        else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+        # use lines
+        else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
 
-            stop(
-                "landscapemetrics currently only supports sf point features for landscape metrics sampling"
-            )
-        }
+            # check if rgeos is installed
+            if (nzchar(system.file(package = "rgeos"))) {
 
-        # construct plot area around sample sample_points
-        y <- construct_buffer(coords = y,
-                              shape = shape,
-                              size = size,
-                              verbose = verbose)
-    }
+                # disaggregate lines
+                y <- sp::disaggregate(y)
 
-    else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+                # create buffer around lines
+                y <- raster::buffer(x = y,
+                                    width = size, dissolve = FALSE)
+            }
 
-        # check if rgeos is installed
-        if (nzchar(system.file(package = "rgeos"))) {
-
-            # disaggregate lines
-            y <- sp::disaggregate(y)
-
-            # create buffer around lines
-            y <- raster::buffer(x = y,
-                                width = size, dissolve = FALSE)
+            else {
+                stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
+                     call. = FALSE)
+            }
         }
 
         else {
-            stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
+
+            stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
                  call. = FALSE)
         }
-    }
-
-    else {
-
-        stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
-             call. = FALSE)
     }
 
     # check if length is identical if ids are provided
