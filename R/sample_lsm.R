@@ -315,6 +315,12 @@ sample_lsm_int <- function(landscape,
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
 
+        # convert to SpatialPolygons
+        if (methods::is(y, "SpatialPolygonsDataFrame")) {
+
+            y <- sp::SpatialPolygons(y@polygons)
+        }
+
         # disaggregate if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
 
@@ -332,7 +338,7 @@ sample_lsm_int <- function(landscape,
         }
 
         # how many plots are present
-        number_plots <- length(y)
+        # number_plots <- length(y)
     }
 
     else {
@@ -401,6 +407,12 @@ sample_lsm_int <- function(landscape,
 
         # use lines
         else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+
+            # convert to SpatialLines
+            if (methods::is(y, "SpatialLinesDataFrame")) {
+
+                y <- sp::SpatialLines(y@lines)
+            }
 
             # check if rgeos is installed
             if (nzchar(system.file(package = "rgeos"))) {
