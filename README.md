@@ -176,10 +176,11 @@ analysis or the development of new metrics. They all start with the
 prefix `get_`. All of them are implemented with Rcpp and have either
 memory or performance advantages compared to raster functions.
 
-For more details, see the [utility function
-vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html).
+For more details, see the [utility
+function](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html)
+vignette.
 
-## Contributing
+### Contributing
 
 One of the major motivations behind **landscapemetrics** is the idea to
 provide an open-source code collection of landscape metrics. This
@@ -191,6 +192,17 @@ warmly welcome to do so\! For more information see
 
 Maintainers and contributors must follow this repository’s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
+
+### Citation
+
+To cite `landscapemetrics` or acknowledge its use, please cite the
+following Software note, substituting the version of the application
+that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
+K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
+tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0). For
+more information see [Publication
+record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
+vignette.
 
 ### References
 
