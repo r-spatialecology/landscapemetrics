@@ -1,9 +1,11 @@
 # landscapemetrics 1.2.1
 * Bugfixes
     * Allow sf points for sampling metrics
-    * Make sure x-y coordinates are used in sample_lsm()
-    * size argument is not needed for polygons in sample_lsm()
-    * make sure sample_lsm() can use SpatialPolygonsDataFrame
+    * Make sure x-y coordinates are used in `sample_lsm()`
+    * Size argument is not needed for polygons in `sample_lsm()`
+    * Make sure `sample_lsm()` can use SpatialPolygonsDataFrame
+* Improvements
+    * Update citation
 
 # landscapemetrics 1.2
 * New functions

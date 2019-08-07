@@ -8,8 +8,12 @@ output:
 
 We try to maintain a list of publications that have used the `landscapemetrics` package. If you have used `landscapemetrics` in your own work, we would love to hear from you. Please [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/) so we can add your work to this list.
 
+To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0).
+
 ## A list of publications
 
 - Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing.
-- Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
 
+- Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019. https://doi.org/10.1007/s10980-019-00830-x
+
+- Bosch, M. 2019. PyLandStats: An open-source Pythonic library to compute landscape metrics. bioRxiv, 715052.
