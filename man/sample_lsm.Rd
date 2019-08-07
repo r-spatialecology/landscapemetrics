@@ -35,7 +35,7 @@ sample_lsm(landscape, y, plot_id, shape, size, return_raster, verbose,
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.}
+\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons of sf points.}
 
 \item{plot_id}{Vector with id of sample points. If not provided, sample
 points will be labelled 1...n.}
@@ -107,7 +107,7 @@ poly_1 <- sp::Polygons(list(poly_1), "p1")
 poly_2 <- sp::Polygons(list(poly_2), "p2")
 sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
-sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+sample_lsm(landscape, y = sample_plots, what = "lsm_l_np", size = 5)
 }
 
 }

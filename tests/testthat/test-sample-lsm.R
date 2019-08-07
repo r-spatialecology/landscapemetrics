@@ -179,14 +179,14 @@ test_that("sample_lsm returns errors", {
     expect_error(sample_lsm(landscape,
                             y = 1:3,
                             size = 5),
-                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
+                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
                  fixed = TRUE)
 
     expect_error(sample_lsm(landscape,
                             y = sample_points,
                             size = c(5, 15),
                             what = "lsm_l_ta"),
-                 regexp = "Please provide only one value as size argument.",
+                 regexp = "Please provide only one value as size argument (size > 0).",
                  fixed = TRUE)
 })
 

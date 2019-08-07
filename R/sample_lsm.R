@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or SpatialPolygons.
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons of sf points.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
@@ -68,7 +68,7 @@
 #' poly_2 <- sp::Polygons(list(poly_2), "p2")
 #' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 #'
-#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
+#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np", size = 5)
 #' }
 #'
 #' @aliases sample_lsm
@@ -312,13 +312,14 @@ sample_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
-    # check if size argument is only one number
-    if (length(size) != 1) {
-        stop("Please provide only one value as size argument.", call. = FALSE)
-    }
-
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
+
+        # convert to SpatialPolygons
+        if (methods::is(y, "SpatialPolygonsDataFrame")) {
+
+            y <- sp::SpatialPolygons(y@polygons)
+        }
 
         # disaggregate if rgeos is installed
         if (nzchar(system.file(package = "rgeos"))) {
@@ -337,51 +338,104 @@ sample_lsm_int <- function(landscape,
         }
 
         # how many plots are present
-        number_plots <- length(y)
-    }
-
-    # use points
-    else if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
-
-        # points are matrix
-        if (methods::is(y, "matrix")) {
-
-            if (ncol(y) != 2 & verbose) {
-                warning("'y' should be a two column matrix including x- and y-coordinates.",
-                        call. = FALSE)
-            }
-        }
-
-        # construct plot area around sample sample_points
-        y <- construct_buffer(coords = y,
-                              shape = shape,
-                              size = size,
-                              verbose = verbose)
-    }
-
-    else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
-
-        # check if rgeos is installed
-        if (nzchar(system.file(package = "rgeos"))) {
-
-            # disaggregate lines
-            y <- sp::disaggregate(y)
-
-            # create buffer around lines
-            y <- raster::buffer(x = y,
-                                width = size, dissolve = FALSE)
-        }
-
-        else {
-            stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
-                 call. = FALSE)
-        }
+        # number_plots <- length(y)
     }
 
     else {
 
-        stop("'y' must be a matrix, SpatialPoints, SpatialLines or SpatialPolygons.",
-             call. = FALSE)
+        # check if size argument is only one number
+        if (length(size) != 1 | any(size <= 0)) {
+            stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
+        }
+
+        # use points
+        if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+
+            # points are matrix
+            if (methods::is(y, "matrix")) {
+
+                if (ncol(y) != 2 & verbose) {
+                    warning("'y' should be a two column matrix including x- and y-coordinates.",
+                            call. = FALSE)
+                }
+            }
+
+            # construct plot area around sample sample_points
+            y <- construct_buffer(coords = y,
+                                  shape = shape,
+                                  size = size,
+                                  verbose = verbose)
+        }
+
+        # check if sf object is provided
+        else if (methods::is(y, "sf")) {
+
+            # check if points have the right class
+            if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
+
+                y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+            }
+
+            else if (any(class(y) %in% c("sf", "sfc"))) {
+
+                if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+
+                    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+                }
+
+                else {
+
+                    stop(
+                        "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                    )
+                }
+            }
+
+            else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+
+                stop(
+                    "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                )
+            }
+
+            # construct plot area around sample sample_points
+            y <- construct_buffer(coords = y,
+                                  shape = shape,
+                                  size = size,
+                                  verbose = verbose)
+        }
+
+        # use lines
+        else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+
+            # convert to SpatialLines
+            if (methods::is(y, "SpatialLinesDataFrame")) {
+
+                y <- sp::SpatialLines(y@lines)
+            }
+
+            # check if rgeos is installed
+            if (nzchar(system.file(package = "rgeos"))) {
+
+                # disaggregate lines
+                y <- sp::disaggregate(y)
+
+                # create buffer around lines
+                y <- raster::buffer(x = y,
+                                    width = size, dissolve = FALSE)
+            }
+
+            else {
+                stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
+                     call. = FALSE)
+            }
+        }
+
+        else {
+
+            stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
+                 call. = FALSE)
+        }
     }
 
     # check if length is identical if ids are provided

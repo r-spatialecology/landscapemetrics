@@ -26,49 +26,59 @@ construct_buffer <- function(coords, shape, size, return_sp, verbose) UseMethod(
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPoints <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.SpatialPoints <- function(coords, shape, size,
+                                           return_sp = TRUE, verbose = TRUE) {
 
-    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    coords <- matrix(sp::coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+    construct_buffer_internal(coords, shape, size,
+                              return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.SpatialPointsDataFrame <- function(coords, shape, size,
+                                                    return_sp = TRUE, verbose = TRUE) {
 
-    coords <- matrix(sp::coordinates(coords), ncol = 2)
+    coords <- matrix(sp::coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+    construct_buffer_internal(coords, shape, size,
+                              return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.MULTIPOINT <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.MULTIPOINT <- function(coords, shape, size,
+                                        return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+    construct_buffer_internal(coords, shape, size,
+                              return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.POINT <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.POINT <- function(coords, shape, size,
+                                   return_sp = TRUE, verbose = TRUE) {
 
     coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+    construct_buffer_internal(coords, shape, size,
+                              return_sp = return_sp, verbose = verbose)
 }
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sf <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.sf <- function(coords, shape, size,
+                                return_sp = TRUE, verbose = TRUE) {
 
     if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
         coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-        construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+        construct_buffer_internal(coords, shape, size,
+                                  return_sp = return_sp, verbose = verbose)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
@@ -76,13 +86,15 @@ construct_buffer.sf <- function(coords, shape, size, return_sp = TRUE, verbose =
 
 #' @name construct_buffer
 #' @export
-construct_buffer.sfc <- function(coords, shape, size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.sfc <- function(coords, shape, size,
+                                 return_sp = TRUE, verbose = TRUE) {
 
     if (all(sf::st_geometry_type(coords) %in% c("POINT", "MULTIPOINT"))) {
 
         coords <- matrix(sf::st_coordinates(coords)[, 1:2], ncol = 2)
 
-        construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+        construct_buffer_internal(coords, shape, size,
+                                  return_sp = return_sp, verbose = verbose)
     }
 
     else{stop("Only POINT or MULTIPOINT features supported!!11!!1!!")}
@@ -90,9 +102,11 @@ construct_buffer.sfc <- function(coords, shape, size, return_sp = TRUE, verbose 
 
 #' @name construct_buffer
 #' @export
-construct_buffer.matrix <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {
+construct_buffer.matrix <- function(coords, shape , size,
+                                    return_sp = TRUE, verbose = TRUE) {
 
-    construct_buffer_internal(coords, shape, size, return_sp = return_sp, verbose = verbose)
+    construct_buffer_internal(coords, shape, size,
+                              return_sp = return_sp, verbose = verbose)
 }
 
 construct_buffer_internal <- function(coords, shape , size, return_sp = TRUE, verbose = TRUE) {

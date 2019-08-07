@@ -9,13 +9,15 @@ Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=maste
 status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Project
+Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![CRAN
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Overview
 
@@ -56,8 +58,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric (e.g.
-`enn`for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric
+(e.g. `enn`for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -122,7 +124,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     2   
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # … with 17 more rows
+#> # ... with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -159,25 +161,26 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0001
 #>  9     1 patch     1     9 area   0.0003
 #> 10     1 patch     2    10 area   0.0035
-#> # … with 314 more rows
+#> # ... with 314 more rows
 ```
 
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeld patches or the core area of all patches. All
-visualization functions start with the prefix `show_` (e.g.
-`show_cores()`).
+visualization functions start with the prefix `show_`
+(e.g. `show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
 prefix `get_`. All of them are implemented with Rcpp and have either
 memory or performance advantages compared to raster functions.
 
-For more details, see the [utility function
-vignette](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html).
+For more details, see the [utility
+function](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html)
+vignette.
 
-## Contributing
+### Contributing
 
 One of the major motivations behind **landscapemetrics** is the idea to
 provide an open-source code collection of landscape metrics. This
@@ -189,6 +192,17 @@ warmly welcome to do so\! For more information see
 
 Maintainers and contributors must follow this repository’s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
+
+### Citation
+
+To cite `landscapemetrics` or acknowledge its use, please cite the
+following Software note, substituting the version of the application
+that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
+K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
+tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0). For
+more information see [Publication
+record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
+vignette.
 
 ### References
 
