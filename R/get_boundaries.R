@@ -75,12 +75,13 @@ get_boundaries.RasterLayer <- function(landscape,
 #' @export
 get_boundaries.RasterStack <- function(landscape,
                                        directions = 4,
-                                       consider_boundary = FALSE,
                                        as_NA = FALSE,
+                                       consider_boundary = FALSE,
                                        return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
+
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }
 
@@ -96,7 +97,7 @@ get_boundaries.RasterStack <- function(landscape,
         if (return_raster) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            landscape = landscape)
+                                            landscape = x)
         }
 
         return(result_temp)
@@ -109,12 +110,13 @@ get_boundaries.RasterStack <- function(landscape,
 #' @export
 get_boundaries.RasterBrick <- function(landscape,
                                        directions = 4,
-                                       consider_boundary = FALSE,
                                        as_NA = FALSE,
+                                       consider_boundary = FALSE,
                                        return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
+
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }
 
@@ -130,7 +132,7 @@ get_boundaries.RasterBrick <- function(landscape,
         if (return_raster) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            landscape = landscape)
+                                            landscape = x)
         }
 
         return(result_temp)
@@ -143,12 +145,13 @@ get_boundaries.RasterBrick <- function(landscape,
 #' @export
 get_boundaries.stars <- function(landscape,
                                  directions = 4,
-                                 consider_boundary = FALSE,
                                  as_NA = FALSE,
+                                 consider_boundary = FALSE,
                                  return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
+
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }
 
@@ -167,7 +170,7 @@ get_boundaries.stars <- function(landscape,
         if (return_raster) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            landscape = landscape)
+                                            landscape = x)
         }
 
         return(result_temp)
@@ -180,12 +183,13 @@ get_boundaries.stars <- function(landscape,
 #' @export
 get_boundaries.list <- function(landscape,
                                 directions = 4,
-                                consider_boundary = FALSE,
                                 as_NA = FALSE,
+                                consider_boundary = FALSE,
                                 return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
+
         stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
     }
 
@@ -201,7 +205,7 @@ get_boundaries.list <- function(landscape,
         if (return_raster) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            landscape = landscape)
+                                            landscape = x)
         }
 
         return(result_temp)
@@ -214,8 +218,16 @@ get_boundaries.list <- function(landscape,
 #' @export
 get_boundaries.matrix <- function(landscape,
                                   directions = 4,
+                                  as_NA = FALSE,
                                   consider_boundary = FALSE,
-                                  as_NA = FALSE) {
+                                  return_raster = FALSE) {
+
+    if (return_raster) {
+
+        warning("'return_raster = TRUE' not able for matrix input.",
+                call. = FALSE)
+    }
+
 
     # add padding for landscape boundary
     if (!consider_boundary) {
