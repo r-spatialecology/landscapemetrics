@@ -177,7 +177,8 @@ lsm_p_circle_calc <- function(landscape, directions,
         # only boundary cells need to be considered for circle diameter
         class_boundaries <- get_boundaries(landscape_labeled,
                                            directions = 4,
-                                           as_NA = TRUE)[[1]]
+                                           as_NA = TRUE,
+                                           consider_boundary = FALSE)[[1]]
 
         # transpose matrix to have same order as in points
         class_boundaries <- t(class_boundaries)
