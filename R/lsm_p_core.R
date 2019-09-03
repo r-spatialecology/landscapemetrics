@@ -155,7 +155,7 @@ lsm_p_core.list <- function(landscape, directions = 8,
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
     }
@@ -172,29 +172,19 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                          directions = directions,
                                          return_raster = FALSE)[[1]]
 
-        # consider landscape boundary for core definition
-        if(!consider_boundary) {
-            # add cells around raster to consider landscape boundary
-            landscape_labeled <- pad_raster(landscape_labeled,
-                                            pad_raster_value = NA,
-                                            pad_raster_cells = 1,
-                                            global = FALSE,
-                                            return_raster = FALSE)[[1]]
-        }
-
         # label all edge cells
         class_edge <- get_boundaries(landscape_labeled,
                                      directions = 4,
-                                     return_raster = FALSE)
+                                     consider_boundary = consider_boundary)[[1]]
 
         # count number of edge cells in each patch (edge == 1)
         cells_edge_patch <- table(landscape_labeled[class_edge == 1])
 
         # loop if edge_depth > 1
-        if(edge_depth > 1){
+        if (edge_depth > 1) {
 
             # first edge depth already labels
-            for(i in seq_len(edge_depth - 1)){
+            for (i in seq_len(edge_depth - 1)) {
 
                 # set all already edge to NA
                 class_edge[class_edge == 1] <- NA
@@ -202,7 +192,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                 # set current_edge + 1 to new edge
                 class_edge <- get_boundaries(class_edge,
                                              directions = 4,
-                                             return_raster = FALSE)
+                                             consider_boundary = consider_boundary)[[1]]
 
                 # count number of edge cells in each patch (edge == 1) and add to already counted edge
                 cells_edge_patch <- cells_edge_patch + tabulate(landscape_labeled[class_edge == 1],
@@ -214,7 +204,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         cells_patch <- table(landscape_labeled)
 
         # check if no cell is edge, i.e. only one patch is present
-        if(dim(cells_edge_patch) == 0) {
+        if (dim(cells_edge_patch) == 0) {
             cells_edge_patch <- 0
         }
 

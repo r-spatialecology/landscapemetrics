@@ -226,7 +226,7 @@ pad_raster.matrix <- function(landscape,
                      pad_raster_cells = pad_raster_cells,
                      global = global)
 
-    if (return_raster) {
+    if (return_raster || to_disk) {
         warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
                 call. = FALSE)
     }

@@ -1,5 +1,13 @@
 # landscapemetrics 1.2.1
 * Bugfixes
+    * 
+* New functions
+    * `unpad_raster` to remove padding around raster
+* Improvements
+    * New argument in `get_boundaries` to consider landscape boundary
+
+# landscapemetrics 1.2.1
+* Bugfixes
     * Allow sf points for sampling metrics
     * Make sure x-y coordinates are used in `sample_lsm()`
     * Size argument is not needed for polygons in `sample_lsm()`
