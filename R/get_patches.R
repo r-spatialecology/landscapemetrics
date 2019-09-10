@@ -43,7 +43,7 @@
 #'
 #' @examples
 #' # check for patches of class 1
-#' patched_raster  <-  get_patches(landscape, 1)
+#' patched_raster <- get_patches(landscape, class = 1)
 #'
 #' # count patches
 #' length(raster::unique(patched_raster[[1]]))
@@ -79,7 +79,7 @@ get_patches.RasterLayer <- function(landscape,
                               directions = directions)
 
     # convert back to raster
-    if (return_raster){
+    if (return_raster) {
 
         result <- lapply(result,
                          FUN = matrix_to_raster,
@@ -265,8 +265,10 @@ get_patches_int <- function(landscape,
 
     # check if directions argument is valid
     if (directions != 4 && directions != 8) {
+
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)
+
         directions <- 8
     }
 

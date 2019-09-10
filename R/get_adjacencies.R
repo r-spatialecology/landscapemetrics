@@ -59,7 +59,7 @@ get_adjacencies.RasterLayer <- function(landscape,
         stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
     }
 
-    result <- lapply(raster::as.list(landscape), function(x) {
+    result <- lapply(raster::as.list(landscape), function(x) {get
 
         adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
                                                    as.matrix(neighbourhood))

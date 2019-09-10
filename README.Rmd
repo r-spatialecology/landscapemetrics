@@ -111,7 +111,7 @@ calculate_lsm(landscape, level = "patch")
 
 ### Utility functions
 
-**landscapemetrics** further provides several visualization functions, e.g. show all labeld patches or the core area of all patches. All visualization functions start with the prefix `show_` (e.g. `show_cores()`).
+**landscapemetrics** further provides several visualization functions, e.g. show all labeled patches or the core area of all patches. All visualization functions start with the prefix `show_` (e.g. `show_cores()`).
 
 Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix `get_`. All of them are implemented with Rcpp and have either memory or performance advantages compared to raster functions.
 

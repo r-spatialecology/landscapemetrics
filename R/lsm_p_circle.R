@@ -178,7 +178,7 @@ lsm_p_circle_calc <- function(landscape, directions,
         class_boundaries <- get_boundaries(landscape_labeled,
                                            directions = 4,
                                            as_NA = TRUE,
-                                           return_raster = FALSE)
+                                           consider_boundary = FALSE)[[1]]
 
         # transpose matrix to have same order as in points
         class_boundaries <- t(class_boundaries)
@@ -196,7 +196,7 @@ lsm_p_circle_calc <- function(landscape, directions,
                                   resolution_x = resolution_x,
                                   resolution_y = resolution_y)
         # calculate circle area
-        circle[, 2] <- pi * ((circle[, 2]  /2) ^ 2)
+        circle[, 2] <- pi * ((circle[, 2] / 2) ^ 2)
 
         # sort according to patch id
         circle <- matrix(circle[order(circle[,1]),], ncol = 2)

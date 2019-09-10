@@ -157,13 +157,16 @@ show_cores.list <- function(landscape,
 show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol,
                                 consider_boundary, edge_depth ) {
 
-    if(any(!(class %in% c("all", "global")))){
-        if (!any(class %in% raster::unique(landscape))){
+    if (any(!(class %in% c("all", "global")))) {
+
+        if (!any(class %in% raster::unique(landscape))) {
+
             stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
 
-    if(length(class) > 1 & any(class %in% c("all", "global"))){
+    if (length(class) > 1 & any(class %in% c("all", "global"))) {
+
         warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
@@ -175,7 +178,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)) {
+    for (i in seq_len(length(landscape_labeled) - 1)) {
 
         max(rcpp_get_unique_values(raster::as.matrix(landscape_labeled[[i]])))
 
@@ -186,29 +189,32 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
 
-        if(!consider_boundary) {
-
-            landscape_padded <- pad_raster(patches_class,
-                                           pad_raster_value = NA,
-                                           pad_raster_cells = 1,
-                                           global = FALSE,
-                                           return_raster = FALSE)[[1]]
-
-            patches_class <- raster::setValues(landscape_labeled_empty, landscape_padded)
-        }
+        # if (!consider_boundary) {
+        #
+        #     landscape_padded <- pad_raster(patches_class,
+        #                                    pad_raster_value = NA,
+        #                                    pad_raster_cells = 1,
+        #                                    global = FALSE,
+        #                                    return_raster = FALSE)[[1]]
+        #
+        #     patches_class <- raster::setValues(landscape_labeled_empty, landscape_padded)
+        # }
 
         class_edge <- get_boundaries(patches_class,
-                                     directions = 4)
+                                     directions = 4,
+                                     consider_boundary = consider_boundary)[[1]]
 
         full_edge <- class_edge
 
-        if(edge_depth > 1){
-            for(i in seq_len(edge_depth - 1)){
+        if (edge_depth > 1) {
+
+            for (i in seq_len(edge_depth - 1)) {
 
                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
 
                 class_edge <- get_boundaries(class_edge,
-                                             directions = 4)
+                                             directions = 4,
+                                             consider_boundary)[[1]]
 
                 full_edge[which(class_edge[] == 1)] <- 1
             }
@@ -250,7 +256,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     if (any(class != "global")) {
 
-        if (any(!(class %in% "all"))){
+        if (any(!(class %in% "all"))) {
             class_index <- which(boundary_labeled_stack$class %in% class)
             boundary_labeled_stack <- boundary_labeled_stack[class_index, ]
         }

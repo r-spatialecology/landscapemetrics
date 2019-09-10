@@ -8,7 +8,7 @@ test_that("pad_raster can handle all raster inputs", {
     expect_is(pad_raster(landscape_stack), "list")
     expect_is(pad_raster(landscape_brick), "list")
     expect_is(pad_raster(landscape_list), "list")
-    expect_is(pad_raster(landscape_matrix, return_raster = FALSE), "list")
+    expect_is(pad_raster(landscape_matrix, return_raster = FALSE, to_disk = FALSE), "list")
 })
 
 test_that("pad_raster can add more than one row", {

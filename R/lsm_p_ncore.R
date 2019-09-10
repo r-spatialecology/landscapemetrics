@@ -190,29 +190,18 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                                          directions = directions,
                                          return_raster = FALSE)[[1]]
 
-        # consider landscape boundary for core definition
-        if(!consider_boundary) {
-
-            # add cells around raster to consider landscape boundary
-            landscape_labeled <- pad_raster(landscape_labeled,
-                                            pad_raster_value = NA,
-                                            pad_raster_cells = 1,
-                                            global = FALSE,
-                                            return_raster = FALSE)[[1]]
-        }
-
         # get unique patch id (must be 1 to number_patches)
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
 
         # label all edge cells
         class_edge <- get_boundaries(landscape_labeled,
                                      directions = 4,
-                                     return_raster = FALSE)
+                                     consider_boundary = consider_boundary)[[1]]
 
         # loop if edge_depth is more than 1
-        if(edge_depth > 1){
+        if (edge_depth > 1) {
 
-            for(i in seq_len(edge_depth - 1)){
+            for (i in seq_len(edge_depth - 1)) {
 
                 # set all already edge to NA
                 class_edge[class_edge == 1] <- NA
@@ -220,7 +209,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                 # set current_edge + 1 to new edge
                 class_edge <- get_boundaries(class_edge,
                                              directions = 4,
-                                             return_raster = FALSE)
+                                             consider_boundary = consider_boundary)[[1]]
             }
         }
 
@@ -228,7 +217,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         class_edge[class_edge == 1 | is.na(class_edge)] <- -999
 
         # no core area present
-        if(max(class_edge, na.rm = TRUE) == -999){
+        if (max(class_edge, na.rm = TRUE) == -999) {
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
         }
@@ -242,7 +231,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                                       return_raster = FALSE)[[1]]
 
             # remove landscape boundary rows/cells
-            if(!consider_boundary) {
+            if (!consider_boundary) {
 
                 patch_core <- patch_core[-c(1, nrow(patch_core)),
                                          -c(1, ncol(patch_core))]

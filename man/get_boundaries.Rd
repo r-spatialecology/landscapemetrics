@@ -10,25 +10,26 @@
 \alias{get_boundaries.matrix}
 \title{get_boundaries}
 \usage{
-get_boundaries(landscape, directions, as_NA, return_raster)
+get_boundaries(landscape, directions, as_NA, consider_boundary,
+  return_raster)
 
 \method{get_boundaries}{RasterLayer}(landscape, directions = 4,
-  as_NA = FALSE, return_raster = TRUE)
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
 \method{get_boundaries}{RasterStack}(landscape, directions = 4,
-  as_NA = FALSE, return_raster = TRUE)
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
 \method{get_boundaries}{RasterBrick}(landscape, directions = 4,
-  as_NA = FALSE, return_raster = TRUE)
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
 \method{get_boundaries}{stars}(landscape, directions = 4,
-  as_NA = FALSE, return_raster = TRUE)
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
 \method{get_boundaries}{list}(landscape, directions = 4, as_NA = FALSE,
-  return_raster = TRUE)
+  consider_boundary = FALSE, return_raster = TRUE)
 
 \method{get_boundaries}{matrix}(landscape, directions = 4,
-  as_NA = FALSE, return_raster = TRUE)
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}
@@ -37,10 +38,13 @@ get_boundaries(landscape, directions, as_NA, return_raster)
 
 \item{as_NA}{If true, non-boundary cells area labeld NA}
 
+\item{consider_boundary}{Logical if cells that only neighbour the landscape
+boundary should be considered as edge}
+
 \item{return_raster}{If false, matrix is returned}
 }
 \value{
-RasterLayer or matrix
+List with RasterLayer or matrix
 }
 \description{
 Get boundary cells of patches

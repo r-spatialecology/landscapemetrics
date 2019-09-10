@@ -7,6 +7,7 @@ test_that("scale_window returns data frame with percentages", {
 
     skip_on_cran()
     skip_on_ci()
+    skip("skip scale_window()")
 
     result <- scale_window(landscape = landscape,
                            percentages_col = percentages_col,
@@ -24,6 +25,7 @@ test_that("scale_window forwards arguments", {
 
     skip_on_cran()
     skip_on_ci()
+    skip("skip scale_window()")
 
     result <- scale_window(landscape = landscape,
                            percentages_col = percentages_col,
@@ -39,6 +41,7 @@ test_that("scale_window works for all data types", {
 
     skip_on_cran()
     skip_on_ci()
+    skip("skip scale_window()")
 
     result_stack <- scale_window(landscape = landscape_stack,
                                  percentages_col = percentages_col,
@@ -71,6 +74,7 @@ test_that("scale_window returns warnings", {
 
     skip_on_cran()
     skip_on_ci()
+    skip("skip scale_window()")
 
     expect_error(scale_window(landscape = landscape,
                               percentages_col = percentages_col,
