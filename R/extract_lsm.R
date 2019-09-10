@@ -418,6 +418,7 @@ extract_lsm_internal <- function(landscape,
   # can we somehow calculate only the patches we actually want?
   metrics <- calculate_lsm(landscape,
                            what = metrics_list,
+                           directions = directions,
                            verbose = verbose,
                            progress = progress,
                            ...)

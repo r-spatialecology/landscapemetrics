@@ -1,6 +1,7 @@
 # landscapemetrics 1.2.2
 * Bugfixes
     * Bug in `lsm_p_circle()` when whole landscape contains only one patch
+    * Bug in `extract_lsm()` that directions argument was not passed on
 * New functions
     * `unpad_raster` to remove padding around raster
 * Improvements
