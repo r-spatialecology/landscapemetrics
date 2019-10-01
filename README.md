@@ -35,6 +35,19 @@ Stepinski 2019).
 as input arguments. Every function can be used in a piped workflow, as
 it always takes the data as the first argument and returns a tibble.
 
+### Citation
+
+To cite `landscapemetrics` or acknowledge its use, please cite the
+following Software note, substituting the version of the application
+that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
+K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
+tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0).
+
+For more information see [Publication
+record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
+vignette. The get a BibTex entry, please use
+`citation("landscapemetrics")`.
+
 ## Installation
 
 There are several ways to install **landscapemetrics**:
@@ -124,7 +137,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     2   
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # ... with 17 more rows
+#> # … with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -161,13 +174,13 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0001
 #>  9     1 patch     1     9 area   0.0003
 #> 10     1 patch     2    10 area   0.0035
-#> # ... with 314 more rows
+#> # … with 314 more rows
 ```
 
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
-e.g. show all labeld patches or the core area of all patches. All
+e.g. show all labeled patches or the core area of all patches. All
 visualization functions start with the prefix `show_`
 (e.g. `show_cores()`).
 
@@ -192,17 +205,6 @@ warmly welcome to do so\! For more information see
 
 Maintainers and contributors must follow this repository’s [CODE OF
 CONDUCT](CODE_OF_CONDUCT.md).
-
-### Citation
-
-To cite `landscapemetrics` or acknowledge its use, please cite the
-following Software note, substituting the version of the application
-that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
-K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
-tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0). For
-more information see [Publication
-record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
-vignette.
 
 ### References
 

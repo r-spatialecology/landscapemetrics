@@ -8,7 +8,7 @@ output:
 
 We try to maintain a list of publications that have used the `landscapemetrics` package. If you have used `landscapemetrics` in your own work, we would love to hear from you. Please [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/) so we can add your work to this list.
 
-To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0).
+To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0).
 
 ## A list of publications
 
