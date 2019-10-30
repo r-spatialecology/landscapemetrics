@@ -1,6 +1,6 @@
 #' SHAPE_CV (landscape level)
 #'
-#' @description Covariance of variation shape index (Shape metric)
+#' @description Coefficient of variation shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
