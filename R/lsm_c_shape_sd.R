@@ -139,7 +139,8 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate sd
-    shape_sd <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = stats::sd)
+    shape_sd <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = stats::sd,
+                                 na.rm = TRUE)
 
     tibble::tibble(
         level = "class",

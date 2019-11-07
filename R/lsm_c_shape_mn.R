@@ -139,7 +139,8 @@ lsm_c_shape_mn_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate mean
-    shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean)
+    shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean,
+                                 na.rm = TRUE)
 
     tibble::tibble(
         level = "class",

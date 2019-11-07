@@ -139,7 +139,8 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate cv
-    shape_cv <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = raster::cv)
+    shape_cv <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = raster::cv,
+                                 na.rm = TRUE)
 
     tibble::tibble(
         level = "class",
