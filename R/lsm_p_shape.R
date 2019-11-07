@@ -150,39 +150,33 @@ lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
-    shape <- (0.25 * perimeter_patch$value) / sqrt(area_patch$value * 10000)
+    # calculate shape index
+    area_patch$value <- area_patch$value * 10000
+
+    area_patch$n <- trunc(sqrt(area_patch$value))
+
+    area_patch$m <- area_patch$value - area_patch$n ^ 2
+
+    # m should be 0 but is not due to some integer/double numerical issues
+    area_patch$m[area_patch$m < 0] <- 0
+
+    area_patch$minp <- ifelse(test = area_patch$m == 0, yes = area_patch$n * 4,
+                              no = ifelse(test = area_patch$n ^ 2 < area_patch$value & area_patch$value <= area_patch$n * (1 + area_patch$n),
+                                          yes = 4 * area_patch$n + 2,
+                                          no = ifelse(test = area_patch$value > area_patch$n * (1 + area_patch$n),
+                                                      yes = 4 * area_patch$n + 4,
+                                                      no = NA)))
+    # this should not be possible anymore
+    # # Throw warning that ifelse didn't work
+    # if (anyNA(area_patch$minp)) {
+    #     warning("Calculation of shape index produced NA", call. = FALSE)
+    # }
 
     tibble::tibble(
         level = "patch",
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "shape",
-        value = as.double(shape)
+        value = as.double(perimeter_patch$value / area_patch$minp)
     )
-
-    # # calculate shape index
-    # area_patch$value <- area_patch$value * 10000
-    #
-    # area_patch$n <- trunc(sqrt(area_patch$value))
-    #
-    # area_patch$m <- area_patch$value - area_patch$n ^ 2
-    #
-    # area_patch$minp <- ifelse(test = area_patch$m == 0, yes = area_patch$n * 4,
-    #                           no = ifelse(test = area_patch$n ^ 2 < area_patch$value & area_patch$value <= area_patch$n * (1 + area_patch$n),
-    #                                       yes = 4 * area_patch$n + 2,
-    #                                       no = ifelse(test = area_patch$value > area_patch$n * (1 + area_patch$n),
-    #                                                   yes = 4 * area_patch$n + 4,
-    #                                                   no = NA)))
-    # # Throw warning that ifelse didn't work
-    # if (anyNA(area_patch$minp)) {
-    #     warning("Calculation of shape index produced NA", call. = FALSE)
-    # }
-    #
-    # tibble::tibble(
-    #     level = "patch",
-    #     class = as.integer(perimeter_patch$class),
-    #     id = as.integer(perimeter_patch$id),
-    #     metric = "shape",
-    #     value = as.double(perimeter_patch$value / area_patch$minp)
-    # )
 }
