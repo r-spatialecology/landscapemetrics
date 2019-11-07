@@ -1,3 +1,7 @@
+# landscapemetrics 1.3
+* Bugfixes
+    * Remove NAs on patch level for shape index
+
 # landscapemetrics 1.2.2
 * Bugfixes
     * Bug in `lsm_p_circle()` when whole landscape contains only one patch

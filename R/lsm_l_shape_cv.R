@@ -1,6 +1,6 @@
 #' SHAPE_CV (landscape level)
 #'
-#' @description Covariance of variation shape index (Shape metric)
+#' @description Coefficient of variation shape index (Shape metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
@@ -139,7 +139,8 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate cv
-    shape_cv <- raster::cv(shape$value)
+    shape_cv <- raster::cv(shape$value,
+                           na.rm = TRUE)
 
     tibble::tibble(
         level = "landscape",

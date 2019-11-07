@@ -11,5 +11,5 @@ citEntry(
     journal = {"Ecography"},
 	volume = {"42"},
 	year = {"2019"},
-	pages = {"1-10"},
-  textVersion  = "Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0).")
+	pages = {"1648-1657"},
+  textVersion  = "Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1648-1657(ver. 0).")

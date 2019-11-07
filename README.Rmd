@@ -33,6 +33,16 @@ status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/gr
 
 **landscapemetrics** supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
 
+### Citation
+
+To cite `landscapemetrics` or acknowledge its use, please cite the
+following Software note, substituting the version of the application
+that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
+K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
+tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0). 
+
+For more information see [Publication record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html) vignette. The get a BibTex entry, please use `citation("landscapemetrics")`.
+
 ## Installation
 
 There are several ways to install **landscapemetrics**:
@@ -122,10 +132,6 @@ For more details, see the [utility function](https://r-spatialecology.github.io/
 One of the major motivations behind **landscapemetrics** is the idea to provide an open-source code collection of landscape metrics. This includes, besides bug reports, especially the idea to include new metrics and functions. Therefore, in case you want to suggest new metrics or functions and in the best case even contribute code, we warmly welcome to do so\! For more information see [CONTRIBUTING](CONTRIBUTING.md).
 
 Maintainers and contributors must follow this repository’s [CODE OF CONDUCT](CODE_OF_CONDUCT.md).
-
-### Citation
-
-To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1-10 (ver. 0). For more information see [Publication record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html) vignette.
 
 ### References
 

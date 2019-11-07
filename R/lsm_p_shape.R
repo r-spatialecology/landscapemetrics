@@ -135,7 +135,7 @@ lsm_p_shape.list <- function(landscape, directions = 8) {
 lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    if (class(landscape) != "matrix"){
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
     }
@@ -157,16 +157,20 @@ lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
 
     area_patch$m <- area_patch$value - area_patch$n ^ 2
 
+    # m should be 0 but is not due to some integer/double numerical issues
+    area_patch$m[area_patch$m < 0] <- 0
+
     area_patch$minp <- ifelse(test = area_patch$m == 0, yes = area_patch$n * 4,
                               no = ifelse(test = area_patch$n ^ 2 < area_patch$value & area_patch$value <= area_patch$n * (1 + area_patch$n),
                                           yes = 4 * area_patch$n + 2,
                                           no = ifelse(test = area_patch$value > area_patch$n * (1 + area_patch$n),
                                                       yes = 4 * area_patch$n + 4,
                                                       no = NA)))
-    # Throw warning that ifelse didn't work
-    if(anyNA(area_patch$minp)) {
-        warning("Calculation of shape index produced NA", call. = FALSE)
-    }
+    # this should not be possible anymore
+    # # Throw warning that ifelse didn't work
+    # if (anyNA(area_patch$minp)) {
+    #     warning("Calculation of shape index produced NA", call. = FALSE)
+    # }
 
     tibble::tibble(
         level = "patch",

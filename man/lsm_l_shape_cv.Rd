@@ -31,7 +31,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Covariance of variation shape index (Shape metric)
+Coefficient of variation shape index (Shape metric)
 }
 \details{
 \deqn{SHAPE_{CV} = cv(SHAPE[patch_{ij}])}

@@ -1,3 +1,6 @@
+## Update Version: 1.3
+Minor bugfixes
+
 ## Update Version: 1.2.2
 Small bugfixes and improvments of existing functions
 

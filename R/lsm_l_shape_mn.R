@@ -139,7 +139,7 @@ lsm_l_shape_mn_calc <- function(landscape, directions, resolution = NULL){
                               resolution = resolution)
 
     # calculate mean
-    shape_mn <- mean(shape$value)
+    shape_mn <- mean(shape$value, na.rm = TRUE)
 
     tibble::tibble(
         level = "landscape",
