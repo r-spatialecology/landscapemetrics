@@ -21,9 +21,9 @@
 #' value than itself (rook's case).
 #'
 #' \subsection{Units}{Percent}
-#' \subsection{Range}{CAI_MN >= 0}
-#' \subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches.
-#' Increases, without limit, as the core area indices increase.}
+#' \subsection{Range}{0 <= CAI_MN <= 100}
+#' \subsection{Behaviour}{CAI_MN = 0 when all patches have no core area and
+#' approaches CAI_MN = 100 with increasing percentage of core area within patches.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_cai}},
