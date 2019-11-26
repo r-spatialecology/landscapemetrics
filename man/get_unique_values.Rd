@@ -13,17 +13,21 @@
 \usage{
 get_unique_values(x, simplify, verbose)
 
-\method{get_unique_values}{numeric}(x, simplify = FALSE, verbose = TRUE)
+\method{get_unique_values}{numeric}(x, simplify = FALSE,
+  verbose = TRUE)
 
 \method{get_unique_values}{matrix}(x, simplify = FALSE, verbose = TRUE)
 
-\method{get_unique_values}{RasterLayer}(x, simplify = FALSE, verbose = TRUE)
+\method{get_unique_values}{RasterLayer}(x, simplify = FALSE,
+  verbose = TRUE)
 
 \method{get_unique_values}{list}(x, simplify = FALSE, verbose = TRUE)
 
-\method{get_unique_values}{RasterStack}(x, simplify = FALSE, verbose = TRUE)
+\method{get_unique_values}{RasterStack}(x, simplify = FALSE,
+  verbose = TRUE)
 
-\method{get_unique_values}{RasterBrick}(x, simplify = FALSE, verbose = TRUE)
+\method{get_unique_values}{RasterBrick}(x, simplify = FALSE,
+  verbose = TRUE)
 
 \method{get_unique_values}{stars}(x, simplify = FALSE, verbose = TRUE)
 }
