@@ -496,8 +496,20 @@ sample_lsm_int <- function(landscape,
             result_current_plot$plot_id <- plot_id[current_plot]
         }
 
-        # calculate ratio between actual area and theoretical area
-        result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
+
+        # all cells are NA
+        if (all(is.na(raster::values(landscape_mask)))) {
+
+            # calculate ratio between actual area and theoretical area
+            result_current_plot$percentage_inside <- 0
+        }
+
+        else {
+
+            # calculate ratio between actual area and theoretical area
+            result_current_plot$percentage_inside <- area$value /
+                maximum_area[[current_plot]] * 100
+        }
 
         # add sample plot raster
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
