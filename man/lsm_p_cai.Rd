@@ -11,15 +11,20 @@
 \usage{
 lsm_p_cai(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_p_cai}{RasterStack}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_cai}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_p_cai}{stars}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_cai}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_p_cai}{list}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_cai}{list}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
