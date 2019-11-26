@@ -150,14 +150,22 @@ lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
                             edge_depth = edge_depth,
                             resolution = resolution)
 
-    # summarise for class
-    core_cv <- stats::aggregate(x = core[, 5], by = core[, 2], FUN = raster::cv)
+    # all values NA
+    if (all(is.na(core$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "core_cv",
+                              value = as.double(NA)))
+    }
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(core_cv$class),
-        id = as.integer(NA),
-        metric = "core_cv",
-        value = as.double(core_cv$value)
-    )
+    # summarise for class
+    core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
+                                FUN = raster::cv)
+
+    return(tibble::tibble(level = "class",
+                          class = as.integer(core_cv$class),
+                          id = as.integer(NA),
+                          metric = "core_cv",
+                          value = as.double(core_cv$value)))
 }

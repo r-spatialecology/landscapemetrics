@@ -133,9 +133,18 @@ lsm_p_para.list <- function(landscape, directions = 8) {
 lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "para",
+                              value = as.double(NA)))
     }
 
     # get perim

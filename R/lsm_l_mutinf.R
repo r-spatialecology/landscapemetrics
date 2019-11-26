@@ -149,8 +149,17 @@ lsm_l_mutinf.list <- function(landscape,
 lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "mutinf",
+                              value = as.double(NA)))
     }
 
     com <- rcpp_get_coocurrence_matrix(landscape,
@@ -166,11 +175,9 @@ lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
     conf <- cplx - comp
     aggr <- comp - conf
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "mutinf",
-        value = as.double(aggr)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "mutinf",
+                          value = as.double(aggr)))
 }

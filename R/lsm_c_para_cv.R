@@ -136,13 +136,20 @@ lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all cells are NA
+    if (all(is.na(para$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "para_cv",
+                              value = as.double(NA)))
+    }
+
     para_cv <- stats::aggregate(x = para[, 5], by = para[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(para_cv$class),
-        id = as.integer(NA),
-        metric = "para_cv",
-        value = as.double(para_cv$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(para_cv$class),
+                          id = as.integer(NA),
+                          metric = "para_cv",
+                          value = as.double(para_cv$value)))
 }

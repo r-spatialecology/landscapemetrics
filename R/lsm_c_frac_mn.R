@@ -136,13 +136,20 @@ lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all cells are NA
+    if (all(is.na(frac$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "frac_mn",
+                              value = as.double(NA)))
+    }
+
     frac_mean <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = mean)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(frac_mean$class),
-        id = as.integer(NA),
-        metric = "frac_mn",
-        value = as.double(frac_mean$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(frac_mean$class),
+                          id = as.integer(NA),
+                          metric = "frac_mn",
+                          value = as.double(frac_mean$value)))
 }

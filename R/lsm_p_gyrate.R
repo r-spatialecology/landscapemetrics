@@ -135,13 +135,22 @@ lsm_p_gyrate_calc <- function(landscape, directions,
                               points = NULL) {
 
     # conver to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "gyrate",
+                              value = as.double(NA)))
     }
 
     # get uniuqe class id

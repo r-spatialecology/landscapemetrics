@@ -130,17 +130,24 @@ lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
     # summarise for total landscape
     area_total <- sum(area_patch$value)
 
+    # all values NA
+    if (is.na(area_total)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "prd",
+                              value = as.double(NA)))
+    }
+
     # get number of classes
     pr_landscape <- lsm_l_pr_calc(landscape)
 
     # relative number of classes
     prd <- pr_landscape$value / area_total * 100
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "prd",
-        value = as.double(prd)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "prd",
+                          value = as.double(prd)))
 }

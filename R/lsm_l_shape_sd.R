@@ -138,14 +138,21 @@ lsm_l_shape_sd_calc <- function(landscape, directions, resolution = NULL){
                               directions = directions,
                               resolution = resolution)
 
+    # all values NA
+    if (all(is.na(shape$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "shape_sd",
+                              value = as.double(NA)))
+    }
+
     # calculate sd
     shape_sd <- stats::sd(shape$value, na.rm = TRUE)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "shape_sd",
-        value = as.double(shape_sd)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "shape_sd",
+                          value = as.double(shape_sd)))
 }

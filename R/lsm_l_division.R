@@ -137,17 +137,24 @@ lsm_l_division_calc <- function(landscape, directions, resolution = NULL) {
     # summarise to total area
     area_total <- sum(area_patch$value)
 
+    # all values NA
+    if (is.na(area_total)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "division",
+                              value = as.double(NA)))
+    }
+
     # divison for each patch
     area_patch$value <- (area_patch$value / area_total) ^ 2
 
     # summarise for whole landscape
     division <- 1 - sum(area_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "division",
-        value = as.double(division)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "division",
+                          value = as.double(division)))
 }

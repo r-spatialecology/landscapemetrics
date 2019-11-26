@@ -147,13 +147,20 @@ lsm_l_enn_mn_calc <- function(landscape, directions, verbose,
                                 directions = directions, verbose = verbose,
                                 points = points)
 
+    # all values NA
+    if (all(is.na(enn_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "enn_mn",
+                              value = as.double(NA)))
+    }
+
     enn_mn <- mean(enn_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "enn_mn",
-        value = as.double(enn_mn)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "enn_mn",
+                          value = as.double(enn_mn)))
 }

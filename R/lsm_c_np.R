@@ -123,15 +123,24 @@ lsm_c_np.list <- function(landscape, directions = 8) {
 lsm_c_np_calc <- function(landscape, directions){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all cells are NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "np",
+                              value = as.double(NA)))
     }
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
     # get number of patches
-    do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
+    return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
 
         # connected labeling current class
         landscape_labeled <- get_patches(landscape,
@@ -149,5 +158,5 @@ lsm_c_np_calc <- function(landscape, directions){
             metric = "np",
             value = as.double(np))
         })
-    )
+    ))
 }

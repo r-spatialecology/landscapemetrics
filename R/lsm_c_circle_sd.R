@@ -141,16 +141,22 @@ lsm_c_circle_sd_calc <- function(landscape, directions,
                                 directions = directions,
                                 resolution = resolution, points = points)
 
+    # all values NA
+    if (all(is.na(circle$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle_sd",
+                              value = as.double(NA)))
+    }
+
     # summarise for classes
     circle_sd <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = stats::sd)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(circle_sd$class),
-        id = as.integer(NA),
-        metric = "circle_sd",
-        value = as.double(circle_sd$value)
-    )
-
+    return(tibble::tibble(level = "class",
+                          class = as.integer(circle_sd$class),
+                          id = as.integer(NA),
+                          metric = "circle_sd",
+                          value = as.double(circle_sd$value)))
 }
 

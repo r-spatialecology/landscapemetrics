@@ -131,8 +131,17 @@ lsm_l_contag.list <- function(landscape, verbose = TRUE) {
 lsm_l_contag_calc <- function(landscape, verbose) {
 
     # convert to raster to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contag",
+                              value = as.double(NA)))
     }
 
     t <- length(get_unique_values(landscape)[[1]])
@@ -143,15 +152,14 @@ lsm_l_contag_calc <- function(landscape, verbose) {
                     call. = FALSE)
         }
 
-        tibble::tibble(
-            level = "landscape",
-            class = as.integer(NA),
-            id = as.integer(NA),
-            metric = "contag",
-            value = as.double(NA)
-        )
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contag",
+                              value = as.double(NA)))
+    }
 
-    } else {
+    else {
 
         adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                    as.matrix(4))
@@ -163,16 +171,10 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
         contag <- (1 + esum / emax) * 100
 
-        tibble::tibble(
-            level = "landscape",
-            class = as.integer(NA),
-            id = as.integer(NA),
-            metric = "contag",
-            value = as.double(contag)
-        )
-
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contag",
+                              value = as.double(contag)))
     }
-
-
-
 }

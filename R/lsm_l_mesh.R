@@ -139,14 +139,21 @@ lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
     # summarise to total area
     area_total <- sum(area_patch$value)
 
+    # all values NA
+    if (is.na(area_total)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "mesh",
+                              value = as.double(NA)))
+    }
+
     # calculate mesh first take area ^ 2, than sum for whole landscape dividied by landscape area total
     mesh <- sum(area_patch$value ^ 2) / area_total
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "mesh",
-        value = as.double(mesh)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "mesh",
+                          value = as.double(mesh)))
 }

@@ -131,11 +131,12 @@ lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
 
 lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
-    if(is.null(classes_max)) {
+    if (is.null(classes_max)) {
 
         if (verbose) {
             warning("No maximum number of classes provided: RPR = NA", call. = FALSE)
         }
+
         rpr <- NA
     }
 
@@ -143,14 +144,21 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
 
         pr <- lsm_l_pr_calc(landscape)
 
+        # all values NA
+        if (all(is.na(pr$value))) {
+            return(tibble::tibble(level = "landscape",
+                                  class = as.integer(NA),
+                                  id = as.integer(NA),
+                                  metric = "rpr",
+                                  value = as.double(NA)))
+        }
+
         rpr <- pr$value / classes_max * 100
     }
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "rpr",
-        value = as.double(rpr)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "rpr",
+                          value = as.double(rpr)))
 }

@@ -167,6 +167,15 @@ lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
     # summarise to total area
     total_area <- sum(patch_area$value)
 
+    # all values NA
+    if (is.na(total_area)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "dcad",
+                              value = as.double(NA)))
+    }
+
     # get core areas for each patch
     ncore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
@@ -177,11 +186,9 @@ lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
     # summarise for total landscape
     dcad <- sum(ncore_patch$value) / total_area * 100
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "dcad",
-        value = as.double(dcad)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "dcad",
+                          value = as.double(dcad)))
 }

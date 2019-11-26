@@ -140,15 +140,21 @@ lsm_c_gyrate_mn_calc <- function(landscape, directions,
                                 directions = directions,
                                 points = points)
 
-    gyrate_mn <-  stats::aggregate(x = gyrate[, 5], by = gyrate[, 2], FUN = mean)
+    # all cells are NA
+    if (all(is.na(gyrate$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "gyrate_cv",
+                              value = as.double(NA)))
+    }
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(gyrate_mn$class),
-        id = as.integer(NA),
-        metric = "gyrate_mn",
-        value = as.double(gyrate_mn$value)
-    )
+    gyrate_mn <-  stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
+                                   FUN = mean)
 
+    return(tibble::tibble(level = "class",
+                          class = as.integer(gyrate_mn$class),
+                          id = as.integer(NA),
+                          metric = "gyrate_mn",
+                          value = as.double(gyrate_mn$value)))
 }
-

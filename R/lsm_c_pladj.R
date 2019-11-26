@@ -117,8 +117,17 @@ lsm_c_pladj.list <- function(landscape) {
 lsm_c_pladj_calc <- function(landscape) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all cells are NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "pladj",
+                              value = as.double(NA)))
     }
 
     landscape_padded <- pad_raster(landscape,
@@ -139,11 +148,9 @@ lsm_c_pladj_calc <- function(landscape) {
     pladj <- pladj[-1]
     names <- row.names(tb)[-1]
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(names),
-        id = as.integer(NA),
-        metric = "pladj",
-        value = as.double(pladj)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(names),
+                          id = as.integer(NA),
+                          metric = "pladj",
+                          value = as.double(pladj)))
 }

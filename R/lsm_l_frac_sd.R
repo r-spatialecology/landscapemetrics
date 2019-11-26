@@ -138,13 +138,20 @@ lsm_l_frac_sd_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(frac_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "frac_sd",
+                              value = as.double(NA)))
+    }
+
     frac_sd <- stats::sd(frac_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "frac_sd",
-        value = as.double(frac_sd)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "frac_sd",
+                          value = as.double(frac_sd)))
 }

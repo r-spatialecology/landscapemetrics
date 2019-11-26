@@ -149,14 +149,22 @@ lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_de
                             edge_depth = edge_depth,
                             resolution = resolution)
 
-    # summarise for class
-    core_sd <- stats::aggregate(x = core[, 5], by = core[, 2], FUN = stats::sd)
+    # all values NA
+    if (all(is.na(core$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "core_mn",
+                              value = as.double(NA)))
+    }
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(core_sd$class),
-        id = as.integer(NA),
-        metric = "core_sd",
-        value = as.double(core_sd$value)
-    )
+    # summarise for class
+    core_sd <- stats::aggregate(x = core[, 5], by = core[, 2],
+                                FUN = stats::sd)
+
+    return(tibble::tibble(level = "class",
+                          class = as.integer(core_sd$class),
+                          id = as.integer(NA),
+                          metric = "core_sd",
+                          value = as.double(core_sd$value)))
 }

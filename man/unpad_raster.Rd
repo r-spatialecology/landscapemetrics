@@ -12,29 +12,47 @@
 \usage{
 unpad_raster(landscape, unpad_raster_cells, return_raster, to_disk)
 
-\method{unpad_raster}{RasterLayer}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{RasterLayer}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 
-\method{unpad_raster}{RasterStack}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{RasterStack}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 
-\method{unpad_raster}{RasterBrick}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{RasterBrick}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 
-\method{unpad_raster}{stars}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{stars}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 
-\method{unpad_raster}{list}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{list}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 
-\method{unpad_raster}{matrix}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
-  FALSE))
+\method{unpad_raster}{matrix}(
+  landscape,
+  unpad_raster_cells = 1,
+  return_raster = TRUE,
+  to_disk = getOption("to_disk", default = FALSE)
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

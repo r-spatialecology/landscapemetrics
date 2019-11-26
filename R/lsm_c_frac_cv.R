@@ -139,13 +139,21 @@ lsm_c_frac_cv_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
-    frac_cv <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = raster::cv)
+    # all cells are NA
+    if (all(is.na(frac$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "frac_cv",
+                              value = as.double(NA)))
+    }
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(frac_cv$class),
-        id = as.integer(NA),
-        metric = "frac_cv",
-        value = as.double(frac_cv$value)
-    )
+    frac_cv <- stats::aggregate(x = frac[, 5], by = frac[, 2],
+                                FUN = raster::cv)
+
+    return(tibble::tibble(level = "class",
+                          class = as.integer(frac_cv$class),
+                          id = as.integer(NA),
+                          metric = "frac_cv",
+                          value = as.double(frac_cv$value)))
 }

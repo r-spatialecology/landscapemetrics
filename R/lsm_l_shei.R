@@ -126,15 +126,22 @@ lsm_l_shei_calc <- function(landscape, resolution = NULL){
                              directions = 8,
                              resolution = resolution)
 
+    # all values NA
+    if (all(is.na(prop$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "shei",
+                              value = as.double(NA)))
+    }
+
     prop <- prop$value / 100
 
     shei <- sum(-prop * log(prop, exp(1))) / log(length(prop), exp(1))
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "shei",
-        value = as.double(shei)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "shei",
+                          value = as.double(shei)))
 }

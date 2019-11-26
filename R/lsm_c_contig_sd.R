@@ -144,14 +144,21 @@ lsm_c_contig_sd_calc <- function(landscape, directions) {
 
     contig <- lsm_p_contig_calc(landscape, directions = directions)
 
+    # all values NA
+    if (all(is.na(contig$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contig_sd",
+                              value = as.double(NA)))
+    }
+
     contig_sd <- stats::aggregate(x = contig[, 5], by = contig[, 2],
                                   FUN = stats::sd)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(contig_sd$class),
-        id = as.integer(NA),
-        metric = "contig_sd",
-        value = as.double(contig_sd$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(contig_sd$class),
+                          id = as.integer(NA),
+                          metric = "contig_sd",
+                          value = as.double(contig_sd$value)))
 }

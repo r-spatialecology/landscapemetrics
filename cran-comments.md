@@ -1,3 +1,6 @@
+## Update Version: 1.3.1
+Minor bugfixes
+
 ## Update Version: 1.3
 Minor bugfixes
 

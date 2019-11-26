@@ -113,8 +113,10 @@ check_landscape_calc <- function(landscape, verbose) {
     info <- cbind(proj_info(landscape), data_info(landscape))
 
     # test if all values are integer
-    info$class_ok <- ifelse(test = info$class == "integer",
-                            yes = "ok", no = "notok")
+    info$class_ok <- ifelse(test = is.na(info$class),
+                            yes = "notok",
+                            no = ifelse(test = info$class == "integer",
+                                        yes = "ok", no = "notok"))
 
     # check if number of classes makes sense
     info$n_classes_ok <- ifelse(test = info$n_classes <= 30,
@@ -137,9 +139,18 @@ check_landscape_calc <- function(landscape, verbose) {
     info <- info[, c("crs", "units", "class", "n_classes", "OK")]
 
     if (verbose) {
-        if (info$class != "integer") {
-            warning("Caution: Land-cover classes must be decoded as integer values.",
+
+        if (is.na(info$class)) {
+            warning("All cell values are NA.",
                     call. = FALSE)
+        }
+
+        else {
+
+            if (info$class != "integer") {
+                warning("Caution: Land-cover classes must be decoded as integer values.",
+                        call. = FALSE)
+            }
         }
 
         if (is.na(info$units) || info$units == "degrees") {

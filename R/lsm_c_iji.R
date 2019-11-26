@@ -134,6 +134,15 @@ lsm_c_iji_calc <- function(landscape, verbose) {
         landscape <- raster::as.matrix(landscape)
     }
 
+    # all cells are NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(NA)))
+    }
+
     adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                as.matrix(4))
 
@@ -145,15 +154,14 @@ lsm_c_iji_calc <- function(landscape, verbose) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        tibble::tibble(
-            level = "class",
-            class = as.integer(classes),
-            id = as.integer(NA),
-            metric = "iji",
-            value = as.double(NA)
-        )
+        return(tibble::tibble(level = "class",
+                              class = as.integer(classes),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(NA)))
+    }
 
-    } else {
+    else {
 
         diag(adjacencies) <- 0
 
@@ -164,12 +172,10 @@ lsm_c_iji_calc <- function(landscape, verbose) {
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-        tibble::tibble(
-            level = "class",
-            class = as.integer(classes),
-            id = as.integer(NA),
-            metric = "iji",
-            value = as.double(iji)
-        )
+        return(tibble::tibble(level = "class",
+                              class = as.integer(classes),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(iji)))
     }
 }

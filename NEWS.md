@@ -1,3 +1,7 @@
+# landscapemetrics 1.3.1
+* Bugfixes
+    * Return NA if all cells are NA
+
 # landscapemetrics 1.3
 * Bugfixes
     * Remove NAs on patch level for shape index

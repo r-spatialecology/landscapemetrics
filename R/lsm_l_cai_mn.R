@@ -166,13 +166,21 @@ lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_dep
                                 edge_depth = edge_depth,
                                 resolution = resolution)
 
+    # all values NA
+    if (all(is.na(cai_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cai_mn",
+                              value = as.double(NA)))
+    }
+
+
     cai_mean <- mean(cai_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "cai_mn",
-        value = as.double(cai_mean)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "cai_mn",
+                          value = as.double(cai_mean)))
 }

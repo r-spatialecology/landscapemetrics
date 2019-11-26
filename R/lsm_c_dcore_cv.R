@@ -154,13 +154,20 @@ lsm_c_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_d
                               edge_depth = edge_depth,
                               points = points)
 
+    # all values NA
+    if (all(is.na(dcore$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "dcore_cv",
+                              value = as.double(NA)))
+    }
+
     dcore_cv <- stats::aggregate(x = dcore[, 5], by = dcore[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(dcore_cv$class),
-        id = as.integer(NA),
-        metric = "dcore_cv",
-        value = as.double(dcore_cv$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(dcore_cv$class),
+                          id = as.integer(NA),
+                          metric = "dcore_cv",
+                          value = as.double(dcore_cv$value)))
 }

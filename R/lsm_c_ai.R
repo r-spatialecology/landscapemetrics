@@ -122,8 +122,17 @@ lsm_c_ai.list <- function(landscape) {
 lsm_c_ai_calc <- function(landscape) {
 
     # convert to raster to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "ai",
+                              value = as.double(NA)))
     }
 
     # get coocurrence matrix of like_adjacencies
@@ -149,7 +158,7 @@ lsm_c_ai_calc <- function(landscape) {
                                                           no = NA)))
 
     # warning if NAs are introduced by ifelse
-    if(anyNA(cells_class$max_adj)) {
+    if (anyNA(cells_class$max_adj)) {
         warning("NAs introduced by lsm_c_ai", call. = FALSE)
     }
 
@@ -162,11 +171,9 @@ lsm_c_ai_calc <- function(landscape) {
     # if NaN (mathematical reason) set to NA
     ai[is.nan(ai)] <- NA
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(names(like_adjacencies)),
-        id = as.integer(NA),
-        metric = "ai",
-        value = as.double(ai)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(names(like_adjacencies)),
+                          id = as.integer(NA),
+                          metric = "ai",
+                          value = as.double(ai)))
 }

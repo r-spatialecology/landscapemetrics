@@ -132,9 +132,19 @@ lsm_p_area.list <- function(landscape, directions = 8) {
 lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "area",
+                              value = as.double(NA)))
     }
 
     # factor to convert cell to area
@@ -162,11 +172,12 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
         })
     )
 
-    tibble::tibble(
+    return(tibble::tibble(
         level = "patch",
         class = as.integer(area_patch$class),
         id = as.integer(seq_len(nrow(area_patch))),
         metric = "area",
         value = as.double(area_patch$value)
+        )
     )
 }

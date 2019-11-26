@@ -131,8 +131,17 @@ lsm_l_iji.list <- function(landscape, verbose = TRUE) {
 lsm_l_iji_calc <- function(landscape, verbose) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(NA)))
     }
 
     adjacencies <- rcpp_get_coocurrence_matrix(landscape,
@@ -144,15 +153,14 @@ lsm_l_iji_calc <- function(landscape, verbose) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        tibble::tibble(
-            level = "landscape",
-            class = as.integer(NA),
-            id = as.integer(NA),
-            metric = "iji",
-            value = as.double(NA)
-        )
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(NA)))
+    }
 
-    } else {
+    else {
 
         diag(adjacencies) <- 0
 
@@ -166,12 +174,10 @@ lsm_l_iji_calc <- function(landscape, verbose) {
 
         iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
 
-        tibble::tibble(
-            level = "landscape",
-            class = as.integer(NA),
-            id = as.integer(NA),
-            metric = "iji",
-            value = as.double(iji)
-        )
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "iji",
+                              value = as.double(iji)))
     }
 }

@@ -140,9 +140,19 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "pafrac",
+                              value = as.double(NA)))
     }
 
     # get patch area in sqm
@@ -161,11 +171,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 
-    do.call(rbind, lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
+    return(do.call(rbind, lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
         class_name <- as.integer(np_class[class_current, "class"])
 
-        if (np_class$value[np_class$class == class_name] < 10){
+        if (np_class$value[np_class$class == class_name] < 10) {
 
             pafrac <- NA
 
@@ -192,5 +202,5 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
             metric = "pafrac",
             value = as.double(pafrac))
         })
-    )
+    ))
 }

@@ -150,8 +150,17 @@ lsm_l_condent.list <- function(landscape,
 lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to raster to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "condent",
+                              value = as.double(NA)))
     }
 
     com <- rcpp_get_coocurrence_matrix(landscape,
@@ -167,11 +176,9 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     conf <- cplx - comp
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "condent",
-        value = as.double(conf)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "condent",
+                          value = as.double(conf)))
 }

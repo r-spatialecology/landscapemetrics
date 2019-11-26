@@ -139,11 +139,20 @@ lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FAL
 
 lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
-
     # conver to matrix
     if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cpland",
+                              value = as.double(NA)))
     }
 
     # calculate patch area
@@ -167,11 +176,9 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     # relative core area of each class
     core_area$value <- core_area$value / area * 100
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(core_area$class),
-        id = as.integer(NA),
-        metric = "cpland",
-        value = as.double(core_area$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(core_area$class),
+                          id = as.integer(NA),
+                          metric = "cpland",
+                          value = as.double(core_area$value)))
 }

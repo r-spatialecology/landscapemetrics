@@ -128,7 +128,17 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
     # conver raster to matrix
     if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "te",
+                              value = as.double(NA)))
     }
 
     # get resolution in x-y directions
@@ -177,12 +187,9 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
         edge_total <- edge_left_right + edge_top_bottom
     }
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "te",
-        value = as.double(edge_total)
-    )
-
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "te",
+                          value = as.double(edge_total)))
 }

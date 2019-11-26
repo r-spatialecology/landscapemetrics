@@ -166,9 +166,19 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cai",
+                              value = as.double(NA)))
     }
 
     # get patch area

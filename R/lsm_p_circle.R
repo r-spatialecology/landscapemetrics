@@ -150,6 +150,15 @@ lsm_p_circle_calc <- function(landscape, directions,
         landscape <- raster::as.matrix(landscape)
     }
 
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle",
+                              value = as.double(NA)))
+    }
+
     # get resolution of landscape
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]

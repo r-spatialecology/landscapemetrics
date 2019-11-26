@@ -134,14 +134,21 @@ lsm_l_lpi_calc <- function(landscape, directions, resolution = NULL) {
     # summarise to total area
     total_area <- sum(patch_area$value)
 
+    # all values NA
+    if (is.na(total_area)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "lpi",
+                              value = as.double(NA)))
+    }
+
     # maximum value of patch_area / total_area
     lpi <- max(patch_area$value / total_area * 100)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "lpi",
-        value = as.double(lpi)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "lpi",
+                          value = as.double(lpi)))
 }

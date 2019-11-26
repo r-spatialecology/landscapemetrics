@@ -147,9 +147,19 @@ lsm_c_ed.list <- function(landscape,
 lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all cells are NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "ed",
+                              value = as.double(NA)))
     }
 
     # get patch area
@@ -168,11 +178,9 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
 
     edge_class$value <- edge_class$value / area
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(edge_class$class),
-        id = as.integer(NA),
-        metric = "ed",
-        value = as.double(edge_class$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(edge_class$class),
+                          id = as.integer(NA),
+                          metric = "ed",
+                          value = as.double(edge_class$value)))
 }

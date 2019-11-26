@@ -141,15 +141,20 @@ lsm_c_gyrate_cv_calc <- function(landscape, directions,
                                 directions = directions,
                                 points = points)
 
+    # all cells are NA
+    if (all(is.na(gyrate$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "gyrate_cv",
+                              value = as.double(NA)))
+    }
+
     gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(gyrate_cv$class),
-        id = as.integer(NA),
-        metric = "gyrate_cv",
-        value = as.double(gyrate_cv$value)
-    )
-
+    return(tibble::tibble(level = "class",
+                          class = as.integer(gyrate_cv$class),
+                          id = as.integer(NA),
+                          metric = "gyrate_cv",
+                          value = as.double(gyrate_cv$value)))
 }
-

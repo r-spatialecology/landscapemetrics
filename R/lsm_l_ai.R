@@ -123,9 +123,19 @@ lsm_l_ai.list <- function(landscape) {
 lsm_l_ai_calc <- function(landscape, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "ai",
+                              value = as.double(NA)))
     }
 
     # get aggregation index for each class
@@ -139,12 +149,10 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
     # final AI index
     result <- sum(ai$value * (pland$value / 100))
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "ai",
-        value = as.double(result)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "ai",
+                          value = as.double(result)))
 }
 

@@ -142,7 +142,17 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
     # conver raster to matrix
     if (class(landscape) != "matrix") {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "te",
+                              value = as.double(NA)))
     }
 
     # get resolution in x-y directions
@@ -176,7 +186,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                                           NA, 1, NA), 3, 3, byrow = TRUE)
         }
 
-        do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
+        return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
 
             # get connected patches
             landscape_labeled <- get_patches(landscape,
@@ -234,6 +244,6 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                 metric = "te",
                 value = as.double(edge_ik))
             })
-        )
+        ))
     }
 }

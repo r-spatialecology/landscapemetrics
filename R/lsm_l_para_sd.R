@@ -136,13 +136,20 @@ lsm_l_para_sd_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(para_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "para_sd",
+                              value = as.double(NA)))
+    }
+
     para_sd <- stats::sd(para_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "para_sd",
-        value = as.double(para_sd)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "para_sd",
+                          value = as.double(para_sd)))
 }

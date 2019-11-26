@@ -132,15 +132,22 @@ lsm_l_siei_calc <- function(landscape, directions, resolution = NULL) {
                             directions = directions,
                             resolution = resolution)
 
+    # all values NA
+    if (all(is.na(sidi$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "siei",
+                              value = as.double(NA)))
+    }
+
     pr <- lsm_l_pr_calc(landscape)
 
     siei <- sidi$value / (1 - (1 / pr$value))
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "siei",
-        value = as.double(siei)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "siei",
+                          value = as.double(siei)))
 }
