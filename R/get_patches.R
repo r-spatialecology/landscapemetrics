@@ -246,7 +246,7 @@ get_patches.matrix <- function(landscape,
                                class = "all",
                                directions = 8,
                                to_disk = getOption("to_disk", default = FALSE),
-                               return_raster = TRUE) {
+                               return_raster = FALSE) {
 
     result <- get_patches_int(landscape,
                               class = class,

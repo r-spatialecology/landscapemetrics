@@ -11,20 +11,15 @@
 \usage{
 lsm_l_joinent(landscape, neighbourhood, ordered, base)
 
-\method{lsm_l_joinent}{RasterLayer}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_joinent}{RasterLayer}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_joinent}{RasterStack}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_joinent}{RasterStack}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_joinent}{RasterBrick}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_joinent}{RasterBrick}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_joinent}{stars}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_joinent}{stars}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_joinent}{list}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_joinent}{list}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

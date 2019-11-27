@@ -456,7 +456,7 @@ calculate_lsm_internal <- function(landscape,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 
-        result <- tibble::as_tibble(result[ ,col_ordering])
+        result <- tibble::as_tibble(result[,col_ordering])
     }
 
     if (progress) {

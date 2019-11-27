@@ -11,20 +11,15 @@
 \usage{
 lsm_l_mutinf(landscape, neighbourhood, ordered, base)
 
-\method{lsm_l_mutinf}{RasterLayer}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_mutinf}{RasterLayer}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{RasterStack}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_mutinf}{RasterStack}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{RasterBrick}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_mutinf}{RasterBrick}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{stars}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_mutinf}{stars}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 
-\method{lsm_l_mutinf}{list}(landscape, neighbourhood = 4,
-  ordered = TRUE, base = "log2")
+\method{lsm_l_mutinf}{list}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

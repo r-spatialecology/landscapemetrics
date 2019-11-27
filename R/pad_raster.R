@@ -217,7 +217,7 @@ pad_raster.matrix <- function(landscape,
                               pad_raster_value = -999,
                               pad_raster_cells = 1,
                               global = FALSE,
-                              return_raster = TRUE,
+                              return_raster = FALSE,
                               to_disk = getOption("to_disk", default = FALSE)) {
 
     result <- lapply(X = list(landscape),
