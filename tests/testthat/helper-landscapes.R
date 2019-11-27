@@ -14,4 +14,8 @@ raster::values(landscape_uniform) <- 1
 
 landscape_diff_res <- raster::aggregate(landscapemetrics::landscape, fact = c(1,2))
 
+landscape_NA <- landscapemetrics::landscape
+raster::values(landscape_NA) <- NA
+
 # landscape_stars <- stars::st_as_stars(landscape)
+

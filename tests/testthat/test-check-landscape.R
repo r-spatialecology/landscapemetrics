@@ -67,3 +67,14 @@ test_that("check_landscape works return warning for > 30 classes", {
 
     expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
 })
+
+test_that("check_landscape returns warning if all cells area NA", {
+
+    check_tibble <- check_landscape(landscape_NA,
+                                    verbose = FALSE)
+
+    expect_true(object = all(check_tibble$OK == cli::symbol$cross))
+    expect_true(object = is.na(check_tibble$class))
+    expect_equal(object = check_tibble$n_classes, expected = 0)
+
+})

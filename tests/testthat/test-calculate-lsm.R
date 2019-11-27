@@ -1,5 +1,17 @@
 context("calculate_lsm")
 
+test_that("calculate_lsm can take different raster inputs", {
+
+    expect_is(calculate_lsm(landscape, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+    expect_is(calculate_lsm(landscape_stack, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+    expect_is(calculate_lsm(landscape_brick, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+    expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+})
+
 test_that("calculate_lsm can calculate patch metrics", {
 
     patch_metrics <- calculate_lsm(landscape, what = "patch",
@@ -106,14 +118,14 @@ test_that("calculate_lsm can take type argument", {
     expect_true(all(specific_metrics_type$type == "aggregation metric"))
 })
 
-test_that("calculate_lsm can take different raster inputs", {
+test_that("NA is returned if no cell has a value", {
 
-    expect_is(calculate_lsm(landscape, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_stack, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_brick, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
+    all_metric <- list_lsm()
+
+    result <- calculate_lsm(landscape_NA,
+                            verbose = FALSE)
+
+    expect_equal(object = nrow(result), expected = nrow(all_metric))
+    expect_true(object = all(result$metric %in% all_metric$metric))
+    expect_true(object = all(is.na(result$value)))
 })
