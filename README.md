@@ -39,9 +39,11 @@ it always takes the data as the first argument and returns a tibble.
 
 To cite `landscapemetrics` or acknowledge its use, please cite the
 following Software note, substituting the version of the application
-that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
-K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
-tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0).
+that you used for ‘version 0’:
+
+> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J.
+> 2019. landscapemetrics: an open-source R tool to calculate landscape
+> metrics. - Ecography 42:1648-1657 (ver. 0).
 
 For more information see [Publication
 record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
@@ -71,8 +73,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric
-(e.g. `enn`for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric (e.g.
+`enn`for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -181,8 +183,8 @@ calculate_lsm(landscape, level = "patch")
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeled patches or the core area of all patches. All
-visualization functions start with the prefix `show_`
-(e.g. `show_cores()`).
+visualization functions start with the prefix `show_` (e.g.
+`show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
