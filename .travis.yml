@@ -48,7 +48,7 @@ notifications:
   email:
     recipients:
       - maximilian.hesselbarth@uni-goettingen.de
-    on_success: change # default: change
+    on_success: always # default: change
     on_failure: always # default: always
 
 #services
