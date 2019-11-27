@@ -11,20 +11,50 @@
 \usage{
 show_patches(landscape, class, directions, labels, nrow, ncol)
 
-\method{show_patches}{RasterLayer}(landscape, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{RasterLayer}(
+  landscape,
+  class = "global",
+  directions = 8,
+  labels = TRUE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_patches}{RasterStack}(landscape, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{RasterStack}(
+  landscape,
+  class = "global",
+  directions = 8,
+  labels = TRUE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_patches}{RasterBrick}(landscape, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{RasterBrick}(
+  landscape,
+  class = "global",
+  directions = 8,
+  labels = TRUE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_patches}{stars}(landscape, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{stars}(
+  landscape,
+  class = "global",
+  directions = 8,
+  labels = TRUE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_patches}{list}(landscape, class = "global",
-  directions = 8, labels = TRUE, nrow = NULL, ncol = NULL)
+\method{show_patches}{list}(
+  landscape,
+  class = "global",
+  directions = 8,
+  labels = TRUE,
+  nrow = NULL,
+  ncol = NULL
+)
 }
 \arguments{
 \item{landscape}{*Raster object}
