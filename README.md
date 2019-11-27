@@ -71,8 +71,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric
-(e.g. `enn`for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric (e.g.
+`enn`for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -181,8 +181,8 @@ calculate_lsm(landscape, level = "patch")
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeled patches or the core area of all patches. All
-visualization functions start with the prefix `show_`
-(e.g. `show_cores()`).
+visualization functions start with the prefix `show_` (e.g.
+`show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
