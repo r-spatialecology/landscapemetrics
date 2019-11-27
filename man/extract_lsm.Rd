@@ -9,89 +9,28 @@
 \alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
-extract_lsm(
-  landscape,
-  y,
-  extract_id,
-  metric,
-  name,
-  type,
-  what,
-  directions,
-  progress,
-  verbose,
-  ...
-)
+extract_lsm(landscape, y, extract_id, metric, name, type, what, directions,
+  progress, verbose, ...)
 
-\method{extract_lsm}{RasterLayer}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
+\method{extract_lsm}{RasterLayer}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{RasterStack}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
+\method{extract_lsm}{RasterStack}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{RasterBrick}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
+\method{extract_lsm}{RasterBrick}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{stars}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
+\method{extract_lsm}{stars}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 
-\method{extract_lsm}{list}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
+\method{extract_lsm}{list}(landscape, y, extract_id = NULL,
+  metric = NULL, name = NULL, type = NULL, what = NULL,
+  directions = 8, progress = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
