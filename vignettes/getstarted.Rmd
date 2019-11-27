@@ -48,15 +48,11 @@ lsm_l_enn()
 
 All functions return an identical structured tibble:
 
-<p style="text-align:center;">
-
 | layer  | level | class | id | metric | value
 | ------------- | -------------  | ------------- | ------------- | ------------- | ------------- | 
 | 1 | patch  | 1 | 1 | landscape metric | x |
 | 1 | class  | 1 | NA | landscape metric | x |
 | 1 | landscape  | NA | NA | landscape metric | x |
-
-</p>
 
 ## Checking your landscape
 
