@@ -3,21 +3,23 @@
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
-[![Build
-Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
-[![Coverage
-status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
+[![Travis
+CI](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
+[![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
+
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![Project
 Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
 [![CRAN
 downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
+
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)
 
 ## Overview
 
@@ -41,9 +43,9 @@ To cite `landscapemetrics` or acknowledge its use, please cite the
 following Software note, substituting the version of the application
 that you used for ‘version 0’:
 
-> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J.
-> (2019) landscapemetrics: an open-source R tool to calculate landscape
-> metrics. - Ecography 42:1648-1657 (ver. 0).
+Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J.
+2019. landscapemetrics: an open-source R tool to calculate landscape
+metrics. - Ecography 42:1648-1657 (ver. 0)
 
 For more information see [Publication
 record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
