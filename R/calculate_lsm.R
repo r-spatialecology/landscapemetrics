@@ -388,12 +388,13 @@ calculate_lsm_internal <- function(landscape,
                                    progress) {
 
     # check if landscape is ok...
-    check <- check_landscape(landscape, verbose = FALSE)
-
     # ...print warning if not
     if (verbose) {
+
+        check <- check_landscape(landscape, verbose = FALSE)
+
         if (check$OK != cli::symbol$tick) {
-            warning("Please use check_landscape() to ensure the input data is valid.",
+            warning("Please use 'check_landscape()' to ensure the input data is valid.",
                     call. = FALSE)
         }
     }

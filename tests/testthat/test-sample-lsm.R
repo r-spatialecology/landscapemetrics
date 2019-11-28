@@ -200,7 +200,7 @@ test_that("sample_lsm returns warnings", {
 
     expect_warning(sample_lsm(landscape,
                               y = sample_points, size = 50, what = "lsm_l_ta"),
-                   regexp = "Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+                   regexp = "The 'perecentage_inside' is below 90% for at least one buffer.",
                    fixed = TRUE)
 
     expect_warning(sample_lsm(landscape,

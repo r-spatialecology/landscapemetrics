@@ -527,7 +527,7 @@ sample_lsm_int <- function(landscape,
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
 
-            warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
