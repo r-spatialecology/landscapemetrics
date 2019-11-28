@@ -31,9 +31,13 @@ To cite `landscapemetrics` or acknowledge its use, please cite the
 following Software note, substituting the version of the application
 that you used for ‘version 0’.
 
+<p>
+
 Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J.
-(2019) *landscapemetrics: an open-source R tool to calculate landscape
-metrics.* - Ecography 42:1648-1657 (ver. 0).
+(2019) <i>landscapemetrics: an open-source R tool to calculate landscape
+metrics.</i> - Ecography 42:1648-1657 (ver. 0)
+
+</p>
 
 For more information see [Publication
 record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
@@ -63,8 +67,8 @@ your raster (see `check_raster()`).
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric
-(e.g. `enn` for the euclidean nearest-neighbor distance):
+function name is the abbreviation of the corresponding metric (e.g.
+`enn` for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -121,7 +125,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     2   
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # ... with 17 more rows
+#> # … with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -158,15 +162,15 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0001
 #>  9     1 patch     1     9 area   0.0003
 #> 10     1 patch     2    10 area   0.0035
-#> # ... with 314 more rows
+#> # … with 314 more rows
 ```
 
 ### Utility functions
 
 **landscapemetrics** further provides several visualization functions,
 e.g. show all labeled patches or the core area of all patches. All
-visualization functions start with the prefix `show_`
-(e.g. `show_cores()`).
+visualization functions start with the prefix `show_` (e.g.
+`show_cores()`).
 
 Important building blocks of the package are exported to help facilitate
 analysis or the development of new metrics. They all start with the
