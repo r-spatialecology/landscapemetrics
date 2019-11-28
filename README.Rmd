@@ -7,7 +7,6 @@ output:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  tidy = FALSE,
   comment = "#>",
   fig.path = "man/figures/REAsDME-",
   out.width = "100%"
@@ -16,13 +15,13 @@ knitr::opts_chunk$set(
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
-
-| CI | Status | CRAN | License |
+| Continuous Integration | Development | CRAN | License |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | [![Travis CI](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 | [![Appveyor](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617) |
 | [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master) |  |  |  |
+
+# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 ## Overview
 
@@ -32,11 +31,9 @@ knitr::opts_chunk$set(
 
 ### Citation
 
-To cite `landscapemetrics` or acknowledge its use, please cite the
-following Software note, substituting the version of the application
-that you used for 'version 0':
+To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for 'version 0'.
 
-Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0)
+Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. (2019) *landscapemetrics: an open-source R tool to calculate landscape metrics.* - Ecography 42:1648-1657 (ver. 0).
 
 For more information see [Publication record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html) vignette. The get a BibTex entry, please use `citation("landscapemetrics")`.
 
