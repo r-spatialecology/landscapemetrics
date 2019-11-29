@@ -12,17 +12,23 @@
 \usage{
 get_adjacencies(landscape, neighbourhood, what, upper)
 
-\method{get_adjacencies}{RasterLayer}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{RasterLayer}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 
-\method{get_adjacencies}{RasterStack}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{RasterStack}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 
-\method{get_adjacencies}{RasterBrick}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{RasterBrick}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 
-\method{get_adjacencies}{stars}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{stars}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 
-\method{get_adjacencies}{list}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{list}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 
-\method{get_adjacencies}{matrix}(landscape, neighbourhood = 4, what = "full", upper = FALSE)
+\method{get_adjacencies}{matrix}(landscape, neighbourhood = 4,
+  what = "full", upper = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
