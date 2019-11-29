@@ -11,20 +11,40 @@
 \usage{
 lsm_c_core_mn(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_c_core_mn}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_core_mn}{RasterLayer}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_core_mn}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_core_mn}{RasterStack}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_core_mn}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_core_mn}{RasterBrick}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_core_mn}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_core_mn}{stars}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_core_mn}{list}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_core_mn}{list}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
