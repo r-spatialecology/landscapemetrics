@@ -120,8 +120,7 @@ extract_lsm.RasterStack <- function(landscape,
 
     if (progress) {
 
-      message("\r> Progress nlayers: ", x , "/", length(landscape),
-              appendLF = FALSE)
+      cat("\r> Progress nlayers: ", x , "/", length(landscape))
     }
 
     extract_lsm_internal(landscape = landscape[[x]],
@@ -144,7 +143,7 @@ extract_lsm.RasterStack <- function(landscape,
 
   result$layer <- layer
 
-  if (progress) {message("")}
+  if (progress) {cat("\n")}
 
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
@@ -169,8 +168,7 @@ extract_lsm.RasterBrick <- function(landscape,
 
     if (progress) {
 
-      message("\r> Progress nlayers: ", x , "/", length(landscape),
-              appendLF = FALSE)
+      cat("\r> Progress nlayers: ", x , "/", length(landscape))
     }
 
     extract_lsm_internal(landscape = landscape[[x]],
@@ -193,7 +191,7 @@ extract_lsm.RasterBrick <- function(landscape,
 
   result$layer <- layer
 
-  if (progress) {message("")}
+  if (progress) {cat("\n")}
 
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
@@ -220,8 +218,7 @@ extract_lsm.stars <- function(landscape,
 
     if (progress) {
 
-      message("\r> Progress nlayers: ", x , "/", length(landscape),
-              appendLF = FALSE)
+      cat("\r> Progress nlayers: ", x , "/", length(landscape))
     }
 
     extract_lsm_internal(landscape = landscape[[x]],
@@ -244,7 +241,7 @@ extract_lsm.stars <- function(landscape,
 
   result$layer <- layer
 
-  if (progress) {message("")}
+  if (progress) {cat("\n")}
 
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
@@ -267,8 +264,7 @@ extract_lsm.list <- function(landscape,
 
     if (progress) {
 
-      message("\r> Progress nlayers: ", x , "/", length(landscape),
-              appendLF = FALSE)
+      cat("\r> Progress nlayers: ", x , "/", length(landscape))
     }
 
     extract_lsm_internal(landscape = landscape[[x]],
@@ -291,7 +287,7 @@ extract_lsm.list <- function(landscape,
 
   result$layer <- layer
 
-  if (progress) {message("")}
+  if (progress) {cat("\n")}
 
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }

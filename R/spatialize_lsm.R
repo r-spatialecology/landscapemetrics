@@ -82,8 +82,7 @@ spatialize_lsm.RasterStack <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
@@ -96,7 +95,7 @@ spatialize_lsm.RasterStack <- function(landscape,
                                 ...)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     return(result)
 }
@@ -118,8 +117,7 @@ spatialize_lsm.RasterBrick <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
@@ -132,7 +130,7 @@ spatialize_lsm.RasterBrick <- function(landscape,
                                 ...)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     return(result)
 }
@@ -154,8 +152,7 @@ spatialize_lsm.stars <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
@@ -168,7 +165,7 @@ spatialize_lsm.stars <- function(landscape,
                                 ...)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     return(result)
 }
@@ -188,8 +185,7 @@ spatialize_lsm.list <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
@@ -202,7 +198,7 @@ spatialize_lsm.list <- function(landscape,
                                 ...)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     return(result)
 }
@@ -230,6 +226,14 @@ spatialize_lsm_internal <- function(landscape,
         stop("'spatialize_lsm()' only takes patch level metrics.",
              call. = FALSE)
     }
+
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
 
     # get CRS of input
     crs_input <- raster::crs(landscape)
@@ -264,8 +268,7 @@ spatialize_lsm_internal <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress metrics: ", x, "/",
-                    number_metrics, appendLF = FALSE)
+            cat("\r> Progress metrics: ", x, "/", number_metrics)
         }
 
         # get metric value
@@ -289,8 +292,25 @@ spatialize_lsm_internal <- function(landscape,
 
     if (progress) {
 
-        message("")
+        cat("\n")
     }
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }

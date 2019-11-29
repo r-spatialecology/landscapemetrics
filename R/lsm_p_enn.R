@@ -185,7 +185,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
 
             if (verbose) {
                 warning(paste0("Class ", patches_class,
-                               ": ENN = NA for class with only 1 patch"),
+                               ": ENN = NA for class with only 1 patch."),
                         call. = FALSE)
             }
         }

@@ -107,11 +107,7 @@ scale_window.RasterStack <- function(landscape,
         X = seq_along(landscape),
         FUN = function(x) {
             if (progress) {
-                message("\r> Progress nlayers: ",
-                        x ,
-                        "/",
-                        length(landscape),
-                        appendLF = FALSE)
+                cat("\r> Progress nlayers: ", x , "/", length(landscape))
             }
 
             scale_window_int(
@@ -133,7 +129,7 @@ scale_window.RasterStack <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
@@ -156,11 +152,7 @@ scale_window.RasterBrick <- function(landscape,
         X = seq_along(landscape),
         FUN = function(x) {
             if (progress) {
-                message("\r> Progress nlayers: ",
-                        x ,
-                        "/",
-                        length(landscape),
-                        appendLF = FALSE)
+                cat("\r> Progress nlayers: ", x , "/", length(landscape))
             }
 
             scale_window_int(
@@ -182,7 +174,7 @@ scale_window.RasterBrick <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
@@ -205,11 +197,7 @@ scale_window.stars <- function(landscape,
         X = seq_along(landscape),
         FUN = function(x) {
             if (progress) {
-                message("\r> Progress nlayers: ",
-                        x ,
-                        "/",
-                        length(landscape),
-                        appendLF = FALSE)
+                cat("\r> Progress nlayers: ", x , "/", length(landscape))
             }
 
             scale_window_int(
@@ -231,7 +219,7 @@ scale_window.stars <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
@@ -252,11 +240,7 @@ scale_window.list <- function(landscape,
         X = seq_along(landscape),
         FUN = function(x) {
             if (progress) {
-                message("\r> Progress nlayers: ",
-                        x ,
-                        "/",
-                        length(landscape),
-                        appendLF = FALSE)
+                cat("\r> Progress nlayers: ", x , "/",  length(landscape))
             }
 
             scale_window_int(
@@ -278,7 +262,7 @@ scale_window.list <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::as_tibble(result[with(result, order(layer, level, metric, class, id, percentages_col, percentages_row)),
                              c(8,5,6,7,2,1,3,4)])
@@ -360,8 +344,7 @@ scale_window_int <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress scales: ", i, "/", length(ncols_perc),
-                    appendLF = FALSE)
+            cat("\r> Progress scales: ", i, "/", length(ncols_perc))
         }
 
         value <- as.data.frame(value)
@@ -383,7 +366,7 @@ scale_window_int <- function(landscape,
 
     if (progress) {
 
-        message("")
+        cat("\n")
     }
 
     return(result)

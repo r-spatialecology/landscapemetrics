@@ -152,8 +152,7 @@ calculate_lsm.RasterStack <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -182,7 +181,7 @@ calculate_lsm.RasterStack <- function(landscape,
 
     result <- result[with(result, order(layer, level, metric, class, id)), ]
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::add_column(result, layer, .before = TRUE)
 }
@@ -213,8 +212,7 @@ calculate_lsm.RasterBrick <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -243,7 +241,7 @@ calculate_lsm.RasterBrick <- function(landscape,
 
     result <- result[with(result, order(layer, level, metric, class, id)), ]
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::add_column(result, layer, .before = TRUE)
 }
@@ -274,8 +272,7 @@ calculate_lsm.stars <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -304,7 +301,7 @@ calculate_lsm.stars <- function(landscape,
 
     result <- result[with(result, order(layer, level, metric, class, id)), ]
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::add_column(result, layer, .before = TRUE)
 }
@@ -334,8 +331,7 @@ calculate_lsm.list <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         calculate_lsm_internal(landscape = landscape[[x]],
@@ -364,7 +360,7 @@ calculate_lsm.list <- function(landscape,
 
     result <- result[with(result, order(layer, level, metric, class, id)), ]
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     tibble::add_column(result, layer, .before = TRUE)
 }
@@ -428,8 +424,7 @@ calculate_lsm_internal <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress metrics: ", current_metric, "/",
-                    number_metrics,  appendLF = FALSE)
+            cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 
         # match function name
@@ -462,7 +457,7 @@ calculate_lsm_internal <- function(landscape,
 
     if (progress) {
 
-        message("")
+        cat("\n")
     }
 
     return(result)

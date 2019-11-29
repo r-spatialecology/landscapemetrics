@@ -135,8 +135,7 @@ sample_lsm.RasterStack <- function(landscape,
 
         if (progress) {
 
-            cat("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -160,7 +159,7 @@ sample_lsm.RasterStack <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -182,8 +181,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -207,7 +205,7 @@ sample_lsm.RasterBrick <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -229,8 +227,7 @@ sample_lsm.stars <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -254,7 +251,7 @@ sample_lsm.stars <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -274,8 +271,7 @@ sample_lsm.list <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -299,7 +295,7 @@ sample_lsm.list <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -311,14 +307,6 @@ sample_lsm_int <- function(landscape,
                            verbose,
                            progress,
                            ...) {
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
 
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
@@ -466,14 +454,21 @@ sample_lsm_int <- function(landscape,
 
     number_plots <- length(maximum_area)
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # loop through each sample point and calculate metrics
     result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
 
         # print progess using the non-internal name
         if (progress) {
 
-            cat("\r> Progress sample plots: ", current_plot, "/",
-                    number_plots)
+            cat("\r> Progress sample plots: ", current_plot, "/", number_plots)
         }
 
         # crop sample plot
