@@ -135,7 +135,7 @@ sample_lsm.RasterStack <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
+            cat("\r> Progress nlayers: ", x , "/", length(landscape),
                     appendLF = FALSE)
         }
 
@@ -312,6 +312,14 @@ sample_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # use polygon
     if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
 
@@ -464,8 +472,8 @@ sample_lsm_int <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress sample plots: ", current_plot, "/",
-                    number_plots, appendLF = FALSE)
+            cat("\r> Progress sample plots: ", current_plot, "/",
+                    number_plots)
         }
 
         # crop sample plot
@@ -520,7 +528,7 @@ sample_lsm_int <- function(landscape,
 
     if (progress) {
 
-        message("")
+        cat("\n")
     }
 
     # return warning of only 3/4 of sample plot are in landscape
@@ -529,8 +537,26 @@ sample_lsm_int <- function(landscape,
 
             warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
+
         }
     }
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
