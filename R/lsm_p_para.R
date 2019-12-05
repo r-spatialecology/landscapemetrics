@@ -133,7 +133,7 @@ lsm_p_para.list <- function(landscape, directions = 8) {
 lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
     }

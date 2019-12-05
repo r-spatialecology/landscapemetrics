@@ -140,7 +140,7 @@ lsm_c_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

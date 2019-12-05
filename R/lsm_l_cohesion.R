@@ -127,7 +127,7 @@ lsm_l_cohesion.list <- function(landscape, directions = 8) {
 lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to raster to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

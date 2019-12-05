@@ -122,7 +122,7 @@ lsm_c_ai.list <- function(landscape) {
 lsm_c_ai_calc <- function(landscape) {
 
     # convert to raster to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

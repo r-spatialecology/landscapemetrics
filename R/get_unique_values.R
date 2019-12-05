@@ -141,21 +141,21 @@ get_unique_values.list <- function(x,
     unique_values <- lapply(x, FUN = function(current_element) {
 
         # use simplify = TRUE here to avoid lists of lists
-        if (class(current_element) == "RasterLayer") {
+        if (methods::is(current_element, "RasterLayer")) {
 
             return(get_unique_values.RasterLayer(current_element,
                                                  simplify = TRUE,
                                                  verbose = verbose))
 
         } else if (class(current_element) %in% c("numeric",
-                                                "double",
-                                                "integer")) {
+                                                 "double",
+                                                 "integer")) {
 
             return(get_unique_values.numeric(current_element,
                                              simplify = TRUE,
                                              verbose = verbose))
 
-        } else if (class(current_element) == "matrix") {
+        } else if (methods::is(current_element, "matrix")) {
 
             get_unique_values.matrix(current_element,
                                      simplify = TRUE,

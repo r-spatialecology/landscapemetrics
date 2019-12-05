@@ -1,4 +1,7 @@
 ## Update Version: 1.3.1
+Fixing problems with CRAN checks
+
+## Update Version: 1.3.1
 Minor bugfixes
 
 ## Update Version: 1.3

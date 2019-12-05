@@ -140,7 +140,7 @@ lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FAL
 lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
 
     # conver to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

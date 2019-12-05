@@ -147,7 +147,7 @@ lsm_c_ed.list <- function(landscape,
 lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

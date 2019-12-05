@@ -144,7 +144,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
                            points = NULL) {
 
     # conver to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]

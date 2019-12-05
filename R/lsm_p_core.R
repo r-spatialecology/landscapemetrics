@@ -155,7 +155,7 @@ lsm_p_core.list <- function(landscape, directions = 8,
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

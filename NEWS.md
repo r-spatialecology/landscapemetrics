@@ -1,3 +1,7 @@
+# landscapemetrics 1.3.2
+* Bugfixes
+    * Fixing problems with CRAN checks
+
 # landscapemetrics 1.3.1
 * Bugfixes
     * Return NA if all cells are NA

@@ -145,7 +145,7 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

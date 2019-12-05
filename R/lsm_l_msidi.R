@@ -129,7 +129,7 @@ lsm_l_msidi.list <- function(landscape, directions = 8) {
 lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

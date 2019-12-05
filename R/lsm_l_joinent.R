@@ -148,7 +148,7 @@ lsm_l_joinent.list <- function(landscape,
 lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

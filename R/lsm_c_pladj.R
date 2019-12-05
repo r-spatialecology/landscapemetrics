@@ -117,7 +117,7 @@ lsm_c_pladj.list <- function(landscape) {
 lsm_c_pladj_calc <- function(landscape) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

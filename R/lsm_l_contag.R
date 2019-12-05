@@ -131,7 +131,7 @@ lsm_l_contag.list <- function(landscape, verbose = TRUE) {
 lsm_l_contag_calc <- function(landscape, verbose) {
 
     # convert to raster to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

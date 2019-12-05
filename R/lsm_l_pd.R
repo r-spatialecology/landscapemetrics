@@ -127,7 +127,7 @@ lsm_l_pd.list <- function(landscape, directions = 8) {
 
 lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
 
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

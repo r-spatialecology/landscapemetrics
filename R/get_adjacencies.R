@@ -156,7 +156,7 @@ get_adjacencies_internal <- function(landscape,
     }
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!methods::is(landscape, "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 
