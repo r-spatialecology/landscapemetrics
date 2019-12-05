@@ -9,71 +9,28 @@
 \alias{show_cores.list}
 \title{Show core area}
 \usage{
-show_cores(
-  landscape,
-  directions,
-  class,
-  labels,
-  nrow,
-  ncol,
-  consider_boundary,
-  edge_depth
-)
+show_cores(landscape, directions, class, labels, nrow, ncol,
+  consider_boundary, edge_depth)
 
-\method{show_cores}{RasterLayer}(
-  landscape,
-  directions = 8,
-  class = "all",
-  labels = TRUE,
-  nrow = NULL,
-  ncol = NULL,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{show_cores}{RasterLayer}(landscape, directions = 8,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{RasterStack}(
-  landscape,
-  directions = 8,
-  class = "all",
-  labels = TRUE,
-  nrow = NULL,
-  ncol = NULL,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{show_cores}{RasterStack}(landscape, directions = 8,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{RasterBrick}(
-  landscape,
-  directions = 8,
-  class = "all",
-  labels = TRUE,
-  nrow = NULL,
-  ncol = NULL,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{show_cores}{RasterBrick}(landscape, directions = 8,
+  class = "all", labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{stars}(
-  landscape,
-  directions = 8,
-  class = "all",
-  labels = TRUE,
-  nrow = NULL,
-  ncol = NULL,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{show_cores}{stars}(landscape, directions = 8, class = "all",
+  labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{show_cores}{list}(
-  landscape,
-  directions = 8,
-  class = "all",
-  labels = TRUE,
-  nrow = NULL,
-  ncol = NULL,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{show_cores}{list}(landscape, directions = 8, class = "all",
+  labels = TRUE, nrow = NULL, ncol = NULL,
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster object}
