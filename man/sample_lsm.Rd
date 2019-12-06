@@ -9,77 +9,28 @@
 \alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
-sample_lsm(
-  landscape,
-  y,
-  plot_id,
-  shape,
-  size,
-  return_raster,
-  verbose,
-  progress,
-  ...
-)
+sample_lsm(landscape, y, plot_id, shape, size, return_raster, verbose,
+  progress, ...)
 
-\method{sample_lsm}{RasterLayer}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{sample_lsm}{RasterLayer}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{RasterStack}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{sample_lsm}{RasterStack}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{RasterBrick}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{sample_lsm}{RasterBrick}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{stars}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{sample_lsm}{stars}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 
-\method{sample_lsm}{list}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{sample_lsm}{list}(landscape, y, plot_id = NULL,
+  shape = "square", size, return_raster = FALSE, verbose = TRUE,
+  progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -122,7 +73,7 @@ output is sligthly different to all other \code{lsm}-function of \code{landscape
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
-\verb{level = "class", type = "aggregation metric"}). If an argument is not provided,
+\code{level = "class", type = "aggregation metric"}). If an argument is not provided,
 automatically all possibilities are selected. Therefore, to get \strong{all}
 available metrics, don't specify any of the above arguments.
 }
