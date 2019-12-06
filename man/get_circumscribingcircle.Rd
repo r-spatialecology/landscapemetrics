@@ -12,17 +12,23 @@
 \usage{
 get_circumscribingcircle(landscape, resolution_x, resolution_y)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterLayer}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
-\method{get_circumscribingcircle}{RasterStack}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterStack}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
-\method{get_circumscribingcircle}{RasterBrick}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterBrick}(landscape,
+  resolution_x = NULL, resolution_y = NULL)
 
-\method{get_circumscribingcircle}{stars}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{stars}(landscape, resolution_x = NULL,
+  resolution_y = NULL)
 
-\method{get_circumscribingcircle}{list}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{list}(landscape, resolution_x = NULL,
+  resolution_y = NULL)
 
-\method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL,
+  resolution_y = NULL)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x, y, id columns)}

@@ -11,60 +11,20 @@
 \usage{
 scale_sample(landscape, y, shape, size, max_size, verbose, progress, ...)
 
-\method{scale_sample}{RasterLayer}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{scale_sample}{RasterLayer}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
 
-\method{scale_sample}{RasterStack}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{scale_sample}{RasterStack}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
 
-\method{scale_sample}{RasterBrick}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{scale_sample}{RasterBrick}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
 
-\method{scale_sample}{stars}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{scale_sample}{stars}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
 
-\method{scale_sample}{list}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
+\method{scale_sample}{list}(landscape, y, shape = "square", size,
+  max_size, verbose = TRUE, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -105,7 +65,7 @@ to all other \code{lsm}-function of \code{landscapemetrics}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
-\verb{level = "class", type = "aggregation metric"}). If an argument is not provided,
+\code{level = "class", type = "aggregation metric"}). If an argument is not provided,
 automatically all possibilities are selected. Therefore, to get \strong{all}
 available metrics, don't specify any of the above arguments.
 }
