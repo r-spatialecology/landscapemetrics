@@ -130,7 +130,7 @@ lsm_c_lsi.list <- function(landscape, directions = 8) {
 lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

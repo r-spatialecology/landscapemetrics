@@ -150,7 +150,7 @@ lsm_l_condent.list <- function(landscape,
 lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to raster to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

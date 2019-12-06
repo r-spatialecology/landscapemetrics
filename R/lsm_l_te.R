@@ -126,7 +126,7 @@ lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
 lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
 
     # conver raster to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

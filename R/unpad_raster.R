@@ -211,7 +211,7 @@ unpad_raster_internal <- function(landscape,
                                   unpad_raster_cells){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
 
         landscape <- raster::as.matrix(landscape)
     }

@@ -131,7 +131,7 @@ lsm_l_iji.list <- function(landscape, verbose = TRUE) {
 lsm_l_iji_calc <- function(landscape, verbose) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

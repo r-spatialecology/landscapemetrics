@@ -35,24 +35,25 @@ metrics_plot_class_corr <- show_correlation(correlations)
 
 test_that("show_correlation returns a plot on patch level", {
 
-    expect_equal(class(metrics_plot_patch), c("gg","ggplot"))
+    expect_true(inherits(x = metrics_plot_patch, what = c("gg","ggplot")))
 })
+
 test_that("show_correlation returns a plot on class level", {
 
-    expect_equal(class(metrics_plot_class), c("gg","ggplot"))
+    expect_true(inherits(x = metrics_plot_class, what = c("gg","ggplot")))
 })
 
 test_that("show_correlation returns a plot for patch and class level", {
 
-    expect_equal(class(metrics_plot_mult), c("gg","ggplot"))
+    expect_true(inherits(x = metrics_plot_mult, what = c("gg","ggplot")))
 })
 
 test_that("show_correlation returns a plot for landscape level", {
 
-    expect_equal(class(metrics_plot_land), c("gg","ggplot"))
+    expect_true(inherits(x = metrics_plot_land, what = c("gg","ggplot")))
 })
 
 test_that("show_correlation returns a plot for correlation list", {
 
-    expect_equal(class(metrics_plot_class_corr), c("gg","ggplot"))
+    expect_true(inherits(x = metrics_plot_class_corr, what = c("gg","ggplot")))
 })

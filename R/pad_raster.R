@@ -241,7 +241,7 @@ pad_raster_internal <- function(landscape,
                                 global){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 
