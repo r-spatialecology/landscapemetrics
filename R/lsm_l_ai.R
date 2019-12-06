@@ -123,7 +123,7 @@ lsm_l_ai.list <- function(landscape) {
 lsm_l_ai_calc <- function(landscape, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)

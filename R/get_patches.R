@@ -209,7 +209,7 @@ get_patches.list <- function(landscape,
 
                      FUN = function(x, class, directions, return_raster, to_disk) {
 
-                         if (class(x) == "RasterLayer") {
+                         if (inherits(x = x, what = "RasterLayer")) {
 
                             x_matrix <- raster::as.matrix(x)
 

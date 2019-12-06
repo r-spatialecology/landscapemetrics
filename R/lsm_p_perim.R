@@ -122,7 +122,7 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
 lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
     }

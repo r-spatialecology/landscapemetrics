@@ -134,7 +134,7 @@ lsm_l_ent.list <- function(landscape,
 lsm_l_ent_calc <- function(landscape, neighbourhood, base){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

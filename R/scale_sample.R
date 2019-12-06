@@ -329,10 +329,11 @@ scale_sample_int <- function(landscape,
                              ...) {
 
     # use points
-    if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+    if (inherits(x = y,
+                 what = c("SpatialPoints", "SpatialPointsDataFrame", "matrix"))) {
 
         # points are matrix
-        if (methods::is(y, "matrix")) {
+        if (inherits(x = y, what = "matrix")) {
 
             if (ncol(y) != 2 & verbose) {
                 warning("'y' should be a two column matrix including x- and y-coordinates.",

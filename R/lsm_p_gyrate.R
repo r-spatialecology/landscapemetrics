@@ -135,7 +135,7 @@ lsm_p_gyrate_calc <- function(landscape, directions,
                               points = NULL) {
 
     # conver to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]

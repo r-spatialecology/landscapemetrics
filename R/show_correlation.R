@@ -151,7 +151,7 @@ show_correlation <- function(data, method = "pearson",
     }
 
     # tibble with correlations
-    else if (class(data) == "list") {
+    else if (inherits(x = data, what = "list")) {
 
         # check if tibble contains correlations
         if (!all(vapply(data, FUN = function(x) all(names(x) == c("metric_1", 'metric_2', "value")),

@@ -309,10 +309,10 @@ sample_lsm_int <- function(landscape,
                            ...) {
 
     # use polygon
-    if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
+    if (inherits(x = y, what = c("SpatialPolygons", "SpatialPolygonsDataFrame"))) {
 
         # convert to SpatialPolygons
-        if (methods::is(y, "SpatialPolygonsDataFrame")) {
+        if (inherits(x = y, what = "SpatialPolygonsDataFrame")) {
 
             y <- sp::SpatialPolygons(y@polygons)
         }
@@ -345,10 +345,11 @@ sample_lsm_int <- function(landscape,
         }
 
         # use points
-        if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+        if (inherits(x = y,
+                     what = c("SpatialPoints", "SpatialPolygonsDataFrame", "matrix"))) {
 
             # points are matrix
-            if (methods::is(y, "matrix")) {
+            if (inherits(x = y, what = "matrix")) {
 
                 if (ncol(y) != 2 & verbose) {
                     warning("'y' should be a two column matrix including x- and y-coordinates.",
@@ -364,15 +365,15 @@ sample_lsm_int <- function(landscape,
         }
 
         # check if sf object is provided
-        else if (methods::is(y, "sf")) {
+        else if (inherits(x = y, what = "sf")) {
 
             # check if points have the right class
-            if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
+            if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
 
                 y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
             }
 
-            else if (any(class(y) %in% c("sf", "sfc"))) {
+            else if (inherits(x = y, what = c("sf", "sfc"))) {
 
                 if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
 
@@ -387,7 +388,8 @@ sample_lsm_int <- function(landscape,
                 }
             }
 
-            else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+            else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
+                                              "MULTILINESTRING", "MULTIPOLYGON"))) {
 
                 stop(
                     "landscapemetrics currently only supports sf point features for landscape metrics sampling"
@@ -402,10 +404,10 @@ sample_lsm_int <- function(landscape,
         }
 
         # use lines
-        else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+        else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
 
             # convert to SpatialLines
-            if (methods::is(y, "SpatialLinesDataFrame")) {
+            if (inherits(x = y, what = "SpatialLinesDataFrame")) {
 
                 y <- sp::SpatialLines(y@lines)
             }

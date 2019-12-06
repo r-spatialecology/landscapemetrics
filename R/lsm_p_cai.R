@@ -166,7 +166,7 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
 
         landscape <- raster::as.matrix(landscape)
