@@ -11,20 +11,15 @@
 \usage{
 lsm_c_tca(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_c_tca}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_tca}{RasterLayer}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_tca}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_tca}{RasterStack}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_tca}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_tca}{RasterBrick}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_tca}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_tca}{stars}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_c_tca}{list}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_tca}{list}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
