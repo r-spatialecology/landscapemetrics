@@ -318,7 +318,7 @@ get_patches_int <- function(landscape,
 
         patch_landscape <- lapply(X = unique_classes, FUN = function(class) {
 
-            filter_matrix[landscape == class] <- 1
+            filter_matrix[landscape == class] <- 1L
 
             # connected labeling with 4 neighbours
             if (directions == 4) {
