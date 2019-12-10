@@ -5,7 +5,7 @@ rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
 }
 
-rcpp_ccl <- function(mat, directions) {
+rcpp_ccl <- function(mat, directions = 8L) {
     invisible(.Call('_landscapemetrics_rcpp_ccl', PACKAGE = 'landscapemetrics', mat, directions))
 }
 

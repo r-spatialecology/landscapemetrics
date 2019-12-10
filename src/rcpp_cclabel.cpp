@@ -2,7 +2,6 @@
 #include <queue>
 #include <array>
 
-// [[Rcpp::export]]
 void rcpp_ccl(IntegerMatrix mat, int directions)
 {
     const int nrows = mat.nrow();

@@ -322,14 +322,12 @@ get_patches_int <- function(landscape,
 
             # connected labeling with 4 neighbours
             if (directions == 4) {
-                #patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
                 rcpp_ccl(filter_matrix, 4)
                 patch_landscape <- filter_matrix
             }
 
             # connected labeling with 8 neighbours
             if (directions == 8) {
-                #patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
                 rcpp_ccl(filter_matrix, 8)
                 patch_landscape <- filter_matrix
             }
