@@ -11,40 +11,20 @@
 \usage{
 lsm_l_dcad(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_l_dcad}{RasterLayer}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{lsm_l_dcad}{RasterLayer}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_l_dcad}{RasterStack}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{lsm_l_dcad}{RasterStack}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_l_dcad}{RasterBrick}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{lsm_l_dcad}{RasterBrick}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_l_dcad}{stars}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{lsm_l_dcad}{stars}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 
-\method{lsm_l_dcad}{list}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
+\method{lsm_l_dcad}{list}(landscape, directions = 8,
+  consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
