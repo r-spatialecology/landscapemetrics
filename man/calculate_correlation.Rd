@@ -4,8 +4,12 @@
 \alias{calculate_correlation}
 \title{Calculate correlation}
 \usage{
-calculate_correlation(metrics, method = "pearson", diag = TRUE,
-  simplify = FALSE)
+calculate_correlation(
+  metrics,
+  method = "pearson",
+  diag = TRUE,
+  simplify = FALSE
+)
 }
 \arguments{
 \item{metrics}{Tibble with results of as returned by the landscapemetrics package.}
