@@ -11,15 +11,20 @@
 \usage{
 lsm_c_te(landscape, count_boundary, directions)
 
-\method{lsm_c_te}{RasterLayer}(landscape, count_boundary = FALSE, directions = 8)
+\method{lsm_c_te}{RasterLayer}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_te}{RasterStack}(landscape, count_boundary = FALSE, directions = 8)
+\method{lsm_c_te}{RasterStack}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_te}{RasterBrick}(landscape, count_boundary = FALSE, directions = 8)
+\method{lsm_c_te}{RasterBrick}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_te}{stars}(landscape, count_boundary = FALSE, directions = 8)
+\method{lsm_c_te}{stars}(landscape, count_boundary = FALSE,
+  directions = 8)
 
-\method{lsm_c_te}{list}(landscape, count_boundary = FALSE, directions = 8)
+\method{lsm_c_te}{list}(landscape, count_boundary = FALSE,
+  directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
