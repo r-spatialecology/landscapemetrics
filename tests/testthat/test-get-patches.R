@@ -20,3 +20,10 @@ test_that("get_patches can handle all raster inputs", {
     expect_is(get_patches(landscape_brick), "list")
     expect_is(get_patches(landscape_list), "list")
 })
+
+test_that("get_patches labels the patches correctly", {
+    expect(length(unlist(get_unique_values(class_1_landscape_8))) == 9)
+    expect(length(unlist(get_unique_values(class_1_landscape_4))) == 11)
+    expect(length(which(class_1_landscape_4[[1]]@data@values == 6)) == 63)
+    expect(length(which(class_1_landscape_8[[1]]@data@values == 6)) == 14)
+})
