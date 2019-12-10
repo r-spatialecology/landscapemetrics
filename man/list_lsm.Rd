@@ -4,8 +4,15 @@
 \alias{list_lsm}
 \title{List landscape metrics}
 \usage{
-list_lsm(level = NULL, metric = NULL, name = NULL, type = NULL,
-  what = NULL, simplify = FALSE, verbose = TRUE)
+list_lsm(
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  simplify = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}

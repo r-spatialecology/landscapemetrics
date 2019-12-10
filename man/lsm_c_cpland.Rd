@@ -11,20 +11,40 @@
 \usage{
 lsm_c_cpland(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_c_cpland}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_cpland}{RasterLayer}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_cpland}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_cpland}{RasterStack}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_cpland}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_cpland}{RasterBrick}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_cpland}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_cpland}{stars}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_c_cpland}{list}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_c_cpland}{list}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

@@ -9,28 +9,71 @@
 \alias{scale_window.list}
 \title{scale_window}
 \usage{
-scale_window(landscape, percentages_col, percentages_row, what, stat,
-  verbose, progress, ...)
+scale_window(
+  landscape,
+  percentages_col,
+  percentages_row,
+  what,
+  stat,
+  verbose,
+  progress,
+  ...
+)
 
-\method{scale_window}{RasterLayer}(landscape, percentages_col = c(2, 4,
-  8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
-  verbose = TRUE, progress = FALSE, ...)
+\method{scale_window}{RasterLayer}(
+  landscape,
+  percentages_col = c(2, 4, 8, 16, 32, 64, 100),
+  percentages_row = NULL,
+  what,
+  stat,
+  verbose = TRUE,
+  progress = FALSE,
+  ...
+)
 
-\method{scale_window}{RasterStack}(landscape, percentages_col = c(2, 4,
-  8, 16, 32, 64, 100), percentages_row = NULL, what, stat,
-  verbose = TRUE, progress = FALSE, ...)
+\method{scale_window}{RasterStack}(
+  landscape,
+  percentages_col = c(2, 4, 8, 16, 32, 64, 100),
+  percentages_row = NULL,
+  what,
+  stat,
+  verbose = TRUE,
+  progress = FALSE,
+  ...
+)
 
-\method{scale_window}{RasterBrick}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, verbose = TRUE,
-  progress = FALSE, ...)
+\method{scale_window}{RasterBrick}(
+  landscape,
+  percentages_col = NULL,
+  percentages_row = NULL,
+  what,
+  stat,
+  verbose = TRUE,
+  progress = FALSE,
+  ...
+)
 
-\method{scale_window}{stars}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, verbose = TRUE,
-  progress = FALSE, ...)
+\method{scale_window}{stars}(
+  landscape,
+  percentages_col = NULL,
+  percentages_row = NULL,
+  what,
+  stat,
+  verbose = TRUE,
+  progress = FALSE,
+  ...
+)
 
-\method{scale_window}{list}(landscape, percentages_col = NULL,
-  percentages_row = NULL, what, stat, verbose = TRUE,
-  progress = FALSE, ...)
+\method{scale_window}{list}(
+  landscape,
+  percentages_col = NULL,
+  percentages_row = NULL,
+  what,
+  stat,
+  verbose = TRUE,
+  progress = FALSE,
+  ...
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -65,7 +108,7 @@ of \code{landscapemetrics}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
-\code{level = "class", type = "aggregation metric"}). If an argument is not provided,
+\verb{level = "class", type = "aggregation metric"}). If an argument is not provided,
 automatically all possibilities are selected. Only metrics on landscape level
 are supported for this function.
 }
