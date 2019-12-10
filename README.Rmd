@@ -31,13 +31,13 @@ knitr::opts_chunk$set(
 
 ### Citation
 
-To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for 'ver. 0':
+To cite **landscapemetrics** or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for 'ver. 0':
 
 <p>
-
-> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019.
-*landscapemetrics*: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (ver. 0).
-
+<i> 
+Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019.
+landscapemetrics: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (ver. 0). 
+</i>
 </p>
 
 For more information see [Publication record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html) vignette. The get a BibTex entry, please use `citation("landscapemetrics")`.
@@ -54,6 +54,10 @@ install.packages("landscapemetrics")
 # install.packages("devtools")
 devtools::install_github("r-spatialecology/landscapemetrics")
 ```
+
+#### Announcement
+
+Due to an improved connected-component labelling algorithm, the patch ID differs between **landscapemetrics** v1.4 and older versions. However, results for all metrics are identical.
 
 ## Using landscapemetrics
 

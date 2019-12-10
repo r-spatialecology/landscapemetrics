@@ -27,15 +27,15 @@ it always takes the data as the first argument and returns a tibble.
 
 ### Citation
 
-To cite `landscapemetrics` or acknowledge its use, please cite the
+To cite **landscapemetrics** or acknowledge its use, please cite the
 following Software note, substituting the version of the application
 that you used for ‘ver. 0’:
 
 <p>
 
-> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J.
-> 2019. *landscapemetrics*: an open‐source R tool to calculate landscape
-> metrics. Ecography, 42: 1648-1657 (ver. 0).
+<i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
+J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
+metrics. Ecography, 42: 1648-1657 (ver. 0). </i>
 
 </p>
 
@@ -56,6 +56,12 @@ install.packages("landscapemetrics")
 # install.packages("devtools")
 devtools::install_github("r-spatialecology/landscapemetrics")
 ```
+
+#### Announcement
+
+Due to an improved connected-component labelling algorithm, the patch ID
+differs between **landscapemetrics** v1.4 and older versions. However,
+results for all metrics are identical.
 
 ## Using landscapemetrics
 
@@ -116,16 +122,16 @@ lsm_p_enn(landscape)
 #>    layer level class    id metric value
 #>    <int> <chr> <int> <int> <chr>  <dbl>
 #>  1     1 patch     1     1 enn     7   
-#>  2     1 patch     1     2 enn     2.83
-#>  3     1 patch     1     3 enn     4   
-#>  4     1 patch     1     4 enn     2.83
-#>  5     1 patch     1     5 enn     4.24
-#>  6     1 patch     1     6 enn     4.12
-#>  7     1 patch     1     7 enn     2   
-#>  8     1 patch     1     8 enn     2   
-#>  9     1 patch     1     9 enn     4.12
+#>  2     1 patch     1     2 enn     4   
+#>  3     1 patch     1     3 enn     2.83
+#>  4     1 patch     1     4 enn     2   
+#>  5     1 patch     1     5 enn     2   
+#>  6     1 patch     1     6 enn     2.83
+#>  7     1 patch     1     7 enn     4.12
+#>  8     1 patch     1     8 enn     4.12
+#>  9     1 patch     1     9 enn     4.24
 #> 10     1 patch     2    10 enn     4.47
-#> # ... with 17 more rows
+#> # … with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -148,21 +154,21 @@ calculate a bunch of metrics:
 ``` r
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
-#> Warning: Please use check_landscape() to ensure the input data is valid.
+#> Warning: Please use 'check_landscape()' to ensure the input data is valid.
 #> # A tibble: 324 x 6
 #>    layer level class    id metric  value
 #>    <int> <chr> <int> <int> <chr>   <dbl>
 #>  1     1 patch     1     1 area   0.0001
-#>  2     1 patch     1     2 area   0.0148
-#>  3     1 patch     1     3 area   0.0005
-#>  4     1 patch     1     4 area   0.0014
+#>  2     1 patch     1     2 area   0.0005
+#>  3     1 patch     1     3 area   0.0148
+#>  4     1 patch     1     4 area   0.0001
 #>  5     1 patch     1     5 area   0.0001
-#>  6     1 patch     1     6 area   0.0005
-#>  7     1 patch     1     7 area   0.0001
-#>  8     1 patch     1     8 area   0.0001
-#>  9     1 patch     1     9 area   0.0003
+#>  6     1 patch     1     6 area   0.0014
+#>  7     1 patch     1     7 area   0.0003
+#>  8     1 patch     1     8 area   0.0005
+#>  9     1 patch     1     9 area   0.0001
 #> 10     1 patch     2    10 area   0.0035
-#> # ... with 314 more rows
+#> # … with 314 more rows
 ```
 
 ### Utility functions
