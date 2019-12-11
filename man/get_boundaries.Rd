@@ -10,55 +10,26 @@
 \alias{get_boundaries.matrix}
 \title{get_boundaries}
 \usage{
-get_boundaries(landscape, directions, as_NA, consider_boundary, return_raster)
+get_boundaries(landscape, directions, as_NA, consider_boundary,
+  return_raster)
 
-\method{get_boundaries}{RasterLayer}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = TRUE
-)
+\method{get_boundaries}{RasterLayer}(landscape, directions = 4,
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
-\method{get_boundaries}{RasterStack}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = TRUE
-)
+\method{get_boundaries}{RasterStack}(landscape, directions = 4,
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
-\method{get_boundaries}{RasterBrick}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = TRUE
-)
+\method{get_boundaries}{RasterBrick}(landscape, directions = 4,
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
-\method{get_boundaries}{stars}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = TRUE
-)
+\method{get_boundaries}{stars}(landscape, directions = 4,
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = TRUE)
 
-\method{get_boundaries}{list}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = TRUE
-)
+\method{get_boundaries}{list}(landscape, directions = 4, as_NA = FALSE,
+  consider_boundary = FALSE, return_raster = TRUE)
 
-\method{get_boundaries}{matrix}(
-  landscape,
-  directions = 4,
-  as_NA = FALSE,
-  consider_boundary = FALSE,
-  return_raster = FALSE
-)
+\method{get_boundaries}{matrix}(landscape, directions = 4,
+  as_NA = FALSE, consider_boundary = FALSE, return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}

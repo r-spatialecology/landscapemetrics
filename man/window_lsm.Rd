@@ -11,60 +11,20 @@
 \usage{
 window_lsm(landscape, window, metric, name, type, what, progress, ...)
 
-\method{window_lsm}{RasterLayer}(
-  landscape,
-  window,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
+\method{window_lsm}{RasterLayer}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
-\method{window_lsm}{RasterStack}(
-  landscape,
-  window,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
+\method{window_lsm}{RasterStack}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
-\method{window_lsm}{RasterBrick}(
-  landscape,
-  window,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
+\method{window_lsm}{RasterBrick}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
-\method{window_lsm}{stars}(
-  landscape,
-  window,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
+\method{window_lsm}{stars}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 
-\method{window_lsm}{list}(
-  landscape,
-  window,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
+\method{window_lsm}{list}(landscape, window, metric = NULL,
+  name = NULL, type = NULL, what = NULL, progress = FALSE, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

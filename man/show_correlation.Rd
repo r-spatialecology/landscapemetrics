@@ -4,14 +4,8 @@
 \alias{show_correlation}
 \title{Show correlation}
 \usage{
-show_correlation(
-  data,
-  method = "pearson",
-  diag = TRUE,
-  labels = FALSE,
-  vjust = 0,
-  text_size = 15
-)
+show_correlation(data, method = "pearson", diag = TRUE,
+  labels = FALSE, vjust = 0, text_size = 15)
 }
 \arguments{
 \item{data}{Tibble with results of as returned by the landscapemetrics package.}

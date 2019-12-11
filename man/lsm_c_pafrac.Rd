@@ -11,11 +11,14 @@
 \usage{
 lsm_c_pafrac(landscape, directions, verbose)
 
-\method{lsm_c_pafrac}{RasterLayer}(landscape, directions = 8, verbose = TRUE)
+\method{lsm_c_pafrac}{RasterLayer}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_c_pafrac}{RasterStack}(landscape, directions = 8, verbose = TRUE)
+\method{lsm_c_pafrac}{RasterStack}(landscape, directions = 8,
+  verbose = TRUE)
 
-\method{lsm_c_pafrac}{RasterBrick}(landscape, directions = 8, verbose = TRUE)
+\method{lsm_c_pafrac}{RasterBrick}(landscape, directions = 8,
+  verbose = TRUE)
 
 \method{lsm_c_pafrac}{stars}(landscape, directions = 8, verbose = TRUE)
 

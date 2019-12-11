@@ -12,53 +12,29 @@
 \usage{
 get_patches(landscape, class, directions, to_disk, return_raster)
 
-\method{get_patches}{RasterLayer}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
+\method{get_patches}{RasterLayer}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{RasterStack}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
+\method{get_patches}{RasterStack}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{RasterBrick}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
+\method{get_patches}{RasterBrick}(landscape, class = "all",
+  directions = 8, to_disk = getOption("to_disk", default = FALSE),
+  return_raster = TRUE)
 
-\method{get_patches}{stars}(
-  landscape,
-  class = "all",
-  directions = 8,
+\method{get_patches}{stars}(landscape, class = "all", directions = 8,
   to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
+  return_raster = TRUE)
 
-\method{get_patches}{list}(
-  landscape,
-  class = "all",
-  directions = 8,
+\method{get_patches}{list}(landscape, class = "all", directions = 8,
   to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
+  return_raster = TRUE)
 
-\method{get_patches}{matrix}(
-  landscape,
-  class = "all",
-  directions = 8,
+\method{get_patches}{matrix}(landscape, class = "all", directions = 8,
   to_disk = getOption("to_disk", default = FALSE),
-  return_raster = FALSE
-)
+  return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
