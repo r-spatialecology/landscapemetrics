@@ -9,26 +9,62 @@
 \alias{spatialize_lsm.list}
 \title{spatialize_lsm}
 \usage{
-spatialize_lsm(landscape, metric, name, type, what, directions, progress,
-  ...)
+spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
-\method{spatialize_lsm}{RasterLayer}(landscape, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{spatialize_lsm}{RasterLayer}(
+  landscape,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  progress = FALSE,
+  ...
+)
 
-\method{spatialize_lsm}{RasterStack}(landscape, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{spatialize_lsm}{RasterStack}(
+  landscape,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  progress = FALSE,
+  ...
+)
 
-\method{spatialize_lsm}{RasterBrick}(landscape, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  progress = FALSE, ...)
+\method{spatialize_lsm}{RasterBrick}(
+  landscape,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  progress = FALSE,
+  ...
+)
 
-\method{spatialize_lsm}{stars}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
+\method{spatialize_lsm}{stars}(
+  landscape,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  progress = FALSE,
+  ...
+)
 
-\method{spatialize_lsm}{list}(landscape, metric = NULL, name = NULL,
-  type = NULL, what = NULL, directions = 8, progress = FALSE, ...)
+\method{spatialize_lsm}{list}(
+  landscape,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  progress = FALSE,
+  ...
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

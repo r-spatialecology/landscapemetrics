@@ -9,44 +9,125 @@
 \alias{calculate_lsm.list}
 \title{calculate_lsm}
 \usage{
-calculate_lsm(landscape, level, metric, name, type, what, directions,
-  count_boundary, consider_boundary, edge_depth, classes_max,
-  neighbourhood, ordered, base, full_name, verbose, progress)
+calculate_lsm(
+  landscape,
+  level,
+  metric,
+  name,
+  type,
+  what,
+  directions,
+  count_boundary,
+  consider_boundary,
+  edge_depth,
+  classes_max,
+  neighbourhood,
+  ordered,
+  base,
+  full_name,
+  verbose,
+  progress
+)
 
-\method{calculate_lsm}{RasterLayer}(landscape, level = NULL,
-  metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+\method{calculate_lsm}{RasterLayer}(
+  landscape,
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  count_boundary = FALSE,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  classes_max = NULL,
+  neighbourhood = 4,
+  ordered = TRUE,
+  base = "log2",
+  full_name = FALSE,
+  verbose = TRUE,
+  progress = FALSE
+)
 
-\method{calculate_lsm}{RasterStack}(landscape, level = NULL,
-  metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+\method{calculate_lsm}{RasterStack}(
+  landscape,
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  count_boundary = FALSE,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  classes_max = NULL,
+  neighbourhood = 4,
+  ordered = TRUE,
+  base = "log2",
+  full_name = FALSE,
+  verbose = TRUE,
+  progress = FALSE
+)
 
-\method{calculate_lsm}{RasterBrick}(landscape, level = NULL,
-  metric = NULL, name = NULL, type = NULL, what = NULL,
-  directions = 8, count_boundary = FALSE, consider_boundary = FALSE,
-  edge_depth = 1, classes_max = NULL, neighbourhood = 4,
-  ordered = TRUE, base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+\method{calculate_lsm}{RasterBrick}(
+  landscape,
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  count_boundary = FALSE,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  classes_max = NULL,
+  neighbourhood = 4,
+  ordered = TRUE,
+  base = "log2",
+  full_name = FALSE,
+  verbose = TRUE,
+  progress = FALSE
+)
 
-\method{calculate_lsm}{stars}(landscape, level = NULL, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+\method{calculate_lsm}{stars}(
+  landscape,
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  count_boundary = FALSE,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  classes_max = NULL,
+  neighbourhood = 4,
+  ordered = TRUE,
+  base = "log2",
+  full_name = FALSE,
+  verbose = TRUE,
+  progress = FALSE
+)
 
-\method{calculate_lsm}{list}(landscape, level = NULL, metric = NULL,
-  name = NULL, type = NULL, what = NULL, directions = 8,
-  count_boundary = FALSE, consider_boundary = FALSE, edge_depth = 1,
-  classes_max = NULL, neighbourhood = 4, ordered = TRUE,
-  base = "log2", full_name = FALSE, verbose = TRUE,
-  progress = FALSE)
+\method{calculate_lsm}{list}(
+  landscape,
+  level = NULL,
+  metric = NULL,
+  name = NULL,
+  type = NULL,
+  what = NULL,
+  directions = 8,
+  count_boundary = FALSE,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  classes_max = NULL,
+  neighbourhood = 4,
+  ordered = TRUE,
+  base = "log2",
+  full_name = FALSE,
+  verbose = TRUE,
+  progress = FALSE
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -100,7 +181,7 @@ Calculate a selected group of metrics
 \details{
 Wrapper to calculate several landscape metrics. The metrics can be specified
 by the arguments \code{what}, \code{level}, \code{metric}, \code{name} and/or \code{type} (combinations
-of different arguments are possible (e.g. \code{level = "class", type = "aggregation metric"}).
+of different arguments are possible (e.g. \verb{level = "class", type = "aggregation metric"}).
 If an argument is not provided, automatically all possibilities are
 selected. Therefore, to get \strong{all} available metrics, don't specify any of the
 above arguments.
