@@ -11,20 +11,40 @@
 \usage{
 lsm_p_core(landscape, directions, consider_boundary, edge_depth)
 
-\method{lsm_p_core}{RasterLayer}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_core}{RasterLayer}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_p_core}{RasterStack}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_core}{RasterStack}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_p_core}{RasterBrick}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_core}{RasterBrick}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_p_core}{stars}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_core}{stars}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 
-\method{lsm_p_core}{list}(landscape, directions = 8,
-  consider_boundary = FALSE, edge_depth = 1)
+\method{lsm_p_core}{list}(
+  landscape,
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}

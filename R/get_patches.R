@@ -17,9 +17,6 @@
 #' The 8-neighbours rule ('queen's case) or 4-neighbours rule (rook's case) is
 #' used. Returns a list with raster. For each class the connected patches have
 #' the value 1 - n. All cells not belonging to the class are \code{NA}.
-#' The underlying C code comes from the \code{SDMTools} package
-#' (VanDerWal *et al.* 2014) and we appreciate their effort for implementing
-#' this efficient connected labeling algorithm.
 #'
 #' Landscape metrics rely on the delineation of patches. Hence, `get_patches` is
 #' heavily used in **landscapemetrics**. As raster can be quite big, the fact that
@@ -30,14 +27,9 @@
 #' `get_patches` can make use of that.
 #'
 #' @references
-#' VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
-#' SDMTools: Species Distribution Modelling Tools: Tools for processing data
-#' associated with species distribution modelling exercises.
-#' R package version 1.1-221. <https://CRAN.R-project.org/package=SDMTools>
-#'
-#' Chang, F., C.-J. Chen, and C.-J. Lu. 2004. A linear-time
-#' component-labeling algorithm using contour tracing technique. Comput. Vis.
-#' Image Underst. 93:206-220.
+#' Hoshen, J., Kopelman, R. 1976. Percolation and cluster distribution.
+#' I. Cluster multiple labeling technique and critical concentration algorithm.
+#' Physical Review B 14 (8), 3438-3445.
 #'
 #' @return List
 #'

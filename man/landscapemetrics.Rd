@@ -24,13 +24,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (\href{https://orcid.org/0000-0003-1125-9918}{ORCID})
 
 Authors:
 \itemize{
-  \item Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
-  \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (0000-0002-1057-3721)
-  \item Sebastian Hanss (0000-0002-3990-4897)
+  \item Marco Sciaini \email{sciaini.marco@gmail.com} (\href{https://orcid.org/0000-0002-3042-5435}{ORCID})
+  \item Jakub Nowosad \email{nowosad.jakub@gmail.com} (\href{https://orcid.org/0000-0002-1057-3721}{ORCID})
+  \item Sebastian Hanss (\href{https://orcid.org/0000-0002-3990-4897}{ORCID})
 }
 
 Other contributors:
@@ -39,7 +39,6 @@ Other contributors:
   \item Jeffrey Hollister (Input on package structure) [contributor]
   \item Kimberly A. With (Input on package structure) [contributor]
   \item Florian Privé (Original author of underlying C++ code for get_nearestneighbour() function) [contributor]
-  \item Jeremy VanDerWal (Original author of underlying C code for get_patches() function) [contributor]
   \item Matt Strimas-Mackey (Bugfix in sample_metrics()) [contributor]
 }
 
