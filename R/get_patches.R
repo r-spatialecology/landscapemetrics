@@ -27,9 +27,9 @@
 #' `get_patches` can make use of that.
 #'
 #' @references
-#' Hoshen, J., Kopelman, R. 1976. Percolation and cluster distribution.
-#' I. Cluster multiple labeling technique and critical concentration algorithm.
-#' Physical Review B 14 (8), 3438-3445.
+#' Vincent, L., Soille, P. 1991. Watersheds in digital spaces: an efficient
+#' algorithm based on immersion simulations. IEEE Transactions on Pattern
+#' Analysis and Machine Intelligence. 13 (6), 583-598
 #'
 #' @return List
 #'
