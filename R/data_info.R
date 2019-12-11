@@ -25,18 +25,16 @@ data_info <- function(landscape){
     # get raster values
     landscape_values <- unique(raster::values(landscape))
 
-    # check if all values are NA
-    if(all(is.na(landscape_values))) {
-        stop("All raster values NA.", call. = FALSE)
-    }
-
     # remove NA values (mess up with test if integer values)
     landscape_values <- landscape_values[!is.na(landscape_values)]
 
     # check if integer value
-    class <- ifelse(test = all(landscape_values %% 1 == 0),
-                    yes = "integer",
-                    no = "non-integer")
+    class <- ifelse(test = all(is.na(landscape_values)),
+                    yes = NA,
+                    no = ifelse(
+                        test = all(landscape_values %% 1 == 0),
+                        yes = "integer",
+                        no = "non-integer"))
 
     tibble::tibble(class = class,
                    n_classes = length(landscape_values))

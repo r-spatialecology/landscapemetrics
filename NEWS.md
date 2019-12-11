@@ -1,3 +1,17 @@
+# landscapemetrics 1.4
+* Improvements
+    * Improved connected-component labelling algorithm. **ATTENTION: THIS LEADS TO DIFFERENT PATCH IDS COMPARED TO PREVIOUS VERSIONS.** 
+
+# landscapemetrics 1.3.2
+* Bugfixes
+    * Make sure all CRAN checks run
+
+# landscapemetrics 1.3.1
+* Bugfixes
+    * Return NA if all cells are NA
+* Improvements
+    * Cleaner handling of warnings
+
 # landscapemetrics 1.3
 * Bugfixes
     * Remove NAs on patch level for shape index

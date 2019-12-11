@@ -217,7 +217,7 @@ pad_raster.matrix <- function(landscape,
                               pad_raster_value = -999,
                               pad_raster_cells = 1,
                               global = FALSE,
-                              return_raster = TRUE,
+                              return_raster = FALSE,
                               to_disk = getOption("to_disk", default = FALSE)) {
 
     result <- lapply(X = list(landscape),
@@ -241,7 +241,7 @@ pad_raster_internal <- function(landscape,
                                 global){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
     }
 

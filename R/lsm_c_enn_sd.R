@@ -149,14 +149,20 @@ lsm_c_enn_sd_calc <- function(landscape, directions, verbose,
                           verbose = verbose,
                           points = points)
 
+    # all cells are NA
+    if (all(is.na(enn$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "enn_sd",
+                              value = as.double(NA)))
+    }
+
     enn_sd <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = stats::sd)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(enn_sd$class),
-        id = as.integer(NA),
-        metric = "enn_sd",
-        value = as.double(enn_sd$value)
-    )
-
+    return(tibble::tibble(level = "class",
+                          class = as.integer(enn_sd$class),
+                          id = as.integer(NA),
+                          metric = "enn_sd",
+                          value = as.double(enn_sd$value)))
 }

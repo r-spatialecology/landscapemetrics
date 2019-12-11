@@ -135,14 +135,21 @@ lsm_c_area_sd_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all values NA
+    if (all(is.na(area$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "area_sd",
+                              value = as.double(NA)))
+    }
+
     # calculate sd
     area_sd <- stats::aggregate(area[, 5], by = area[, 2], FUN = stats::sd)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(area_sd$class),
-        id = as.integer(NA),
-        metric = "area_sd",
-        value = as.double(area_sd$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(area_sd$class),
+                          id = as.integer(NA),
+                          metric = "area_sd",
+                          value = as.double(area_sd$value)))
 }

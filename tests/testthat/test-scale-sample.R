@@ -83,7 +83,7 @@ test_that("scale_sample returns warnings", {
                                 y = sample_points,
                                 size = 20, max_size = 20,
                                 what = "lsm_l_ta"),
-                   regexp = "Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+                   regexp = "The 'perecentage_inside' is below 90% for at least one buffer.",
                    fixed = TRUE)
 
 })

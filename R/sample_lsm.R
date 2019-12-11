@@ -135,8 +135,7 @@ sample_lsm.RasterStack <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -160,7 +159,7 @@ sample_lsm.RasterStack <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -182,8 +181,7 @@ sample_lsm.RasterBrick <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -207,7 +205,7 @@ sample_lsm.RasterBrick <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -229,8 +227,7 @@ sample_lsm.stars <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -254,7 +251,7 @@ sample_lsm.stars <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -274,8 +271,7 @@ sample_lsm.list <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         sample_lsm_int(landscape = landscape[[x]],
@@ -299,7 +295,7 @@ sample_lsm.list <- function(landscape,
         result  <- result[, -9]
     }
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
@@ -313,10 +309,10 @@ sample_lsm_int <- function(landscape,
                            ...) {
 
     # use polygon
-    if (methods::is(y, "SpatialPolygons") | methods::is(y, "SpatialPolygonsDataFrame")) {
+    if (inherits(x = y, what = c("SpatialPolygons", "SpatialPolygonsDataFrame"))) {
 
         # convert to SpatialPolygons
-        if (methods::is(y, "SpatialPolygonsDataFrame")) {
+        if (inherits(x = y, what = "SpatialPolygonsDataFrame")) {
 
             y <- sp::SpatialPolygons(y@polygons)
         }
@@ -349,10 +345,11 @@ sample_lsm_int <- function(landscape,
         }
 
         # use points
-        if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+        if (inherits(x = y,
+                     what = c("SpatialPoints", "SpatialPolygonsDataFrame", "matrix"))) {
 
             # points are matrix
-            if (methods::is(y, "matrix")) {
+            if (inherits(x = y, what = "matrix")) {
 
                 if (ncol(y) != 2 & verbose) {
                     warning("'y' should be a two column matrix including x- and y-coordinates.",
@@ -368,15 +365,15 @@ sample_lsm_int <- function(landscape,
         }
 
         # check if sf object is provided
-        else if (methods::is(y, "sf")) {
+        else if (inherits(x = y, what = "sf")) {
 
             # check if points have the right class
-            if (any(class(y) %in% c("MULTIPOINT", "POINT"))) {
+            if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
 
                 y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
             }
 
-            else if (any(class(y) %in% c("sf", "sfc"))) {
+            else if (inherits(x = y, what = c("sf", "sfc"))) {
 
                 if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
 
@@ -391,7 +388,8 @@ sample_lsm_int <- function(landscape,
                 }
             }
 
-            else if (any(class(y) %in% c("LINESTRING", "POLYGON", "MULTILINESTRING", "MULTIPOLYGON"))) {
+            else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
+                                              "MULTILINESTRING", "MULTIPOLYGON"))) {
 
                 stop(
                     "landscapemetrics currently only supports sf point features for landscape metrics sampling"
@@ -406,10 +404,10 @@ sample_lsm_int <- function(landscape,
         }
 
         # use lines
-        else if (methods::is(y, "SpatialLines") | methods::is(y, "SpatialLinesDataFrame")) {
+        else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
 
             # convert to SpatialLines
-            if (methods::is(y, "SpatialLinesDataFrame")) {
+            if (inherits(x = y, what = "SpatialLinesDataFrame")) {
 
                 y <- sp::SpatialLines(y@lines)
             }
@@ -458,14 +456,21 @@ sample_lsm_int <- function(landscape,
 
     number_plots <- length(maximum_area)
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # loop through each sample point and calculate metrics
     result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
 
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress sample plots: ", current_plot, "/",
-                    number_plots, appendLF = FALSE)
+            cat("\r> Progress sample plots: ", current_plot, "/", number_plots)
         }
 
         # crop sample plot
@@ -496,8 +501,20 @@ sample_lsm_int <- function(landscape,
             result_current_plot$plot_id <- plot_id[current_plot]
         }
 
-        # calculate ratio between actual area and theoretical area
-        result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
+
+        # all cells are NA
+        if (all(is.na(raster::values(landscape_mask)))) {
+
+            # calculate ratio between actual area and theoretical area
+            result_current_plot$percentage_inside <- 0
+        }
+
+        else {
+
+            # calculate ratio between actual area and theoretical area
+            result_current_plot$percentage_inside <- area$value /
+                maximum_area[[current_plot]] * 100
+        }
 
         # add sample plot raster
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
@@ -508,17 +525,35 @@ sample_lsm_int <- function(landscape,
 
     if (progress) {
 
-        message("")
+        cat("\n")
     }
 
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
 
-            warning("Some of buffers extend over the landscape border. Consider decreasing the size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
+
         }
     }
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }

@@ -10,3 +10,4 @@ test_that("option parameters work", {
     expect_false(object = raster::inMemory(patches[[1]]))
 })
 
+options(to_disk = NULL)

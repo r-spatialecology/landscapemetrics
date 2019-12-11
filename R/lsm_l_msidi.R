@@ -129,9 +129,19 @@ lsm_l_msidi.list <- function(landscape, directions = 8) {
 lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "msidi",
+                              value = as.double(NA)))
     }
 
     patch_area <- lsm_p_area_calc(landscape,
@@ -142,11 +152,9 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "msidi",
-        value = as.double(msidi)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "msidi",
+                          value = as.double(msidi)))
 }

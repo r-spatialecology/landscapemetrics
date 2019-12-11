@@ -88,7 +88,7 @@ scale_sample.RasterLayer <- function(landscape,
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
-            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
@@ -112,8 +112,7 @@ scale_sample.RasterStack <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
@@ -133,12 +132,12 @@ scale_sample.RasterStack <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
-            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
@@ -162,8 +161,7 @@ scale_sample.RasterBrick <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
@@ -183,12 +181,12 @@ scale_sample.RasterBrick <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
-            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
@@ -212,8 +210,7 @@ scale_sample.stars <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
@@ -233,12 +230,12 @@ scale_sample.stars <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
-            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
@@ -260,8 +257,7 @@ scale_sample.list <- function(landscape,
 
         if (progress) {
 
-            message("\r> Progress nlayers: ", x , "/", length(landscape),
-                    appendLF = FALSE)
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
         }
 
         scale_sample_int_multibuffer(landscape = landscape[[x]],
@@ -281,12 +277,12 @@ scale_sample.list <- function(landscape,
 
     result$layer <- layer
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
 
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
-            warning("Some of buffers extend over the landscape border. Consider decreasing of the max_size argument value.",
+            warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
         }
     }
@@ -305,12 +301,23 @@ scale_sample_int_multibuffer <- function(landscape,
     size <- seq(from = size, to = max_size, by = size)
 
     # loop through buffers
-    result <- do.call(rbind, lapply(X = size, FUN = function(x) {
+    result <- do.call(rbind, lapply(X = seq_along(size), FUN = function(x) {
+
+        # print progess using the non-internal name
+        if (progress) {
+
+            cat("\r> Progress scales: ", x, "/", length(size))
+        }
 
         scale_sample_int(landscape = landscape, y = y,
-                         shape = shape, size = x,
-                         verbose = verbose,
-                         progress = progress, ...)}))
+                         shape = shape, size = size[[x]],
+                         verbose = verbose, ...)}))
+
+    if (progress) {
+
+        cat("\n")
+
+    }
     return(result)
 }
 
@@ -322,10 +329,11 @@ scale_sample_int <- function(landscape,
                              ...) {
 
     # use points
-    if (methods::is(y, "SpatialPoints") | methods::is(y, "SpatialPointsDataFrame") | methods::is(y, "matrix")) {
+    if (inherits(x = y,
+                 what = c("SpatialPoints", "SpatialPointsDataFrame", "matrix"))) {
 
         # points are matrix
-        if (methods::is(y, "matrix")) {
+        if (inherits(x = y, what = "matrix")) {
 
             if (ncol(y) != 2 & verbose) {
                 warning("'y' should be a two column matrix including x- and y-coordinates.",
@@ -356,13 +364,6 @@ scale_sample_int <- function(landscape,
     # loop through each sample point and calculate metrics
     result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
 
-        # print progess using the non-internal name
-        if (progress) {
-
-            message("\r> Progress sample plots: ", current_plot, "/",
-                    number_plots, appendLF = FALSE)
-        }
-
         # crop sample plot
         landscape_crop <- raster::crop(x = landscape,
                                        y = y[current_plot])
@@ -391,11 +392,6 @@ scale_sample_int <- function(landscape,
 
         return(result_current_plot)
     }))
-
-    if (progress) {
-
-        message("")
-    }
 
     return(result)
 }

@@ -33,7 +33,7 @@ unpad_raster(landscape, unpad_raster_cells, return_raster, to_disk)
   FALSE))
 
 \method{unpad_raster}{matrix}(landscape, unpad_raster_cells = 1,
-  return_raster = TRUE, to_disk = getOption("to_disk", default =
+  return_raster = FALSE, to_disk = getOption("to_disk", default =
   FALSE))
 }
 \arguments{

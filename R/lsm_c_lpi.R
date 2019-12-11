@@ -131,6 +131,15 @@ lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
                                   directions = directions,
                                   resolution = resolution)
 
+    # all cells are NA
+    if (all(is.na(patch_area$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "lpi",
+                              value = as.double(NA)))
+    }
+
     # summarise to total area
     total_area <- sum(patch_area$value)
 
@@ -140,11 +149,9 @@ lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
     # summarise for each class
     lpi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = max)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(lpi$class),
-        id = as.integer(NA),
-        metric = "lpi",
-        value = as.double(lpi$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(lpi$class),
+                          id = as.integer(NA),
+                          metric = "lpi",
+                          value = as.double(lpi$value)))
 }

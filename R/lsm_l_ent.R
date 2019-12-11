@@ -134,8 +134,17 @@ lsm_l_ent.list <- function(landscape,
 lsm_l_ent_calc <- function(landscape, neighbourhood, base){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "ent",
+                              value = as.double(NA)))
     }
 
     com <- rcpp_get_coocurrence_matrix(landscape,
@@ -144,11 +153,9 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base){
 
     comp <- rcpp_get_entropy(com_c, base)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "ent",
-        value = as.double(comp)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "ent",
+                          value = as.double(comp)))
 }

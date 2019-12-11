@@ -136,14 +136,21 @@ lsm_c_area_mn_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all values NA
+    if (all(is.na(area$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "area_mn",
+                              value = as.double(NA)))
+    }
+
     # calculate mean
     area_mean <- stats::aggregate(area[, 5], by = area[, 2], FUN = mean)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(area_mean$class),
-        id = as.integer(NA),
-        metric = "area_mn",
-        value = as.double(area_mean$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(area_mean$class),
+                          id = as.integer(NA),
+                          metric = "area_mn",
+                          value = as.double(area_mean$value)))
 }

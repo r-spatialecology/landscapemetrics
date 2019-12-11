@@ -39,7 +39,6 @@ Other contributors:
   \item Jeffrey Hollister (Input on package structure) [contributor]
   \item Kimberly A. With (Input on package structure) [contributor]
   \item Florian Privé (Original author of underlying C++ code for get_nearestneighbour() function) [contributor]
-  \item Jeremy VanDerWal (Original author of underlying C code for get_patches() function) [contributor]
   \item Matt Strimas-Mackey (Bugfix in sample_metrics()) [contributor]
 }
 

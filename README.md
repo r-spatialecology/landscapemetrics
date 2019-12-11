@@ -1,23 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
+| Continuous Integration                                                                                                                                                            | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [![Travis CI](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)                                | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![Appveyor](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
+| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)   |                                                                                                                            |                                                                                                                                                      |                                                                                                                 |
 
-[![Build
-Status](https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master)](https://travis-ci.org/r-spatialecology/landscapemetrics)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true)](https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master)
-[![Coverage
-status](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![Project
-Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)
-[![CRAN
-downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
 ## Overview
 
@@ -37,11 +27,17 @@ it always takes the data as the first argument and returns a tibble.
 
 ### Citation
 
-To cite `landscapemetrics` or acknowledge its use, please cite the
+To cite **landscapemetrics** or acknowledge its use, please cite the
 following Software note, substituting the version of the application
-that you used for ‘version 0’: Hesselbarth, M.H.K., Sciaini, M., With,
-K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open-source R
-tool to calculate landscape metrics. - Ecography 42:1648-1657 (ver. 0).
+that you used for ‘ver. 0’:
+
+<p>
+
+<i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
+J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
+metrics. Ecography, 42: 1648-1657 (ver. 0). </i>
+
+</p>
 
 For more information see [Publication
 record](https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html)
@@ -61,6 +57,12 @@ install.packages("landscapemetrics")
 devtools::install_github("r-spatialecology/landscapemetrics")
 ```
 
+#### Announcement
+
+Due to an improved connected-component labelling algorithm, the patch ID
+differs between **landscapemetrics** v1.4 and older versions. However,
+results for all metrics are identical.
+
 ## Using landscapemetrics
 
 The resolution of a raster cell has to be in **meters**, as the package
@@ -72,7 +74,7 @@ All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
 (patch - `p`, class - `c` or landscape - `l`). The last part of the
 function name is the abbreviation of the corresponding metric
-(e.g. `enn`for the euclidean nearest-neighbor distance):
+(e.g. `enn` for the euclidean nearest-neighbor distance):
 
     # general structure
     lsm_"level"_"metric"
@@ -91,19 +93,11 @@ function name is the abbreviation of the corresponding metric
 
 All functions return an identical structured tibble:
 
-<center>
-
-<p style="text-align:center;">
-
 | layer | level     | class | id | metric           | value |
 | ----- | --------- | ----- | -- | ---------------- | ----- |
 | 1     | patch     | 1     | 1  | landscape metric | x     |
 | 1     | class     | 1     | NA | landscape metric | x     |
 | 1     | landscape | NA    | NA | landscape metric | x     |
-
-</p>
-
-</center>
 
 ### Using metric functions
 
@@ -118,7 +112,7 @@ library(landscapetools)
 show_landscape(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
+<img src="man/figures/REAsDME-unnamed-chunk-1-1.png" width="100%" />
 
 ``` r
 
@@ -128,14 +122,14 @@ lsm_p_enn(landscape)
 #>    layer level class    id metric value
 #>    <int> <chr> <int> <int> <chr>  <dbl>
 #>  1     1 patch     1     1 enn     7   
-#>  2     1 patch     1     2 enn     2.83
-#>  3     1 patch     1     3 enn     4   
-#>  4     1 patch     1     4 enn     2.83
-#>  5     1 patch     1     5 enn     4.24
-#>  6     1 patch     1     6 enn     4.12
-#>  7     1 patch     1     7 enn     2   
-#>  8     1 patch     1     8 enn     2   
-#>  9     1 patch     1     9 enn     4.12
+#>  2     1 patch     1     2 enn     4   
+#>  3     1 patch     1     3 enn     2.83
+#>  4     1 patch     1     4 enn     2   
+#>  5     1 patch     1     5 enn     2   
+#>  6     1 patch     1     6 enn     2.83
+#>  7     1 patch     1     7 enn     4.12
+#>  8     1 patch     1     8 enn     4.12
+#>  9     1 patch     1     9 enn     4.24
 #> 10     1 patch     2    10 enn     4.47
 #> # … with 17 more rows
 
@@ -160,19 +154,19 @@ calculate a bunch of metrics:
 ``` r
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
-#> Warning: Please use check_landscape() to ensure the input data is valid.
+#> Warning: Please use 'check_landscape()' to ensure the input data is valid.
 #> # A tibble: 324 x 6
 #>    layer level class    id metric  value
 #>    <int> <chr> <int> <int> <chr>   <dbl>
 #>  1     1 patch     1     1 area   0.0001
-#>  2     1 patch     1     2 area   0.0148
-#>  3     1 patch     1     3 area   0.0005
-#>  4     1 patch     1     4 area   0.0014
+#>  2     1 patch     1     2 area   0.0005
+#>  3     1 patch     1     3 area   0.0148
+#>  4     1 patch     1     4 area   0.0001
 #>  5     1 patch     1     5 area   0.0001
-#>  6     1 patch     1     6 area   0.0005
-#>  7     1 patch     1     7 area   0.0001
-#>  8     1 patch     1     8 area   0.0001
-#>  9     1 patch     1     9 area   0.0003
+#>  6     1 patch     1     6 area   0.0014
+#>  7     1 patch     1     7 area   0.0003
+#>  8     1 patch     1     8 area   0.0005
+#>  9     1 patch     1     9 area   0.0001
 #> 10     1 patch     2    10 area   0.0035
 #> # … with 314 more rows
 ```

@@ -154,14 +154,21 @@ lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
                           consider_boundary = consider_boundary,
                           edge_depth = edge_depth)
 
+    # all values NA
+    if (all(is.na(cai$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cai_cv",
+                              value = as.double(NA)))
+    }
+
     # summarise for classes
     cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(cai_cv$class),
-        id = as.integer(NA),
-        metric = "cai_cv",
-        value = as.double(cai_cv$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(cai_cv$class),
+                          id = as.integer(NA),
+                          metric = "cai_cv",
+                          value = as.double(cai_cv$value)))
 }

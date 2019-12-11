@@ -138,13 +138,20 @@ lsm_l_frac_mn_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(frac_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "frac_mn",
+                              value = as.double(NA)))
+    }
+
     frac_mn <- mean(frac_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "frac_mn",
-        value = as.double(frac_mn)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "frac_mn",
+                          value = as.double(frac_mn)))
 }

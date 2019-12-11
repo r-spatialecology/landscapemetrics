@@ -129,7 +129,17 @@ lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
                                   directions = directions,
                                   resolution = resolution)
 
-    msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
+    # all values NA
+    if (all(is.na(patch_area$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "msiei",
+                              value = as.double(NA)))
+    }
+
+    msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2],
+                              FUN = sum)
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
@@ -137,11 +147,9 @@ lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
 
     msiei <- msidi / log(pr)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "msiei",
-        value = as.double(msiei)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "msiei",
+                          value = as.double(msiei)))
 }

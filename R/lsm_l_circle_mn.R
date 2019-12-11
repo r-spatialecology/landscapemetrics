@@ -140,15 +140,20 @@ lsm_l_circle_mn_calc <- function(landscape, directions,
                                       resolution = resolution,
                                       points = points)
 
+    # all values NA
+    if (all(is.na(circle_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle_mn",
+                              value = as.double(NA)))
+    }
+
     circle_mn <- mean(circle_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "circle_mn",
-        value = as.double(circle_mn)
-    )
-
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "circle_mn",
+                          value = as.double(circle_mn)))
 }
-

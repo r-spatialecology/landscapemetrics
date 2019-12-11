@@ -137,19 +137,27 @@ lsm_c_division_calc <- function(landscape, directions, resolution = NULL) {
     # get total area
     total_area <- sum(patch_area$value)
 
+    # all values NA
+    if (is.na(total_area)) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "division",
+                              value = as.double(NA)))
+    }
+
     # calculate division for each patch
     patch_area$value <- (patch_area$value / total_area) ^ 2
 
     # summarise for classes
-    division <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
+    division <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2],
+                                 FUN = sum)
 
     division$value <- 1 - division$value
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(division$class),
-        id = as.integer(NA),
-        metric = "division",
-        value = as.double(division$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(division$class),
+                          id = as.integer(NA),
+                          metric = "division",
+                          value = as.double(division$value)))
 }

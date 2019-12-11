@@ -155,9 +155,19 @@ lsm_p_core.list <- function(landscape, directions = 8,
 lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "core",
+                              value = as.double(NA)))
     }
 
     # get unique classes

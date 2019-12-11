@@ -126,15 +126,22 @@ lsm_l_shdi_calc <- function(landscape, resolution = NULL) {
                              directions = 8,
                              resolution = resolution)
 
+    # all values NA
+    if (all(is.na(prop$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "shdi",
+                              value = as.double(NA)))
+    }
+
     prop <- prop$value / 100
 
     shdi <- sum(-prop * log(prop, exp(1)))
 
-    tibble::tibble(
-        level = 'landscape',
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "shdi",
-        value = as.double(shdi)
-    )
+    return(tibble::tibble(level = 'landscape',
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "shdi",
+                          value = as.double(shdi)))
 }

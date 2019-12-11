@@ -127,9 +127,19 @@ lsm_l_cohesion.list <- function(landscape, directions = 8) {
 lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to raster to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cohesion",
+                              value = as.double(NA)))
     }
 
     # get number of cells
@@ -152,13 +162,11 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
 
     # calcualte cohesion
     cohesion <- (1 - (sum(perim_patch$value) / denominator)) *
-        ((1 - (1 / sqrt(ncells_landscape))) ^ - 1) * 100
+        ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "cohesion",
-        value = as.double(cohesion)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "cohesion",
+                          value = as.double(cohesion)))
 }

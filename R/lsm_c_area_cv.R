@@ -135,14 +135,21 @@ lsm_c_area_cv_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all values NA
+    if (all(is.na(area$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "area_cv",
+                              value = as.double(NA)))
+    }
+
     # calculate cv
     area_cv <- stats::aggregate(area[, 5], by = area[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(area_cv$class),
-        id = as.integer(NA),
-        metric = "area_cv",
-        value = as.double(area_cv$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(area_cv$class),
+                          id = as.integer(NA),
+                          metric = "area_cv",
+                          value = as.double(area_cv$value)))
 }

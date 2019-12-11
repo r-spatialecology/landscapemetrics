@@ -55,43 +55,11 @@ get_adjacencies.RasterLayer <- function(landscape,
                                         what = "full",
                                         upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
-    result <- lapply(raster::as.list(landscape), function(x) {get
-
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
@@ -103,43 +71,11 @@ get_adjacencies.RasterStack <- function(landscape,
                                         what = "full",
                                         upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
-    result <- lapply(raster::as.list(landscape), function(x) {
-
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
@@ -151,43 +87,11 @@ get_adjacencies.RasterBrick <- function(landscape,
                                         what = "full",
                                         upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
-    result <- lapply(raster::as.list(landscape), function(x) {
-
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
@@ -199,45 +103,13 @@ get_adjacencies.stars <- function(landscape,
                                   what = "full",
                                   upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
     landscape <- methods::as(landscape, "Raster")
 
-    result <- lapply(raster::as.list(landscape), function(x) {
-
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
@@ -249,43 +121,11 @@ get_adjacencies.list <- function(landscape,
                                  what = "full",
                                  upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
-    result <- lapply(landscape, function(x) {
-
-        adjacencies <- rcpp_get_coocurrence_matrix(raster::as.matrix(x),
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = landscape,
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
@@ -297,44 +137,57 @@ get_adjacencies.matrix <- function(landscape,
                                    what = "full",
                                    upper = FALSE){
 
-    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
-        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
-    }
-
-    result <- lapply(list(landscape), function(x) {
-
-        adjacencies <- rcpp_get_coocurrence_matrix(x,
-                                                   as.matrix(neighbourhood))
-
-        if (!upper) {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        } else {
-            if (what == "like") {
-                adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
-            }
-
-            if (what == "unlike") {
-                adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
-            }
-
-            if (what == "triangle") {
-                adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
-            }
-        }
-
-        return(adjacencies)
-    })
+    result <- lapply(X = list(landscape),
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
 
     return(result)
 }
 
+get_adjacencies_internal <- function(landscape,
+                                     neighbourhood,
+                                     what,
+                                     upper) {
+
+    if (!identical(neighbourhood, 4) && !identical(neighbourhood, 8) && !is.matrix(neighbourhood)) {
+        stop("neighbourhood must be either 4, 8 or a binary matrix where the ones define the neighbourhood.", call. = FALSE)
+    }
+
+    # convert to matrix
+    if (!inherits(x = landscape, what = "matrix")) {
+        landscape <- raster::as.matrix(landscape)
+    }
+
+    adjacencies <- rcpp_get_coocurrence_matrix(landscape,
+                                               as.matrix(neighbourhood))
+
+    if (!upper) {
+        if (what == "like") {
+            adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
+        }
+
+        if (what == "unlike") {
+            adjacencies[!lower.tri(adjacencies, diag = FALSE)] <- NA
+        }
+
+        if (what == "triangle") {
+            adjacencies[!lower.tri(adjacencies, diag = TRUE)] <- NA
+        }
+    } else {
+        if (what == "like") {
+            adjacencies[lower.tri(adjacencies) | upper.tri(adjacencies)] <- NA
+        }
+
+        if (what == "unlike") {
+            adjacencies[!upper.tri(adjacencies, diag = FALSE)] <- NA
+        }
+
+        if (what == "triangle") {
+            adjacencies[!upper.tri(adjacencies, diag = TRUE)] <- NA
+        }
+    }
+
+    return(adjacencies)
+}

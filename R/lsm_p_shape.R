@@ -135,9 +135,18 @@ lsm_p_shape.list <- function(landscape, directions = 8) {
 lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "shape",
+                              value = as.double(NA)))
     }
 
     # get perimeter of patches

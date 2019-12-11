@@ -144,13 +144,20 @@ lsm_l_contig_mn_calc <- function(landscape, directions) {
     contig_patch <- lsm_p_contig_calc(landscape,
                                       directions = directions)
 
+    # all values NA
+    if (all(is.na(contig_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contig_mn",
+                              value = as.double(NA)))
+    }
+
     contig_mn <- mean(contig_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "contig_mn",
-        value = as.double(contig_mn)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "contig_mn",
+                          value = as.double(contig_mn)))
 }

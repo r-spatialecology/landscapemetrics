@@ -136,13 +136,20 @@ lsm_l_para_cv_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(para_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "para_cv",
+                              value = as.double(NA)))
+    }
+
     para_cv <- raster::cv(para_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "para_cv",
-        value = as.double(para_cv)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "para_cv",
+                          value = as.double(para_cv)))
 }

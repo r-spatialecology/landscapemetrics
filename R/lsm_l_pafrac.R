@@ -140,9 +140,19 @@ lsm_l_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "pafrac",
+                              value = as.double(NA)))
     }
 
     # get patch area
@@ -163,11 +173,11 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     number_patches <- sum(number_patches$value)
 
     # PAFRAC NA for less than 10 patches
-    if(number_patches < 10){
+    if (number_patches < 10) {
 
         pafrac <-  NA
 
-        if (verbose){
+        if (verbose) {
             warning("PAFRAC = NA for NP < 10",
                     call. = FALSE)
         }
@@ -180,11 +190,9 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
         pafrac <- 2 / regression_model$coefficients[[2]]
     }
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "pafrac",
-        value = as.double(pafrac)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "pafrac",
+                          value = as.double(pafrac)))
 }

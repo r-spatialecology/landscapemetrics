@@ -86,6 +86,14 @@ window_lsm.RasterLayer <- function(landscape,
              call. = FALSE)
     }
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     result <- lapply(raster::as.list(landscape), function(current_landscape) {
 
         # get coordinates of cells
@@ -103,8 +111,7 @@ window_lsm.RasterLayer <- function(landscape,
             # print progess using the non-internal name
             if (progress) {
 
-                message("\r> Progress metrics: ", current_metric, "/",
-                        number_metrics, appendLF = FALSE)
+                cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
             }
 
             raster::focal(x = current_landscape, w = window, fun = function(x) {
@@ -124,7 +131,24 @@ window_lsm.RasterLayer <- function(landscape,
         return(result_layer)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
@@ -156,6 +180,14 @@ window_lsm.RasterStack <- function(landscape,
              call. = FALSE)
     }
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # convert to list
     landscape <- raster::as.list(landscape)
 
@@ -167,8 +199,7 @@ window_lsm.RasterStack <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress nlayers: ", current_landscape, "/",
-                    number_layers, appendLF = FALSE)
+            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
         }
 
         # get coordinates of cells
@@ -200,7 +231,24 @@ window_lsm.RasterStack <- function(landscape,
         return(result_layer)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
@@ -232,6 +280,14 @@ window_lsm.RasterBrick <- function(landscape,
              call. = FALSE)
     }
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # convert to list
     landscape <- raster::as.list(landscape)
 
@@ -243,8 +299,7 @@ window_lsm.RasterBrick <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress nlayers: ", current_landscape, "/",
-                    number_layers, appendLF = FALSE)
+            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
         }
 
         # get coordinates of cells
@@ -276,7 +331,24 @@ window_lsm.RasterBrick <- function(landscape,
         return(result_layer)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
@@ -308,6 +380,14 @@ window_lsm.stars <- function(landscape,
              call. = FALSE)
     }
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # convert to list
     landscape <- raster::as.list(methods::as(landscape, "Raster"))
 
@@ -319,8 +399,7 @@ window_lsm.stars <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress nlayers: ", current_landscape, "/",
-                    number_layers, appendLF = FALSE)
+            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
         }
 
         # get coordinates of cells
@@ -352,7 +431,24 @@ window_lsm.stars <- function(landscape,
         return(result_layer)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
@@ -384,6 +480,14 @@ window_lsm.list <- function(landscape,
              call. = FALSE)
     }
 
+    # print warnings immediately to capture
+    options(warn = 1)
+
+    # open text connection for warnings
+    text_connection <- textConnection(object = "warn_messages",
+                                      open = "w", local = TRUE)
+    sink(file = text_connection, type = "message", append = TRUE)
+
     # how many landscapes are present for progress
     number_layers <- length(landscape)
 
@@ -392,8 +496,7 @@ window_lsm.list <- function(landscape,
         # print progess using the non-internal name
         if (progress) {
 
-            message("\r> Progress nlayers: ", current_landscape, "/",
-                    number_layers, appendLF = FALSE)
+            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
         }
 
         # get coordinates of cells
@@ -425,7 +528,24 @@ window_lsm.list <- function(landscape,
         return(result_layer)
     })
 
-    if (progress) {message("")}
+    if (progress) {cat("\n")}
+
+    # reset warning options
+    options(warn = 0)
+
+    # close text connection
+    sink(NULL, type = "message")
+    close(text_connection)
+
+    # only unique warnings
+    warn_messages <- unique(warn_messages)
+
+    # removing "Warning:" -> will be added by warning()
+    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
+                          x = warn_messages)
+
+    # print warnings
+    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }

@@ -129,9 +129,19 @@ lsm_c_nlsi.list <- function(landscape, directions = 8) {
 lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix"){
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all cells are NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "nlsi",
+                              value = as.double(NA)))
     }
 
     # get edge for each class
@@ -182,12 +192,9 @@ lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
     result <- (class_edge$value - nlsi$min_e) / (nlsi$max_e - nlsi$min_e)
     result[is.nan(result)] <- NA
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(class_edge$class),
-        id = as.integer(NA),
-        metric = "nlsi",
-        value = as.double(result)
-    )
-
+    return(tibble::tibble(level = "class",
+                          class = as.integer(class_edge$class),
+                          id = as.integer(NA),
+                          metric = "nlsi",
+                          value = as.double(result)))
 }

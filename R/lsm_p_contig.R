@@ -145,8 +145,17 @@ lsm_p_contig.list <- function(landscape, directions = 8) {
 lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "contig",
+                              value = as.double(NA)))
     }
 
     # get unique values

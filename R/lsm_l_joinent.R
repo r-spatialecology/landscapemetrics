@@ -148,8 +148,17 @@ lsm_l_joinent.list <- function(landscape,
 lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "joinent",
+                              value = as.double(NA)))
     }
 
     coh <- rcpp_get_coocurrence_vector(landscape,
@@ -158,11 +167,9 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
     cplx <- rcpp_get_entropy(coh, base)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "joinent",
-        value = as.double(cplx)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "joinent",
+                          value = as.double(cplx)))
 }

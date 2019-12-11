@@ -130,9 +130,19 @@ lsm_c_lsi.list <- function(landscape, directions = 8) {
 lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "lsi",
+                              value = as.double(NA)))
     }
 
     # get class edge
@@ -162,7 +172,7 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
                                                       no = NA)))
 
     # test if any NAs introduced
-    if(anyNA(class_area$minp)) {
+    if (anyNA(class_area$minp)) {
         warning("NAs introduced by lsm_c_lsi", call. = FALSE)
     }
 
@@ -175,5 +185,4 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
         metric = "lsi",
         value = as.double(lsi)
     )
-
 }

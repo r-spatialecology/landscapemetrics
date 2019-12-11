@@ -123,6 +123,15 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster(landscape, return_raster = FALSE)[[1]]
 
+    # all values NA
+    if (all(landscape_padded %in% c(NA, -999))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "clumpy",
+                              value = as.double(NA)))
+    }
+
     # get coocurrence
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))
@@ -152,7 +161,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
                                                         no = NA)))
 
     # test if any NAs introduced
-    if(anyNA(cells_class$min_e)) {
+    if (anyNA(cells_class$min_e)) {
         warning("NAs introduced by lsm_c_clumpy", ccall. = FALSE)
     }
 
@@ -183,11 +192,9 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
         }
     }, FUN.VALUE = numeric(1))
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(names(g_i)),
-        id = as.integer(NA),
-        metric = "clumpy",
-        value = as.double(clumpy)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(names(g_i)),
+                          id = as.integer(NA),
+                          metric = "clumpy",
+                          value = as.double(clumpy)))
 }

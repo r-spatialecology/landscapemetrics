@@ -168,13 +168,21 @@ lsm_l_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_dep
                                 edge_depth = edge_depth,
                                 resolution = resolution)
 
+    # all values NA
+    if (all(is.na(cai_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cai_sd",
+                              value = as.double(NA)))
+    }
+
+
     cai_sd <- stats::sd(cai_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "cai_sd",
-        value = as.double(cai_sd)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "cai_sd",
+                          value = as.double(cai_sd)))
 }

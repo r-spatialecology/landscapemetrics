@@ -144,15 +144,22 @@ lsm_c_circle_cv_calc <- function(landscape, directions,
                                 directions = directions,
                                 resolution = resolution, points = points)
 
+    # all values NA
+    if (all(is.na(circle$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle_cv",
+                              value = as.double(NA)))
+    }
+
     # summarise for classes
     circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(circle_cv$class),
-        id = as.integer(NA),
-        metric = "circle_cv",
-        value = as.double(circle_cv$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(circle_cv$class),
+                          id = as.integer(NA),
+                          metric = "circle_cv",
+                          value = as.double(circle_cv$value)))
 }
 

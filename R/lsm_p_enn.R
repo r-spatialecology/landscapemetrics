@@ -144,13 +144,22 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
                            points = NULL) {
 
     # conver to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "enn",
+                              value = as.double(NA)))
     }
 
     # get unique classes
@@ -169,14 +178,14 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
         np_class <- max(landscape_labeled, na.rm = TRUE)
 
         # ENN doesn't make sense if only one patch is present
-        if(np_class == 1) {
+        if (np_class == 1) {
 
             enn <- tibble::tibble(class = patches_class,
                                   dist = as.double(NA))
 
-            if(verbose) {
+            if (verbose) {
                 warning(paste0("Class ", patches_class,
-                               ": ENN = NA for class with only 1 patch"),
+                               ": ENN = NA for class with only 1 patch."),
                         call. = FALSE)
             }
         }

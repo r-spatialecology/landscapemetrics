@@ -139,13 +139,20 @@ lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
                                   directions = directions,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(frac_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "frac_cv",
+                              value = as.double(NA)))
+    }
+
     frac_cv <- raster::cv(frac_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "frac_cv",
-        value = as.double(frac_cv)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "frac_cv",
+                          value = as.double(frac_cv)))
 }

@@ -136,13 +136,20 @@ lsm_c_para_mn_calc <- function(landscape, directions, resolution = NULL){
                             directions = directions,
                             resolution = resolution)
 
+    # all cells are NA
+    if (all(is.na(para$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "para_mn",
+                              value = as.double(NA)))
+    }
+
     para_mn <- stats::aggregate(x = para[, 5], by = para[, 2], FUN = mean)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(para_mn$class),
-        id = as.integer(NA),
-        metric = "para_mn",
-        value = as.double(para_mn$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(para_mn$class),
+                          id = as.integer(NA),
+                          metric = "para_mn",
+                          value = as.double(para_mn$value)))
 }

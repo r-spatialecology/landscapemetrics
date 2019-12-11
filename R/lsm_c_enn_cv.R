@@ -148,14 +148,20 @@ lsm_c_enn_cv_calc <- function(landscape, directions, verbose,
                           verbose = verbose,
                           points = points)
 
+    # all cells are NA
+    if (all(is.na(enn$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "enn_cv",
+                              value = as.double(NA)))
+    }
+
     enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = raster::cv)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(enn_cv$class),
-        id = as.integer(NA),
-        metric = "enn_cv",
-        value = as.double(enn_cv$value)
-    )
-
+    return(tibble::tibble(level = "class",
+                          class = as.integer(enn_cv$class),
+                          id = as.integer(NA),
+                          metric = "enn_cv",
+                          value = as.double(enn_cv$value)))
 }

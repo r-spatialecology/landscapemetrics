@@ -130,11 +130,18 @@ lsm_l_ta_calc <- function(landscape, directions, resolution = NULL) {
 
     total_area <- sum(patch_area$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "ta",
-        value = as.double(total_area)
-    )
+    # all values NA
+    if (is.na(total_area)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "ta",
+                              value = as.double(NA)))
+    }
+
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "ta",
+                          value = as.double(total_area)))
 }

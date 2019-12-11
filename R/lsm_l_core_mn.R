@@ -164,13 +164,20 @@ lsm_l_core_mn_calc <- function(landscape, directions, consider_boundary, edge_de
                                   edge_depth = edge_depth,
                                   resolution = resolution)
 
+    # all values NA
+    if (all(is.na(core_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "core_mn",
+                              value = as.double(NA)))
+    }
+
     core_mn <- mean(core_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "core_mn",
-        value = as.double(core_mn)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "core_mn",
+                          value = as.double(core_mn)))
 }

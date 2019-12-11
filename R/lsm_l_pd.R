@@ -127,9 +127,19 @@ lsm_l_pd.list <- function(landscape, directions = 8) {
 
 lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
 
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "pd",
+                              value = as.double(NA)))
     }
 
     # get patch area
@@ -150,11 +160,9 @@ lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
     # relative patch density
     patch_density <- number_patches / area_total * 100
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "pd",
-        value = as.double(patch_density)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "pd",
+                          value = as.double(patch_density)))
 }

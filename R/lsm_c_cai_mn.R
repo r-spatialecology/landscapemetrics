@@ -21,9 +21,9 @@
 #' value than itself (rook's case).
 #'
 #' \subsection{Units}{Percent}
-#' \subsection{Range}{CAI_MN >= 0}
-#' \subsection{Behaviour}{Equals CAI_MN = 0 if CAI = 0 for all patches.
-#' Increases, without limit, as the core area indices increase.}
+#' \subsection{Range}{0 <= CAI_MN <= 100}
+#' \subsection{Behaviour}{CAI_MN = 0 when all patches have no core area and
+#' approaches CAI_MN = 100 with increasing percentage of core area within patches.}
 #'
 #' @seealso
 #' \code{\link{lsm_p_cai}},
@@ -151,14 +151,21 @@ lsm_c_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_dep
                           consider_boundary = consider_boundary,
                           edge_depth = edge_depth)
 
+    # all values NA
+    if (all(is.na(cai$value))) {
+        return(tibble::tibble(level = "class",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "cai_mn",
+                              value = as.double(NA)))
+    }
+
     # summarise for each class
     cai_mean <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = mean)
 
-    tibble::tibble(
-        level = "class",
-        class = as.integer(cai_mean$class),
-        id = as.integer(NA),
-        metric = "cai_mn",
-        value = as.double(cai_mean$value)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(cai_mean$class),
+                          id = as.integer(NA),
+                          metric = "cai_mn",
+                          value = as.double(cai_mean$value)))
 }

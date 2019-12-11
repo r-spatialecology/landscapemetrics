@@ -34,7 +34,7 @@ pad_raster(landscape, pad_raster_value, pad_raster_cells, global,
   to_disk = getOption("to_disk", default = FALSE))
 
 \method{pad_raster}{matrix}(landscape, pad_raster_value = -999,
-  pad_raster_cells = 1, global = FALSE, return_raster = TRUE,
+  pad_raster_cells = 1, global = FALSE, return_raster = FALSE,
   to_disk = getOption("to_disk", default = FALSE))
 }
 \arguments{

@@ -122,9 +122,18 @@ lsm_p_perim.list <- function(landscape, directions = 8) {
 lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "perim",
+                              value = as.double(NA)))
     }
 
     # get dimensions of raster
@@ -135,7 +144,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     classes <- get_unique_values(landscape)[[1]]
 
     # raster resolution not identical in x-y directions
-    if (!resolution_x == resolution_y){
+    if (!resolution_x == resolution_y) {
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,

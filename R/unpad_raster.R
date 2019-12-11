@@ -69,9 +69,7 @@ unpad_raster.RasterStack <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = unpad_raster_internal,
-                     unpad_raster_value = unpad_raster_value,
-                     unpad_raster_cells = unpad_raster_cells,
-                     global = global)
+                     unpad_raster_cells = unpad_raster_cells)
 
     # convert back to raster
     if (return_raster) {
@@ -84,7 +82,7 @@ unpad_raster.RasterStack <- function(landscape,
 
         result <- lapply(result,
                          FUN = matrix_to_raster,
-                         extent = extent + resolution * unpad_raster_cells * 2,
+                         extent = extent - resolution * unpad_raster_cells * 2,
                          resolution = resolution,
                          crs = crs,
                          to_disk = to_disk)
@@ -102,9 +100,7 @@ unpad_raster.RasterBrick <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = unpad_raster_internal,
-                     unpad_raster_value = unpad_raster_value,
-                     unpad_raster_cells = unpad_raster_cells,
-                     global = global)
+                     unpad_raster_cells = unpad_raster_cells)
 
     # convert back to raster
     if (return_raster) {
@@ -117,7 +113,7 @@ unpad_raster.RasterBrick <- function(landscape,
 
         result <- lapply(result,
                          FUN = matrix_to_raster,
-                         extent = extent + resolution * unpad_raster_cells * 2,
+                         extent = extent - resolution * unpad_raster_cells * 2,
                          resolution = resolution,
                          crs = crs,
                          to_disk = to_disk)
@@ -137,9 +133,7 @@ unpad_raster.stars <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = unpad_raster_internal,
-                     unpad_raster_value = unpad_raster_value,
-                     unpad_raster_cells = unpad_raster_cells,
-                     global = global)
+                     unpad_raster_cells = unpad_raster_cells)
 
     # convert back to raster
     if (return_raster) {
@@ -152,7 +146,7 @@ unpad_raster.stars <- function(landscape,
 
         result <- lapply(result,
                          FUN = matrix_to_raster,
-                         extent = extent + resolution * unpad_raster_cells * 2,
+                         extent = extent - resolution * unpad_raster_cells * 2,
                          resolution = resolution,
                          crs = crs,
                          to_disk = to_disk)
@@ -170,9 +164,7 @@ unpad_raster.list <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = unpad_raster_internal,
-                     unpad_raster_value = unpad_raster_value,
-                     unpad_raster_cells = unpad_raster_cells,
-                     global = global)
+                     unpad_raster_cells = unpad_raster_cells)
 
     # convert back to raster
     if (return_raster) {
@@ -187,7 +179,7 @@ unpad_raster.list <- function(landscape,
                              crs <- raster::crs(landscape[[x]])
 
                              matrix_to_raster(result[[x]],
-                                              extent = extent + resolution * unpad_raster_cells * 2,
+                                              extent = extent - resolution * unpad_raster_cells * 2,
                                               resolution = resolution,
                                               crs = crs,
                                               to_disk = to_disk)})
@@ -200,7 +192,7 @@ unpad_raster.list <- function(landscape,
 #' @export
 unpad_raster.matrix <- function(landscape,
                                 unpad_raster_cells = 1,
-                                return_raster = TRUE,
+                                return_raster = FALSE,
                                 to_disk = getOption("to_disk", default = FALSE)) {
 
     result <- lapply(X = list(landscape),
@@ -219,7 +211,7 @@ unpad_raster_internal <- function(landscape,
                                   unpad_raster_cells){
 
     # convert to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
 
         landscape <- raster::as.matrix(landscape)
     }

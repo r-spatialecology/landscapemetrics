@@ -141,14 +141,21 @@ lsm_l_circle_cv_calc <- function(landscape, directions,
                                       resolution = resolution,
                                       points = points)
 
+    # all values NA
+    if (all(is.na(circle_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle_cv",
+                              value = as.double(NA)))
+    }
+
     circle_cv <- raster::cv(circle_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "circle_cv",
-        value = as.double(circle_cv)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "circle_cv",
+                          value = as.double(circle_cv)))
 }
 

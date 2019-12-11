@@ -141,14 +141,21 @@ lsm_l_gyrate_cv_calc <- function(landscape, directions,
                                       directions = directions,
                                       points = points)
 
+    # all values NA
+    if (all(is.na(gyrate_patch$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "gyrate_cv",
+                              value = as.double(NA)))
+    }
+
     gyrate_cv <- raster::cv(gyrate_patch$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "gyrate_cv",
-        value = as.double(gyrate_cv)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "gyrate_cv",
+                          value = as.double(gyrate_cv)))
 }
 

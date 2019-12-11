@@ -130,9 +130,19 @@ lsm_l_lsi.list <- function(landscape, directions = 8) {
 lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
-    if(class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
         resolution <- raster::res(landscape)
+
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "lsi",
+                              value = as.double(NA)))
     }
 
     # get total edge
@@ -149,7 +159,7 @@ lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
     total_area <- sum(patch_area$value) * 10000
 
     n <- trunc(sqrt(total_area))
-    m <- total_area - n^ 2
+    m <- total_area - n^2
 
     min_p <- ifelse(test = m == 0,
                     yes = n * 4,
@@ -160,18 +170,15 @@ lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
                                             no = NA)))
 
     # warning if NA is introduced
-    if(anyNA(min_p)) {
+    if (anyNA(min_p)) {
         warning("NA introduced by lsm_l_lsi", call. = FALSE)
     }
 
     lsi <- edge_landscape$value / min_p
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(edge_landscape$class),
-        id = as.integer(edge_landscape$id),
-        metric = "lsi",
-        value = as.double(lsi)
-    )
-
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(edge_landscape$class),
+                          id = as.integer(edge_landscape$id),
+                          metric = "lsi",
+                          value = as.double(lsi)))
 }

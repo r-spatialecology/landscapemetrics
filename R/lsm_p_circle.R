@@ -138,7 +138,7 @@ lsm_p_circle_calc <- function(landscape, directions,
                               points = NULL, resolution = NULL) {
 
     # conver to matrix
-    if (class(landscape) != "matrix") {
+    if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]
@@ -148,6 +148,15 @@ lsm_p_circle_calc <- function(landscape, directions,
 
         # convert to matrix
         landscape <- raster::as.matrix(landscape)
+    }
+
+    # all values NA
+    if (all(is.na(landscape))) {
+        return(tibble::tibble(level = "patch",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "circle",
+                              value = as.double(NA)))
     }
 
     # get resolution of landscape

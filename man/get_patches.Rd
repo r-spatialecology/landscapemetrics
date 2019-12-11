@@ -34,7 +34,7 @@ get_patches(landscape, class, directions, to_disk, return_raster)
 
 \method{get_patches}{matrix}(landscape, class = "all", directions = 8,
   to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE)
+  return_raster = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -62,9 +62,6 @@ Searches for connected patches (neighbouring cells of the same class i).
 The 8-neighbours rule ('queen's case) or 4-neighbours rule (rook's case) is
 used. Returns a list with raster. For each class the connected patches have
 the value 1 - n. All cells not belonging to the class are \code{NA}.
-The underlying C code comes from the \code{SDMTools} package
-(VanDerWal \emph{et al.} 2014) and we appreciate their effort for implementing
-this efficient connected labeling algorithm.
 
 Landscape metrics rely on the delineation of patches. Hence, \code{get_patches} is
 heavily used in \strong{landscapemetrics}. As raster can be quite big, the fact that
@@ -86,12 +83,7 @@ patched_raster <-  get_patches(landscape)
 
 }
 \references{
-VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014.
-SDMTools: Species Distribution Modelling Tools: Tools for processing data
-associated with species distribution modelling exercises.
-R package version 1.1-221. \url{https://CRAN.R-project.org/package=SDMTools}
-
-Chang, F., C.-J. Chen, and C.-J. Lu. 2004. A linear-time
-component-labeling algorithm using contour tracing technique. Comput. Vis.
-Image Underst. 93:206-220.
+Vincent, L., Soille, P. 1991. Watersheds in digital spaces: an efficient
+algorithm based on immersion simulations. IEEE Transactions on Pattern
+Analysis and Machine Intelligence. 13 (6), 583-598
 }

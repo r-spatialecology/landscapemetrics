@@ -138,15 +138,22 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                               directions = directions,
                               resolution = resolution)
 
+    # all values NA
+    if (all(is.na(shape$value))) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "shape_cv",
+                              value = as.double(NA)))
+    }
+
     # calculate cv
     shape_cv <- raster::cv(shape$value,
                            na.rm = TRUE)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "shape_cv",
-        value = as.double(shape_cv)
-    )
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "shape_cv",
+                          value = as.double(shape_cv)))
 }

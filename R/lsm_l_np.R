@@ -128,11 +128,18 @@ lsm_l_np_calc <- function(landscape, directions) {
 
     n_patches <- sum(n_patches$value)
 
-    tibble::tibble(
-        level = "landscape",
-        class = as.integer(NA),
-        id = as.integer(NA),
-        metric = "np",
-        value = as.double(n_patches)
-    )
+    # all values NA
+    if (is.na(n_patches)) {
+        return(tibble::tibble(level = "landscape",
+                              class = as.integer(NA),
+                              id = as.integer(NA),
+                              metric = "np",
+                              value = as.double(NA)))
+    }
+
+    return(tibble::tibble(level = "landscape",
+                          class = as.integer(NA),
+                          id = as.integer(NA),
+                          metric = "np",
+                          value = as.double(n_patches)))
 }
