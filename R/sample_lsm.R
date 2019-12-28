@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons or sf points.
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons, sf points or sf polygons.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
