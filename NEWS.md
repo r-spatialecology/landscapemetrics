@@ -1,3 +1,7 @@
+# landscapemetrics 1.4.1
+* Improvements
+    * Adds a support for sf polygons in sample_lsm
+
 # landscapemetrics 1.4
 * Improvements
     * Improved connected-component labelling algorithm. **Note: the algorithm labels the patches in a different order and therefore may use different patch IDs compared to previous versions.** 
