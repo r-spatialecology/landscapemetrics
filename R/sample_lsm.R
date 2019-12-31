@@ -310,7 +310,7 @@ sample_lsm_int <- function(landscape,
 
     # use polygon
     if (inherits(x = y, what = "sf") && all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))){
-        y <- method::as(y, "Spatial")
+        y <- methods::as(y, "Spatial")
     }
 
     if (inherits(x = y, what = c("SpatialPolygons", "SpatialPolygonsDataFrame"))) {
