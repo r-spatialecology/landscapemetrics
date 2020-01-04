@@ -28,27 +28,26 @@ void rcpp_ccl(IntegerMatrix mat, int directions)
     const unsigned nNeig = neigCoordinates.size();
 
     // it's convinient to have patch cells marked as 0 (i.e. un-labeled) and matrix cells as NA
-    for (int row = 0; row < nrows; row++) {
-        for (int col = 0; col < ncols; col++) {
-            if (mat[row * ncols + col] == NA) {
+    for (int col = 0; col < ncols; col++) {
+        for (int row = 0; row < nrows; row++) {
+            if (mat[col * nrows + row] == NA) {
                 continue;
             }
-            mat[row * ncols + col] = 0;
+            mat[col * nrows + row] = 0;
         }
     }
 
     int label = 0;
-    for (int row = 0; row < nrows; row++) {
-        for (int col = 0; col < ncols; col++) {
-
+    for (int col = 0; col < ncols; col++) {
+        for (int row = 0; row < nrows; row++) {
             // ignore background cells and cells that are already labeled
-            if (mat[row * ncols + col] == NA ||
-                    mat[row * ncols + col] > 0) {
+            if (mat[col * nrows + row] == NA ||
+                    mat[col * nrows + row] > 0) {
                 continue;
             }
 
             // label the first cell of the patch
-            mat[row * ncols + col] = ++label;
+            mat[col * nrows + row] = ++label;
 
             std::queue<std::array<const int, 2> > patchcells;
             patchcells.push(std::array<const int, 2>{col, row});
@@ -73,12 +72,12 @@ void rcpp_ccl(IntegerMatrix mat, int directions)
                         continue;
 
                     // skip if background or already labeled
-                    if (mat[row_neig * ncols + col_neig] == NA ||
-                            mat[row_neig * ncols + col_neig] > 0)
+                    if (mat[col_neig * nrows + row_neig] == NA ||
+                            mat[col_neig * nrows + row_neig] > 0)
                         continue;
 
                     // label cell and put in queue
-                    mat[row_neig * ncols + col_neig] = label;
+                    mat[col_neig * nrows + row_neig] = label;
                     patchcells.push(std::array<const int, 2>{col_neig, row_neig});
                 }
             }
