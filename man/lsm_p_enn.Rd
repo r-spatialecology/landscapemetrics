@@ -11,14 +11,11 @@
 \usage{
 lsm_p_enn(landscape, directions, verbose)
 
-\method{lsm_p_enn}{RasterLayer}(landscape, directions = 8,
-  verbose = TRUE)
+\method{lsm_p_enn}{RasterLayer}(landscape, directions = 8, verbose = TRUE)
 
-\method{lsm_p_enn}{RasterStack}(landscape, directions = 8,
-  verbose = TRUE)
+\method{lsm_p_enn}{RasterStack}(landscape, directions = 8, verbose = TRUE)
 
-\method{lsm_p_enn}{RasterBrick}(landscape, directions = 8,
-  verbose = TRUE)
+\method{lsm_p_enn}{RasterBrick}(landscape, directions = 8, verbose = TRUE)
 
 \method{lsm_p_enn}{stars}(landscape, directions = 8, verbose = TRUE)
 

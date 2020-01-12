@@ -9,28 +9,83 @@
 \alias{show_lsm.list}
 \title{Show landscape metrics}
 \usage{
-show_lsm(landscape, what, class, directions, consider_boundary, edge_depth,
-  labels, label_lsm, nrow, ncol)
+show_lsm(
+  landscape,
+  what,
+  class,
+  directions,
+  consider_boundary,
+  edge_depth,
+  labels,
+  label_lsm,
+  nrow,
+  ncol
+)
 
-\method{show_lsm}{RasterLayer}(landscape, what, class = "global",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
+\method{show_lsm}{RasterLayer}(
+  landscape,
+  what,
+  class = "global",
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  labels = TRUE,
+  label_lsm = FALSE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_lsm}{RasterStack}(landscape, what, class = "global",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
+\method{show_lsm}{RasterStack}(
+  landscape,
+  what,
+  class = "global",
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  labels = TRUE,
+  label_lsm = FALSE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_lsm}{RasterBrick}(landscape, what, class = "global",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
+\method{show_lsm}{RasterBrick}(
+  landscape,
+  what,
+  class = "global",
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  labels = TRUE,
+  label_lsm = FALSE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_lsm}{stars}(landscape, what, class = "global",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
+\method{show_lsm}{stars}(
+  landscape,
+  what,
+  class = "global",
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  labels = TRUE,
+  label_lsm = FALSE,
+  nrow = NULL,
+  ncol = NULL
+)
 
-\method{show_lsm}{list}(landscape, what, class = "global",
-  directions = 8, consider_boundary = FALSE, edge_depth = 1,
-  labels = TRUE, label_lsm = FALSE, nrow = NULL, ncol = NULL)
+\method{show_lsm}{list}(
+  landscape,
+  what,
+  class = "global",
+  directions = 8,
+  consider_boundary = FALSE,
+  edge_depth = 1,
+  labels = TRUE,
+  label_lsm = FALSE,
+  nrow = NULL,
+  ncol = NULL
+)
 }
 \arguments{
 \item{landscape}{*Raster object}

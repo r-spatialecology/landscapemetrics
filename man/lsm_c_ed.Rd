@@ -11,20 +11,15 @@
 \usage{
 lsm_c_ed(landscape, count_boundary, directions)
 
-\method{lsm_c_ed}{RasterLayer}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{RasterLayer}(landscape, count_boundary = FALSE, directions = 8)
 
-\method{lsm_c_ed}{RasterStack}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{RasterStack}(landscape, count_boundary = FALSE, directions = 8)
 
-\method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{RasterBrick}(landscape, count_boundary = FALSE, directions = 8)
 
-\method{lsm_c_ed}{stars}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{stars}(landscape, count_boundary = FALSE, directions = 8)
 
-\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE,
-  directions = 8)
+\method{lsm_c_ed}{list}(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
