@@ -1,7 +1,11 @@
 # landscapemetrics 1.4
-* Improvements
-    * Improved connected-component labelling algorithm. **ATTENTION: THIS LEADS TO DIFFERENT PATCH IDS COMPARED TO PREVIOUS VERSIONS.** 
+* Bugfixes
+    * Bug in the connected-component labelling algorithm for non-rectangular landscapes
 
+# landscapemetrics 1.4
+* Improvements
+    * Improved connected-component labelling algorithm. **Note: The algorithm labels the patches in a different order and therefore may use different patch IDs compared to previous versions.** 
+    
 # landscapemetrics 1.3.2
 * Bugfixes
     * Make sure all CRAN checks run

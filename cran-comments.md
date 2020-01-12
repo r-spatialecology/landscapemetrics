@@ -1,3 +1,6 @@
+# landscapemetrics 1.4.1
+Major bugfixes
+
 # landscapemetrics 1.4
 Improvments of existing functions and make sure all CRAN checks run
 

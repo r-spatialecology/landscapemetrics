@@ -63,6 +63,9 @@ Due to an improved connected-component labelling algorithm, the patch ID
 differs between **landscapemetrics** v1.4 and older versions. However,
 results for all metrics are identical.
 
+The algorithm labels the patches in a different order and therefore may
+use different patch IDs compared to previous versions.
+
 ## Using landscapemetrics
 
 The resolution of a raster cell has to be in **meters**, as the package
