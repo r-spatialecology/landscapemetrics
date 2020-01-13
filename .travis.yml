@@ -12,7 +12,7 @@ before_install:
   - sudo apt-get -qq install gcc
   - mkdir ~/.R
   - echo -e "CXXFLAGS = -Ofast -march=native -fpic -pipe -std=c++11\nMAKE = make -j8" > ~/.R/Makevars
-  - R -q -e 'install.packages(c("remotes", "knitr", "rmarkdown", "tidyverse", "SDMTools", "NLMR", "bench")); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); remotes::install_deps(dependencies = TRUE); tic::before_install()'
+  - R -q -e 'install.packages(c("remotes", "knitr", "rmarkdown", "tidyverse", "SDMTools", "bench")); remotes::install_github("ropenscilabs/tic"); remotes::install_url("https://cran.r-project.org/src/contrib/Archive/NLMR/NLMR_0.4.tar.gz"); tic::prepare_all_stages(); remotes::install_deps(dependencies = TRUE); tic::before_install()'
 install: R -q -e 'tic::install()'
 after_install: R -q -e 'tic::after_install()'
 before_script: R -q -e 'tic::before_script()'
