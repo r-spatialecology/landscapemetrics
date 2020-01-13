@@ -1,4 +1,7 @@
 # landscapemetrics 1.4.1
+Minor improvments
+
+# landscapemetrics 1.4.1
 Major bugfixes
 
 # landscapemetrics 1.4

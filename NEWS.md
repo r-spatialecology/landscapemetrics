@@ -1,8 +1,8 @@
-# landscapemetrics 1.4.1
+# landscapemetrics 1.4.2
 * Improvements
     * Adds a support for sf polygons in sample_lsm
 
-# landscapemetrics 1.4
+# landscapemetrics 1.4.1
 * Bugfixes
     * Bug in the connected-component labelling algorithm for non-rectangular landscapes
 
