@@ -56,9 +56,7 @@ devtools::install_github("r-spatialecology/landscapemetrics")
 ```
 
 #### Announcement
-Due to an improved connected-component labelling algorithm, the patch ID differs between **landscapemetrics** v1.4 and older versions. However, results for all metrics are identical.
-
-The algorithm labels the patches in a different order and therefore may use different patch IDs compared to previous versions.
+Due to an improved connected-component labelling algorithm (**landscapemetrics** v1.4 and higher), patches are labeled in a different order than before and therefore different patch IDs might be used compared to previous versions. However, results for all metrics are identical.
 
 ## Using landscapemetrics
 
