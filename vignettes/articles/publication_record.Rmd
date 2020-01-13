@@ -23,6 +23,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Bosch, M. 2019. PyLandStats: An open-source Pythonic library to compute landscape metrics. bioRxiv, 715052.
 
+- Copot, O., Tanase, C., 2019. Dead wood, forest fragmentation and elevation influences macrofungal diversity on downed coarse woody debris in beech and oak old forest ecosystems from northeastern Romania. Journal of Plant Development 26:161-172.
+
 - Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing. 
 
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
@@ -35,4 +37,4 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
 
-- Rodrigues, L.L. 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University
+- Rodrigues, L.L. 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.

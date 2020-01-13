@@ -11,14 +11,11 @@
 \usage{
 lsm_l_ent(landscape, neighbourhood, base)
 
-\method{lsm_l_ent}{RasterLayer}(landscape, neighbourhood = 4,
-  base = "log2")
+\method{lsm_l_ent}{RasterLayer}(landscape, neighbourhood = 4, base = "log2")
 
-\method{lsm_l_ent}{RasterStack}(landscape, neighbourhood = 4,
-  base = "log2")
+\method{lsm_l_ent}{RasterStack}(landscape, neighbourhood = 4, base = "log2")
 
-\method{lsm_l_ent}{RasterBrick}(landscape, neighbourhood = 4,
-  base = "log2")
+\method{lsm_l_ent}{RasterBrick}(landscape, neighbourhood = 4, base = "log2")
 
 \method{lsm_l_ent}{stars}(landscape, neighbourhood = 4, base = "log2")
 
