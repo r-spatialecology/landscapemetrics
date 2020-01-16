@@ -146,10 +146,17 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
     resolution_y <- resolution[[2]]
 
     if (count_boundary) {
+
+        # get background value not present as class
+        background_value <- max(landscape, na.rm = TRUE) + 1
+
+        # add row/col around raster
         landscape <- pad_raster(landscape = landscape,
-                                pad_raster_value = max(landscape, na.rm = TRUE) + 1,
+                                pad_raster_value = background_value,
                                 pad_raster_cells = 1,
                                 return_raster = FALSE)[[1]]
+        # set NA to background value
+        landscape[is.na(landscape)] <- background_value
     }
 
     if (resolution_x == resolution_y) {

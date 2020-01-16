@@ -194,15 +194,20 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                                              directions = directions,
                                              return_raster = FALSE)[[1]]
 
-            # set all non-class patches to -999
-            landscape_labeled[is.na(landscape_labeled)] <- -999
+            # set all non-class patches, but not NAs, to -999
+            edge_cells <- which(!is.na(landscape) & landscape != patches_class)
+
+            landscape_labeled[edge_cells] <- -999
 
             # add one row/coloumn to count landscape boundary
-            if(count_boundary){
+            if (count_boundary) {
                 landscape_labeled <- pad_raster(landscape = landscape_labeled,
                                                 pad_raster_value = -999,
                                                 pad_raster_cells = 1,
                                                 return_raster = FALSE)[[1]]
+
+                # set NA to -999
+                landscape_labeled[is.na(landscape_labeled)] <- -999
             }
 
             # resolution identical in x and y direction

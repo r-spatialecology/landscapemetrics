@@ -25,7 +25,9 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Copot, O., Tanase, C., 2019. Dead wood, forest fragmentation and elevation influences macrofungal diversity on downed coarse woody debris in beech and oak old forest ecosystems from northeastern Romania. Journal of Plant Development 26:161-172.
 
-- Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing. 
+- Fletcher, R., Fortin, M.-J., 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing. 
+
+- Gasparini, K.A.C., Silva Junior, C.H.L., Shimabukuro, Y.E., Arai, E., Aragão, L.E.O.C., Silva, C.A., Marshall, P.L., 2019. Determining a Threshold to Delimit the Amazonian Forests from the Tree Canopy Cover 2000 GFC Data. Sensors 19:5020. 
 
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
 

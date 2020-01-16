@@ -1,4 +1,6 @@
 # landscapemetrics 1.4.2
+* Bugfixes
+    * Bug in total edge calculation
 * Improvements
     * Adds a support for sf polygons in sample_lsm
 

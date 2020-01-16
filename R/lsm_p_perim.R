@@ -148,7 +148,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,
-                                     NA, NA, NA), 3, 3, byrow = TRUE)
+                                      NA, NA, NA), 3, 3, byrow = TRUE)
 
         left_right_matrix <- matrix(c(NA, 1, NA,
                                       NA, 0, NA,
