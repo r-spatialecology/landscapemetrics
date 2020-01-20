@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons of sf points.
+#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons, sf points or sf polygons.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
@@ -68,7 +68,7 @@
 #' poly_2 <- sp::Polygons(list(poly_2), "p2")
 #' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 #'
-#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np", size = 5)
+#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
 #' }
 #'
 #' @aliases sample_lsm
@@ -309,6 +309,10 @@ sample_lsm_int <- function(landscape,
                            ...) {
 
     # use polygon
+    if (inherits(x = y, what = "sf") && all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))){
+        y <- methods::as(y, "Spatial")
+    }
+
     if (inherits(x = y, what = c("SpatialPolygons", "SpatialPolygonsDataFrame"))) {
 
         # convert to SpatialPolygons
@@ -328,7 +332,7 @@ sample_lsm_int <- function(landscape,
 
             if (verbose) {
 
-                warning("Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
+                warning("Package 'rgeos' is not installed. Please make sure polygons are disaggregated.",
                         call. = FALSE)
             }
         }
@@ -378,12 +382,10 @@ sample_lsm_int <- function(landscape,
                 if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
 
                     y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-                }
-
-                else {
+                } else {
 
                     stop(
-                        "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                        "landscapemetrics currently only supports sf point and polygon features for landscape metrics sampling"
                     )
                 }
             }
@@ -392,7 +394,7 @@ sample_lsm_int <- function(landscape,
                                               "MULTILINESTRING", "MULTIPOLYGON"))) {
 
                 stop(
-                    "landscapemetrics currently only supports sf point features for landscape metrics sampling"
+                    "landscapemetrics currently only supports sf point and polygon features for landscape metrics sampling"
                 )
             }
 

@@ -59,12 +59,11 @@ devtools::install_github("r-spatialecology/landscapemetrics")
 
 #### Announcement
 
-Due to an improved connected-component labelling algorithm, the patch ID
-differs between **landscapemetrics** v1.4 and older versions. However,
-results for all metrics are identical.
-
-The algorithm labels the patches in a different order and therefore may
-use different patch IDs compared to previous versions.
+Due to an improved connected-component labelling algorithm
+(**landscapemetrics** v1.4 and higher), patches are labeled in a
+different order than before and therefore different patch IDs might be
+used compared to previous versions. However, results for all metrics are
+identical.
 
 ## Using landscapemetrics
 
@@ -134,7 +133,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     4.12
 #>  9     1 patch     1     9 enn     4.24
 #> 10     1 patch     2    10 enn     4.47
-#> # … with 17 more rows
+#> # ... with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -171,7 +170,7 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0005
 #>  9     1 patch     1     9 area   0.0001
 #> 10     1 patch     2    10 area   0.0035
-#> # … with 314 more rows
+#> # ... with 314 more rows
 ```
 
 ### Utility functions
