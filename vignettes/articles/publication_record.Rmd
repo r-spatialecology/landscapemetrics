@@ -31,6 +31,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
 
+- Huang, J.‐L., Andrello, M., Martensen, A.C., Saura, S., Liu, D.‐F., He, J.‐H., Fortin, M.‐J., 2020, Importance of spatio–temporal connectivity to maintain species experiencing range shifts. Ecography.
+
 - Kendall, T.J., Duff, C.M., Thomson, A.M., Iredale, J.P., 2019. qPaLM: quantifying occult microarchitectural relationships in histopathological landscapes (preprint). Pathology.
 
 - Lucash, M.S., Ruckert, K.L., Nicholas, R.E., Scheller, R.M., Smithwick, E.A.H., 2019. Complex interactions among succes-sional trajectories and climate govern spatial resilience after severe windstorms in central Wisconsin, USA. Landscape Ecology.
@@ -40,3 +42,5 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 - Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
 
 - Rodrigues, L.L. 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.
+
+- Wright, A.D., Grant, E.H.C., Zipkin, E.F., 2020. A hierarchical analysis of habitat area, connectivity, and quality on amphibian diversity across spatial scales. Landscape Ecology.
