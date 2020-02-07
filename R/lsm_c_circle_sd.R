@@ -139,7 +139,7 @@ lsm_c_circle_sd_calc <- function(landscape, directions,
     # calculate circumscribing circle for each patch
     circle <- lsm_p_circle_calc(landscape,
                                 directions = directions,
-                                resolution = resolution, points = points)
+                                resolution = resolution)
 
     # all values NA
     if (all(is.na(circle$value))) {

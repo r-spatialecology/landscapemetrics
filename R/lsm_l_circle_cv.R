@@ -134,12 +134,11 @@ lsm_l_circle_cv.list <- function(landscape, directions = 8) {
 }
 
 lsm_l_circle_cv_calc <- function(landscape, directions,
-                                 resolution = NULL, points = NULL) {
+                                 resolution = NULL) {
 
     circle_patch <- lsm_p_circle_calc(landscape,
                                       directions = directions,
-                                      resolution = resolution,
-                                      points = points)
+                                      resolution = resolution)
 
     # all values NA
     if (all(is.na(circle_patch$value))) {

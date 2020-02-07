@@ -134,14 +134,10 @@ lsm_p_circle.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_circle_calc <- function(landscape, directions,
-                              points = NULL, resolution = NULL) {
+lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
-        # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
 
         # get resolution
         resolution <- raster::res(landscape)
@@ -168,9 +164,6 @@ lsm_p_circle_calc <- function(landscape, directions,
                                   directions = directions,
                                   resolution = resolution)
 
-    # patches with only 1 cell
-    one_cell <- which(area_patch$value == prod(resolution) / 10000)
-
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
 
@@ -183,43 +176,18 @@ lsm_p_circle_calc <- function(landscape, directions,
                                          directions = directions,
                                          return_raster = FALSE)[[1]]
 
-        # only boundary cells need to be considered for circle diameter
-        class_boundaries <- get_boundaries(landscape_labeled,
-                                           directions = 4,
-                                           as_NA = TRUE,
-                                           consider_boundary = FALSE)[[1]]
-
-        # transpose matrix to have same order as in points
-        class_boundaries <- t(class_boundaries)
-        landscape_labeled <- t(landscape_labeled)
-
-        # get coordinates of current class
-        points <- matrix(points[which(!is.na(class_boundaries)), ],
-                         ncol = 3)
-
-        # use patch id instead of class id
-        points[, 3] <- landscape_labeled[!is.na(class_boundaries)]
-
         # get circle radius around patch
-        circle <- rcpp_get_circle(points,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
-        # calculate circle area
-        circle[, 2] <- pi * ((circle[, 2] / 2) ^ 2)
-
-        # sort according to patch id
-        circle <- matrix(circle[order(circle[,1]),], ncol = 2)
+        circle <- rcpp_get_circle(landscape_labeled,
+                                  resolution_xy = resolution_x)
 
         tibble::tibble(class = patches_class,
-                       value = circle[,2])
+                       patch_area = circle$patch_area,
+                       circle_area = circle$circle_area)
         })
     )
 
     # calculate circle metric
-    circle_patch$value <- 1 - (area_patch$value * 10000) / circle_patch$value
-
-    # set all one-cell patches to 0
-    circle_patch$value[one_cell] <- 0
+    circle_patch$value <- 1 - circle_patch$patch_area / circle_patch$circle_area
 
     tibble::tibble(
         level = "patch",

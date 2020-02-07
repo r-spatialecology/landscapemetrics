@@ -40,19 +40,16 @@ get_circumscribingcircle.RasterLayer <- function(landscape,
 
     result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
 
-        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
-
         resolution_xy <- raster::res(landscape[[x]])
         resolution_x <- resolution_xy[[1]]
         resolution_y <- resolution_xy[[2]]
 
-        circle <- rcpp_get_circle(points_mat,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
+        mat <- raster::as.matrix(landscape[[x]])
+        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
         tibble::tibble(layer = x,
-                       id = circle[, 1],
-                       dist = circle[, 2])
+                       id = circle$patch_id,
+                       dist = circle$circle_diameter)
     })
 
     result <- do.call(rbind, result)
@@ -68,19 +65,16 @@ get_circumscribingcircle.RasterStack <- function(landscape,
 
     result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
 
-        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
-
         resolution_xy <- raster::res(landscape[[x]])
         resolution_x <- resolution_xy[[1]]
         resolution_y <- resolution_xy[[2]]
 
-        circle <- rcpp_get_circle(points_mat,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
+        mat <- raster::as.matrix(landscape[[x]])
+        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
         tibble::tibble(layer = x,
-                       id = circle[, 1],
-                       dist = circle[, 2])
+                       id = circle$patch_id,
+                       dist = circle$circle_diameter)
     })
 
     result <- do.call(rbind, result)
@@ -96,19 +90,16 @@ get_circumscribingcircle.RasterBrick <- function(landscape,
 
     result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
 
-        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
-
         resolution_xy <- raster::res(landscape[[x]])
         resolution_x <- resolution_xy[[1]]
         resolution_y <- resolution_xy[[2]]
 
-        circle <- rcpp_get_circle(points_mat,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
+        mat <- raster::as.matrix(landscape[[x]])
+        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
         tibble::tibble(layer = x,
-                       id = circle[, 1],
-                       dist = circle[, 2])
+                       id = circle$patch_id,
+                       dist = circle$circle_diameter)
     })
 
     result <- do.call(rbind, result)
@@ -126,19 +117,16 @@ get_circumscribingcircle.stars <- function(landscape,
 
     result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
 
-        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
-
         resolution_xy <- raster::res(landscape[[x]])
         resolution_x <- resolution_xy[[1]]
         resolution_y <- resolution_xy[[2]]
 
-        circle <- rcpp_get_circle(points_mat,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
+        mat <- raster::as.matrix(landscape[[x]])
+        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
         tibble::tibble(layer = x,
-                       id = circle[, 1],
-                       dist = circle[, 2])
+                       id = circle$patch_id,
+                       dist = circle$circle_diameter)
     })
 
     result <- do.call(rbind, result)
@@ -154,19 +142,16 @@ get_circumscribingcircle.list <- function(landscape,
 
     result <- lapply(seq_along(landscape), function(x) {
 
-        points_mat <- raster_to_points(landscape[[x]], return_NA = FALSE)[, 2:4]
-
         resolution_xy <- raster::res(landscape[[x]])
         resolution_x <- resolution_xy[[1]]
         resolution_y <- resolution_xy[[2]]
 
-        circle <- rcpp_get_circle(points_mat,
-                                  resolution_x = resolution_x,
-                                  resolution_y = resolution_y)
+        mat <- raster::as.matrix(landscape[[x]])
+        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
         tibble::tibble(layer = x,
-                       id = circle[, 1],
-                       dist = circle[, 2])
+                       id = circle$patch_id,
+                       dist = circle$circle_diameter)
     })
 
     result <- do.call(rbind, result)
@@ -189,13 +174,12 @@ get_circumscribingcircle.matrix <- function(landscape,
         stop("Resolution must be provided to correctly calculate the edges. ",
              call. = FALSE)
     }
+    mat <- raster::rasterFromXYZ(landscape)
+    mat <- raster::as.matrix(mat)
 
-    circle <- rcpp_get_circle(landscape,
-                              resolution_x = resolution_x,
-                              resolution_y = resolution_y)
+    circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
 
-    tibble::add_column(tibble::tibble(id = circle[, 1],
-                                      dist = circle[, 2]),
-                       layer = 1, .before = TRUE)
-
+    tibble::add_column(tibble::tibble(id = circle$patch_id,
+                   dist = circle$circle_diameter),
+                   layer = 1, .before = TRUE)
 }
