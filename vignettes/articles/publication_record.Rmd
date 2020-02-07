@@ -29,6 +29,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Gasparini, K.A.C., Silva Junior, C.H.L., Shimabukuro, Y.E., Arai, E., Aragão, L.E.O.C., Silva, C.A., Marshall, P.L., 2019. Determining a Threshold to Delimit the Amazonian Forests from the Tree Canopy Cover 2000 GFC Data. Sensors 19:5020. 
 
+- Gerad, M., Martinet, B., Maebe, K., Marshall, L., Smagghe, G., Vereecken, N.J., Vray, S., Rasmont, P., Michez, D., 2019. Shift in size of bumblebee queens over the last century. Global Change Biology gcb.14890.
+
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
 
 - Huang, J.‐L., Andrello, M., Martensen, A.C., Saura, S., Liu, D.‐F., He, J.‐H., Fortin, M.‐J., 2020, Importance of spatio–temporal connectivity to maintain species experiencing range shifts. Ecography.
@@ -36,8 +38,6 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 - Kendall, T.J., Duff, C.M., Thomson, A.M., Iredale, J.P., 2019. qPaLM: quantifying occult microarchitectural relationships in histopathological landscapes (preprint). Pathology.
 
 - Lucash, M.S., Ruckert, K.L., Nicholas, R.E., Scheller, R.M., Smithwick, E.A.H., 2019. Complex interactions among succes-sional trajectories and climate govern spatial resilience after severe windstorms in central Wisconsin, USA. Landscape Ecology.
-
-- Maxence, G., Martinet, B., Maebe, K., Marshall, L., Smagghe, G., Vereecken, N.J., Vray, S., Rasmont, P., Michez, D., 2019. Shift in size of bumblebee queens over the last century. Global Change Biology gcb.14890.
 
 - Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
 
