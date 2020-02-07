@@ -29,3 +29,15 @@ test_that("rcpp_get_circle patch calculates T-shaped patches correctly", {
     expect_equal(mat1_cir$circle_area, circle_area)
 })
 
+mat1_cir2 <- rcpp_get_circle(mat = mat1, 2) # double resolution
+
+test_that("rcpp_get_circle handles double resolution", {
+    expect_equal(mat1_cir2$patch_id, patch_id)
+    expect_equal(mat1_cir2$patch_area, 4 * patch_area)
+    expect_equal(mat1_cir2$patch_height, 2 * patch_height)
+    expect_equal(mat1_cir2$patch_width, 2 * patch_width)
+    expect_equal(mat1_cir2$circle_center_x, 2 * circle_x)
+    expect_equal(mat1_cir2$circle_center_y, 2 * circle_y)
+    expect_equal(mat1_cir2$circle_diameter, 2 * circle_diameter)
+    expect_equal(mat1_cir2$circle_area, 4 * circle_area)
+})
