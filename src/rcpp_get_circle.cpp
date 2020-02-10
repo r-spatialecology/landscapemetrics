@@ -4,7 +4,7 @@
 #include "smallest_circle.h"
 
 DataFrame rcpp_get_circle(IntegerMatrix mat,
-                          const unsigned resolution_xy) {
+                          const double resolution_xy) {
 
     // create index-patch_id map
     std::vector<int> patch_id = rcpp_get_unique_values(mat);
