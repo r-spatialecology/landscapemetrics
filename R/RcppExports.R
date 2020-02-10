@@ -52,7 +52,7 @@ rcpp_get_boundaries <- function(xx, directions = 4L) {
     .Call('_landscapemetrics_rcpp_get_boundaries', PACKAGE = 'landscapemetrics', xx, directions)
 }
 
-rcpp_get_circle <- function(mat, resolution_xy = 1L) {
+rcpp_get_circle <- function(mat, resolution_xy = 1.0) {
     .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', mat, resolution_xy)
 }
 
