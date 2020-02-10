@@ -14,7 +14,6 @@ DataFrame rcpp_get_circle(IntegerMatrix mat,
     const unsigned ncols = mat.ncol();
     const unsigned nrows = mat.nrow();
 
-    std::vector<unsigned> patch_area(n_patches);
     std::vector<unsigned> patch_height(n_patches);
     std::vector<unsigned> patch_width(n_patches);
 
@@ -55,7 +54,6 @@ DataFrame rcpp_get_circle(IntegerMatrix mat,
             if (col > col_max[class_idx]) {
                 col_max[class_idx] = col;
             }
-            patch_area[class_idx]++;
         }
     }
 
@@ -107,11 +105,9 @@ DataFrame rcpp_get_circle(IntegerMatrix mat,
 
         patch_width[i] = ((col_max[i] + resolution_xy) - (col_min[i]));
         patch_height[i] = ((row_max[i] + resolution_xy) - (row_min[i]));
-        patch_area[i] *= resolution_xy * resolution_xy;
     }
 
     DataFrame retval = DataFrame::create(Named("patch_id") = IntegerVector(patch_id.begin(), patch_id.end()),
-                                         Named("patch_area") = IntegerVector(patch_area.begin(), patch_area.end()),
                                          Named("patch_height") = IntegerVector(patch_height.begin(), patch_height.end()),
                                          Named("patch_width") = IntegerVector(patch_width.begin(), patch_width.end()),
                                          Named("circle_center_x") = NumericVector(circle_center_x.begin(), circle_center_x.end()),
