@@ -77,13 +77,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_circle
-DataFrame rcpp_get_circle(IntegerMatrix mat, const unsigned resolution_xy);
+DataFrame rcpp_get_circle(IntegerMatrix mat, const double resolution_xy);
 RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP matSEXP, SEXP resolution_xySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerMatrix >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< const unsigned >::type resolution_xy(resolution_xySEXP);
+    Rcpp::traits::input_parameter< const double >::type resolution_xy(resolution_xySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(mat, resolution_xy));
     return rcpp_result_gen;
 END_RCPP
