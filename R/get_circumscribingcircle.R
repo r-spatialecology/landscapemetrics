@@ -215,5 +215,11 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
                                  center_y = circle_class$circle_center_y)
     }
 
+    if (exists("extent")) {
+        # shift the coordinates to the original coordinate system
+        circle$center_x = circle$center_x + extent@xmin
+        circle$center_y = circle$center_y + extent@ymin
+    }
+
     return(circle)
 }
