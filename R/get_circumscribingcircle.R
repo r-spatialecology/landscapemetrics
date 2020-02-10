@@ -147,21 +147,28 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
              call. = FALSE)
     }
 
-    # conver to matrix
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get resolution
         resolution <- raster::res(landscape)
 
+        # get extent
+        extent <- raster::extent(landscape)
+
         # convert to matrix
         landscape <- raster::as.matrix(landscape)
     }
 
-    # check if resolution is identical
-    if (resolution[1] != resolution[2]) {
+    if (!exists("resolution")) {
+        resolution <- c(1,1)
+    } else {
+        # check if resolution is identical
+        if (resolution[1] != resolution[2]) {
 
-        stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
-             call. = FALSE)
+            stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
+                 call. = FALSE)
+        }
     }
 
     # circle for each patch
@@ -175,10 +182,10 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
 
             # get patches
             landscape_labeled <- get_patches(landscape,
-                                     class = patches_class,
-                                     directions = directions,
-                                     to_disk = FALSE,
-                                     return_raster = FALSE)[[1]]
+                                             class = patches_class,
+                                             directions = directions,
+                                             to_disk = FALSE,
+                                             return_raster = FALSE)[[1]]
 
             # get circle
             circle_patch <- rcpp_get_circle(landscape_labeled,
@@ -186,11 +193,11 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
 
             # resulting tibble
             circle_patch <- tibble::tibble(level = "patch",
-                                     class = as.integer(patches_class),
-                                     id = as.integer(circle_patch$patch_id),
-                                     value = circle_patch$circle_diameter,
-                                     center_x = circle_patch$circle_center_x,
-                                     center_y = circle_patch$circle_center_y)}))
+                                           class = as.integer(patches_class),
+                                           id = as.integer(circle_patch$patch_id),
+                                           value = circle_patch$circle_diameter,
+                                           center_x = circle_patch$circle_center_x,
+                                           center_y = circle_patch$circle_center_y)}))
     }
 
     # class level (no labeling)
