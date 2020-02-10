@@ -44,7 +44,7 @@ mat1_cir3 <- rcpp_get_circle(mat = mat1, .5) # half resolution
 test_that("rcpp_get_circle handles 0.5 resolution", {
     expect_equal(mat1_cir3$patch_id, patch_id)
     expect_equal(mat1_cir3$patch_height, .5 * patch_height)
-    expect_equal(mat1_cir3$patch_width, .5 * patch_width)
+    expect_equal(mat1_cir3$patch_width, floor(.5 * patch_width))
     expect_equal(mat1_cir3$circle_center_x, .5 * circle_x)
     expect_equal(mat1_cir3$circle_center_y, .5 * circle_y)
     expect_equal(mat1_cir3$circle_diameter, .5 * circle_diameter)

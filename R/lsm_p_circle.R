@@ -146,6 +146,13 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
         landscape <- raster::as.matrix(landscape)
     }
 
+    # check if resolution is identical
+    if (resolution[1] != resolution[2]) {
+
+        stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
+             call. = FALSE)
+    }
+
     # all values NA
     if (all(is.na(landscape))) {
         return(tibble::tibble(level = "patch",
@@ -155,14 +162,13 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
                               value = as.double(NA)))
     }
 
-    # get resolution of landscape
-    resolution_x <- resolution[[1]]
-    resolution_y <- resolution[[2]]
-
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
                                   resolution = resolution)
+
+    # convert area to m2
+    area_patch <- area_patch$value * 10000
 
     # get unique classes
     classes <- get_unique_values(landscape)[[1]]
@@ -178,16 +184,15 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
 
         # get circle radius around patch
         circle <- rcpp_get_circle(landscape_labeled,
-                                  resolution_xy = resolution_x)
+                                  resolution_xy = resolution[[1]])
 
         tibble::tibble(class = patches_class,
-                       patch_area = circle$patch_area,
-                       circle_area = circle$circle_area)
+                       value = circle$circle_area)
         })
     )
 
     # calculate circle metric
-    circle_patch$value <- 1 - circle_patch$patch_area / circle_patch$circle_area
+    circle_patch$value <- 1 - (area_patch / circle_patch$value)
 
     tibble::tibble(
         level = "patch",

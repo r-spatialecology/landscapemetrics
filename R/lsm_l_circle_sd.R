@@ -134,8 +134,7 @@ lsm_l_circle_sd.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_sd_calc <- function(landscape, directions,
-                                 resolution = NULL) {
+lsm_l_circle_sd_calc <- function(landscape, directions, resolution = NULL) {
 
     circle_patch <- lsm_p_circle_calc(landscape,
                                       directions = directions,
