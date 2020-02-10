@@ -1,73 +1,53 @@
 context("get_circumscribingcircle")
 
-class_1 <- get_patches(landscape, class = 1)[[1]]
-
-class_1_irr <- get_patches(landscape_diff_res, class = 1)[[1]]
-
-class_1_mat <- raster_to_points(class_1, return_NA = FALSE)
-
 test_that("get_circumscribingcircle has one radius for each patch", {
 
-    circle <- get_circumscribingcircle(class_1)
+    circle <- get_circumscribingcircle(landscape)
 
     expect_equal(nrow(circle),
-                     expected =  max(get_unique_values(class_1)[[1]]))
-})
+                 expected =  lsm_l_np(landscape)$value)
 
-test_that("get_circumscribingcircle has two rows and is tibble", {
-
-    circle <- get_circumscribingcircle(class_1)
-
-    expect_is(circle, class = "tbl")
-    expect_equal(ncol(circle), expected = 3)
-
-})
-
-test_that("get_circumscribingcircle works for irregular raster", {
-
-    circle <- get_circumscribingcircle(class_1_irr)
+    expect_true(object = all(all(circle$value != 0),
+                             all(!is.na(circle$value)),
+                             all(!is.infinite(circle$value))))
 
     expect_is(circle, class = "tbl")
-    expect_equal(ncol(circle), expected = 3)
-    expect_equal(nrow(circle),
-                 expected =  max(get_unique_values(class_1_irr)[[1]]))
-
 })
 
-test_that("get_circumscribingcircle returns errors", {
+test_that("get_circumscribingcircle has one radius for each class", {
 
-    expect_error(object = get_circumscribingcircle(class_1_mat[, 2:4]),
-                 regexp = "Resolution must be provided to correctly calculate the edges.",
-                 fixed = TRUE)
-
-    expect_error(object = get_circumscribingcircle(class_1_mat,
-                                                   resolution_x = 1, resolution_y = 1),
-                 regexp = "Coordinate matrix must have 3 (x, y, id) columns.",
-                 fixed = TRUE)
-
-})
-
-test_that("get_circumscribingcircle works for coordinate matrix", {
-
-    circle <- get_circumscribingcircle(class_1_mat[, 2:4],
-                                       resolution_x = 1,
-                                       resolution_y = 1)
+    circle <- get_circumscribingcircle(landscape, level = "class")
 
     expect_equal(nrow(circle),
-                 expected =  max(class_1_mat[, 4]))
+                 expected = lsm_l_pr(landscape)$value)
 
-    expect_is(circle, class = "tbl")
-    expect_equal(ncol(circle), expected = 3)
+    expect_true(object = all(all(circle$value != 0),
+                             all(!is.na(circle$value)),
+                             all(!is.infinite(circle$value))))
 })
 
 test_that("get_circumscribingcircle works for all data type matrix", {
 
-   result_stack <- get_circumscribingcircle(landscape_stack)
-   result_brick <- get_circumscribingcircle(landscape_brick)
-   result_list <- get_circumscribingcircle(landscape_list)
+   result_stack <- get_circumscribingcircle(landscape_stack, level = "class")
+   result_brick <- get_circumscribingcircle(landscape_brick, level = "class")
+   result_list <- get_circumscribingcircle(landscape_list, level = "class")
 
-   expect_is(result_stack, class = "tbl")
-   expect_is(result_brick, class = "tbl")
-   expect_is(result_list, class = "tbl")
+   expect_equal(object = unique(result_stack$layer), expected = c(1, 2))
+   expect_equal(object = unique(result_brick$layer), expected = c(1, 2))
+   expect_equal(object = unique(result_list$layer), expected = c(1, 2))
+
+   expect_equal(nrow(result_stack), expected = sum(lsm_l_pr(landscape_stack)$value))
+   expect_equal(nrow(result_brick), expected = sum(lsm_l_pr(landscape_brick)$value))
+   expect_equal(nrow(result_list), expected = sum(lsm_l_pr(landscape_list)$value))
 })
 
+test_that("get_circumscribingcircle returns errors", {
+
+    expect_error(object = get_circumscribingcircle(landscape, level = "landscape"),
+                 regexp = "The 'level' argument must be either 'patch' or 'class'.",
+                 fixed = TRUE)
+
+    expect_error(object = get_circumscribingcircle(landscape_diff_res),
+                 regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.",
+                 fixed = TRUE)
+})

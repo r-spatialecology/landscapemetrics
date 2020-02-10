@@ -244,8 +244,9 @@ get_patches.matrix <- function(landscape,
                               class = class,
                               directions = directions)
 
-    if (return_raster) {
-        warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.")
+    if (return_raster || to_disk) {
+        warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
+                call. = FALSE)
     }
 
     return(result)
