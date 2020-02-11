@@ -155,28 +155,18 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     # get resolution
     resolution <- raster::res(landscape)
 
+    # check if resolution is identical
+    if (resolution[1] != resolution[2]) {
+
+        stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
+             call. = FALSE)
+    }
+
     # get extent
     extent <- raster::extent(landscape)
 
     # convert to matrix
     landscape <- raster::as.matrix(landscape)
-
-    # add resolution if none exits
-    # MH: Is this even possible?
-    if (!exists("resolution")) {
-
-        resolution <- c(1,1)
-    }
-
-    # check if resolution is identical
-    else {
-
-        if (resolution[1] != resolution[2]) {
-
-            stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
-                 call. = FALSE)
-        }
-    }
 
     # circle for each patch
     if (level == "patch") {
@@ -222,11 +212,10 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
                                  center_y = circle_class$circle_center_y)
     }
 
-    if (exists("extent")) {
-        # shift the coordinates to the original coordinate system
-        circle$center_x = circle$center_x + extent@xmin
-        circle$center_y = circle$center_y + extent@ymin
-    }
+
+    # shift the coordinates to the original coordinate system
+    circle$center_x = circle$center_x + extent@xmin
+    circle$center_y = circle$center_y + extent@ymin
 
     return(circle)
 }
