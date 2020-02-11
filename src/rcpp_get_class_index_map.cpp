@@ -1,4 +1,4 @@
-#include "get_class_index_map.h"
+#include "rcpp_get_class_index_map.h"
 
 std::map<int, unsigned> get_class_index_map(const std::vector<int> &classes)
 {

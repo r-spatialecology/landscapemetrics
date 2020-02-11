@@ -23,7 +23,7 @@
 #include <cmath>
 #include <cstddef>
 #include <random>
-#include "smallest_circle.h"
+#include "rcpp_smallest_circle.h"
 
 using std::size_t;
 using std::vector;

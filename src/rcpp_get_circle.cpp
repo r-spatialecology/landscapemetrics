@@ -1,7 +1,7 @@
 #include "rcpp_get_circle.h"
-#include "get_class_index_map.h"
+#include "rcpp_get_class_index_map.h"
 #include "rcpp_get_unique_values.h"
-#include "smallest_circle.h"
+#include "rcpp_smallest_circle.h"
 
 DataFrame rcpp_get_circle(IntegerMatrix mat,
                           const double resolution_xy) {

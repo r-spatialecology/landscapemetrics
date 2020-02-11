@@ -6,18 +6,6 @@
 
 using namespace Rcpp;
 
-// rcpp_get_entropy
-double rcpp_get_entropy(NumericVector x, std::string base);
-RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_entropy(x, base));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_ccl
 void rcpp_ccl(IntegerMatrix mat, int directions);
 RcppExport SEXP _landscapemetrics_rcpp_ccl(SEXP matSEXP, SEXP directionsSEXP) {
@@ -148,6 +136,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_entropy
+double rcpp_get_entropy(NumericVector x, std::string base);
+RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_entropy(x, base));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_get_nearest_neighbor
 NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points);
 RcppExport SEXP _landscapemetrics_rcpp_get_nearest_neighbor(SEXP pointsSEXP) {
@@ -173,7 +173,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_ccl", (DL_FUNC) &_landscapemetrics_rcpp_ccl, 2},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
@@ -185,6 +184,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_coocurrence_matrix_diag", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_diag, 2},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
+    {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
     {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 2},
     {NULL, NULL, 0}

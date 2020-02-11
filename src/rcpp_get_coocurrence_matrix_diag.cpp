@@ -1,5 +1,5 @@
 //#include "rcpp_get_coocurrence_matrix.h"
-#include "get_class_index_map.h"
+#include "rcpp_get_class_index_map.h"
 #include "rcpp_get_coocurrence_matrix_diag.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
