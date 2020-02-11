@@ -147,23 +147,30 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
              call. = FALSE)
     }
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-
-        # get resolution
-        resolution <- raster::res(landscape)
-
-        # get extent
-        extent <- raster::extent(landscape)
-
-        # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+    if (!inherits(x = landscape, what = "RasterLayer")) {
+        stop("Please provide a 'RasterLayer', 'RasterStack', 'RasterBrick', 'stars'-object or a list with 'RasterLayers'.",
+             call. = FALSE)
     }
 
+    # get resolution
+    resolution <- raster::res(landscape)
+
+    # get extent
+    extent <- raster::extent(landscape)
+
+    # convert to matrix
+    landscape <- raster::as.matrix(landscape)
+
+    # add resolution if none exits
+    # MH: Is this even possible?
     if (!exists("resolution")) {
+
         resolution <- c(1,1)
-    } else {
-        # check if resolution is identical
+    }
+
+    # check if resolution is identical
+    else {
+
         if (resolution[1] != resolution[2]) {
 
             stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",

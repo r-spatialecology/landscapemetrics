@@ -44,10 +44,11 @@ test_that("get_circumscribingcircle works for all data type matrix", {
 test_that("get_circumscribingcircle returns errors", {
 
     expect_error(object = get_circumscribingcircle(landscape, level = "landscape"),
-                 regexp = "The 'level' argument must be either 'patch' or 'class'.",
-                 fixed = TRUE)
+                 regexp = "The 'level' argument must be either 'patch' or 'class'.")
 
     expect_error(object = get_circumscribingcircle(landscape_diff_res),
-                 regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.",
-                 fixed = TRUE)
+                 regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.")
+
+    expect_error(object = get_circumscribingcircle(list(raster::as.matrix(landscape))),
+                 regexp = "Please provide a 'RasterLayer', 'RasterStack', 'RasterBrick', 'stars'-object or a list with 'RasterLayers'.")
 })
