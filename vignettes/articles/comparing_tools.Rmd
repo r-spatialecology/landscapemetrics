@@ -230,6 +230,85 @@ knitr::kable(cbind(fragstats, landscapemetrics))
 - PARA_MN (`lsm_c_para_mn`)
 - PARA_SD (`lsm_c_para_sd`)
 
+### CIRCLE metric
+According to FRAGSTATS, for patches with only one cell CIRCLE = 0.
+
+> [...] CIRCLE = 0 for one cell patches. [...]
+
+Nevertheless, because also patches with only one cell have a dimension in the raster context, we decided to calculate the CIRCLE metric for such patches.
+
+```{r}
+# Output of FRAGSTATS
+fragstats <- fragstats_patch_landscape %>%
+    dplyr::select(PID, AREA, CIRCLE) %>%
+    purrr::set_names("id_fs", "area_fs", "circle_fs") %>%
+    dplyr::filter(area_fs == 0.0001)
+
+# Output of landscapemetrics
+area_landscapmetrics <- lsm_p_area(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id_lsm", "area_lsm")
+
+circle_landscapmetrics <- lsm_p_circle(landscape) %>%
+    dplyr::select(id, value) %>%
+    purrr::set_names("id_lsm", "circle_lsm")
+
+landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
+                                     y = circle_landscapmetrics, 
+                                     by = "id_lsm") %>%
+  dplyr::filter(area_lsm == 0.0001)
+```
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#5"> Show/Hide Results </button>  
+<div id="5" class="collapse">
+
+```{r}
+knitr::kable(cbind(fragstats, landscapemetrics))
+```
+
+</div>
+
+While it seems like FRAGSTATS uses the largest distance between the corner points of the cells, this does not necessarily result in the correct circumscribingcircle 
+
+```{r}
+# create matrix
+mat <- matrix(data = NA, nrow = 13, ncol = 13)
+
+# create T-shaped patches
+mat[4:9, 7] <- 1
+mat[4, 4:10] <- 1
+
+# convert to raster
+ras <- raster::raster(mat, xmn = 0, xmx = 13, ymn = 0, ymx = 13)
+
+# get circumscribing circle 
+circle_lsm <- landscapemetrics::get_circumscribingcircle(ras)
+
+# construct circle using diameter / 2
+circle_lsm <- landscapemetrics::construct_buffer(coords = matrix(c(circ_circle$center_x, 
+                                                                   circ_circle$center_y),
+                                                                 nrow = 1, ncol = 2),
+                                                 shape = "circle", 
+                                                 size = circ_circle$value / 2,
+                                                 return_sp = FALSE)
+
+# calculate max distance between corner points of cells
+circle_max_dist <- dist(matrix(data = c(3, 10, 7, 4), byrow = TRUE, nrow = 2, ncol = 2))
+
+# construct circle using diamter /2
+circle_max_dist <- landscapemetrics::construct_buffer(coords = matrix(c(6.5, 7.5),
+                                                                      nrow = 1, ncol = 2),
+                                                 shape = "circle", 
+                                                 size = circle_max_dist / 2,
+                                                 return_sp = FALSE)
+
+# plot results
+plot(ras, col = "#D5B528", legend = FALSE)
+polygon(circle_lsm, border = "#84A98E", lwd = 2.5) # green circle
+polygon(circle_max_dist, border = "#922418", lwd = 2.5) # red circle
+
+```
+
 # Comparison with SDMTools
 
 `SDMTools` (VanDerWal et al. 2014) (still available, but apparently not longer maintained) offers landscape metrics on patch and class level. However, it does not return the same results as FRAGSTATS. The main reason for this are different standard defaults (e.g. `SDMTools` always considers the global landscape boundary) and that `SDMTools` returns results in map units and not in m^2/hectar, as FRAGSTATS/`landscapemetrics`. This also explains differences between our package and `SDMTools`.
