@@ -156,7 +156,7 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     resolution <- raster::res(landscape)
 
     # check if resolution is identical
-    if (resolution[1] != resolution[2]) {
+    if (!isTRUE(all.equal(resolution[1], resolution[2]))) {
 
         stop("The area of the circumscribing circle is currently only implemented for equal resolutions.",
              call. = FALSE)
