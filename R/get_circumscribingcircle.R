@@ -12,6 +12,9 @@
 #' is based on the maximum distance between the corners of each cell. This ensures that all
 #' cells of the patch are included in the patch.
 #'
+#' @references
+#' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
+#'
 #' @examples
 #' # get circle around each patch
 #' get_circumscribingcircle(landscape)

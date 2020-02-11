@@ -45,3 +45,6 @@ get_circumscribingcircle(landscape)
 get_circumscribingcircle(landscape, level = "class")
 
 }
+\references{
+Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
+}

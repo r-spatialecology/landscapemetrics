@@ -49,6 +49,8 @@
 #' landscape structure using the GRASS geographical information system.
 #' Landscape Ecology 7: 291-302.
 #'
+#' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
+#'
 #' @export
 lsm_p_circle <- function(landscape, directions) UseMethod("lsm_p_circle")
 
