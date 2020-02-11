@@ -148,8 +148,8 @@ landscapemetrics <- full_join(x = landscapemetrics_area,
   dplyr::filter(landscapemetrics_area == 0.0001)
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
-<div id="4" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#3"> Show/Hide Results </button>  
+<div id="3" class="collapse">
 
 ```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
@@ -215,8 +215,8 @@ landscapemetrics <- dplyr::full_join(x = area_landscapmetrics,
     arrange(area)
 ```
 
-<button class="btn btn-primary" data-toggle="collapse" data-target="#5"> Show/Hide Results </button>  
-<div id="5" class="collapse">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
+<div id="4" class="collapse">
 
 ```{r}
 knitr::kable(cbind(fragstats, landscapemetrics))
