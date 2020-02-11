@@ -285,11 +285,11 @@ ras <- raster::raster(mat, xmn = 0, xmx = 13, ymn = 0, ymx = 13)
 circle_lsm <- landscapemetrics::get_circumscribingcircle(ras)
 
 # construct circle using diameter / 2
-circle_lsm <- landscapemetrics::construct_buffer(coords = matrix(c(circ_circle$center_x, 
-                                                                   circ_circle$center_y),
+circle_lsm <- landscapemetrics::construct_buffer(coords = matrix(c(circle_lsm$center_x, 
+                                                                   circle_lsm$center_y),
                                                                  nrow = 1, ncol = 2),
                                                  shape = "circle", 
-                                                 size = circ_circle$value / 2,
+                                                 size = circle_lsm$value / 2,
                                                  return_sp = FALSE)
 
 # calculate max distance between corner points of cells
