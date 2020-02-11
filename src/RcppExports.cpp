@@ -76,27 +76,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_get_max_dist
-double rcpp_get_max_dist(arma::mat& points);
-RcppExport SEXP _landscapemetrics_rcpp_get_max_dist(SEXP pointsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type points(pointsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_max_dist(points));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_get_circle
-arma::mat rcpp_get_circle(arma::mat points, double resolution_x, double resolution_y);
-RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP pointsSEXP, SEXP resolution_xSEXP, SEXP resolution_ySEXP) {
+DataFrame rcpp_get_circle(IntegerMatrix mat, const double resolution_xy);
+RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP matSEXP, SEXP resolution_xySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type points(pointsSEXP);
-    Rcpp::traits::input_parameter< double >::type resolution_x(resolution_xSEXP);
-    Rcpp::traits::input_parameter< double >::type resolution_y(resolution_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(points, resolution_x, resolution_y));
+    Rcpp::traits::input_parameter< IntegerMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const double >::type resolution_xy(resolution_xySEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(mat, resolution_xy));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -191,8 +179,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
     {"_landscapemetrics_rcpp_create_neighborhood", (DL_FUNC) &_landscapemetrics_rcpp_create_neighborhood, 1},
     {"_landscapemetrics_rcpp_get_boundaries", (DL_FUNC) &_landscapemetrics_rcpp_get_boundaries, 2},
-    {"_landscapemetrics_rcpp_get_max_dist", (DL_FUNC) &_landscapemetrics_rcpp_get_max_dist, 1},
-    {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 3},
+    {"_landscapemetrics_rcpp_get_circle", (DL_FUNC) &_landscapemetrics_rcpp_get_circle, 2},
     {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix_diag", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_diag, 2},

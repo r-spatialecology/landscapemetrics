@@ -52,12 +52,8 @@ rcpp_get_boundaries <- function(xx, directions = 4L) {
     .Call('_landscapemetrics_rcpp_get_boundaries', PACKAGE = 'landscapemetrics', xx, directions)
 }
 
-rcpp_get_max_dist <- function(points) {
-    .Call('_landscapemetrics_rcpp_get_max_dist', PACKAGE = 'landscapemetrics', points)
-}
-
-rcpp_get_circle <- function(points, resolution_x, resolution_y) {
-    .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', points, resolution_x, resolution_y)
+rcpp_get_circle <- function(mat, resolution_xy = 1.0) {
+    .Call('_landscapemetrics_rcpp_get_circle', PACKAGE = 'landscapemetrics', mat, resolution_xy)
 }
 
 rcpp_get_composition_vector <- function(x) {
