@@ -268,7 +268,7 @@ knitr::kable(cbind(fragstats, landscapemetrics))
 
 </div>
 
-It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle, this does not necessarily result in the correct circumscribing circle. While this approach works well for more compact patch shapes, there are some special cases in which the approach fails. One example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm calculates the true circumscribing circle also for such patches.
+It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle. However, this does not necessarily result in the correct circumscribing circle. While this approach works well for more compact patch shapes, there are some cases in which the approach fails. One example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm calculates the true circumscribing circle also for such patches.
 
 ```{r}
 # create matrix
