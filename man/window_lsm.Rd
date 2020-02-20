@@ -74,7 +74,7 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{window}{matrix}
+\item{window}{Moving window matrix.}
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 
@@ -88,6 +88,8 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 \item{progress}{Print progress report.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
+
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 }
 \value{
 list

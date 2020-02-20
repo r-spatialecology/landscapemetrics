@@ -89,6 +89,8 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{progress}{Print progress report.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
+
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 }
 \value{
 list

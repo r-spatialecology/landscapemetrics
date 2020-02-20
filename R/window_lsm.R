@@ -3,7 +3,8 @@
 #' @description Moving window
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param window matrix
+#' @param window Moving window matrix.
+#' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
