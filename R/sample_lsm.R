@@ -458,16 +458,13 @@ sample_lsm_int <- function(landscape,
 
     number_plots <- length(maximum_area)
 
-    # print warnings immediately to capture
-    options(warn = 1)
 
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
+    # create object for warning messages
+    warning_messages <- NULL
+
 
     # loop through each sample point and calculate metrics
-    result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
+    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
 
         # print progess using the non-internal name
         if (progress) {
@@ -522,8 +519,12 @@ sample_lsm_int <- function(landscape,
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
 
         return(result_current_plot)
-    })
-    )
+    }))},
+    warning = function(cond) {
+
+        warning_messages <<- c(warning_messages, conditionMessage(cond))
+
+        invokeRestart("muffleWarning")})
 
     if (progress) {
 
@@ -540,22 +541,11 @@ sample_lsm_int <- function(landscape,
         }
     }
 
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
     # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
+    warning_messages <- unique(warning_messages)
 
     # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
+    lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
