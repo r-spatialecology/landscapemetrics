@@ -9,7 +9,17 @@
 \alias{spatialize_lsm.list}
 \title{spatialize_lsm}
 \usage{
-spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
+spatialize_lsm(
+  landscape,
+  level,
+  metric,
+  name,
+  type,
+  what,
+  directions,
+  progress,
+  ...
+)
 
 \method{spatialize_lsm}{RasterLayer}(
   landscape,
@@ -74,6 +84,8 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
+
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 
 \item{name}{Full name of metrics (e.g. 'core area')}
@@ -89,8 +101,6 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{progress}{Print progress report.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
-
-\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 }
 \value{
 list

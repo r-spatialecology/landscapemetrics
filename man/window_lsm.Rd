@@ -9,7 +9,7 @@
 \alias{window_lsm.list}
 \title{window_lsm}
 \usage{
-window_lsm(landscape, window, metric, name, type, what, progress, ...)
+window_lsm(landscape, window, level, metric, name, type, what, progress, ...)
 
 \method{window_lsm}{RasterLayer}(
   landscape,
@@ -76,6 +76,8 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 
 \item{window}{Moving window matrix.}
 
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
+
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 
 \item{name}{Full name of metrics (e.g. 'core area')}
@@ -88,8 +90,6 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 \item{progress}{Print progress report.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
-
-\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 }
 \value{
 list

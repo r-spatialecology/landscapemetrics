@@ -460,8 +460,7 @@ sample_lsm_int <- function(landscape,
 
 
     # create object for warning messages
-    warning_messages <- NULL
-
+    warning_messages <- character(0)
 
     # loop through each sample point and calculate metrics
     result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
@@ -541,11 +540,27 @@ sample_lsm_int <- function(landscape,
         }
     }
 
-    # only unique warnings
-    warning_messages <- unique(warning_messages)
+    # warnings present
+    if (length(warning_messages)) {
 
-    # print warnings
-    lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        # only unique warnings
+        warning_messages <- unique(warning_messages)
+
+        # remove warning from creating raster
+        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
+                                                   "no non-missing arguments to max; returning -Inf"))
+
+        if (length(remove_id)) {
+            warning_messages <- warning_messages[-remove_id]
+        }
+
+        # still warnings present
+        if (length(warning_messages)) {
+
+            # print warnings
+            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        }
+    }
 
     return(result)
 }

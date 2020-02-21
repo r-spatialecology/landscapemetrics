@@ -37,7 +37,7 @@
 #'
 #' @export
 spatialize_lsm <- function(landscape,
-                           metric, name, type, what,
+                           level, metric, name, type, what,
                            directions,
                            progress,
                            ...) UseMethod("spatialize_lsm")
@@ -266,7 +266,7 @@ spatialize_lsm_internal <- function(landscape,
                                  NA)
 
     # create object for warning messages
-    warning_messages <- NULL
+    warning_messages <- character(0)
 
     # loop through metrics and return raster with value for each patch
     result <- withCallingHandlers(expr = {lapply(seq_along(metrics), function(x) {
@@ -290,7 +290,7 @@ spatialize_lsm_internal <- function(landscape,
                             all.x = TRUE)
 
         # convert to raster (wrap )
-        raster::rasterFromXYZ(fill_value[, c(2,3, 8)], crs = crs_input)
+        raster::rasterFromXYZ(fill_value[, c(2, 3, 8)], crs = crs_input)
     })},
     warning = function(cond) {
 
@@ -303,11 +303,27 @@ spatialize_lsm_internal <- function(landscape,
 
     if (progress) {cat("\n")}
 
-    # only unique warnings
-    warning_messages <- unique(warning_messages)
+    # warnings present
+    if (length(warning_messages)) {
 
-    # print warnings
-    lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        # only unique warnings
+        warning_messages <- unique(warning_messages)
+
+        # remove warning from creating raster
+        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
+                                                   "no non-missing arguments to max; returning -Inf"))
+
+        if (length(remove_id)) {
+            warning_messages <- warning_messages[-remove_id]
+        }
+
+        # still warnings present
+        if (length(warning_messages)) {
+
+            # print warnings
+            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        }
+    }
 
     return(result)
 }
