@@ -21,13 +21,13 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Bajaru, S.B., Kulavmode, A.R., Manakadan, R., 2019. Influence of microhabitat-scale and landscape-scale factors on the richness and occupancy of small mammals in the northern Western Ghats: A multi-species occupancy modeling approach. Mammalian Biology S1616504719300667.
 
-- Bosch, M. 2019. PyLandStats: An open-source Pythonic library to compute landscape metrics. bioRxiv, 715052.
+- Bosch, M., 2019. PyLandStats: An open-source Pythonic library to compute landscape metrics. bioRxiv, 715052.
 
 - Copot, O., Tanase, C., 2019. Dead wood, forest fragmentation and elevation influences macrofungal diversity on downed coarse woody debris in beech and oak old forest ecosystems from northeastern Romania. Journal of Plant Development 26:161-172.
 
 - Fletcher, R., Fortin, M.-J., 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing. 
 
-- Gasparini, K.A.C., Silva Junior, C.H.L., Shimabukuro, Y.E., Arai, E., Aragão, L.E.O.C., Silva, C.A., Marshall, P.L., 2019. Determining a Threshold to Delimit the Amazonian Forests from the Tree Canopy Cover 2000 GFC Data. Sensors 19:5020. 
+- Gasparini, K.A.C., Silva Junior, C.H.L., Shimabukuro, Y.E., Arai, E., Aragão, L.E.O.C., Silva, C.A., Marshall, P.L., 2019. Determining a Threshold to Delimit the Amazonian Forests from the Tree Canopy Cover 2000 GFC Data. Sensors 19, 5020. 
 
 - Gerad, M., Martinet, B., Maebe, K., Marshall, L., Smagghe, G., Vereecken, N.J., Vray, S., Rasmont, P., Michez, D., 2019. Shift in size of bumblebee queens over the last century. Global Change Biology gcb.14890.
 
@@ -35,12 +35,14 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Huang, J.‐L., Andrello, M., Martensen, A.C., Saura, S., Liu, D.‐F., He, J.‐H., Fortin, M.‐J., 2020, Importance of spatio–temporal connectivity to maintain species experiencing range shifts. Ecography.
 
+- Hufkens, K., de Haulleville, T., Kearsley, E., Jacobsen, K., Beeckman, H., Stoffelen, P., Vandelook, F., Meeus, S., Amara, M., Van Hirtum, L., Van den Bulcke, J., Verbeeck, H., Wingate, L., 2020. Historical Aerial Surveys Map Long-Term Changes of Forest Cover and Structure in the Central Congo Basin. Remote Sens. 12, 638. 
+
 - Kendall, T.J., Duff, C.M., Thomson, A.M., Iredale, J.P., 2019. qPaLM: quantifying occult microarchitectural relationships in histopathological landscapes (preprint). Pathology.
 
 - Lucash, M.S., Ruckert, K.L., Nicholas, R.E., Scheller, R.M., Smithwick, E.A.H., 2019. Complex interactions among succes-sional trajectories and climate govern spatial resilience after severe windstorms in central Wisconsin, USA. Landscape Ecology.
 
-- Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
+- Nowosad J., TF Stepinski., 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
 
-- Rodrigues, L.L. 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.
+- Rodrigues, L.L., 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.
 
 - Wright, A.D., Grant, E.H.C., Zipkin, E.F., 2020. A hierarchical analysis of habitat area, connectivity, and quality on amphibian diversity across spatial scales. Landscape Ecology.
