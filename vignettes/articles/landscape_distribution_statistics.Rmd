@@ -7,8 +7,8 @@ output: rmarkdown::html_vignette
 Landscape distribution statistics summarise the properties of all patches belonging to the same class *i* or of all patches in the landscape together (McGarigal et al. 2012). 
 This includes, for example, the mean, the coefficient of variation, or the standard deviation of a certain metric. 
 These measures are implemented in the  **landscapemetrics** package and are indicated by the corresponding suffixes (`_mn`, `_cv`, `_sd`).
-However, also other distribution statistics might be of interest. 
-Even though they are not implemented in **landscapemetrics** yet, the integration in the `R` environment allows to calculate them quite easily. 
+However, other distribution statistics also might be of interest. 
+Even though they are not implemented in **landscapemetrics**, R allows to calculate them straightforwardly. 
 
 ```{r packages, message = FALSE}
 library(landscapemetrics)
@@ -18,8 +18,8 @@ library(dplyr)
 
 ## Area-weighted mean
 
-First, we need to calculate the metric of interest on the patch level. 
-Additionally, we need the patch area of each patch.
+First, we want to calculate the metric of interest on the patch level. 
+Additionally, we want the patch area of each patch.
 
 ```{r mean_a}
 # calculate required metric for each patch (e.g. lsm_p_shape)
@@ -29,8 +29,8 @@ metric_patch <- lsm_p_shape(landscape)
 area_patch <- lsm_p_area(landscape)
 ```
 
-Now, we need to join the metric value with the area of each patch, multiply the two values, and calculate the area-weighted mean. 
-To calculate the area-weighted mean on landscape-level, comment out the `dplyr::group_by()`-line.
+Now, we should join the metric value with the area of each patch, multiply the two values, and calculate the area-weighted mean. 
+To calculate the area-weighted mean on landscape-level, comment out the `dplyr::group_by()` line.
 
 ```{r mean_b}
 # calculate weighted mean
@@ -45,8 +45,8 @@ metric_wght_mean
 
 ## Range
 
-The range equals the minimum value subtracted from the maximum value of the metric of interest for each patch (McGarigal et al. 2012). 
-This can be calculated easily using the `min()/max()` function or the `range()` function.
+The range equals to the minimum value subtracted from the maximum value of the metric of interest for each patch (McGarigal et al. 2012). 
+This can be calculated using the `min()/max()` function or the `range()` function.
 
 ```{r range}
 # class level
@@ -60,9 +60,10 @@ metric_range_c
 metric_range_l
 ```
 
-## Median 
-The median equals the value that divides all (ordered) values into two equal groups.
-There is a base `R` function available that can be applied to values grouped by class or all values (landscape-level). 
+## Median
+
+The median equals to the value that divides all (ordered) values into two equal groups.
+There is a base R function available, `median()`, that can be applied to values grouped by class or all values (landscape-level). 
 
 ```{r median}
 # class level
