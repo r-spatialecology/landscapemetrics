@@ -16,6 +16,10 @@ library(raster)
 library(dplyr)
 ```
 
+```{r, echo=FALSE}
+landscapetools::show_landscape(landscape, discrete = TRUE) 
+```
+
 ## Area-weighted mean
 
 First, we want to calculate the metric of interest on the patch level. 
