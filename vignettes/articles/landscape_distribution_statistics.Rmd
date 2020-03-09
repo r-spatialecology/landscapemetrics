@@ -20,6 +20,17 @@ library(dplyr)
 landscapetools::show_landscape(landscape, discrete = TRUE) 
 ```
 
+## Implemented distribution statistics ## 
+The already implemented distribution statistics on class- and landscape-level are indicated by the corresponding suffixes (`_mn` = mean, `_cv` = Coefficient of variation , `_sd` = Standard deviation) and can be calculted without any further calculations needed.
+
+```{r implemented}
+# calculate mean shape index on class level
+mean_shape_c <- lsm_c_shape_mn(landscape)
+
+# calculate standard deviation of shape index on landscape level
+sd_shape_l <- lsm_l_shape_sd(landscape)
+```
+
 ## Area-weighted mean
 
 First, we want to calculate the metric of interest on the patch level. 
