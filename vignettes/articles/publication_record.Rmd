@@ -46,3 +46,5 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 - Rodrigues, L.L., 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.
 
 - Wright, A.D., Grant, E.H.C., Zipkin, E.F., 2020. A hierarchical analysis of habitat area, connectivity, and quality on amphibian diversity across spatial scales. Landscape Ecology.
+
+- Zamberletti, P., Papaix, J., Gabriel, E., & Opitz, T., 2020. Landscape allocation: stochastic generators and statistical inference. arXiv preprint arXiv:2003.02155.
