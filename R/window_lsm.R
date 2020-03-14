@@ -3,7 +3,8 @@
 #' @description Moving window
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
-#' @param window matrix
+#' @param window Moving window matrix.
+#' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
@@ -52,7 +53,7 @@
 #'
 #' @export
 window_lsm <- function(landscape, window,
-                       metric, name, type, what,
+                       level, metric, name, type, what,
                        progress,
                        ...) UseMethod("window_lsm")
 
@@ -61,6 +62,7 @@ window_lsm <- function(landscape, window,
 #' @export
 window_lsm.RasterLayer <- function(landscape,
                                    window,
+                                   level = "landscape",
                                    metric = NULL,
                                    name = NULL,
                                    type = NULL,
@@ -68,8 +70,184 @@ window_lsm.RasterLayer <- function(landscape,
                                    progress = FALSE,
                                    ...) {
 
+    result <- lapply(X = raster::as.list(landscape),
+                     FUN = window_lsm_int,
+                     window = window,
+                     level = level,
+                     metric = metric,
+                     name = name,
+                     type = type,
+                     what = what,
+                     progress = progress,
+                     ...)
+
+    return(result)
+}
+
+#' @name window_lsm
+#' @export
+window_lsm.RasterStack <- function(landscape,
+                                   window,
+                                   level = "landscape",
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   what = NULL,
+                                   progress = FALSE,
+                                   ...) {
+
+    landscape <- raster::as.list(landscape)
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
+        }
+
+        window_lsm_int(landscape = landscape[[x]],
+                       window = window,
+                       level = level,
+                       metric = metric,
+                       name = name,
+                       type = type,
+                       what = what,
+                       progress = FALSE,
+                       ...)
+    })
+
+    if (progress) {cat("\n")}
+
+    return(result)
+}
+
+#' @name window_lsm
+#' @export
+window_lsm.RasterBrick <- function(landscape,
+                                   window,
+                                   level = "landscape",
+                                   metric = NULL,
+                                   name = NULL,
+                                   type = NULL,
+                                   what = NULL,
+                                   progress = FALSE,
+                                   ...) {
+
+    landscape <- raster::as.list(landscape)
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
+        }
+
+        window_lsm_int(landscape = landscape[[x]],
+                       window = window,
+                       level = level,
+                       metric = metric,
+                       name = name,
+                       type = type,
+                       what = what,
+                       progress = FALSE,
+                       ...)
+    })
+
+    if (progress) {cat("\n")}
+
+    return(result)
+}
+
+#' @name window_lsm
+#' @export
+window_lsm.stars <- function(landscape,
+                             window,
+                             level = "landscape",
+                             metric = NULL,
+                             name = NULL,
+                             type = NULL,
+                             what = NULL,
+                             progress = FALSE,
+                             ...) {
+
+    landscape <-  raster::as.list(methods::as(landscape, "Raster"))
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
+        }
+
+        window_lsm_int(landscape = landscape[[x]],
+                       window = window,
+                       level = level,
+                       metric = metric,
+                       name = name,
+                       type = type,
+                       what = what,
+                       progress = FALSE,
+                       ...)
+    })
+
+    if (progress) {cat("\n")}
+
+    return(result)
+}
+
+#' @name window_lsm
+#' @export
+window_lsm.list <- function(landscape,
+                            window,
+                            level = "landscape",
+                            metric = NULL,
+                            name = NULL,
+                            type = NULL,
+                            what = NULL,
+                            progress = FALSE,
+                            ...) {
+
+    result <- lapply(X = seq_along(landscape), FUN = function(x) {
+
+        if (progress) {
+
+            cat("\r> Progress nlayers: ", x , "/", length(landscape))
+        }
+
+        window_lsm_int(landscape = landscape[[x]],
+                       window = window,
+                       level = level,
+                       metric = metric,
+                       name = name,
+                       type = type,
+                       what = what,
+                       progress = FALSE,
+                       ...)
+    })
+
+    if (progress) {cat("\n")}
+
+    return(result)
+}
+
+window_lsm_int <- function(landscape,
+                           window,
+                           level,
+                           metric,
+                           name,
+                           type,
+                           what,
+                           progress,
+                           ...) {
+
+    # check if window has uneven sides
+    if (any(dim(window) %% 2 == 0)) {
+
+        stop("The window must have uneven sides.", call. = FALSE)
+    }
+
     # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "landscape",
+    metrics_list <- list_lsm(level = level,
                              metric = metric,
                              name = name,
                              type = type,
@@ -86,466 +264,69 @@ window_lsm.RasterLayer <- function(landscape,
              call. = FALSE)
     }
 
-    # print warnings immediately to capture
-    options(warn = 1)
+    # get coordinates of cells
+    points <- raster_to_points(landscape)[, 2:4]
 
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
+    # resolution of original raster
+    resolution <- raster::res(landscape)
 
-    result <- lapply(raster::as.list(landscape), function(current_landscape) {
+    # get dimensions of window
+    n_row = nrow(window)
+    n_col = ncol(window)
 
-        # get coordinates of cells
-        points <- raster_to_points(current_landscape)[, 2:4]
+    # create object for warning messages
+    warning_messages <- character(0)
 
-        # resolution of original raster
-        resolution <- raster::res(current_landscape)
-
-        # get dimensions of window
-        n_row = nrow(window)
-        n_col = ncol(window)
-
-        result_layer <- lapply(seq_along(metrics_list), function(current_metric) {
-
-            # print progess using the non-internal name
-            if (progress) {
-
-                cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
-            }
-
-            raster::focal(x = current_landscape, w = window, fun = function(x) {
-
-                calculate_lsm_focal(landscape = x,
-                                    n_row = n_row,
-                                    n_col = n_col,
-                                    resolution = resolution,
-                                    points = points,
-                                    what = metrics_list[[current_metric]],
-                                    ...)},
-                pad = TRUE, padValue = NA)
-        })
-
-        names(result_layer) <- metrics_list
-
-        return(result_layer)
-    })
-
-    if (progress) {cat("\n")}
-
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
-
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.RasterStack <- function(landscape,
-                                   window,
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   what = NULL,
-                                   progress = FALSE,
-                                   ...) {
-
-    # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "landscape",
-                             metric = metric,
-                             name = name,
-                             type = type,
-                             what = what,
-                             simplify = TRUE,
-                             verbose = FALSE)
-
-    # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
-
-        stop("'window_lsm()' is only able to calculate landscape level metrics.",
-             call. = FALSE)
-    }
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
-
-    # convert to list
-    landscape <- raster::as.list(landscape)
-
-    # how many landscapes are present for progress
-    number_layers <- length(landscape)
-
-    result <- lapply(seq_along(landscape), function(current_landscape) {
+    result <- withCallingHandlers(expr = {lapply(seq_along(metrics_list), function(current_metric) {
 
         # print progess using the non-internal name
         if (progress) {
 
-            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
+            cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 
-        # get coordinates of cells
-        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
+        raster::focal(x = landscape, w = window, fun = function(x) {
 
-        # resolution of original raster
-        resolution <- raster::res(landscape[[current_landscape]])
+            calculate_lsm_focal(landscape = x,
+                                n_row = n_row,
+                                n_col = n_col,
+                                resolution = resolution,
+                                points = points,
+                                what = metrics_list[[current_metric]],
+                                ...)},
+            pad = TRUE, padValue = NA)
+        })},
+        warning = function(cond) {
 
-        # get dimensions of window
-        n_row = nrow(window)
-        n_col = ncol(window)
+            warning_messages <<- c(warning_messages, conditionMessage(cond))
 
-        result_layer <- lapply(metrics_list, function(current_metric) {
+            invokeRestart("muffleWarning")})
 
-            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
-
-                calculate_lsm_focal(landscape = x,
-                                    n_row = n_row,
-                                    n_col = n_col,
-                                    resolution = resolution,
-                                    points = points,
-                                    what = current_metric,
-                                    ...)},
-                pad = TRUE, padValue = NA)
-        })
-
-        names(result_layer) <- metrics_list
-
-        return(result_layer)
-    })
+    names(result) <- metrics_list
 
     if (progress) {cat("\n")}
 
-    # reset warning options
-    options(warn = 0)
+    # warnings present
+    if (length(warning_messages)) {
 
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
+        # only unique warnings
+        warning_messages <- unique(warning_messages)
 
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
+        # remove warning from creating raster
+        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
+                                                   "no non-missing arguments to max; returning -Inf"))
 
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
+        if (length(remove_id)) {
+            warning_messages <- warning_messages[-remove_id]
+        }
 
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
+        # still warnings present
+        if (length(warning_messages)) {
 
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.RasterBrick <- function(landscape,
-                                   window,
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   what = NULL,
-                                   progress = FALSE,
-                                   ...) {
-
-    # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "landscape",
-                             metric = metric,
-                             name = name,
-                             type = type,
-                             what = what,
-                             simplify = TRUE,
-                             verbose = FALSE)
-
-    # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
-
-        stop("'window_lsm()' is only able to calculate landscape level metrics.",
-             call. = FALSE)
+            # print warnings
+            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        }
     }
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
-
-    # convert to list
-    landscape <- raster::as.list(landscape)
-
-    # how many landscapes are present for progress
-    number_layers <- length(landscape)
-
-    result <- lapply(seq_along(landscape), function(current_landscape) {
-
-        # print progess using the non-internal name
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
-        }
-
-        # get coordinates of cells
-        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
-
-        # resolution of original raster
-        resolution <- raster::res(landscape[[current_landscape]])
-
-        # get dimensions of window
-        n_row = nrow(window)
-        n_col = ncol(window)
-
-        result_layer <- lapply(metrics_list, function(current_metric) {
-
-            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
-
-                calculate_lsm_focal(landscape = x,
-                                    n_row = n_row,
-                                    n_col = n_col,
-                                    resolution = resolution,
-                                    points = points,
-                                    what = current_metric,
-                                    ...)},
-                pad = TRUE, padValue = NA)
-        })
-
-        names(result_layer) <- metrics_list
-
-        return(result_layer)
-    })
-
-    if (progress) {cat("\n")}
-
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
-
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.stars <- function(landscape,
-                             window,
-                             metric = NULL,
-                             name = NULL,
-                             type = NULL,
-                             what = NULL,
-                             progress = FALSE,
-                             ...) {
-
-    # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "landscape",
-                             metric = metric,
-                             name = name,
-                             type = type,
-                             what = what,
-                             simplify = TRUE,
-                             verbose = FALSE)
-
-    # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
-
-        stop("'window_lsm()' is only able to calculate landscape level metrics.",
-             call. = FALSE)
-    }
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
-
-    # convert to list
-    landscape <- raster::as.list(methods::as(landscape, "Raster"))
-
-    # how many landscapes are present for progress
-    number_layers <- length(landscape)
-
-    result <- lapply(seq_along(landscape), function(current_landscape) {
-
-        # print progess using the non-internal name
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
-        }
-
-        # get coordinates of cells
-        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
-
-        # resolution of original raster
-        resolution <- raster::res(landscape[[current_landscape]])
-
-        # get dimensions of window
-        n_row = nrow(window)
-        n_col = ncol(window)
-
-        result_layer <- lapply(metrics_list, function(current_metric) {
-
-            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
-
-                calculate_lsm_focal(landscape = x,
-                                    n_row = n_row,
-                                    n_col = n_col,
-                                    resolution = resolution,
-                                    points = points,
-                                    what = current_metric,
-                                    ...)},
-                pad = TRUE, padValue = NA)
-        })
-
-        names(result_layer) <- metrics_list
-
-        return(result_layer)
-    })
-
-    if (progress) {cat("\n")}
-
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
-
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.list <- function(landscape,
-                            window,
-                            metric = NULL,
-                            name = NULL,
-                            type = NULL,
-                            what = NULL,
-                            progress = FALSE,
-                            ...) {
-
-    # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "landscape",
-                             metric = metric,
-                             name = name,
-                             type = type,
-                             what = what,
-                             simplify = TRUE,
-                             verbose = FALSE)
-
-    # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
-
-        stop("'window_lsm()' is only able to calculate landscape level metrics.",
-             call. = FALSE)
-    }
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
-
-    # how many landscapes are present for progress
-    number_layers <- length(landscape)
-
-    result <- lapply(seq_along(landscape), function(current_landscape) {
-
-        # print progess using the non-internal name
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", current_landscape, "/", number_layers)
-        }
-
-        # get coordinates of cells
-        points <- raster_to_points(landscape[[current_landscape]])[, 2:4]
-
-        # resolution of original raster
-        resolution <- raster::res(landscape[[current_landscape]])
-
-        # get dimensions of window
-        n_row = nrow(window)
-        n_col = ncol(window)
-
-        result_layer <- lapply(metrics_list, function(current_metric) {
-
-            raster::focal(x = landscape[[current_landscape]], w = window, fun = function(x) {
-
-                calculate_lsm_focal(landscape = x,
-                                    n_row = n_row,
-                                    n_col = n_col,
-                                    resolution = resolution,
-                                    points = points,
-                                    what = current_metric,
-                                    ...)},
-                pad = TRUE, padValue = NA)
-        })
-
-        names(result_layer) <- metrics_list
-
-        return(result_layer)
-    })
-
-    if (progress) {cat("\n")}
-
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
-
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }
@@ -593,6 +374,7 @@ calculate_lsm_focal <- function(landscape,
 
     # sort alphabetically to match later with defaults
     if (!is.null(arguments_provided)) {
+
         arguments_provided <- arguments_provided[order(names(arguments_provided))]
 
         # exchange arguments

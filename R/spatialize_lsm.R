@@ -3,6 +3,7 @@
 #' @description Spatialize landscape metric values
 #'
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
@@ -36,7 +37,7 @@
 #'
 #' @export
 spatialize_lsm <- function(landscape,
-                           metric, name, type, what,
+                           level, metric, name, type, what,
                            directions,
                            progress,
                            ...) UseMethod("spatialize_lsm")
@@ -44,6 +45,7 @@ spatialize_lsm <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterLayer <- function(landscape,
+                                       level = "patch",
                                        metric = NULL,
                                        name = NULL,
                                        type = NULL,
@@ -54,6 +56,7 @@ spatialize_lsm.RasterLayer <- function(landscape,
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = spatialize_lsm_internal,
+                     level = level,
                      metric = metric,
                      name = name,
                      type = type,
@@ -68,6 +71,7 @@ spatialize_lsm.RasterLayer <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterStack <- function(landscape,
+                                       level = "patch",
                                        metric = NULL,
                                        name = NULL,
                                        type = NULL,
@@ -86,6 +90,7 @@ spatialize_lsm.RasterStack <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
+                                level = level,
                                 metric = metric,
                                 name = name,
                                 type = type,
@@ -103,6 +108,7 @@ spatialize_lsm.RasterStack <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.RasterBrick <- function(landscape,
+                                       level = "patch",
                                        metric = NULL,
                                        name = NULL,
                                        type = NULL,
@@ -121,6 +127,7 @@ spatialize_lsm.RasterBrick <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
+                                level = level,
                                 metric = metric,
                                 name = name,
                                 type = type,
@@ -138,6 +145,7 @@ spatialize_lsm.RasterBrick <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.stars <- function(landscape,
+                                 level = "patch",
                                  metric = NULL,
                                  name = NULL,
                                  type = NULL,
@@ -156,6 +164,7 @@ spatialize_lsm.stars <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
+                                level = level,
                                 metric = metric,
                                 name = name,
                                 type = type,
@@ -173,6 +182,7 @@ spatialize_lsm.stars <- function(landscape,
 #' @name spatialize_lsm
 #' @export
 spatialize_lsm.list <- function(landscape,
+                                level = "patch",
                                 metric = NULL,
                                 name = NULL,
                                 type = NULL,
@@ -189,6 +199,7 @@ spatialize_lsm.list <- function(landscape,
         }
 
         spatialize_lsm_internal(landscape = landscape[[x]],
+                                level = level,
                                 metric = metric,
                                 name = name,
                                 type = type,
@@ -204,13 +215,13 @@ spatialize_lsm.list <- function(landscape,
 }
 
 spatialize_lsm_internal <- function(landscape,
-                                    metric, name, type, what,
+                                    level, metric, name, type, what,
                                     directions,
                                     progress,
                                     ...) {
 
     # get name of metrics
-    metrics <- list_lsm(level = "patch",
+    metrics <- list_lsm(level = level,
                         metric = metric,
                         name = name,
                         type = type,
@@ -226,14 +237,6 @@ spatialize_lsm_internal <- function(landscape,
         stop("'spatialize_lsm()' only takes patch level metrics.",
              call. = FALSE)
     }
-
-    # print warnings immediately to capture
-    options(warn = 1)
-
-    # open text connection for warnings
-    text_connection <- textConnection(object = "warn_messages",
-                                      open = "w", local = TRUE)
-    sink(file = text_connection, type = "message", append = TRUE)
 
     # get CRS of input
     crs_input <- raster::crs(landscape)
@@ -262,8 +265,11 @@ spatialize_lsm_internal <- function(landscape,
                                  patches_tibble$id == 0,
                                  NA)
 
+    # create object for warning messages
+    warning_messages <- character(0)
+
     # loop through metrics and return raster with value for each patch
-    result <- lapply(seq_along(metrics), function(x) {
+    result <- withCallingHandlers(expr = {lapply(seq_along(metrics), function(x) {
 
         # print progess using the non-internal name
         if (progress) {
@@ -283,34 +289,41 @@ spatialize_lsm_internal <- function(landscape,
                             by = "id",
                             all.x = TRUE)
 
-        # convert to raster
-        raster::rasterFromXYZ(fill_value[, c(2,3, 8)], crs = crs_input)
-    })
+        # convert to raster (wrap )
+        raster::rasterFromXYZ(fill_value[, c(2, 3, 8)], crs = crs_input)
+    })},
+    warning = function(cond) {
+
+        warning_messages <<- c(warning_messages, conditionMessage(cond))
+
+        invokeRestart("muffleWarning")})
 
     # using metrics to name list
     names(result) <- metrics
 
-    if (progress) {
+    if (progress) {cat("\n")}
 
-        cat("\n")
+    # warnings present
+    if (length(warning_messages)) {
+
+        # only unique warnings
+        warning_messages <- unique(warning_messages)
+
+        # remove warning from creating raster
+        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
+                                                   "no non-missing arguments to max; returning -Inf"))
+
+        if (length(remove_id)) {
+            warning_messages <- warning_messages[-remove_id]
+        }
+
+        # still warnings present
+        if (length(warning_messages)) {
+
+            # print warnings
+            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        }
     }
-
-    # reset warning options
-    options(warn = 0)
-
-    # close text connection
-    sink(NULL, type = "message")
-    close(text_connection)
-
-    # only unique warnings
-    warn_messages <- unique(warn_messages)
-
-    # removing "Warning:" -> will be added by warning()
-    warn_messages <- gsub(pattern = "Warning: ", replacement = "",
-                          x = warn_messages)
-
-    # print warnings
-    lapply(warn_messages, function(x){ warning(x, call. = FALSE)})
 
     return(result)
 }

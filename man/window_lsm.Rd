@@ -9,11 +9,12 @@
 \alias{window_lsm.list}
 \title{window_lsm}
 \usage{
-window_lsm(landscape, window, metric, name, type, what, progress, ...)
+window_lsm(landscape, window, level, metric, name, type, what, progress, ...)
 
 \method{window_lsm}{RasterLayer}(
   landscape,
   window,
+  level = "landscape",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -25,6 +26,7 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \method{window_lsm}{RasterStack}(
   landscape,
   window,
+  level = "landscape",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -36,6 +38,7 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \method{window_lsm}{RasterBrick}(
   landscape,
   window,
+  level = "landscape",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -47,6 +50,7 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \method{window_lsm}{stars}(
   landscape,
   window,
+  level = "landscape",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -58,6 +62,7 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \method{window_lsm}{list}(
   landscape,
   window,
+  level = "landscape",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -69,7 +74,9 @@ window_lsm(landscape, window, metric, name, type, what, progress, ...)
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
-\item{window}{matrix}
+\item{window}{Moving window matrix.}
+
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 

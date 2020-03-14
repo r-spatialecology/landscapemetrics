@@ -9,10 +9,21 @@
 \alias{spatialize_lsm.list}
 \title{spatialize_lsm}
 \usage{
-spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
+spatialize_lsm(
+  landscape,
+  level,
+  metric,
+  name,
+  type,
+  what,
+  directions,
+  progress,
+  ...
+)
 
 \method{spatialize_lsm}{RasterLayer}(
   landscape,
+  level = "patch",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -24,6 +35,7 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
 \method{spatialize_lsm}{RasterStack}(
   landscape,
+  level = "patch",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -35,6 +47,7 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
 \method{spatialize_lsm}{RasterBrick}(
   landscape,
+  level = "patch",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -46,6 +59,7 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
 \method{spatialize_lsm}{stars}(
   landscape,
+  level = "patch",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -57,6 +71,7 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 
 \method{spatialize_lsm}{list}(
   landscape,
+  level = "patch",
   metric = NULL,
   name = NULL,
   type = NULL,
@@ -68,6 +83,8 @@ spatialize_lsm(landscape, metric, name, type, what, directions, progress, ...)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+
+\item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 

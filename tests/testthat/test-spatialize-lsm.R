@@ -37,8 +37,8 @@ test_that("spatialize_lsm returns CRS", {
     result <- spatialize_lsm(podlasie_ccilc, what = "lsm_p_area",
                              verbose = FALSE)
 
-    expect_equal(object = raster::crs(result[[1]][[1]]),
-                 expected = raster::crs(podlasie_ccilc))
+    expect_equal(object = raster::projection(result[[1]][[1]]),
+                 expected = raster::projection(podlasie_ccilc))
 })
 
 test_that("spatialize_lsm forwards arguments to calculate_lsm", {

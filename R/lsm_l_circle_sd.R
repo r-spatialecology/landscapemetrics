@@ -49,6 +49,8 @@
 #' landscape structure using the GRASS geographical information system.
 #' Landscape Ecology 7: 291-302.
 #'
+#' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
+#'
 #' @export
 lsm_l_circle_sd <- function(landscape, directions) UseMethod("lsm_l_circle_sd")
 
@@ -134,13 +136,11 @@ lsm_l_circle_sd.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_sd_calc <- function(landscape, directions,
-                                 resolution = NULL, points = NULL) {
+lsm_l_circle_sd_calc <- function(landscape, directions, resolution = NULL) {
 
     circle_patch <- lsm_p_circle_calc(landscape,
                                       directions = directions,
-                                      resolution = resolution,
-                                      points = points)
+                                      resolution = resolution)
 
     # all values NA
     if (all(is.na(circle_patch$value))) {

@@ -1,3 +1,8 @@
+# landscapemetrics 1.4.3
+* Improvements
+    * Improved algorithm to calculate circumscribing circle. This refers to both speed and accuracy.
+    * The circumscribing circle is now also calculated for patches with only one cell
+
 # landscapemetrics 1.4.2
 * Bugfixes
     * Bug in total edge calculation

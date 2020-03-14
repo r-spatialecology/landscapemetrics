@@ -7,29 +7,27 @@
 \alias{get_circumscribingcircle.RasterBrick}
 \alias{get_circumscribingcircle.stars}
 \alias{get_circumscribingcircle.list}
-\alias{get_circumscribingcircle.matrix}
 \title{get_circumscribingcircle}
 \usage{
-get_circumscribingcircle(landscape, resolution_x, resolution_y)
+get_circumscribingcircle(landscape, directions, level)
 
-\method{get_circumscribingcircle}{RasterLayer}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterLayer}(landscape, directions = 8, level = "patch")
 
-\method{get_circumscribingcircle}{RasterStack}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterStack}(landscape, directions = 8, level = "patch")
 
-\method{get_circumscribingcircle}{RasterBrick}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{RasterBrick}(landscape, directions = 8, level = "patch")
 
-\method{get_circumscribingcircle}{stars}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{stars}(landscape, directions = 8, level = "patch")
 
-\method{get_circumscribingcircle}{list}(landscape, resolution_x = NULL, resolution_y = NULL)
-
-\method{get_circumscribingcircle}{matrix}(landscape, resolution_x = NULL, resolution_y = NULL)
+\method{get_circumscribingcircle}{list}(landscape, directions = 8, level = "patch")
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x, y, id columns)}
 
-\item{resolution_x}{Resolution of the landscape (only needed if matrix as input is used)}
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{resolution_y}{Resolution of the landscape (only needed if matrix as input is used)}
+\item{level}{Either 'patch' or 'class' for the corresponding level.}
 }
 \description{
 Diameter of the circumscribing circle around patches
@@ -37,19 +35,16 @@ Diameter of the circumscribing circle around patches
 \details{
 The diameter of the smallest circumscribing circle around a patch in the landscape
 is based on the maximum distance between the corners of each cell. This ensures that all
-cells of the patch are included in the patch. All patches need an unique
-ID (see \code{\link{get_patches}}). If one uses this functions with a matrix the
-resolution of the underlying data must be provided.
+cells of the patch are included in the patch.
 }
 \examples{
-# get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape, class = 1)[[1]]
+# get circle around each patch
+get_circumscribingcircle(landscape)
 
-# calculate the minimum circumscribing circle of each patch in class 1
-get_circumscribingcircle(class_1)
+# get circle around whole class
+get_circumscribingcircle(landscape, level = "class")
 
-# do the same with a 3 column matrix (x, y, id)
-class_1_matrix <- raster::rasterToPoints(class_1)
-get_circumscribingcircle(class_1_matrix, resolution_x = 1, resolution_y = 1)
-
+}
+\references{
+Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 }

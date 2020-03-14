@@ -28,7 +28,7 @@ We can use the `show_landscape` function from [landscapetools](https://github.co
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
 library(landscapetools)
 
-# Plot landscape + landscape with labeled patches
+# Plot landscape
 show_landscape(landscape) 
 ```
 

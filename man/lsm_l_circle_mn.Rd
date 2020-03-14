@@ -60,6 +60,8 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
 landscape structure using the GRASS geographical information system.
 Landscape Ecology 7: 291-302.
+
+Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 }
 \seealso{
 \code{\link{lsm_p_circle}},

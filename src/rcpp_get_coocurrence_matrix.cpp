@@ -1,7 +1,7 @@
 #include "rcpp_get_coocurrence_matrix.h"
 #include "rcpp_create_neighborhood.h"
 #include "rcpp_get_unique_values.h"
-#include "get_class_index_map.h"
+#include "rcpp_get_class_index_map.h"
 
 // [[Rcpp::export]]
 IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x,

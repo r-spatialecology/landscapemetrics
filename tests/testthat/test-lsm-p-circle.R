@@ -23,5 +23,6 @@ test_that("lsm_p_circle returns in every column the correct type", {
 })
 
 test_that("lsm_p_circle can also handle irregular sized cells", {
-    expect_is(lsm_p_circle(landscape_diff_res), "tbl_df")
+    expect_error(object = lsm_p_circle(landscape_diff_res),
+                 regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.")
 })

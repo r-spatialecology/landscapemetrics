@@ -1,6 +1,8 @@
 context("window_lsm")
 
-window <- matrix(1, nrow = 3, ncol = 3)
+window <- matrix(1, nrow = 11, ncol = 11)
+
+window_even <-  matrix(1, nrow = 10, ncol = 10)
 
 test_that("window_lsm returns a list with selected metrics", {
 
@@ -37,6 +39,10 @@ test_that("window_lsm returns all errors", {
 
     expect_error(window_lsm(landscape, window = window, what = "lsm_p_area"),
                  regexp = "'window_lsm()' is only able to calculate landscape level metrics.",
+                 fixed = TRUE)
+
+    expect_error(window_lsm(landscape, window = window_even, what = "lsm_l_pr"),
+                 regexp = "The window must have uneven sides.",
                  fixed = TRUE)
 })
 
