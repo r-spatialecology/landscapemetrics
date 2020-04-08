@@ -33,6 +33,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Gerad, M., Martinet, B., Maebe, K., Marshall, L., Smagghe, G., Vereecken, N.J., Vray, S., Rasmont, P., Michez, D., 2019. Shift in size of bumblebee queens over the last century. Global Change Biology gcb.14890.
 
+- Guedes, B. J., Massi, K. G., Evers, C., & Nielsen-Pincus, M., 2020. Vulnerability of small forest patches to fire in the Paraiba do Sul River Valley, southeast Brazil: Implications for restoration of the Atlantic Forest biome. Forest Ecology and Management, 465, 118095.
+
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
 
 - Huang, J.‐L., Andrello, M., Martensen, A.C., Saura, S., Liu, D.‐F., He, J.‐H., Fortin, M.‐J., 2020, Importance of spatio–temporal connectivity to maintain species experiencing range shifts. Ecography.
