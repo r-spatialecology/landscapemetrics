@@ -1,3 +1,7 @@
+# landscapemetrics 1.4.4
+* Improvements
+    * Set labels = FALSE as default for all plotting functions (messy for larger raster)
+
 # landscapemetrics 1.4.3
 * Improvements
     * Improved algorithm to calculate circumscribing circle. This refers to both speed and accuracy.
