@@ -4,7 +4,9 @@
 \name{podlasie_ccilc}
 \alias{podlasie_ccilc}
 \title{Podlasie ESA CCI LC}
-\format{A raster layer object.}
+\format{
+A raster layer object.
+}
 \source{
 http://maps.elie.ucl.ac.be/CCI/viewer/
 }

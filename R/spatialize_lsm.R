@@ -304,25 +304,13 @@ spatialize_lsm_internal <- function(landscape,
     if (progress) {cat("\n")}
 
     # warnings present
-    if (length(warning_messages)) {
+    if (length(warning_messages) > 0) {
 
         # only unique warnings
         warning_messages <- unique(warning_messages)
 
-        # remove warning from creating raster
-        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
-                                                   "no non-missing arguments to max; returning -Inf"))
-
-        if (length(remove_id)) {
-            warning_messages <- warning_messages[-remove_id]
-        }
-
-        # still warnings present
-        if (length(warning_messages)) {
-
-            # print warnings
-            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
-        }
+        # print warnings
+        lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
     }
 
     return(result)

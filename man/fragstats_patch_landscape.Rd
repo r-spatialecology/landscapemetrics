@@ -4,7 +4,9 @@
 \name{fragstats_patch_landscape}
 \alias{fragstats_patch_landscape}
 \title{Fragstats results for landscapemetrics::landscape (patch level)}
-\format{A tibble object.}
+\format{
+A tibble object.
+}
 \usage{
 fragstats_patch_landscape
 }
