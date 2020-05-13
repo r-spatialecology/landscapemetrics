@@ -29,7 +29,7 @@ show_lsm(
   directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
-  labels = TRUE,
+  labels = FALSE,
   label_lsm = FALSE,
   nrow = NULL,
   ncol = NULL
@@ -42,7 +42,7 @@ show_lsm(
   directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
-  labels = TRUE,
+  labels = FALSE,
   label_lsm = FALSE,
   nrow = NULL,
   ncol = NULL
@@ -55,7 +55,7 @@ show_lsm(
   directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
-  labels = TRUE,
+  labels = FALSE,
   label_lsm = FALSE,
   nrow = NULL,
   ncol = NULL
@@ -68,7 +68,7 @@ show_lsm(
   directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
-  labels = TRUE,
+  labels = FALSE,
   label_lsm = FALSE,
   nrow = NULL,
   ncol = NULL
@@ -81,7 +81,7 @@ show_lsm(
   directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
-  labels = TRUE,
+  labels = FALSE,
   label_lsm = FALSE,
   nrow = NULL,
   ncol = NULL

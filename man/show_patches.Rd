@@ -15,7 +15,7 @@ show_patches(landscape, class, directions, labels, nrow, ncol)
   landscape,
   class = "global",
   directions = 8,
-  labels = TRUE,
+  labels = FALSE,
   nrow = NULL,
   ncol = NULL
 )
@@ -24,7 +24,7 @@ show_patches(landscape, class, directions, labels, nrow, ncol)
   landscape,
   class = "global",
   directions = 8,
-  labels = TRUE,
+  labels = FALSE,
   nrow = NULL,
   ncol = NULL
 )
@@ -33,7 +33,7 @@ show_patches(landscape, class, directions, labels, nrow, ncol)
   landscape,
   class = "global",
   directions = 8,
-  labels = TRUE,
+  labels = FALSE,
   nrow = NULL,
   ncol = NULL
 )
@@ -42,7 +42,7 @@ show_patches(landscape, class, directions, labels, nrow, ncol)
   landscape,
   class = "global",
   directions = 8,
-  labels = TRUE,
+  labels = FALSE,
   nrow = NULL,
   ncol = NULL
 )
@@ -51,7 +51,7 @@ show_patches(landscape, class, directions, labels, nrow, ncol)
   landscape,
   class = "global",
   directions = 8,
-  labels = TRUE,
+  labels = FALSE,
   nrow = NULL,
   ncol = NULL
 )

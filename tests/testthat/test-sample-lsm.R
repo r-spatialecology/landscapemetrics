@@ -137,6 +137,26 @@ test_that("sample_lsm uses sample_ids", {
     expect_equal(result_wrong_id$plot_id, expected = 1:3)
 })
 
+
+test_that("sample_lsm can return all classes", {
+
+    result_mat <- sample_lsm(landscape,
+                             y = sample_points,
+                             size = 5,
+                             shape = "circle",
+                             what = c("lsm_c_ca", "lsm_l_ta"),
+                             all_classes = TRUE,
+                             verbose = FALSE)
+
+    # 3 classes * 3 sample plots + 3 landscape level metrics
+    expect_equal(object = nrow(result_mat), expected = 12)
+
+    expect_equal(object = result_mat$class, expected = c(1, 2, 3, NA,
+                                                         1, 2, 3, NA,
+                                                         1, 2, 3, NA))
+})
+
+
 test_that("sample_lsm works for all data type", {
 
     result_stack <- sample_lsm(landscape_stack,

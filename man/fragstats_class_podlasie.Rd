@@ -4,7 +4,9 @@
 \name{fragstats_class_podlasie}
 \alias{fragstats_class_podlasie}
 \title{Fragstats results for landscapemetrics::podlasie (class level)}
-\format{A tibble object.}
+\format{
+A tibble object.
+}
 \usage{
 fragstats_class_podlasie
 }
