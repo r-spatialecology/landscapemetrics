@@ -4,7 +4,9 @@
 \name{fragstats_landscape_augusta_nlcd}
 \alias{fragstats_landscape_augusta_nlcd}
 \title{Fragstats results for landscapemetrics::augusta_nlcd (landscape level)}
-\format{A tibble object.}
+\format{
+A tibble object.
+}
 \usage{
 fragstats_landscape_augusta_nlcd
 }

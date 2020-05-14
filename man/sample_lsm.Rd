@@ -15,6 +15,7 @@ sample_lsm(
   plot_id,
   shape,
   size,
+  all_classes,
   return_raster,
   verbose,
   progress,
@@ -27,6 +28,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size,
+  all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
   progress = FALSE,
@@ -39,6 +41,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size,
+  all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
   progress = FALSE,
@@ -51,6 +54,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size,
+  all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
   progress = FALSE,
@@ -63,6 +67,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size,
+  all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
   progress = FALSE,
@@ -75,6 +80,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size,
+  all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
   progress = FALSE,
@@ -93,6 +99,8 @@ points will be labelled 1...n.}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in mapunits. For lines size equals the width of the buffer.}
+
+\item{all_classes}{Logical if NA should be returned for classes not present in some sample plots.}
 
 \item{return_raster}{Logical if the clipped raster of the sample plot should
 be returned}

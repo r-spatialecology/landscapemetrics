@@ -4,7 +4,9 @@
 \name{lsm_abbreviations_names}
 \alias{lsm_abbreviations_names}
 \title{Tibble of abbreviations coming from FRAGSTATS}
-\format{A tibble object.}
+\format{
+A tibble object.
+}
 \usage{
 lsm_abbreviations_names
 }

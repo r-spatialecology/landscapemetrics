@@ -1,3 +1,8 @@
+# landscapemetrics 1.4.4
+* Improvements
+    * Set labels = FALSE as default for all plotting functions (messy for larger raster)
+    * Add argument to `sample_lsm()` that adds NA if class is not present in sample plot
+
 # landscapemetrics 1.4.3
 * Improvements
     * Improved algorithm to calculate circumscribing circle. This refers to both speed and accuracy.

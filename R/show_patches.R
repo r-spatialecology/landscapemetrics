@@ -30,7 +30,7 @@ show_patches <- function(landscape, class, directions, labels, nrow, ncol)  UseM
 show_patches.RasterLayer <- function(landscape,
                                      class = "global",
                                      directions = 8,
-                                     labels = TRUE,
+                                     labels = FALSE,
                                      nrow = NULL,
                                      ncol = NULL) {
 
@@ -47,7 +47,7 @@ show_patches.RasterLayer <- function(landscape,
 show_patches.RasterStack <- function(landscape,
                                      class = "global",
                                      directions = 8,
-                                     labels = TRUE,
+                                     labels = FALSE,
                                      nrow = NULL,
                                      ncol = NULL) {
 
@@ -65,7 +65,7 @@ show_patches.RasterStack <- function(landscape,
 show_patches.RasterBrick <- function(landscape,
                                      class = "global",
                                      directions = 8,
-                                     labels = TRUE,
+                                     labels = FALSE,
                                      nrow = NULL,
                                      ncol = NULL) {
 
@@ -83,7 +83,7 @@ show_patches.RasterBrick <- function(landscape,
 show_patches.stars <- function(landscape,
                                class = "global",
                                directions = 8,
-                               labels = TRUE,
+                               labels = FALSE,
                                nrow = NULL,
                                ncol = NULL) {
 
@@ -103,7 +103,7 @@ show_patches.stars <- function(landscape,
 show_patches.list <- function(landscape,
                               class = "global",
                               directions = 8,
-                              labels = TRUE,
+                              labels = FALSE,
                               nrow = NULL,
                               ncol = NULL) {
 
@@ -118,19 +118,19 @@ show_patches.list <- function(landscape,
 
 show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {
 
-    if(any(!(class %in% c("all", "global")))){
-        if (!any(class %in% raster::unique(landscape))){
+    if (any(!(class %in% c("all", "global")))) {
+        if (!any(class %in% raster::unique(landscape))) {
             stop("'class' must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
 
-    if(length(class) > 1 & any(class %in% c("all", "global"))){
+    if (length(class) > 1 & any(class %in% c("all", "global"))) {
         warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
     landscape_labeled <- get_patches(landscape, directions = directions)
 
-    for(i in seq_len(length(landscape_labeled) - 1)){
+    for (i in seq_len(length(landscape_labeled) - 1)) {
 
         max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 
@@ -169,7 +169,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
         patches_tibble <- do.call(rbind, patches_tibble)
 
-        if (any(!(class %in% c("all", "global")))){
+        if (any(!(class %in% c("all", "global")))) {
             class_index <- which(patches_tibble$class %in% class)
             patches_tibble <- patches_tibble[class_index, ]
         }

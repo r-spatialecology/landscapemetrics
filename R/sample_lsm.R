@@ -9,6 +9,7 @@
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' @param all_classes Logical if NA should be returned for classes not present in some sample plots.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
 #' @param verbose Print warning messages.
@@ -79,6 +80,7 @@ sample_lsm <- function(landscape,
                        y,
                        plot_id,
                        shape, size,
+                       all_classes,
                        return_raster,
                        verbose,
                        progress,
@@ -90,6 +92,7 @@ sample_lsm.RasterLayer <- function(landscape,
                                    y,
                                    plot_id = NULL,
                                    shape = "square", size,
+                                   all_classes = FALSE,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    progress = FALSE,
@@ -100,6 +103,7 @@ sample_lsm.RasterLayer <- function(landscape,
                      y = y,
                      plot_id = plot_id,
                      shape = shape, size = size,
+                     all_classes = all_classes,
                      verbose = verbose,
                      progress = progress,
                      ...)
@@ -124,6 +128,7 @@ sample_lsm.RasterStack <- function(landscape,
                                    y,
                                    plot_id = NULL,
                                    shape = "square", size,
+                                   all_classes = FALSE,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    progress = FALSE,
@@ -143,6 +148,7 @@ sample_lsm.RasterStack <- function(landscape,
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
                        ...)
@@ -170,6 +176,7 @@ sample_lsm.RasterBrick <- function(landscape,
                                    y,
                                    plot_id = NULL,
                                    shape = "square", size,
+                                   all_classes = FALSE,
                                    return_raster = FALSE,
                                    verbose = TRUE,
                                    progress = FALSE,
@@ -189,6 +196,7 @@ sample_lsm.RasterBrick <- function(landscape,
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
                        ...)
@@ -216,6 +224,7 @@ sample_lsm.stars <- function(landscape,
                              y,
                              plot_id = NULL,
                              shape = "square", size,
+                             all_classes = FALSE,
                              return_raster = FALSE,
                              verbose = TRUE,
                              progress = FALSE,
@@ -235,6 +244,7 @@ sample_lsm.stars <- function(landscape,
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
                        ...)
@@ -262,6 +272,7 @@ sample_lsm.list <- function(landscape,
                             y,
                             plot_id = NULL,
                             shape = "square", size,
+                            all_classes = FALSE,
                             return_raster = FALSE,
                             verbose = TRUE,
                             progress = FALSE,
@@ -279,6 +290,7 @@ sample_lsm.list <- function(landscape,
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
                        ...)
@@ -304,12 +316,13 @@ sample_lsm_int <- function(landscape,
                            y,
                            plot_id,
                            shape, size,
+                           all_classes,
                            verbose,
                            progress,
                            ...) {
 
     # use polygon
-    if (inherits(x = y, what = "sf") && all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))){
+    if (inherits(x = y, what = "sf") && all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))) {
         y <- methods::as(y, "Spatial")
     }
 
@@ -458,12 +471,12 @@ sample_lsm_int <- function(landscape,
 
     number_plots <- length(maximum_area)
 
-
     # create object for warning messages
     warning_messages <- character(0)
 
     # loop through each sample point and calculate metrics
-    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {
+    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = seq_along(y),
+                                                                FUN = function(current_plot) {
 
         # print progess using the non-internal name
         if (progress) {
@@ -499,7 +512,6 @@ sample_lsm_int <- function(landscape,
             result_current_plot$plot_id <- plot_id[current_plot]
         }
 
-
         # all cells are NA
         if (all(is.na(raster::values(landscape_mask)))) {
 
@@ -530,36 +542,63 @@ sample_lsm_int <- function(landscape,
         cat("\n")
     }
 
+    # add all_classes if class is present in tibble
+    if (all_classes && "class" %in% result$level) {
+
+        # get all present classes
+        all_classes <- unique(raster::values(landscape))
+
+        # only results on class level are needed
+        result_class <- result[result$level == "class", ]
+
+        # get all possible combination of all metrics and classes in each plot
+        all_combinations <- expand.grid(class = all_classes,
+                                        metric = unique(result_class$metric),
+                                        plot_id = unique(result_class$plot_id),
+                                        stringsAsFactors = FALSE)
+
+        # add NA values for classes not present in certain plots
+        all_combinations <- merge(x = all_combinations,
+                                  y = result_class[, c("class", "metric",
+                                                       "value", "plot_id")],
+                                  by = c("class", "metric", "plot_id"),
+                                  all.x = TRUE)
+
+        # add information about unique study plots
+        all_combinations <- merge(x = all_combinations,
+                                  y = unique(result_class[, c("layer", "level", "id",
+                                                              "plot_id",
+                                                              "percentage_inside",
+                                                              "raster_sample_plots")]),
+                                  by = "plot_id", all.x = TRUE)
+
+        # reorder cols
+        all_combinations <- all_combinations[, names(result)]
+
+        # remove all class level results
+        result <- result[!result$level == "class", ]
+
+        # exchange with all combinations
+        result <- tibble::as_tibble(rbind(result, all_combinations))
+    }
+
     # return warning of only 3/4 of sample plot are in landscape
     if (verbose) {
         if (any(result$percentage_inside < 90)) {
 
             warning("The 'perecentage_inside' is below 90% for at least one buffer.",
                     call. = FALSE)
-
         }
     }
 
     # warnings present
-    if (length(warning_messages)) {
+    if (length(warning_messages) > 0) {
 
         # only unique warnings
         warning_messages <- unique(warning_messages)
 
-        # remove warning from creating raster
-        remove_id <- which(warning_messages %in% c("no non-missing arguments to min; returning Inf",
-                                                   "no non-missing arguments to max; returning -Inf"))
-
-        if (length(remove_id)) {
-            warning_messages <- warning_messages[-remove_id]
-        }
-
-        # still warnings present
-        if (length(warning_messages)) {
-
-            # print warnings
-            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
-        }
+        # print warnings
+        lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
     }
 
     return(result)

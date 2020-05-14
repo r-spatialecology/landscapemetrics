@@ -4,7 +4,9 @@
 \name{fragstats_landscape_podlasie}
 \alias{fragstats_landscape_podlasie}
 \title{Fragstats results for landscapemetrics::podlasie_ccilc (landscape level)}
-\format{A tibble object.}
+\format{
+A tibble object.
+}
 \usage{
 fragstats_landscape_podlasie
 }

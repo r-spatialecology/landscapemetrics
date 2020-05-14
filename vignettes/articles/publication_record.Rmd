@@ -23,6 +23,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 
 - Bosch, M., 2019. PyLandStats: An open-source Pythonic library to compute landscape metrics. bioRxiv, 715052.
 
+- Borthwick, R., de Flamingh, A., Hesselbarth, M.H.K., Parandhaman, A., Wagner, H.H., Abdel Moniem, H.E.M., 2020. Alternative Quantifications of Landscape Complementation to Model Gene Flow in Banded Longhorn Beetles [Typocerus v. velutinus (Olivier)]. Frontiers in Genetics 11:307.
+
 - Copot, O., Tanase, C., 2019. Dead wood, forest fragmentation and elevation influences macrofungal diversity on downed coarse woody debris in beech and oak old forest ecosystems from northeastern Romania. Journal of Plant Development 26:161-172.
 
 - Fletcher, R., Fortin, M.-J., 2018. Spatial Ecology and Conservation Modeling. Applications with R. Basel, Switzerland: Springer International Publishing. 
@@ -30,6 +32,10 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 - Gasparini, K.A.C., Silva Junior, C.H.L., Shimabukuro, Y.E., Arai, E., Aragão, L.E.O.C., Silva, C.A., Marshall, P.L., 2019. Determining a Threshold to Delimit the Amazonian Forests from the Tree Canopy Cover 2000 GFC Data. Sensors 19, 5020. 
 
 - Gerad, M., Martinet, B., Maebe, K., Marshall, L., Smagghe, G., Vereecken, N.J., Vray, S., Rasmont, P., Michez, D., 2019. Shift in size of bumblebee queens over the last century. Global Change Biology gcb.14890.
+
+- Guedes, B. J., Massi, K. G., Evers, C., & Nielsen-Pincus, M., 2020. Vulnerability of small forest patches to fire in the Paraiba do Sul River Valley, southeast Brazil: Implications for restoration of the Atlantic Forest biome. Forest Ecology and Management, 465, 118095.
+
+- Han, Z., Zhang, L., Jiang, Y., Wang, H. and Jiguet, F., 2020. Unravelling species co‐occurrence in a steppe bird community of Inner Mongolia: Insights for the conservation of the endangered Jankowski’s Bunting. Diversity and Distributions.
 
 - Heisler, L.M., Simpson, G.L., Poulin, R.G., Wellicome, T.I., Hall, B.D., 2019. Habitat specificity is not universal proxy for sensitivity to habitat conversion among rodents on the Canadian Prairies. bioRxiv 678268.
 
@@ -42,6 +48,8 @@ To cite `landscapemetrics` or acknowledge its use, please cite the following Sof
 - Lucash, M.S., Ruckert, K.L., Nicholas, R.E., Scheller, R.M., Smithwick, E.A.H., 2019. Complex interactions among succes-sional trajectories and climate govern spatial resilience after severe windstorms in central Wisconsin, USA. Landscape Ecology.
 
 - Nowosad J., TF Stepinski., 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. Landscape Ecol 2019.
+
+- Palmero-Iniesta, M., Espelta, J.M., Gordillo, J. and Pino, J., 2020. Changes in forest landscape patterns resulting from recent afforestation in Europe (1990–2012): defragmentation of pre-existing forest versus new patch proliferation. Annals of Forest Science, 77, pp.1-15.
 
 - Rodrigues, L.L., 2019. Effects of domestic megafauna and landscape on diversity of mammals in Atlantic Forest remnants (Dissertation M.Sc.). São Paulo State University.
 
