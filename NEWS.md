@@ -1,3 +1,6 @@
+# landscapemetrics 1.4.5
+
+
 # landscapemetrics 1.4.4
 * Improvements
     * Set labels = FALSE as default for all plotting functions (messy for larger raster)

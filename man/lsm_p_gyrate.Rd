@@ -39,8 +39,7 @@ where \eqn{h_{ijr}} is the distance from each cell to the centroid of the
 patch and \eqn{z} is the number of cells.
 
 GYRATE is an 'Area and edge metric'. The distance from each cell to the
-patch
-centroid is based on cell center-to-cell center distances. The metrics
+patch centroid is based on cell center to centroid distances. The metric
 characterises both the patch area and compactness.
 
 \subsection{Units}{Meters}

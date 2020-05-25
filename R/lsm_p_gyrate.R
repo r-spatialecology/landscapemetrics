@@ -12,8 +12,7 @@
 #' patch and \eqn{z} is the number of cells.
 #'
 #' GYRATE is an 'Area and edge metric'. The distance from each cell to the
-#' patch
-#' centroid is based on cell center-to-cell center distances. The metrics
+#' patch centroid is based on cell center to centroid distances. The metric
 #' characterises both the patch area and compactness.
 #'
 #' \subsection{Units}{Meters}
@@ -175,30 +174,31 @@ lsm_p_gyrate_calc <- function(landscape, directions,
         # set ID from class ID to unique patch ID
         points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-        # conver to tibble -> do we still need to do this?
-        points <- tibble::as_tibble(points)
-        names(points) <- c("x", "y", "id")
+        # # conver to tibble
+        points <- stats::setNames(object = data.frame(points),
+                                  nm = c("x", "y", "id"))
 
         # calcuale the centroid of each patch (mean of all coords)
         centroid <- stats::aggregate(points[, c(1, 2)],
-                                     by = list(id = points$id),
+                                     by = list(id = points[, 3]),
                                      FUN = mean)
 
         # create full data set with raster-points and patch centroids
-        full_data <- tibble::as_tibble(merge(x = points, y = centroid, by = "id",
-                           suffixes = c("","_centroid")))
+        full_data <- merge(x = points, y = centroid, by = "id",
+                           suffixes = c("","_centroid"))
 
         # calculate distance from each cell center to centroid
         full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
                                    (full_data$y - full_data$y_centroid) ^ 2)
 
         # mean distance for each patch
-        gyrate_class <- stats::aggregate(x = full_data[, 6],
-                                         by = full_data[, 1],
-                                         FUN = mean)
+        gyrate_class <- stats::setNames(stats::aggregate(x = full_data[, 6],
+                                                         by = list(full_data[, 1]),
+                                                         FUN = mean),
+                                        nm = c("id", "dist"))
 
-        tibble::tibble(class = as.integer(patches_class),
-                       value = as.double(gyrate_class$dist))
+        data.frame(class = as.integer(patches_class),
+                   value = as.double(gyrate_class$dist))
         })
     )
 
