@@ -9,23 +9,26 @@
 \alias{lsm_l_gyrate_mn.list}
 \title{GYRATE_MN (landscape level)}
 \usage{
-lsm_l_gyrate_mn(landscape, directions)
+lsm_l_gyrate_mn(landscape, directions, cell_center)
 
-\method{lsm_l_gyrate_mn}{RasterLayer}(landscape, directions = 8)
+\method{lsm_l_gyrate_mn}{RasterLayer}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_mn}{RasterStack}(landscape, directions = 8)
+\method{lsm_l_gyrate_mn}{RasterStack}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_mn}{RasterBrick}(landscape, directions = 8)
+\method{lsm_l_gyrate_mn}{RasterBrick}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_mn}{stars}(landscape, directions = 8)
+\method{lsm_l_gyrate_mn}{stars}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_mn}{list}(landscape, directions = 8)
+\method{lsm_l_gyrate_mn}{list}(landscape, directions = 8, cell_center = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{cell_center}{If true, the coordinates of the centroid are forced to be
+a cell center within the patch.}
 }
 \value{
 tibble

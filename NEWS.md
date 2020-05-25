@@ -1,5 +1,6 @@
 # landscapemetrics 1.4.5
-
+* Improvements
+    * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch 
 
 # landscapemetrics 1.4.4
 * Improvements

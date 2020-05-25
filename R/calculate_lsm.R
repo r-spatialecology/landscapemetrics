@@ -5,18 +5,20 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
-#' @param name Full name of metrics (e.g. 'core area')
+#' @param name Full name of metrics (e.g. 'core area').
 #' @param type Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' @param count_boundary Include landscape boundary in edge length
+#' @param count_boundary Include landscape boundary in edge length.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
-#' boundary should be considered as core
+#' boundary should be considered as core.
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch
-#' edge to be considered as core cell
-#' @param classes_max Potential maximum number of present classes
+#' edge to be considered as core cell.
+#' @param cell_center If true, the coordinates of the centroid are forced to be
+#' a cell center within the patch.
+#' @param classes_max Potential maximum number of present classes.
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
@@ -69,6 +71,7 @@ calculate_lsm <- function(landscape,
                           count_boundary,
                           consider_boundary,
                           edge_depth,
+                          cell_center,
                           classes_max,
                           neighbourhood,
                           ordered,
@@ -89,6 +92,7 @@ calculate_lsm.RasterLayer <- function(landscape,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
                                       edge_depth = 1,
+                                      cell_center = FALSE,
                                       classes_max = NULL,
                                       neighbourhood = 4,
                                       ordered = TRUE,
@@ -108,6 +112,7 @@ calculate_lsm.RasterLayer <- function(landscape,
                      count_boundary = count_boundary,
                      consider_boundary = consider_boundary,
                      edge_depth = edge_depth,
+                     cell_center = cell_center,
                      classes_max = classes_max,
                      neighbourhood = neighbourhood,
                      ordered = ordered,
@@ -138,6 +143,7 @@ calculate_lsm.RasterStack <- function(landscape,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
                                       edge_depth = 1,
+                                      cell_center = FALSE,
                                       classes_max = NULL,
                                       neighbourhood = 4,
                                       ordered = TRUE,
@@ -165,6 +171,7 @@ calculate_lsm.RasterStack <- function(landscape,
                                count_boundary = count_boundary,
                                consider_boundary = consider_boundary,
                                edge_depth = edge_depth,
+                               cell_center = cell_center,
                                classes_max = classes_max,
                                neighbourhood = neighbourhood,
                                ordered = ordered,
@@ -198,6 +205,7 @@ calculate_lsm.RasterBrick <- function(landscape,
                                       count_boundary = FALSE,
                                       consider_boundary = FALSE,
                                       edge_depth = 1,
+                                      cell_center = FALSE,
                                       classes_max = NULL,
                                       neighbourhood = 4,
                                       ordered = TRUE,
@@ -225,6 +233,7 @@ calculate_lsm.RasterBrick <- function(landscape,
                                count_boundary = count_boundary,
                                consider_boundary = consider_boundary,
                                edge_depth = edge_depth,
+                               cell_center = cell_center,
                                classes_max = classes_max,
                                neighbourhood = neighbourhood,
                                ordered = ordered,
@@ -258,6 +267,7 @@ calculate_lsm.stars <- function(landscape,
                                 count_boundary = FALSE,
                                 consider_boundary = FALSE,
                                 edge_depth = 1,
+                                cell_center = FALSE,
                                 classes_max = NULL,
                                 neighbourhood = 4,
                                 ordered = TRUE,
@@ -285,6 +295,7 @@ calculate_lsm.stars <- function(landscape,
                                count_boundary = count_boundary,
                                consider_boundary = consider_boundary,
                                edge_depth = edge_depth,
+                               cell_center = cell_center,
                                classes_max = classes_max,
                                neighbourhood = neighbourhood,
                                ordered = ordered,
@@ -319,6 +330,7 @@ calculate_lsm.list <- function(landscape,
                                count_boundary = FALSE,
                                consider_boundary = FALSE,
                                edge_depth = 1,
+                               cell_center = FALSE,
                                classes_max = NULL,
                                neighbourhood = 4,
                                ordered = TRUE,
@@ -344,6 +356,7 @@ calculate_lsm.list <- function(landscape,
                                count_boundary = count_boundary,
                                consider_boundary = consider_boundary,
                                edge_depth = edge_depth,
+                               cell_center = cell_center,
                                classes_max = classes_max,
                                neighbourhood = neighbourhood,
                                ordered = ordered,
@@ -375,6 +388,7 @@ calculate_lsm_internal <- function(landscape,
                                    count_boundary,
                                    consider_boundary,
                                    edge_depth,
+                                   cell_center,
                                    classes_max,
                                    neighbourhood,
                                    ordered,
