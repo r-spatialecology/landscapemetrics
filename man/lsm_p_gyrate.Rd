@@ -43,7 +43,10 @@ patch and \eqn{z} is the number of cells.
 
 GYRATE is an 'Area and edge metric'. The distance from each cell to the
 patch centroid is based on cell center to centroid distances. The metric
-characterises both the patch area and compactness.
+characterises both the patch area and compactness. If \code{cell_center = TRUE} some
+patches might have several possible cell-center centroids. In this case, the
+gyrate index is based on the mean distance of all cells to all possible cell-
+center centroids.
 
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE >= 0}
