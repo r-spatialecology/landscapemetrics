@@ -47,6 +47,10 @@ centroid and is based on cell center-to-cell center distances. The metrics chara
 both the patch area and compactness. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
 
+If \code{cell_center = TRUE} some patches might have several possible cell-center
+centroids. In this case, the gyrate index is based on the mean distance of all
+cells to all possible cell-center centroids.
+
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE_CV >= 0 }
 \subsection{Behaviour}{Equals GYRATE_CV = 0 if the radius of gyration is identical

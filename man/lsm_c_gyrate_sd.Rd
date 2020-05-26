@@ -46,6 +46,10 @@ belonging to class i. GYRATE measures the distance from each cell to the patch
 centroid and is based on cell center-to-cell center distances. The metrics characterises
 both the patch area and compactness.
 
+If \code{cell_center = TRUE} some patches might have several possible cell-center
+centroids. In this case, the gyrate index is based on the mean distance of all
+cells to all possible cell-center centroids.
+
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE_SD >= 0 }
 \subsection{Behaviour}{Equals GYRATE_SD = 0 if the radius of gyration is identical

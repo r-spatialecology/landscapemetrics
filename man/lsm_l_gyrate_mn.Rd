@@ -44,8 +44,11 @@ GYRATE_MN is an 'Area and edge metric'. The metric summarises the landscape
 as the mean of the radius of gyration of all patches in the landscape.
 GYRATE measures the distance from each cell to the patch centroid and is based on
 cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness. The Coefficient of variation is
-scaled to the mean and comparable among different landscapes.
+both the patch area and compactness.
+
+If \code{cell_center = TRUE} some patches might have several possible cell-center
+centroids. In this case, the gyrate index is based on the mean distance of all
+cells to all possible cell-center centroids.
 
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE_MN >= 0 }

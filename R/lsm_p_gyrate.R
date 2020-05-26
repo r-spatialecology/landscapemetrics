@@ -17,6 +17,10 @@
 #' patch centroid is based on cell center to centroid distances. The metric
 #' characterises both the patch area and compactness.
 #'
+#' If `cell_center = TRUE` some patches might have several possible cell-center
+#' centroids. In this case, the gyrate index is based on the mean distance of all
+#' cells to all possible cell-center centroids.
+#'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE >= 0}
 #' \subsection{Behaviour}{Approaches GYRATE = 0 if patch is a single cell.
