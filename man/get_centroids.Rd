@@ -9,17 +9,47 @@
 \alias{get_centroids.list}
 \title{get_centroids}
 \usage{
-get_centroids(landscape, directions, cell_center, verbose)
+get_centroids(landscape, directions, cell_center, return_sp, verbose)
 
-\method{get_centroids}{RasterLayer}(landscape, directions = 8, cell_center = FALSE, verbose = TRUE)
+\method{get_centroids}{RasterLayer}(
+  landscape,
+  directions = 8,
+  cell_center = FALSE,
+  return_sp = FALSE,
+  verbose = TRUE
+)
 
-\method{get_centroids}{RasterStack}(landscape, directions = 8, cell_center = FALSE, verbose = TRUE)
+\method{get_centroids}{RasterStack}(
+  landscape,
+  directions = 8,
+  cell_center = FALSE,
+  return_sp = FALSE,
+  verbose = TRUE
+)
 
-\method{get_centroids}{RasterBrick}(landscape, directions = 8, cell_center = FALSE, verbose = TRUE)
+\method{get_centroids}{RasterBrick}(
+  landscape,
+  directions = 8,
+  cell_center = FALSE,
+  return_sp = FALSE,
+  verbose = TRUE
+)
 
-\method{get_centroids}{stars}(landscape, directions = 8, cell_center = FALSE, verbose = TRUE)
+\method{get_centroids}{stars}(
+  landscape,
+  directions = 8,
+  cell_center = FALSE,
+  return_sp = FALSE,
+  verbose = TRUE
+)
 
-\method{get_centroids}{list}(landscape, directions = 8, cell_center = FALSE, verbose = TRUE)
+\method{get_centroids}{list}(
+  landscape,
+  directions = 8,
+  cell_center = FALSE,
+  return_sp = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
@@ -29,6 +59,8 @@ connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{cell_center}{If true, the coordinates of the centroid are forced to be
 a cell center within the patch.}
+
+\item{return_sp}{If true, a SpatialPointsDataFrame is returned.}
 
 \item{verbose}{Print warning messages}
 }

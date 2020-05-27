@@ -7,6 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param cell_center If true, the coordinates of the centroid are forced to be
 #' a cell center within the patch.
+#' @param return_sp If true, a SpatialPointsDataFrame is returned.
 #' @param verbose Print warning messages
 #'
 #' @details
@@ -23,12 +24,13 @@
 #' @rdname get_centroids
 #'
 #' @export
-get_centroids <- function(landscape, directions, cell_center, verbose) UseMethod("get_centroids")
+get_centroids <- function(landscape, directions, cell_center, return_sp, verbose) UseMethod("get_centroids")
 
 #' @name get_centroids
 #' @export
 get_centroids.RasterLayer <- function(landscape, directions = 8,
                                      cell_center = FALSE,
+                                     return_sp = FALSE,
                                      verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
@@ -44,6 +46,13 @@ get_centroids.RasterLayer <- function(landscape, directions = 8,
 
     result <- tibble::add_column(result, layer, .before = TRUE)
 
+    if (return_sp) {
+
+        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
+                                              data = result[, c(1:4)],
+                                              proj4string = raster::crs(landscape))
+    }
+
     return(result)
 }
 
@@ -51,6 +60,7 @@ get_centroids.RasterLayer <- function(landscape, directions = 8,
 #' @export
 get_centroids.RasterStack <- function(landscape, directions = 8,
                                      cell_center = FALSE,
+                                     return_sp = FALSE,
                                      verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
@@ -73,6 +83,7 @@ get_centroids.RasterStack <- function(landscape, directions = 8,
 #' @export
 get_centroids.RasterBrick <- function(landscape, directions = 8,
                                      cell_center = FALSE,
+                                     return_sp = FALSE,
                                      verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
@@ -88,6 +99,13 @@ get_centroids.RasterBrick <- function(landscape, directions = 8,
 
     result <- tibble::add_column(result, layer, .before = TRUE)
 
+    if (return_sp) {
+
+        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
+                                              data = result[, c(1:4)],
+                                              proj4string = raster::crs(landscape))
+    }
+
     return(result)
 }
 
@@ -95,6 +113,7 @@ get_centroids.RasterBrick <- function(landscape, directions = 8,
 #' @export
 get_centroids.stars <- function(landscape, directions = 8,
                                cell_center = FALSE,
+                               return_sp = FALSE,
                                verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
@@ -112,6 +131,13 @@ get_centroids.stars <- function(landscape, directions = 8,
 
     result <- tibble::add_column(result, layer, .before = TRUE)
 
+    if (return_sp) {
+
+        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
+                                              data = result[, c(1:4)],
+                                              proj4string = raster::crs(landscape))
+    }
+
     return(result)
 }
 
@@ -119,6 +145,7 @@ get_centroids.stars <- function(landscape, directions = 8,
 #' @export
 get_centroids.list <- function(landscape, directions = 8,
                               cell_center = FALSE,
+                              return_sp = FALSE,
                               verbose = TRUE) {
 
     result <- lapply(X = landscape,
@@ -133,6 +160,13 @@ get_centroids.list <- function(landscape, directions = 8,
     result <- do.call(rbind, result)
 
     result <- tibble::add_column(result, layer, .before = TRUE)
+
+    if (return_sp) {
+
+        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
+                                              data = result[, c(1:4)],
+                                              proj4string = raster::crs(landscape))
+    }
 
     return(result)
 }

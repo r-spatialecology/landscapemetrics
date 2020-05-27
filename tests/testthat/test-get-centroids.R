@@ -15,23 +15,23 @@ test_that("get_centroids runs for all data types", {
 
 test_that("get_centroids returns in every column the correct type", {
 
-    raster_layer <- get_centroids(landscape)
+    centroids <- get_centroids(landscape)
 
-    expect_type(raster_layer$layer, "integer")
-    expect_type(raster_layer$level, "character")
-    expect_type(raster_layer$class, "integer")
-    expect_type(raster_layer$id, "integer")
-    expect_type(raster_layer$x, "double")
-    expect_type(raster_layer$y, "double")
+    expect_type(centroids$layer, "integer")
+    expect_type(centroids$level, "character")
+    expect_type(centroids$class, "integer")
+    expect_type(centroids$id, "integer")
+    expect_type(centroids$x, "double")
+    expect_type(centroids$y, "double")
 })
 
 test_that("get_centroids returns centroid for each patch", {
 
-    raster_layer <- get_centroids(landscape)
+    centroids <- get_centroids(landscape)
 
     np <- lsm_l_np(landscape)
 
-    expect_true(object = nrow(raster_layer) == np$value)
+    expect_true(object = nrow(centroids) == np$value)
 })
 
 test_that("get_centroids allows to set cell_center", {
@@ -39,14 +39,18 @@ test_that("get_centroids allows to set cell_center", {
     expect_warning(get_centroids(landscape, cell_center = TRUE),
                    regexp = "For some patches several cell centers are returned as centroid.")
 
-    raster_layer <- get_centroids(landscape, cell_center = TRUE,
+    centroids <- get_centroids(landscape, cell_center = TRUE,
                                   verbose = FALSE)
+
     np <- lsm_l_np(landscape)
 
-    expect_true(object = nrow(raster_layer) > np$value)
+    expect_true(object = nrow(centroids) > np$value)
 })
 
+test_that("get_centroids can return sp", {
 
+    centroids_sp <- get_centroids(landscape, cell_center = T,
+                                  return_sp = TRUE)
 
-
-
+    expect_is(centroids_sp, "SpatialPointsDataFrame")
+})
