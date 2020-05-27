@@ -1,4 +1,4 @@
-#' get_centroid
+#' get_centroids
 #'
 #' @description Centroid of patches
 #'
@@ -7,6 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param cell_center If true, the coordinates of the centroid are forced to be
 #' a cell center within the patch.
+#' @param verbose Print warning messages
 #'
 #' @details
 #' Get the coordinates of the centroid of each patch. The centroid is by default
@@ -16,23 +17,25 @@
 #'
 #' @examples
 #' # get centroid location
-#' get_centroid(landscape)
+#' get_centroids(landscape)
 #'
-#' @aliases get_centroid
-#' @rdname get_centroid
+#' @aliases get_centroids
+#' @rdname get_centroids
 #'
 #' @export
-get_centroid <- function(landscape, directions, cell_center) UseMethod("get_centroid")
+get_centroids <- function(landscape, directions, cell_center, verbose) UseMethod("get_centroids")
 
-#' @name get_centroid
+#' @name get_centroids
 #' @export
-get_centroid.RasterLayer <- function(landscape, directions = 8,
-                                     cell_center = FALSE) {
+get_centroids.RasterLayer <- function(landscape, directions = 8,
+                                     cell_center = FALSE,
+                                     verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroid_calc,
+                     FUN = get_centroids_calc,
                      directions = directions,
-                     cell_center = cell_center)
+                     cell_center = cell_center,
+                     verbose = verbose)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -44,15 +47,17 @@ get_centroid.RasterLayer <- function(landscape, directions = 8,
     return(result)
 }
 
-#' @name get_centroid
+#' @name get_centroids
 #' @export
-get_centroid.RasterStack <- function(landscape, directions = 8,
-                                     cell_center = FALSE) {
+get_centroids.RasterStack <- function(landscape, directions = 8,
+                                     cell_center = FALSE,
+                                     verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroid_calc,
+                     FUN = get_centroids_calc,
                      directions = directions,
-                     cell_center = cell_center)
+                     cell_center = cell_center,
+                     verbose = verbose)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,15 +69,17 @@ get_centroid.RasterStack <- function(landscape, directions = 8,
     return(result)
 }
 
-#' @name get_centroid
+#' @name get_centroids
 #' @export
-get_centroid.RasterBrick <- function(landscape, directions = 8,
-                                     cell_center = FALSE) {
+get_centroids.RasterBrick <- function(landscape, directions = 8,
+                                     cell_center = FALSE,
+                                     verbose = TRUE) {
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroid_calc,
+                     FUN = get_centroids_calc,
                      directions = directions,
-                     cell_center = cell_center)
+                     cell_center = cell_center,
+                     verbose = verbose)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -84,17 +91,19 @@ get_centroid.RasterBrick <- function(landscape, directions = 8,
     return(result)
 }
 
-#' @name get_centroid
+#' @name get_centroids
 #' @export
-get_centroid.stars <- function(landscape, directions = 8,
-                               cell_center = FALSE) {
+get_centroids.stars <- function(landscape, directions = 8,
+                               cell_center = FALSE,
+                               verbose = TRUE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroid_calc,
+                     FUN = get_centroids_calc,
                      directions = directions,
-                     cell_center = cell_center)
+                     cell_center = cell_center,
+                     verbose = verbose)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -106,15 +115,17 @@ get_centroid.stars <- function(landscape, directions = 8,
     return(result)
 }
 
-#' @name get_centroid
+#' @name get_centroids
 #' @export
-get_centroid.list <- function(landscape, directions = 8,
-                              cell_center = FALSE) {
+get_centroids.list <- function(landscape, directions = 8,
+                              cell_center = FALSE,
+                              verbose = TRUE) {
 
     result <- lapply(X = landscape,
-                     FUN = get_centroid_calc,
+                     FUN = get_centroids_calc,
                      directions = directions,
-                     cell_center = cell_center)
+                     cell_center = cell_center,
+                     verbose = verbose)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -126,7 +137,7 @@ get_centroid.list <- function(landscape, directions = 8,
     return(result)
 }
 
-get_centroid_calc <- function(landscape, directions, cell_center) {
+get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -210,7 +221,7 @@ get_centroid_calc <- function(landscape, directions, cell_center) {
     np <- lsm_l_np_calc(landscape, directions = directions)[[1, 5]]
 
     # check how often different combinations of class-id are present
-    times <- c(table(centroid[, c(1, 2)]))
+    times <- as.numeric(t(table(centroid[, c(1, 2)])))
 
     # remove all 0 cases
     times <- times[which(times != 0)]
@@ -220,9 +231,12 @@ get_centroid_calc <- function(landscape, directions, cell_center) {
     id <- rep(seq_len(np), times = times[times != 0])
 
     # return warning if any patch has several centroids
-    if (any(times != 1)) {
-       warning("For some patches several cell centers are returned as centroid.",
-               call. = FALSE)
+    if (verbose) {
+
+        if (any(times != 1)) {
+           warning("For some patches several cell centers are returned as centroid.",
+                   call. = FALSE)
+        }
     }
 
     tibble::tibble(level = "patch",
