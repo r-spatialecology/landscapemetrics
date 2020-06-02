@@ -20,6 +20,7 @@ calculate_lsm(
   count_boundary,
   consider_boundary,
   edge_depth,
+  cell_center,
   classes_max,
   neighbourhood,
   ordered,
@@ -40,6 +41,7 @@ calculate_lsm(
   count_boundary = FALSE,
   consider_boundary = FALSE,
   edge_depth = 1,
+  cell_center = FALSE,
   classes_max = NULL,
   neighbourhood = 4,
   ordered = TRUE,
@@ -60,6 +62,7 @@ calculate_lsm(
   count_boundary = FALSE,
   consider_boundary = FALSE,
   edge_depth = 1,
+  cell_center = FALSE,
   classes_max = NULL,
   neighbourhood = 4,
   ordered = TRUE,
@@ -80,6 +83,7 @@ calculate_lsm(
   count_boundary = FALSE,
   consider_boundary = FALSE,
   edge_depth = 1,
+  cell_center = FALSE,
   classes_max = NULL,
   neighbourhood = 4,
   ordered = TRUE,
@@ -100,6 +104,7 @@ calculate_lsm(
   count_boundary = FALSE,
   consider_boundary = FALSE,
   edge_depth = 1,
+  cell_center = FALSE,
   classes_max = NULL,
   neighbourhood = 4,
   ordered = TRUE,
@@ -120,6 +125,7 @@ calculate_lsm(
   count_boundary = FALSE,
   consider_boundary = FALSE,
   edge_depth = 1,
+  cell_center = FALSE,
   classes_max = NULL,
   neighbourhood = 4,
   ordered = TRUE,
@@ -136,7 +142,7 @@ calculate_lsm(
 
 \item{metric}{Abbreviation of metrics (e.g. 'area').}
 
-\item{name}{Full name of metrics (e.g. 'core area')}
+\item{name}{Full name of metrics (e.g. 'core area').}
 
 \item{type}{Type according to FRAGSTATS grouping (e.g. 'aggregation metrics').}
 
@@ -146,15 +152,18 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
 
-\item{count_boundary}{Include landscape boundary in edge length}
+\item{count_boundary}{Include landscape boundary in edge length.}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
-boundary should be considered as core}
+boundary should be considered as core.}
 
 \item{edge_depth}{Distance (in cells) a cell has the be away from the patch
-edge to be considered as core cell}
+edge to be considered as core cell.}
 
-\item{classes_max}{Potential maximum number of present classes}
+\item{cell_center}{If true, the coordinates of the centroid are forced to be
+a cell center within the patch.}
+
+\item{classes_max}{Potential maximum number of present classes.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}

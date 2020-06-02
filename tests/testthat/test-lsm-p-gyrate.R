@@ -13,6 +13,14 @@ test_that("lsm_p_gyrate returns the desired number of columns", {
     expect_equal(ncol(landscapemetrics_patch_landscape_value), 6)
 })
 
+test_that("lsm_p_gyrate can force centroid to be within patch", {
+
+    result_a <- lsm_p_gyrate(landscape)
+    result_b <- lsm_p_gyrate(landscape, cell_center = TRUE)
+
+    expect_true(object = any(result_a$value != result_b$value))
+})
+
 test_that("lsm_p_gyrate returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$layer, "integer")
     expect_type(landscapemetrics_patch_landscape_value$level, "character")
@@ -21,5 +29,3 @@ test_that("lsm_p_gyrate returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$metric, "character")
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
-
-
