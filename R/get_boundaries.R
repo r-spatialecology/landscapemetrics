@@ -6,6 +6,8 @@
 #' @param directions Rook's case (4 neighbours) or queen's case (8 neighbours) should be used as neighbourhood rule
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as edge
+#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' edge to be considered as core cell
 #' @param as_NA If true, non-boundary cells area labeld NA
 #' @param return_raster If false, matrix is returned
 #'
@@ -32,16 +34,18 @@
 #' @export
 get_boundaries <- function(landscape,
                            directions,
-                           as_NA,
                            consider_boundary,
+                           edge_depth,
+                           as_NA,
                            return_raster) UseMethod("get_boundaries")
 
 #' @name get_boundaries
 #' @export
 get_boundaries.RasterLayer <- function(landscape,
-                                       directions = 4,
-                                       as_NA = FALSE,
+                                       directions = 8,
                                        consider_boundary = FALSE,
+                                       edge_depth = 1,
+                                       as_NA = FALSE,
                                        return_raster = TRUE) {
 
     # check if either directions are possible
@@ -56,6 +60,7 @@ get_boundaries.RasterLayer <- function(landscape,
         result_temp <- get_boundaries.matrix(raster::as.matrix(x),
                                              directions = directions,
                                              consider_boundary = consider_boundary,
+                                             edge_depth = edge_depth,
                                              as_NA = as_NA)[[1]]
 
         # convert back to raster
@@ -75,14 +80,15 @@ get_boundaries.RasterLayer <- function(landscape,
 #' @export
 get_boundaries.RasterStack <- function(landscape,
                                        directions = 4,
-                                       as_NA = FALSE,
                                        consider_boundary = FALSE,
+                                       edge_depth = 1,
+                                       as_NA = FALSE,
                                        return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
 
-        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+        stop("Please specify 'directions = 8' or 'directions = 8'.", call. = FALSE)
     }
 
     # get boundaries
@@ -91,6 +97,7 @@ get_boundaries.RasterStack <- function(landscape,
         result_temp <- get_boundaries.matrix(raster::as.matrix(x),
                                              directions = directions,
                                              consider_boundary = consider_boundary,
+                                             edge_depth = edge_depth,
                                              as_NA = as_NA)[[1]]
 
         # convert back to raster
@@ -110,14 +117,15 @@ get_boundaries.RasterStack <- function(landscape,
 #' @export
 get_boundaries.RasterBrick <- function(landscape,
                                        directions = 4,
-                                       as_NA = FALSE,
                                        consider_boundary = FALSE,
+                                       edge_depth = 1,
+                                       as_NA = FALSE,
                                        return_raster = TRUE) {
 
     # check if either directions are possible
     if (directions != 4 && directions != 8) {
 
-        stop("Please specify 'directions = 4' or 'directions = 8'.", call. = FALSE)
+        stop("Please specify 'directions = 8' or 'directions = 8'.", call. = FALSE)
     }
 
     # get boundaries
@@ -126,6 +134,7 @@ get_boundaries.RasterBrick <- function(landscape,
         result_temp <- get_boundaries.matrix(raster::as.matrix(x),
                                              directions = directions,
                                              consider_boundary = consider_boundary,
+                                             edge_depth = edge_depth,
                                              as_NA = as_NA)[[1]]
 
         # convert back to raster
@@ -144,9 +153,10 @@ get_boundaries.RasterBrick <- function(landscape,
 #' @name get_boundaries
 #' @export
 get_boundaries.stars <- function(landscape,
-                                 directions = 4,
-                                 as_NA = FALSE,
+                                 directions = 8,
                                  consider_boundary = FALSE,
+                                 edge_depth = 1,
+                                 as_NA = FALSE,
                                  return_raster = TRUE) {
 
     # check if either directions are possible
@@ -164,6 +174,7 @@ get_boundaries.stars <- function(landscape,
         result_temp <- get_boundaries.matrix(raster::as.matrix(x),
                                              directions = directions,
                                              consider_boundary = consider_boundary,
+                                             edge_depth = edge_depth,
                                              as_NA = as_NA)[[1]]
 
         # convert back to raster
@@ -182,9 +193,10 @@ get_boundaries.stars <- function(landscape,
 #' @name get_boundaries
 #' @export
 get_boundaries.list <- function(landscape,
-                                directions = 4,
-                                as_NA = FALSE,
+                                directions = 8,
                                 consider_boundary = FALSE,
+                                edge_depth = 1,
+                                as_NA = FALSE,
                                 return_raster = TRUE) {
 
     # check if either directions are possible
@@ -199,6 +211,7 @@ get_boundaries.list <- function(landscape,
         result_temp <- get_boundaries.matrix(raster::as.matrix(x),
                                              directions = directions,
                                              consider_boundary = consider_boundary,
+                                             edge_depth = edge_depth,
                                              as_NA = as_NA)[[1]]
 
         # convert back to raster
@@ -217,9 +230,10 @@ get_boundaries.list <- function(landscape,
 #' @name get_boundaries
 #' @export
 get_boundaries.matrix <- function(landscape,
-                                  directions = 4,
-                                  as_NA = FALSE,
+                                  directions = 8,
                                   consider_boundary = FALSE,
+                                  edge_depth = 1,
+                                  as_NA = FALSE,
                                   return_raster = FALSE) {
 
     if (return_raster) {
@@ -241,7 +255,28 @@ get_boundaries.matrix <- function(landscape,
 
     # get boundaries
     landscape <- rcpp_get_boundaries(landscape,
-                                     directions = directions)
+                                     directions = 4)
+
+    # loop if edge_depth > 1
+    if (edge_depth > 1) {
+
+        # save original landscape
+        landscape_temp <- landscape
+
+        # first edge depth already labels
+        for (i in seq_len(edge_depth - 1)) {
+
+            # set all already edge to NA
+            landscape_temp[landscape_temp == 1] <- NA
+
+            # set current_edge + 1 to new edge
+            landscape_temp <- get_boundaries(landscape_temp,
+                                             directions = 4,
+                                             consider_boundary = consider_boundary)[[1]]
+
+            landscape[which(landscape_temp[] == 1)] <- 1
+        }
+    }
 
     # remove padded rows/cols
     if (!consider_boundary) {

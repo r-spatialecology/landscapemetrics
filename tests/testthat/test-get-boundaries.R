@@ -49,3 +49,15 @@ test_that("get_boundaries works for 8 directions", {
 
     expect_true(min(raster::getValues(result8) - raster::getValues(result4), na.rm = TRUE) >= 0)
 })
+
+test_that("get_boundaries can increase edge_depth", {
+
+    class_1 <- get_patches(landscape, class = 1)[[1]]
+    result_depth_1 <- get_boundaries(class_1, edge_depth = 1)[[1]]
+    result_depth_3 <- get_boundaries(class_1, edge_depth = 3)[[1]]
+
+    check <- sum(raster::values(result_depth_1), na.rm = TRUE) <
+        sum(raster::values(result_depth_3), na.rm = TRUE)
+
+    expect_true(object = check)
+})
