@@ -203,24 +203,9 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
 
         # label all edge cells
-        class_edge <- get_boundaries(landscape_labeled,
-                                     directions = 4,
-                                     consider_boundary = consider_boundary)[[1]]
-
-        # loop if edge_depth is more than 1
-        if (edge_depth > 1) {
-
-            for (i in seq_len(edge_depth - 1)) {
-
-                # set all already edge to NA
-                class_edge[class_edge == 1] <- NA
-
-                # set current_edge + 1 to new edge
-                class_edge <- get_boundaries(class_edge,
-                                             directions = 4,
-                                             consider_boundary = consider_boundary)[[1]]
-            }
-        }
+        class_edge <- get_boundaries.matrix(landscape_labeled,
+                                            edge_depth = edge_depth,
+                                            consider_boundary = consider_boundary)[[1]]
 
         # set all edge and background to -999
         class_edge[class_edge == 1 | is.na(class_edge)] <- -999
@@ -264,7 +249,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
             n_core_area <- table(unique(points[, c(4, 5)])[, 2]) # sth breaking here
 
-            # set up results samel length as number of patches (in case patch has no core)
+            # set up results same length as number of patches (in case patch has no core)
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
 

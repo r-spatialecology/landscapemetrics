@@ -1,6 +1,7 @@
 # landscapemetrics 1.4.5
 * Improvements
-    * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch 
+    * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch
+    * `get_boundaries()` allows now to specify edge depth
 * New gunctions
     * `get_centroid()` returns the coordinates of each patch centroid
     

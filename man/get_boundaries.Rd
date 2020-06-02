@@ -10,18 +10,10 @@
 \alias{get_boundaries.matrix}
 \title{get_boundaries}
 \usage{
-get_boundaries(
-  landscape,
-  directions,
-  consider_boundary,
-  edge_depth,
-  as_NA,
-  return_raster
-)
+get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
 
 \method{get_boundaries}{RasterLayer}(
   landscape,
-  directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -30,7 +22,6 @@ get_boundaries(
 
 \method{get_boundaries}{RasterStack}(
   landscape,
-  directions = 4,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -39,7 +30,6 @@ get_boundaries(
 
 \method{get_boundaries}{RasterBrick}(
   landscape,
-  directions = 4,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -48,7 +38,6 @@ get_boundaries(
 
 \method{get_boundaries}{stars}(
   landscape,
-  directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -57,7 +46,6 @@ get_boundaries(
 
 \method{get_boundaries}{list}(
   landscape,
-  directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -66,7 +54,6 @@ get_boundaries(
 
 \method{get_boundaries}{matrix}(
   landscape,
-  directions = 8,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
@@ -76,17 +63,15 @@ get_boundaries(
 \arguments{
 \item{landscape}{RasterLayer or matrix.}
 
-\item{directions}{Rook's case (4 neighbours) or queen's case (8 neighbours) should be used as neighbourhood rule}
-
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
-boundary should be considered as edge}
+boundary should be considered as edge.}
 
 \item{edge_depth}{Distance (in cells) a cell has the be away from the patch
-edge to be considered as core cell}
+edge to be considered as core cell.}
 
-\item{as_NA}{If true, non-boundary cells area labeld NA}
+\item{as_NA}{If true, non-boundary cells area labeld NA.}
 
-\item{return_raster}{If false, matrix is returned}
+\item{return_raster}{If false, matrix is returned.}
 }
 \value{
 List with RasterLayer or matrix
@@ -105,8 +90,5 @@ class_1 <- get_patches(landscape, class = 1)[[1]]
 
 get_boundaries(class_1)
 get_boundaries(class_1, return_raster = FALSE)
-
-class_1_matrix <- raster::as.matrix(class_1)
-get_boundaries(class_1_matrix, return_raster = FALSE)
 
 }
