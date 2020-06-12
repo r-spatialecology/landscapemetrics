@@ -14,7 +14,6 @@ test_that("get_nearestneighbour works for all data types", {
     expect_is(raster_layer, "tbl_df")
     expect_is(raster_stack, "tbl_df")
     expect_is(raster_brick, "tbl_df")
-    expect_is(raster_stars, "tbl_df")
     expect_is(raster_list, "tbl_df")
 })
 
