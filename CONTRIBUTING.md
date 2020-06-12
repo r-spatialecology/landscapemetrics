@@ -23,6 +23,6 @@ Before making changes make sure to pull changes in from upstream by doing either
 * Push up to your account
 * Submit a pull request to home base at `r-spatialecology/landscapemetrics`
 
-### Questions? Get in touch: [sciaini.marco@gmail.com](mailto:sciaini.marco@gmail.com) or [maximilian.hesselbarth@uni-goettingen.de](mailto:maximilian.hesselbarth@uni-goettingen.de)
+### Questions? Get in touch: [sciaini.marco@gmail.com](mailto:sciaini.marco@gmail.com) or [mhk.hesselbarth@gmail.com](mailto:mhk.hesselbarth@gmail.com)
 
 ### Thanks for contributing!
