@@ -176,54 +176,34 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     core <- do.call(rbind,
                     lapply(classes, function(patches_class) {
 
-        # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+                        # get connected patches
+                        landscape_labeled <- get_patches(landscape,
+                                                         class = patches_class,
+                                                         directions = directions,
+                                                         return_raster = FALSE)[[1]]
 
-        # label all edge cells
-        class_edge <- get_boundaries(landscape_labeled,
-                                     directions = 4,
-                                     consider_boundary = consider_boundary)[[1]]
+                        # label all edge cells
+                        class_edge <- get_boundaries.matrix(landscape_labeled,
+                                                            edge_depth = edge_depth,
+                                                            consider_boundary = consider_boundary)[[1]]
 
-        # count number of edge cells in each patch (edge == 1)
-        cells_edge_patch <- table(landscape_labeled[class_edge == 1])
+                        # count number of edge cells in each patch (edge == 1)
+                        cells_edge_patch <- table(landscape_labeled[class_edge == 1])
 
-        # loop if edge_depth > 1
-        if (edge_depth > 1) {
+                        # all cells of the patch
+                        cells_patch <- table(landscape_labeled)
 
-            # first edge depth already labels
-            for (i in seq_len(edge_depth - 1)) {
+                        # check if no cell is edge, i.e. only one patch is present
+                        if (dim(cells_edge_patch) == 0) {
+                            cells_edge_patch <- 0
+                        }
 
-                # set all already edge to NA
-                class_edge[class_edge == 1] <- NA
+                        # all cells minus edge cells equal core and convert to ha
+                        core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
-                # set current_edge + 1 to new edge
-                class_edge <- get_boundaries(class_edge,
-                                             directions = 4,
-                                             consider_boundary = consider_boundary)[[1]]
-
-                # count number of edge cells in each patch (edge == 1) and add to already counted edge
-                cells_edge_patch <- cells_edge_patch + tabulate(landscape_labeled[class_edge == 1],
-                                                                nbins = length(cells_edge_patch))
-            }
-        }
-
-        # all cells of the patch
-        cells_patch <- table(landscape_labeled)
-
-        # check if no cell is edge, i.e. only one patch is present
-        if (dim(cells_edge_patch) == 0) {
-            cells_edge_patch <- 0
-        }
-
-        # all cells minus edge cells equal core and convert to ha
-        core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
-
-        tibble::tibble(class = patches_class,
-                       value = core_area)
-        })
+                        tibble::tibble(class = patches_class,
+                                       value = core_area)
+                    })
     )
 
     tibble::tibble(

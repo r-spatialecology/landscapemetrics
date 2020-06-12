@@ -201,7 +201,6 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
         # }
 
         class_edge <- get_boundaries(patches_class,
-                                     directions = 4,
                                      consider_boundary = consider_boundary)[[1]]
 
         full_edge <- class_edge
@@ -213,7 +212,6 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
                 raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
 
                 class_edge <- get_boundaries(class_edge,
-                                             directions = 4,
                                              consider_boundary)[[1]]
 
                 full_edge[which(class_edge[] == 1)] <- 1
