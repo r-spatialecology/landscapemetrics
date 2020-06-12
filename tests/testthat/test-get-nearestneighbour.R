@@ -1,33 +1,36 @@
 context("get_nearestneighbour")
 
+# get patches for class 1
+class_1 <- get_patches(landscape, class = 1)[[1]]
+all_classes <- get_patches(landscape)
 
-# get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape,1)[[1]]
-# calculate the distance between patches
-nn_rast <- get_nearestneighbour(class_1)
-# do the same with a 3 column matrix (x,y,id)
-class_1_matrix <- raster_to_points(class_1, return_NA = FALSE)
-nn_mat <- get_nearestneighbour(class_1_matrix[, 2:4])
+test_that("get_nearestneighbour works for all data types", {
 
-test_that("get_adjacencies runs and returns a matrix", {
-    expect_is(nn_rast, "tbl_df")
-    expect_is(nn_mat, "tbl_df")
+    raster_layer <- get_nearestneighbour(class_1)
+    raster_stack <- get_nearestneighbour(raster::stack(all_classes))
+    raster_brick <- get_nearestneighbour(raster::brick(all_classes))
+    raster_stars <- get_nearestneighbour(stars::st_as_stars(class_1))
+    raster_list <- get_nearestneighbour(all_classes)
 
-    expect_true(nn_rast[1, 3] == 7)
-    expect_true(nn_mat[1, 3] == 7)
+    expect_is(raster_layer, "tbl_df")
+    expect_is(raster_stack, "tbl_df")
+    expect_is(raster_brick, "tbl_df")
+    expect_is(raster_stars, "tbl_df")
+    expect_is(raster_list, "tbl_df")
 })
 
-test_that("get_adjacencies runs for all data type", {
+test_that("get_nearestneighbour returns value for each patch", {
 
-    result_stack <- get_nearestneighbour(landscape_stack)
-    result_brick <- get_nearestneighbour(landscape_brick)
-    result_list <- get_nearestneighbour(landscape_list)
+    np <- lsm_l_np(class_1)
+    raster_layer <- get_nearestneighbour(class_1)
 
-    expect_is(result_stack, "tbl_df")
-    expect_is(result_brick, "tbl_df")
-    expect_is(result_list, "tbl_df")
+    expect_true(object = np$value == nrow(raster_layer))
+})
 
-    expect_true(all(c(1, 2) %in% result_stack$layer))
-    expect_true(all(c(1, 2) %in% result_brick$layer))
-    expect_true(all(c(1, 2) %in% result_list$layer))
+test_that("get_nearestneighbour can return focal and neighbour ID", {
+
+    raster_layer <- get_nearestneighbour(class_1, return_id = TRUE)
+
+    expect_true(object = ncol(raster_layer) == 4)
+    expect_true(object = all(raster_layer$id != raster_layer$id_neighbour))
 })

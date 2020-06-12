@@ -32,14 +32,18 @@ Euclidean distance to nearest neighbour
 \details{
 Fast and memory safe Rcpp implementation for calculating the minimum Euclidean
 distances to the nearest patch of the same class in a raster or matrix.
-All patches need an unique ID (see \code{\link{get_patches}}).
+All patches need an unique ID (see \code{\link{get_patches}}). Please be aware
+that the patch ID is not identical to the patch ID of all metric functions (lsm_).
+If \code{return_ID = TRUE}, for some focal patches several nearest neighbour patches
+might be returned.
 }
 \examples{
-# get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape,1)[[1]]
+# get patches for class 1
+class_1 <- get_patches(landscape, class = 2)[[1]]
 
 # calculate the distance between patches
 get_nearestneighbour(class_1)
+get_nearestneighbour(class_1, return_id = TRUE)
 
 }
 \references{
