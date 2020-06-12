@@ -1,4 +1,6 @@
 # landscapemetrics 1.4.5
+* Bugfixes
+    * Fix of patch id in `get_circumscribingcircle()`
 * Improvements
     * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch
     * `get_boundaries()` allows now to specify edge depth
