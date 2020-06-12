@@ -217,7 +217,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
             res <- rcpp_get_nearest_neighbor(as.matrix(points)[ord,])
 
             # order results
-            min_dist <- unname(cbind(num, res[rank], as.matrix(points)[, 3]))
+            min_dist <- unname(cbind(num, res[rank, 1], as.matrix(points)[, 3]))
 
             tbl <- tibble::tibble(cell = min_dist[,1],
                                   dist = min_dist[,2],
