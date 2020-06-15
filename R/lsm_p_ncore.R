@@ -203,9 +203,11 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
 
         # label all edge cells
-        class_edge <- get_boundaries.matrix(landscape_labeled,
-                                            edge_depth = edge_depth,
-                                            consider_boundary = consider_boundary)[[1]]
+        class_edge <- get_boundaries_calc(landscape_labeled,
+                                          edge_depth = edge_depth,
+                                          consider_boundary = consider_boundary,
+                                          as_NA = FALSE,
+                                          patch_id = FALSE)
 
         # set all edge and background to -999
         class_edge[class_edge == 1 | is.na(class_edge)] <- -999
