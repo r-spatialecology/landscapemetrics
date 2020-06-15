@@ -7,16 +7,24 @@
 \alias{get_boundaries.RasterBrick}
 \alias{get_boundaries.stars}
 \alias{get_boundaries.list}
-\alias{get_boundaries.matrix}
+\alias{get_boundaries_calc}
 \title{get_boundaries}
 \usage{
-get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
+get_boundaries(
+  landscape,
+  consider_boundary,
+  edge_depth,
+  as_NA,
+  patch_id,
+  return_raster
+)
 
 \method{get_boundaries}{RasterLayer}(
   landscape,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
+  patch_id = FALSE,
   return_raster = TRUE
 )
 
@@ -25,6 +33,7 @@ get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
+  patch_id = FALSE,
   return_raster = TRUE
 )
 
@@ -33,6 +42,7 @@ get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
+  patch_id = FALSE,
   return_raster = TRUE
 )
 
@@ -41,6 +51,7 @@ get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
+  patch_id = FALSE,
   return_raster = TRUE
 )
 
@@ -49,16 +60,11 @@ get_boundaries(landscape, consider_boundary, edge_depth, as_NA, return_raster)
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
+  patch_id = FALSE,
   return_raster = TRUE
 )
 
-\method{get_boundaries}{matrix}(
-  landscape,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  as_NA = FALSE,
-  return_raster = FALSE
-)
+get_boundaries_calc(landscape, consider_boundary, edge_depth, as_NA, patch_id)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}
@@ -70,6 +76,8 @@ boundary should be considered as edge.}
 edge to be considered as core cell.}
 
 \item{as_NA}{If true, non-boundary cells area labeld NA.}
+
+\item{patch_id}{If true, boundary/edge cells are labeled with the original patch id.}
 
 \item{return_raster}{If false, matrix is returned.}
 }

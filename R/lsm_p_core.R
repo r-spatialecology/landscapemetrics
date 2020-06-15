@@ -183,9 +183,11 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                                          return_raster = FALSE)[[1]]
 
                         # label all edge cells
-                        class_edge <- get_boundaries.matrix(landscape_labeled,
-                                                            edge_depth = edge_depth,
-                                                            consider_boundary = consider_boundary)[[1]]
+                        class_edge <- get_boundaries_calc(landscape_labeled,
+                                                          edge_depth = edge_depth,
+                                                          consider_boundary = consider_boundary,
+                                                          as_NA = FALSE,
+                                                          patch_id = FALSE)
 
                         # count number of edge cells in each patch (edge == 1)
                         cells_edge_patch <- table(landscape_labeled[class_edge == 1])

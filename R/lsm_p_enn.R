@@ -193,11 +193,11 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
         else {
 
             # get edge cells because only they are important for ENN
-            class_boundaries <- get_boundaries.matrix(landscape_labeled,
-                                                      as_NA = TRUE)[[1]]
-
-            # set edge cell value to patch id
-            class_boundaries[!is.na(class_boundaries)] <- landscape_labeled[!is.na(class_boundaries)]
+            class_boundaries <- get_boundaries_calc(landscape_labeled,
+                                                    edge_depth = 1,
+                                                    consider_boundary = FALSE,
+                                                    as_NA = TRUE,
+                                                    patch_id = TRUE)
 
             # transpose to get same direction of ID
             class_boundaries <- t(class_boundaries)

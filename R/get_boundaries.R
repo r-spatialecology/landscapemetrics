@@ -8,6 +8,7 @@
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch
 #' edge to be considered as core cell.
 #' @param as_NA If true, non-boundary cells area labeld NA.
+#' @param patch_id If true, boundary/edge cells are labeled with the original patch id.
 #' @param return_raster If false, matrix is returned.
 #'
 #' @details
@@ -32,6 +33,7 @@ get_boundaries <- function(landscape,
                            consider_boundary,
                            edge_depth,
                            as_NA,
+                           patch_id,
                            return_raster) UseMethod("get_boundaries")
 
 #' @name get_boundaries
@@ -40,15 +42,17 @@ get_boundaries.RasterLayer <- function(landscape,
                                        consider_boundary = FALSE,
                                        edge_depth = 1,
                                        as_NA = FALSE,
+                                       patch_id = FALSE,
                                        return_raster = TRUE) {
 
     # get boundaries
     result <- lapply(raster::as.list(landscape), function(x) {
 
-        result_temp <- get_boundaries.matrix(raster::as.matrix(x),
-                                             consider_boundary = consider_boundary,
-                                             edge_depth = edge_depth,
-                                             as_NA = as_NA)[[1]]
+        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+                                           consider_boundary = consider_boundary,
+                                           edge_depth = edge_depth,
+                                           as_NA = as_NA,
+                                           patch_id = patch_id)
 
         # convert back to raster
         if (return_raster) {
@@ -69,15 +73,17 @@ get_boundaries.RasterStack <- function(landscape,
                                        consider_boundary = FALSE,
                                        edge_depth = 1,
                                        as_NA = FALSE,
+                                       patch_id = FALSE,
                                        return_raster = TRUE) {
 
     # get boundaries
     result <- lapply(X = raster::as.list(landscape), function(x) {
 
-        result_temp <- get_boundaries.matrix(raster::as.matrix(x),
-                                             consider_boundary = consider_boundary,
-                                             edge_depth = edge_depth,
-                                             as_NA = as_NA)[[1]]
+        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+                                           consider_boundary = consider_boundary,
+                                           edge_depth = edge_depth,
+                                           as_NA = as_NA,
+                                           patch_id = patch_id)
 
         # convert back to raster
         if (return_raster) {
@@ -98,15 +104,17 @@ get_boundaries.RasterBrick <- function(landscape,
                                        consider_boundary = FALSE,
                                        edge_depth = 1,
                                        as_NA = FALSE,
+                                       patch_id = FALSE,
                                        return_raster = TRUE) {
 
     # get boundaries
     result <- lapply(X = raster::as.list(landscape), function(x) {
 
-        result_temp <- get_boundaries.matrix(raster::as.matrix(x),
-                                             consider_boundary = consider_boundary,
-                                             edge_depth = edge_depth,
-                                             as_NA = as_NA)[[1]]
+        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+                                           consider_boundary = consider_boundary,
+                                           edge_depth = edge_depth,
+                                           as_NA = as_NA,
+                                           patch_id = patch_id)
 
         # convert back to raster
         if (return_raster) {
@@ -127,6 +135,7 @@ get_boundaries.stars <- function(landscape,
                                  consider_boundary = FALSE,
                                  edge_depth = 1,
                                  as_NA = FALSE,
+                                 patch_id = FALSE,
                                  return_raster = TRUE) {
 
     # convert as raster
@@ -135,10 +144,11 @@ get_boundaries.stars <- function(landscape,
     # get boundaries
     result <- lapply(X = raster::as.list(landscape), function(x) {
 
-        result_temp <- get_boundaries.matrix(raster::as.matrix(x),
-                                             consider_boundary = consider_boundary,
-                                             edge_depth = edge_depth,
-                                             as_NA = as_NA)[[1]]
+        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+                                           consider_boundary = consider_boundary,
+                                           edge_depth = edge_depth,
+                                           as_NA = as_NA,
+                                           patch_id = patch_id)
 
         # convert back to raster
         if (return_raster) {
@@ -159,15 +169,17 @@ get_boundaries.list <- function(landscape,
                                 consider_boundary = FALSE,
                                 edge_depth = 1,
                                 as_NA = FALSE,
+                                patch_id = FALSE,
                                 return_raster = TRUE) {
 
     # get boundaries
     result <- lapply(X = landscape, function(x) {
 
-        result_temp <- get_boundaries.matrix(raster::as.matrix(x),
-                                             consider_boundary = consider_boundary,
-                                             edge_depth = edge_depth,
-                                             as_NA = as_NA)[[1]]
+        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+                                           consider_boundary = consider_boundary,
+                                           edge_depth = edge_depth,
+                                           as_NA = as_NA,
+                                           patch_id = patch_id)
 
         # convert back to raster
         if (return_raster) {
@@ -184,17 +196,11 @@ get_boundaries.list <- function(landscape,
 
 #' @name get_boundaries
 #' @export
-get_boundaries.matrix <- function(landscape,
-                                  consider_boundary = FALSE,
-                                  edge_depth = 1,
-                                  as_NA = FALSE,
-                                  return_raster = FALSE) {
-
-    if (return_raster) {
-
-        warning("'return_raster = TRUE' not able for matrix input.",
-                call. = FALSE)
-    }
+get_boundaries_calc <- function(landscape,
+                                consider_boundary,
+                                edge_depth,
+                                as_NA,
+                                patch_id) {
 
     # add padding for landscape boundary
     if (!consider_boundary) {
@@ -207,43 +213,72 @@ get_boundaries.matrix <- function(landscape,
     }
 
     # get boundaries
-    landscape <- rcpp_get_boundaries(landscape,
-                                     directions = 4)
+    landscape_boundaries <- rcpp_get_boundaries(landscape,
+                                                directions = 4)
 
     # loop if edge_depth > 1
     if (edge_depth > 1) {
 
         # save original landscape
-        landscape_temp <- landscape
+        landscape_boundaries_temp <- landscape_boundaries
 
         # first edge depth already labels
         for (i in seq_len(edge_depth - 1)) {
 
             # set all already edge to NA
-            landscape_temp[landscape_temp == 1] <- NA
+            landscape_boundaries_temp[landscape_boundaries_temp == 1] <- NA
 
             # set current_edge + 1 to new edge
-            landscape_temp <- rcpp_get_boundaries(landscape_temp,
-                                                  directions = 4)
+            landscape_boundaries_temp <- rcpp_get_boundaries(landscape_boundaries_temp,
+                                                             directions = 4)
 
-            landscape[which(landscape_temp[] == 1)] <- 1
+            landscape_boundaries[which(landscape_boundaries_temp[] == 1)] <- 1
         }
     }
 
     # remove padded rows/cols
     if (!consider_boundary) {
 
-        landscape <- unpad_raster(landscape,
-                                  unpad_raster_cells = 1,
-                                  return_raster = FALSE,
-                                  to_disk = FALSE)[[1]]
+        landscape_boundaries <- unpad_raster(landscape_boundaries,
+                                             unpad_raster_cells = 1,
+                                             return_raster = FALSE,
+                                             to_disk = FALSE)[[1]]
+    }
+
+    # use original patch id
+    if(patch_id) {
+
+        # issue if class 0 is present because used for non-edge cells
+        present_classes <- rcpp_get_unique_values(landscape)
+
+        if(any(present_classes == 0)) {
+           warning("Not able to use original patch id because at least one id equals zero.",
+                   call. = FALSE)
+        }
+
+        # relabel edge cells (value = 1) with original patch id
+        else {
+
+            # remove padded rows/cols
+            if (!consider_boundary) {
+
+                landscape <- unpad_raster(landscape,
+                                          unpad_raster_cells = 1,
+                                          return_raster = FALSE,
+                                          to_disk = FALSE)[[1]]
+            }
+
+            landscape_boundaries[landscape_boundaries == 1 &
+                                     !is.na(landscape_boundaries)] <- landscape[landscape_boundaries == 1 &
+                                                                                    !is.na(landscape_boundaries)]
+        }
     }
 
     # convert all 0 as NA
     if (as_NA) {
 
-        landscape[which(landscape == 0)] <- NA
+        landscape_boundaries[which(landscape_boundaries == 0)] <- NA
     }
 
-    return(list(landscape))
+    return(landscape_boundaries)
 }

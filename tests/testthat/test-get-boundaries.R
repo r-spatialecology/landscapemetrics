@@ -1,54 +1,85 @@
 context("get_boundaries")
 
-test_that("get_boundaries works for RasterLayer", {
+classes_lsm <- get_patches(landscape)
 
-    result <- get_boundaries(landscape)[[1]]
+test_that("get_boundaries works for all data types", {
 
-    expect_is(result, "RasterLayer")
-    expect_true(raster::extent(landscape) == raster::extent(result))
-    expect_true(all(get_unique_values(result)[[1]] == c(0, 1)))
+    raster_layer <- get_boundaries(classes_lsm[[1]])
+    raster_stack <- get_boundaries(raster::stack(classes_lsm))
+    raster_brick <- get_boundaries(raster::brick(classes_lsm))
+    raster_list <- get_boundaries(classes_lsm)
+
+    expect_true(all(sapply(raster_layer, inherits, what = "RasterLayer")))
+    expect_true(all(sapply(raster_stack, inherits, what = "RasterLayer")))
+    expect_true(all(sapply(raster_brick, inherits, what = "RasterLayer")))
+    expect_true(all(sapply(raster_list, inherits, what = "RasterLayer")))
+
+    expect_true(raster::extent(raster_layer[[1]]) == raster::extent(landscape))
+
+    expect_length(object = raster_list, n = length(classes_lsm))
 })
 
-test_that("get_boundaries works for matrix", {
+test_that("get_boundaries returns matrix", {
 
-    result <- get_boundaries(landscape = landscape,
-                             return_raster = FALSE)[[1]]
+    raster_layer <- get_boundaries(classes_lsm[[1]],
+                                   return_raster = FALSE)
+    raster_stack <- get_boundaries(raster::stack(classes_lsm),
+                                   return_raster = FALSE)
+    raster_brick <- get_boundaries(raster::brick(classes_lsm),
+                                   return_raster = FALSE)
+    raster_list <- get_boundaries(classes_lsm,
+                                  return_raster = FALSE)
 
-    expect_is(result, "matrix")
-    expect_equal(prod(dim(result)),
-                 expected = raster::ncell(landscape))
-    expect_equal(get_unique_values(result)[[1]],
+    expect_true(all(sapply(raster_layer, inherits, what = "matrix")))
+    expect_true(all(sapply(raster_stack, inherits, what = "matrix")))
+    expect_true(all(sapply(raster_brick, inherits, what = "matrix")))
+    expect_true(all(sapply(raster_list, inherits, what = "matrix")))
+
+    expect_length(object = raster_list, n = length(classes_lsm))
+})
+
+test_that("get_boundaries return either 1/0 or 1/NA", {
+
+    result_10 <- get_boundaries(classes_lsm[[1]],
+                                as_NA = FALSE)
+
+    result_NA <- get_boundaries(classes_lsm[[1]],
+                             as_NA = TRUE)
+
+    expect_equal(object = get_unique_values(result_10[[1]])[[1]],
                  expected = c(0, 1))
-})
 
-test_that("get_boundaries works for all other data types", {
-
-    result_stack <- get_boundaries(landscape_stack)
-    result_brick <- get_boundaries(landscape_brick)
-    result_list <- get_boundaries(landscape_list)
-
-    expect_is(result_stack, "list")
-    expect_is(result_brick, "list")
-    expect_is(result_list, "list")
-})
-
-test_that("get_boundaries returns only 1 and NA", {
-
-    result <- get_boundaries(landscape,
-                             as_NA = TRUE)[[1]]
-
-    expect_equal(get_unique_values(result)[[1]],
+    expect_equal(object = get_unique_values(result_NA[[1]])[[1]],
                  expected = 1)
 })
 
 test_that("get_boundaries can increase edge_depth", {
 
-    class_1 <- get_patches(landscape, class = 1)[[1]]
-    result_depth_1 <- get_boundaries(class_1, edge_depth = 1)[[1]]
-    result_depth_3 <- get_boundaries(class_1, edge_depth = 3)[[1]]
+    result_depth_1 <- get_boundaries(classes_lsm[[1]], edge_depth = 1)
+    result_depth_3 <- get_boundaries(classes_lsm[[1]], edge_depth = 3)
 
-    check <- sum(raster::values(result_depth_1), na.rm = TRUE) <
-        sum(raster::values(result_depth_3), na.rm = TRUE)
+    check <- sum(raster::values(result_depth_1[[1]]), na.rm = TRUE) <
+        sum(raster::values(result_depth_3[[1]]), na.rm = TRUE)
 
     expect_true(object = check)
+})
+
+test_that("get_boundaries can use original patch id", {
+
+    result <- get_boundaries(classes_lsm[[1]], patch_id = TRUE)
+
+    expect_equal(object = get_unique_values(result[[1]])[[1]],
+                 expected = c(0, get_unique_values(classes_lsm[[1]])[[1]]))
+})
+
+test_that("get_boundaries can consider boundary", {
+
+    result <- get_boundaries(classes_lsm[[1]], consider_boundary = FALSE)
+    result_boundary <- get_boundaries(classes_lsm[[1]], consider_boundary = TRUE)
+
+    check <- sum(raster::values(result[[1]]), na.rm = TRUE) >
+        sum(raster::values(result_boundary[[1]]), na.rm = TRUE)
+
+    expect_true(object = check)
+
 })
