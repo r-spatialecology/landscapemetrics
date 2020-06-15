@@ -4,6 +4,7 @@
 * Improvements
     * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch
     * `get_boundaries()` allows now to specify edge depth
+    * `get_boundaries()` can return the patch id for edge cells
 * New gunctions
     * `get_centroid()` returns the coordinates of each patch centroid
     
