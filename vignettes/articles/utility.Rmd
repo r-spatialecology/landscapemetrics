@@ -171,8 +171,11 @@ library(bench)
 bench::mark(
     get_nearestneighbour(patches)[, 2:3],
     nearest_raster_fun(patches),
-    iterations = 100
+    iterations = 100, check = FALSE
 )
+
+# check if results are identical
+get_nearestneighbour(patches)[, 2:3] == nearest_raster_fun(patches)
 ```
 
 ### Get circumscribing circle
