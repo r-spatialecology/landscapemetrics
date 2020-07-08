@@ -9,23 +9,26 @@
 \alias{lsm_l_gyrate_cv.list}
 \title{GYRATE_CV (landscape level)}
 \usage{
-lsm_l_gyrate_cv(landscape, directions)
+lsm_l_gyrate_cv(landscape, directions, cell_center)
 
-\method{lsm_l_gyrate_cv}{RasterLayer}(landscape, directions = 8)
+\method{lsm_l_gyrate_cv}{RasterLayer}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_cv}{RasterStack}(landscape, directions = 8)
+\method{lsm_l_gyrate_cv}{RasterStack}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_cv}{RasterBrick}(landscape, directions = 8)
+\method{lsm_l_gyrate_cv}{RasterBrick}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_cv}{stars}(landscape, directions = 8)
+\method{lsm_l_gyrate_cv}{stars}(landscape, directions = 8, cell_center = FALSE)
 
-\method{lsm_l_gyrate_cv}{list}(landscape, directions = 8)
+\method{lsm_l_gyrate_cv}{list}(landscape, directions = 8, cell_center = FALSE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
+
+\item{cell_center}{If true, the coordinates of the centroid are forced to be
+a cell center within the patch.}
 }
 \value{
 tibble
@@ -43,6 +46,10 @@ in the landscape. GYRATE measures the distance from each cell to the patch
 centroid and is based on cell center-to-cell center distances. The metrics characterises
 both the patch area and compactness. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
+
+If \code{cell_center = TRUE} some patches might have several possible cell-center
+centroids. In this case, the gyrate index is based on the mean distance of all
+cells to all possible cell-center centroids.
 
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE_CV >= 0 }

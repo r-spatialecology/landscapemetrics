@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param cell_center If true, the coordinates of the centroid are forced to be
+#' a cell center within the patch.
 #'
 #' @details
 #' \deqn{GYRATE_{MN} = mean(GYRATE[patch_{ij}])}
@@ -14,8 +16,11 @@
 #' as the mean of the radius of gyration of all patches in the landscape.
 #' GYRATE measures the distance from each cell to the patch centroid and is based on
 #' cell center-to-cell center distances. The metrics characterises
-#' both the patch area and compactness. The Coefficient of variation is
-#' scaled to the mean and comparable among different landscapes.
+#' both the patch area and compactness.
+#'
+#' If `cell_center = TRUE` some patches might have several possible cell-center
+#' centroids. In this case, the gyrate index is based on the mean distance of all
+#' cells to all possible cell-center centroids.
 #'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE_MN >= 0 }
@@ -49,15 +54,17 @@
 #' in fragmented landscapes. Conservation ecology, 1(1).
 #'
 #' @export
-lsm_l_gyrate_mn <- function(landscape, directions) UseMethod("lsm_l_gyrate_mn")
+lsm_l_gyrate_mn <- function(landscape, directions, cell_center) UseMethod("lsm_l_gyrate_mn")
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterLayer <- function(landscape, directions = 8) {
+lsm_l_gyrate_mn.RasterLayer <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,11 +76,13 @@ lsm_l_gyrate_mn.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterStack <- function(landscape, directions = 8) {
+lsm_l_gyrate_mn.RasterStack <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -85,11 +94,13 @@ lsm_l_gyrate_mn.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.RasterBrick <- function(landscape, directions = 8) {
+lsm_l_gyrate_mn.RasterBrick <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -101,13 +112,15 @@ lsm_l_gyrate_mn.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.stars <- function(landscape, directions = 8) {
+lsm_l_gyrate_mn.stars <- function(landscape,
+                                  directions = 8, cell_center = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -119,11 +132,13 @@ lsm_l_gyrate_mn.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_l_gyrate_mn
 #' @export
-lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
+lsm_l_gyrate_mn.list <- function(landscape,
+                                 directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -133,11 +148,12 @@ lsm_l_gyrate_mn.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_gyrate_mn_calc <- function(landscape, directions,
+lsm_l_gyrate_mn_calc <- function(landscape, directions, cell_center,
                                  points = NULL) {
 
     gyrate_patch <- lsm_p_gyrate_calc(landscape,
                                       directions = directions,
+                                      cell_center = cell_center,
                                       points = points)
 
     # all values NA

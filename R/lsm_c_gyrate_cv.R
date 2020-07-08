@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param cell_center If true, the coordinates of the centroid are forced to be
+#' a cell center within the patch.
 #'
 #' @details
 #' \deqn{GYRATE_{CV} = cv(GYRATE[patch_{ij}])}
@@ -16,6 +18,10 @@
 #' centroid and is based on cell center-to-cell center distances. The metrics characterises
 #' both the patch area and compactness. The Coefficient of variation is
 #' scaled to the mean and comparable among different landscapes.
+#'
+#' If `cell_center = TRUE` some patches might have several possible cell-center
+#' centroids. In this case, the gyrate index is based on the mean distance of all
+#' cells to all possible cell-center centroids.
 #'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE_CV >= 0 }
@@ -50,15 +56,17 @@
 #' in fragmented landscapes. Conservation ecology, 1(1).
 #'
 #' @export
-lsm_c_gyrate_cv <- function(landscape, directions) UseMethod("lsm_c_gyrate_cv")
+lsm_c_gyrate_cv <- function(landscape, directions, cell_center) UseMethod("lsm_c_gyrate_cv")
 
 #' @name lsm_c_gyrate_cv
 #' @export
-lsm_c_gyrate_cv.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_gyrate_cv.RasterLayer <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_gyrate_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -70,11 +78,13 @@ lsm_c_gyrate_cv.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_c_gyrate_cv
 #' @export
-lsm_c_gyrate_cv.RasterStack <- function(landscape, directions = 8) {
+lsm_c_gyrate_cv.RasterStack <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_gyrate_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -86,11 +96,13 @@ lsm_c_gyrate_cv.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_c_gyrate_cv
 #' @export
-lsm_c_gyrate_cv.RasterBrick <- function(landscape, directions = 8) {
+lsm_c_gyrate_cv.RasterBrick <- function(landscape,
+                                        directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_gyrate_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -102,13 +114,15 @@ lsm_c_gyrate_cv.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_c_gyrate_cv
 #' @export
-lsm_c_gyrate_cv.stars <- function(landscape, directions = 8) {
+lsm_c_gyrate_cv.stars <- function(landscape,
+                                  directions = 8, cell_center = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_c_gyrate_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -120,11 +134,13 @@ lsm_c_gyrate_cv.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_c_gyrate_cv
 #' @export
-lsm_c_gyrate_cv.list <- function(landscape, directions = 8) {
+lsm_c_gyrate_cv.list <- function(landscape,
+                                 directions = 8, cell_center = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_gyrate_cv_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -134,11 +150,12 @@ lsm_c_gyrate_cv.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_gyrate_cv_calc <- function(landscape, directions,
+lsm_c_gyrate_cv_calc <- function(landscape, directions, cell_center,
                                  points = NULL) {
 
     gyrate <- lsm_p_gyrate_calc(landscape,
                                 directions = directions,
+                                cell_center = cell_center,
                                 points = points)
 
     # all cells are NA
@@ -150,7 +167,8 @@ lsm_c_gyrate_cv_calc <- function(landscape, directions,
                               value = as.double(NA)))
     }
 
-    gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2], FUN = raster::cv)
+    gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
+                                  FUN = raster::cv)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(gyrate_cv$class),

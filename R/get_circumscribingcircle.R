@@ -178,26 +178,29 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
         classes <- get_unique_values(landscape)[[1]]
 
         # loop all classes
-        circle <- do.call(rbind, lapply(classes, function(patches_class) {
+        circle <- do.call(rbind,
+                          lapply(classes, function(patches_class) {
+                              # get patches
+                              landscape_labeled <- get_patches(landscape,
+                                                               class = patches_class,
+                                                               directions = directions,
+                                                               to_disk = FALSE,
+                                                               return_raster = FALSE)[[1]]
 
-            # get patches
-            landscape_labeled <- get_patches(landscape,
-                                             class = patches_class,
-                                             directions = directions,
-                                             to_disk = FALSE,
-                                             return_raster = FALSE)[[1]]
+                              # get circle
+                              cbind(class = as.integer(patches_class),
+                                    rcpp_get_circle(landscape_labeled,
+                                                    resolution_xy = resolution[1]))
+                              })
+                          )
 
-            # get circle
-            circle_patch <- rcpp_get_circle(landscape_labeled,
-                                            resolution_xy = resolution[1])
-
-            # resulting tibble
-            circle_patch <- tibble::tibble(level = "patch",
-                                           class = as.integer(patches_class),
-                                           id = as.integer(circle_patch$patch_id),
-                                           value = circle_patch$circle_diameter,
-                                           center_x = circle_patch$circle_center_x,
-                                           center_y = circle_patch$circle_center_y)}))
+        # resulting tibble
+        circle <- tibble::tibble(level = "patch",
+                                 class = as.integer(circle$class),
+                                 id = as.integer(seq_len(nrow(circle))),
+                                 value = circle$circle_diameter,
+                                 center_x = circle$circle_center_x,
+                                 center_y = circle$circle_center_y)
     }
 
     # class level (no labeling)
@@ -214,7 +217,6 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
                                  center_x = circle_class$circle_center_x,
                                  center_y = circle_class$circle_center_y)
     }
-
 
     # shift the coordinates to the original coordinate system
     circle$center_x = circle$center_x + extent@xmin

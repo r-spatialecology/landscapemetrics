@@ -1,3 +1,14 @@
+# landscapemetrics 1.4.5
+* Bugfixes
+    * Fix of patch id in `get_circumscribingcircle()`
+* Improvements
+    * `lsm_p_gyrate` has an argument to force the cell centroid to be within patch
+    * `get_nearestneighbour()` can now return ID of neighbouring patch
+    * `get_boundaries()` allows now to specify edge depth
+    * `get_boundaries()` can return the patch id for edge cells
+* New gunctions
+    * `get_centroid()` returns the coordinates of each patch centroid
+    
 # landscapemetrics 1.4.4
 * Improvements
     * Set labels = FALSE as default for all plotting functions (messy for larger raster)

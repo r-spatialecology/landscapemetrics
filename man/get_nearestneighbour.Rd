@@ -7,44 +7,43 @@
 \alias{get_nearestneighbour.RasterBrick}
 \alias{get_nearestneighbour.stars}
 \alias{get_nearestneighbour.list}
-\alias{get_nearestneighbour.matrix}
 \title{get_nearestneighbour}
 \usage{
-get_nearestneighbour(landscape)
+get_nearestneighbour(landscape, return_id)
 
-\method{get_nearestneighbour}{RasterLayer}(landscape)
+\method{get_nearestneighbour}{RasterLayer}(landscape, return_id = FALSE)
 
-\method{get_nearestneighbour}{RasterStack}(landscape)
+\method{get_nearestneighbour}{RasterStack}(landscape, return_id = FALSE)
 
-\method{get_nearestneighbour}{RasterBrick}(landscape)
+\method{get_nearestneighbour}{RasterBrick}(landscape, return_id = FALSE)
 
-\method{get_nearestneighbour}{stars}(landscape)
+\method{get_nearestneighbour}{stars}(landscape, return_id = FALSE)
 
-\method{get_nearestneighbour}{list}(landscape)
-
-\method{get_nearestneighbour}{matrix}(landscape)
+\method{get_nearestneighbour}{list}(landscape, return_id = FALSE)
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix (with x,y,id columns)}
+\item{landscape}{RasterLayer or matrix (with x,y,id columns).}
+
+\item{return_id}{If TRUE, also the patch ID of the nearest neighbour is returned.}
 }
 \description{
 Euclidean distance to nearest neighbour
 }
 \details{
 Fast and memory safe Rcpp implementation for calculating the minimum Euclidean
-distances to the nearest patch of the same class in a raster or matrix. All patches need an unique
-ID (see \code{\link{get_patches}}).
+distances to the nearest patch of the same class in a raster or matrix.
+All patches need an unique ID (see \code{\link{get_patches}}). Please be aware
+that the patch ID is not identical to the patch ID of all metric functions (lsm_).
+If \code{return_ID = TRUE}, for some focal patches several nearest neighbour patches
+might be returned.
 }
 \examples{
-# get patches for class 1 from testdata as raster
-class_1 <- get_patches(landscape,1)[[1]]
+# get patches for class 1
+class_1 <- get_patches(landscape, class = 2)[[1]]
 
 # calculate the distance between patches
 get_nearestneighbour(class_1)
-
-# do the same with a 3 column matrix (x, y, id)
-class_1_matrix <- raster::rasterToPoints(class_1)
-get_nearestneighbour(class_1_matrix)
+get_nearestneighbour(class_1, return_id = TRUE)
 
 }
 \references{

@@ -5,6 +5,8 @@
 #' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
+#' @param cell_center If true, the coordinates of the centroid are forced to be
+#' a cell center within the patch.
 #'
 #' @details
 #' \deqn{GYRATE = \sum \limits_{r = 1}^{z} \frac{h_{ijr}} {z}}
@@ -12,9 +14,12 @@
 #' patch and \eqn{z} is the number of cells.
 #'
 #' GYRATE is an 'Area and edge metric'. The distance from each cell to the
-#' patch
-#' centroid is based on cell center-to-cell center distances. The metrics
+#' patch centroid is based on cell center to centroid distances. The metric
 #' characterises both the patch area and compactness.
+#'
+#' If `cell_center = TRUE` some patches might have several possible cell-center
+#' centroids. In this case, the gyrate index is based on the mean distance of all
+#' cells to all possible cell-center centroids.
 #'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE >= 0}
@@ -46,15 +51,17 @@
 #' in fragmented landscapes. Conservation ecology, 1(1).
 #'
 #' @export
-lsm_p_gyrate <- function(landscape, directions) UseMethod("lsm_p_gyrate")
+lsm_p_gyrate <- function(landscape, directions, cell_center) UseMethod("lsm_p_gyrate")
 
 #' @name lsm_p_gyrate
 #' @export
-lsm_p_gyrate.RasterLayer <- function(landscape, directions = 8) {
+lsm_p_gyrate.RasterLayer <- function(landscape, directions = 8,
+                                     cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_gyrate_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -66,11 +73,13 @@ lsm_p_gyrate.RasterLayer <- function(landscape, directions = 8) {
 
 #' @name lsm_p_gyrate
 #' @export
-lsm_p_gyrate.RasterStack <- function(landscape, directions = 8) {
+lsm_p_gyrate.RasterStack <- function(landscape, directions = 8,
+                                     cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_gyrate_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -82,11 +91,13 @@ lsm_p_gyrate.RasterStack <- function(landscape, directions = 8) {
 
 #' @name lsm_p_gyrate
 #' @export
-lsm_p_gyrate.RasterBrick <- function(landscape, directions = 8) {
+lsm_p_gyrate.RasterBrick <- function(landscape, directions = 8,
+                                     cell_center = FALSE) {
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_gyrate_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -98,14 +109,16 @@ lsm_p_gyrate.RasterBrick <- function(landscape, directions = 8) {
 
 #' @name lsm_p_gyrate
 #' @export
-lsm_p_gyrate.stars <- function(landscape, directions = 8) {
+lsm_p_gyrate.stars <- function(landscape, directions = 8,
+                               cell_center = FALSE) {
 
     landscape <- methods::as(landscape, "Raster")
 
 
     result <- lapply(X = raster::as.list(landscape),
                      FUN = lsm_p_gyrate_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -117,11 +130,13 @@ lsm_p_gyrate.stars <- function(landscape, directions = 8) {
 
 #' @name lsm_p_gyrate
 #' @export
-lsm_p_gyrate.list <- function(landscape, directions = 8) {
+lsm_p_gyrate.list <- function(landscape, directions = 8,
+                              cell_center = FALSE) {
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_gyrate_calc,
-                     directions = directions)
+                     directions = directions,
+                     cell_center = cell_center)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -131,7 +146,7 @@ lsm_p_gyrate.list <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions,
+lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
                               points = NULL) {
 
     # conver to matrix
@@ -175,30 +190,49 @@ lsm_p_gyrate_calc <- function(landscape, directions,
         # set ID from class ID to unique patch ID
         points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-        # conver to tibble -> do we still need to do this?
-        points <- tibble::as_tibble(points)
-        names(points) <- c("x", "y", "id")
+        # # conver to tibble
+        points <- stats::setNames(object = data.frame(points),
+                                  nm = c("x", "y", "id"))
 
         # calcuale the centroid of each patch (mean of all coords)
         centroid <- stats::aggregate(points[, c(1, 2)],
-                                     by = list(id = points$id),
+                                     by = list(id = points[, 3]),
                                      FUN = mean)
 
         # create full data set with raster-points and patch centroids
-        full_data <- tibble::as_tibble(merge(x = points, y = centroid, by = "id",
-                           suffixes = c("","_centroid")))
+        full_data <- merge(x = points, y = centroid, by = "id",
+                           suffixes = c("","_centroid"))
 
         # calculate distance from each cell center to centroid
         full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
                                    (full_data$y - full_data$y_centroid) ^ 2)
 
-        # mean distance for each patch
-        gyrate_class <- stats::aggregate(x = full_data[, 6],
-                                         by = full_data[, 1],
-                                         FUN = mean)
+        # force centroid to be within patch
+        if (cell_center) {
 
-        tibble::tibble(class = as.integer(patches_class),
-                       value = as.double(gyrate_class$dist))
+            # which cell has the shortest distance to centroid
+            centroid <- do.call(rbind, by(data = full_data,
+                                          INDICES = full_data[, 1],
+                                          FUN = function(x)
+                                              x[x$dist == min(x$dist), ]))[, c(1, 2, 3)]
+
+            # create full data set with raster-points and patch centroids
+            full_data <- merge(x = points, y = centroid, by = "id",
+                               suffixes = c("","_centroid"))
+
+            # calculate distance from each cell center to centroid
+            full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
+                                       (full_data$y - full_data$y_centroid) ^ 2)
+        }
+
+        # mean distance for each patch
+        gyrate_class <- stats::setNames(stats::aggregate(x = full_data[, 6],
+                                                         by = list(full_data[, 1]),
+                                                         FUN = mean),
+                                        nm = c("id", "dist"))
+
+        data.frame(class = as.integer(patches_class),
+                   value = as.double(gyrate_class$dist))
         })
     )
 
