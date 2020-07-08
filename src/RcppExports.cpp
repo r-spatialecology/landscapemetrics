@@ -148,8 +148,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// find_min
+NumericVector find_min(const NumericMatrix& points, int i, int m);
+RcppExport SEXP _landscapemetrics_find_min(SEXP pointsSEXP, SEXP iSEXP, SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type points(pointsSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< int >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(find_min(points, i, m));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_get_nearest_neighbor
-NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points);
+NumericMatrix rcpp_get_nearest_neighbor(const NumericMatrix& points);
 RcppExport SEXP _landscapemetrics_rcpp_get_nearest_neighbor(SEXP pointsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -185,6 +198,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
+    {"_landscapemetrics_find_min", (DL_FUNC) &_landscapemetrics_find_min, 3},
     {"_landscapemetrics_rcpp_get_nearest_neighbor", (DL_FUNC) &_landscapemetrics_rcpp_get_nearest_neighbor, 1},
     {"_landscapemetrics_rcpp_get_unique_values", (DL_FUNC) &_landscapemetrics_rcpp_get_unique_values, 2},
     {NULL, NULL, 0}

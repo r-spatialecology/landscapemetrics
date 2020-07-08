@@ -9,12 +9,16 @@ inline double compute_d2(double x1, double y1, double x2, double y2) {
     return dx * dx + dy * dy;
 }
 
-double find_min(const NumericMatrix& points, int i, int m) {
+// [[Rcpp::export]]
+NumericVector find_min(const NumericMatrix& points, int i, int m) {
 
-    double x_i = points(i, 0), y_i = points(i, 1), id_i = points(i, 2);;
+    double x_i = points(i, 0), y_i = points(i, 1), id_i = points(i, 2);
 
     double x_k, x_min, x_max, d, d0 = R_PosInf;
-    int k;
+
+    int k, id0;
+
+    NumericVector dist_vec (2, 0.0);
 
     // Search before i
     x_min = R_NegInf;
@@ -25,6 +29,7 @@ double find_min(const NumericMatrix& points, int i, int m) {
             d = compute_d2(x_i, y_i, x_k, points(k, 1));
             if (d < d0) {
                 d0 = d;
+                id0 = points(k, 2);
                 x_min = x_i - ::sqrt(d0);
             }
         } else {
@@ -41,6 +46,7 @@ double find_min(const NumericMatrix& points, int i, int m) {
             d = compute_d2(x_i, y_i, x_k, points(k, 1));
             if (d < d0) {
                 d0 = d;
+                id0 = points(k, 2);
                 x_max = x_i + ::sqrt(d0);
             }
         } else {
@@ -49,7 +55,10 @@ double find_min(const NumericMatrix& points, int i, int m) {
         }
     }
 
-    return ::sqrt(d0);
+    dist_vec(0) = ::sqrt(d0);
+    dist_vec(1) = id0;
+
+    return(dist_vec);
 }
 
 //' @title First nearest neighbor distance
@@ -68,13 +77,14 @@ double find_min(const NumericMatrix& points, int i, int m) {
 //' @name rcpp_get_nearest_neighbor
 //' @export
 // [[Rcpp::export]]
-NumericVector rcpp_get_nearest_neighbor(const NumericMatrix& points) {
+NumericMatrix rcpp_get_nearest_neighbor(const NumericMatrix& points) {
 
     int nrows = points.nrow();
-    NumericVector distances(nrows);
+    NumericMatrix distances(nrows, 2);
 
     for (int i = 0; i < nrows; i++) {
-        distances[i] = find_min(points, i, nrows);
+
+        distances(i, _) = find_min(points, i, nrows);
     }
 
     return distances;

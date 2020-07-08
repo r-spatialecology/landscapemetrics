@@ -143,7 +143,7 @@ lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
 lsm_p_enn_calc <- function(landscape, directions, verbose,
                            points = NULL) {
 
-    # conver to matrix
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
@@ -168,68 +168,38 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     enn_patch <- do.call(rbind,
                          lapply(classes, function(patches_class) {
 
-        # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+                             # get connected patches
+                             landscape_labeled <- get_patches(landscape,
+                                                              class = patches_class,
+                                                              directions = directions,
+                                                              return_raster = FALSE)[[1]]
 
-        # get number of patches
-        np_class <- max(landscape_labeled, na.rm = TRUE)
+                             # get number of patches
+                             np_class <- max(landscape_labeled, na.rm = TRUE)
 
-        # ENN doesn't make sense if only one patch is present
-        if (np_class == 1) {
+                             # ENN doesn't make sense if only one patch is present
+                             if (np_class == 1) {
 
-            enn <- tibble::tibble(class = patches_class,
-                                  dist = as.double(NA))
+                                 enn <- tibble::tibble(class = patches_class,
+                                                       dist = as.double(NA))
 
-            if (verbose) {
-                warning(paste0("Class ", patches_class,
-                               ": ENN = NA for class with only 1 patch."),
-                        call. = FALSE)
-            }
-        }
+                                 if (verbose) {
+                                     warning(paste0("Class ", patches_class,
+                                                    ": ENN = NA for class with only 1 patch."),
+                                             call. = FALSE)
+                                 }
+                             }
 
-        else {
+                             else {
 
-            # get edge cells because only they are important for ENN
-            class_boundaries <- get_boundaries_calc(landscape_labeled,
-                                                    edge_depth = 1,
-                                                    consider_boundary = FALSE,
-                                                    as_NA = TRUE,
-                                                    patch_id = TRUE)
+                                 enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
+                                                                  return_id = FALSE,
+                                                                  points = points)
+                             }
 
-            # transpose to get same direction of ID
-            class_boundaries <- t(class_boundaries)
-
-            # get coordinates of current class
-            points <- points[which(!is.na(class_boundaries)), ]
-
-            # set ID from class ID to unique patch ID
-            points[, 3] <- class_boundaries[!is.na(class_boundaries)]
-
-            # order points
-            ord <- order(as.matrix(points)[, 1])
-            num <- seq_along(ord)
-            rank <- match(num, ord)
-
-            # get nearest neighbor between patches
-            res <- rcpp_get_nearest_neighbor(as.matrix(points)[ord,])
-
-            # order results
-            min_dist <- unname(cbind(num, res[rank], as.matrix(points)[, 3]))
-
-            tbl <- tibble::tibble(cell = min_dist[,1],
-                                  dist = min_dist[,2],
-                                  id = min_dist[,3])
-
-            # only get minimum value for each patch
-            enn <- stats::aggregate(x = tbl[, 2], by = tbl[, 3], FUN = min)
-        }
-
-        tibble::tibble(class = patches_class,
-                       value = enn$dist)
-        })
+                             tibble::tibble(class = patches_class,
+                                            value = enn$dist)
+                         })
     )
 
     tibble::tibble(level = "patch",

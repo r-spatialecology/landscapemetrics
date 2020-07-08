@@ -76,6 +76,10 @@ rcpp_get_entropy <- function(x, base = "log2") {
     .Call('_landscapemetrics_rcpp_get_entropy', PACKAGE = 'landscapemetrics', x, base)
 }
 
+find_min <- function(points, i, m) {
+    .Call('_landscapemetrics_find_min', PACKAGE = 'landscapemetrics', points, i, m)
+}
+
 #' @title First nearest neighbor distance
 #'
 #' @description Efficiently calculate the distance to the first nearest neighbor.
