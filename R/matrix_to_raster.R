@@ -58,24 +58,47 @@ matrix_to_raster <- function(matrix,
     stop("Either 'landscape' or 'extent' & 'resolution' & 'crs' must be specified")
   }
 
-    # create raster on disk
-    if(to_disk){
+  # create raster on disk
+  if(to_disk) {
 
-        # helper function
-        set_values <- function(x){matrix}
+    # get block size
+    block_size <- raster::blockSize(landscape_empty)
 
-        result <- raster::init(landscape_empty,
-                               fun = set_values,
-                               filename = tempfile(),
-                               overwrite = TRUE)
+    # transpose matrix to get correct ordering
+    matrix <- t(matrix)
+
+    # starting to write values in raster
+    result <- writeStart(x = landscape_empty,
+                         filename = raster::rasterTmpFile(),
+                         overwrite = TRUE)
+
+    # loop through all block sizes
+    for (i in 1:block_size$n) {
+
+      # start and end row of current block
+      start_row <- block_size$row[i]
+      end_row <- block_size$row[i] + (block_size$nrow[i] - 1)
+
+      # get values from matrix (row and col exchanged due to transposing)
+      values_temp <- c(matrix[, start_row:end_row])
+
+      # write current block
+      result <- raster::writeValues(x = result,
+                                    v = values_temp,
+                                    start = block_size$row[i])
     }
 
-    # create raster in memory
-    else{
-        # set values of empty raster according to matrix
-        result <- raster::setValues(x = landscape_empty,
-                                    values = matrix)
-    }
+    # close writing connections
+    result <- raster::writeStop(result)
+  }
+
+  # create raster in memory
+  else {
+
+    # set values of empty raster according to matrix
+    result <- raster::setValues(x = landscape_empty,
+                                values = matrix)
+  }
 
 
   return(result)
