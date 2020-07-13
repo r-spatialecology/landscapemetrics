@@ -1,4 +1,8 @@
 # landscapemetrics 1.4.5
+* Improvements
+    * Better RAM handling if `to_disk = TRUE`
+
+# landscapemetrics 1.4.5
 * Bugfixes
     * Fix of patch id in `get_circumscribingcircle()`
 * Improvements
