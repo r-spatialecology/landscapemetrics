@@ -35,9 +35,9 @@ matrix_to_raster <- function(matrix,
                              to_disk = getOption("to_disk", default = FALSE)) {
 
   # create empty raster with same characteristics as reference raster
-  if(!is.null(landscape)){
+  if (!is.null(landscape)) {
 
-    if(landscape_empty){
+    if (landscape_empty) {
       landscape_empty <- landscape
     }
 
@@ -48,7 +48,7 @@ matrix_to_raster <- function(matrix,
     }
   }
 
-  else if(!all(c(is.null(extent), is.null(resolution), is.null(crs)))){
+  else if (!all(c(is.null(extent), is.null(resolution), is.null(crs)))) {
     landscape_empty <- raster::raster(x = extent,
                                       resolution = resolution,
                                       crs = crs)
@@ -59,7 +59,7 @@ matrix_to_raster <- function(matrix,
   }
 
   # create raster on disk
-  if(to_disk) {
+  if (to_disk) {
 
     # get block size
     block_size <- raster::blockSize(landscape_empty)
@@ -68,16 +68,16 @@ matrix_to_raster <- function(matrix,
     matrix <- t(matrix)
 
     # starting to write values in raster
-    result <- writeStart(x = landscape_empty,
-                         filename = raster::rasterTmpFile(),
-                         overwrite = TRUE)
+    result <- raster::writeStart(x = landscape_empty,
+                                 filename = raster::rasterTmpFile(),
+                                 overwrite = TRUE)
 
     # loop through all block sizes
     for (i in 1:block_size$n) {
 
       # start and end row of current block
       start_row <- block_size$row[i]
-      end_row <- block_size$row[i] + (block_size$nrow[i] - 1)
+      end_row <- block_size$row[i] + (block_size$nrows[i] - 1)
 
       # get values from matrix (row and col exchanged due to transposing)
       values_temp <- c(matrix[, start_row:end_row])
