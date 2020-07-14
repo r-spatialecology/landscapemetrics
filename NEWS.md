@@ -1,6 +1,6 @@
 # landscapemetrics 1.4.5
 * Improvements
-    * Better RAM handling if `to_disk = TRUE`
+    * Improved RAM performance if `to_disk = TRUE` for `spatialize_lsm` and `matrix_to_raster`
 
 # landscapemetrics 1.4.5
 * Bugfixes

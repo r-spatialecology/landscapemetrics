@@ -5,10 +5,10 @@
 #' @param matrix matrix with values.
 #' @param landscape RasterLayer.
 #' @param landscape_empty If true, RasterLayer is landscape_empty
-#' @param to_disk If TRUE raster will be saved to disk.
 #' @param extent Extent of RasterLayer.
 #' @param resolution Resolution of RasterLayer.
 #' @param crs CRS of raster layer.
+#' @param to_disk If TRUE raster will be saved to disk.
 #'
 #' @details
 #' Converts `matrix` to a raster with same characteristics as `landscape`. Either
