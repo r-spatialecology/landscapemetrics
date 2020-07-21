@@ -1,3 +1,6 @@
+# landscapemetrics 1.4.6
+Minor improvments of existing functions
+
 # landscapemetrics 1.4.5
 Minor improvments, bug fixes and new functions
 

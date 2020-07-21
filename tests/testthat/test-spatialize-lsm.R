@@ -66,6 +66,15 @@ test_that("spatialize_lsm works for all data types", {
                   n = 2)
 })
 
+test_that("spatialize_lsm uses temp file", {
+
+    result <- spatialize_lsm(landscape, what = "lsm_p_area",
+                             to_disk = TRUE,
+                             verbose = FALSE)
+
+    expect_false(raster::inMemory(result[[1]]$lsm_p_area))
+})
+
 
 test_that("spatialize_lsm returns all errors", {
 

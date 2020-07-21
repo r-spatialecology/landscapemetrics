@@ -1,4 +1,8 @@
 # landscapemetrics 1.4.5
+* Improvements
+    * Improved RAM performance if `to_disk = TRUE` for `spatialize_lsm` and `matrix_to_raster`
+
+# landscapemetrics 1.4.5
 * Bugfixes
     * Fix of patch id in `get_circumscribingcircle()`
 * Improvements

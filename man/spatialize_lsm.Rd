@@ -18,6 +18,7 @@ spatialize_lsm(
   what,
   directions,
   progress,
+  to_disk,
   ...
 )
 
@@ -30,6 +31,7 @@ spatialize_lsm(
   what = NULL,
   directions = 8,
   progress = FALSE,
+  to_disk = getOption("to_disk", default = FALSE),
   ...
 )
 
@@ -42,6 +44,7 @@ spatialize_lsm(
   what = NULL,
   directions = 8,
   progress = FALSE,
+  to_disk = getOption("to_disk", default = FALSE),
   ...
 )
 
@@ -54,6 +57,7 @@ spatialize_lsm(
   what = NULL,
   directions = 8,
   progress = FALSE,
+  to_disk = getOption("to_disk", default = FALSE),
   ...
 )
 
@@ -66,6 +70,7 @@ spatialize_lsm(
   what = NULL,
   directions = 8,
   progress = FALSE,
+  to_disk = getOption("to_disk", default = FALSE),
   ...
 )
 
@@ -78,6 +83,7 @@ spatialize_lsm(
   what = NULL,
   directions = 8,
   progress = FALSE,
+  to_disk = getOption("to_disk", default = FALSE),
   ...
 )
 }
@@ -99,6 +105,8 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 connected: 4 (rook's case) or 8 (queen's case).}
 
 \item{progress}{Print progress report.}
+
+\item{to_disk}{If TRUE raster will be saved to disk.}
 
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
