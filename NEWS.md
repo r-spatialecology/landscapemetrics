@@ -1,3 +1,7 @@
+# landscapemetrics 1.4.7
+* New functions
+    * `lsm_l_relmutinf` to calculate relative mutual information
+    
 # landscapemetrics 1.4.6
 * Improvements
     * Improved RAM performance if `to_disk = TRUE` for `spatialize_lsm` and `matrix_to_raster`
