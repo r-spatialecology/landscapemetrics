@@ -57,4 +57,5 @@ for quantification and classification of landscape patterns. https://doi.org/10.
 \code{\link{lsm_l_ent}},
 \code{\link{lsm_l_condent}},
 \code{\link{lsm_l_joinent}},
+\code{\link{lsm_l_relmutinf}}
 }

@@ -42,10 +42,13 @@ In other words, it measures diversity of values in a co-occurrence matrix -- the
 It quantifies the information that one random variable (x) provides about another random variable (y). 
 It tells how much easier is to predict a category of an adjacent cell if the category of the focus cell is known.
 Mutual information disambiguates landscape pattern types characterized by the same value of overall complexity.
+- [lsm_l_relmutinf](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_relmutinf.html) - Relative mutual information.
+Due to the spatial autocorrelation, the value of mutual information tends to grow with a diversity of the landscape (marginal entropy).
+To adjust this tendency, it is possible to calculate relative mutual information by dividing the mutual information by the marginal entropy.
+Relative mutual information always has a range between 0 and 1 and can be used to compare spatial data with different number and distribution of categories.
 
 <div class="figure" style="text-align: center">
 <img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
 </div>
 
-<!--the link will be available starting 2019-06-25-->
 For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
