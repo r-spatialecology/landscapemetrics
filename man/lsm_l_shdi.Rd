@@ -2,24 +2,9 @@
 % Please edit documentation in R/lsm_l_shdi.R
 \name{lsm_l_shdi}
 \alias{lsm_l_shdi}
-\alias{lsm_l_shdi.RasterLayer}
-\alias{lsm_l_shdi.RasterStack}
-\alias{lsm_l_shdi.RasterBrick}
-\alias{lsm_l_shdi.stars}
-\alias{lsm_l_shdi.list}
 \title{SHDI (landscape level)}
 \usage{
 lsm_l_shdi(landscape)
-
-\method{lsm_l_shdi}{RasterLayer}(landscape)
-
-\method{lsm_l_shdi}{RasterStack}(landscape)
-
-\method{lsm_l_shdi}{RasterBrick}(landscape)
-
-\method{lsm_l_shdi}{stars}(landscape)
-
-\method{lsm_l_shdi}{list}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
