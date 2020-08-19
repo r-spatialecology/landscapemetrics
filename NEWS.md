@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.0
+* Improvements
+    * Improved internal understandment of input classes
+
 # landscapemetrics 1.4.7
 * New functions
     * `lsm_l_relmutinf` to calculate relative mutual information
