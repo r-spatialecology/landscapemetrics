@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_tca.R
 \name{lsm_l_tca}
 \alias{lsm_l_tca}
-\alias{lsm_l_tca.RasterLayer}
-\alias{lsm_l_tca.RasterStack}
-\alias{lsm_l_tca.RasterBrick}
-\alias{lsm_l_tca.stars}
-\alias{lsm_l_tca.list}
 \title{TCA (landscape level)}
 \usage{
-lsm_l_tca(landscape, directions, consider_boundary, edge_depth)
-
-\method{lsm_l_tca}{RasterLayer}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_l_tca}{RasterStack}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_l_tca}{RasterBrick}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_l_tca}{stars}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_l_tca}{list}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+lsm_l_tca(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

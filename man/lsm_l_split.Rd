@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_split.R
 \name{lsm_l_split}
 \alias{lsm_l_split}
-\alias{lsm_l_split.RasterLayer}
-\alias{lsm_l_split.RasterStack}
-\alias{lsm_l_split.RasterBrick}
-\alias{lsm_l_split.stars}
-\alias{lsm_l_split.list}
 \title{SPLIT (landscape level)}
 \usage{
-lsm_l_split(landscape, directions)
-
-\method{lsm_l_split}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_split}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_split}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_split}{stars}(landscape, directions = 8)
-
-\method{lsm_l_split}{list}(landscape, directions = 8)
+lsm_l_split(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_siei.R
 \name{lsm_l_siei}
 \alias{lsm_l_siei}
-\alias{lsm_l_siei.RasterLayer}
-\alias{lsm_l_siei.RasterStack}
-\alias{lsm_l_siei.RasterBrick}
-\alias{lsm_l_siei.stars}
-\alias{lsm_l_siei.list}
 \title{SIEI (landscape level)}
 \usage{
-lsm_l_siei(landscape, directions)
-
-\method{lsm_l_siei}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_siei}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_siei}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_siei}{stars}(landscape, directions = 8)
-
-\method{lsm_l_siei}{list}(landscape, directions = 8)
+lsm_l_siei(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

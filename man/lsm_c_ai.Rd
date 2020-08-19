@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_ai.R
 \name{lsm_c_ai}
 \alias{lsm_c_ai}
-\alias{lsm_c_ai.RasterLayer}
-\alias{lsm_c_ai.RasterStack}
-\alias{lsm_c_ai.RasterBrick}
-\alias{lsm_c_ai.stars}
-\alias{lsm_c_ai.list}
 \title{AI (class level)}
 \usage{
 lsm_c_ai(landscape)
-
-\method{lsm_c_ai}{RasterLayer}(landscape)
-
-\method{lsm_c_ai}{RasterStack}(landscape)
-
-\method{lsm_c_ai}{RasterBrick}(landscape)
-
-\method{lsm_c_ai}{stars}(landscape)
-
-\method{lsm_c_ai}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers}
 }
 \value{
 tibble

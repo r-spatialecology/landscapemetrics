@@ -22,7 +22,7 @@ lsm_p_enn(landscape, directions, verbose)
 \method{lsm_p_enn}{list}(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
