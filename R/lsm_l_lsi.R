@@ -44,7 +44,7 @@
 #'
 #' @export
 lsm_l_lsi <- function(landscape, directions = 8) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_lsi_calc,

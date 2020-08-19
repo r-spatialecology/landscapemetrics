@@ -35,7 +35,7 @@
 #'
 #' @export
 lsm_c_pladj <- function(landscape) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_pladj_calc)

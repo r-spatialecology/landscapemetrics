@@ -52,7 +52,7 @@
 #'
 #' @export
 lsm_c_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_enn_sd_calc,

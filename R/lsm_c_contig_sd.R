@@ -57,7 +57,7 @@
 #'
 #' @export
 lsm_c_contig_sd <- function(landscape, directions = 8) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_contig_sd_calc,

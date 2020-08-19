@@ -42,7 +42,7 @@
 #'
 #' @export
 lsm_l_ai <- function(landscape) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ai_calc)

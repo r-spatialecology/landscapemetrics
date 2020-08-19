@@ -42,7 +42,7 @@
 #'
 #' @export
 lsm_c_pd <- function(landscape, directions = 8) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_pd_calc,

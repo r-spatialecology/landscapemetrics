@@ -45,7 +45,7 @@
 #
 #' @export
 lsm_l_iji <- function(landscape, verbose = TRUE) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_iji_calc,

@@ -43,7 +43,7 @@
 #' @export
 lsm_c_te <- function(landscape,
                           count_boundary = FALSE, directions = 8) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_te_calc,

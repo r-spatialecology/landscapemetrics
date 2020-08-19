@@ -40,7 +40,7 @@ lsm_l_condent <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2") {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_condent_calc,

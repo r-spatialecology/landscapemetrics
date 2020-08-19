@@ -45,7 +45,7 @@
 #'
 #' @export
 lsm_l_contag <- function(landscape, verbose = TRUE) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_contag_calc,

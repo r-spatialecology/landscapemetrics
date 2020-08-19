@@ -34,7 +34,7 @@
 lsm_l_ent <- function(landscape,
                            neighbourhood = 4,
                            base = "log2") {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ent_calc,

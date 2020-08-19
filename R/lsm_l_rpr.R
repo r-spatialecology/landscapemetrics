@@ -40,7 +40,7 @@
 #'
 #' @export
 lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_rpr_calc,

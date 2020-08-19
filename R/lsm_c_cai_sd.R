@@ -52,7 +52,7 @@
 #'
 #' @export
 lsm_c_cai_sd <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-    landscape <- lsm_as_list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_cai_sd_calc,

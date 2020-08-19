@@ -4,7 +4,7 @@ landscape_as_list.RasterLayer <- function(landscape){
     landscape <- raster::as.list(landscape)
     return(landscape)
 }
-lsm_as_list.RasterStack <- function(landscape){
+landscape_as_list.RasterStack <- function(landscape){
     landscape <- raster::as.list(landscape)
     return(landscape)
 }
