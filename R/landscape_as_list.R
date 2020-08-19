@@ -1,4 +1,4 @@
-landscape_as_list <- function(landscape) UseMethod("prepare_input")
+landscape_as_list <- function(landscape) UseMethod("landscape_as_list")
 
 landscape_as_list.RasterLayer <- function(landscape){
     landscape <- raster::as.list(landscape)
