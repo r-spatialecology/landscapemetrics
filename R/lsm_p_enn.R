@@ -51,81 +51,8 @@
 #' Ecological monographs, 65(3), 235-260.
 #'
 #' @export
-lsm_p_enn <- function(landscape, directions, verbose) UseMethod("lsm_p_enn")
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_enn_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_enn_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-
-     result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_enn_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-     layer <- rep(seq_along(result),
-                  vapply(result, nrow, FUN.VALUE = integer(1)))
-
-     result <- do.call(rbind, result)
-
-     tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.stars <- function(landscape, directions = 8, verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_enn_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_enn
-#' @export
-lsm_p_enn.list <- function(landscape, directions = 8, verbose = TRUE) {
+lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_enn_calc,

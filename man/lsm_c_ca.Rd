@@ -2,21 +2,9 @@
 % Please edit documentation in R/lsm_c_ca.R
 \name{lsm_c_ca}
 \alias{lsm_c_ca}
-\alias{lsm_c_ca.RasterStack}
-\alias{lsm_c_ca.RasterBrick}
-\alias{lsm_c_ca.stars}
-\alias{lsm_c_ca.list}
 \title{CA (class level)}
 \usage{
 lsm_c_ca(landscape, directions = 8)
-
-lsm_c_ca.RasterStack(landscape, directions = 8)
-
-lsm_c_ca.RasterBrick(landscape, directions = 8)
-
-lsm_c_ca.stars(landscape, directions = 8)
-
-lsm_c_ca.list(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
