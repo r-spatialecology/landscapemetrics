@@ -35,7 +35,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_p_perim.RasterLayer <- function(landscape, directions = 8) {
+lsm_p_perim <- function(landscape, directions = 8) {
     landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,

@@ -44,7 +44,7 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_area_mn.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_area_mn <- function(landscape, directions = 8) {
     landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,

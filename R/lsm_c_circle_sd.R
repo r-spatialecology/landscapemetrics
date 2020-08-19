@@ -51,7 +51,7 @@
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'
 #' @export
-lsm_c_circle_sd.RasterLayer <- function(landscape, directions = 8) {
+lsm_c_circle_sd <- function(landscape, directions = 8) {
     landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
