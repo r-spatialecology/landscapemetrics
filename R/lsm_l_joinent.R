@@ -35,102 +35,10 @@
 #'
 #' @export
 lsm_l_joinent <- function(landscape,
-                          neighbourhood,
-                          ordered,
-                          base) UseMethod("lsm_l_joinent")
-
-#' @name lsm_l_joinent
-#' @export
-lsm_l_joinent.RasterLayer <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_joinent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_joinent
-#' @export
-lsm_l_joinent.RasterStack <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_joinent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_joinent
-#' @export
-lsm_l_joinent.RasterBrick <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_joinent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_joinent
-#' @export
-lsm_l_joinent.stars <- function(landscape,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2") {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_joinent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_joinent
-#' @export
-lsm_l_joinent.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2") {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_joinent_calc,

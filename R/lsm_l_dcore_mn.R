@@ -48,100 +48,11 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_dcore_mn <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_l_dcore_mn")
-
-#' @name lsm_l_dcore_mn
-#' @export
-lsm_l_dcore_mn.RasterLayer <- function(landscape,
-                                       directions = 8,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_dcore_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_dcore_mn
-#' @export
-lsm_l_dcore_mn.RasterStack <- function(landscape,
-                                       directions = 8,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_dcore_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_dcore_mn
-#' @export
-lsm_l_dcore_mn.RasterBrick <- function(landscape,
-                                       directions = 8,
-                                       consider_boundary = FALSE,
-                                       edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_dcore_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_dcore_mn
-#' @export
-lsm_l_dcore_mn.stars <- function(landscape,
-                                 directions = 8,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_dcore_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_dcore_mn
-#' @export
-lsm_l_dcore_mn.list <- function(landscape,
+lsm_l_dcore_mn <- function(landscape,
                                 directions = 8,
                                 consider_boundary = FALSE,
                                 edge_depth = 1) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_dcore_mn_calc,

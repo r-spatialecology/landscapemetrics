@@ -47,85 +47,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_core_cv <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_c_core_cv")
-
-#' @name lsm_c_core_cv
-#' @export
-lsm_c_core_cv.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_core_cv
-#' @export
-lsm_c_core_cv.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_core_cv
-#' @export
-lsm_c_core_cv.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_core_cv
-#' @export
-lsm_c_core_cv.stars <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_core_cv
-#' @export
-lsm_c_core_cv.list <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_core_cv_calc,

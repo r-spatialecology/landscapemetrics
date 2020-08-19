@@ -32,92 +32,9 @@
 #'
 #' @export
 lsm_l_ent <- function(landscape,
-                      neighbourhood,
-                      base) UseMethod("lsm_l_ent")
-
-#' @name lsm_l_ent
-#' @export
-lsm_l_ent.RasterLayer <- function(landscape,
-                                  neighbourhood = 4,
-                                  base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ent_calc,
-                     neighbourhood = neighbourhood,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ent
-#' @export
-lsm_l_ent.RasterStack <- function(landscape,
-                                  neighbourhood = 4,
-                                  base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ent_calc,
-                     neighbourhood = neighbourhood,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ent
-#' @export
-lsm_l_ent.RasterBrick <- function(landscape,
-                                  neighbourhood = 4,
-                                  base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ent_calc,
-                     neighbourhood = neighbourhood,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ent
-#' @export
-lsm_l_ent.stars <- function(landscape,
-                            neighbourhood = 4,
-                            base = "log2") {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ent_calc,
-                     neighbourhood = neighbourhood,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ent
-#' @export
-lsm_l_ent.list <- function(landscape,
                            neighbourhood = 4,
                            base = "log2") {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ent_calc,

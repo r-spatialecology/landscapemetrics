@@ -45,91 +45,10 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_ed <- function(landscape, count_boundary, directions) UseMethod("lsm_c_ed")
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.RasterLayer <- function(landscape,
-                                 count_boundary = FALSE,
-                                 directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.RasterStack <- function(landscape,
-                                 count_boundary = FALSE,
-                                 directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.RasterBrick <- function(landscape,
-                                 count_boundary = FALSE,
-                                 directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.stars <- function(landscape,
-                           count_boundary = FALSE,
-                           directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_ed
-#' @export
-lsm_c_ed.list <- function(landscape,
+lsm_c_ed <- function(landscape,
                           count_boundary = FALSE,
                           directions = 8) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_ed_calc,

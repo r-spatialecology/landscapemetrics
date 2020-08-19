@@ -44,77 +44,8 @@
 #' contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
 #'
 #' @export
-lsm_l_contag <- function(landscape, verbose) UseMethod("lsm_l_contag")
-
-#' @name lsm_l_contag
-#' @export
-lsm_l_contag.RasterLayer <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_contag_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_contag
-#' @export
-lsm_l_contag.RasterStack <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_contag_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_contag
-#' @export
-lsm_l_contag.RasterBrick <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_contag_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_contag
-#' @export
-lsm_l_contag.stars <- function(landscape, verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_contag_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_contag
-#' @export
-lsm_l_contag.list <- function(landscape, verbose = TRUE) {
+lsm_l_contag <- function(landscape, verbose = TRUE) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_contag_calc,

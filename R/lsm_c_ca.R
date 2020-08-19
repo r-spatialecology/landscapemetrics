@@ -2,7 +2,7 @@
 #'
 #' @description Total (class) area (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -43,13 +43,10 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_ca <- function(landscape, directions) UseMethod("lsm_c_ca")
+lsm_c_ca <- function(landscape, directions = 8) {
+    landscape <- lsm_as_list(landscape)
 
-#' @name lsm_c_ca
-#' @export
-lsm_c_ca.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
+    result <- lapply(X = landscape,
                      FUN = lsm_c_ca_calc,
                      directions = directions)
 

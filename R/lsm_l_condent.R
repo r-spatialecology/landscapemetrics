@@ -37,102 +37,10 @@
 #'
 #' @export
 lsm_l_condent <- function(landscape,
-                          neighbourhood = 4,
-                          ordered = TRUE,
-                          base = "log2") UseMethod("lsm_l_condent")
-
-#' @name lsm_l_condent
-#' @export
-lsm_l_condent.RasterLayer <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_condent
-#' @export
-lsm_l_condent.RasterStack <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_condent
-#' @export
-lsm_l_condent.RasterBrick <- function(landscape,
-                                      neighbourhood = 4,
-                                      ordered = TRUE,
-                                      base = "log2") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_condent
-#' @export
-lsm_l_condent.stars <- function(landscape,
-                                neighbourhood = 4,
-                                ordered = TRUE,
-                                base = "log2") {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_condent
-#' @export
-lsm_l_condent.list <- function(landscape,
                                neighbourhood = 4,
                                ordered = TRUE,
                                base = "log2") {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_condent_calc,

@@ -2,7 +2,7 @@
 #'
 #' @description Shannon's diversity index (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{SHDI = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})}
@@ -39,7 +39,7 @@
 #'
 #' @export
 lsm_l_shdi <- function(landscape) {
-    landscape <- prepare_input(landscape)
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_shdi_calc)

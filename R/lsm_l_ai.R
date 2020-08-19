@@ -41,73 +41,8 @@
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
-lsm_l_ai <- function(landscape) UseMethod("lsm_l_ai")
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterLayer <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterStack <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterBrick <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.list <- function(landscape) {
+lsm_l_ai <- function(landscape) {
+    landscape <- lsm_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ai_calc)
