@@ -2,7 +2,7 @@
 #'
 #' @description Shannons's evenness index (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{SHEI = \frac{- \sum \limits_{i = 1} ^ {m} (P_{i} * \ln P_{i})} {\ln m}}

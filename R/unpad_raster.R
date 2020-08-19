@@ -2,7 +2,7 @@
 #'
 #' @description Adding padding to raster
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param unpad_raster_cells Number of rows and columns added
 #' @param return_raster If false, matrix is returned
 #' @param to_disk Logical argument, if FALSE results of get_patches are hold

@@ -2,7 +2,7 @@
 #'
 #' @description Total edge (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
 #'
 #' @details

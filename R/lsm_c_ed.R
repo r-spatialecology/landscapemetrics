@@ -2,7 +2,7 @@
 #'
 #' @description Edge Density (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param count_boundary Count landscape boundary as edge.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'

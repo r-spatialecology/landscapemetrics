@@ -2,7 +2,7 @@
 #'
 #' @description Mean of core area (Core area metric)
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch
