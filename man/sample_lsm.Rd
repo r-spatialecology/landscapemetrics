@@ -88,7 +88,7 @@ sample_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons, sf points or sf polygons.}
 

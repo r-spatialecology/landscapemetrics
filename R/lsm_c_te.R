@@ -2,7 +2,7 @@
 #'
 #' @description Total (class) edge (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
@@ -42,87 +42,8 @@
 #'
 #' @export
 lsm_c_te <- function(landscape,
-                     count_boundary, directions) UseMethod("lsm_c_te")
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterLayer <- function(landscape,
-                                 count_boundary = FALSE, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_te_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterStack <- function(landscape,
-                                 count_boundary = FALSE, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_te_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.RasterBrick <- function(landscape,
-                                 count_boundary = FALSE, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_te_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.stars <- function(landscape,
-                           count_boundary = FALSE, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_te_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-
-#' @name lsm_c_te
-#' @export
-lsm_c_te.list <- function(landscape,
                           count_boundary = FALSE, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_te_calc,

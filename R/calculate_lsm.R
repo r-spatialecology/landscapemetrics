@@ -2,7 +2,7 @@
 #'
 #' @description Calculate a selected group of metrics
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area').

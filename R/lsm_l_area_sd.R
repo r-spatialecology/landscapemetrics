@@ -2,7 +2,7 @@
 #'
 #' @description Standard deviation of patch area (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
@@ -42,77 +42,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_area_sd <- function(landscape, directions) UseMethod("lsm_l_area_sd")
-
-#' @name lsm_l_area_sd
-#' @export
-lsm_l_area_sd.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_area_sd_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_area_sd
-#' @export
-lsm_l_area_sd.RasterStack <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_area_sd_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_area_sd
-#' @export
-lsm_l_area_sd.RasterBrick <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_area_sd_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_area_sd
-#' @export
-lsm_l_area_sd.stars <- function(landscape, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_area_sd_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_area_sd
-#' @export
-lsm_l_area_sd.list <- function(landscape, directions = 8) {
+lsm_l_area_sd <- function(landscape, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_area_sd_calc,

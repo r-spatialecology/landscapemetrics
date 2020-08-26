@@ -2,7 +2,7 @@
 #'
 #' @description Shape index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -48,77 +48,8 @@
 #' Wildl. Soc.Bull. 3:171-173.
 #'
 #' @export
-lsm_p_shape <- function(landscape, directions) UseMethod("lsm_p_shape")
-
-#' @name lsm_p_shape
-#' @export
-lsm_p_shape.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_shape_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_shape
-#' @export
-lsm_p_shape.RasterStack <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_shape_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_shape
-#' @export
-lsm_p_shape.RasterBrick <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_shape_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_shape
-#' @export
-lsm_p_shape.stars <- function(landscape, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_shape_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_shape
-#' @export
-lsm_p_shape.list <- function(landscape, directions = 8) {
+lsm_p_shape <- function(landscape, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_shape_calc,

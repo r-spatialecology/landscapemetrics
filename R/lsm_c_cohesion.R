@@ -2,7 +2,7 @@
 #'
 #' @description Patch Cohesion Index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -44,79 +44,8 @@
 #' connectivity. Ecology, 77(4), 1210-1225.
 #'
 #' @export
-lsm_c_cohesion <- function(landscape, directions)
-    UseMethod("lsm_c_cohesion")
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cohesion_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.RasterStack <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cohesion_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.RasterBrick <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cohesion_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.stars <- function(landscape, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cohesion_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-
-#' @name lsm_c_cohesion
-#' @export
-lsm_c_cohesion.list <- function(landscape, directions = 8) {
+lsm_c_cohesion <- function(landscape, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_cohesion_calc,

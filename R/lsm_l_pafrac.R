@@ -2,7 +2,7 @@
 #'
 #' @description Perimeter-Area Fractal Dimension (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param verbose Print warning message if not sufficient patches are present
@@ -48,81 +48,8 @@
 #' Clarendon Press, Oxford
 #'
 #' @export
-lsm_l_pafrac <- function(landscape, directions, verbose) UseMethod("lsm_l_pafrac")
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.RasterLayer <- function(landscape, directions = 8, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.RasterStack <- function(landscape, directions = 8, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.RasterBrick <- function(landscape, directions = 8, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.stars <- function(landscape, directions = 8, verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pafrac
-#' @export
-lsm_l_pafrac.list <- function(landscape, directions = 8, verbose = TRUE) {
+lsm_l_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_pafrac_calc,

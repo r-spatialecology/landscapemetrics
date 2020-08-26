@@ -2,7 +2,7 @@
 #'
 #' @description Related Circumscribing Circle (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -52,77 +52,8 @@
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'
 #' @export
-lsm_p_circle <- function(landscape, directions) UseMethod("lsm_p_circle")
-
-#' @name lsm_p_circle
-#' @export
-lsm_p_circle.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_circle
-#' @export
-lsm_p_circle.RasterStack <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_circle
-#' @export
-lsm_p_circle.RasterBrick <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_circle
-#' @export
-lsm_p_circle.stars <- function(landscape, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_p_circle
-#' @export
-lsm_p_circle.list <- function(landscape, directions = 8) {
+lsm_p_circle <- function(landscape, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_p_circle_calc,

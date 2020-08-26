@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_ca.R
 \name{lsm_c_ca}
 \alias{lsm_c_ca}
-\alias{lsm_c_ca.RasterLayer}
-\alias{lsm_c_ca.RasterStack}
-\alias{lsm_c_ca.RasterBrick}
-\alias{lsm_c_ca.stars}
-\alias{lsm_c_ca.list}
 \title{CA (class level)}
 \usage{
-lsm_c_ca(landscape, directions)
-
-\method{lsm_c_ca}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_c_ca}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_c_ca}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_c_ca}{stars}(landscape, directions = 8)
-
-\method{lsm_c_ca}{list}(landscape, directions = 8)
+lsm_c_ca(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

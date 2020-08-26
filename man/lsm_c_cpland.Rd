@@ -2,44 +2,9 @@
 % Please edit documentation in R/lsm_c_cpland.R
 \name{lsm_c_cpland}
 \alias{lsm_c_cpland}
-\alias{lsm_c_cpland.RasterLayer}
-\alias{lsm_c_cpland.RasterStack}
-\alias{lsm_c_cpland.RasterBrick}
-\alias{lsm_c_cpland.stars}
-\alias{lsm_c_cpland.list}
 \title{CPLAND (class level)}
 \usage{
-lsm_c_cpland(landscape, directions, consider_boundary, edge_depth)
-
-\method{lsm_c_cpland}{RasterLayer}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_c_cpland}{RasterStack}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_c_cpland}{RasterBrick}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_c_cpland}{stars}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_c_cpland}{list}(
+lsm_c_cpland(
   landscape,
   directions = 8,
   consider_boundary = FALSE,
@@ -47,7 +12,7 @@ lsm_c_cpland(landscape, directions, consider_boundary, edge_depth)
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

@@ -88,7 +88,7 @@ spatialize_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 

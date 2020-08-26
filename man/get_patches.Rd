@@ -61,7 +61,7 @@ get_patches(landscape, class, directions, to_disk, return_raster)
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{class}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}

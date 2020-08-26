@@ -2,44 +2,9 @@
 % Please edit documentation in R/lsm_p_core.R
 \name{lsm_p_core}
 \alias{lsm_p_core}
-\alias{lsm_p_core.RasterLayer}
-\alias{lsm_p_core.RasterStack}
-\alias{lsm_p_core.RasterBrick}
-\alias{lsm_p_core.stars}
-\alias{lsm_p_core.list}
 \title{CORE (patch level)}
 \usage{
-lsm_p_core(landscape, directions, consider_boundary, edge_depth)
-
-\method{lsm_p_core}{RasterLayer}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_p_core}{RasterStack}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_p_core}{RasterBrick}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_p_core}{stars}(
-  landscape,
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1
-)
-
-\method{lsm_p_core}{list}(
+lsm_p_core(
   landscape,
   directions = 8,
   consider_boundary = FALSE,
@@ -47,7 +12,7 @@ lsm_p_core(landscape, directions, consider_boundary, edge_depth)
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

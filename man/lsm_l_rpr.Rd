@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_rpr.R
 \name{lsm_l_rpr}
 \alias{lsm_l_rpr}
-\alias{lsm_l_rpr.RasterLayer}
-\alias{lsm_l_rpr.RasterStack}
-\alias{lsm_l_rpr.RasterBrick}
-\alias{lsm_l_rpr.stars}
-\alias{lsm_l_rpr.list}
 \title{RPD (landscape level)}
 \usage{
-lsm_l_rpr(landscape, classes_max, verbose)
-
-\method{lsm_l_rpr}{RasterLayer}(landscape, classes_max = NULL, verbose = TRUE)
-
-\method{lsm_l_rpr}{RasterStack}(landscape, classes_max = NULL, verbose = TRUE)
-
-\method{lsm_l_rpr}{RasterBrick}(landscape, classes_max = NULL, verbose = TRUE)
-
-\method{lsm_l_rpr}{stars}(landscape, classes_max = NULL, verbose = TRUE)
-
-\method{lsm_l_rpr}{list}(landscape, classes_max = NULL, verbose = TRUE)
+lsm_l_rpr(landscape, classes_max = NULL, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{classes_max}{Potential maximum number of present classes}
 

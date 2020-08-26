@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_enn_sd.R
 \name{lsm_l_enn_sd}
 \alias{lsm_l_enn_sd}
-\alias{lsm_l_enn_sd.RasterLayer}
-\alias{lsm_l_enn_sd.RasterStack}
-\alias{lsm_l_enn_sd.RasterBrick}
-\alias{lsm_l_enn_sd.stars}
-\alias{lsm_l_enn_sd.list}
 \title{ENN_SD (landscape level)}
 \usage{
-lsm_l_enn_sd(landscape, directions, verbose)
-
-\method{lsm_l_enn_sd}{RasterLayer}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_l_enn_sd}{RasterStack}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_l_enn_sd}{RasterBrick}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_l_enn_sd}{stars}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_l_enn_sd}{list}(landscape, directions = 8, verbose = TRUE)
+lsm_l_enn_sd(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 

@@ -2,7 +2,7 @@
 #'
 #' @description Raster to points
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #' @param return_NA If true, NA cells are also included
 #'
 #' @details

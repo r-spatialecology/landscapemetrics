@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_joinent.R
 \name{lsm_l_joinent}
 \alias{lsm_l_joinent}
-\alias{lsm_l_joinent.RasterLayer}
-\alias{lsm_l_joinent.RasterStack}
-\alias{lsm_l_joinent.RasterBrick}
-\alias{lsm_l_joinent.stars}
-\alias{lsm_l_joinent.list}
 \title{JOINENT (landscape level)}
 \usage{
-lsm_l_joinent(landscape, neighbourhood, ordered, base)
-
-\method{lsm_l_joinent}{RasterLayer}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
-
-\method{lsm_l_joinent}{RasterStack}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
-
-\method{lsm_l_joinent}{RasterBrick}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
-
-\method{lsm_l_joinent}{stars}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
-
-\method{lsm_l_joinent}{list}(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
+lsm_l_joinent(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}

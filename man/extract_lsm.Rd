@@ -94,7 +94,7 @@ extract_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
 

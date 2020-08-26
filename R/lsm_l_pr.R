@@ -2,7 +2,7 @@
 #'
 #' @description Patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{PR = m}
@@ -32,74 +32,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-
-lsm_l_pr <- function(landscape) UseMethod("lsm_l_pr")
-
-#' @name lsm_l_pr
-#' @export
-lsm_l_pr.RasterLayer <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pr_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pr
-#' @export
-lsm_l_pr.RasterStack <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pr_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pr
-#' @export
-lsm_l_pr.RasterBrick <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pr_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pr
-#' @export
-lsm_l_pr.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pr_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pr
-#' @export
-lsm_l_pr.list <- function(landscape){
+lsm_l_pr <- function(landscape){
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_pr_calc)

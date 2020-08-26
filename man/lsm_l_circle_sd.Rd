@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_circle_sd.R
 \name{lsm_l_circle_sd}
 \alias{lsm_l_circle_sd}
-\alias{lsm_l_circle_sd.RasterLayer}
-\alias{lsm_l_circle_sd.RasterStack}
-\alias{lsm_l_circle_sd.RasterBrick}
-\alias{lsm_l_circle_sd.stars}
-\alias{lsm_l_circle_sd.list}
 \title{CIRCLE_SD (landscape level)}
 \usage{
-lsm_l_circle_sd(landscape, directions)
-
-\method{lsm_l_circle_sd}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_circle_sd}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_circle_sd}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_circle_sd}{stars}(landscape, directions = 8)
-
-\method{lsm_l_circle_sd}{list}(landscape, directions = 8)
+lsm_l_circle_sd(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

@@ -2,7 +2,7 @@
 #'
 #' @description Percentage of Like Adjacencies (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{PLADJ = (\frac{g_{ij}} {\sum \limits_{k = 1}^{m} g_{ik}}) * 100}
@@ -34,75 +34,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html.
 #'
 #' @export
-lsm_l_pladj <- function(landscape)
-    UseMethod("lsm_l_pladj")
-
-#' @name lsm_l_pladj
-#' @export
-lsm_l_pladj.RasterLayer <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pladj_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pladj
-#' @export
-lsm_l_pladj.RasterStack <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pladj_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pladj
-#' @export
-lsm_l_pladj.RasterBrick <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pladj_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_pladj
-#' @export
-lsm_l_pladj.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_pladj_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-
-#' @name lsm_l_pladj
-#' @export
-lsm_l_pladj.list <- function(landscape) {
+lsm_l_pladj <- function(landscape) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_pladj_calc)
