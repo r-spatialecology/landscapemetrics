@@ -2,7 +2,7 @@
 #'
 #' @description Shannon's diversity index (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{SHDI = - \sum \limits_{i = 1}^{m} (P_{i} * \ln P_{i})}

@@ -2,7 +2,7 @@
 #'
 #' @description Patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{PR = m}
