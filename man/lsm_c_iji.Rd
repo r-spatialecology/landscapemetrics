@@ -7,7 +7,7 @@
 lsm_c_iji(landscape, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{verbose}{Print warning message if not sufficient patches are present}
 }

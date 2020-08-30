@@ -7,7 +7,7 @@
 lsm_c_ed(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{count_boundary}{Count landscape boundary as edge.}
 
