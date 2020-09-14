@@ -1,5 +1,5 @@
 # landscapemetrics 1.5.0
-Better handling of input data
+Better handling of input data, new functions and terra support
 
 # landscapemetrics 1.4.7
 Adding new function
