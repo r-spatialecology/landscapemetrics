@@ -7,7 +7,7 @@
 lsm_l_relmutinf(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}

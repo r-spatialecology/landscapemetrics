@@ -2,7 +2,7 @@
 #'
 #' @description Connected components labeling to derive patches in a landscape.
 #'
-#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param class Either "all" (default) for every class in the raster, or specify

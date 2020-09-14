@@ -17,6 +17,11 @@ landscape_as_list.stars <- function(landscape){
     landscape <- raster::as.list(landscape)
     return(landscape)
 }
+landscape_as_list.SpatRaster <- function(landscape){
+    landscape <- methods::as(landscape, "Raster")
+    landscape <- raster::as.list(landscape)
+    return(landscape)
+}
 landscape_as_list.list <- function(landscape){
     return(landscape)
 }

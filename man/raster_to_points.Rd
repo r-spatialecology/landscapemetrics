@@ -22,7 +22,7 @@ raster_to_points(landscape, return_NA)
 \method{raster_to_points}{list}(landscape, return_NA = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{return_NA}{If true, NA cells are also included}
 }

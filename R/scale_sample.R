@@ -2,7 +2,7 @@
 #'
 #' @description Metrics on changing sample scale
 #'
-#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates or SpatialPoints.
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of

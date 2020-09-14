@@ -7,7 +7,7 @@
 lsm_l_rpr(landscape, classes_max = NULL, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{classes_max}{Potential maximum number of present classes}
 

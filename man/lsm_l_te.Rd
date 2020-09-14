@@ -7,7 +7,7 @@
 lsm_l_te(landscape, count_boundary = FALSE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{count_boundary}{Include landscape boundary in edge length}
 }

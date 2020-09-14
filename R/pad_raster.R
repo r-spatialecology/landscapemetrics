@@ -2,7 +2,7 @@
 #'
 #' @description Adding padding to raster
 #'
-#' @param landscape Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param pad_raster_value Value of cells added
 #' @param pad_raster_cells Number of rows and columns added
 #' @param global Only pad around the raster extent or also NA holes "inside"

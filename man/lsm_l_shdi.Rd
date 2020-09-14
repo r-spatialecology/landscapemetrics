@@ -7,7 +7,7 @@
 lsm_l_shdi(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stars, or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 }
 \value{
 tibble
