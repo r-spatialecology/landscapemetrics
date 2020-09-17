@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_mesh.R
 \name{lsm_c_mesh}
 \alias{lsm_c_mesh}
-\alias{lsm_c_mesh.RasterLayer}
-\alias{lsm_c_mesh.RasterStack}
-\alias{lsm_c_mesh.RasterBrick}
-\alias{lsm_c_mesh.stars}
-\alias{lsm_c_mesh.list}
 \title{MESH (class level)}
 \usage{
-lsm_c_mesh(landscape, directions)
-
-\method{lsm_c_mesh}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_c_mesh}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_c_mesh}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_c_mesh}{stars}(landscape, directions = 8)
-
-\method{lsm_c_mesh}{list}(landscape, directions = 8)
+lsm_c_mesh(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

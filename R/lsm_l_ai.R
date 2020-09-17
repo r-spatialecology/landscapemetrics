@@ -2,7 +2,7 @@
 #'
 #' @description Aggregation index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers
 #'
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
@@ -41,73 +41,8 @@
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
-lsm_l_ai <- function(landscape) UseMethod("lsm_l_ai")
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterLayer <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterStack <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.RasterBrick <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_ai_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_ai
-#' @export
-lsm_l_ai.list <- function(landscape) {
+lsm_l_ai <- function(landscape) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_ai_calc)

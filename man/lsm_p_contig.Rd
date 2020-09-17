@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_p_contig.R
 \name{lsm_p_contig}
 \alias{lsm_p_contig}
-\alias{lsm_p_contig.RasterLayer}
-\alias{lsm_p_contig.RasterStack}
-\alias{lsm_p_contig.RasterBrick}
-\alias{lsm_p_contig.stars}
-\alias{lsm_p_contig.list}
 \title{CONTIG (patch level)}
 \usage{
-lsm_p_contig(landscape, directions)
-
-\method{lsm_p_contig}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_p_contig}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_p_contig}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_p_contig}{stars}(landscape, directions = 8)
-
-\method{lsm_p_contig}{list}(landscape, directions = 8)
+lsm_p_contig(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

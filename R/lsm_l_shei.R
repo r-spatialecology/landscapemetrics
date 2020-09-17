@@ -2,7 +2,7 @@
 #'
 #' @description Shannons's evenness index (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #'
 #' @details
 #' \deqn{SHEI = \frac{- \sum \limits_{i = 1} ^ {m} (P_{i} * \ln P_{i})} {\ln m}}
@@ -40,73 +40,8 @@
 #' communication. Univ. IllinoisPress, Urbana
 #'
 #' @export
-lsm_l_shei <- function(landscape) UseMethod("lsm_l_shei")
-
-#' @name lsm_l_shei
-#' @export
-lsm_l_shei.RasterLayer <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_shei_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_shei
-#' @export
-lsm_l_shei.RasterStack <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_shei_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_shei
-#' @export
-lsm_l_shei.RasterBrick <- function(landscape){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_shei_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_shei
-#' @export
-lsm_l_shei.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_shei_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_shei
-#' @export
-lsm_l_shei.list <- function(landscape){
+lsm_l_shei <- function(landscape){
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_shei_calc)

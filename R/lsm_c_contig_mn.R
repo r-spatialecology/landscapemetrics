@@ -2,7 +2,7 @@
 #'
 #' @description Mean of Contiguity index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
@@ -55,77 +55,8 @@
 #' Photogrammetric Engineering and Remote Sensing, 57(3), 285-293
 #'
 #' @export
-lsm_c_contig_mn <- function(landscape, directions) UseMethod("lsm_c_contig_mn")
-
-#' @name lsm_c_contig_mn
-#' @export
-lsm_c_contig_mn.RasterLayer <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_contig_mn_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_contig_mn
-#' @export
-lsm_c_contig_mn.RasterStack <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_contig_mn_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_contig_mn
-#' @export
-lsm_c_contig_mn.RasterBrick <- function(landscape, directions = 8) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_contig_mn_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_contig_mn
-#' @export
-lsm_c_contig_mn.stars <- function(landscape, directions = 8) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_contig_mn_calc,
-                     directions = directions)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_contig_mn
-#' @export
-lsm_c_contig_mn.list <- function(landscape, directions = 8) {
+lsm_c_contig_mn <- function(landscape, directions = 8) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_contig_mn_calc,

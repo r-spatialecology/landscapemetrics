@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_shei.R
 \name{lsm_l_shei}
 \alias{lsm_l_shei}
-\alias{lsm_l_shei.RasterLayer}
-\alias{lsm_l_shei.RasterStack}
-\alias{lsm_l_shei.RasterBrick}
-\alias{lsm_l_shei.stars}
-\alias{lsm_l_shei.list}
 \title{SHEI (landscape level)}
 \usage{
 lsm_l_shei(landscape)
-
-\method{lsm_l_shei}{RasterLayer}(landscape)
-
-\method{lsm_l_shei}{RasterStack}(landscape)
-
-\method{lsm_l_shei}{RasterBrick}(landscape)
-
-\method{lsm_l_shei}{stars}(landscape)
-
-\method{lsm_l_shei}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 }
 \value{
 tibble

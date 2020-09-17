@@ -55,7 +55,7 @@ unpad_raster(landscape, unpad_raster_cells, return_raster, to_disk)
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{unpad_raster_cells}{Number of rows and columns added}
 

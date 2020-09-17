@@ -1,3 +1,10 @@
+# landscapemetrics 1.5.0
+* Improvements
+    * Improved internal understandment of input classes
+    * Adds terra objects (SpatRaster) support
+* New functions
+    * `lsm_l_relmutinf` to calculate relative mutual information
+    
 # landscapemetrics 1.4.6
 * Improvements
     * Improved RAM performance if `to_disk = TRUE` for `spatialize_lsm` and `matrix_to_raster`

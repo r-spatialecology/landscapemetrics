@@ -2,7 +2,7 @@
 #'
 #' @description Moving window
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param window Moving window matrix.
 #' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').

@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_te.R
 \name{lsm_c_te}
 \alias{lsm_c_te}
-\alias{lsm_c_te.RasterLayer}
-\alias{lsm_c_te.RasterStack}
-\alias{lsm_c_te.RasterBrick}
-\alias{lsm_c_te.stars}
-\alias{lsm_c_te.list}
 \title{TE (class level)}
 \usage{
-lsm_c_te(landscape, count_boundary, directions)
-
-\method{lsm_c_te}{RasterLayer}(landscape, count_boundary = FALSE, directions = 8)
-
-\method{lsm_c_te}{RasterStack}(landscape, count_boundary = FALSE, directions = 8)
-
-\method{lsm_c_te}{RasterBrick}(landscape, count_boundary = FALSE, directions = 8)
-
-\method{lsm_c_te}{stars}(landscape, count_boundary = FALSE, directions = 8)
-
-\method{lsm_c_te}{list}(landscape, count_boundary = FALSE, directions = 8)
+lsm_c_te(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{count_boundary}{Include landscape boundary in edge length}
 

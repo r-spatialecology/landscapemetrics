@@ -2,7 +2,7 @@
 #'
 #' @description Extract metrics
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
 #' @param extract_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.

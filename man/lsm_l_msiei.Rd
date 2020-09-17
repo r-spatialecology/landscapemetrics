@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_msiei.R
 \name{lsm_l_msiei}
 \alias{lsm_l_msiei}
-\alias{lsm_l_msiei.RasterLayer}
-\alias{lsm_l_msiei.RasterStack}
-\alias{lsm_l_msiei.RasterBrick}
-\alias{lsm_l_msiei.stars}
-\alias{lsm_l_msiei.list}
 \title{MSIEI (landscape level)}
 \usage{
-lsm_l_msiei(landscape, directions)
-
-\method{lsm_l_msiei}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_msiei}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_msiei}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_msiei}{stars}(landscape, directions = 8)
-
-\method{lsm_l_msiei}{list}(landscape, directions = 8)
+lsm_l_msiei(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

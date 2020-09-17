@@ -2,7 +2,7 @@
 #'
 #' @description Core area percentage of landscape (Core area metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
@@ -43,85 +43,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_cpland <- function(landscape, directions, consider_boundary, edge_depth) UseMethod("lsm_c_cpland")
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.RasterLayer <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cpland_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.RasterStack <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cpland_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.RasterBrick <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cpland_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.stars <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_cpland_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_cpland
-#' @export
-lsm_c_cpland.list <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_cpland_calc,

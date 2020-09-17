@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_p_para.R
 \name{lsm_p_para}
 \alias{lsm_p_para}
-\alias{lsm_p_para.RasterLayer}
-\alias{lsm_p_para.RasterStack}
-\alias{lsm_p_para.RasterBrick}
-\alias{lsm_p_para.stars}
-\alias{lsm_p_para.list}
 \title{PARA (patch level)}
 \usage{
-lsm_p_para(landscape, directions)
-
-\method{lsm_p_para}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_p_para}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_p_para}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_p_para}{stars}(landscape, directions = 8)
-
-\method{lsm_p_para}{list}(landscape, directions = 8)
+lsm_p_para(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, stack, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

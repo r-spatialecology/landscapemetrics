@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_ent.R
 \name{lsm_l_ent}
 \alias{lsm_l_ent}
-\alias{lsm_l_ent.RasterLayer}
-\alias{lsm_l_ent.RasterStack}
-\alias{lsm_l_ent.RasterBrick}
-\alias{lsm_l_ent.stars}
-\alias{lsm_l_ent.list}
 \title{ENT (landscape level)}
 \usage{
-lsm_l_ent(landscape, neighbourhood, base)
-
-\method{lsm_l_ent}{RasterLayer}(landscape, neighbourhood = 4, base = "log2")
-
-\method{lsm_l_ent}{RasterStack}(landscape, neighbourhood = 4, base = "log2")
-
-\method{lsm_l_ent}{RasterBrick}(landscape, neighbourhood = 4, base = "log2")
-
-\method{lsm_l_ent}{stars}(landscape, neighbourhood = 4, base = "log2")
-
-\method{lsm_l_ent}{list}(landscape, neighbourhood = 4, base = "log2")
+lsm_l_ent(landscape, neighbourhood = 4, base = "log2")
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -52,4 +37,5 @@ for quantification and classification of landscape patterns. https://doi.org/10.
 \code{\link{lsm_l_condent}},
 \code{\link{lsm_l_mutinf}},
 \code{\link{lsm_l_joinent}},
+\code{\link{lsm_l_relmutinf}}
 }

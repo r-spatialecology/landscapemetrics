@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_shape_sd.R
 \name{lsm_c_shape_sd}
 \alias{lsm_c_shape_sd}
-\alias{lsm_c_shape_sd.RasterLayer}
-\alias{lsm_c_shape_sd.RasterStack}
-\alias{lsm_c_shape_sd.RasterBrick}
-\alias{lsm_c_shape_sd.stars}
-\alias{lsm_c_shape_sd.list}
 \title{SHAPE_SD (class level)}
 \usage{
-lsm_c_shape_sd(landscape, directions)
-
-\method{lsm_c_shape_sd}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_c_shape_sd}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_c_shape_sd}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_c_shape_sd}{stars}(landscape, directions = 8)
-
-\method{lsm_c_shape_sd}{list}(landscape, directions = 8)
+lsm_c_shape_sd(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

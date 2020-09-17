@@ -2,7 +2,7 @@
 #'
 #' @description Clumpiness index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers
 #'
 #' @details
 #' \deqn{Given G_{i} = \Bigg(\frac{g_{ii}}{ (\sum\limits_{k=1}^m g_{ik}) - min e_{i}} \Bigg)}
@@ -38,74 +38,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_c_clumpy <- function(landscape) UseMethod("lsm_c_clumpy")
-
-#' @name lsm_c_clumpy
-#' @export
-lsm_c_clumpy.RasterLayer <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_clumpy_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_clumpy
-#' @export
-lsm_c_clumpy.RasterStack <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_clumpy_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_clumpy
-#' @export
-lsm_c_clumpy.RasterBrick <- function(landscape) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_clumpy_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_c_clumpy
-#' @export
-lsm_c_clumpy.stars <- function(landscape) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_c_clumpy_calc)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-
-#' @name lsm_c_clumpy
-#' @export
-lsm_c_clumpy.list <- function(landscape) {
+lsm_c_clumpy <- function(landscape) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_c_clumpy_calc)

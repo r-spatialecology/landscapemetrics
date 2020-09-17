@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_split.R
 \name{lsm_c_split}
 \alias{lsm_c_split}
-\alias{lsm_c_split.RasterLayer}
-\alias{lsm_c_split.RasterStack}
-\alias{lsm_c_split.RasterBrick}
-\alias{lsm_c_split.stars}
-\alias{lsm_c_split.list}
 \title{SPLIT (class level)}
 \usage{
-lsm_c_split(landscape, directions)
-
-\method{lsm_c_split}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_c_split}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_c_split}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_c_split}{stars}(landscape, directions = 8)
-
-\method{lsm_c_split}{list}(landscape, directions = 8)
+lsm_c_split(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

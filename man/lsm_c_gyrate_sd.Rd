@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_gyrate_sd.R
 \name{lsm_c_gyrate_sd}
 \alias{lsm_c_gyrate_sd}
-\alias{lsm_c_gyrate_sd.RasterLayer}
-\alias{lsm_c_gyrate_sd.RasterStack}
-\alias{lsm_c_gyrate_sd.RasterBrick}
-\alias{lsm_c_gyrate_sd.stars}
-\alias{lsm_c_gyrate_sd.list}
 \title{GYRATE_SD (class level)}
 \usage{
-lsm_c_gyrate_sd(landscape, directions, cell_center)
-
-\method{lsm_c_gyrate_sd}{RasterLayer}(landscape, directions = 8, cell_center = FALSE)
-
-\method{lsm_c_gyrate_sd}{RasterStack}(landscape, directions = 8, cell_center = FALSE)
-
-\method{lsm_c_gyrate_sd}{RasterBrick}(landscape, directions = 8, cell_center = FALSE)
-
-\method{lsm_c_gyrate_sd}{stars}(landscape, directions = 8, cell_center = FALSE)
-
-\method{lsm_c_gyrate_sd}{list}(landscape, directions = 8, cell_center = FALSE)
+lsm_c_gyrate_sd(landscape, directions = 8, cell_center = FALSE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

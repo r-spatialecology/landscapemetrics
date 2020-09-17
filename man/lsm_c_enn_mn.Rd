@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_enn_mn.R
 \name{lsm_c_enn_mn}
 \alias{lsm_c_enn_mn}
-\alias{lsm_c_enn_mn.RasterLayer}
-\alias{lsm_c_enn_mn.RasterStack}
-\alias{lsm_c_enn_mn.RasterBrick}
-\alias{lsm_c_enn_mn.stars}
-\alias{lsm_c_enn_mn.list}
 \title{ENN_MN (class level)}
 \usage{
-lsm_c_enn_mn(landscape, directions, verbose)
-
-\method{lsm_c_enn_mn}{RasterLayer}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_c_enn_mn}{RasterStack}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_c_enn_mn}{RasterBrick}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_c_enn_mn}{stars}(landscape, directions = 8, verbose = TRUE)
-
-\method{lsm_c_enn_mn}{list}(landscape, directions = 8, verbose = TRUE)
+lsm_c_enn_mn(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 

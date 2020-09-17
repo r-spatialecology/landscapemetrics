@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_lpi.R
 \name{lsm_c_lpi}
 \alias{lsm_c_lpi}
-\alias{lsm_c_lpi.RasterLayer}
-\alias{lsm_c_lpi.RasterStack}
-\alias{lsm_c_lpi.RasterBrick}
-\alias{lsm_c_lpi.stars}
-\alias{lsm_c_lpi.list}
 \title{LPI (class level)}
 \usage{
-lsm_c_lpi(landscape, directions)
-
-\method{lsm_c_lpi}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_c_lpi}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_c_lpi}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_c_lpi}{stars}(landscape, directions = 8)
-
-\method{lsm_c_lpi}{list}(landscape, directions = 8)
+lsm_c_lpi(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

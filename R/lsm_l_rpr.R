@@ -2,7 +2,7 @@
 #'
 #' @description Relative patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param classes_max Potential maximum number of present classes
 #' @param verbose Print warning message if not sufficient patches are present
 #'
@@ -39,82 +39,8 @@
 #' Yellowstone National Park.Ecol.Monogr. 52:199-221
 #'
 #' @export
-lsm_l_rpr <- function(landscape, classes_max, verbose) UseMethod("lsm_l_rpr")
-
-
-#' @name lsm_l_rpr
-#' @export
-lsm_l_rpr.RasterLayer <- function(landscape, classes_max = NULL, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_rpr
-#' @export
-lsm_l_rpr.RasterStack <- function(landscape, classes_max = NULL, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_rpr
-#' @export
-lsm_l_rpr.RasterBrick <- function(landscape, classes_max = NULL, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_rpr
-#' @export
-lsm_l_rpr.stars <- function(landscape, classes_max = NULL, verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_rpr
-#' @export
-lsm_l_rpr.list <- function(landscape, classes_max = NULL, verbose = TRUE) {
+lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_rpr_calc,

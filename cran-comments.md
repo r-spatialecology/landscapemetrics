@@ -1,3 +1,9 @@
+# landscapemetrics 1.5.0
+Better handling of input data, new functions and terra support
+
+# landscapemetrics 1.4.7
+Adding new function
+
 # landscapemetrics 1.4.6
 Minor improvments of existing functions
 

@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_c_clumpy.R
 \name{lsm_c_clumpy}
 \alias{lsm_c_clumpy}
-\alias{lsm_c_clumpy.RasterLayer}
-\alias{lsm_c_clumpy.RasterStack}
-\alias{lsm_c_clumpy.RasterBrick}
-\alias{lsm_c_clumpy.stars}
-\alias{lsm_c_clumpy.list}
 \title{CLUMPY (class level)}
 \usage{
 lsm_c_clumpy(landscape)
-
-\method{lsm_c_clumpy}{RasterLayer}(landscape)
-
-\method{lsm_c_clumpy}{RasterStack}(landscape)
-
-\method{lsm_c_clumpy}{RasterBrick}(landscape)
-
-\method{lsm_c_clumpy}{stars}(landscape)
-
-\method{lsm_c_clumpy}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers}
 }
 \value{
 tibble

@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_np.R
 \name{lsm_l_np}
 \alias{lsm_l_np}
-\alias{lsm_l_np.RasterLayer}
-\alias{lsm_l_np.RasterStack}
-\alias{lsm_l_np.RasterBrick}
-\alias{lsm_l_np.stars}
-\alias{lsm_l_np.list}
 \title{NP (landscape level)}
 \usage{
-lsm_l_np(landscape, directions)
-
-\method{lsm_l_np}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_np}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_np}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_np}{stars}(landscape, directions = 8)
-
-\method{lsm_l_np}{list}(landscape, directions = 8)
+lsm_l_np(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

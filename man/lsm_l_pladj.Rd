@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_pladj.R
 \name{lsm_l_pladj}
 \alias{lsm_l_pladj}
-\alias{lsm_l_pladj.RasterLayer}
-\alias{lsm_l_pladj.RasterStack}
-\alias{lsm_l_pladj.RasterBrick}
-\alias{lsm_l_pladj.stars}
-\alias{lsm_l_pladj.list}
 \title{PLADJ (landscape level)}
 \usage{
 lsm_l_pladj(landscape)
-
-\method{lsm_l_pladj}{RasterLayer}(landscape)
-
-\method{lsm_l_pladj}{RasterStack}(landscape)
-
-\method{lsm_l_pladj}{RasterBrick}(landscape)
-
-\method{lsm_l_pladj}{stars}(landscape)
-
-\method{lsm_l_pladj}{list}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 }
 \value{
 tibble

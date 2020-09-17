@@ -72,7 +72,7 @@ window_lsm(landscape, window, level, metric, name, type, what, progress, ...)
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{window}{Moving window matrix.}
 

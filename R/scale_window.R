@@ -2,7 +2,7 @@
 #'
 #' @description Metrics on changing sample scale
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param percentages_col 2-column matrix with coordinates or SpatialPoints.
 #' @param percentages_row String specifying plot shape. Either "circle" or "square"
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".

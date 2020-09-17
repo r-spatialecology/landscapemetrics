@@ -76,7 +76,7 @@ scale_window(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{percentages_col}{2-column matrix with coordinates or SpatialPoints.}
 

@@ -2,7 +2,7 @@
 #'
 #' @description Total edge (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick or a list of rasterLayers.
+#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
 #' @param count_boundary Include landscape boundary in edge length
 #'
 #' @details
@@ -39,77 +39,8 @@
 #' web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
 #'
 #' @export
-lsm_l_te <- function(landscape, count_boundary) UseMethod("lsm_l_te")
-
-#' @name lsm_l_te
-#' @export
-lsm_l_te.RasterLayer <- function(landscape,  count_boundary = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_te_calc,
-                     count_boundary = count_boundary)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_te
-#' @export
-lsm_l_te.RasterStack <- function(landscape,  count_boundary = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_te_calc,
-                     count_boundary = count_boundary)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_te
-#' @export
-lsm_l_te.RasterBrick <- function(landscape, count_boundary = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_te_calc,
-                     count_boundary = count_boundary)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_te
-#' @export
-lsm_l_te.stars <- function(landscape, count_boundary = FALSE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = lsm_l_te_calc,
-                     count_boundary = count_boundary)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name lsm_l_te
-#' @export
-lsm_l_te.list <- function(landscape, count_boundary = FALSE) {
+lsm_l_te <- function(landscape, count_boundary = FALSE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = lsm_l_te_calc,

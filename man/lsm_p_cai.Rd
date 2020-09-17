@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_p_cai.R
 \name{lsm_p_cai}
 \alias{lsm_p_cai}
-\alias{lsm_p_cai.RasterLayer}
-\alias{lsm_p_cai.RasterStack}
-\alias{lsm_p_cai.RasterBrick}
-\alias{lsm_p_cai.stars}
-\alias{lsm_p_cai.list}
 \title{CAI (patch level)}
 \usage{
-lsm_p_cai(landscape, directions, consider_boundary, edge_depth)
-
-\method{lsm_p_cai}{RasterLayer}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_p_cai}{RasterStack}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_p_cai}{RasterBrick}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_p_cai}{stars}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
-
-\method{lsm_p_cai}{list}(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
+lsm_p_cai(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_cohesion.R
 \name{lsm_l_cohesion}
 \alias{lsm_l_cohesion}
-\alias{lsm_l_cohesion.RasterLayer}
-\alias{lsm_l_cohesion.RasterStack}
-\alias{lsm_l_cohesion.RasterBrick}
-\alias{lsm_l_cohesion.stars}
-\alias{lsm_l_cohesion.list}
 \title{COHESION (landscape level)}
 \usage{
-lsm_l_cohesion(landscape, directions)
-
-\method{lsm_l_cohesion}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_cohesion}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_cohesion}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_cohesion}{stars}(landscape, directions = 8)
-
-\method{lsm_l_cohesion}{list}(landscape, directions = 8)
+lsm_l_cohesion(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 }

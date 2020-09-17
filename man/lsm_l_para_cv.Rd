@@ -2,27 +2,12 @@
 % Please edit documentation in R/lsm_l_para_cv.R
 \name{lsm_l_para_cv}
 \alias{lsm_l_para_cv}
-\alias{lsm_l_para_cv.RasterLayer}
-\alias{lsm_l_para_cv.RasterStack}
-\alias{lsm_l_para_cv.RasterBrick}
-\alias{lsm_l_para_cv.stars}
-\alias{lsm_l_para_cv.list}
 \title{PARA_CV (landscape level)}
 \usage{
-lsm_l_para_cv(landscape, directions)
-
-\method{lsm_l_para_cv}{RasterLayer}(landscape, directions = 8)
-
-\method{lsm_l_para_cv}{RasterStack}(landscape, directions = 8)
-
-\method{lsm_l_para_cv}{RasterBrick}(landscape, directions = 8)
-
-\method{lsm_l_para_cv}{stars}(landscape, directions = 8)
-
-\method{lsm_l_para_cv}{list}(landscape, directions = 8)
+lsm_l_para_cv(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick or a list of rasterLayers.}
+\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
