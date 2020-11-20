@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - CRAN
       - master
 
 name: Deploy-pkgdown
@@ -41,6 +41,8 @@ jobs:
           remotes::install_cran("tidyverse")
           remotes::install_version("SDMTools", version = "1.1-221.2")
           remotes::install_cran("NLMR")
+          remotes::install_cran("landscapetools")
+          remotes::install_cran("bench")
         shell: Rscript {0}
 
       - name: Install package

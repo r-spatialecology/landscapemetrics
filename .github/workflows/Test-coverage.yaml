@@ -1,12 +1,12 @@
 on:
   push:
     branches:
-      - master
       - CRAN
+      - master
   pull_request:
     branches:
-      - master
       - CRAN
+      - master
 
 name: Test-coverage
 
