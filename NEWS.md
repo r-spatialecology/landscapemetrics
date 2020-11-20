@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.1
+* Improvements
+    * Use GitHub actions
+
 # landscapemetrics 1.5.0
 * Improvements
     * Improved internal understandment of input classes
