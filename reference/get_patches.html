@@ -205,61 +205,61 @@
     <p>Connected components labeling to derive patches in a landscape.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_patches</span>(<span class='kw'>landscape</span>, <span class='kw'>class</span>, <span class='kw'>directions</span>, <span class='kw'>to_disk</span>, <span class='kw'>return_raster</span>)
+    <pre class="usage"><span class='fu'>get_patches</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>class</span>, <span class='va'>directions</span>, <span class='va'>to_disk</span>, <span class='va'>return_raster</span><span class='op'>)</span>
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>TRUE</span>
-)
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>TRUE</span>
-)
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>TRUE</span>
-)
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>TRUE</span>
-)
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>TRUE</span>
-)
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>get_patches</span>(
-  <span class='kw'>landscape</span>,
-  class = <span class='st'>"all"</span>,
-  directions = <span class='fl'>8</span>,
-  to_disk = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"to_disk"</span>, default = <span class='fl'>FALSE</span>),
-  return_raster = <span class='fl'>FALSE</span>
-)</pre>
+<span class='fu'>get_patches</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  class <span class='op'>=</span> <span class='st'>"all"</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  to_disk <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"to_disk"</span>, default <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+  return_raster <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -314,13 +314,13 @@ Analysis and Machine Intelligence. 13 (6), 583-598</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># check for patches of class 1</span>
-<span class='kw'>patched_raster</span> <span class='op'>&lt;-</span> <span class='fu'>get_patches</span>(<span class='kw'>landscape</span>, class = <span class='fl'>1</span>)
+<span class='va'>patched_raster</span> <span class='op'>&lt;-</span> <span class='fu'>get_patches</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'># count patches</span>
-<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>raster</span>::<span class='fu'><a href='https://rdrr.io/pkg/raster/man/unique.html'>unique</a></span>(<span class='kw'>patched_raster</span>[[<span class='fl'>1</span>]]))
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>patched_raster</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 9</div><div class='input'>
 <span class='co'># check for patches of every class</span>
-<span class='kw'>patched_raster</span> <span class='op'>&lt;-</span>  <span class='fu'>get_patches</span>(<span class='kw'>landscape</span>)
+<span class='va'>patched_raster</span> <span class='op'>&lt;-</span>  <span class='fu'>get_patches</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>
 
 </div></pre>
   </div>

@@ -205,22 +205,22 @@
     <p>Check input landscape</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, <span class='kw'>verbose</span>)
+    <pre class="usage"><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>verbose</span><span class='op'>)</span>
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, verbose = <span class='fl'>TRUE</span>)
+<span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, verbose = <span class='fl'>TRUE</span>)
+<span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, verbose = <span class='fl'>TRUE</span>)
+<span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, verbose = <span class='fl'>TRUE</span>)
+<span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>check_landscape</span>(<span class='kw'>landscape</span>, verbose = <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>landscape</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -248,11 +248,11 @@ units of the coordinate reference system, a class of the input landscape's
 values and the number of classes found in the landscape.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_landscape</span>(<span class='kw'>augusta_nlcd</span>)
+    <pre class="examples"><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>augusta_nlcd</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   layer       crs units   class n_classes OK
-#&gt; 1     1 projected     m integer        15  ✔</div><div class='input'><span class='fu'>check_landscape</span>(<span class='kw'>podlasie_ccilc</span>)
+#&gt; 1     1 projected     m integer        15  ✔</div><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>podlasie_ccilc</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt;   layer        crs   units   class n_classes OK
-#&gt; 1     1 geographic degrees integer        14  ✖</div><div class='input'><span class='fu'>check_landscape</span>(<span class='kw'>raster</span>::<span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span>(<span class='kw'>landscape</span>, <span class='kw'>landscape</span>))
+#&gt; 1     1 geographic degrees integer        14  ✖</div><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>landscape</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt;   layer crs units   class n_classes OK
 #&gt; 1     1  NA    NA integer         3  ?⃝
 #&gt; 2     2  NA    NA integer         3  ?⃝</div><div class='input'>

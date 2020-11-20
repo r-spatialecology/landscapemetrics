@@ -171,28 +171,22 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://travis-ci.org/r-spatialecology/landscapemetrics"><img src="https://travis-ci.org/r-spatialecology/landscapemetrics.svg?branch=master" alt="Travis CI"></a></td>
+<td><img src="https://github.com/r-spatialecology/landscapemetrics/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></td>
 <td><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></td>
 <td><a href="https://cran.r-project.org/package=landscapemetrics"><img src="https://www.r-pkg.org/badges/version/landscapemetrics" alt="CRAN status"></a></td>
 <td><a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></td>
 </tr>
 <tr class="even">
-<td><a href="https://ci.appveyor.com/project/marcosci/landscapemetrics-09xix/branch/master"><img src="https://ci.appveyor.com/api/projects/status/at8lmrclpbesmvev/branch/master?svg=true" alt="Appveyor"></a></td>
+<td><a href="https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master"><img src="https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage"></a></td>
 <td><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="Project Status"></a></td>
 <td><a href="http://cran.rstudio.com/web/packages/landscapemetrics/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics" alt="CRAN downloads"></a></td>
 <td><a href="https://doi.org/10.1111/ecog.04617"><img src="https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg" alt="DOI"></a></td>
 </tr>
-<tr class="odd">
-<td><a href="https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master"><img src="https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg" alt="Coverage"></a></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody>
 </table>
-<div id="landscapemetrics" class="section level1">
+<div id="landscapemetrics-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#landscapemetrics" class="anchor"></a>landscapemetrics <img src="reference/figures/logo.png" align="right" width="150">
+<a href="#landscapemetrics-" class="anchor"></a>landscapemetrics <img src="reference/figures/logo.png" align="right" width="150">
 </h1></div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
@@ -214,14 +208,13 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>There are several ways to install <strong>landscapemetrics</strong>:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># Get the stable version from CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"landscapemetrics"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Get the stable version from CRAN</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"landscapemetrics"</span><span class="op">)</span>
 
 <span class="co"># Alternatively, you can install the development version from Github</span>
 <span class="co"># install.packages("devtools")</span>
-<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"r-spatialecology/landscapemetrics"</span>)
-</pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-spatialecology/landscapemetrics"</span><span class="op">)</span></code></pre></div>
 <div id="announcement" class="section level4">
 <h4 class="hasAnchor">
 <a href="#announcement" class="anchor"></a>Announcement</h4>
@@ -233,20 +226,20 @@
 <a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
 <p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code>check_raster()</code>).</p>
 <p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the euclidean nearest-neighbor distance):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># general structure</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Patch level</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">## lsm_p_"metric"</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">lsm_p_enn</span>()</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># Class level</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">## lsm_c_"metric"</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw">lsm_c_enn</span>()</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Landscape level</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13">## lsm_p_"metric"</a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw">lsm_l_enn</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># general structure</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Patch level</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">## lsm_p_"metric"</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">lsm_p_enn</span>()</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Class level</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## lsm_c_"metric"</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="kw">lsm_c_enn</span>()</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Landscape level</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">## lsm_p_"metric"</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="kw">lsm_l_enn</span>()</span></code></pre></div>
 <p>All functions return an identical structured tibble:</p>
 <table class="table">
 <thead><tr class="header">
@@ -288,67 +281,64 @@
 <h3 class="hasAnchor">
 <a href="#using-metric-functions" class="anchor"></a>Using metric functions</h3>
 <p>Every function follows the same implementation design, so the usage is quite straightforward:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatialecology.github.io/landscapemetrics">landscapemetrics</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://docs.ropensci.org/landscapetools">landscapetools</a></span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ropensci.github.io/landscapetools/">landscapetools</a></span><span class="op">)</span>
 
 <span class="co"># landscape raster</span>
-<span class="fu"><a href="https://docs.ropensci.org/landscapetools/reference/show_landscape.html">show_landscape</a></span>(<span class="kw">landscape</span>)
-</pre></div>
+<span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/REAsDME-unnamed-chunk-1-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span>
-<span class="fu"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span>(<span class="kw">landscape</span>)
-<span class="co">#&gt; # A tibble: 27 x 6</span>
+<span class="fu"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
+<span class="co">#&gt; [90m# A tibble: 27 x 6[39m</span>
 <span class="co">#&gt;    layer level class    id metric value</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1 patch     1     1 enn     7   </span>
-<span class="co">#&gt;  2     1 patch     1     2 enn     4   </span>
-<span class="co">#&gt;  3     1 patch     1     3 enn     2.83</span>
-<span class="co">#&gt;  4     1 patch     1     4 enn     2   </span>
-<span class="co">#&gt;  5     1 patch     1     5 enn     2   </span>
-<span class="co">#&gt;  6     1 patch     1     6 enn     2.83</span>
-<span class="co">#&gt;  7     1 patch     1     7 enn     4.12</span>
-<span class="co">#&gt;  8     1 patch     1     8 enn     4.12</span>
-<span class="co">#&gt;  9     1 patch     1     9 enn     4.24</span>
-<span class="co">#&gt; 10     1 patch     2    10 enn     4.47</span>
-<span class="co">#&gt; # ... with 17 more rows</span>
+<span class="co">#&gt;    [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m</span>
+<span class="co">#&gt; [90m 1[39m     1 patch     1     1 enn     7   </span>
+<span class="co">#&gt; [90m 2[39m     1 patch     1     2 enn     4   </span>
+<span class="co">#&gt; [90m 3[39m     1 patch     1     3 enn     2.83</span>
+<span class="co">#&gt; [90m 4[39m     1 patch     1     4 enn     2   </span>
+<span class="co">#&gt; [90m 5[39m     1 patch     1     5 enn     2   </span>
+<span class="co">#&gt; [90m 6[39m     1 patch     1     6 enn     2.83</span>
+<span class="co">#&gt; [90m 7[39m     1 patch     1     7 enn     4.12</span>
+<span class="co">#&gt; [90m 8[39m     1 patch     1     8 enn     4.12</span>
+<span class="co">#&gt; [90m 9[39m     1 patch     1     9 enn     4.24</span>
+<span class="co">#&gt; [90m10[39m     1 patch     2    10 enn     4.47</span>
+<span class="co">#&gt; [90m# … with 17 more rows[39m</span>
 
 <span class="co"># calculate the total area and total class edge length</span>
-<span class="fu"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span>(<span class="kw">landscape</span>)
-<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="fu"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
+<span class="co">#&gt; [90m# A tibble: 1 x 6[39m</span>
 <span class="co">#&gt;   layer level     class    id metric value</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1 landscape    NA    NA ta      0.09</span>
-<span class="fu"><a href="reference/lsm_c_te.html">lsm_c_te</a></span>(<span class="kw">landscape</span>)
-<span class="co">#&gt; # A tibble: 3 x 6</span>
+<span class="co">#&gt;   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m</span>
+<span class="co">#&gt; [90m1[39m     1 landscape    [31mNA[39m    [31mNA[39m ta      0.09</span>
+<span class="fu"><a href="reference/lsm_c_te.html">lsm_c_te</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
+<span class="co">#&gt; [90m# A tibble: 3 x 6[39m</span>
 <span class="co">#&gt;   layer level class    id metric value</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1 class     1    NA te       180</span>
-<span class="co">#&gt; 2     1 class     2    NA te       227</span>
-<span class="co">#&gt; 3     1 class     3    NA te       321</span>
-</pre></div>
+<span class="co">#&gt;   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m</span>
+<span class="co">#&gt; [90m1[39m     1 class     1    [31mNA[39m te       180</span>
+<span class="co">#&gt; [90m2[39m     1 class     2    [31mNA[39m te       227</span>
+<span class="co">#&gt; [90m3[39m     1 class     3    [31mNA[39m te       321</span></code></pre></div>
 <p>There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># calculate all metrics on patch level</span>
-<span class="fu"><a href="reference/calculate_lsm.html">calculate_lsm</a></span>(<span class="kw">landscape</span>, level = <span class="st">"patch"</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># calculate all metrics on patch level</span>
+<span class="fu"><a href="reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, level <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; # A tibble: 324 x 6</span>
+<span class="co">#&gt; [90m# A tibble: 324 x 6[39m</span>
 <span class="co">#&gt;    layer level class    id metric  value</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1 patch     1     1 area   0.0001</span>
-<span class="co">#&gt;  2     1 patch     1     2 area   0.0005</span>
-<span class="co">#&gt;  3     1 patch     1     3 area   0.0148</span>
-<span class="co">#&gt;  4     1 patch     1     4 area   0.0001</span>
-<span class="co">#&gt;  5     1 patch     1     5 area   0.0001</span>
-<span class="co">#&gt;  6     1 patch     1     6 area   0.0014</span>
-<span class="co">#&gt;  7     1 patch     1     7 area   0.0003</span>
-<span class="co">#&gt;  8     1 patch     1     8 area   0.0005</span>
-<span class="co">#&gt;  9     1 patch     1     9 area   0.0001</span>
-<span class="co">#&gt; 10     1 patch     2    10 area   0.0035</span>
-<span class="co">#&gt; # ... with 314 more rows</span>
-</pre></div>
+<span class="co">#&gt;    [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m</span>
+<span class="co">#&gt; [90m 1[39m     1 patch     1     1 area   0.000[4m1[24m</span>
+<span class="co">#&gt; [90m 2[39m     1 patch     1     2 area   0.000[4m5[24m</span>
+<span class="co">#&gt; [90m 3[39m     1 patch     1     3 area   0.014[4m8[24m</span>
+<span class="co">#&gt; [90m 4[39m     1 patch     1     4 area   0.000[4m1[24m</span>
+<span class="co">#&gt; [90m 5[39m     1 patch     1     5 area   0.000[4m1[24m</span>
+<span class="co">#&gt; [90m 6[39m     1 patch     1     6 area   0.001[4m4[24m</span>
+<span class="co">#&gt; [90m 7[39m     1 patch     1     7 area   0.000[4m3[24m</span>
+<span class="co">#&gt; [90m 8[39m     1 patch     1     8 area   0.000[4m5[24m</span>
+<span class="co">#&gt; [90m 9[39m     1 patch     1     9 area   0.000[4m1[24m</span>
+<span class="co">#&gt; [90m10[39m     1 patch     2    10 area   0.003[4m5[24m</span>
+<span class="co">#&gt; [90m# … with 314 more rows[39m</span></code></pre></div>
 </div>
 <div id="utility-functions" class="section level3">
 <h3 class="hasAnchor">

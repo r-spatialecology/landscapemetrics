@@ -205,136 +205,136 @@
     <p>Calculate a selected group of metrics</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  <span class='kw'>level</span>,
-  <span class='kw'>metric</span>,
-  <span class='kw'>name</span>,
-  <span class='kw'>type</span>,
-  <span class='kw'>what</span>,
-  <span class='kw'>directions</span>,
-  <span class='kw'>count_boundary</span>,
-  <span class='kw'>consider_boundary</span>,
-  <span class='kw'>edge_depth</span>,
-  <span class='kw'>cell_center</span>,
-  <span class='kw'>classes_max</span>,
-  <span class='kw'>neighbourhood</span>,
-  <span class='kw'>ordered</span>,
-  <span class='kw'>base</span>,
-  <span class='kw'>full_name</span>,
-  <span class='kw'>verbose</span>,
-  <span class='kw'>progress</span>
-)
+    <pre class="usage"><span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  <span class='va'>level</span>,
+  <span class='va'>metric</span>,
+  <span class='va'>name</span>,
+  <span class='va'>type</span>,
+  <span class='va'>what</span>,
+  <span class='va'>directions</span>,
+  <span class='va'>count_boundary</span>,
+  <span class='va'>consider_boundary</span>,
+  <span class='va'>edge_depth</span>,
+  <span class='va'>cell_center</span>,
+  <span class='va'>classes_max</span>,
+  <span class='va'>neighbourhood</span>,
+  <span class='va'>ordered</span>,
+  <span class='va'>base</span>,
+  <span class='va'>full_name</span>,
+  <span class='va'>verbose</span>,
+  <span class='va'>progress</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  level = <span class='kw'>NULL</span>,
-  metric = <span class='kw'>NULL</span>,
-  name = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>,
-  what = <span class='kw'>NULL</span>,
-  directions = <span class='fl'>8</span>,
-  count_boundary = <span class='fl'>FALSE</span>,
-  consider_boundary = <span class='fl'>FALSE</span>,
-  edge_depth = <span class='fl'>1</span>,
-  cell_center = <span class='fl'>FALSE</span>,
-  classes_max = <span class='kw'>NULL</span>,
-  neighbourhood = <span class='fl'>4</span>,
-  ordered = <span class='fl'>TRUE</span>,
-  base = <span class='st'>"log2"</span>,
-  full_name = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>
-)
+<span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  what <span class='op'>=</span> <span class='cn'>NULL</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  count_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
+  cell_center <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classes_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbourhood <span class='op'>=</span> <span class='fl'>4</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  base <span class='op'>=</span> <span class='st'>"log2"</span>,
+  full_name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for RasterStack</span>
-<span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  level = <span class='kw'>NULL</span>,
-  metric = <span class='kw'>NULL</span>,
-  name = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>,
-  what = <span class='kw'>NULL</span>,
-  directions = <span class='fl'>8</span>,
-  count_boundary = <span class='fl'>FALSE</span>,
-  consider_boundary = <span class='fl'>FALSE</span>,
-  edge_depth = <span class='fl'>1</span>,
-  cell_center = <span class='fl'>FALSE</span>,
-  classes_max = <span class='kw'>NULL</span>,
-  neighbourhood = <span class='fl'>4</span>,
-  ordered = <span class='fl'>TRUE</span>,
-  base = <span class='st'>"log2"</span>,
-  full_name = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>
-)
+<span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  what <span class='op'>=</span> <span class='cn'>NULL</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  count_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
+  cell_center <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classes_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbourhood <span class='op'>=</span> <span class='fl'>4</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  base <span class='op'>=</span> <span class='st'>"log2"</span>,
+  full_name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  level = <span class='kw'>NULL</span>,
-  metric = <span class='kw'>NULL</span>,
-  name = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>,
-  what = <span class='kw'>NULL</span>,
-  directions = <span class='fl'>8</span>,
-  count_boundary = <span class='fl'>FALSE</span>,
-  consider_boundary = <span class='fl'>FALSE</span>,
-  edge_depth = <span class='fl'>1</span>,
-  cell_center = <span class='fl'>FALSE</span>,
-  classes_max = <span class='kw'>NULL</span>,
-  neighbourhood = <span class='fl'>4</span>,
-  ordered = <span class='fl'>TRUE</span>,
-  base = <span class='st'>"log2"</span>,
-  full_name = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>
-)
+<span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  what <span class='op'>=</span> <span class='cn'>NULL</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  count_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
+  cell_center <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classes_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbourhood <span class='op'>=</span> <span class='fl'>4</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  base <span class='op'>=</span> <span class='st'>"log2"</span>,
+  full_name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for stars</span>
-<span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  level = <span class='kw'>NULL</span>,
-  metric = <span class='kw'>NULL</span>,
-  name = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>,
-  what = <span class='kw'>NULL</span>,
-  directions = <span class='fl'>8</span>,
-  count_boundary = <span class='fl'>FALSE</span>,
-  consider_boundary = <span class='fl'>FALSE</span>,
-  edge_depth = <span class='fl'>1</span>,
-  cell_center = <span class='fl'>FALSE</span>,
-  classes_max = <span class='kw'>NULL</span>,
-  neighbourhood = <span class='fl'>4</span>,
-  ordered = <span class='fl'>TRUE</span>,
-  base = <span class='st'>"log2"</span>,
-  full_name = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>
-)
+<span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  what <span class='op'>=</span> <span class='cn'>NULL</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  count_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
+  cell_center <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classes_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbourhood <span class='op'>=</span> <span class='fl'>4</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  base <span class='op'>=</span> <span class='st'>"log2"</span>,
+  full_name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for list</span>
-<span class='fu'>calculate_lsm</span>(
-  <span class='kw'>landscape</span>,
-  level = <span class='kw'>NULL</span>,
-  metric = <span class='kw'>NULL</span>,
-  name = <span class='kw'>NULL</span>,
-  type = <span class='kw'>NULL</span>,
-  what = <span class='kw'>NULL</span>,
-  directions = <span class='fl'>8</span>,
-  count_boundary = <span class='fl'>FALSE</span>,
-  consider_boundary = <span class='fl'>FALSE</span>,
-  edge_depth = <span class='fl'>1</span>,
-  cell_center = <span class='fl'>FALSE</span>,
-  classes_max = <span class='kw'>NULL</span>,
-  neighbourhood = <span class='fl'>4</span>,
-  ordered = <span class='fl'>TRUE</span>,
-  base = <span class='st'>"log2"</span>,
-  full_name = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>TRUE</span>,
-  progress = <span class='fl'>FALSE</span>
-)</pre>
+<span class='fu'>calculate_lsm</span><span class='op'>(</span>
+  <span class='va'>landscape</span>,
+  level <span class='op'>=</span> <span class='cn'>NULL</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='cn'>NULL</span>,
+  what <span class='op'>=</span> <span class='cn'>NULL</span>,
+  directions <span class='op'>=</span> <span class='fl'>8</span>,
+  count_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
+  cell_center <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classes_max <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbourhood <span class='op'>=</span> <span class='fl'>4</span>,
+  ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  base <span class='op'>=</span> <span class='st'>"log2"</span>,
+  full_name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  progress <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -444,11 +444,11 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
     <div class='dont-index'><p><code><a href='list_lsm.html'>list_lsm</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>calculate_lsm</span>(<span class='kw'>landscape</span>, progress = <span class='fl'>TRUE</span>)
-<span class='fu'>calculate_lsm</span>(<span class='kw'>landscape</span>, what = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"patch"</span>, <span class='st'>"lsm_c_te"</span>, <span class='st'>"lsm_l_pr"</span>))
-<span class='fu'>calculate_lsm</span>(<span class='kw'>landscape</span>, level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"class"</span>, <span class='st'>"landscape"</span>), type = <span class='st'>"aggregation metric"</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>calculate_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, progress <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>calculate_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, what <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"patch"</span>, <span class='st'>"lsm_c_te"</span>, <span class='st'>"lsm_l_pr"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>calculate_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"class"</span>, <span class='st'>"landscape"</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"aggregation metric"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>

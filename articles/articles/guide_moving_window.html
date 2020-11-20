@@ -151,12 +151,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="guide_moving_window_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="guide_moving_window_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="guide_moving_window_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Moving window</h1>
             
-            <h4 class="date">2020-09-14</h4>
+            <h4 class="date">2020-11-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/guide_moving_window.Rmd"><code>vignettes/articles/guide_moving_window.Rmd</code></a></small>
       <div class="hidden name"><code>guide_moving_window.Rmd</code></div>
@@ -171,24 +172,21 @@
 <a href="#implementation-in-landscapemetrics" class="anchor"></a>Implementation in <strong>landscapemetrics</strong>
 </h2>
 <p>We provide the function <code><a href="../../reference/window_lsm.html">window_lsm()</a></code> in <strong>landscapemetrics</strong> to analyse an input raster using the moving window approach. The function allows to specify the neighborhood using a matrix using the <code><a href="https://rdrr.io/pkg/raster/man/focal.html">raster::focal()</a></code> function internally. Currently, only the landscape level metrics are possible to calculate and they can be specified similarly to <code><a href="../../reference/calculate_lsm.html">calculate_lsm()</a></code>. For details, see <code>?list_lsm()</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatialecology.github.io/landscapemetrics">landscapemetrics</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://rspatial.org/raster">raster</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span></code></pre></div>
 <p>First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell. Because we want to weight all cells identically, all values need to be 1 (for more details, see <code>?raster::focal()</code>).</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">moving_window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">1</span>, nrow = <span class="fl">3</span>, ncol = <span class="fl">3</span>)
-<span class="kw">moving_window</span>
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moving_window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="va">moving_window</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    1    1
 ## [2,]    1    1    1
 ## [3,]    1    1    1</code></pre>
 <p>Now, we can easily pass this matrix to <code><a href="../../reference/window_lsm.html">window_lsm()</a></code> together with the input landscape. For this example, we want to calculate the number of classes (<code>lsm_l_pr</code>) and the joint entropy (<code>lsm_l_joinent</code>) for the local neighborhoods.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/window_lsm.html">window_lsm</a></span>(<span class="kw">landscape</span>, window = <span class="kw">moving_window</span>, what = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span>))
-<span class="kw">result</span>
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/window_lsm.html">window_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, window <span class="op">=</span> <span class="va">moving_window</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">result</span></code></pre></div>
 <pre><code>## [[1]]
 ## [[1]]$lsm_l_joinent
 ## class      : RasterLayer 
