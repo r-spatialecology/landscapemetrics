@@ -18,7 +18,7 @@ Landscape shape index (Aggregation metric)
 \details{
 \deqn{LSI = \frac{E} {\min E}}
 where \eqn{E} is the total edge length in cell surfaces and \eqn{\min E}
-is the minimum total edge length in cell surfaces
+is the minimum total edge length in cell surfaces.
 
 LSI is an 'Aggregation metric'. It is the ratio between the actual landscape edge length
 and the hypothetical minimum edge length. The minimum edge length equals

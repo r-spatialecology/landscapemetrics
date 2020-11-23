@@ -16,13 +16,19 @@ tibble
 Normalized landscape shape index (Aggregation metric)
 }
 \details{
-ADD DESCRIBTION
+\deqn{nLSI = \frac{e_{i} - \min e_{i}} {\max e_{i} - \min e_{i}}}
+where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
+\eqn{\max e_{i}} are the minimum and maximum total edge length in cell surfaces, respectively.
+
+nLSI is an 'Aggregation metric'. It is closely related to the \code{\link{lsm_c_lsi}}
+and describes the ratio of the actual edge length of class i in relation to the
+hypothetical range of possible edge lengths of class i (min/max).
 
 \subsection{Units}{None}
-\subsection{Ranges}{nlsi >= 1}
-\subsection{Behaviour}{Equals nlsi = 1 when only one squared patch is present or all
-patches are maximally aggregated. Increases, without limit, as the length of the
-actual edges increases, i.e. the patches become less compact.}
+\subsection{Ranges}{0 <= nlsi <= 1}
+\subsection{Behaviour}{Equals nLSI = 0 when only one squared patch is present. nLSI
+increases the more disaggregated patches are and equals nLSI = 1 for a maximal disaggregated
+(i.e. a "checkerboard pattern").}
 }
 \examples{
 lsm_c_nlsi(landscape)
@@ -38,5 +44,6 @@ Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 Wildl. Soc.Bull. 3:171-173.
 }
 \seealso{
-\code{\link{lsm_p_shape}}
+\code{\link{lsm_c_lsi}}
+\code{\link{lsm_l_lsi}}
 }
