@@ -157,7 +157,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Utility functions</h1>
             
-            <h4 class="date">2020-11-20</h4>
+            <h4 class="date">2020-11-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/utility.Rmd"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -305,8 +305,8 @@
 <span class="co">#&gt; # A tibble: 2 x 6</span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 253.11µs 258.12µs     3797.</span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           7.61ms   8.47ms      104.</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 244.77µs 251.86µs     3827.</span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           7.19ms   7.81ms      113.</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -376,8 +376,8 @@
 <span class="co">#&gt; # A tibble: 2 x 6</span>
 <span class="co">#&gt;   expression                               min  median `itr/sec` mem_alloc</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.86ms  5.44ms     181.   271.55KB</span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches)          33.07ms 35.47ms      28.0    2.42MB</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.59ms  4.93ms     200.   271.55KB</span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches)          32.92ms 34.74ms      28.3    2.42MB</span>
 <span class="co">#&gt; # … with 1 more variable: `gc/sec` &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>
