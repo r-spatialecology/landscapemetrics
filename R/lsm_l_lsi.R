@@ -114,7 +114,7 @@ lsm_l_lsi_calc <- function(landscape) {
     # test if any NAs introduced
     if (!is.finite(lsi)) {
         warning("NAs introduced by lsm_l_lsi", call. = FALSE)
-        lsi[1:length(lsi)] <- NA
+        lsi <- NA
     }
 
     return(tibble::tibble(level = "landscape",
