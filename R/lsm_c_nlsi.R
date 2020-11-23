@@ -110,7 +110,7 @@ lsm_c_nlsi_calc <- function(landscape) {
     numerator <- class_perim - class_perim_min
 
     # calculate total area in terms of cells
-    total_area <- (nrow(landscape) - 2) * (ncol(landscape) - 2)
+    total_area <- sum(rcpp_get_composition_vector(landscape)[-1])
 
     # get all cells on the boundary; need to remove padded cells
     cells_boundary <- ((nrow(landscape) - 2) * 2) + ((ncol(landscape) - 2) * 2)

@@ -93,7 +93,7 @@ lsm_l_lsi_calc <- function(landscape) {
     total_perim <- sum(class_perim[lower.tri(class_perim)])
 
     # calculate total area
-    total_area <- (nrow(landscape) - 2) * (ncol(landscape) - 2)
+    total_area <- sum(rcpp_get_composition_vector(landscape)[-1])
 
     # calculate N and M
     total_n <- trunc(sqrt(total_area))
