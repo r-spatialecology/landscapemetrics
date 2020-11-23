@@ -4,13 +4,10 @@
 \alias{lsm_l_lsi}
 \title{LSI (landscape level)}
 \usage{
-lsm_l_lsi(landscape, directions = 8)
+lsm_l_lsi(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
-
-\item{directions}{The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

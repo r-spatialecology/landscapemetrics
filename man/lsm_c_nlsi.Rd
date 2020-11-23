@@ -4,13 +4,10 @@
 \alias{lsm_c_nlsi}
 \title{nLSI (class level)}
 \usage{
-lsm_c_nlsi(landscape, directions = 8)
+lsm_c_nlsi(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
-
-\item{directions}{The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -19,13 +16,7 @@ tibble
 Normalized landscape shape index (Aggregation metric)
 }
 \details{
-\deqn{nLSI = \frac{e_{i}} {\min e_{i}}}
-where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
-is the minimum total edge length in cell surfaces
-
-nLSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
-class i and the hypothetical minimum edge length of class i. The minimum edge length equals
-the edge length if class i would be maximally aggregated.
+ADD DESCRIBTION
 
 \subsection{Units}{None}
 \subsection{Ranges}{nlsi >= 1}

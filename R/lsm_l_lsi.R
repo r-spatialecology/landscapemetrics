@@ -3,8 +3,6 @@
 #' @description Landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be
-#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{LSI = \frac{E} {\min E}}
@@ -43,12 +41,11 @@
 #' Wildl. Soc.Bull. 3:171-173.
 #'
 #' @export
-lsm_l_lsi <- function(landscape, directions = 8) {
+lsm_l_lsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_lsi_calc,
-                     directions = directions)
+                     FUN = lsm_l_lsi_calc)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -58,7 +55,7 @@ lsm_l_lsi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_lsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -76,40 +73,52 @@ lsm_l_lsi_calc <- function(landscape, directions, resolution = NULL) {
                               value = as.double(NA)))
     }
 
-    # get total edge
-    edge_landscape <- lsm_l_te_calc(landscape,
-                                    count_boundary = TRUE,
-                                    resolution = resolution)
+    # cells at the boundary of the landscape need neighbours to calculate perim
+    landscape <- pad_raster(landscape,
+                            pad_raster_value = NA,
+                            pad_raster_cells = 1,
+                            return_raster = FALSE)[[1]]
 
-    # get patch area
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution)
+    # which cells are NA (i.e. background)
+    target_na <- which(is.na(landscape))
 
-    # summarise to total area in sqm
-    total_area <- sum(patch_area$value) * 10000
+    # set all NA to -999 to get adjacencies between patches and all background
+    landscape[target_na] <- -999
 
-    n <- trunc(sqrt(total_area))
-    m <- total_area - n^2
+    # get class edge in terms of cell surfaces
+    class_perim <- rcpp_get_coocurrence_matrix(landscape,
+                                               as.matrix(4))
 
-    min_p <- ifelse(test = m == 0,
-                    yes = n * 4,
-                    no = ifelse(test =  n ^ 2 < total_area & total_area <= n * (1 + n),
-                                yes = 4 * n + 2,
-                                no = ifelse(test = total_area > n * (1 + n),
-                                            yes = 4 * n + 4,
-                                            no = NA)))
+    # calculate total edge
+    total_perim <- sum(class_perim[lower.tri(class_perim)])
+
+    # calculate total area
+    total_area <- (nrow(landscape) - 2) * (ncol(landscape) - 2)
+
+    # calculate N and M
+    total_n <- trunc(sqrt(total_area))
+
+    total_m <- total_area - total_n ^ 2
+
+    # calculate min_edge
+    total_perim_min <- ifelse(test = total_m == 0,
+                              yes = total_n * 4,
+                              no = ifelse(test = total_n ^ 2 < total_area & total_area <= total_n * (1 + total_n),
+                                          yes = 4 * total_n + 2,
+                                          no = ifelse(test = total_area > total_n * (1 + total_n),
+                                                      yes = 4 * total_n + 4,
+                                                      no = NA)))
+
+    lsi <- total_perim / total_perim_min
 
     # warning if NA is introduced
-    if (anyNA(min_p)) {
+    if (anyNA(lsi)) {
         warning("NA introduced by lsm_l_lsi", call. = FALSE)
     }
 
-    lsi <- edge_landscape$value / min_p
-
     return(tibble::tibble(level = "landscape",
-                          class = as.integer(edge_landscape$class),
-                          id = as.integer(edge_landscape$id),
+                          class = as.integer(NA),
+                          id = as.integer(NA),
                           metric = "lsi",
                           value = as.double(lsi)))
 }
