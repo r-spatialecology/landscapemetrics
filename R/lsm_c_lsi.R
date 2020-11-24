@@ -117,9 +117,12 @@ lsm_c_lsi_calc <- function(landscape) {
     lsi <- class_perim / class_perim_min
 
     # test if any NAs introduced
-    if (!is.finite(lsi)) {
-        warning("NAs introduced by lsm_c_lsi", call. = FALSE)
-        lsi[1:length(lsi)] <- NA
+    if (!all(is.finite(lsi))) {
+
+        warning("NAs introduced by lsm_c_lsi.", call. = FALSE)
+
+        lsi[!is.finite(lsi)] <- NA
+
     }
 
     return(tibble::tibble(level = "class",
