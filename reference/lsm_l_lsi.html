@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -205,7 +205,7 @@
     <p>Landscape shape index (Aggregation metric)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_l_lsi</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lsm_l_lsi</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,11 +213,6 @@
     <tr>
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></td>
-    </tr>
-    <tr>
-      <th>directions</th>
-      <td><p>The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
     </table>
 
@@ -228,7 +223,7 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
 
     <p>$$LSI = \frac{E} {\min E}$$
 where \(E\) is the total edge length in cell surfaces and \(\min E\)
-is the minimum total edge length in cell surfaces</p>
+is the minimum total edge length in cell surfaces.</p>
 <p>LSI is an 'Aggregation metric'. It is the ratio between the actual landscape edge length
 and the hypothetical minimum edge length. The minimum edge length equals
 the edge length if only one patch would be present.</p>
@@ -259,7 +254,7 @@ Wildl. Soc.Bull. 3:171-173.</p>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;   layer level     class    id metric value
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> lsi     3.97</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>1</span><span>     1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> lsi     4.03</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

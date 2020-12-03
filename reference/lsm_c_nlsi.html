@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -205,7 +205,7 @@
     <p>Normalized landscape shape index (Aggregation metric)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_nlsi</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lsm_c_nlsi</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,11 +214,6 @@
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></td>
     </tr>
-    <tr>
-      <th>directions</th>
-      <td><p>The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -226,20 +221,23 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
     <p>tibble</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>$$nLSI = \frac{e_{i}} {\min e_{i}}$$
+    <p>$$nLSI = \frac{e_{i} - \min e_{i}} {\max e_{i} - \min e_{i}}$$
 where \(e_{i}\) is the total edge length in cell surfaces and \(\min e_{i}\)
-is the minimum total edge length in cell surfaces</p>
-<p>nLSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
-class i and the hypothetical minimum edge length of class i. The minimum edge length equals
-the edge length if class i would be maximally aggregated.</p>
+\(\max e_{i}\) are the minimum and maximum total edge length in cell surfaces, respectively.</p>
+<p>nLSI is an 'Aggregation metric'. It is closely related to the <code><a href='lsm_c_lsi.html'>lsm_c_lsi</a></code>
+and describes the ratio of the actual edge length of class i in relation to the
+hypothetical range of possible edge lengths of class i (min/max).</p>
+<p>Currently, nLSI ignores all background cells when calculating the minimum and maximum
+total edge length. Also, a correct calculation of the minimum and maximum
+total edge length is currently only possible for rectangular landscapes.</p>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Units</h3>
 <p>None</p>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Ranges</h3>
-<p>nlsi &gt;= 1</p>
+<p>0 &lt;= nlsi &lt;= 1</p>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Behaviour</h3>
-<p>Equals nlsi = 1 when only one squared patch is present or all
-patches are maximally aggregated. Increases, without limit, as the length of the
-actual edges increases, i.e. the patches become less compact.</p>
+<p>Equals nLSI = 0 when only one squared patch is present. nLSI
+increases the more disaggregated patches are and equals nLSI = 1 for a maximal disaggregated
+(i.e. a "checkerboard pattern").</p>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -251,7 +249,8 @@ web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html</p>
 Wildl. Soc.Bull. 3:171-173.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='lsm_p_shape.html'>lsm_p_shape</a></code></p></div>
+    <div class='dont-index'><p><code><a href='lsm_c_lsi.html'>lsm_c_lsi</a></code>
+<code><a href='lsm_l_lsi.html'>lsm_l_lsi</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>lsm_c_nlsi</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>

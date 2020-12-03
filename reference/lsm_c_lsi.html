@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -205,7 +205,7 @@
     <p>Landscape shape index (Aggregation metric)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lsm_c_lsi</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lsm_c_lsi</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,11 +213,6 @@
     <tr>
       <th>landscape</th>
       <td><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></td>
-    </tr>
-    <tr>
-      <th>directions</th>
-      <td><p>The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).</p></td>
     </tr>
     </table>
 
@@ -228,7 +223,7 @@ connected: 4 (rook's case) or 8 (queen's case).</p></td>
 
     <p>$$LSI = \frac{e_{i}} {\min e_{i}}$$
 where \(e_{i}\) is the total edge length in cell surfaces and \(\min e_{i}\)
-is the minimum total edge length in cell surfaces</p>
+is the minimum total edge length in cell surfaces.</p>
 <p>LSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
 class i and the hypothetical minimum edge length of class i. The minimum edge length equals
 the edge length if class i would be maximally aggregated.</p>
