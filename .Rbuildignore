@@ -1,7 +1,6 @@
 ^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
 ^README.*$
 ^NOTES.*$
 ^notes.*$

@@ -5,32 +5,32 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "landscapemetrics",
-  "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. 'landscapemetrics' reimplements the most common metrics from\n    FRAGSTATS and new ones from the current literature on landscape metrics.\n    This package supports raster spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments.",
+  "description": "Calculates landscape metrics for categorical landscape patterns in \n    a tidy workflow. 'landscapemetrics' reimplements the most common metrics from\n    'FRAGSTATS' (<https://www.umass.edu/landeco/research/fragstats/fragstats.html>) \n    and new ones from the current literature on landscape metrics.\n    This package supports 'raster' spatial objects and takes \n    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the\n    'raster' package as input arguments. It further provides utility functions\n    to visualize patches, select metrics and building blocks to develop new \n    metrics.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
-  "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
+  "codeRepository": "https://github.com/r-spatialecology/landscapemetrics",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.0",
+  "version": "1.5.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.5.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.5.1 (2018-07-02)",
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
   "author": [
+    {
+      "@type": "Person",
+      "givenName": "Maximillian H.K.",
+      "familyName": "Hesselbarth",
+      "email": "mhk.hesselbarth@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1125-9918"
+    },
     {
       "@type": "Person",
       "givenName": "Marco",
       "familyName": "Sciaini",
       "email": "sciaini.marco@gmail.com",
       "@id": "https://orcid.org/0000-0002-3042-5435"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Maximillian",
-      "familyName": "Hesselbarth",
-      "@id": "https://orcid.org/0000-0003-1125-9918"
     },
     {
       "@type": "Person",
@@ -41,31 +41,18 @@
     },
     {
       "@type": "Person",
-      "givenName": "Laura J.",
-      "familyName": "Graham",
-      "@id": "https://orcid.org/0000-0002-1057-3721"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Jeffrey",
-      "familyName": "Hollister",
-      "@id": "https://orcid.org/0000-0002-3611-7281"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Kimberly A.",
-      "familyName": "With",
-      "email": "kwith@ksu.edu",
-      "@id": "https://orcid.org/0000-0001-5570-1515"
+      "givenName": "Sebastian",
+      "familyName": "Hanss",
+      "@id": "https://orcid.org/0000-0002-3990-4897"
     }
   ],
   "maintainer": [
     {
       "@type": "Person",
-      "givenName": "Marco",
-      "familyName": "Sciaini",
-      "email": "sciaini.marco@gmail.com",
-      "@id": "https://orcid.org/0000-0002-3042-5435"
+      "givenName": "Maximillian H.K.",
+      "familyName": "Hesselbarth",
+      "email": "mhk.hesselbarth@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1125-9918"
     }
   ],
   "softwareSuggestions": [
@@ -83,15 +70,15 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "testthat",
-      "name": "testthat",
+      "identifier": "dplyr",
+      "name": "dplyr",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=testthat"
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
     {
       "@type": "SoftwareApplication",
@@ -107,6 +94,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "rgeos",
+      "name": "rgeos",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rgeos"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "rmarkdown",
       "name": "rmarkdown",
       "provider": {
@@ -116,6 +115,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
     }
   ],
   "softwareRequirements": [
@@ -127,15 +138,15 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "dplyr",
-      "name": "dplyr",
+      "identifier": "cli",
+      "name": "cli",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+      "sameAs": "https://CRAN.R-project.org/package=cli"
     },
     {
       "@type": "SoftwareApplication",
@@ -151,27 +162,8 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "magrittr",
-      "name": "magrittr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=magrittr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "purrr",
-      "name": "purrr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=purrr"
+      "identifier": "methods",
+      "name": "methods"
     },
     {
       "@type": "SoftwareApplication",
@@ -189,7 +181,6 @@
       "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
-      "version": ">= 0.12.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -197,6 +188,23 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcpp"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "sp",
+      "name": "sp",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=sp"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
     },
     {
       "@type": "SoftwareApplication",
@@ -216,12 +224,91 @@
     }
   ],
   "releaseNotes": "https://github.com/r-spatialecology/landscapemetrics/blob/master/NEWS.md",
-  "readme": "https://github.com/r-spatialecology/landscapemetrics/blob/master/README.md",
-  "fileSize": "943.683KB",
-  "contIntegration": [
-    "https://travis-ci.org/r-spatialecology/landscapemetrics",
-    "https://ci.appveyor.com/project/r-spatialecology/landscapemetrics",
-    "https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master"
+  "fileSize": "16401.39KB",
+  "contIntegration": "https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master",
+  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "http://www.repostatus.org/#active"],
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Laura J.",
+      "familyName": "Graham"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jeffrey",
+      "familyName": "Hollister"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Kimberly A.",
+      "familyName": "With"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Florian",
+      "familyName": "Privé"
+    },
+    {
+      "@type": "Organization",
+      "name": "Project Nayuki"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Matt",
+      "familyName": "Strimas-Mackey"
+    }
   ],
-  "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental"
+  "copyrightHolder": {},
+  "funder": {},
+  "relatedLink": ["https://r-spatialecology.github.io/landscapemetrics/", "https://CRAN.R-project.org/package=landscapemetrics"],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2019",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Maximilian", "H.K."],
+          "familyName": "Hesselbarth"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Marco",
+          "familyName": "Sciaini"
+        },
+        {
+          "@type": "Person",
+          "givenName": ["Kimberly", "A."],
+          "familyName": "With"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Kerstin",
+          "familyName": "Wiegand"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Jakub",
+          "familyName": "Nowosad"
+        }
+      ],
+      "name": "landscapemetrics: an open-source R tool to calculate landscape metrics",
+      "pagination": "1648-1657",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2019",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "42",
+          "name": "Ecography"
+        }
+      }
+    }
+  ]
 }
