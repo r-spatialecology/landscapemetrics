@@ -1,5 +1,5 @@
 # landscapemetrics 1.5.1
-Small improvements package CI
+Small improvements package CI and bug fixes
 
 # landscapemetrics 1.5.0
 Better handling of input data, new functions and terra support
