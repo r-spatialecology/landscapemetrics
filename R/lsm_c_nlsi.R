@@ -13,6 +13,10 @@
 #' and describes the ratio of the actual edge length of class i in relation to the
 #' hypothetical range of possible edge lengths of class i (min/max).
 #'
+#' Currently, nLSI ignores all background cells when calculating the minimum and maximum
+#' total edge length. Also, a correct calculation of the minimum and maximum
+#' total edge length is currently only possible for rectangular landscapes.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{0 <= nlsi <= 1}
 #' \subsection{Behaviour}{Equals nLSI = 0 when only one squared patch is present. nLSI
