@@ -1,7 +1,6 @@
 ^CRAN-RELEASE$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
 ^README.*$
 ^NOTES.*$
 ^notes.*$
@@ -15,10 +14,10 @@
 ^CONTRIBUTING.*$
 ^LICENSE.*$
 ^data-raw$
-^appveyor\.yml$
 vignettes/articles
 ^codemeta\.json$
 ^tic\.R$
 ^vignettes/articles$
 ^\.httr-oauth$
 ^pkgdown
+^\.github$

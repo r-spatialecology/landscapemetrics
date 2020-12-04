@@ -3,13 +3,11 @@
 #' @description Landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be
-#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
 #' \deqn{LSI = \frac{e_{i}} {\min e_{i}}}
 #' where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
-#' is the minimum total edge length in cell surfaces
+#' is the minimum total edge length in cell surfaces.
 #'
 #' LSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
 #' class i and the hypothetical minimum edge length of class i. The minimum edge length equals
@@ -43,12 +41,11 @@
 #' Wildl. Soc.Bull. 3:171-173.
 #'
 #' @export
-lsm_c_lsi <- function(landscape, directions = 8) {
+lsm_c_lsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_lsi_calc,
-                     directions = directions)
+                     FUN = lsm_c_lsi_calc)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -58,7 +55,7 @@ lsm_c_lsi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_lsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -67,53 +64,70 @@ lsm_c_lsi_calc <- function(landscape, directions, resolution = NULL) {
         landscape <- raster::as.matrix(landscape)
     }
 
-    # all values NA
+    # all cells are NA
     if (all(is.na(landscape))) {
         return(tibble::tibble(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
-                              metric = "lsi",
+                              metric = "nlsi",
                               value = as.double(NA)))
     }
 
-    # get class edge
-    class_edge <- lsm_c_te_calc(landscape,
-                                directions = directions,
-                                count_boundary = TRUE,
-                                resolution = resolution)
+    # cells at the boundary of the landscape need neighbours to calculate perim
+    landscape <- pad_raster(landscape,
+                            pad_raster_value = NA,
+                            pad_raster_cells = 1,
+                            return_raster = FALSE)[[1]]
 
-    # get patch area
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution)
+    # which cells are NA (i.e. background)
+    target_na <- which(is.na(landscape))
 
-    # summarise to class area in sqm
-    class_area <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2],
-                                   FUN = function(x) sum(x) * 10000)
+    # set all NA to -999 to get adjacencies between patches and all background
+    landscape[target_na] <- -999
 
-    # calculate lsi index
-    class_area$n <- trunc(sqrt(class_area$value))
-    class_area$m <- class_area$value - class_area$n ^ 2
-    class_area$minp <- ifelse(test = class_area$m == 0,
-                              yes = class_area$n * 4,
-                              no = ifelse(test = class_area$n ^ 2 < class_area$value & class_area$value <= class_area$n * (1 + class_area$n),
-                                          yes = 4 * class_area$n + 2,
-                                          no = ifelse(test = class_area$value > class_area$n * (1 + class_area$n),
-                                                      yes = 4 * class_area$n + 4,
+    # get class edge in terms of cell surfaces
+    class_perim <- rcpp_get_coocurrence_matrix(landscape,
+                                               as.matrix(4))
+
+    # set diagonal to NA because no edge
+    diag(class_perim) <- NA
+
+    # calculate total edge
+    class_perim <- apply(X = class_perim, MARGIN = 1, FUN = sum, na.rm = TRUE)[-1]
+
+    # number of cells class
+    class_area <- rcpp_get_composition_vector(landscape)[-1]
+
+    # n is the side of the largest integer square
+    class_n <- trunc(sqrt(class_area))
+
+    # calculate m
+    class_m <- class_area - class_n ^ 2
+
+    # calculate min_edge
+    class_perim_min <- ifelse(test = class_m == 0,
+                              yes = class_n * 4,
+                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n),
+                                          yes = 4 * class_n + 2,
+                                          no = ifelse(test = class_area > class_n * (1 + class_n),
+                                                      yes = 4 * class_n + 4,
                                                       no = NA)))
 
+    # calculate LSI
+    lsi <- class_perim / class_perim_min
+
     # test if any NAs introduced
-    if (anyNA(class_area$minp)) {
-        warning("NAs introduced by lsm_c_lsi", call. = FALSE)
+    if (!all(is.finite(lsi))) {
+
+        warning("NAs introduced by lsm_c_lsi.", call. = FALSE)
+
+        lsi[!is.finite(lsi)] <- NA
+
     }
 
-    lsi <- class_edge$value / class_area$minp
-
-    tibble::tibble(
-        level = "class",
-        class = as.integer(class_edge$class),
-        id = as.integer(class_edge$id),
-        metric = "lsi",
-        value = as.double(lsi)
-    )
+    return(tibble::tibble(level = "class",
+                          class = as.integer(names(lsi)),
+                          id = as.integer(NA),
+                          metric = "lsi",
+                          value = as.double(lsi)))
 }

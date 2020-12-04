@@ -3,26 +3,29 @@
 #' @description Normalized landscape shape index (Aggregation metric)
 #'
 #' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param directions The number of directions in which patches should be
-#' connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
-#' \deqn{nLSI = \frac{e_{i}} {\min e_{i}}}
+#' \deqn{nLSI = \frac{e_{i} - \min e_{i}} {\max e_{i} - \min e_{i}}}
 #' where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
-#' is the minimum total edge length in cell surfaces
+#' \eqn{\max e_{i}} are the minimum and maximum total edge length in cell surfaces, respectively.
 #'
-#' nLSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
-#' class i and the hypothetical minimum edge length of class i. The minimum edge length equals
-#' the edge length if class i would be maximally aggregated.
+#' nLSI is an 'Aggregation metric'. It is closely related to the \code{\link{lsm_c_lsi}}
+#' and describes the ratio of the actual edge length of class i in relation to the
+#' hypothetical range of possible edge lengths of class i (min/max).
+#'
+#' Currently, nLSI ignores all background cells when calculating the minimum and maximum
+#' total edge length. Also, a correct calculation of the minimum and maximum
+#' total edge length is currently only possible for rectangular landscapes.
 #'
 #' \subsection{Units}{None}
-#' \subsection{Ranges}{nlsi >= 1}
-#' \subsection{Behaviour}{Equals nlsi = 1 when only one squared patch is present or all
-#' patches are maximally aggregated. Increases, without limit, as the length of the
-#' actual edges increases, i.e. the patches become less compact.}
+#' \subsection{Ranges}{0 <= nlsi <= 1}
+#' \subsection{Behaviour}{Equals nLSI = 0 when only one squared patch is present. nLSI
+#' increases the more disaggregated patches are and equals nLSI = 1 for a maximal disaggregated
+#' (i.e. a "checkerboard pattern").}
 #'
 #' @seealso
-#' \code{\link{lsm_p_shape}}
+#' \code{\link{lsm_c_lsi}}
+#' \code{\link{lsm_l_lsi}}
 #'
 #' @return tibble
 #'
@@ -42,12 +45,11 @@
 #' Wildl. Soc.Bull. 3:171-173.
 #'
 #' @export
-lsm_c_nlsi <- function(landscape, directions = 8) {
+lsm_c_nlsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_nlsi_calc,
-                     directions = directions)
+                     FUN = lsm_c_nlsi_calc)
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -57,7 +59,7 @@ lsm_c_nlsi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_nlsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -75,57 +77,86 @@ lsm_c_nlsi_calc <- function(landscape, directions, resolution = NULL) {
                               value = as.double(NA)))
     }
 
-    # get edge for each class
-    class_edge <- lsm_c_te_calc(landscape,
-                                directions = directions,
-                                count_boundary = TRUE,
-                                resolution = resolution)
+    # cells at the boundary of the landscape need neighbours to calculate perim
+    landscape <- pad_raster(landscape,
+                            pad_raster_value = NA,
+                            pad_raster_cells = 1,
+                            return_raster = FALSE)[[1]]
 
-    # get total edge
-    total_edge <- lsm_l_te_calc(landscape,
-                                count_boundary = TRUE,
-                                resolution = resolution)
+    # which cells are NA (i.e. background)
+    target_na <- which(is.na(landscape))
 
-    ai <- rcpp_get_composition_vector(landscape)
+    # set all NA to -999 to get adjacencies between patches and all background
+    landscape[target_na] <- -999
 
-    pi <- prop.table(ai)
+    # get class edge in terms of cell surfaces
+    class_perim <- rcpp_get_coocurrence_matrix(landscape,
+                                               as.matrix(4))
 
-    A <- sum(ai)
-    B <- (ncol(landscape) * 2) + (nrow(landscape) * 2)
-    Z <- total_edge$value
+    # set diagonal to NA because no edge
+    diag(class_perim) <- NA
 
-    nlsi <- tibble::tibble(ai = ai,
-                           pi = pi,
-                           A  = A,
-                           B  = B,
-                           Z  = Z)
+    # calculate total edge
+    class_perim <- apply(X = class_perim, MARGIN = 1, FUN = sum, na.rm = TRUE)[-1]
 
-    nlsi$n <- trunc(sqrt(nlsi$ai))
-    nlsi$m <- nlsi$ai - nlsi$n ^ 2
-    nlsi$min_e <- ifelse(test = nlsi$m == 0,
-                         yes = nlsi$n * 4,
-                         no = ifelse(test = nlsi$n ^ 2 < nlsi$ai & nlsi$ai <= nlsi$n * (1 + nlsi$n),
-                                     yes = 4 * nlsi$n + 2,
-                                     no = ifelse(test = nlsi$ai > nlsi$n * (1 + nlsi$n),
-                                                 yes = 4 * nlsi$n + 4,
-                                                 no = NA)))
+    # number of cells class
+    class_area <- rcpp_get_composition_vector(landscape)[-1]
 
-    nlsi$max_e <- ifelse(test = nlsi$pi <= 0.5,
-                         yes = 4 * nlsi$ai,
-                         no = ifelse(test = nlsi$A %% 2 == 0 & nlsi$pi > .5 & nlsi$pi <= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
-                                     yes = 3 * nlsi$A - 2 * nlsi$ai,
-                                     no = ifelse(test = nlsi$A %% 2 != 0 & nlsi$pi > .5 & nlsi$pi <= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
-                                                 yes = 3 * nlsi$A - 2 * nlsi$ai + 3,
-                                                 no = ifelse(test = nlsi$pi >= (.5 * nlsi$A + .5 * nlsi$B) / nlsi$A,
-                                                             yes = nlsi$Z + 4 * (nlsi$A - nlsi$ai),
-                                                             no = NA))))
+    # n is the side of the largest integer square
+    class_n <- trunc(sqrt(class_area))
 
-    result <- (class_edge$value - nlsi$min_e) / (nlsi$max_e - nlsi$min_e)
-    result[is.nan(result)] <- NA
+    # calculate m
+    class_m <- class_area - class_n ^ 2
+
+    # calculate min_edge
+    class_perim_min <- ifelse(test = class_m == 0,
+                              yes = class_n * 4,
+                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n),
+                                          yes = 4 * class_n + 2,
+                                          no = ifelse(test = class_area > class_n * (1 + class_n),
+                                                      yes = 4 * class_n + 4,
+                                                      no = NA)))
+
+    # calculate numerator
+    numerator <- class_perim - class_perim_min
+
+    # calculate total area in terms of cells
+    total_area <- sum(rcpp_get_composition_vector(landscape)[-1])
+
+    # get all cells on the boundary; need to remove padded cells
+    cells_boundary <- ((nrow(landscape) - 2) * 2) + ((ncol(landscape) - 2) * 2)
+
+    # calculate proportion of classes
+    class_pi <- prop.table(rcpp_get_composition_vector(landscape)[-1])
+
+    class_perim_max <- ifelse(test = class_pi <= 0.5,
+                              yes = 4 * class_area,
+                              no = ifelse(test = total_area %% 2 == 0 & class_pi > 0.5 & class_pi <= (0.5 * total_area + 0.5 * cells_boundary) / total_area,
+                                          yes = 3 * total_area - 2 * class_area,
+                                          no = ifelse(test = total_area %% 2 != 0 & class_pi > 0.5 & class_pi <= (0.5 * total_area + 0.5 * cells_boundary) / total_area,
+                                                      yes = 3 * total_area - 2 * class_area + 3,
+                                                      no = ifelse(test = class_pi >= (0.5 * total_area + 0.5 * cells_boundary) / total_area,
+                                                                  yes = class_perim + 4 * (total_area - class_area),
+                                                                  no = NA))))
+
+    # calculate denominator
+    denominator <- class_perim_max - class_perim_min
+
+    # calculate total nlsi
+    nlsi <- numerator / denominator
+
+    # test if any NAs introduced
+    if (!all(is.finite(nlsi))) {
+
+        warning("NAs introduced by lsm_c_nlsi.", call. = FALSE)
+
+        nlsi[!is.finite(nlsi)] <- NA
+
+    }
 
     return(tibble::tibble(level = "class",
-                          class = as.integer(class_edge$class),
+                          class = as.integer(names(nlsi)),
                           id = as.integer(NA),
                           metric = "nlsi",
-                          value = as.double(result)))
+                          value = as.double(nlsi)))
 }

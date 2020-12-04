@@ -1,3 +1,9 @@
+# landscapemetrics 1.5.1
+* Improvements
+    * Use GitHub actions
+* Bugfixes
+ * Bug in `lsm_c_lsi`, `lsm_c_nlsi`, `lsm_l_lsi` not using cell surfaces
+
 # landscapemetrics 1.5.0
 * Improvements
     * Improved internal understandment of input classes

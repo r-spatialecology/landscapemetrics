@@ -22,3 +22,10 @@ test_that("lsm_c_nlsi returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_nlsi returns NA if not defined", {
+
+    landscape_na <- landscape
+    landscape_na[] <- 5
+
+    expect_warning(lsm_c_nlsi(landscape_na), regexp = "NAs introduced by lsm_c_nlsi.")
+})

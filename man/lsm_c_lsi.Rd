@@ -4,13 +4,10 @@
 \alias{lsm_c_lsi}
 \title{LSI (class level)}
 \usage{
-lsm_c_lsi(landscape, directions = 8)
+lsm_c_lsi(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
-
-\item{directions}{The number of directions in which patches should be
-connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble
@@ -21,7 +18,7 @@ Landscape shape index (Aggregation metric)
 \details{
 \deqn{LSI = \frac{e_{i}} {\min e_{i}}}
 where \eqn{e_{i}} is the total edge length in cell surfaces and \eqn{\min e_{i}}
-is the minimum total edge length in cell surfaces
+is the minimum total edge length in cell surfaces.
 
 LSI is an 'Aggregation metric'. It is the ratio between the actual edge length of
 class i and the hypothetical minimum edge length of class i. The minimum edge length equals
