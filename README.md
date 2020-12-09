@@ -113,7 +113,7 @@ library(landscapetools)
 show_landscape(landscape)
 ```
 
-<img src="man/figures/REAsDME-unnamed-chunk-1-1.png" width="100%" />
+<img src="man/figures/REAsDME-unnamed-chunk-2-1.png" width="100%" />
 
 ``` r
 
