@@ -45,7 +45,7 @@ For more information see [Publication record](https://r-spatialecology.github.io
 
 There are several ways to install **landscapemetrics**:
 
-```r
+```{r, eval = FALSE, echo = TRUE}
 # Get the stable version from CRAN
 install.packages("landscapemetrics")
 
@@ -92,7 +92,7 @@ All functions return an identical structured tibble:
 
 Every function follows the same implementation design, so the usage is quite straightforward:
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(landscapemetrics)
 library(landscapetools)
 
@@ -109,7 +109,7 @@ lsm_c_te(landscape)
 
 There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
 ```
