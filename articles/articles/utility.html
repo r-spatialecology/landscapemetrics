@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Utility functions</h1>
             
-            <h4 class="date">2020-12-04</h4>
+            <h4 class="date">2020-12-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/utility.Rmd"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -303,10 +303,10 @@
     check <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 6</span>
-<span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
-<span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 228.86µs 249.83µs     3969.</span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           7.51ms   7.92ms      113.</span>
+<span class="co">#&gt;   expression                                         min  median `itr/sec`</span>
+<span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:t&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 244.58µs 251.3µs     3926.</span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           7.24ms   7.9ms      115.</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -376,8 +376,8 @@
 <span class="co">#&gt; # A tibble: 2 x 6</span>
 <span class="co">#&gt;   expression                               min  median `itr/sec` mem_alloc</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.75ms  5.06ms     195.   273.21KB</span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches)          32.11ms 33.68ms      29.5    2.43MB</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.64ms  4.78ms     208.   273.21KB</span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches)          31.62ms 33.12ms      30.1    2.43MB</span>
 <span class="co">#&gt; # … with 1 more variable: `gc/sec` &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>
