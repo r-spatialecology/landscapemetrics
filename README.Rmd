@@ -2,13 +2,15 @@
 output:
   github_document:
     html_preview: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/REAsDME-",
+  fig.path = "man/figures/README-",
   out.width = "100%"
 )
 ```

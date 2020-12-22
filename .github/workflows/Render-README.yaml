@@ -20,7 +20,6 @@ jobs:
           install.packages("remotes")
           remotes::install_local(".")
           remotes::install_cran("rmarkdown")
-          remotes::install_cran("tibble")
           remotes::install_cran("landscapetools")
         shell: Rscript {0}
       - name: Render README
