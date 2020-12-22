@@ -53,7 +53,7 @@
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-graduation-cap"></span>
+    <span class="fas fa-graduation-cap"></span>
      
     More
      
@@ -62,56 +62,56 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../../articles/articles/general-background.html">
-        <span class="fa fa-book"></span>
+        <span class="fas fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
       <a href="../../articles/articles/comparing_tools.html">
-        <span class="fa fa-edit"></span>
+        <span class="fas fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/new_metrics.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fas fa-sticky-note"></span>
          
         New Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
       <a href="../../articles/articles/utility.html">
-        <span class="fa fa-comment"></span>
+        <span class="fas fa-comment"></span>
          
         Utility functions
       </a>
     </li>
     <li>
       <a href="../../articles/articles/guide_moving_window.html">
-        <span class="fa fa-comment"></span>
+        <span class="fas fa-comment"></span>
          
         Moving window
       </a>
     </li>
     <li>
       <a href="../../articles/articles/guide_sample_lsm.html">
-        <span class="fa fa-comment"></span>
+        <span class="fas fa-comment"></span>
          
         Sample metrics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/landscape_distribution_statistics.html">
-        <span class="fa fa-comment"></span>
+        <span class="fas fa-comment"></span>
          
         Landscape distribution statistics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/publication_record.html">
-        <span class="fa fa-file-text-o"></span>
+        <span class="fas fa-file-text-o"></span>
          
         Publication Record
       </a>
@@ -122,21 +122,21 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="../../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../../reference/index.html">
-    <span class="fa fa-gears"></span>
+    <span class="fas fa-gears"></span>
      
     functions
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -151,13 +151,12 @@
 
       
 
-      </header><script src="utility_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="utility_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="utility_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="utility_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Utility functions</h1>
             
-            <h4 class="date">2020-12-09</h4>
+            <h4 class="date">2020-12-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/utility.Rmd"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -303,10 +302,10 @@
     check <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 6</span>
-<span class="co">#&gt;   expression                                         min  median `itr/sec`</span>
-<span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:t&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 244.58µs 251.3µs     3926.</span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           7.24ms   7.9ms      115.</span>
+<span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
+<span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 258.19µs 271.33µs     3639.</span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           7.62ms   8.08ms      111.</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -374,10 +373,10 @@
 <span class="co">#&gt; This warning is displayed once every 8 hours.</span>
 <span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; # A tibble: 2 x 6</span>
-<span class="co">#&gt;   expression                               min  median `itr/sec` mem_alloc</span>
-<span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.64ms  4.78ms     208.   273.21KB</span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches)          31.62ms 33.12ms      30.1    2.43MB</span>
+<span class="co">#&gt;   expression                              min  median `itr/sec` mem_alloc</span>
+<span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch:&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.9ms  5.15ms     193.   273.21KB</span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches)          33.5ms 34.84ms      28.7    2.43MB</span>
 <span class="co">#&gt; # … with 1 more variable: `gc/sec` &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>
