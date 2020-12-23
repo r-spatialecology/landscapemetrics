@@ -52,8 +52,8 @@ There are several ways to install **landscapemetrics**:
 install.packages("landscapemetrics")
 
 # Alternatively, you can install the development version from Github
-# install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics")
+# install.packages("remotes")
+remotes::install_github("r-spatialecology/landscapemetrics")
 ```
 
 #### Announcement
@@ -119,34 +119,34 @@ show_landscape(landscape)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
-#> [90m# A tibble: 27 x 6[39m
+#> # A tibble: 27 x 6
 #>    layer level class    id metric value
-#>    [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m [3m[90m<int>[39m[23m [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m  [3m[90m<dbl>[39m[23m
-#> [90m 1[39m     1 patch     1     1 enn     7   
-#> [90m 2[39m     1 patch     1     2 enn     4   
-#> [90m 3[39m     1 patch     1     3 enn     2.83
-#> [90m 4[39m     1 patch     1     4 enn     2   
-#> [90m 5[39m     1 patch     1     5 enn     2   
-#> [90m 6[39m     1 patch     1     6 enn     2.83
-#> [90m 7[39m     1 patch     1     7 enn     4.12
-#> [90m 8[39m     1 patch     1     8 enn     4.12
-#> [90m 9[39m     1 patch     1     9 enn     4.24
-#> [90m10[39m     1 patch     2    10 enn     4.47
-#> [90m# … with 17 more rows[39m
+#>    <int> <chr> <int> <int> <chr>  <dbl>
+#>  1     1 patch     1     1 enn     7   
+#>  2     1 patch     1     2 enn     4   
+#>  3     1 patch     1     3 enn     2.83
+#>  4     1 patch     1     4 enn     2   
+#>  5     1 patch     1     5 enn     2   
+#>  6     1 patch     1     6 enn     2.83
+#>  7     1 patch     1     7 enn     4.12
+#>  8     1 patch     1     8 enn     4.12
+#>  9     1 patch     1     9 enn     4.24
+#> 10     1 patch     2    10 enn     4.47
+#> # … with 17 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
-#> [90m# A tibble: 1 x 6[39m
+#> # A tibble: 1 x 6
 #>   layer level     class    id metric value
-#>   [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m     [3m[90m<int>[39m[23m [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m  [3m[90m<dbl>[39m[23m
-#> [90m1[39m     1 landscape    [31mNA[39m    [31mNA[39m ta      0.09
+#>   <int> <chr>     <int> <int> <chr>  <dbl>
+#> 1     1 landscape    NA    NA ta      0.09
 lsm_c_te(landscape)
-#> [90m# A tibble: 3 x 6[39m
+#> # A tibble: 3 x 6
 #>   layer level class    id metric value
-#>   [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m [3m[90m<int>[39m[23m [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m  [3m[90m<dbl>[39m[23m
-#> [90m1[39m     1 class     1    [31mNA[39m te       180
-#> [90m2[39m     1 class     2    [31mNA[39m te       227
-#> [90m3[39m     1 class     3    [31mNA[39m te       321
+#>   <int> <chr> <int> <int> <chr>  <dbl>
+#> 1     1 class     1    NA te       180
+#> 2     1 class     2    NA te       227
+#> 3     1 class     3    NA te       321
 ```
 
 There is also a wrapper around every metric in the package to quickly
@@ -156,20 +156,20 @@ calculate a bunch of metrics:
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
 #> Warning: Please use 'check_landscape()' to ensure the input data is valid.
-#> [90m# A tibble: 324 x 6[39m
+#> # A tibble: 324 x 6
 #>    layer level class    id metric  value
-#>    [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m [3m[90m<int>[39m[23m [3m[90m<int>[39m[23m [3m[90m<chr>[39m[23m   [3m[90m<dbl>[39m[23m
-#> [90m 1[39m     1 patch     1     1 area   0.000[4m1[24m
-#> [90m 2[39m     1 patch     1     2 area   0.000[4m5[24m
-#> [90m 3[39m     1 patch     1     3 area   0.014[4m8[24m
-#> [90m 4[39m     1 patch     1     4 area   0.000[4m1[24m
-#> [90m 5[39m     1 patch     1     5 area   0.000[4m1[24m
-#> [90m 6[39m     1 patch     1     6 area   0.001[4m4[24m
-#> [90m 7[39m     1 patch     1     7 area   0.000[4m3[24m
-#> [90m 8[39m     1 patch     1     8 area   0.000[4m5[24m
-#> [90m 9[39m     1 patch     1     9 area   0.000[4m1[24m
-#> [90m10[39m     1 patch     2    10 area   0.003[4m5[24m
-#> [90m# … with 314 more rows[39m
+#>    <int> <chr> <int> <int> <chr>   <dbl>
+#>  1     1 patch     1     1 area   0.0001
+#>  2     1 patch     1     2 area   0.0005
+#>  3     1 patch     1     3 area   0.0148
+#>  4     1 patch     1     4 area   0.0001
+#>  5     1 patch     1     5 area   0.0001
+#>  6     1 patch     1     6 area   0.0014
+#>  7     1 patch     1     7 area   0.0003
+#>  8     1 patch     1     8 area   0.0005
+#>  9     1 patch     1     9 area   0.0001
+#> 10     1 patch     2    10 area   0.0035
+#> # … with 314 more rows
 ```
 
 ### Utility functions
