@@ -52,8 +52,8 @@ There are several ways to install **landscapemetrics**:
 install.packages("landscapemetrics")
 
 # Alternatively, you can install the development version from Github
-# install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics")
+# install.packages("remotes")
+remotes::install_github("r-spatialecology/landscapemetrics")
 ```
 
 #### Announcement
