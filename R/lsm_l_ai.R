@@ -82,7 +82,7 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
                               resolution = resolution)
 
     # final AI index
-    result <- sum(ai$value * (pland$value / 100))
+    result <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

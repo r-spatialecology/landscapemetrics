@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.2
+* Bugfixes
+ * Bug in `lsm_l_ai` if class with only one cell exists
+ 
 # landscapemetrics 1.5.1
 * Improvements
     * Use GitHub actions
