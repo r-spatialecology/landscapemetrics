@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Differences FRAGSTATS|landscapemetrics|SDMTools</h1>
             
-            <h4 class="date">2021-01-06</h4>
+            <h4 class="date">2021-01-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/comparing_tools.Rmd"><code>vignettes/articles/comparing_tools.Rmd</code></a></small>
       <div class="hidden name"><code>comparing_tools.Rmd</code></div>
@@ -188,10 +188,9 @@
 <span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
     <span class="fu">group_by</span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">summarise</span><span class="op">(</span>cv <span class="op">=</span> <span class="fu">cv</span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> </code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
+    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> 
+
+<span class="co"># Output of FRAGSTATS</span>
 <span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_CV</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span>
@@ -212,7 +211,7 @@
 Show/Hide Results
 </button>
 <div id="1" class="collapse">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -244,15 +243,15 @@ Show/Hide Results
 </table>
 </div>
 <p>As for the <em>cv</em>, the results for the <em>sd</em> are similiar. The result calculated from all patch areas of FRAGSTATS is identical to the result of <code>landscapemetrics</code>, but not the actual result of FRAGSTATS.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># SD calculated from patch values of FRAGSTATS</span>
 <span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> </code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> 
+
+
+<span class="co"># Output of FRAGSTATS</span>
 <span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_SD</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span>
@@ -273,7 +272,7 @@ Show/Hide Results
 Show/Hide Results
 </button>
 <div id="2" class="collapse">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -316,7 +315,7 @@ Show/Hide Results
 <p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
 <p>However, for patches containing a single cell FRAGSTATS returns a value of <em>GYRATE = 0.5</em>. In the following table, patches with an area of <em>area = 0.0001</em> consist of only one cell.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate patch area</span>
 <span class="va">fragstats_area</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -348,7 +347,7 @@ Show/Hide Results
 Show/Hide Results
 </button>
 <div id="3" class="collapse">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -452,7 +451,7 @@ Show/Hide Results
 </blockquote>
 <p>Contrastingly, the output of FRAGSTATS gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
 <p>We implemented PARA as documented in the FRAGSTATS manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the FRAGSTATS output to meters per square meters.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
 <span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">PERIM</span>, <span class="va">PARA</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -486,7 +485,7 @@ Show/Hide Results
 Show/Hide Results
 </button>
 <div id="4" class="collapse">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -920,7 +919,7 @@ Show/Hide Results
 <p>[…] CIRCLE = 0 for one cell patches. […]</p>
 </blockquote>
 <p>Nevertheless, because also patches with only one cell have a dimension in the raster context, we decided to calculate the CIRCLE metric for such patches.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
 <span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">CIRCLE</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -944,7 +943,7 @@ Show/Hide Results
 Show/Hide Results
 </button>
 <div id="5" class="collapse">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -1008,7 +1007,7 @@ Show/Hide Results
 </table>
 </div>
 <p>It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle. However, this does not necessarily result in the correct circumscribing circle. While this approach works well for more compact patch shapes, there are some cases in which the approach fails. One example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm calculates the true circumscribing circle also for such patches.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create matrix</span>
 <span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">13</span>, ncol <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>
 
@@ -1057,14 +1056,14 @@ Show/Hide Results
 <h2 class="hasAnchor">
 <a href="#patch-metrics" class="anchor"></a>Patch metrics</h2>
 <p>To get all availabel metrics on e.g. patch level with <code>SDMTools</code>, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.rforge.net/SDMTools/">SDMTools</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: 'SDMTools'</code></pre>
 <pre><code>## The following object is masked from 'package:raster':
 ## 
 ##     distance</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># binarize every class in the landscape and calculate patch metrics</span>
 <span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
   <span class="va">tmp_land</span> <span class="op">&lt;-</span> <span class="va">landscape</span>
@@ -1077,14 +1076,14 @@ Show/Hide Results
 <span class="co"># combine to one data frame</span>
 <span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">sdmtools_result</span>, .id <span class="op">=</span> <span class="st">"Class"</span><span class="op">)</span></code></pre></div>
 <p><code>landscapemetrics</code> offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally. To get all metrics on patch level with <code>landscapemetrics</code> you could for example do:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Please use 'check_landscape()' to ensure the input data is valid.</code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6">
 Show/Hide Results
 </button>
 <div id="6" class="collapse">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu">bind_rows</span><span class="op">(</span><span class="va">sdmtools_result</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
