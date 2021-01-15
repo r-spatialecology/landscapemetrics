@@ -1,3 +1,6 @@
+# landscapemetrics 1.5.2
+Minor bug fixes
+
 # landscapemetrics 1.5.1
 Small improvements package CI and bug fixes
 
@@ -8,25 +11,25 @@ Better handling of input data, new functions and terra support
 Adding new function
 
 # landscapemetrics 1.4.6
-Minor improvments of existing functions
+Minor improvements of existing functions
 
 # landscapemetrics 1.4.5
-Minor improvments, bug fixes and new functions
+Minor improvements, bug fixes and new functions
 
 # landscapemetrics 1.4.4
-Minor improvments and bug fixes
+Minor improvements and bug fixes
 
 # landscapemetrics 1.4.3
-Improvments of existing functions
+Improvements of existing functions
 
 # landscapemetrics 1.4.2
-Minor improvments and bug fixes
+Minor improvements and bug fixes
 
 # landscapemetrics 1.4.1
 Major bugfixes
 
 # landscapemetrics 1.4
-Improvments of existing functions and make sure all CRAN checks run
+Improvements of existing functions and make sure all CRAN checks run
 
 # landscapemetrics 1.3.2
 Make sure all CRAN checks run
@@ -38,7 +41,7 @@ Minor bugfixes
 Minor bugfixes
 
 ## Update Version: 1.2.2
-Small bugfixes and improvments of existing functions
+Small bugfixes and improvements of existing functions
 
 ## Update Version: 1.2.1
 Small bugfixes
