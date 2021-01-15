@@ -6,7 +6,7 @@
 
 // [[Rcpp::export]]
 IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix x,
-                                                const arma::imat directions) {
+                                               const arma::imat directions) {
     const int na = NA_INTEGER;
     const unsigned ncols = x.ncol();
     const unsigned nrows = x.nrow();
