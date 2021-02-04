@@ -2,11 +2,11 @@ on:
   push:
     branches:
       - CRAN
-      - master
+      - main
   pull_request:
     branches:
       - CRAN
-      - master
+      - main
 
 name: Test-coverage
 

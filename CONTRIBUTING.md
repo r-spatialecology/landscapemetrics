@@ -21,7 +21,7 @@ Before making any changes, make sure to pull changes in from upstream by either 
 4. Make your changes (bonus points for making changes on a new branch)
 5. If you alter package functionality at all (e.g., the code itself, not just documentation) please do write some tests to cover the new functionality.
 6. Push changes to your account
-7. Submit a pull request to the master branch at `r-spatialecology/landscapemetrics`
+7. Submit a pull request to the main branch at `r-spatialecology/landscapemetrics`
 
 ### Questions? Get in touch: [sciaini.marco@gmail.com](mailto:sciaini.marco@gmail.com) or [mhk.hesselbarth@gmail.com](mailto:mhk.hesselbarth@gmail.com)
 

@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - CRAN
-      - master
+      - main
 
 name: Deploy-pkgdown
 
