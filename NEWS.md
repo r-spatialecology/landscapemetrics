@@ -1,6 +1,8 @@
 # landscapemetrics 1.5.2
 * Bugfixes
     * Bug in `lsm_l_ai` if class with only one cell exists
+* Various
+    * Renamed master to main branch
  
 # landscapemetrics 1.5.1
 * Improvements
@@ -27,7 +29,7 @@
     * `get_nearestneighbour()` can now return ID of neighbouring patch
     * `get_boundaries()` allows now to specify edge depth
     * `get_boundaries()` can return the patch id for edge cells
-* New gunctions
+* New functions
     * `get_centroid()` returns the coordinates of each patch centroid
     
 # landscapemetrics 1.4.4

@@ -17,6 +17,12 @@
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -46,6 +52,39 @@
       "@id": "https://orcid.org/0000-0002-3990-4897"
     }
   ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Laura J.",
+      "familyName": "Graham"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jeffrey",
+      "familyName": "Hollister"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Kimberly A.",
+      "familyName": "With"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Florian",
+      "familyName": "Privé"
+    },
+    {
+      "@type": "Organization",
+      "name": "Project Nayuki"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Matt",
+      "familyName": "Strimas-Mackey"
+    }
+  ],
+  "copyrightHolder": {},
+  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -223,50 +262,11 @@
       "identifier": "https://sysreqs.r-hub.io/get/cxx11"
     }
   ],
+  "relatedLink": ["https://r-spatialecology.github.io/landscapemetrics/", "https://CRAN.R-project.org/package=landscapemetrics"],
   "releaseNotes": "https://github.com/r-spatialecology/landscapemetrics/blob/master/NEWS.md",
-  "fileSize": "16580.015KB",
+  "fileSize": "16580.046KB",
   "contIntegration": "https://codecov.io/github/r-spatialecology/landscapemetrics?branch=main",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "http://www.repostatus.org/#active"],
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  },
-  "contributor": [
-    {
-      "@type": "Person",
-      "givenName": "Laura J.",
-      "familyName": "Graham"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Jeffrey",
-      "familyName": "Hollister"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Kimberly A.",
-      "familyName": "With"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Florian",
-      "familyName": "Privé"
-    },
-    {
-      "@type": "Organization",
-      "name": "Project Nayuki"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Matt",
-      "familyName": "Strimas-Mackey"
-    }
-  ],
-  "copyrightHolder": {},
-  "funder": {},
-  "relatedLink": ["https://r-spatialecology.github.io/landscapemetrics/", "https://CRAN.R-project.org/package=landscapemetrics"],
   "citation": [
     {
       "@type": "ScholarlyArticle",
