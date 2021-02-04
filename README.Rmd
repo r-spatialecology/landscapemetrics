@@ -2,13 +2,15 @@
 output:
   github_document:
     html_preview: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/REAsDME-",
+  fig.path = "man/figures/README-",
   out.width = "100%"
 )
 ```
@@ -18,7 +20,7 @@ knitr::opts_chunk$set(
 | Continuous Integration | Development | CRAN | License |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | ![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/workflows/R-CMD-check/badge.svg) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/master/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=master) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617) |
+| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=main) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617) |
 
 # landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
 
@@ -45,13 +47,13 @@ For more information see [Publication record](https://r-spatialecology.github.io
 
 There are several ways to install **landscapemetrics**:
 
-```r
+```{r, eval = FALSE, echo = TRUE}
 # Get the stable version from CRAN
 install.packages("landscapemetrics")
 
 # Alternatively, you can install the development version from Github
-# install.packages("devtools")
-devtools::install_github("r-spatialecology/landscapemetrics")
+# install.packages("remotes")
+remotes::install_github("r-spatialecology/landscapemetrics")
 ```
 
 #### Announcement
@@ -92,7 +94,7 @@ All functions return an identical structured tibble:
 
 Every function follows the same implementation design, so the usage is quite straightforward:
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(landscapemetrics)
 library(landscapetools)
 
@@ -109,7 +111,7 @@ lsm_c_te(landscape)
 
 There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
 ```

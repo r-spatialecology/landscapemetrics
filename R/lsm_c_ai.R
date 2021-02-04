@@ -103,7 +103,7 @@ lsm_c_ai_calc <- function(landscape) {
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100
 
-    # if NaN (mathematical reason) set to NA
+    # max_adj can be zero if only one cell is present; set to NA
     ai[is.nan(ai)] <- NA
 
     return(tibble::tibble(level = "class",

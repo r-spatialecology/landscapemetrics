@@ -4,16 +4,17 @@ on:
   push:
     branches:
       - CRAN
-      - master
+      - main
   pull_request:
     branches:
       - CRAN
-      - master
+      - main
 
 name: R-CMD-check
 
 jobs:
   R-CMD-check:
+    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})

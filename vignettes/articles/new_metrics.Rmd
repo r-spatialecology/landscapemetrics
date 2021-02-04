@@ -48,7 +48,7 @@ To adjust this tendency, it is possible to calculate relative mutual information
 Relative mutual information always has a range between 0 and 1 and can be used to compare spatial data with different number and distribution of categories.
 
 <div class="figure" style="text-align: center">
-<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/master/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
+<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/main/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
 </div>
 
 For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.

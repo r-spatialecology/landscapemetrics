@@ -14,7 +14,7 @@
 #' AI is an 'Aggregation metric'. It equals the number of like adjacencies divided
 #' by the theoretical maximum possible number of like adjacencies for that class summed over each
 #' class for the entire landscape.
-#' The metric is based on he adjacency matrix and the the single-count method.
+#' The metric is based on he adjacency matrix and the single-count method.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{0 <= AI <= 100}
@@ -82,7 +82,7 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
                               resolution = resolution)
 
     # final AI index
-    result <- sum(ai$value * (pland$value / 100))
+    result <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

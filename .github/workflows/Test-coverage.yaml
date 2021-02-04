@@ -2,16 +2,17 @@ on:
   push:
     branches:
       - CRAN
-      - master
+      - main
   pull_request:
     branches:
       - CRAN
-      - master
+      - main
 
 name: Test-coverage
 
 jobs:
   test-coverage:
+    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
