@@ -1,12 +1,12 @@
 # landscapemetrics 1.5.2
 * Bugfixes
- * Bug in `lsm_l_ai` if class with only one cell exists
+    * Bug in `lsm_l_ai` if class with only one cell exists
  
 # landscapemetrics 1.5.1
 * Improvements
     * Use GitHub actions
 * Bugfixes
- * Bug in `lsm_c_lsi`, `lsm_c_nlsi`, `lsm_l_lsi` not using cell surfaces
+    * Bug in `lsm_c_lsi`, `lsm_c_nlsi`, `lsm_l_lsi` not using cell surfaces
 
 # landscapemetrics 1.5.0
 * Improvements
