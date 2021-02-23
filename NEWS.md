@@ -1,5 +1,9 @@
 # landscapemetrics 1.5.2
 * Bugfixes
+    * Adding `rel_mut_inf` to `list_lsm()`
+
+# landscapemetrics 1.5.2
+* Bugfixes
     * Bug in `lsm_l_ai` if class with only one cell exists
 * Various
     * Renamed master to main branch
