@@ -1,4 +1,4 @@
-# landscapemetrics 1.5.2
+# landscapemetrics 1.5.3
 * Bugfixes
     * Adding `rel_mut_inf` to `list_lsm()`
 
