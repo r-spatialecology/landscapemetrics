@@ -1,4 +1,6 @@
 # landscapemetrics 1.5.3
+* Improvements
+    * Adds terra objects (SpatRaster) support for `calculate_lsm()`, `check_landscape()`, `extract_lsm()`, `sample_lsm()`, `scale_sample()`, `scale_window()`, `spatialize_lsm()`, `window_lsm()`
 * Bugfixes
     * Adding `rel_mut_inf` to `list_lsm()`
 
@@ -16,7 +18,7 @@
 
 # landscapemetrics 1.5.0
 * Improvements
-    * Improved internal understandment of input classes
+    * Improved internal understanding of input classes
     * Adds terra objects (SpatRaster) support
 * New functions
     * `lsm_l_relmutinf` to calculate relative mutual information

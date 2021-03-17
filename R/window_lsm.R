@@ -52,152 +52,7 @@
 #' website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
 #'
 #' @export
-window_lsm <- function(landscape, window,
-                       level, metric, name, type, what,
-                       progress,
-                       ...) UseMethod("window_lsm")
-
-
-#' @name window_lsm
-#' @export
-window_lsm.RasterLayer <- function(landscape,
-                                   window,
-                                   level = "landscape",
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   what = NULL,
-                                   progress = FALSE,
-                                   ...) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = window_lsm_int,
-                     window = window,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     what = what,
-                     progress = progress,
-                     ...)
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.RasterStack <- function(landscape,
-                                   window,
-                                   level = "landscape",
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   what = NULL,
-                                   progress = FALSE,
-                                   ...) {
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        window_lsm_int(landscape = landscape[[x]],
-                       window = window,
-                       level = level,
-                       metric = metric,
-                       name = name,
-                       type = type,
-                       what = what,
-                       progress = FALSE,
-                       ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.RasterBrick <- function(landscape,
-                                   window,
-                                   level = "landscape",
-                                   metric = NULL,
-                                   name = NULL,
-                                   type = NULL,
-                                   what = NULL,
-                                   progress = FALSE,
-                                   ...) {
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        window_lsm_int(landscape = landscape[[x]],
-                       window = window,
-                       level = level,
-                       metric = metric,
-                       name = name,
-                       type = type,
-                       what = what,
-                       progress = FALSE,
-                       ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.stars <- function(landscape,
-                             window,
-                             level = "landscape",
-                             metric = NULL,
-                             name = NULL,
-                             type = NULL,
-                             what = NULL,
-                             progress = FALSE,
-                             ...) {
-
-    landscape <-  raster::as.list(methods::as(landscape, "Raster"))
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        window_lsm_int(landscape = landscape[[x]],
-                       window = window,
-                       level = level,
-                       metric = metric,
-                       name = name,
-                       type = type,
-                       what = what,
-                       progress = FALSE,
-                       ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name window_lsm
-#' @export
-window_lsm.list <- function(landscape,
+window_lsm <- function(landscape,
                             window,
                             level = "landscape",
                             metric = NULL,
@@ -206,6 +61,8 @@ window_lsm.list <- function(landscape,
                             what = NULL,
                             progress = FALSE,
                             ...) {
+
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 

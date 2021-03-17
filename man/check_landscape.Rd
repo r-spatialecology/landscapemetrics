@@ -2,24 +2,9 @@
 % Please edit documentation in R/check_landscape.R
 \name{check_landscape}
 \alias{check_landscape}
-\alias{check_landscape.RasterLayer}
-\alias{check_landscape.RasterStack}
-\alias{check_landscape.RasterBrick}
-\alias{check_landscape.stars}
-\alias{check_landscape.list}
 \title{Check input landscape}
 \usage{
-check_landscape(landscape, verbose)
-
-\method{check_landscape}{RasterLayer}(landscape, verbose = TRUE)
-
-\method{check_landscape}{RasterStack}(landscape, verbose = TRUE)
-
-\method{check_landscape}{RasterBrick}(landscape, verbose = TRUE)
-
-\method{check_landscape}{stars}(landscape, verbose = TRUE)
-
-\method{check_landscape}{list}(landscape, verbose = TRUE)
+check_landscape(landscape, verbose = TRUE)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, Stars or a list of rasterLayers}

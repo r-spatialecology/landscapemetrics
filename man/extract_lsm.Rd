@@ -2,84 +2,9 @@
 % Please edit documentation in R/extract_lsm.R
 \name{extract_lsm}
 \alias{extract_lsm}
-\alias{extract_lsm.RasterLayer}
-\alias{extract_lsm.RasterStack}
-\alias{extract_lsm.RasterBrick}
-\alias{extract_lsm.stars}
-\alias{extract_lsm.list}
 \title{extract_lsm}
 \usage{
 extract_lsm(
-  landscape,
-  y,
-  extract_id,
-  metric,
-  name,
-  type,
-  what,
-  directions,
-  progress,
-  verbose,
-  ...
-)
-
-\method{extract_lsm}{RasterLayer}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
-
-\method{extract_lsm}{RasterStack}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
-
-\method{extract_lsm}{RasterBrick}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
-
-\method{extract_lsm}{stars}(
-  landscape,
-  y,
-  extract_id = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  verbose = TRUE,
-  ...
-)
-
-\method{extract_lsm}{list}(
   landscape,
   y,
   extract_id = NULL,

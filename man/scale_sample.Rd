@@ -2,60 +2,9 @@
 % Please edit documentation in R/scale_sample.R
 \name{scale_sample}
 \alias{scale_sample}
-\alias{scale_sample.RasterLayer}
-\alias{scale_sample.RasterStack}
-\alias{scale_sample.RasterBrick}
-\alias{scale_sample.stars}
-\alias{scale_sample.list}
 \title{scale_sample}
 \usage{
-scale_sample(landscape, y, shape, size, max_size, verbose, progress, ...)
-
-\method{scale_sample}{RasterLayer}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_sample}{RasterStack}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_sample}{RasterBrick}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_sample}{stars}(
-  landscape,
-  y,
-  shape = "square",
-  size,
-  max_size,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_sample}{list}(
+scale_sample(
   landscape,
   y,
   shape = "square",
