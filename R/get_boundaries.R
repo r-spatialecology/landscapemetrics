@@ -35,7 +35,7 @@ get_boundaries <- function(landscape,
 
     landscape <- landscape_as_list(landscape)
 
-    lapply(X = landscape, function(x) {
+    result <- lapply(X = landscape, function(x) {
 
         result_temp <- get_boundaries_calc(raster::as.matrix(x),
                                            consider_boundary = consider_boundary,
@@ -44,14 +44,24 @@ get_boundaries <- function(landscape,
                                            patch_id = patch_id)
 
         # convert back to raster
-        if (return_raster) {
+        if (return_raster && !inherits(x = x, what = "matrix")) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
                                             landscape = x)
+        } else if (return_raster && inherits(x = x, what = "matrix")) {
+
+            warning("'return_raster = TRUE' not able for matrix input.",
+                    call. = FALSE)
+
         }
 
         return(result_temp)
     })
+
+    names(result) <- paste0("layer_", 1:length(result))
+
+    return(result)
+
 }
 
 get_boundaries_calc <- function(landscape,
@@ -104,12 +114,12 @@ get_boundaries_calc <- function(landscape,
     }
 
     # use original patch id
-    if(patch_id) {
+    if (patch_id) {
 
         # issue if class 0 is present because used for non-edge cells
         present_classes <- rcpp_get_unique_values(landscape)
 
-        if(any(present_classes == 0)) {
+        if (any(present_classes == 0)) {
            warning("Not able to use original patch id because at least one id equals zero.",
                    call. = FALSE)
         }
