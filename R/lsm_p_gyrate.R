@@ -97,10 +97,9 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
                       lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
+        landscape_labeled <- get_patches_int(landscape,
                                          class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+                                         directions = directions)[[1]]
 
         # transpose to get same direction of ID
         landscape_labeled <- t(landscape_labeled)

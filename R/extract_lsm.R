@@ -174,7 +174,7 @@ extract_lsm_internal <- function(landscape,
                                    directions = directions,
                                    class = "all",
                                    to_disk = getOption("to_disk", default = FALSE),
-                                   return_raster = TRUE)
+                                   return_raster = TRUE)[[1]]
 
   # label patch id continuously
   for (i in seq_len(length(landscape_labeled) - 1)) {

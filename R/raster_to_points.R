@@ -20,25 +20,9 @@
 #' @keywords internal
 #'
 #' @export
-raster_to_points <- function(landscape, return_NA) UseMethod("raster_to_points")
+raster_to_points <- function(landscape, return_NA = TRUE) {
 
-#' @name raster_to_points
-#' @export
-raster_to_points.RasterLayer <- function(landscape, return_NA = TRUE){
-
-    result <- raster_to_points_internal(landscape,
-                                        return_NA = return_NA)
-
-    result <- cbind(layer = 1, result)
-
-    return(result)
-}
-
-#' @name raster_to_points
-#' @export
-raster_to_points.RasterStack <- function(landscape, return_NA = TRUE){
-
-    landscape <- raster::as.list(landscape)
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = seq_along(landscape), function(x) {
 
@@ -51,63 +35,7 @@ raster_to_points.RasterStack <- function(landscape, return_NA = TRUE){
     result <- do.call(rbind, result)
 
     return(result)
-}
 
-#' @name raster_to_points
-#' @export
-raster_to_points.RasterBrick <- function(landscape, return_NA = TRUE){
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), function(x) {
-
-        xyz <- raster_to_points_internal(landscape[[x]],
-                                         return_NA = return_NA)
-
-        xyz <- cbind(layer = x, xyz)
-    })
-
-    result <- do.call(rbind, result)
-
-    return(result)
-}
-
-#' @name raster_to_points
-#' @export
-raster_to_points.stars <- function(landscape, return_NA = TRUE){
-
-    landscape <- methods::as(landscape, "Raster")
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), function(x) {
-
-        xyz <- raster_to_points_internal(landscape[[x]],
-                                         return_NA = return_NA)
-
-        xyz <- cbind(layer = x, xyz)
-    })
-
-    result <- do.call(rbind, result)
-
-    return(result)
-}
-
-#' @name raster_to_points
-#' @export
-raster_to_points.list <- function(landscape, return_NA = TRUE){
-
-    result <- lapply(X = seq_along(landscape), function(x) {
-
-        xyz <- raster_to_points_internal(landscape[[x]],
-                                         return_NA = return_NA)
-
-        xyz <- cbind(layer = x, xyz)
-    })
-
-    result <- do.call(rbind, result)
-
-    return(result)
 }
 
 raster_to_points_internal <- function(landscape, return_NA) {

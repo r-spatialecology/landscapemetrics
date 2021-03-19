@@ -27,128 +27,12 @@
 #' @rdname show_lsm
 #'
 #' @export
-show_lsm <- function(landscape, what, class,
-                     directions, consider_boundary, edge_depth,
-                     labels, label_lsm,
-                     nrow, ncol)  UseMethod("show_lsm")
+show_lsm <- function(landscape, what, class = "global", directions = 8,
+                     consider_boundary = FALSE, edge_depth = 1,
+                     labels = FALSE, label_lsm = FALSE,
+                     nrow = NULL, ncol = NULL) {
 
-#' @name show_lsm
-#' @export
-show_lsm.RasterLayer <- function(landscape,
-                                 what,
-                                 class = "global",
-                                 directions = 8,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1,
-                                 labels = FALSE,
-                                 label_lsm = FALSE,
-                                 nrow = NULL,
-                                 ncol = NULL) {
-
-    show_lsm_internal(landscape,
-                      what = what,
-                      class = class,
-                      directions = directions,
-                      consider_boundary = consider_boundary,
-                      edge_depth = edge_depth,
-                      labels = labels,
-                      label_lsm = label_lsm,
-                      nrow = nrow,
-                      ncol = ncol)
-}
-
-#' @name show_lsm
-#' @export
-show_lsm.RasterStack <- function(landscape,
-                                 what,
-                                 class = "global",
-                                 directions = 8,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1,
-                                 labels = FALSE,
-                                 label_lsm = FALSE,
-                                 nrow = NULL,
-                                 ncol = NULL) {
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_internal,
-           what = what,
-           class = class,
-           directions = directions,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth,
-           labels = labels,
-           label_lsm = label_lsm,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_lsm
-#' @export
-show_lsm.RasterBrick <- function(landscape,
-                                 what,
-                                 class = "global",
-                                 directions = 8,
-                                 consider_boundary = FALSE,
-                                 edge_depth = 1,
-                                 labels = FALSE,
-                                 label_lsm = FALSE,
-                                 nrow = NULL,
-                                 ncol = NULL) {
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_internal,
-           what = what,
-           class = class,
-           directions = directions,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth,
-           labels = labels,
-           label_lsm = label_lsm,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_lsm
-#' @export
-show_lsm.stars <- function(landscape,
-                           what,
-                           class = "global",
-                           directions = 8,
-                           consider_boundary = FALSE,
-                           edge_depth = 1,
-                           labels = FALSE,
-                           label_lsm = FALSE,
-                           nrow = NULL,
-                           ncol = NULL) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_lsm_internal,
-           what = what,
-           class = class,
-           directions = directions,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth,
-           labels = labels,
-           label_lsm = label_lsm,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_lsm
-#' @export
-show_lsm.list <- function(landscape,
-                          what,
-                          class = "global",
-                          directions = 8,
-                          consider_boundary = FALSE,
-                          edge_depth = 1,
-                          labels = FALSE,
-                          label_lsm = FALSE,
-                          nrow = NULL,
-                          ncol = NULL) {
+    landscape <- landscape_as_list(landscape)
 
     lapply(X = landscape,
            FUN = show_lsm_internal,
@@ -161,6 +45,7 @@ show_lsm.list <- function(landscape,
            label_lsm = label_lsm,
            nrow = nrow,
            ncol = ncol)
+
 }
 
 show_lsm_internal <- function(landscape, what, class,
@@ -189,7 +74,7 @@ show_lsm_internal <- function(landscape, what, class,
                 call. = FALSE)
     }
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
     for (i in seq_len(length(landscape_labeled) - 1)) {
 
@@ -248,7 +133,7 @@ show_lsm_internal <- function(landscape, what, class,
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "id"
             x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
-            x$class <- as.numeric(names(landscape_labeled[i]))
+            x$class <- names(landscape_labeled[i])
             return(x)}
         )
 
@@ -262,7 +147,7 @@ show_lsm_internal <- function(landscape, what, class,
 
         if (any(!(class %in% "all"))) {
 
-            class_index <- which(patches_tibble$class.get_patches %in% class)
+            class_index <- which(patches_tibble$class.get_patches %in% paste0("class_", class))
             patches_tibble <- patches_tibble[class_index, ]
         }
 

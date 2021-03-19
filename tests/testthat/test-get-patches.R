@@ -11,7 +11,10 @@ test_that("get_patches runs and returns a list", {
     expect_is(all_classes_landscape_4, "list")
     expect_is(all_classes_landscape_4, "list")
 
-    expect_true(length(all_classes_landscape_4) == 3)
+    expect_is(class_1_landscape_4[[1]][[1]], "RasterLayer")
+    expect_is(all_classes_landscape_4[[1]][[1]], "RasterLayer")
+
+    expect_true(length(all_classes_landscape_4[[1]]) == 3)
 })
 
 test_that("get_patches can handle all raster inputs", {
@@ -22,8 +25,8 @@ test_that("get_patches can handle all raster inputs", {
 })
 
 test_that("get_patches labels the patches correctly", {
-    expect_true(length(unlist(get_unique_values(class_1_landscape_8))) == 9)
-    expect_true(length(unlist(get_unique_values(class_1_landscape_4))) == 11)
-    expect_true(length(which(class_1_landscape_4[[1]]@data@values == 6)) == 63)
-    expect_true(length(which(class_1_landscape_8[[1]]@data@values == 6)) == 14)
+    expect_true(length(unlist(get_unique_values(class_1_landscape_8[[1]]))) == 9)
+    expect_true(length(unlist(get_unique_values(class_1_landscape_4[[1]]))) == 11)
+    expect_true(length(which(class_1_landscape_4[[1]][[1]]@data@values == 6)) == 63)
+    expect_true(length(which(class_1_landscape_8[[1]][[1]]@data@values == 6)) == 14)
 })

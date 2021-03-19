@@ -74,10 +74,9 @@ lsm_c_np_calc <- function(landscape, directions){
     return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
 
         # connected labeling current class
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # max(patch_id) equals number of patches
         np <- max(landscape_labeled, na.rm = TRUE)

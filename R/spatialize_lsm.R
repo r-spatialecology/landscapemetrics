@@ -106,7 +106,7 @@ spatialize_lsm_internal <- function(landscape,
                                      class = "all",
                                      directions = directions,
                                      to_disk = to_disk,
-                                     return_raster = TRUE)
+                                     return_raster = TRUE)[[1]]
 
     # continuous, unique patch id
     for (i in seq_len(length(landscape_labeled) - 1)) {

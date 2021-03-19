@@ -110,10 +110,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
         return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
 
             # get connected patches
-            landscape_labeled <- get_patches(landscape,
-                                             class = patches_class,
-                                             directions = directions,
-                                             return_raster = FALSE)[[1]]
+            landscape_labeled <- get_patches_int(landscape,
+                                                 class = patches_class,
+                                                 directions = directions)[[1]]
 
             # set all non-class patches, but not NAs, to -999
             edge_cells <- which(!is.na(landscape) & landscape != patches_class)

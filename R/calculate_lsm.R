@@ -51,7 +51,6 @@
 #' }
 #'
 #' @aliases calculate_lsm
-#'
 #' @rdname calculate_lsm
 #'
 #' @references
@@ -79,6 +78,7 @@ calculate_lsm <- function(landscape,
                                full_name = FALSE,
                                verbose = TRUE,
                                progress = FALSE) {
+
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {

@@ -2,69 +2,16 @@
 % Please edit documentation in R/get_boundaries.R
 \name{get_boundaries}
 \alias{get_boundaries}
-\alias{get_boundaries.RasterLayer}
-\alias{get_boundaries.RasterStack}
-\alias{get_boundaries.RasterBrick}
-\alias{get_boundaries.stars}
-\alias{get_boundaries.list}
-\alias{get_boundaries_calc}
 \title{get_boundaries}
 \usage{
 get_boundaries(
   landscape,
-  consider_boundary,
-  edge_depth,
-  as_NA,
-  patch_id,
-  return_raster
-)
-
-\method{get_boundaries}{RasterLayer}(
-  landscape,
   consider_boundary = FALSE,
   edge_depth = 1,
   as_NA = FALSE,
   patch_id = FALSE,
   return_raster = TRUE
 )
-
-\method{get_boundaries}{RasterStack}(
-  landscape,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  as_NA = FALSE,
-  patch_id = FALSE,
-  return_raster = TRUE
-)
-
-\method{get_boundaries}{RasterBrick}(
-  landscape,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  as_NA = FALSE,
-  patch_id = FALSE,
-  return_raster = TRUE
-)
-
-\method{get_boundaries}{stars}(
-  landscape,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  as_NA = FALSE,
-  patch_id = FALSE,
-  return_raster = TRUE
-)
-
-\method{get_boundaries}{list}(
-  landscape,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  as_NA = FALSE,
-  patch_id = FALSE,
-  return_raster = TRUE
-)
-
-get_boundaries_calc(landscape, consider_boundary, edge_depth, as_NA, patch_id)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix.}

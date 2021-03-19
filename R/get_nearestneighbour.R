@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' # get patches for class 1
-#' class_1 <- get_patches(landscape, class = 2)[[1]]
+#' class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 #'
 #' # calculate the distance between patches
 #' get_nearestneighbour(class_1)
@@ -28,77 +28,9 @@
 #' @rdname get_nearestneighbour
 #'
 #' @export
-get_nearestneighbour <- function(landscape, return_id) UseMethod("get_nearestneighbour")
+get_nearestneighbour <- function(landscape, return_id = FALSE) {
 
-#' @name get_nearestneighbour
-#' @export
-get_nearestneighbour.RasterLayer <- function(landscape, return_id = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_nearestneighbour_calc,
-                     return_id = return_id)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name get_nearestneighbour
-#' @export
-get_nearestneighbour.RasterStack <- function(landscape, return_id = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_nearestneighbour_calc,
-                     return_id = return_id)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name get_nearestneighbour
-#' @export
-get_nearestneighbour.RasterBrick <- function(landscape, return_id = FALSE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_nearestneighbour_calc,
-                     return_id = return_id)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name get_nearestneighbour
-#' @export
-get_nearestneighbour.stars <- function(landscape, return_id = FALSE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_nearestneighbour_calc,
-                     return_id = return_id)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name get_nearestneighbour
-#' @export
-get_nearestneighbour.list <- function(landscape, return_id = FALSE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = get_nearestneighbour_calc,
@@ -110,6 +42,7 @@ get_nearestneighbour.list <- function(landscape, return_id = FALSE) {
     result <- do.call(rbind, result)
 
     tibble::add_column(result, layer, .before = TRUE)
+
 }
 
 get_nearestneighbour_calc <- function(landscape, return_id,

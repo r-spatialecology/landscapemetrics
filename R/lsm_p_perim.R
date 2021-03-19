@@ -90,10 +90,9 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
                                lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # cells at the boundary of the landscape need neighbours to calculate perim
         landscape_labeled <- pad_raster(landscape_labeled,

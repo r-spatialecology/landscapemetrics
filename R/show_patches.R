@@ -23,89 +23,10 @@
 #' @rdname show_patches
 #'
 #' @export
-show_patches <- function(landscape, class, directions, labels, nrow, ncol)  UseMethod("show_patches")
+show_patches <- function(landscape, class = "global", directions = 8,
+                         labels = FALSE, nrow = NULL, ncol = NULL) {
 
-#' @name show_patches
-#' @export
-show_patches.RasterLayer <- function(landscape,
-                                     class = "global",
-                                     directions = 8,
-                                     labels = FALSE,
-                                     nrow = NULL,
-                                     ncol = NULL) {
-
-    show_patches_internal(landscape,
-                          class = class,
-                          directions = directions,
-                          labels = labels,
-                          nrow = nrow,
-                          ncol = ncol)
-}
-
-#' @name show_patches
-#' @export
-show_patches.RasterStack <- function(landscape,
-                                     class = "global",
-                                     directions = 8,
-                                     labels = FALSE,
-                                     nrow = NULL,
-                                     ncol = NULL) {
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_patches_internal,
-           class = class,
-           directions = directions,
-           labels = labels,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_patches
-#' @export
-show_patches.RasterBrick <- function(landscape,
-                                     class = "global",
-                                     directions = 8,
-                                     labels = FALSE,
-                                     nrow = NULL,
-                                     ncol = NULL) {
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_patches_internal,
-           class = class,
-           directions = directions,
-           labels = labels,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_patches
-#' @export
-show_patches.stars <- function(landscape,
-                               class = "global",
-                               directions = 8,
-                               labels = FALSE,
-                               nrow = NULL,
-                               ncol = NULL) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    lapply(X = raster::as.list(landscape),
-           FUN = show_patches_internal,
-           class = class,
-           directions = directions,
-           labels = labels,
-           nrow = nrow,
-           ncol = ncol)
-}
-
-#' @name show_patches
-#' @export
-show_patches.list <- function(landscape,
-                              class = "global",
-                              directions = 8,
-                              labels = FALSE,
-                              nrow = NULL,
-                              ncol = NULL) {
+    landscape <- landscape_as_list(landscape)
 
     lapply(X = landscape,
            FUN = show_patches_internal,
@@ -114,6 +35,7 @@ show_patches.list <- function(landscape,
            labels = labels,
            nrow = nrow,
            ncol = ncol)
+
 }
 
 show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {
@@ -128,7 +50,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
         warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
-    landscape_labeled <- get_patches(landscape, directions = directions)
+    landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
     for (i in seq_len(length(landscape_labeled) - 1)) {
 
@@ -163,14 +85,14 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "value"
             x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
-            x$class <- as.numeric(names(landscape_labeled[i]))
+            x$class <- names(landscape_labeled[i])
             return(x)}
         )
 
         patches_tibble <- do.call(rbind, patches_tibble)
 
         if (any(!(class %in% c("all", "global")))) {
-            class_index <- which(patches_tibble$class %in% class)
+            class_index <- which(patches_tibble$class %in% paste0("class_", class))
             patches_tibble <- patches_tibble[class_index, ]
         }
 

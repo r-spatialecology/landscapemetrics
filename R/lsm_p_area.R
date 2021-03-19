@@ -89,10 +89,9 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
                           lapply(classes, function(patches_class){
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # multiply number of cells within each patch with hectar factor
         area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha

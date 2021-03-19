@@ -2,48 +2,9 @@
 % Please edit documentation in R/get_centroids.R
 \name{get_centroids}
 \alias{get_centroids}
-\alias{get_centroids.RasterLayer}
-\alias{get_centroids.RasterStack}
-\alias{get_centroids.RasterBrick}
-\alias{get_centroids.stars}
-\alias{get_centroids.list}
 \title{get_centroids}
 \usage{
-get_centroids(landscape, directions, cell_center, return_sp, verbose)
-
-\method{get_centroids}{RasterLayer}(
-  landscape,
-  directions = 8,
-  cell_center = FALSE,
-  return_sp = FALSE,
-  verbose = TRUE
-)
-
-\method{get_centroids}{RasterStack}(
-  landscape,
-  directions = 8,
-  cell_center = FALSE,
-  return_sp = FALSE,
-  verbose = TRUE
-)
-
-\method{get_centroids}{RasterBrick}(
-  landscape,
-  directions = 8,
-  cell_center = FALSE,
-  return_sp = FALSE,
-  verbose = TRUE
-)
-
-\method{get_centroids}{stars}(
-  landscape,
-  directions = 8,
-  cell_center = FALSE,
-  return_sp = FALSE,
-  verbose = TRUE
-)
-
-\method{get_centroids}{list}(
+get_centroids(
   landscape,
   directions = 8,
   cell_center = FALSE,

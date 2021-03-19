@@ -7,7 +7,7 @@ test_that("option parameters work", {
     patches <- get_patches(landscape)
 
     expect_true(object = getOption("to_disk"))
-    expect_false(object = raster::inMemory(patches[[1]]))
+    expect_false(object = all(vapply(patches[[1]], raster::inMemory, FUN.VALUE = logical(1))))
 })
 
 options(to_disk = NULL)

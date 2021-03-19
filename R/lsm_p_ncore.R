@@ -105,10 +105,9 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
                           lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # get unique patch id (must be 1 to number_patches)
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
@@ -132,10 +131,9 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         else {
 
             # get all core patches
-            patch_core <- get_patches(class_edge,
-                                      class = 0,
-                                      directions = directions,
-                                      return_raster = FALSE)[[1]]
+            patch_core <- get_patches_int(class_edge,
+                                          class = 0,
+                                          directions = directions)[[1]]
 
             # remove landscape boundary rows/cells
             if (!consider_boundary) {

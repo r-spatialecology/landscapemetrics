@@ -6,6 +6,8 @@ landscape_brick <- raster::brick(landscapemetrics::landscape, landscapemetrics::
 
 landscape_list <- list(landscapemetrics::landscape, landscapemetrics::landscape)
 
+landscape_terra <- terra::rast(landscapemetrics::landscape)
+
 landscape_simple <- landscapemetrics::landscape
 landscape_simple[raster::values(landscape_simple) == 2] <- 1
 

@@ -1,6 +1,6 @@
 context("get_boundaries")
 
-classes_lsm <- get_patches(landscape)
+classes_lsm <- get_patches(landscape)[[1]]
 
 test_that("get_boundaries works for all data types", {
 
