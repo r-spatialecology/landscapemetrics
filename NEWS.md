@@ -1,6 +1,8 @@
 # landscapemetrics 1.5.3
 * Improvements
     * Adds terra objects (SpatRaster) support for `calculate_lsm()`, `check_landscape()`, `extract_lsm()`, `sample_lsm()`, `scale_sample()`, `scale_window()`, `spatialize_lsm()`, `window_lsm()`
+    * Bugfix in `get_boundaries()` for matrix input and `return_raster = TRUE`
+    * Better naming of list outputs
 * Bugfixes
     * Adding `rel_mut_inf` to `list_lsm()`
 

@@ -34,17 +34,21 @@ show_lsm <- function(landscape, what, class = "global", directions = 8,
 
     landscape <- landscape_as_list(landscape)
 
-    lapply(X = landscape,
-           FUN = show_lsm_internal,
-           what = what,
-           class = class,
-           directions = directions,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth,
-           labels = labels,
-           label_lsm = label_lsm,
-           nrow = nrow,
-           ncol = ncol)
+    result <- lapply(X = landscape,
+                     FUN = show_lsm_internal,
+                     what = what,
+                     class = class,
+                     directions = directions,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth,
+                     labels = labels,
+                     label_lsm = label_lsm,
+                     nrow = nrow,
+                     ncol = ncol)
+
+    names(result) <- paste0("layer_", 1:length(result))
+
+    return(result)
 
 }
 

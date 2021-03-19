@@ -44,16 +44,19 @@ show_cores <- function(landscape,
 
     landscape <- landscape_as_list(landscape)
 
-    lapply(X = landscape,
-           FUN = show_cores_internal,
-           directions = directions,
-           class = class,
-           labels = labels,
-           nrow = nrow,
-           ncol = ncol,
-           consider_boundary = consider_boundary,
-           edge_depth = edge_depth)
+    result <- lapply(X = landscape,
+                     FUN = show_cores_internal,
+                     directions = directions,
+                     class = class,
+                     labels = labels,
+                     nrow = nrow,
+                     ncol = ncol,
+                     consider_boundary = consider_boundary,
+                     edge_depth = edge_depth)
 
+    names(result) <- paste0("layer_", 1:length(result))
+
+    return(result)
 }
 
 show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol,

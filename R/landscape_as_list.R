@@ -77,7 +77,7 @@ landscape_as_list.list <- function(landscape) {
 #' @export
 landscape_as_list.matrix <- function(landscape) {
 
-    landscape <- list(landscape_matrix)
+    landscape <- list(landscape)
 
     return(landscape)
 }

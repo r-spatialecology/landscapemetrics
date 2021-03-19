@@ -58,7 +58,7 @@ get_boundaries <- function(landscape,
         return(result_temp)
     })
 
-    names(result) <- paste0("layer_", 1:length(result))
+    # names(result) <- paste0("layer_", 1:length(result))
 
     return(result)
 

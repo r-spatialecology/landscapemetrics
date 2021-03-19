@@ -28,14 +28,17 @@ show_patches <- function(landscape, class = "global", directions = 8,
 
     landscape <- landscape_as_list(landscape)
 
-    lapply(X = landscape,
-           FUN = show_patches_internal,
-           class = class,
-           directions = directions,
-           labels = labels,
-           nrow = nrow,
-           ncol = ncol)
+    result <- lapply(X = landscape,
+                     FUN = show_patches_internal,
+                     class = class,
+                     directions = directions,
+                     labels = labels,
+                     nrow = nrow,
+                     ncol = ncol)
 
+    names(result) <- paste0("layer_", 1:length(result))
+
+    return(result)
 }
 
 show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {

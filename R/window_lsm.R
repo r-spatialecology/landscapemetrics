@@ -84,6 +84,8 @@ window_lsm <- function(landscape,
 
     if (progress) {cat("\n")}
 
+    names(result) <- paste0("layer_", 1:length(result))
+
     return(result)
 }
 

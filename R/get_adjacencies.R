@@ -47,11 +47,15 @@ get_adjacencies <- function(landscape, neighbourhood = 4, what = "full", upper =
 
     landscape <- landscape_as_list(landscape)
 
-    lapply(X = landscape,
-           FUN = get_adjacencies_internal,
-           neighbourhood = neighbourhood,
-           what = what,
-           upper = upper)
+    result <- lapply(X = landscape,
+                     FUN = get_adjacencies_internal,
+                     neighbourhood = neighbourhood,
+                     what = what,
+                     upper = upper)
+
+    names(result) <- paste0("layer_", 1:length(result))
+
+    return(result)
 
 }
 

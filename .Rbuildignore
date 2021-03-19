@@ -21,3 +21,4 @@ vignettes/articles
 ^\.httr-oauth$
 ^pkgdown
 ^\.github$
+test_data/
