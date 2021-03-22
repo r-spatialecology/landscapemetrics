@@ -1,8 +1,9 @@
 context("get_nearestneighbour")
 
 # get patches for class 1
-class_1 <- get_patches(landscape, class = 1)[[1]]
-all_classes <- get_patches(landscape)
+class_1 <- get_patches(landscape, class = 1)[[1]][[1]]
+
+all_classes <- get_patches(landscape)[[1]]
 
 test_that("get_nearestneighbour works for all data types", {
 

@@ -1,6 +1,6 @@
 context("get_boundaries")
 
-classes_lsm <- get_patches(landscape)
+classes_lsm <- get_patches(landscape)[[1]]
 
 test_that("get_boundaries works for all data types", {
 
@@ -46,10 +46,10 @@ test_that("get_boundaries return either 1/0 or 1/NA", {
     result_NA <- get_boundaries(classes_lsm[[1]],
                              as_NA = TRUE)
 
-    expect_equal(object = get_unique_values(result_10[[1]])[[1]],
+    expect_equal(object = get_unique_values(result_10[[1]], simplify = TRUE),
                  expected = c(0, 1))
 
-    expect_equal(object = get_unique_values(result_NA[[1]])[[1]],
+    expect_equal(object = get_unique_values(result_NA[[1]], simplify = TRUE),
                  expected = 1)
 })
 
@@ -68,8 +68,9 @@ test_that("get_boundaries can use original patch id", {
 
     result <- get_boundaries(classes_lsm[[1]], patch_id = TRUE)
 
-    expect_equal(object = get_unique_values(result[[1]])[[1]],
-                 expected = c(0, get_unique_values(classes_lsm[[1]])[[1]]))
+    expect_equal(object = get_unique_values(result[[1]], simplify = TRUE),
+                 expected = c(0, get_unique_values(classes_lsm[[1]],
+                                                   simplify = TRUE)))
 })
 
 test_that("get_boundaries can consider boundary", {

@@ -2,64 +2,9 @@
 % Please edit documentation in R/window_lsm.R
 \name{window_lsm}
 \alias{window_lsm}
-\alias{window_lsm.RasterLayer}
-\alias{window_lsm.RasterStack}
-\alias{window_lsm.RasterBrick}
-\alias{window_lsm.stars}
-\alias{window_lsm.list}
 \title{window_lsm}
 \usage{
-window_lsm(landscape, window, level, metric, name, type, what, progress, ...)
-
-\method{window_lsm}{RasterLayer}(
-  landscape,
-  window,
-  level = "landscape",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
-
-\method{window_lsm}{RasterStack}(
-  landscape,
-  window,
-  level = "landscape",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
-
-\method{window_lsm}{RasterBrick}(
-  landscape,
-  window,
-  level = "landscape",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
-
-\method{window_lsm}{stars}(
-  landscape,
-  window,
-  level = "landscape",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  progress = FALSE,
-  ...
-)
-
-\method{window_lsm}{list}(
+window_lsm(
   landscape,
   window,
   level = "landscape",

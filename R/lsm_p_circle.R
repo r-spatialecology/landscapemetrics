@@ -104,16 +104,15 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
     area_patch <- area_patch$value * 10000
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     circle_patch <- do.call(rbind,
                             lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # get circle radius around patch
         circle <- rcpp_get_circle(landscape_labeled,

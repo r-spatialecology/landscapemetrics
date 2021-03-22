@@ -1,4 +1,8 @@
-# landscapemetrics 1.5.2
+# landscapemetrics 1.5.3
+* Improvements
+    * Improved terra objects (SpatRaster) support for almost all functions.
+    * Bugfix in `get_boundaries()` for matrix input and `return_raster = TRUE`
+    * Better naming of list outputs
 * Bugfixes
     * Adding `rel_mut_inf` to `list_lsm()`
 
@@ -16,7 +20,7 @@
 
 # landscapemetrics 1.5.0
 * Improvements
-    * Improved internal understandment of input classes
+    * Improved internal understanding of input classes
     * Adds terra objects (SpatRaster) support
 * New functions
     * `lsm_l_relmutinf` to calculate relative mutual information

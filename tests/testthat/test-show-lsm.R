@@ -4,7 +4,8 @@ test_that("show_lsm returns a plot", {
 
     patches_area <- show_lsm(landscape, what = "lsm_p_area")
 
-    expect_is(patches_area, "ggplot")
+    expect_is(patches_area[[1]], "ggplot")
+
 })
 
 test_that("show_lsm returns a facet plot", {
@@ -13,7 +14,7 @@ test_that("show_lsm returns a facet plot", {
                              class = c(1, 3),
                              labels = FALSE)
 
-    expect_is(patches_area$facet, "FacetWrap")
+    expect_is(patches_area[[1]]$facet, "FacetWrap")
 })
 
 test_that("show_lsm can handle stacks, bricks and lists", {
@@ -21,6 +22,7 @@ test_that("show_lsm can handle stacks, bricks and lists", {
     plots_list <- show_lsm(landscape_list, what = "lsm_p_area")
     plots_stack <- show_lsm(landscape_stack, what = "lsm_p_area")
     plots_brick <- show_lsm(landscape_brick, what = "lsm_p_area")
+    plots_terra <- show_lsm(landscape_terra, what = "lsm_p_area")
 
     expect_is(plots_list[[1]], "ggplot")
     expect_is(plots_list[[2]], "ggplot")
@@ -30,6 +32,9 @@ test_that("show_lsm can handle stacks, bricks and lists", {
 
     expect_is(plots_brick[[1]], "ggplot")
     expect_is(plots_brick[[2]], "ggplot")
+
+    expect_is(plots_terra[[1]], "ggplot")
+
 })
 
 test_that("show_lsm returns warnings and errors", {
@@ -46,3 +51,4 @@ test_that("show_lsm returns warnings and errors", {
                  regexp = "'class' must contain at least one value of a class existing in the landscape.",
                  fixed = TRUE)
 })
+

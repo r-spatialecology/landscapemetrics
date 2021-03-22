@@ -48,7 +48,7 @@ lsm_l_pr <- function(landscape){
 
 lsm_l_pr_calc <- function(landscape){
 
-    richness <- length(get_unique_values(landscape)[[1]])
+    richness <- length(get_unique_values_int(landscape, verbose = FALSE))
 
     # all values NA
     if (richness == 0) {

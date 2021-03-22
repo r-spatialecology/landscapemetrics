@@ -2,24 +2,9 @@
 % Please edit documentation in R/get_circumscribingcircle.R
 \name{get_circumscribingcircle}
 \alias{get_circumscribingcircle}
-\alias{get_circumscribingcircle.RasterLayer}
-\alias{get_circumscribingcircle.RasterStack}
-\alias{get_circumscribingcircle.RasterBrick}
-\alias{get_circumscribingcircle.stars}
-\alias{get_circumscribingcircle.list}
 \title{get_circumscribingcircle}
 \usage{
-get_circumscribingcircle(landscape, directions, level)
-
-\method{get_circumscribingcircle}{RasterLayer}(landscape, directions = 8, level = "patch")
-
-\method{get_circumscribingcircle}{RasterStack}(landscape, directions = 8, level = "patch")
-
-\method{get_circumscribingcircle}{RasterBrick}(landscape, directions = 8, level = "patch")
-
-\method{get_circumscribingcircle}{stars}(landscape, directions = 8, level = "patch")
-
-\method{get_circumscribingcircle}{list}(landscape, directions = 8, level = "patch")
+get_circumscribingcircle(landscape, directions = 8, level = "patch")
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x, y, id columns)}

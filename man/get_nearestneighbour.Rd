@@ -2,24 +2,9 @@
 % Please edit documentation in R/get_nearestneighbour.R
 \name{get_nearestneighbour}
 \alias{get_nearestneighbour}
-\alias{get_nearestneighbour.RasterLayer}
-\alias{get_nearestneighbour.RasterStack}
-\alias{get_nearestneighbour.RasterBrick}
-\alias{get_nearestneighbour.stars}
-\alias{get_nearestneighbour.list}
 \title{get_nearestneighbour}
 \usage{
-get_nearestneighbour(landscape, return_id)
-
-\method{get_nearestneighbour}{RasterLayer}(landscape, return_id = FALSE)
-
-\method{get_nearestneighbour}{RasterStack}(landscape, return_id = FALSE)
-
-\method{get_nearestneighbour}{RasterBrick}(landscape, return_id = FALSE)
-
-\method{get_nearestneighbour}{stars}(landscape, return_id = FALSE)
-
-\method{get_nearestneighbour}{list}(landscape, return_id = FALSE)
+get_nearestneighbour(landscape, return_id = FALSE)
 }
 \arguments{
 \item{landscape}{RasterLayer or matrix (with x,y,id columns).}
@@ -39,7 +24,7 @@ might be returned.
 }
 \examples{
 # get patches for class 1
-class_1 <- get_patches(landscape, class = 2)[[1]]
+class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 
 # calculate the distance between patches
 get_nearestneighbour(class_1)

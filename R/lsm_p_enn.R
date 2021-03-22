@@ -90,16 +90,15 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     }
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     enn_patch <- do.call(rbind,
                          lapply(classes, function(patches_class) {
 
                              # get connected patches
-                             landscape_labeled <- get_patches(landscape,
+                             landscape_labeled <- get_patches_int(landscape,
                                                               class = patches_class,
-                                                              directions = directions,
-                                                              return_raster = FALSE)[[1]]
+                                                              directions = directions)[[1]]
 
                              # get number of patches
                              np_class <- max(landscape_labeled, na.rm = TRUE)

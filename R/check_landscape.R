@@ -23,77 +23,9 @@
 #' @rdname check_landscape
 #'
 #' @export
-check_landscape <- function(landscape, verbose) UseMethod("check_landscape")
+check_landscape <- function(landscape, verbose = TRUE) {
 
-#' @name check_landscape
-#' @export
-check_landscape.RasterLayer <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name check_landscape
-#' @export
-check_landscape.RasterStack <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name check_landscape
-#' @export
-check_landscape.RasterBrick <- function(landscape, verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name check_landscape
-#' @export
-check_landscape.stars <- function(landscape, verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = check_landscape_calc,
-                     verbose = verbose)
-
-    layer <- rep(seq_len(length(result)),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    tibble::add_column(result, layer, .before = TRUE)
-}
-
-#' @name check_landscape
-#' @export
-check_landscape.list <- function(landscape, verbose = TRUE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = check_landscape_calc,

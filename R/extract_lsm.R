@@ -55,200 +55,6 @@
 #'
 #' @export
 extract_lsm <- function(landscape,
-                        y,
-                        extract_id,
-                        metric, name, type, what,
-                        directions,
-                        progress,
-                        verbose,
-                        ...) UseMethod("extract_lsm")
-
-#' @name extract_lsm
-#' @export
-extract_lsm.RasterLayer <- function(landscape,
-                                    y,
-                                    extract_id = NULL,
-                                    metric = NULL,
-                                    name = NULL,
-                                    type = NULL,
-                                    what = NULL,
-                                    directions = 8,
-                                    progress = FALSE,
-                                    verbose = TRUE,
-                                    ...) {
-
-  result <- lapply(raster::as.list(landscape),
-                   FUN = extract_lsm_internal,
-                   y = y,
-                   extract_id = extract_id,
-                   metric = metric,
-                   name = name,
-                   type = type,
-                   what = what,
-                   directions = directions,
-                   progress = progress,
-                   verbose = verbose,
-                   ...)
-
-  layer <- rep(seq_along(result),
-               vapply(result, nrow, FUN.VALUE = integer(1)))
-
-  result <- do.call(rbind, result)
-
-  result$layer <- layer
-
-  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
-}
-
-#' @name extract_lsm
-#' @export
-extract_lsm.RasterStack <- function(landscape,
-                                    y,
-                                    extract_id = NULL,
-                                    metric = NULL,
-                                    name = NULL,
-                                    type = NULL,
-                                    what = NULL,
-                                    directions = 8,
-                                    progress = FALSE,
-                                    verbose = TRUE,
-                                    ...) {
-
-  landscape <- raster::as.list(landscape)
-
-  result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-    if (progress) {
-
-      cat("\r> Progress nlayers: ", x , "/", length(landscape))
-    }
-
-    extract_lsm_internal(landscape = landscape[[x]],
-                         y = y,
-                         extract_id = extract_id,
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         verbose = verbose,
-                         ...)
-  })
-
-  layer <- rep(seq_along(result),
-               vapply(result, nrow, FUN.VALUE = integer(1)))
-
-  result <- do.call(rbind, result)
-
-  result$layer <- layer
-
-  if (progress) {cat("\n")}
-
-  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
-}
-
-#' @name extract_lsm
-#' @export
-extract_lsm.RasterBrick <- function(landscape,
-                                    y,
-                                    extract_id = NULL,
-                                    metric = NULL,
-                                    name = NULL,
-                                    type = NULL,
-                                    what = NULL,
-                                    directions = 8,
-                                    progress = FALSE,
-                                    verbose = TRUE,
-                                    ...) {
-
-  landscape <- raster::as.list(landscape)
-
-  result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-    if (progress) {
-
-      cat("\r> Progress nlayers: ", x , "/", length(landscape))
-    }
-
-    extract_lsm_internal(landscape = landscape[[x]],
-                         y = y,
-                         extract_id = extract_id,
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         verbose = verbose,
-                         ...)
-  })
-
-  layer <- rep(seq_along(result),
-               vapply(result, nrow, FUN.VALUE = integer(1)))
-
-  result <- do.call(rbind, result)
-
-  result$layer <- layer
-
-  if (progress) {cat("\n")}
-
-  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
-}
-
-#' @name extract_lsm
-#' @export
-extract_lsm.stars <- function(landscape,
-                              y,
-                              extract_id = NULL,
-                              metric = NULL,
-                              name = NULL,
-                              type = NULL,
-                              what = NULL,
-                              directions = 8,
-                              progress = FALSE,
-                              verbose = TRUE,
-                              ...) {
-
-  landscape <- methods::as(landscape, "Raster")
-
-  landscape <- raster::as.list(landscape)
-
-  result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-    if (progress) {
-
-      cat("\r> Progress nlayers: ", x , "/", length(landscape))
-    }
-
-    extract_lsm_internal(landscape = landscape[[x]],
-                         y = y,
-                         extract_id = extract_id,
-                         metric = metric,
-                         name = name,
-                         type = type,
-                         what = what,
-                         directions = directions,
-                         progress = FALSE,
-                         verbose = verbose,
-                         ...)
-  })
-
-  layer <- rep(seq_along(result),
-               vapply(result, nrow, FUN.VALUE = integer(1)))
-
-  result <- do.call(rbind, result)
-
-  result$layer <- layer
-
-  if (progress) {cat("\n")}
-
-  result[with(result, order(layer, extract_id, level, metric, class, id)), ]
-}
-
-#' @name extract_lsm
-#' @export
-extract_lsm.list <- function(landscape,
                              y,
                              extract_id = NULL,
                              metric = NULL,
@@ -259,6 +65,8 @@ extract_lsm.list <- function(landscape,
                              progress = FALSE,
                              verbose = TRUE,
                              ...) {
+
+  landscape <- landscape_as_list(landscape)
 
   result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -366,7 +174,7 @@ extract_lsm_internal <- function(landscape,
                                    directions = directions,
                                    class = "all",
                                    to_disk = getOption("to_disk", default = FALSE),
-                                   return_raster = TRUE)
+                                   return_raster = TRUE)[[1]]
 
   # label patch id continuously
   for (i in seq_len(length(landscape_labeled) - 1)) {

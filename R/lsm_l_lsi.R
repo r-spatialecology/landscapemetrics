@@ -74,10 +74,8 @@ lsm_l_lsi_calc <- function(landscape) {
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape <- pad_raster(landscape,
-                            pad_raster_value = NA,
-                            pad_raster_cells = 1,
-                            return_raster = FALSE)[[1]]
+    landscape <- pad_raster_internal(landscape, pad_raster_value = NA,
+                                     pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
     target_na <- which(is.na(landscape))

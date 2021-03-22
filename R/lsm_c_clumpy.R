@@ -55,7 +55,10 @@ lsm_c_clumpy <- function(landscape) {
 lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
-    landscape_padded <- pad_raster(landscape, return_raster = FALSE)[[1]]
+    landscape_padded <- pad_raster_internal(landscape,
+                                            pad_raster_value = -999,
+                                            pad_raster_cells = 1,
+                                            global = FALSE)
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {

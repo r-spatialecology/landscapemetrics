@@ -7,6 +7,6 @@ landscapemetrics:::rcpp_ccl(mat4, 4)
 landscapemetrics:::rcpp_ccl(mat8, 8)
 
 test_that("rcpp_ccl patch labelling is correct", {
-    expect_equal(length(unlist(get_unique_values(mat4))), 1)
-    expect_equal(length(unlist(get_unique_values(mat8))), 1)
+    expect_equal(length(get_unique_values(mat4, simplify = TRUE)), 1)
+    expect_equal(length(get_unique_values(mat8, simplify = TRUE)), 1)
 })

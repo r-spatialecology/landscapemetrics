@@ -1,54 +1,60 @@
 context("ununpad_raster")
 
+lsm_padded <- pad_raster(landscape)[[1]]
+stack_padded <- raster::stack(pad_raster(landscape_stack))
+brick_padded <- raster::brick(pad_raster(landscape_brick))
+matrix_padded <- pad_raster(landscape_matrix, return_raster = FALSE)[[1]]
+list_padded <- list(lsm_padded, matrix_padded)
+terra_padded <- terra::rast(pad_raster(landscape_terra)[[1]])
+
+lsm_padded_large <- pad_raster(landscape, pad_raster_cells = 5)[[1]]
+
 test_that("unpad_raster can handle all raster inputs", {
 
-    raster_layer <- landscapemetrics::pad_raster(landscape,
-                                                 return_raster = TRUE)[[1]]
-
-    raster_stack <- raster::stack(landscapemetrics::pad_raster(landscape_stack,
-                                                               return_raster = TRUE))
-
-    raster_brick <- raster::brick(landscapemetrics::pad_raster(landscape_brick,
-                                                               return_raster = TRUE))
-
-    raster_list <- landscapemetrics::pad_raster(landscape_list,
-                                                return_raster = TRUE)
-
-    raster_matrix <- landscapemetrics::pad_raster(landscape_matrix,
-                                                  return_raster = FALSE)[[1]]
-
-    expect_is(unpad_raster(raster_layer), "list")
-    expect_is(unpad_raster(raster_stack), "list")
-    expect_is(unpad_raster(raster_brick), "list")
-    expect_is(unpad_raster(raster_list), "list")
-    expect_is(unpad_raster(raster_matrix, return_raster = FALSE), "list")
+    expect_is(object = unpad_raster(lsm_padded), class = "list")
+    expect_is(object = unpad_raster(stack_padded), class = "list")
+    expect_is(object = unpad_raster(brick_padded), class = "list")
+    expect_is(object = unpad_raster(list_padded), class = "list")
+    expect_is(object = unpad_raster(matrix_padded), class = "list")
+    expect_is(object = unpad_raster(terra_padded), class = "list")
 })
 
 test_that("unpad_raster removes correct number of rows/cols", {
 
-    result_a <- landscapemetrics:::unpad_raster(landscape,
-                                                unpad_raster_cells = 1)[[1]]
+    result_a <- unpad_raster(lsm_padded, unpad_raster_cells = 1)[[1]]
 
-
-    result_b <- landscapemetrics:::unpad_raster(landscape,
-                                                unpad_raster_cells = 5)[[1]]
+    result_b <- unpad_raster(lsm_padded_large, unpad_raster_cells = 5)[[1]]
 
     # original landscape is 30 x 30 and removing 5 rows/cols in each direction
-    expect_equal(object = raster::nrow(result_a), expected = 28)
-    expect_equal(object = raster::nrow(result_a), expected = 28)
+    expect_equal(object = raster::nrow(result_a), expected = 30)
+    expect_equal(object = raster::nrow(result_a), expected = 30)
 
     # original landscape is 30 x 30 and removing 5 rows/cols in each direction
-    expect_equal(object = raster::nrow(result_b), expected = 20)
-    expect_equal(object = raster::nrow(result_b), expected = 20)
+    expect_equal(object = raster::nrow(result_b), expected = 30)
+    expect_equal(object = raster::nrow(result_b), expected = 30)
 })
 
 test_that("unpad_raster can return RasterLayer and matrix", {
 
-    ras <- landscapemetrics:::unpad_raster(landscape)[[1]]
+    expect_is(object = unpad_raster(lsm_padded)[[1]],
+              class = "RasterLayer")
 
-    mat <- landscapemetrics:::unpad_raster(landscape, return_raster = FALSE)[[1]]
+    expect_is(object = unpad_raster(matrix_padded, return_raster = FALSE)[[1]],
+              class = "matrix")
+})
 
-    expect_is(object = ras, class = "RasterLayer")
+test_that("unpad_raster can return write to disk", {
 
-    expect_is(object = mat, class = "matrix")
+    result <- unpad_raster(lsm_padded, to_disk = TRUE)
+
+    expect_false(object = raster::inMemory(result[[1]]))
+})
+
+test_that("unpad_raster returns warning for matrix and return_raster = TRUE", {
+
+    expect_warning(object = unpad_raster(matrix_padded, return_raster = TRUE),
+                   regexp = "'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.")
+
+    expect_warning(object = unpad_raster(matrix_padded, to_disk = TRUE),
+                   regexp = "'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.")
 })

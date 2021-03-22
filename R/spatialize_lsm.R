@@ -37,160 +37,6 @@
 #'
 #' @export
 spatialize_lsm <- function(landscape,
-                           level, metric, name, type, what,
-                           directions,
-                           progress,
-                           to_disk,
-                           ...) UseMethod("spatialize_lsm")
-
-#' @name spatialize_lsm
-#' @export
-spatialize_lsm.RasterLayer <- function(landscape,
-                                       level = "patch",
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       what = NULL,
-                                       directions = 8,
-                                       progress = FALSE,
-                                       to_disk = getOption("to_disk", default = FALSE),
-                                       ...) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = spatialize_lsm_internal,
-                     level = level,
-                     metric = metric,
-                     name = name,
-                     type = type,
-                     what = what,
-                     directions = directions,
-                     progress = progress,
-                     to_disk = to_disk,
-                     ...)
-
-    return(result)
-}
-
-#' @name spatialize_lsm
-#' @export
-spatialize_lsm.RasterStack <- function(landscape,
-                                       level = "patch",
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       what = NULL,
-                                       directions = 8,
-                                       progress = FALSE,
-                                       to_disk = getOption("to_disk", default = FALSE),
-                                       ...) {
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        spatialize_lsm_internal(landscape = landscape[[x]],
-                                level = level,
-                                metric = metric,
-                                name = name,
-                                type = type,
-                                what = what,
-                                directions = directions,
-                                progress = FALSE,
-                                to_disk = to_disk,
-                                ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name spatialize_lsm
-#' @export
-spatialize_lsm.RasterBrick <- function(landscape,
-                                       level = "patch",
-                                       metric = NULL,
-                                       name = NULL,
-                                       type = NULL,
-                                       what = NULL,
-                                       directions = 8,
-                                       progress = FALSE,
-                                       to_disk = getOption("to_disk", default = FALSE),
-                                       ...) {
-
-    landscape <- raster::as.list(landscape)
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        spatialize_lsm_internal(landscape = landscape[[x]],
-                                level = level,
-                                metric = metric,
-                                name = name,
-                                type = type,
-                                what = what,
-                                directions = directions,
-                                progress = FALSE,
-                                to_disk = to_disk,
-                                ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name spatialize_lsm
-#' @export
-spatialize_lsm.stars <- function(landscape,
-                                 level = "patch",
-                                 metric = NULL,
-                                 name = NULL,
-                                 type = NULL,
-                                 what = NULL,
-                                 directions = 8,
-                                 progress = FALSE,
-                                 to_disk = getOption("to_disk", default = FALSE),
-                                 ...) {
-
-    landscape <- raster::as.list(methods::as(landscape, "Raster"))
-
-    result <- lapply(X = seq_along(landscape), FUN = function(x) {
-
-        if (progress) {
-
-            cat("\r> Progress nlayers: ", x , "/", length(landscape))
-        }
-
-        spatialize_lsm_internal(landscape = landscape[[x]],
-                                level = level,
-                                metric = metric,
-                                name = name,
-                                type = type,
-                                what = what,
-                                directions = directions,
-                                progress = FALSE,
-                                to_disk = to_disk,
-                                ...)
-    })
-
-    if (progress) {cat("\n")}
-
-    return(result)
-}
-
-#' @name spatialize_lsm
-#' @export
-spatialize_lsm.list <- function(landscape,
                                 level = "patch",
                                 metric = NULL,
                                 name = NULL,
@@ -201,6 +47,8 @@ spatialize_lsm.list <- function(landscape,
                                 to_disk = getOption("to_disk", default = FALSE),
                                 ...) {
 
+    landscape <- landscape_as_list(landscape)
+
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
         if (progress) {
@@ -221,6 +69,8 @@ spatialize_lsm.list <- function(landscape,
     })
 
     if (progress) {cat("\n")}
+
+    names(result) <- paste0("layer_", 1:length(result))
 
     return(result)
 }
@@ -258,7 +108,7 @@ spatialize_lsm_internal <- function(landscape,
                                      class = "all",
                                      directions = directions,
                                      to_disk = to_disk,
-                                     return_raster = TRUE)
+                                     return_raster = TRUE)[[1]]
 
     # continuous, unique patch id
     for (i in seq_len(length(landscape_labeled) - 1)) {

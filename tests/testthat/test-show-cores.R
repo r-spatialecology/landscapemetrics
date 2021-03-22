@@ -2,24 +2,22 @@ context("show_cores")
 
 cores_landscape <- show_cores(landscape)
 
+cores_terra <- show_cores(landscape_terra)
+
 cores_landscape_stack <- show_cores(landscape_stack, class = 1)
 
 cores_landscape_brick <- show_cores(landscape_brick, class = "all")
 
 cores_landscape_list <- show_cores(landscape_list, class = c(2,3))
 
-test_that("show_cores returns a plot", {
+test_that("show_cores returns a plot for each list entry", {
 
-    expect_true(inherits(x = cores_landscape, what = c("gg","ggplot")))
-})
 
-test_that("show_cores returns a plot for class = global", {
+    expect_true(all(vapply(cores_landscape,  FUN = function(x)
+        inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
 
-    expect_true(inherits(x = show_cores(landscape, class = "global"),
-                          what = c("gg","ggplot")))
-})
-
-test_that("show_patches returns a plot for each list entry", {
+    expect_true(all(vapply(cores_terra,  FUN = function(x)
+        inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
 
     expect_true(all(vapply(cores_landscape_stack,  FUN = function(x)
         inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
@@ -31,6 +29,13 @@ test_that("show_patches returns a plot for each list entry", {
         inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
 })
 
+test_that("show_cores returns a plot for class = global", {
+
+    expect_true(all(vapply(show_cores(landscape, class = "global"),  FUN = function(x)
+        inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
+
+})
+
 test_that("show_patches returns error if class is not present", {
 
     expect_error(show_cores(landscape, class = 42),
@@ -40,8 +45,10 @@ test_that("show_patches returns error if class is not present", {
 
 test_that("show_cores can increase edge_depth", {
 
-    expect_true(inherits(x = show_cores(landscape, edge_depth = 3, class = "global"),
-                what = c("gg","ggplot")))
+    expect_true(all(vapply(show_cores(landscape, edge_depth = 3, class = "global"),
+                           FUN = function(x) inherits(x = x,  c("gg","ggplot")),
+                           FUN.VALUE = logical(1))))
+
 })
 
 test_that("show_cores returns warnning for wrong combination of class argument", {

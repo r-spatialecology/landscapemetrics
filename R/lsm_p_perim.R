@@ -72,7 +72,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     resolution_y <- resolution[[2]]
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # raster resolution not identical in x-y directions
     if (!resolution_x == resolution_y) {
@@ -90,16 +90,15 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
                                lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+        landscape_labeled <- get_patches_int(landscape,
+                                             class = patches_class,
+                                             directions = directions)[[1]]
 
         # cells at the boundary of the landscape need neighbours to calculate perim
-        landscape_labeled <- pad_raster(landscape_labeled,
-                                        pad_raster_value = NA,
-                                        pad_raster_cells = 1,
-                                        return_raster = FALSE)[[1]]
+        landscape_labeled <- pad_raster_internal(landscape_labeled,
+                                                 pad_raster_value = NA,
+                                                 pad_raster_cells = 1,
+                                                 global = FALSE)
 
         # which cells are NA (i.e. background)
         target_na <- which(is.na(landscape_labeled))

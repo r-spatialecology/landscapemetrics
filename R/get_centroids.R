@@ -24,129 +24,16 @@
 #' @rdname get_centroids
 #'
 #' @export
-get_centroids <- function(landscape, directions, cell_center, return_sp, verbose) UseMethod("get_centroids")
-
-#' @name get_centroids
-#' @export
-get_centroids.RasterLayer <- function(landscape, directions = 8,
-                                     cell_center = FALSE,
-                                     return_sp = FALSE,
-                                     verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroids_calc,
-                     directions = directions,
-                     cell_center = cell_center,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
+get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
+                          return_sp = FALSE, verbose = TRUE) {
 
     if (return_sp) {
 
-        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
-                                              data = result[, c(1:4)],
-                                              proj4string = raster::crs(landscape))
+        crs <- raster::crs(landscape)
+
     }
 
-    return(result)
-}
-
-#' @name get_centroids
-#' @export
-get_centroids.RasterStack <- function(landscape, directions = 8,
-                                     cell_center = FALSE,
-                                     return_sp = FALSE,
-                                     verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroids_calc,
-                     directions = directions,
-                     cell_center = cell_center,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    return(result)
-}
-
-#' @name get_centroids
-#' @export
-get_centroids.RasterBrick <- function(landscape, directions = 8,
-                                     cell_center = FALSE,
-                                     return_sp = FALSE,
-                                     verbose = TRUE) {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroids_calc,
-                     directions = directions,
-                     cell_center = cell_center,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    if (return_sp) {
-
-        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
-                                              data = result[, c(1:4)],
-                                              proj4string = raster::crs(landscape))
-    }
-
-    return(result)
-}
-
-#' @name get_centroids
-#' @export
-get_centroids.stars <- function(landscape, directions = 8,
-                               cell_center = FALSE,
-                               return_sp = FALSE,
-                               verbose = TRUE) {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_centroids_calc,
-                     directions = directions,
-                     cell_center = cell_center,
-                     verbose = verbose)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    if (return_sp) {
-
-        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
-                                              data = result[, c(1:4)],
-                                              proj4string = raster::crs(landscape))
-    }
-
-    return(result)
-}
-
-#' @name get_centroids
-#' @export
-get_centroids.list <- function(landscape, directions = 8,
-                              cell_center = FALSE,
-                              return_sp = FALSE,
-                              verbose = TRUE) {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = get_centroids_calc,
@@ -165,10 +52,11 @@ get_centroids.list <- function(landscape, directions = 8,
 
         result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
                                               data = result[, c(1:4)],
-                                              proj4string = raster::crs(landscape))
+                                              proj4string = crs)
     }
 
     return(result)
+
 }
 
 get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
@@ -194,15 +82,14 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
     }
 
     # get uniuqe class id
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = verbose)
 
     centroid <- do.call(rbind,
                         lapply(classes, function(patches_class) {
                             # get connected patches
-                            landscape_labeled <- get_patches(landscape,
-                                                             class = patches_class,
-                                                             directions = directions,
-                                                             return_raster = FALSE)[[1]]
+                            landscape_labeled <- get_patches_int(landscape,
+                                                                 class = patches_class,
+                                                                 directions = directions)[[1]]
 
                             # transpose to get same direction of ID
                             landscape_labeled <- t(landscape_labeled)

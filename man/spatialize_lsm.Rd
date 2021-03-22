@@ -2,79 +2,9 @@
 % Please edit documentation in R/spatialize_lsm.R
 \name{spatialize_lsm}
 \alias{spatialize_lsm}
-\alias{spatialize_lsm.RasterLayer}
-\alias{spatialize_lsm.RasterStack}
-\alias{spatialize_lsm.RasterBrick}
-\alias{spatialize_lsm.stars}
-\alias{spatialize_lsm.list}
 \title{spatialize_lsm}
 \usage{
 spatialize_lsm(
-  landscape,
-  level,
-  metric,
-  name,
-  type,
-  what,
-  directions,
-  progress,
-  to_disk,
-  ...
-)
-
-\method{spatialize_lsm}{RasterLayer}(
-  landscape,
-  level = "patch",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  to_disk = getOption("to_disk", default = FALSE),
-  ...
-)
-
-\method{spatialize_lsm}{RasterStack}(
-  landscape,
-  level = "patch",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  to_disk = getOption("to_disk", default = FALSE),
-  ...
-)
-
-\method{spatialize_lsm}{RasterBrick}(
-  landscape,
-  level = "patch",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  to_disk = getOption("to_disk", default = FALSE),
-  ...
-)
-
-\method{spatialize_lsm}{stars}(
-  landscape,
-  level = "patch",
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  progress = FALSE,
-  to_disk = getOption("to_disk", default = FALSE),
-  ...
-)
-
-\method{spatialize_lsm}{list}(
   landscape,
   level = "patch",
   metric = NULL,

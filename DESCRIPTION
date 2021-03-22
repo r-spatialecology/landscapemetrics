@@ -66,11 +66,11 @@ Suggests:
     knitr,
     rgeos,
     rmarkdown,
+    terra,
     testthat
 Enhances:
     stars, 
     sf,
-    terra
 LinkingTo: 
     Rcpp,
     RcppArmadillo
