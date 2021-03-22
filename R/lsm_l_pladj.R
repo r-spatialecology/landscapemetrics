@@ -63,10 +63,10 @@ lsm_l_pladj_calc <- function(landscape) {
                               value = as.double(NA)))
     }
 
-    landscape_padded <- pad_raster(landscape,
-                                   pad_raster_value = -999,
-                                   pad_raster_cells = 1,
-                                   return_raster = FALSE)[[1]]
+    landscape_padded <- pad_raster_internal(landscape,
+                                            pad_raster_value = -999,
+                                            pad_raster_cells = 1,
+                                            global = FALSE)
 
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))

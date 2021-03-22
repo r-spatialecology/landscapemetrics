@@ -2,74 +2,14 @@
 % Please edit documentation in R/pad_raster.R
 \name{pad_raster}
 \alias{pad_raster}
-\alias{pad_raster.RasterLayer}
-\alias{pad_raster.RasterStack}
-\alias{pad_raster.RasterBrick}
-\alias{pad_raster.stars}
-\alias{pad_raster.list}
-\alias{pad_raster.matrix}
 \title{pad_raster}
 \usage{
 pad_raster(
   landscape,
-  pad_raster_value,
-  pad_raster_cells,
-  global,
-  return_raster,
-  to_disk
-)
-
-\method{pad_raster}{RasterLayer}(
-  landscape,
   pad_raster_value = -999,
   pad_raster_cells = 1,
   global = FALSE,
   return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{pad_raster}{RasterStack}(
-  landscape,
-  pad_raster_value = -999,
-  pad_raster_cells = 1,
-  global = FALSE,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{pad_raster}{RasterBrick}(
-  landscape,
-  pad_raster_value = -999,
-  pad_raster_cells = 1,
-  global = FALSE,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{pad_raster}{stars}(
-  landscape,
-  pad_raster_value = -999,
-  pad_raster_cells = 1,
-  global = FALSE,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{pad_raster}{list}(
-  landscape,
-  pad_raster_value = -999,
-  pad_raster_cells = 1,
-  global = FALSE,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{pad_raster}{matrix}(
-  landscape,
-  pad_raster_value = -999,
-  pad_raster_cells = 1,
-  global = FALSE,
-  return_raster = FALSE,
   to_disk = getOption("to_disk", default = FALSE)
 )
 }

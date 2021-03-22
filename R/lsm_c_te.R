@@ -121,10 +121,10 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
 
             # add one row/coloumn to count landscape boundary
             if (count_boundary) {
-                landscape_labeled <- pad_raster(landscape = landscape_labeled,
-                                                pad_raster_value = -999,
-                                                pad_raster_cells = 1,
-                                                return_raster = FALSE)[[1]]
+                landscape_labeled <- pad_raster_internal(landscape = landscape_labeled,
+                                                         pad_raster_value = -999,
+                                                         pad_raster_cells = 1,
+                                                         global = FALSE)
 
                 # set NA to -999
                 landscape_labeled[is.na(landscape_labeled)] <- -999

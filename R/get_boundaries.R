@@ -73,11 +73,8 @@ get_boundaries_calc <- function(landscape,
     # add padding for landscape boundary
     if (!consider_boundary) {
 
-        landscape <- pad_raster(landscape,
-                                pad_raster_value = NA,
-                                pad_raster_cells = 1,
-                                global = FALSE,
-                                return_raster = FALSE)[[1]]
+        landscape <- pad_raster_internal(landscape, pad_raster_value = NA,
+                                         pad_raster_cells = 1, global = FALSE)
     }
 
     # get boundaries
@@ -107,10 +104,8 @@ get_boundaries_calc <- function(landscape,
     # remove padded rows/cols
     if (!consider_boundary) {
 
-        landscape_boundaries <- unpad_raster(landscape_boundaries,
-                                             unpad_raster_cells = 1,
-                                             return_raster = FALSE,
-                                             to_disk = FALSE)[[1]]
+        landscape_boundaries <- unpad_raster_internal(landscape_boundaries,
+                                                      unpad_raster_cells = 1)
     }
 
     # use original patch id
