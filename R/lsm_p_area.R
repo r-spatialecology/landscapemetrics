@@ -83,7 +83,7 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
     factor_ha <- prod(resolution) / 10000
 
     # get unique class id
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     area_patch <- do.call(rbind,
                           lapply(classes, function(patches_class){

@@ -90,7 +90,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     }
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     enn_patch <- do.call(rbind,
                          lapply(classes, function(patches_class) {

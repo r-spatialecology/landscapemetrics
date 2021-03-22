@@ -104,7 +104,7 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
     area_patch <- area_patch$value * 10000
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     circle_patch <- do.call(rbind,
                             lapply(classes, function(patches_class) {

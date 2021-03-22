@@ -72,7 +72,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     resolution_y <- resolution[[2]]
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # raster resolution not identical in x-y directions
     if (!resolution_x == resolution_y) {

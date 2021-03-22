@@ -75,7 +75,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
                               value = as.double(NA)))
     }
 
-    t <- length(get_unique_values(landscape)[[1]])
+    t <- length(get_unique_values_int(landscape, verbose = FALSE))
 
     if (t < 2) {
         if (verbose) {

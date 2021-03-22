@@ -9,6 +9,7 @@
 \alias{landscape_as_list.SpatRaster}
 \alias{landscape_as_list.list}
 \alias{landscape_as_list.matrix}
+\alias{landscape_as_list.numeric}
 \title{Landscape as list}
 \usage{
 landscape_as_list(landscape)
@@ -26,6 +27,8 @@ landscape_as_list(landscape)
 \method{landscape_as_list}{list}(landscape)
 
 \method{landscape_as_list}{matrix}(landscape)
+
+\method{landscape_as_list}{numeric}(landscape)
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, Stars or a list of rasterLayers}

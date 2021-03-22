@@ -112,7 +112,7 @@ get_patches_int <- function(landscape,
     }
 
     # get unique classes
-    unique_classes <- get_unique_values(landscape)[[1]]
+    unique_classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # set-up filter matrix
     filter_matrix <- matrix(NA,

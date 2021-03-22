@@ -81,3 +81,12 @@ landscape_as_list.matrix <- function(landscape) {
 
     return(landscape)
 }
+
+#' @name landscape_as_list
+#' @export
+landscape_as_list.numeric <- function(landscape) {
+
+    landscape <- list(landscape)
+
+    return(landscape)
+}

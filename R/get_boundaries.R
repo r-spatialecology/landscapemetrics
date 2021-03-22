@@ -117,7 +117,7 @@ get_boundaries_calc <- function(landscape,
     if (patch_id) {
 
         # issue if class 0 is present because used for non-edge cells
-        present_classes <- rcpp_get_unique_values(landscape)
+        present_classes <- get_unique_values_int(landscape, verbose = FALSE)
 
         if (any(present_classes == 0)) {
            warning("Not able to use original patch id because at least one id equals zero.",

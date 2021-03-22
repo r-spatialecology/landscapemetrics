@@ -36,7 +36,7 @@ test_that("get_unique_values works for list", {
     expect_length(get_unique_values(list_x), n = 3)
 
     expect_warning(get_unique_values(list_x, simplify = TRUE),
-                   regexp = "Not able to simply list with more than 1 element.",
+                   regexp = "Not able to simplify input with more than one layer.",
                    fixed = TRUE)
 })
 
@@ -56,7 +56,7 @@ test_that("get_unique_values works for RasterStack", {
     expect_length(get_unique_values(landscape_stack), n = 2)
 
     expect_warning(get_unique_values(landscape_stack, simplify = TRUE),
-                   regexp = "Not able to simplify RasterStack.",
+                   regexp = "Not able to simplify input with more than one layer.",
                    fixed = TRUE)
 })
 
@@ -66,26 +66,22 @@ test_that("get_unique_values works for RasterBrick", {
     expect_length(get_unique_values(landscape_brick), n = 2)
 
     expect_warning(get_unique_values(landscape_brick, simplify = TRUE),
-                   regexp = "Not able to simplify RasterBrick",
+                   regexp = "Not able to simplify input with more than one layer.",
                    fixed = TRUE)
+})
+
+test_that("get_unique_values works for terra", {
+
+    expect_is(get_unique_values(landscape_terra), class = "list")
+    expect_length(get_unique_values(landscape_terra), n = 1)
+
+    expect_equal(get_unique_values(landscape_terra, simplify = TRUE),
+                 expected = c(1, 2, 3))
 })
 
 test_that("get_unique_values works only for correct data types", {
 
 expect_error(get_unique_values(list_y),
-             regexp = "List elements must be a RasterLayer, matrix or vector.",
+             regexp = "Input must be vector, matrix, raster, stars, or terra object or list of previous.",
              fixed = TRUE)
 })
-
-
-test_that("get_unique_values works for RasterLayers not in memory", {
-
-    landscape2 <- raster::writeRaster(landscape, tempfile())
-    expect_is(get_unique_values(landscape2), class = "list")
-    expect_length(get_unique_values(landscape2), n = 1)
-
-    expect_is(get_unique_values(landscape2, simplify = TRUE), class = "integer")
-    expect_equal(get_unique_values(landscape2, simplify = TRUE),
-                 expected = c(1, 2, 3))
-})
-

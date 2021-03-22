@@ -80,7 +80,7 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     if (level == "patch") {
 
         # what classes are present
-        classes <- get_unique_values(landscape)[[1]]
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
 
         # loop all classes
         circle <- do.call(rbind,

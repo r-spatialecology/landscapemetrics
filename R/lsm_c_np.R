@@ -68,7 +68,7 @@ lsm_c_np_calc <- function(landscape, directions){
     }
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # get number of patches
     return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {

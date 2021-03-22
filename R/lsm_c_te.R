@@ -81,9 +81,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
     resolution_y <- resolution[[2]]
 
     # get class id
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
-    if(length(classes) == 1 && !count_boundary) {
+    if (length(classes) == 1 && !count_boundary) {
 
         tibble::tibble(
             level = "class",
@@ -96,7 +96,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
     else {
 
         # resolution not identical in x and y direction
-        if(resolution_x != resolution_y){
+        if (resolution_x != resolution_y) {
 
             top_bottom_matrix <- matrix(c(NA, NA, NA,
                                           1,  0, 1,

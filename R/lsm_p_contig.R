@@ -89,7 +89,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
     }
 
     # get unique values
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # diagonal neighbours
     diagonal_matrix <- matrix(c(1, NA, 1,

@@ -85,7 +85,8 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     for (i in seq_len(length(landscape_labeled) - 1)) {
 
-        max(rcpp_get_unique_values(raster::as.matrix(landscape_labeled[[i]])))
+        max(get_unique_values_int(raster::as.matrix(landscape_labeled[[i]]),
+                                  verbose = FALSE))
 
         max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
 

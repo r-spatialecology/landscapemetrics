@@ -99,7 +99,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     }
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     core_class <- do.call(rbind,
                           lapply(classes, function(patches_class) {

@@ -2,7 +2,7 @@
 #'
 #' @description This function returns the unique values of an object.
 #'
-#' @param x vector, matrix or Raster* object
+#' @param x Vector, matrix, raster, stars, or terra object or list of previous.
 #' @param simplify If true, a vector will be returned instead of a list for
 #' 1-dimensional input
 #' @param verbose If true, warning messages are printend
@@ -29,222 +29,51 @@
 #' @rdname get_unique_values
 #'
 #' @export
-get_unique_values <- function(x, simplify, verbose) UseMethod("get_unique_values")
+get_unique_values <- function(x, simplify = FALSE, verbose = TRUE) {
 
-#' @name get_unique_values
-#' @export
-get_unique_values.numeric <- function(x,
-                                      simplify = FALSE,
-                                      verbose = TRUE){
+    x <- landscape_as_list(landscape = x)
 
-    if (typeof(x) != "integer") {
+    result <- lapply(X = x, FUN = get_unique_values_int,
+                     verbose = verbose)
 
-        if (verbose) {
-
-            warning("Double values will be converted to integer.", call. = FALSE)
-        }
-    }
-
-    unique_values <- rcpp_get_unique_values(x)
-
-    if (simplify) {
-        return(unique_values)
-    }
-
-    else{
-        return(list(unique_values))
-    }
-}
-
-#' @name get_unique_values
-#' @export
-get_unique_values.matrix <- function(x,
-                                     simplify = FALSE,
-                                     verbose = TRUE){
-
-    unique_values <- rcpp_get_unique_values(x)
+    names(result) <- paste0("layer_", 1:length(x))
 
     if (simplify) {
 
-        return(unique_values)
+        if (length(result) == 1) {
+
+            return(result[[1]])
+
+        } else if (verbose) {
+
+                warning("Not able to simplify input with more than one layer.", call. = FALSE)
+
+        }
     }
 
-    else{
-        return(list(unique_values))
-    }
+    return(result)
 }
 
-#' @name get_unique_values
-#' @export
-get_unique_values.RasterLayer <- function(x,
-                                          simplify = FALSE,
-                                          verbose = TRUE){
+get_unique_values_int <- function(landscape, verbose) {
 
-    if (!raster::inMemory(x)) {
+    if (inherits(x = landscape, what = "RasterLayer")) {
 
-        if (raster::fromDisk(x)) {
+        landscape <- raster::as.matrix(landscape)
 
-            if (raster::canProcessInMemory(x, 2)) {
+    } else if (!inherits(x = landscape, what = "matrix") &&
+               !inherits(x = landscape, what = "integer") &&
+               !inherits(x = landscape, what = "numeric")) {
 
-                x <- raster::readAll(x)
-            }
-        }
+        stop("Input must be vector, matrix, raster, stars, or terra object or list of previous.",
+             call. = FALSE)
 
-        else {
-            stop('RasterLayer has no values.')
-        }
     }
 
-    if (raster::inMemory(x)) {
-        unique_values <- rcpp_get_unique_values(x@data@values)
+    if (typeof(landscape) != "integer" && verbose) {
+
+        warning("Double values will be converted to integer.", call. = FALSE)
+
     }
 
-    else {
-        block_1 <- vector()
-        block_2 <- vector()
-
-        tr <- raster::blockSize(x, n = 2)
-
-        for (i in 1:tr$n) {
-
-            block_1 <- rcpp_get_unique_values(c(block_1,
-                                                raster::getValuesBlock(x,
-                                                                       row = tr$row[i],
-                                                                       nrows = tr$nrows[i])))
-            if (length(block_1) > 10000) {
-
-                block_2 <- rcpp_get_unique_values(c(block_1, block_2))
-                block_1 <- vector()
-            }
-        }
-
-        unique_values <- rcpp_get_unique_values(c(block_1, block_2))
-    }
-
-    if (simplify) {
-
-        return(unique_values)
-    }
-
-    else {
-
-        return(list(unique_values))
-    }
+    rcpp_get_unique_values(landscape)
 }
-
-#' @name get_unique_values
-#' @export
-get_unique_values.list <- function(x,
-                                   simplify = FALSE,
-                                   verbose = TRUE){
-
-    unique_values <- lapply(x, FUN = function(current_element) {
-
-        # use simplify = TRUE here to avoid lists of lists
-        if (inherits(x = current_element, what = "RasterLayer")) {
-
-            return(get_unique_values.RasterLayer(current_element,
-                                                 simplify = TRUE,
-                                                 verbose = verbose))
-
-        } else if (inherits(x = current_element,
-                            what = c("numeric", "double", "integer"))) {
-
-            return(get_unique_values.numeric(current_element,
-                                             simplify = TRUE,
-                                             verbose = verbose))
-
-        } else if (inherits(x = current_element, what = "matrix")) {
-
-            get_unique_values.matrix(current_element,
-                                     simplify = TRUE,
-                                     verbose = verbose)
-
-        } else{
-
-            stop("List elements must be a RasterLayer, matrix or vector.")
-
-        }
-    })
-
-    if (simplify) {
-
-        if (length(unique_values) == 1) {
-
-            return(unique_values[[1]])
-        }
-
-        else {
-            if (verbose) {
-
-                warning("Not able to simply list with more than 1 element.", call. = FALSE)
-            }
-        }
-    }
-
-    return(unique_values)
-}
-
-#' @name get_unique_values
-#' @export
-get_unique_values.RasterStack <- function(x,
-                                          simplify = FALSE,
-                                          verbose = TRUE){
-
-    x <- raster::as.list(x)
-
-    unique_values <- get_unique_values.list(x)
-
-    if (simplify) {
-
-        if (verbose) {
-
-            warning("Not able to simplify RasterStack.", call. = FALSE)
-        }
-    }
-
-    return(unique_values)
-}
-
-#' @name get_unique_values
-#' @export
-get_unique_values.RasterBrick <- function(x,
-                                          simplify = FALSE,
-                                          verbose = TRUE){
-
-    x <- raster::as.list(x)
-
-    unique_values <- get_unique_values.list(x)
-
-    if (simplify) {
-
-        if (verbose) {
-
-            warning("Not able to simplify RasterBrick.", call. = FALSE)
-        }
-    }
-
-    return(unique_values)
-}
-
-#' @name get_unique_values
-#' @export
-get_unique_values.stars <- function(x,
-                                    simplify = FALSE,
-                                    verbose = TRUE){
-
-    x <- raster::as.list(methods::as(x, "Raster"))
-
-    unique_values <- get_unique_values.list(x)
-
-    if (simplify) {
-
-        if (verbose) {
-
-            warning("Not able to simplify stars", call. = FALSE)
-        }
-    }
-
-    return(unique_values)
-}
-
