@@ -14,7 +14,7 @@
 #' @param count_boundary Include landscape boundary in edge length.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core.
-#' @param edge_depth Distance (in cells) a cell has the be away from the patch
+#' @param edge_depth Distance (in cells) a cell has to be away from the patch
 #' edge to be considered as core cell.
 #' @param cell_center If true, the coordinates of the centroid are forced to be
 #' a cell center within the patch.
