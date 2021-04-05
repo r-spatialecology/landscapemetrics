@@ -43,7 +43,7 @@ jobs:
           remotes::install_cran("patchwork")
           remotes::install_cran("tidyverse")
           remotes::install_version("SDMTools", version = "1.1-221.2")
-          remotes::install_cran("NLMR")
+          remotes::install_version("NLMR", version = "1.0", repos = "https://cran.r-project.org/")
           remotes::install_cran("landscapetools")
           remotes::install_cran("bench")
         shell: Rscript {0}
