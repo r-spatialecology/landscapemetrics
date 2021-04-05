@@ -69,7 +69,7 @@ identical.
 The resolution of a raster cell has to be in **meters**, as the package
 converts units internally and returns results in either meters, square
 meters or hectares. Before using **landscapemetrics**, be sure to check
-your raster (see `check_raster()`).
+your raster (see `check_landscape()`).
 
 All functions in **landscapemetrics** start with `lsm_` (for
 landscapemetrics). The second part of the name specifies the level
