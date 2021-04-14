@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -224,7 +224,7 @@
 <div id="using-landscapemetrics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
-<p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code>check_raster()</code>).</p>
+<p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code><a href="reference/check_landscape.html">check_landscape()</a></code>).</p>
 <p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the euclidean nearest-neighbor distance):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># general structure</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></span>

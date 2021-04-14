@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -205,62 +205,7 @@
     <p>Moving window</p>
     </div>
 
-    <pre class="usage"><span class='fu'>window_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>window</span>, <span class='va'>level</span>, <span class='va'>metric</span>, <span class='va'>name</span>, <span class='va'>type</span>, <span class='va'>what</span>, <span class='va'>progress</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>window_lsm</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  <span class='va'>window</span>,
-  level <span class='op'>=</span> <span class='st'>"landscape"</span>,
-  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  type <span class='op'>=</span> <span class='cn'>NULL</span>,
-  what <span class='op'>=</span> <span class='cn'>NULL</span>,
-  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>window_lsm</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  <span class='va'>window</span>,
-  level <span class='op'>=</span> <span class='st'>"landscape"</span>,
-  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  type <span class='op'>=</span> <span class='cn'>NULL</span>,
-  what <span class='op'>=</span> <span class='cn'>NULL</span>,
-  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>window_lsm</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  <span class='va'>window</span>,
-  level <span class='op'>=</span> <span class='st'>"landscape"</span>,
-  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  type <span class='op'>=</span> <span class='cn'>NULL</span>,
-  what <span class='op'>=</span> <span class='cn'>NULL</span>,
-  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'>window_lsm</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  <span class='va'>window</span>,
-  level <span class='op'>=</span> <span class='st'>"landscape"</span>,
-  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>,
-  type <span class='op'>=</span> <span class='cn'>NULL</span>,
-  what <span class='op'>=</span> <span class='cn'>NULL</span>,
-  progress <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>window_lsm</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>window_lsm</span><span class='op'>(</span>
   <span class='va'>landscape</span>,
   <span class='va'>window</span>,
   level <span class='op'>=</span> <span class='st'>"landscape"</span>,

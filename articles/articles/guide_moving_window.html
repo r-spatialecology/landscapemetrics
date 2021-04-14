@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Moving window</h1>
             
-            <h4 class="date">2021-02-04</h4>
+            <h4 class="date">2021-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/guide_moving_window.Rmd"><code>vignettes/articles/guide_moving_window.Rmd</code></a></small>
       <div class="hidden name"><code>guide_moving_window.Rmd</code></div>
@@ -186,8 +186,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/window_lsm.html">window_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, window <span class="op">=</span> <span class="va">moving_window</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">result</span></code></pre></div>
-<pre><code>## [[1]]
-## [[1]]$lsm_l_joinent
+<pre><code>## $layer_1
+## $layer_1$lsm_l_joinent
 ## class      : RasterLayer 
 ## dimensions : 30, 30, 900  (nrow, ncol, ncell)
 ## resolution : 1, 1  (x, y)
@@ -198,7 +198,7 @@
 ## values     : 0, 3.093069  (min, max)
 ## 
 ## 
-## [[1]]$lsm_l_pr
+## $layer_1$lsm_l_pr
 ## class      : RasterLayer 
 ## dimensions : 30, 30, 900  (nrow, ncol, ncell)
 ## resolution : 1, 1  (x, y)

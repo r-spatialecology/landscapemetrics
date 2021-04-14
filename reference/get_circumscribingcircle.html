@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -205,22 +205,7 @@
     <p>Diameter of the circumscribing circle around patches</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>directions</span>, <span class='va'>level</span><span class='op'>)</span>
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span>
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span>
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span>
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, directions <span class='op'>=</span> <span class='fl'>8</span>, level <span class='op'>=</span> <span class='st'>"patch"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,28 +237,28 @@ cells of the patch are included in the patch.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get circle around each patch</span>
 <span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 27 x 7</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 27 x 7</span><span>
 #&gt;    layer level class    id value center_x center_y
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>     1 patch     1     1  1.41      0.5     29.5
-#&gt; </span><span style='color: #555555;'> 2</span><span>     1 patch     1     2  4.12      0.5     21  
-#&gt; </span><span style='color: #555555;'> 3</span><span>     1 patch     1     3 29.3      13.2     19.2
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1 patch     1     4  1.41      0.5      2.5
-#&gt; </span><span style='color: #555555;'> 5</span><span>     1 patch     1     5  1.41      0.5      0.5
-#&gt; </span><span style='color: #555555;'> 6</span><span>     1 patch     1     6  6.32     17        8  
-#&gt; </span><span style='color: #555555;'> 7</span><span>     1 patch     1     7  3.16     20.5      0.5
-#&gt; </span><span style='color: #555555;'> 8</span><span>     1 patch     1     8  3.61     26        2.5
-#&gt; </span><span style='color: #555555;'> 9</span><span>     1 patch     1     9  1.41     29.5      6.5
-#&gt; </span><span style='color: #555555;'>10</span><span>     1 patch     2    10 10.3       3.5     25.5
-#&gt; </span><span style='color: #555555;'># … with 17 more rows</span><span></div><div class='input'>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 patch     1     1  1.41      0.5     29.5
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     1 patch     1     2  4.12      0.5     21  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     1 patch     1     3 29.3      13.2     19.2
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     1 patch     1     4  1.41      0.5      2.5
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1 patch     1     5  1.41      0.5      0.5
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1 patch     1     6  6.32     17        8  
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1 patch     1     7  3.16     20.5      0.5
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     1 patch     1     8  3.61     26        2.5
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     1 patch     1     9  1.41     29.5      6.5
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1 patch     2    10 10.3       3.5     25.5
+#&gt; </span><span style='color: #949494;'># … with 17 more rows</span><span></div><div class='input'>
 <span class='co'># get circle around whole class</span>
 <span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, level <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 7</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 7</span><span>
 #&gt;   layer level class    id value center_x center_y
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>     1 class     1    </span><span style='color: #BB0000;'>NA</span><span>  39.2     12.6     15  
-#&gt; </span><span style='color: #555555;'>2</span><span>     1 class     2    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15       14.5
-#&gt; </span><span style='color: #555555;'>3</span><span>     1 class     3    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15.2     15.2</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 class     1    </span><span style='color: #BB0000;'>NA</span><span>  39.2     12.6     15  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 class     2    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15       14.5
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1 class     3    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15.2     15.2</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

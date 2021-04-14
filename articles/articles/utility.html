@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Utility functions</h1>
             
-            <h4 class="date">2021-02-04</h4>
+            <h4 class="date">2021-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/utility.Rmd"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -188,22 +188,26 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
 
 <span class="co"># Plot landscape + landscape with labeled patches</span>
-<span class="fu"><a href="../../reference/show_patches.html">show_patches</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> </code></pre></div>
+<span class="fu"><a href="../../reference/show_patches.html">show_patches</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> 
+<span class="co">#&gt; $layer_1</span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-2-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>You can also plot all patches of each class grouped.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># show patches of all classes</span>
-<span class="fu"><a href="../../reference/show_patches.html">show_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="st">"all"</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/show_patches.html">show_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="st">"all"</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; $layer_1</span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>To show only the core area, there is the visualization function <code>show_cores</code>. The arguments are similar to <code><a href="../../reference/show_patches.html">show_patches()</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># show core area of class 1 and 3</span>
-<span class="fu"><a href="../../reference/show_cores.html">show_cores</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/show_cores.html">show_cores</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; $layer_1</span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Lastly, you can also “fill” the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using <code><a href="../../reference/show_lsm.html">show_lsm()</a></code>. You can chose if the label should be the patch id or the actual value of the landscape metric (<code>label_lsm = TRUE/FALSE</code>). To get the result as a <em>RasterLayer</em>, there is <code><a href="../../reference/spatialize_lsm.html">spatialize_lsm()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fill patch according to area</span>
-<span class="fu"><a href="../../reference/show_lsm.html">show_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"lsm_p_area"</span>, class <span class="op">=</span> <span class="st">"global"</span>, label_lsm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../../reference/show_lsm.html">show_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"lsm_p_area"</span>, class <span class="op">=</span> <span class="st">"global"</span>, label_lsm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; $layer_1</span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -228,7 +232,8 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get a list of all patches for each class</span>
 <span class="fu"><a href="../../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; $`1`</span>
+<span class="co">#&gt; $layer_1</span>
+<span class="co">#&gt; $layer_1$class_1</span>
 <span class="co">#&gt; class      : RasterLayer </span>
 <span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span>
 <span class="co">#&gt; resolution : 1, 1  (x, y)</span>
@@ -239,7 +244,7 @@
 <span class="co">#&gt; values     : 1, 9  (min, max)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $`2`</span>
+<span class="co">#&gt; $layer_1$class_2</span>
 <span class="co">#&gt; class      : RasterLayer </span>
 <span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span>
 <span class="co">#&gt; resolution : 1, 1  (x, y)</span>
@@ -250,7 +255,7 @@
 <span class="co">#&gt; values     : 1, 14  (min, max)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $`3`</span>
+<span class="co">#&gt; $layer_1$class_3</span>
 <span class="co">#&gt; class      : RasterLayer </span>
 <span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span>
 <span class="co">#&gt; resolution : 1, 1  (x, y)</span>
@@ -267,7 +272,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># calculate full adjacency matrix</span>
 <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, neighbourhood <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; $layer_1</span>
 <span class="co">#&gt;     1   2    3</span>
 <span class="co">#&gt; 1 520  43  137</span>
 <span class="co">#&gt; 2  43 704  184</span>
@@ -278,7 +283,7 @@
                             <span class="cn">NA</span>,  <span class="fl">0</span>, <span class="cn">NA</span>,
                             <span class="fl">1</span>,  <span class="cn">NA</span>,  <span class="fl">1</span><span class="op">)</span>, <span class="fl">3</span>, <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="va">diagonal_matrix</span><span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; $layer_1</span>
 <span class="co">#&gt;     1   2    3</span>
 <span class="co">#&gt; 1 466  53  167</span>
 <span class="co">#&gt; 2  53 602  240</span>
@@ -304,9 +309,9 @@
 <span class="co">#&gt; # A tibble: 2 x 6</span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 247.95µs 279.18µs    2979. </span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           8.46ms   9.14ms      96.1</span>
-<span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 267.25µs 277.56µs    3377. </span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           7.96ms   8.88ms      91.3</span>
+<span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;    </span>
@@ -321,10 +326,10 @@
 <p><code>landscapemetrics</code> implements a memory efficient and quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># run connected labeling for podlasie raster</span>
-<span class="va">patches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">patches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># calculate the minimum distance between patches in a landscape</span>
-<span class="va">min_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">)</span>
+<span class="va">min_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>
 
 <span class="co"># create a function that would do the same with the raster package</span>
 <span class="va">nearest_raster_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op">{</span>
@@ -363,24 +368,22 @@
 <span class="co"># compare the two implementations</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/bench">bench</a></span><span class="op">)</span>
 <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>
-    <span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,
-    <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span>,
+    <span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,
+    <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>,
     iterations <span class="op">=</span> <span class="fl">100</span>, check <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
-<span class="co">#&gt; Warning: `as.tibble()` is deprecated as of tibble 2.0.0.</span>
+<span class="co">#&gt; Warning: `as.tibble()` was deprecated in tibble 2.0.0.</span>
 <span class="co">#&gt; Please use `as_tibble()` instead.</span>
 <span class="co">#&gt; The signature and semantics have changed, see `?as_tibble`.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; # A tibble: 2 x 6</span>
-<span class="co">#&gt;   expression                               min  median `itr/sec` mem_alloc</span>
-<span class="co">#&gt;   &lt;bch:expr&gt;                           &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt; &lt;bch:byt&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches)[, 2:3]  4.57ms  4.84ms     203.   273.21KB</span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches)          30.11ms 32.66ms      30.0    2.37MB</span>
-<span class="co">#&gt; # … with 1 more variable: `gc/sec` &lt;dbl&gt;</span>
+<span class="co">#&gt;   expression                                               min  median `itr/sec`</span>
+<span class="co">#&gt;   &lt;bch:expr&gt;                                           &lt;bch:t&gt; &lt;bch:t&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  5.23ms  5.93ms     164. </span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches$layer_1$class_1)           33.4ms  36.7ms      26.8</span>
+<span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>
-<span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">==</span> <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">==</span> <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>
 <span class="co">#&gt;         id dist</span>
 <span class="co">#&gt;  [1,] TRUE TRUE</span>
 <span class="co">#&gt;  [2,] TRUE TRUE</span>
@@ -398,10 +401,10 @@
 <p>To get the smallest circumscribing circle that includes all cells of the patch, simply run <code><a href="../../reference/get_circumscribingcircle.html">get_circumscribingcircle()</a></code>. The result returns the diameter for each circle that includes all cells of each patch. This includes not only the cell centers but the whole cells using the cells corners.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get all patches of class 1</span>
-<span class="va">class_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">class_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># get smallest circumscribing circle for each patch</span>
-<span class="va">circle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">class_1</span><span class="op">)</span></code></pre></div>
+<span class="va">circle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">class_1</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>

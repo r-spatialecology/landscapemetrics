@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -205,50 +205,7 @@
     <p>Show patches</p>
     </div>
 
-    <pre class="usage"><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>class</span>, <span class='va'>directions</span>, <span class='va'>labels</span>, <span class='va'>nrow</span>, <span class='va'>ncol</span><span class='op'>)</span>
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>show_patches</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  class <span class='op'>=</span> <span class='st'>"global"</span>,
-  directions <span class='op'>=</span> <span class='fl'>8</span>,
-  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  nrow <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ncol <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>show_patches</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  class <span class='op'>=</span> <span class='st'>"global"</span>,
-  directions <span class='op'>=</span> <span class='fl'>8</span>,
-  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  nrow <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ncol <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>show_patches</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  class <span class='op'>=</span> <span class='st'>"global"</span>,
-  directions <span class='op'>=</span> <span class='fl'>8</span>,
-  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  nrow <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ncol <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'>show_patches</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  class <span class='op'>=</span> <span class='st'>"global"</span>,
-  directions <span class='op'>=</span> <span class='fl'>8</span>,
-  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  nrow <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ncol <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>show_patches</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>show_patches</span><span class='op'>(</span>
   <span class='va'>landscape</span>,
   class <span class='op'>=</span> <span class='st'>"global"</span>,
   directions <span class='op'>=</span> <span class='fl'>8</span>,
@@ -293,9 +250,9 @@ corresponding patch id.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>
-</div><div class='img'><img src='show_patches-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='show_patches-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>3</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='show_patches-3.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_patches-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_patches-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'>show_patches</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>3</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_patches-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

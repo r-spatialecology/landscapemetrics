@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -207,64 +207,12 @@
 
     <pre class="usage"><span class='fu'>get_boundaries</span><span class='op'>(</span>
   <span class='va'>landscape</span>,
-  <span class='va'>consider_boundary</span>,
-  <span class='va'>edge_depth</span>,
-  <span class='va'>as_NA</span>,
-  <span class='va'>patch_id</span>,
-  <span class='va'>return_raster</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterLayer</span>
-<span class='fu'>get_boundaries</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
   consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
   edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
   as_NA <span class='op'>=</span> <span class='cn'>FALSE</span>,
   patch_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
   return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterStack</span>
-<span class='fu'>get_boundaries</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
-  as_NA <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  patch_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for RasterBrick</span>
-<span class='fu'>get_boundaries</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
-  as_NA <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  patch_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for stars</span>
-<span class='fu'>get_boundaries</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
-  as_NA <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  patch_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for list</span>
-<span class='fu'>get_boundaries</span><span class='op'>(</span>
-  <span class='va'>landscape</span>,
-  consider_boundary <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  edge_depth <span class='op'>=</span> <span class='fl'>1</span>,
-  as_NA <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  patch_id <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  return_raster <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='fu'>get_boundaries_calc</span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>consider_boundary</span>, <span class='va'>edge_depth</span>, <span class='va'>as_NA</span>, <span class='va'>patch_id</span><span class='op'>)</span></pre>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -311,7 +259,7 @@ neighbour cells with the same value than themself.</p>
     <pre class="examples"><div class='input'><span class='va'>class_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 
 <span class='fu'>get_boundaries</span><span class='op'>(</span><span class='va'>class_1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
+</div><div class='output co'>#&gt; $class_1
 #&gt; class      : RasterLayer 
 #&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)
 #&gt; resolution : 1, 1  (x, y)
@@ -322,7 +270,7 @@ neighbour cells with the same value than themself.</p>
 #&gt; values     : 0, 1  (min, max)
 #&gt; 
 #&gt; </div><div class='input'><span class='fu'>get_boundaries</span><span class='op'>(</span><span class='va'>class_1</span>, return_raster <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
+</div><div class='output co'>#&gt; $class_1
 #&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
 #&gt;  [1,]    1   NA   NA   NA   NA   NA   NA   NA   NA    NA    NA    NA    NA
 #&gt;  [2,]   NA   NA   NA   NA   NA   NA   NA   NA   NA    NA    NA    NA    NA

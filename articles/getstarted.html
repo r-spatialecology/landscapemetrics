@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Get Started with landscapemetrics</h1>
             
-            <h4 class="date">2021-02-04</h4>
+            <h4 class="date">2021-04-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/getstarted.Rmd"><code>vignettes/getstarted.Rmd</code></a></small>
       <div class="hidden name"><code>getstarted.Rmd</code></div>
@@ -303,7 +303,7 @@ lsm_l_enn()</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># list all available metrics</span>
 <span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 132 x 5</span>
+<span class="co">#&gt; # A tibble: 133 x 5</span>
 <span class="co">#&gt;    metric name                            type               level function_name</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                           &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;        </span>
 <span class="co">#&gt;  1 area   patch area                      area and edge met… patch lsm_p_area   </span>
@@ -316,7 +316,7 @@ lsm_l_enn()</code></pre>
 <span class="co">#&gt;  8 gyrate radius of gyration              area and edge met… patch lsm_p_gyrate </span>
 <span class="co">#&gt;  9 ncore  number of core areas            core area metric   patch lsm_p_ncore  </span>
 <span class="co">#&gt; 10 para   perimeter-area ratio            shape metric       patch lsm_p_para   </span>
-<span class="co">#&gt; # … with 122 more rows</span>
+<span class="co">#&gt; # … with 123 more rows</span>
 
 <span class="co"># list only aggregation metrics at landscape level and just return function name</span>
 <span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"landscape"</span>, 
