@@ -54,42 +54,42 @@ get_patches <- function(landscape, class = "all", directions = 8,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-           FUN = function(x, class, directions, return_raster, to_disk) {
+                     FUN = function(x, class, directions, return_raster, to_disk) {
 
-               # convert to matrix
-               if (!inherits(x = x, what = "matrix")) {
+                         # convert to matrix
+                         if (!inherits(x = x, what = "matrix")) {
 
-                   x_matrix <- raster::as.matrix(x)
+                             x_matrix <- raster::as.matrix(x)
 
-               } else {
+                         } else {
 
-                   x_matrix <- x
+                             x_matrix <- x
 
-               }
+                         }
 
-               result <- get_patches_int(x_matrix, class, directions)
+                         result <- get_patches_int(x_matrix, class, directions)
 
-               if ((return_raster || to_disk) && !inherits(x = x, what = "matrix")) {
+                         if ((return_raster || to_disk) && !inherits(x = x, what = "matrix")) {
 
-                   result <- lapply(result,
-                                    FUN = matrix_to_raster,
-                                    landscape = x,
-                                    to_disk = to_disk)
+                             result <- lapply(result,
+                                              FUN = matrix_to_raster,
+                                              landscape = x,
+                                              to_disk = to_disk)
 
-               } else if ((return_raster || to_disk) && inherits(x = x, what = "matrix")) {
+                         } else if ((return_raster || to_disk) && inherits(x = x, what = "matrix")) {
 
-                   warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
-                           call. = FALSE)
+                             warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
+                                     call. = FALSE)
 
-               }
+                         }
 
-               return(result)
-           },
+                         return(result)
+                     },
 
-           class = class,
-           directions = directions,
-           return_raster = return_raster,
-           to_disk = to_disk)
+                     class = class,
+                     directions = directions,
+                     return_raster = return_raster,
+                     to_disk = to_disk)
 
 
     names(result) <- paste0("layer_", 1:length(landscape))
@@ -132,9 +132,19 @@ get_patches_int <- function(landscape,
             # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
             filter_matrix[landscape == current_class] <- 1L
 
-            # connected labeling with 4 or 8 neighbours
-            rcpp_ccl(filter_matrix, directions)
-            patch_landscape <- filter_matrix
+            # connected labeling with 4 neighbours
+            if (directions == 4) {
+                #patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
+                rcpp_ccl(filter_matrix, 4)
+                patch_landscape <- filter_matrix
+            }
+
+            # connected labeling with 8 neighbours
+            if (directions == 8) {
+                #patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
+                rcpp_ccl(filter_matrix, 8)
+                patch_landscape <- filter_matrix
+            }
 
             return(patch_landscape)
         })
