@@ -2,6 +2,11 @@
 #include <array>
 #include <queue>
 
+/**
+ * @brief rcpp_ccl2 - the old variant
+ * @param data
+ * @param directions
+ */
 void rcpp_ccl2(IntegerMatrix data, int directions) {
   const int nrows = data.nrow();
   const int ncols = data.ncol();
@@ -89,8 +94,8 @@ Ccl::Ccl(IntegerMatrix mat, const int directions) {
   if (directions == 4) {
     neig = {Pixel_coords(1, 0), Pixel_coords(0, 1), Pixel_coords(-1, 0),
             Pixel_coords(0, -1)};
-    internal_contour_tracing_start = 3;
-    external_contour_tracing_start = 2;
+    internal_contour_tracing_start = 2;
+    external_contour_tracing_start = 3;
     opposite_direction = 2;
     // the coordinates index:
     //    3
@@ -100,8 +105,8 @@ Ccl::Ccl(IntegerMatrix mat, const int directions) {
     neig = {Pixel_coords(1, 0),  Pixel_coords(1, 1),  Pixel_coords(0, 1),
             Pixel_coords(-1, 1), Pixel_coords(-1, 0), Pixel_coords(-1, -1),
             Pixel_coords(0, -1), Pixel_coords(1, -1)};
-    internal_contour_tracing_start = 7;
-    external_contour_tracing_start = 3;
+    internal_contour_tracing_start = 3;
+    external_contour_tracing_start = 7;
     opposite_direction = 4;
     // the coordinates index:
     //  5 6 7
@@ -110,77 +115,74 @@ Ccl::Ccl(IntegerMatrix mat, const int directions) {
   }
 }
 
+/**
+ * @brief Ccl::ccl
+ * The Algorithm is based on:
+ * Chang, Fu, Chun Jen Chen, and Chi Jen Lu. 2004.
+ * “A Linear-Time Component-Labeling Algorithm Using Contour Tracing Technique.”
+ * Computer Vision and Image Understanding 93 (2): 206–20.
+ * https://doi.org/10.1016/j.cviu.2003.09.002.
+ */
 void Ccl::ccl() {
+
   // run first row seperately to avoid padding
   for (unsigned row = 0; row < nrows; row++) {
     const unsigned col = 0;
-
     // marked or unmarked white pixel? Or labelled already?
-    if (data[col * nrows + row] != black_pixel) {
+    if (data[row] != black_pixel) {
       continue;
     }
+    // (1) If the pixel above is a white pixel, this pixel must be an external
+    // contour of a new label <- there are all pixels "white" for the first row
+    labels++;
+    cur_label = labels;
+    contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
 
-    unsigned cur_label = 0;
-
-    // has left black pixel? Or new label?
-    if (static_cast<int>(row) - 1 >= 0) {
-      if (left >= black_pixel) {
+    // (2) If the pixel below is an unmarked white pixel, this pixel must be a
+    // new internal countour If this pixel is labelled already, it is also an
+    // external countour
+    if (below == white_pixel_unmarked) {
+      if (data[col * nrows + row] == black_pixel) {
         cur_label = data[col * nrows + row - 1];
       } else {
-        labels++;
-        cur_label = labels;
+        cur_label = data[col * nrows + row]; // not sure if this is needed
       }
-    } else {
-      labels++;
-      cur_label = labels;
-    }
-
-    data[col * nrows + row] = cur_label;
-
-    contour_tracing(Pixel_coords(row, col), cur_label,
-                    external_contour_tracing_start);
-
-    if (col + 1 < ncols) {
-      if (below == white_pixel_unmarked) {
-        contour_tracing(Pixel_coords(row, col), cur_label,
-                        internal_contour_tracing_start);
-      }
+      contour_tracing(Pixel_coords(row, col), internal_contour_tracing_start);
     }
   }
 
-  // first and last row are iterated seperately
+  // first and last row are iterated seperately to avoid padding
   for (unsigned col = 1; col < ncols - 1; col++) {
     for (unsigned row = 0; row < nrows; row++) {
       // marked or unmarked white pixel? Or labelled already?
       if (data[col * nrows + row] != black_pixel) {
         continue;
       }
-
-      unsigned cur_label = 0;
-
-      // has left black pixel? Or new label?
-      if (static_cast<int>(col) - 1 >= 0) {
-        if (left >= black_pixel) {
-          cur_label = left;
-        } else {
-          labels++;
-          cur_label = labels;
-        }
-      } else {
+      // (1) If the pixel above is a white pixel, this pixel must be an external
+      // contour of a new label
+      if (above == white_pixel_unmarked) {
         labels++;
         cur_label = labels;
+        contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
       }
 
-      data[col * nrows + row] = cur_label;
-
-      if (above == white_pixel_unmarked) {
-        contour_tracing(Pixel_coords(row, col), cur_label,
-                        external_contour_tracing_start);
-      }
-
+      // (2) If the pixel below is an unmarked white pixel, this pixel must be a
+      // new internal countour If this pixel is labelled already, it is also an
+      // external countour
       if (below == white_pixel_unmarked) {
-        contour_tracing(Pixel_coords(row, col), cur_label,
-                        internal_contour_tracing_start);
+        if (data[col * nrows + row] == black_pixel) {
+          cur_label = data[col * nrows + row - 1];
+        } else {
+          cur_label =
+              data[col * nrows + row]; /// TODO: not sure if this is needed
+        }
+        contour_tracing(Pixel_coords(row, col), internal_contour_tracing_start);
+      }
+
+      // (3) If pixel is not a contour pixel, the left neighbor must be a
+      // labelled pixel
+      if (data[col * nrows + row] == black_pixel) {
+        data[col * nrows + row] = cur_label = left;
       }
     }
   }
@@ -211,6 +213,7 @@ void Ccl::ccl() {
     data[col * nrows + row] = cur_label;
   }
 
+  // Just re-label stuff to have labels [1,n] instead of [2, n+1]
   for (unsigned col = 0; col < ncols; col++) {
     for (unsigned row = 0; row < nrows; row++) {
       if (data[col * nrows + row] == white_pixel_unmarked) {
@@ -220,14 +223,15 @@ void Ccl::ccl() {
         data[col * nrows + row] = white_pixel_unmarked;
         continue;
       }
-      data[col * nrows + row]--; // to have labels [1,n] instead of [2, n+1]
+      data[col * nrows + row]--;
     }
   }
 }
 
-void Ccl::contour_tracing(const Pixel_coords start, const int cur_label,
+void Ccl::contour_tracing(const Pixel_coords start,
                           unsigned tracing_direction) {
 
+  data[start.col * nrows + start.row] = cur_label;
   const auto second = tracer(start, tracing_direction);
 
   // is it an isolated pixel?
@@ -273,6 +277,8 @@ Pixel_coords Ccl::tracer(const Pixel_coords start,
   }
   return start;
 }
+
+// LANDMETRICS version
 
 // global variables
 static int SearchDirection[8][2] = {{0, 1},  {1, 1},   {1, 0},  {1, -1},

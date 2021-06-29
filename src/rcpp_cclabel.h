@@ -35,6 +35,7 @@ private:
   IntegerMatrix data;
   unsigned nrows;
   unsigned ncols;
+  unsigned cur_label = 0;
   int directions = 8;
   std::vector<Pixel_coords> neig;
 
@@ -47,8 +48,7 @@ private:
   int labels = 1; // i.e. marked/labelled black pixels
 
   Pixel_coords tracer(const Pixel_coords start, unsigned &tracing_direction);
-  void contour_tracing(const Pixel_coords start, const int cur_label,
-                       unsigned tracing_direction);
+  void contour_tracing(const Pixel_coords start, unsigned tracing_direction);
 };
 
 #endif // CCLABEL_H
