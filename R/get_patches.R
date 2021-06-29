@@ -132,19 +132,9 @@ get_patches_int <- function(landscape,
             # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
             filter_matrix[landscape == current_class] <- 1L
 
-            # connected labeling with 4 neighbours
-            if (directions == 4) {
-                #patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
-                rcpp_ccl(filter_matrix, 4)
-                patch_landscape <- filter_matrix
-            }
-
-            # connected labeling with 8 neighbours
-            if (directions == 8) {
-                #patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
-                rcpp_ccl(filter_matrix, 8)
-                patch_landscape <- filter_matrix
-            }
+            # connected labeling
+            rcpp_ccl(filter_matrix, directions)
+            patch_landscape <- filter_matrix
 
             return(patch_landscape)
         })
@@ -152,15 +142,13 @@ get_patches_int <- function(landscape,
         names(patch_landscape) <- paste0("class_", class)
 
         return(patch_landscape)
-    }
-
-    else {
+    } else {
 
         patch_landscape <- lapply(X = unique_classes, FUN = function(class) {
 
             filter_matrix[landscape == class] <- 1L
 
-            # connected labeling with 4 or 8 neighbours
+            # connected labeling
             rcpp_ccl(filter_matrix, directions)
             patch_landscape <- filter_matrix
 
