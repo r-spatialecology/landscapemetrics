@@ -187,10 +187,6 @@ void Ccl::ccl() {
       // (3) If this pixel is not a contour pixel (i.e. still an unlabeled black
       // pixel), the left neighbor must be a labelled pixel
       if (data[col * nrows + row] == black_pixel) {
-        if (left <= black_pixel) { /// DEBUG
-          Rcout << "col:" << col + 1 << " row:" << row + 1;
-          return;
-        }
         data[col * nrows + row] = left;
       }
     }
