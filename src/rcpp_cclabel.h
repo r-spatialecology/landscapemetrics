@@ -11,12 +11,6 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 void rcpp_ccl(IntegerMatrix data, int directions = 8);
 
-// [[Rcpp::export]]
-void rcpp_ccl2(IntegerMatrix data, int directions = 8);
-
-// [[Rcpp::export]]
-IntegerMatrix rcpp_ccl3(IntegerMatrix data);
-
 struct Pixel_coords {
   Pixel_coords(unsigned row, unsigned col) : row(row), col(col){};
   bool operator==(const Pixel_coords &rhs) const {

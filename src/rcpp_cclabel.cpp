@@ -1,89 +1,8 @@
 #include "rcpp_cclabel.h"
-#include <array>
-#include <queue>
 
-/**
- * @brief rcpp_ccl2 - the old variant
- * @param data
- * @param directions
- */
-void rcpp_ccl2(IntegerMatrix data, int directions) {
-  const int nrows = data.nrow();
-  const int ncols = data.ncol();
-  std::vector<std::vector<int>> neigCoordinates;
-  if (directions == 4) {
-    neigCoordinates = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-    // the coordinates index:
-    //    2
-    //  0 X 1
-    //    3
-  } else {
-    neigCoordinates = {{-1, 0}, {1, 0},   {-1, 1}, {0, 1},
-                       {1, 1},  {-1, -1}, {0, -1}, {1, -1}};
-    // the coordinates index:
-    //  2 3 4
-    //  0 X 1
-    //  5 6 7
-  }
-
-  const unsigned nNeig = neigCoordinates.size();
-
-  // it's convinient to have patch cells marked as 0 (i.e. un-labeled) and
-  // matrix cells as NA
-  for (int col = 0; col < ncols; col++) {
-    for (int row = 0; row < nrows; row++) {
-      if (data[col * nrows + row] == NA) {
-        continue;
-      }
-      data[col * nrows + row] = 0;
-    }
-  }
-
-  int label = 0;
-  for (int col = 0; col < ncols; col++) {
-    for (int row = 0; row < nrows; row++) {
-      // ignore background cells and cells that are already labeled
-      if (data[col * nrows + row] == NA || data[col * nrows + row] > 0) {
-        continue;
-      }
-
-      // label the first cell of the patch
-      data[col * nrows + row] = ++label;
-
-      std::queue<std::array<const int, 2>> patchcells;
-      patchcells.push(std::array<const int, 2>{col, row});
-
-      while (!patchcells.empty()) {
-        const auto col_row = patchcells.front();
-        patchcells.pop();
-
-        // check all neigbors
-        for (unsigned i = 0; i < nNeig; i++) {
-          const int col_neig = col_row[0] + neigCoordinates[i][0];
-          const int row_neig = col_row[1] + neigCoordinates[i][1];
-
-          // skip if not a patch or out of bounds
-          if (col_neig < 0)
-            continue;
-          if (row_neig < 0)
-            continue;
-          if (col_neig >= ncols)
-            continue;
-          if (row_neig >= nrows)
-            continue;
-
-          // skip if background or already labeled
-          if (data[col_neig * nrows + row_neig] == NA ||
-              data[col_neig * nrows + row_neig] > 0)
-            continue;
-
-          // label cell and put in queue
-          data[col_neig * nrows + row_neig] = label;
-          patchcells.push(std::array<const int, 2>{col_neig, row_neig});
-        }
-      }
-    }
-  }
+void rcpp_ccl(IntegerMatrix data, int directions) {
+  Ccl ccl(data, directions);
+  ccl.ccl();
 }
 
 Ccl::Ccl(IntegerMatrix mat, const int directions) : directions(directions) {
@@ -135,9 +54,11 @@ void Ccl::ccl() {
     }
     // (1) If the pixel above is a white pixel, this pixel must be an external
     // contour of a new label <- there are all pixels "white" for the first row
-    labels++;
-    cur_label = labels;
-    contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
+    if (data[row] == black_pixel) {
+      labels++;
+      cur_label = labels;
+      contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
+    }
 
     // (2) If the pixel below is an unmarked white pixel, this pixel must be a
     // new internal countour If this pixel is labelled already, it is also an
@@ -152,7 +73,7 @@ void Ccl::ccl() {
     }
   }
 
-  // first and last row are iterated seperately to avoid padding
+  // first and last row are iterated seperately to avoid the need for padding
   for (unsigned col = 1; col < ncols - 1; col++) {
     for (unsigned row = 0; row < nrows; row++) {
 
@@ -278,201 +199,4 @@ Pixel_coords Ccl::tracer(const Pixel_coords start,
     tracing_direction = (tracing_direction + 1) % directions;
   }
   return start;
-}
-
-// LANDMETRICS version
-
-// global variables
-static int SearchDirection[8][2] = {{0, 1},  {1, 1},   {1, 0},  {1, -1},
-                                    {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-int nrow, ncol;
-int *out, *data;
-
-/*
-tdata is a matrix of binary data 0 for background and 1 for foreground
-*/
-
-void Tracer(int *cy, int *cx, int *tracingdirection) {
-  int i, y, x, tval;
-  for (i = 0; i < 7; i++) {
-    y = *cy + SearchDirection[*tracingdirection][0];
-    x = *cx + SearchDirection[*tracingdirection][1];
-
-    if (y >= 0 && y < nrow && x >= 0 && x < ncol) {
-      tval = data[y + nrow * x];
-      if (tval == NA_INTEGER) {
-        tval = 0;
-      }
-    } else {
-      tval = 0;
-    }
-
-    if (tval == 0) {
-      if (y >= 0 && y < nrow && x >= 0 && x < ncol) {
-        out[y + nrow * x] = -1;
-      }
-      *tracingdirection = (*tracingdirection + 1) % 8;
-    } else {
-      *cy = y;
-      *cx = x;
-      break;
-    }
-  }
-}
-
-void ContourTracing(int cy, int cx, int labelindex, int tracingdirection) {
-  char tracingstopflag = 0, SearchAgain = 1;
-  int fx, fy, sx = cx, sy = cy;
-
-  Tracer(&cy, &cx, &tracingdirection);
-
-  if (cx != sx || cy != sy) {
-    fx = cx;
-    fy = cy;
-    while (SearchAgain) {
-      tracingdirection = (tracingdirection + 6) % 8;
-      out[cy + nrow * cx] = labelindex;
-      Tracer(&cy, &cx, &tracingdirection);
-
-      if (cx == sx && cy == sy) {
-        tracingstopflag = 1;
-      } else if (tracingstopflag) {
-        if (cx == fx && cy == fy) {
-          SearchAgain = 0;
-        } else {
-          tracingstopflag = 0;
-        }
-      }
-    }
-  }
-}
-
-IntegerMatrix rcpp_ccl3(IntegerMatrix data) {
-  auto out = clone(data);
-  const auto nrow = out.nrow();
-  const auto ncol = out.ncol();
-
-  // cycle through and copy data to out
-  int row, col;
-  for (row = 0; row < nrow; row++) {
-    for (col = 0; col < ncol; col++) {
-      out[row + nrow * col] = 0;
-    }
-  }
-
-  // cycle through the map and label the regions
-  int tracingdirection, ConnectedComponentsCount = 0, labelindex = 0;
-  for (row = 0; row < nrow; row++) {
-    for (col = 0, labelindex = 0; col < ncol; col++) {
-      if (data[row + nrow * col] == 1) { // black pixel
-        if (labelindex != 0) {           // use pre-pixel label
-          out[row + nrow * col] = labelindex;
-        } else {
-          labelindex = out[row + nrow * col];
-          if (labelindex == 0) {
-            labelindex = ++ConnectedComponentsCount;
-            tracingdirection = 0;
-            ContourTracing(row, col, labelindex,
-                           tracingdirection); // external contour
-            out[row + nrow * col] = labelindex;
-          }
-        }
-      } else if (labelindex != 0) { // white pixel & pre-pixel has been labeled
-        if (out[row + nrow * col] == 0) {
-          tracingdirection = 1;
-          ContourTracing(row, col - 1, labelindex,
-                         tracingdirection); // internal contour
-        }
-        labelindex = 0;
-      }
-    }
-  }
-
-  // cycle through and replace -1 with 0 and insert NA where appropriate
-  for (row = 0; row < nrow; row++) {
-    for (col = 0; col < ncol; col++) {
-      if (out[row + nrow * col] == -1) {
-        out[row + nrow * col] = 0;
-      }
-    }
-  }
-
-  return (out);
-}
-
-#if 0
-#include <R.h>
-#include <Rinternals.h>
-
-SEXP ccl(SEXP tdata) {
-    // define the pointers for the data
-    PROTECT(tdata = coerceVector(tdata, INTSXP));
-    data = INTEGER(tdata); // this is a binary matrix of data
-    int *dims =
-            INTEGER(coerceVector(getAttrib(tdata, R_DimSymbol),
-                                 INTSXP)); // get the dimension of the input matrix
-    nrow = dims[0];
-    ncol = dims[1]; // assign the number of rows and columns in the matrix
-
-    // setup the output matrix
-    SEXP ans;
-    PROTECT(ans = allocMatrix(INTSXP, nrow, ncol));
-    out = INTEGER(ans); // pointer to output dataset
-
-    // cycle through and copy data to out
-    int row, col;
-    for (row = 0; row < nrow; row++) {
-        for (col = 0; col < ncol; col++) {
-            out[row + nrow * col] = 0;
-        }
-    }
-
-    // cycle through the map and label the regions
-    int tracingdirection, ConnectedComponentsCount = 0, labelindex = 0;
-    for (row = 0; row < nrow; row++) {
-        for (col = 0, labelindex = 0; col < ncol; col++) {
-            if (data[row + nrow * col] == 1) { // black pixel
-                if (labelindex != 0) {           // use pre-pixel label
-                    out[row + nrow * col] = labelindex;
-                } else {
-                    labelindex = out[row + nrow * col];
-                    if (labelindex == 0) {
-                        labelindex = ++ConnectedComponentsCount;
-                        tracingdirection = 0;
-                        ContourTracing(row, col, labelindex,
-                                       tracingdirection); // external contour
-                        out[row + nrow * col] = labelindex;
-                    }
-                }
-            } else if (labelindex != 0) { // white pixel & pre-pixel has been labeled
-                if (out[row + nrow * col] == 0) {
-                    tracingdirection = 1;
-                    ContourTracing(row, col - 1, labelindex,
-                                   tracingdirection); // internal contour
-                }
-                labelindex = 0;
-            }
-        }
-    }
-
-    // cycle through and replace -1 with 0 and insert NA where appropriate
-    for (row = 0; row < nrow; row++) {
-        for (col = 0; col < ncol; col++) {
-            if (data[row + nrow * col] == NA_INTEGER) {
-                out[row + nrow * col] = NA_INTEGER;
-            } else if (out[row + nrow * col] == -1) {
-                out[row + nrow * col] = 0;
-            }
-        }
-    }
-
-    // return the output data
-    UNPROTECT(2);
-    return (ans);
-}
-#endif
-
-void rcpp_ccl(IntegerMatrix data, int directions) {
-  Ccl ccl(data, directions);
-  ccl.ccl();
 }

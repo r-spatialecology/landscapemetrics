@@ -5,14 +5,6 @@ rcpp_ccl <- function(data, directions = 8L) {
     invisible(.Call('_landscapemetrics_rcpp_ccl', PACKAGE = 'landscapemetrics', data, directions))
 }
 
-rcpp_ccl2 <- function(data, directions = 8L) {
-    invisible(.Call('_landscapemetrics_rcpp_ccl2', PACKAGE = 'landscapemetrics', data, directions))
-}
-
-rcpp_ccl3 <- function(data) {
-    .Call('_landscapemetrics_rcpp_ccl3', PACKAGE = 'landscapemetrics', data)
-}
-
 #' Coordinates from a matrix
 #'
 #' This function gets coordinates (row and column numbers) of the matrix cells.
