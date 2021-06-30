@@ -86,8 +86,7 @@ void rcpp_ccl2(IntegerMatrix data, int directions) {
   }
 }
 
-Ccl::Ccl(IntegerMatrix mat, const int directions) {
-  this->directions = directions;
+Ccl::Ccl(IntegerMatrix mat, const int directions) : directions(directions) {
   nrows = mat.nrow();
   ncols = mat.ncol();
   data = mat;
@@ -95,8 +94,9 @@ Ccl::Ccl(IntegerMatrix mat, const int directions) {
     neig = {Pixel_coords(1, 0), Pixel_coords(0, 1), Pixel_coords(-1, 0),
             Pixel_coords(0, -1)};
     internal_contour_tracing_start = 2;
-    external_contour_tracing_start = 3;
+    external_contour_tracing_start = 0;
     opposite_direction = 2;
+    init_search_pos_inc = 1;
     // the coordinates index:
     //    3
     //  2 X 0
@@ -108,6 +108,7 @@ Ccl::Ccl(IntegerMatrix mat, const int directions) {
     internal_contour_tracing_start = 3;
     external_contour_tracing_start = 7;
     opposite_direction = 4;
+    init_search_pos_inc = 2;
     // the coordinates index:
     //  5 6 7
     //  4 X 0
@@ -143,7 +144,7 @@ void Ccl::ccl() {
     // external countour
     if (below == white_pixel_unmarked) {
       if (data[col * nrows + row] == black_pixel) {
-        cur_label = data[col * nrows + row - 1];
+        cur_label = left;
       } else {
         cur_label = data[col * nrows + row]; // not sure if this is needed
       }
@@ -158,9 +159,9 @@ void Ccl::ccl() {
       if (data[col * nrows + row] != black_pixel) {
         continue;
       }
-      // (1) If the pixel above is a white pixel, this pixel must be an external
-      // contour of a new label
-      if (above == white_pixel_unmarked) {
+      // (1) If the pixel above is a white pixel (marked or unmarked), this
+      // pixel must be an external contour of a new label
+      if (above <= white_pixel_marked) {
         labels++;
         cur_label = labels;
         contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
@@ -171,18 +172,21 @@ void Ccl::ccl() {
       // external countour
       if (below == white_pixel_unmarked) {
         if (data[col * nrows + row] == black_pixel) {
-          cur_label = data[col * nrows + row - 1];
+          cur_label = left;
         } else {
-          cur_label =
-              data[col * nrows + row]; /// TODO: not sure if this is needed
+          cur_label = data[col * nrows + row];
         }
         contour_tracing(Pixel_coords(row, col), internal_contour_tracing_start);
       }
 
-      // (3) If pixel is not a contour pixel, the left neighbor must be a
-      // labelled pixel
+      // (3) If this pixel is not a contour pixel (i.e. still an unlabeled black
+      // pixel), the left neighbor must be a labelled pixel
       if (data[col * nrows + row] == black_pixel) {
-        data[col * nrows + row] = cur_label = left;
+        if (left <= black_pixel) { /// DEBUG
+          Rcout << "col:" << col + 1 << " row:" << row + 1;
+          return;
+        }
+        data[col * nrows + row] = left;
       }
     }
   }
@@ -195,8 +199,6 @@ void Ccl::ccl() {
     if (data[col * nrows + row] != black_pixel) {
       continue;
     }
-
-    unsigned cur_label = 0;
 
     // has left black pixel? Or new label?
     if (static_cast<int>(col) - 1 >= 0) {
@@ -257,9 +259,7 @@ void Ccl::contour_tracing(const Pixel_coords start,
 
 Pixel_coords Ccl::tracer(const Pixel_coords start,
                          unsigned &tracing_direction) {
-  const unsigned n_directions = neig.size();
-
-  for (unsigned i = 0; i < n_directions; i++) {
+  for (unsigned i = 0; i < directions; i++) {
     const int row = start.row + neig[tracing_direction].row;
     const int col = start.col + neig[tracing_direction].col;
 
@@ -267,13 +267,14 @@ Pixel_coords Ccl::tracer(const Pixel_coords start,
       const auto val = data[col * nrows + row];
       if (val >= black_pixel) {
         tracing_direction =
-            (tracing_direction + opposite_direction + 2) % n_directions;
+            (tracing_direction + opposite_direction + init_search_pos_inc) %
+            directions;
         return (Pixel_coords(row, col));
       }
 
       data[col * nrows + row] = white_pixel_marked;
     }
-    tracing_direction = (tracing_direction + 1) % n_directions;
+    tracing_direction = (tracing_direction + 1) % directions;
   }
   return start;
 }

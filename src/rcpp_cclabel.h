@@ -36,7 +36,7 @@ private:
   unsigned nrows;
   unsigned ncols;
   unsigned cur_label = 0;
-  int directions = 8;
+  const unsigned directions;
   std::vector<Pixel_coords> neig;
 
   const int white_pixel_marked = -1;
@@ -45,7 +45,8 @@ private:
   unsigned internal_contour_tracing_start;
   unsigned external_contour_tracing_start;
   unsigned opposite_direction;
-  int labels = 1; // i.e. marked/labelled black pixels
+  unsigned init_search_pos_inc;
+  unsigned labels = 1; // i.e. marked/labelled black pixels
 
   Pixel_coords tracer(const Pixel_coords start, unsigned &tracing_direction);
   void contour_tracing(const Pixel_coords start, unsigned tracing_direction);
