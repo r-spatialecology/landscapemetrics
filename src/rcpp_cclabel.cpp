@@ -129,8 +129,8 @@ void Ccl::ccl() {
   // run first row seperately to avoid padding
   for (unsigned row = 0; row < nrows; row++) {
     const unsigned col = 0;
-    // marked or unmarked white pixel? Or labelled already?
-    if (data[row] != black_pixel) {
+    // marked or unmarked white pixel?
+    if (data[row] < black_pixel) {
       continue;
     }
     // (1) If the pixel above is a white pixel, this pixel must be an external
@@ -155,16 +155,21 @@ void Ccl::ccl() {
   // first and last row are iterated seperately to avoid padding
   for (unsigned col = 1; col < ncols - 1; col++) {
     for (unsigned row = 0; row < nrows; row++) {
-      // marked or unmarked white pixel? Or labelled already?
-      if (data[col * nrows + row] != black_pixel) {
+
+      // marked or unmarked white pixel?
+      if (data[col * nrows + row] < black_pixel) {
         continue;
       }
-      // (1) If the pixel above is a white pixel (marked or unmarked), this
-      // pixel must be an external contour of a new label
-      if (above <= white_pixel_marked) {
-        labels++;
-        cur_label = labels;
-        contour_tracing(Pixel_coords(row, col), external_contour_tracing_start);
+
+      // (1) If the pixel is a black pixel and above is a white pixel (marked or
+      // unmarked), this pixel must be an external contour of a new label
+      if (data[col * nrows + row] == black_pixel) {
+        if (above <= white_pixel_marked) {
+          labels++;
+          cur_label = labels;
+          contour_tracing(Pixel_coords(row, col),
+                          external_contour_tracing_start);
+        }
       }
 
       // (2) If the pixel below is an unmarked white pixel, this pixel must be a
