@@ -88,14 +88,14 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../articles/getstarted.html">
-    <span class="fa fa fa fa-magic"></span>
+    <span class="fa fa-magic"></span>
      
     Get Started
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-graduation-cap"></span>
+    <span class="fa fa-graduation-cap"></span>
      
     More
      
@@ -104,56 +104,56 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/general-background.html">
-        <span class="fas fa-book"></span>
+        <span class="fa fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
       <a href="../articles/articles/comparing_tools.html">
-        <span class="fas fa-edit"></span>
+        <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/new_metrics.html">
-        <span class="fas fa-sticky-note"></span>
+        <span class="fa fa-sticky-note"></span>
          
         New Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
       <a href="../articles/articles/utility.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Utility functions
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_moving_window.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Moving window
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_sample_lsm.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Sample metrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/landscape_distribution_statistics.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Landscape distribution statistics
       </a>
     </li>
     <li>
       <a href="../articles/articles/publication_record.html">
-        <span class="fas fa-file-text-o"></span>
+        <span class="fa fa-file-text-o"></span>
          
         Publication Record
       </a>
@@ -164,21 +164,21 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-gears"></span>
+    <span class="fa fa-gears"></span>
      
     functions
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -294,21 +294,21 @@ available metrics, don't specify any of the above arguments.</p>
     <pre class="examples"><div class='input'><span class='co'># use a matrix</span>
 <span class='va'>sample_points</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>15</span>, <span class='fl'>5</span>, <span class='fl'>25</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>2</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'>sample_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, y <span class='op'>=</span> <span class='va'>sample_points</span>, size <span class='op'>=</span> <span class='fl'>15</span>, what <span class='op'>=</span> <span class='st'>"lsm_l_np"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: The 'perecentage_inside' is below 90% for at least one buffer.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 8</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: The 'perecentage_inside' is below 90% for at least one buffer.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 8</span>
 #&gt;   layer level     class    id metric value plot_id percentage_inside
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        18       1              55.6
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        17       2              66.7
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1 landscape    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        13       3              44.4</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     1 landscape    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        18       1              55.6
+#&gt; <span style='color: #BCBCBC;'>2</span>     1 landscape    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        17       2              66.7
+#&gt; <span style='color: #BCBCBC;'>3</span>     1 landscape    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        13       3              44.4</div><div class='input'>
 <span class='co'># use sp points</span>
 <span class='va'>points_sp</span> <span class='op'>&lt;-</span> <span class='fu'>sp</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sp/man/SpatialPoints.html'>SpatialPoints</a></span><span class='op'>(</span><span class='va'>sample_points</span><span class='op'>)</span>
 <span class='fu'>sample_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, y <span class='op'>=</span> <span class='va'>points_sp</span>, size <span class='op'>=</span> <span class='fl'>15</span>, what <span class='op'>=</span> <span class='st'>"lsm_l_np"</span>, return_raster <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: The 'perecentage_inside' is below 90% for at least one buffer.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 9</span><span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: The 'perecentage_inside' is below 90% for at least one buffer.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 9</span>
 #&gt;   layer level class    id metric value plot_id percentage_insi… raster_sample_p…
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 land…    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        18       1             55.6 </span><span style='color: #949494;'>&lt;RastrLyr[,25,1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 land…    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        17       2             66.7 </span><span style='color: #949494;'>&lt;RastrLyr[,20,1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1 land…    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span> np        13       3             44.4 </span><span style='color: #949494;'>&lt;RastrLyr[,20,1</span><span>…</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'>1</span>     1 land…    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        18       1             55.6 <span style='color: #949494;'>&lt;RastrLyr[,25,1</span>…
+#&gt; <span style='color: #BCBCBC;'>2</span>     1 land…    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        17       2             66.7 <span style='color: #949494;'>&lt;RastrLyr[,20,1</span>…
+#&gt; <span style='color: #BCBCBC;'>3</span>     1 land…    <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span> np        13       3             44.4 <span style='color: #949494;'>&lt;RastrLyr[,20,1</span>…</div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># use lines (works only if rgeos is installed)</span>
 <span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>15</span>, <span class='fl'>10</span><span class='op'>)</span>
@@ -333,7 +333,7 @@ available metrics, don't specify any of the above arguments.</p>
 <span class='fu'>sample_lsm</span><span class='op'>(</span><span class='va'>landscape</span>, y <span class='op'>=</span> <span class='va'>sample_plots</span>, what <span class='op'>=</span> <span class='st'>"lsm_l_np"</span><span class='op'>)</span>
 <span class='op'>}</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

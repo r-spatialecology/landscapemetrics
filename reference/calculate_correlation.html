@@ -88,14 +88,14 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../articles/getstarted.html">
-    <span class="fa fa fa fa-magic"></span>
+    <span class="fa fa-magic"></span>
      
     Get Started
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-graduation-cap"></span>
+    <span class="fa fa-graduation-cap"></span>
      
     More
      
@@ -104,56 +104,56 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/general-background.html">
-        <span class="fas fa-book"></span>
+        <span class="fa fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
       <a href="../articles/articles/comparing_tools.html">
-        <span class="fas fa-edit"></span>
+        <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/new_metrics.html">
-        <span class="fas fa-sticky-note"></span>
+        <span class="fa fa-sticky-note"></span>
          
         New Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
       <a href="../articles/articles/utility.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Utility functions
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_moving_window.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Moving window
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_sample_lsm.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Sample metrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/landscape_distribution_statistics.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Landscape distribution statistics
       </a>
     </li>
     <li>
       <a href="../articles/articles/publication_record.html">
-        <span class="fas fa-file-text-o"></span>
+        <span class="fa fa-file-text-o"></span>
          
         Publication Record
       </a>
@@ -164,21 +164,21 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-gears"></span>
+    <span class="fa fa-gears"></span>
      
     functions
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -246,38 +246,38 @@ must be structured as returned by the <strong>landscapemetrics</strong> package.
     <pre class="examples"><div class='input'><span class='va'>metrics</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calculate_lsm.html'>calculate_lsm</a></span><span class='op'>(</span><span class='va'>landscape</span>, what <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"patch"</span>, <span class='st'>"class"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Class 1: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Class 3: PAFRAC = NA for class with &lt; 10 patches</span></div><div class='input'><span class='fu'>calculate_correlation</span><span class='op'>(</span><span class='va'>metrics</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $patch
-#&gt; <span style='color: #949494;'># A tibble: 78 x 3</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 78 x 3</span>
 #&gt;    metric_1 metric_2  value
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> area     area      1    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> cai      area      0.705
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> circle   area      0.415
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> contig   area      0.529
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> core     area      0.999
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> enn      area     -</span><span style='color: #BB0000;'>0.180</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> frac     area      0.298
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> gyrate   area      0.909
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ncore    area      0.960
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> para     area     -</span><span style='color: #BB0000;'>0.491</span><span>
-#&gt; </span><span style='color: #949494;'># … with 68 more rows</span><span>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> area     area      1    
+#&gt; <span style='color: #BCBCBC;'> 2</span> cai      area      0.705
+#&gt; <span style='color: #BCBCBC;'> 3</span> circle   area      0.415
+#&gt; <span style='color: #BCBCBC;'> 4</span> contig   area      0.529
+#&gt; <span style='color: #BCBCBC;'> 5</span> core     area      0.999
+#&gt; <span style='color: #BCBCBC;'> 6</span> enn      area     -<span style='color: #BB0000;'>0.180</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> frac     area      0.298
+#&gt; <span style='color: #BCBCBC;'> 8</span> gyrate   area      0.909
+#&gt; <span style='color: #BCBCBC;'> 9</span> ncore    area      0.960
+#&gt; <span style='color: #BCBCBC;'>10</span> para     area     -<span style='color: #BB0000;'>0.491</span>
+#&gt; <span style='color: #949494;'># … with 68 more rows</span>
 #&gt; 
 #&gt; $class
-#&gt; </span><span style='color: #949494;'># A tibble: 1,540 x 3</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 1,540 x 3</span>
 #&gt;    metric_1  metric_2  value
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ai        ai        1    
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> area_cv   ai       -</span><span style='color: #BB0000;'>0.125</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> area_mn   ai        0.996
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> area_sd   ai        1.00 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ca        ai        0.953
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> cai_cv    ai       -</span><span style='color: #BB0000;'>0.422</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> cai_mn    ai        0.780
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> cai_sd    ai        0.942
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> circle_cv ai       -</span><span style='color: #BB0000;'>0.942</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> circle_mn ai        0.920
-#&gt; </span><span style='color: #949494;'># … with 1,530 more rows</span><span>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> ai        ai        1    
+#&gt; <span style='color: #BCBCBC;'> 2</span> area_cv   ai       -<span style='color: #BB0000;'>0.125</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> area_mn   ai        0.996
+#&gt; <span style='color: #BCBCBC;'> 4</span> area_sd   ai        1.00 
+#&gt; <span style='color: #BCBCBC;'> 5</span> ca        ai        0.953
+#&gt; <span style='color: #BCBCBC;'> 6</span> cai_cv    ai       -<span style='color: #BB0000;'>0.422</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> cai_mn    ai        0.780
+#&gt; <span style='color: #BCBCBC;'> 8</span> cai_sd    ai        0.942
+#&gt; <span style='color: #BCBCBC;'> 9</span> circle_cv ai       -<span style='color: #BB0000;'>0.942</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> circle_mn ai        0.920
+#&gt; <span style='color: #949494;'># … with 1,530 more rows</span>
 #&gt; </div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

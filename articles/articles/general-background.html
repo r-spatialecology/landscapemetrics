@@ -46,14 +46,14 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../articles/getstarted.html">
-    <span class="fa fa fa fa-magic"></span>
+    <span class="fa fa-magic"></span>
      
     Get Started
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-graduation-cap"></span>
+    <span class="fa fa-graduation-cap"></span>
      
     More
      
@@ -62,56 +62,56 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../../articles/articles/general-background.html">
-        <span class="fas fa-book"></span>
+        <span class="fa fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
       <a href="../../articles/articles/comparing_tools.html">
-        <span class="fas fa-edit"></span>
+        <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/new_metrics.html">
-        <span class="fas fa-sticky-note"></span>
+        <span class="fa fa-sticky-note"></span>
          
         New Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
       <a href="../../articles/articles/utility.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Utility functions
       </a>
     </li>
     <li>
       <a href="../../articles/articles/guide_moving_window.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Moving window
       </a>
     </li>
     <li>
       <a href="../../articles/articles/guide_sample_lsm.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Sample metrics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/landscape_distribution_statistics.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Landscape distribution statistics
       </a>
     </li>
     <li>
       <a href="../../articles/articles/publication_record.html">
-        <span class="fas fa-file-text-o"></span>
+        <span class="fa fa-file-text-o"></span>
          
         Publication Record
       </a>
@@ -122,21 +122,21 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="../../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../../reference/index.html">
-    <span class="fas fa-gears"></span>
+    <span class="fa fa-gears"></span>
      
     functions
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>General background</h1>
             
-            <h4 class="date">2021-04-14</h4>
+            <h4 class="date">2021-07-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/general-background.Rmd"><code>vignettes/articles/general-background.Rmd</code></a></small>
       <div class="hidden name"><code>general-background.Rmd</code></div>
@@ -172,8 +172,8 @@
 <p>Landscape metrics are tools to characterize a landscape. This includes mainly describing the composition and configuration of a landscape. While the composition basically describes how much of the landscape is occupied by a certain land cover type, the configuration mainly describes the spatial arrangement of the landcover types. The basic idea of landscape metrics is to condense as much information as possible into single number.</p>
 <p>The <code>landscapemetrics</code> package supports <code>raster</code> spatial objects. A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells. Consequently, the cells are the smallest “resolution of information”. Because <code>landscapemetrics</code> deals with categorical data, each cell has to be assigned to a discrete class (see Fig. 1 for details). These classes must be positive integer numbers.</p>
 <div class="figure" style="text-align: center">
-<img src="general-background_files/figure-html/unnamed-chunk-1-1.png" alt="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as by humans percieved, e.g. in land cover and use classes." width="700"><p class="caption">
-Fig 1.: a) and b) are the same landscape, but with a continous (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as by humans percieved, e.g. in land cover and use classes.
+<img src="general-background_files/figure-html/unnamed-chunk-2-1.png" alt="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes." width="700"><p class="caption">
+Fig 1.: a) and b) are the same landscape, but with a continous (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.
 </p>
 </div>
 <div id="levels-of-landscape-metrics" class="section level2">

@@ -88,14 +88,14 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../articles/getstarted.html">
-    <span class="fa fa fa fa-magic"></span>
+    <span class="fa fa-magic"></span>
      
     Get Started
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-graduation-cap"></span>
+    <span class="fa fa-graduation-cap"></span>
      
     More
      
@@ -104,56 +104,56 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/general-background.html">
-        <span class="fas fa-book"></span>
+        <span class="fa fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
       <a href="../articles/articles/comparing_tools.html">
-        <span class="fas fa-edit"></span>
+        <span class="fa fa-edit"></span>
          
         Differences FRAGSTATS|landscapemetrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/new_metrics.html">
-        <span class="fas fa-sticky-note"></span>
+        <span class="fa fa-sticky-note"></span>
          
         New Metrics outside FRAGSTATS
       </a>
     </li>
     <li>
       <a href="../articles/articles/utility.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Utility functions
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_moving_window.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Moving window
       </a>
     </li>
     <li>
       <a href="../articles/articles/guide_sample_lsm.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Sample metrics
       </a>
     </li>
     <li>
       <a href="../articles/articles/landscape_distribution_statistics.html">
-        <span class="fas fa-comment"></span>
+        <span class="fa fa-comment"></span>
          
         Landscape distribution statistics
       </a>
     </li>
     <li>
       <a href="../articles/articles/publication_record.html">
-        <span class="fas fa-file-text-o"></span>
+        <span class="fa fa-file-text-o"></span>
          
         Publication Record
       </a>
@@ -164,21 +164,21 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-gears"></span>
+    <span class="fa fa-gears"></span>
      
     functions
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -237,29 +237,29 @@ cells of the patch are included in the patch.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># get circle around each patch</span>
 <span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 27 x 7</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 27 x 7</span>
 #&gt;    layer level class    id value center_x center_y
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     1 patch     1     1  1.41      0.5     29.5
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     1 patch     1     2  4.12      0.5     21  
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     1 patch     1     3 29.3      13.2     19.2
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     1 patch     1     4  1.41      0.5      2.5
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     1 patch     1     5  1.41      0.5      0.5
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     1 patch     1     6  6.32     17        8  
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     1 patch     1     7  3.16     20.5      0.5
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     1 patch     1     8  3.61     26        2.5
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     1 patch     1     9  1.41     29.5      6.5
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>     1 patch     2    10 10.3       3.5     25.5
-#&gt; </span><span style='color: #949494;'># … with 17 more rows</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1 patch     1     1  1.41      0.5     29.5
+#&gt; <span style='color: #BCBCBC;'> 2</span>     1 patch     1     2  4.12      0.5     21  
+#&gt; <span style='color: #BCBCBC;'> 3</span>     1 patch     1     3 29.3      13.2     19.2
+#&gt; <span style='color: #BCBCBC;'> 4</span>     1 patch     1     4  1.41      0.5      2.5
+#&gt; <span style='color: #BCBCBC;'> 5</span>     1 patch     1     5  1.41      0.5      0.5
+#&gt; <span style='color: #BCBCBC;'> 6</span>     1 patch     1     6  6.32     17        8  
+#&gt; <span style='color: #BCBCBC;'> 7</span>     1 patch     1     7  3.16     20.5      0.5
+#&gt; <span style='color: #BCBCBC;'> 8</span>     1 patch     1     8  3.61     26        2.5
+#&gt; <span style='color: #BCBCBC;'> 9</span>     1 patch     1     9  1.41     29.5      6.5
+#&gt; <span style='color: #BCBCBC;'>10</span>     1 patch     2    10 10.3       3.5     25.5
+#&gt; <span style='color: #949494;'># … with 17 more rows</span></div><div class='input'>
 <span class='co'># get circle around whole class</span>
 <span class='fu'>get_circumscribingcircle</span><span class='op'>(</span><span class='va'>landscape</span>, level <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 3 x 7</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 7</span>
 #&gt;   layer level class    id value center_x center_y
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1 class     1    </span><span style='color: #BB0000;'>NA</span><span>  39.2     12.6     15  
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1 class     2    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15       14.5
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1 class     3    </span><span style='color: #BB0000;'>NA</span><span>  41.7     15.2     15.2</div><div class='input'>
-</div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     1 class     1    <span style='color: #BB0000;'>NA</span>  39.2     12.6     15  
+#&gt; <span style='color: #BCBCBC;'>2</span>     1 class     2    <span style='color: #BB0000;'>NA</span>  41.7     15       14.5
+#&gt; <span style='color: #BCBCBC;'>3</span>     1 class     3    <span style='color: #BB0000;'>NA</span>  41.7     15.2     15.2</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
