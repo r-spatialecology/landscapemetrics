@@ -5,6 +5,7 @@
     * Better naming of list outputs
 * Bugfixes
     * Adding `rel_mut_inf` to `list_lsm()`
+    * Fix changes due to new `ggplot2` version
 
 # landscapemetrics 1.5.2
 * Bugfixes

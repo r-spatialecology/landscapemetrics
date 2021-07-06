@@ -176,7 +176,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
                                    na.value = "grey85") +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +
         ggplot2::scale_y_continuous(expand = c(0, 0)) +
-        ggplot2::guides(fill = FALSE) +
+        ggplot2::guides(fill = "none") +
         ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
         ggplot2::theme(
             axis.title  = ggplot2::element_blank(),
