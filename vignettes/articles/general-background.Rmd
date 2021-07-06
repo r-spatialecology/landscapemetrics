@@ -19,9 +19,8 @@ Landscape metrics are tools to characterize a landscape. This includes mainly de
 The `landscapemetrics` package supports `raster` spatial objects.  A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells. Consequently, the cells are the smallest "resolution of information". Because `landscapemetrics` deals with categorical data, each cell has to be assigned to a discrete class (see Fig. 1 for details). 
 These classes must be positive integer numbers. 
 
-```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as by humans percieved, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
-
-landscapetools::show_landscape(landscape_background, unique_scales = TRUE)
+```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+landscapetools::show_landscape(landscapemetrics:::landscape_background, unique_scales = TRUE)
 ```
 
 ## Levels of landscape metrics
