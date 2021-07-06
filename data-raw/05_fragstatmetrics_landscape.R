@@ -1,5 +1,6 @@
 library(readr)
 library(tidyverse)
+library(usethis)
 
 # load fragstats results for landscape level
 fragstats_landscape <- read_csv("data-raw/fragstats_results_land.txt")
@@ -17,6 +18,6 @@ fragstats_landscape_podlasie <- fragstats_landscape %>%
     filter(str_detect(LID, 'podlasie'))
 
 # save --------------------------------------------------------------------
-devtools::use_data(fragstats_landscape_augusta_nlcd, overwrite = TRUE)
-devtools::use_data(fragstats_landscape_landscape, overwrite = TRUE)
-devtools::use_data(fragstats_landscape_podlasie, overwrite = TRUE)
+usethis::use_data(fragstats_landscape_augusta_nlcd, overwrite = TRUE)
+usethis::use_data(fragstats_landscape_landscape, overwrite = TRUE)
+usethis::use_data(fragstats_landscape_podlasie, overwrite = TRUE)

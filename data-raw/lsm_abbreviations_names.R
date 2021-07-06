@@ -1,5 +1,6 @@
-# Tibble containing the abbreviations and names of the landscape metrics
+library(usethis)
 
+# Tibble containing the abbreviations and names of the landscape metrics
 
 lsm_abbreviations_names <- tibble::tibble(
 

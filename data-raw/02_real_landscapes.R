@@ -1,4 +1,5 @@
 library(raster)
+library(usethis)
 
 # nlcd2011 ----------------------------------------------------------------
 # https://www.mrlc.gov/nlcd2011.php ---------------------------------------
@@ -9,7 +10,7 @@ nlcd_filepath = "your_path"
 augusta_nlcd = crop(raster(nlcd_filepath), nlcd_bbox)
 
 plot(augusta_nlcd)
-devtools::use_data(augusta_nlcd)
+usethis::use_data(augusta_nlcd)
 
 # ESACCI-LC 2015 ----------------------------------------------------------
 # http://maps.elie.ucl.ac.be/CCI/viewer/ ----------------------------------
@@ -20,4 +21,4 @@ ccilc_filepath = "your_path"
 podlasie_ccilc = crop(raster(ccilc_filepath, band = 24), ccilc_bbox)
 
 plot(podlasie_ccilc)
-devtools::use_data(podlasie_ccilc)
+usethis::use_data(podlasie_ccilc)
