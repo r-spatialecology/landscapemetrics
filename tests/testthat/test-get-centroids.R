@@ -49,7 +49,7 @@ test_that("get_centroids allows to set cell_center", {
 
 test_that("get_centroids can return sp", {
 
-    centroids_sp <- get_centroids(landscape, cell_center = T,
+    centroids_sp <- get_centroids(landscape, cell_center = TRUE,
                                   return_sp = TRUE)
 
     expect_is(centroids_sp, "SpatialPointsDataFrame")

@@ -2,62 +2,14 @@
 % Please edit documentation in R/get_patches.R
 \name{get_patches}
 \alias{get_patches}
-\alias{get_patches.RasterLayer}
-\alias{get_patches.RasterStack}
-\alias{get_patches.RasterBrick}
-\alias{get_patches.stars}
-\alias{get_patches.list}
-\alias{get_patches.matrix}
 \title{get_patches}
 \usage{
-get_patches(landscape, class, directions, to_disk, return_raster)
-
-\method{get_patches}{RasterLayer}(
+get_patches(
   landscape,
   class = "all",
   directions = 8,
   to_disk = getOption("to_disk", default = FALSE),
   return_raster = TRUE
-)
-
-\method{get_patches}{RasterStack}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
-
-\method{get_patches}{RasterBrick}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
-
-\method{get_patches}{stars}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
-
-\method{get_patches}{list}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = TRUE
-)
-
-\method{get_patches}{matrix}(
-  landscape,
-  class = "all",
-  directions = 8,
-  to_disk = getOption("to_disk", default = FALSE),
-  return_raster = FALSE
 )
 }
 \arguments{

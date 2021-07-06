@@ -43,83 +43,9 @@
 #' @rdname get_adjacencies
 #'
 #' @export
-get_adjacencies <- function(landscape,
-                            neighbourhood,
-                            what,
-                            upper) UseMethod("get_adjacencies")
+get_adjacencies <- function(landscape, neighbourhood = 4, what = "full", upper = FALSE) {
 
-#' @name get_adjacencies
-#' @export
-get_adjacencies.RasterLayer <- function(landscape,
-                                        neighbourhood = 4,
-                                        what = "full",
-                                        upper = FALSE){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_adjacencies_internal,
-                     neighbourhood = neighbourhood,
-                     what = what,
-                     upper = upper)
-
-    return(result)
-}
-
-#' @name get_adjacencies
-#' @export
-get_adjacencies.RasterStack <- function(landscape,
-                                        neighbourhood = 4,
-                                        what = "full",
-                                        upper = FALSE){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_adjacencies_internal,
-                     neighbourhood = neighbourhood,
-                     what = what,
-                     upper = upper)
-
-    return(result)
-}
-
-#' @name get_adjacencies
-#' @export
-get_adjacencies.RasterBrick <- function(landscape,
-                                        neighbourhood = 4,
-                                        what = "full",
-                                        upper = FALSE){
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_adjacencies_internal,
-                     neighbourhood = neighbourhood,
-                     what = what,
-                     upper = upper)
-
-    return(result)
-}
-
-#' @name get_adjacencies
-#' @export
-get_adjacencies.stars <- function(landscape,
-                                  neighbourhood = 4,
-                                  what = "full",
-                                  upper = FALSE){
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_adjacencies_internal,
-                     neighbourhood = neighbourhood,
-                     what = what,
-                     upper = upper)
-
-    return(result)
-}
-
-#' @name get_adjacencies
-#' @export
-get_adjacencies.list <- function(landscape,
-                                 neighbourhood = 4,
-                                 what = "full",
-                                 upper = FALSE){
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = get_adjacencies_internal,
@@ -127,23 +53,10 @@ get_adjacencies.list <- function(landscape,
                      what = what,
                      upper = upper)
 
-    return(result)
-}
-
-#' @name get_adjacencies
-#' @export
-get_adjacencies.matrix <- function(landscape,
-                                   neighbourhood = 4,
-                                   what = "full",
-                                   upper = FALSE){
-
-    result <- lapply(X = list(landscape),
-                     FUN = get_adjacencies_internal,
-                     neighbourhood = neighbourhood,
-                     what = what,
-                     upper = upper)
+    names(result) <- paste0("layer_", 1:length(result))
 
     return(result)
+
 }
 
 get_adjacencies_internal <- function(landscape,

@@ -1,5 +1,6 @@
-# Tibble containing the abbreviations and names of the landscape metrics
+library(usethis)
 
+# Tibble containing the abbreviations and names of the landscape metrics
 
 lsm_abbreviations_names <- tibble::tibble(
 
@@ -129,6 +130,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "pladj",
         "pr",
         "prd",
+        "relmutinf",
         "rpr",
         "shape_cv",
         "shape_mn",
@@ -270,6 +272,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "percentage of like adjacencies",
         "patch richness",
         "patch richness density",
+        "relative mutual information",
         "relative patch richness",
         "shape index",
         "shape index",
@@ -412,6 +415,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "aggregation metric",
         "diversity metric",
         "diversity metric",
+        "complexity metric",
         "diversity metric",
         "shape metric",
         "shape metric",
@@ -500,6 +504,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "class",
 
         # landscape level
+        "landscape",
         "landscape",
         "landscape",
         "landscape",
@@ -694,6 +699,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "lsm_l_pladj",
         "lsm_l_pr",
         "lsm_l_prd",
+        "lsm_l_relmutinf",
         "lsm_l_rpr",
         "lsm_l_shape_cv",
         "lsm_l_shape_mn",

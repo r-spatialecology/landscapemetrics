@@ -173,6 +173,7 @@ reference:
     - lsm_l_pladj
     - lsm_l_pr
     - lsm_l_prd
+    - lsm_l_relmutinf
     - lsm_l_rpr
     - lsm_l_shape_cv
     - lsm_l_shape_mn

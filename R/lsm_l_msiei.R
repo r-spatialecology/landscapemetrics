@@ -74,7 +74,7 @@ lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
-    pr <- length(get_unique_values(landscape)[[1]])
+    pr <- length(get_unique_values_int(landscape, verbose = FALSE))
 
     msiei <- msidi / log(pr)
 

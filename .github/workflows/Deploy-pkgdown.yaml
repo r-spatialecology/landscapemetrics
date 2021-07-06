@@ -42,10 +42,9 @@ jobs:
           remotes::install_cran("pkgdown", type = "binary")
           remotes::install_cran("patchwork")
           remotes::install_cran("tidyverse")
-          remotes::install_version("SDMTools", version = "1.1-221.2")
-          remotes::install_cran("NLMR")
           remotes::install_cran("landscapetools")
           remotes::install_cran("bench")
+          remotes::install_version("SDMTools", version = "1.1-221.2")
         shell: Rscript {0}
 
       - name: Install package

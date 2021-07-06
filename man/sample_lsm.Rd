@@ -2,79 +2,9 @@
 % Please edit documentation in R/sample_lsm.R
 \name{sample_lsm}
 \alias{sample_lsm}
-\alias{sample_lsm.RasterLayer}
-\alias{sample_lsm.RasterStack}
-\alias{sample_lsm.RasterBrick}
-\alias{sample_lsm.stars}
-\alias{sample_lsm.list}
 \title{sample_lsm}
 \usage{
 sample_lsm(
-  landscape,
-  y,
-  plot_id,
-  shape,
-  size,
-  all_classes,
-  return_raster,
-  verbose,
-  progress,
-  ...
-)
-
-\method{sample_lsm}{RasterLayer}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  all_classes = FALSE,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{sample_lsm}{RasterStack}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  all_classes = FALSE,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{sample_lsm}{RasterBrick}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  all_classes = FALSE,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{sample_lsm}{stars}(
-  landscape,
-  y,
-  plot_id = NULL,
-  shape = "square",
-  size,
-  all_classes = FALSE,
-  return_raster = FALSE,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{sample_lsm}{list}(
   landscape,
   y,
   plot_id = NULL,

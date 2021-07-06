@@ -2,69 +2,9 @@
 % Please edit documentation in R/scale_window.R
 \name{scale_window}
 \alias{scale_window}
-\alias{scale_window.RasterLayer}
-\alias{scale_window.RasterStack}
-\alias{scale_window.RasterBrick}
-\alias{scale_window.stars}
-\alias{scale_window.list}
 \title{scale_window}
 \usage{
 scale_window(
-  landscape,
-  percentages_col,
-  percentages_row,
-  what,
-  stat,
-  verbose,
-  progress,
-  ...
-)
-
-\method{scale_window}{RasterLayer}(
-  landscape,
-  percentages_col = c(2, 4, 8, 16, 32, 64, 100),
-  percentages_row = NULL,
-  what,
-  stat,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_window}{RasterStack}(
-  landscape,
-  percentages_col = c(2, 4, 8, 16, 32, 64, 100),
-  percentages_row = NULL,
-  what,
-  stat,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_window}{RasterBrick}(
-  landscape,
-  percentages_col = NULL,
-  percentages_row = NULL,
-  what,
-  stat,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_window}{stars}(
-  landscape,
-  percentages_col = NULL,
-  percentages_row = NULL,
-  what,
-  stat,
-  verbose = TRUE,
-  progress = FALSE,
-  ...
-)
-
-\method{scale_window}{list}(
   landscape,
   percentages_col = NULL,
   percentages_row = NULL,

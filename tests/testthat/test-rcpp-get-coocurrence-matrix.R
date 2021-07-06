@@ -45,10 +45,10 @@ land_true4 <- structure(c(986L, 96L, 304L, 96L, 1306L, 424L, 304L, 424L, 2904L),
                                                   c("1", "2", "3")),
                                              .Names = c("", "")))
 
-land_result1 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(4))
-land_result2 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = as.matrix(4))
-land_result3 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = as.matrix(4))
-land_result4 <- landscapemetrics:::rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(8))
+land_result1 <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(4))
+land_result2 <- rcpp_get_coocurrence_matrix(raster::as.matrix(podlasie_ccilc), directions = as.matrix(4))
+land_result3 <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape_na), directions = as.matrix(4))
+land_result4 <- rcpp_get_coocurrence_matrix(raster::as.matrix(landscape), directions = as.matrix(8))
 
 test_that("rcpp_get_coocurrence_matrix results are correct", {
     expect_equivalent(land_result1, land_true1)
@@ -66,8 +66,8 @@ context("coocurrence vector")
 land_true1_v <- as.vector(land_true1)
 land_true4_v <- as.vector(land_true4)
 
-land_result1_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(4))
-land_result4_v <- landscapemetrics:::rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(8))
+land_result1_v <- rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(4))
+land_result4_v <- rcpp_get_coocurrence_vector(raster::as.matrix(landscape), directions = as.matrix(8))
 
 test_that("rcpp_get_coocurrence_vector results are correct", {
     expect_equivalent(land_result1_v, land_true1_v)
@@ -82,7 +82,7 @@ context("composition vector")
 
 land_true1_cv <- unclass(table(landscape@data@values))
 
-land_result1_cv <- landscapemetrics:::rcpp_get_composition_vector(raster::as.matrix(landscape))
+land_result1_cv <- rcpp_get_composition_vector(raster::as.matrix(landscape))
 
 test_that("rcpp_get_composition_vector results are correct", {
     expect_equivalent(land_result1_cv, land_true1_cv)
@@ -93,10 +93,8 @@ test_that("rcpp_get_composition_vector is typestable", {
 })
 
 test_that("triangular_index works properly", {
-    expect_equal(landscapemetrics:::triangular_index(0, 0), 0)
-    expect_equal(landscapemetrics:::triangular_index(2, 1), 4)
-    expect_type(landscapemetrics:::triangular_index(0, 1), "integer")
+    expect_equal(triangular_index(0, 0), 0)
+    expect_equal(triangular_index(2, 1), 4)
+    expect_type(triangular_index(0, 1), "integer")
 })
 
-
-landscapemetrics:::triangular_index(1, 2)

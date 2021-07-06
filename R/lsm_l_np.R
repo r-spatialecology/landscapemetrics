@@ -38,9 +38,10 @@
 #'
 #' @export
 lsm_l_np <- function(landscape, directions = 8) {
+
     landscape <- landscape_as_list(landscape)
 
-    result <- lapply(X = raster::as.list(landscape),
+    result <- lapply(X = landscape,
                      FUN = lsm_l_np_calc,
                      directions = directions)
 

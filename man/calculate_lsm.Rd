@@ -2,119 +2,9 @@
 % Please edit documentation in R/calculate_lsm.R
 \name{calculate_lsm}
 \alias{calculate_lsm}
-\alias{calculate_lsm.RasterLayer}
-\alias{calculate_lsm.RasterStack}
-\alias{calculate_lsm.RasterBrick}
-\alias{calculate_lsm.stars}
-\alias{calculate_lsm.list}
 \title{calculate_lsm}
 \usage{
 calculate_lsm(
-  landscape,
-  level,
-  metric,
-  name,
-  type,
-  what,
-  directions,
-  count_boundary,
-  consider_boundary,
-  edge_depth,
-  cell_center,
-  classes_max,
-  neighbourhood,
-  ordered,
-  base,
-  full_name,
-  verbose,
-  progress
-)
-
-\method{calculate_lsm}{RasterLayer}(
-  landscape,
-  level = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  count_boundary = FALSE,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  cell_center = FALSE,
-  classes_max = NULL,
-  neighbourhood = 4,
-  ordered = TRUE,
-  base = "log2",
-  full_name = FALSE,
-  verbose = TRUE,
-  progress = FALSE
-)
-
-\method{calculate_lsm}{RasterStack}(
-  landscape,
-  level = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  count_boundary = FALSE,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  cell_center = FALSE,
-  classes_max = NULL,
-  neighbourhood = 4,
-  ordered = TRUE,
-  base = "log2",
-  full_name = FALSE,
-  verbose = TRUE,
-  progress = FALSE
-)
-
-\method{calculate_lsm}{RasterBrick}(
-  landscape,
-  level = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  count_boundary = FALSE,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  cell_center = FALSE,
-  classes_max = NULL,
-  neighbourhood = 4,
-  ordered = TRUE,
-  base = "log2",
-  full_name = FALSE,
-  verbose = TRUE,
-  progress = FALSE
-)
-
-\method{calculate_lsm}{stars}(
-  landscape,
-  level = NULL,
-  metric = NULL,
-  name = NULL,
-  type = NULL,
-  what = NULL,
-  directions = 8,
-  count_boundary = FALSE,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  cell_center = FALSE,
-  classes_max = NULL,
-  neighbourhood = 4,
-  ordered = TRUE,
-  base = "log2",
-  full_name = FALSE,
-  verbose = TRUE,
-  progress = FALSE
-)
-
-\method{calculate_lsm}{list}(
   landscape,
   level = NULL,
   metric = NULL,
@@ -157,7 +47,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as core.}
 
-\item{edge_depth}{Distance (in cells) a cell has the be away from the patch
+\item{edge_depth}{Distance (in cells) a cell has to be away from the patch
 edge to be considered as core cell.}
 
 \item{cell_center}{If true, the coordinates of the centroid are forced to be

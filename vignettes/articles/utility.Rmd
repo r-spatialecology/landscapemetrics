@@ -127,10 +127,10 @@ adj_raster(landscape) == get_adjacencies(landscape, 4)[[1]]
 
 ```{r}
 # run connected labeling for podlasie raster
-patches <- get_patches(landscape, class = 1)[[1]]
+patches <- get_patches(landscape, class = 1)
 
 # calculate the minimum distance between patches in a landscape
-min_dist <- get_nearestneighbour(patches)
+min_dist <- get_nearestneighbour(patches$layer_1$class_1)
 
 # create a function that would do the same with the raster package
 nearest_raster_fun <- function(patches) {
@@ -169,13 +169,13 @@ nearest_raster_fun <- function(patches) {
 # compare the two implementations
 library(bench)
 bench::mark(
-    get_nearestneighbour(patches)[, 2:3],
-    nearest_raster_fun(patches),
+    get_nearestneighbour(patches$layer_1$class_1)[, 2:3],
+    nearest_raster_fun(patches$layer_1$class_1),
     iterations = 100, check = FALSE
 )
 
 # check if results are identical
-get_nearestneighbour(patches)[, 2:3] == nearest_raster_fun(patches)
+get_nearestneighbour(patches$layer_1$class_1)[, 2:3] == nearest_raster_fun(patches$layer_1$class_1)
 ```
 
 ### Get circumscribing circle
@@ -184,8 +184,8 @@ To get the smallest circumscribing circle that includes all cells of the patch, 
 
 ```{r}
 # get all patches of class 1
-class_1 <- get_patches(landscape, class = 1)[[1]]
+class_1 <- get_patches(landscape, class = 1)
 
 # get smallest circumscribing circle for each patch
-circle <- get_circumscribingcircle(class_1)
+circle <- get_circumscribingcircle(class_1$layer_1$class_1)
 ```

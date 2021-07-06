@@ -91,16 +91,15 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
     }
 
     # get uniuqe class id
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     gyrate <- do.call(rbind,
                       lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches(landscape,
+        landscape_labeled <- get_patches_int(landscape,
                                          class = patches_class,
-                                         directions = directions,
-                                         return_raster = FALSE)[[1]]
+                                         directions = directions)[[1]]
 
         # transpose to get same direction of ID
         landscape_labeled <- t(landscape_labeled)

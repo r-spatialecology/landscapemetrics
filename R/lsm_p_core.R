@@ -90,16 +90,15 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     }
 
     # get unique classes
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     core <- do.call(rbind,
                     lapply(classes, function(patches_class) {
 
                         # get connected patches
-                        landscape_labeled <- get_patches(landscape,
-                                                         class = patches_class,
-                                                         directions = directions,
-                                                         return_raster = FALSE)[[1]]
+                        landscape_labeled <- get_patches_int(landscape,
+                                                             class = patches_class,
+                                                             directions = directions)[[1]]
 
                         # label all edge cells
                         class_edge <- get_boundaries_calc(landscape_labeled,

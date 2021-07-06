@@ -2,55 +2,12 @@
 % Please edit documentation in R/unpad_raster.R
 \name{unpad_raster}
 \alias{unpad_raster}
-\alias{unpad_raster.RasterLayer}
-\alias{unpad_raster.RasterStack}
-\alias{unpad_raster.RasterBrick}
-\alias{unpad_raster.stars}
-\alias{unpad_raster.list}
-\alias{unpad_raster.matrix}
 \title{unpad_raster}
 \usage{
-unpad_raster(landscape, unpad_raster_cells, return_raster, to_disk)
-
-\method{unpad_raster}{RasterLayer}(
+unpad_raster(
   landscape,
   unpad_raster_cells = 1,
   return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{unpad_raster}{RasterStack}(
-  landscape,
-  unpad_raster_cells = 1,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{unpad_raster}{RasterBrick}(
-  landscape,
-  unpad_raster_cells = 1,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{unpad_raster}{stars}(
-  landscape,
-  unpad_raster_cells = 1,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{unpad_raster}{list}(
-  landscape,
-  unpad_raster_cells = 1,
-  return_raster = TRUE,
-  to_disk = getOption("to_disk", default = FALSE)
-)
-
-\method{unpad_raster}{matrix}(
-  landscape,
-  unpad_raster_cells = 1,
-  return_raster = FALSE,
   to_disk = getOption("to_disk", default = FALSE)
 )
 }

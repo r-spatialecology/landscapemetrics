@@ -89,7 +89,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
     }
 
     # get unique values
-    classes <- get_unique_values(landscape)[[1]]
+    classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # diagonal neighbours
     diagonal_matrix <- matrix(c(1, NA, 1,
@@ -105,10 +105,9 @@ lsm_p_contig_calc <- function(landscape, directions) {
                             lapply(classes, function(patches_class) {
 
         # get connected patches
-        patch_mat <- get_patches(landscape,
-                                 directions = directions,
-                                 class = patches_class,
-                                 return_raster = FALSE)[[1]]
+        patch_mat <- get_patches_int(landscape,
+                                     directions = directions,
+                                     class = patches_class)[[1]]
 
         # get number of cells for each patch
         n_cells <- rcpp_get_composition_vector(patch_mat)

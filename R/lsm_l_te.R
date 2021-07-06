@@ -82,10 +82,10 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
         background_value <- max(landscape, na.rm = TRUE) + 1
 
         # add row/col around raster
-        landscape <- pad_raster(landscape = landscape,
-                                pad_raster_value = background_value,
-                                pad_raster_cells = 1,
-                                return_raster = FALSE)[[1]]
+        landscape <- pad_raster_internal(landscape = landscape,
+                                         pad_raster_value = background_value,
+                                         pad_raster_cells = 1, global = FALSE)
+
         # set NA to background value
         landscape[is.na(landscape)] <- background_value
     }

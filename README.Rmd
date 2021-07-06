@@ -61,7 +61,7 @@ Due to an improved connected-component labelling algorithm (**landscapemetrics**
 
 ## Using landscapemetrics
 
-The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in either meters, square meters or hectares. Before using **landscapemetrics**, be sure to check your raster (see `check_raster()`).
+The resolution of a raster cell has to be in **meters**, as the package converts units internally and returns results in either meters, square meters or hectares. Before using **landscapemetrics**, be sure to check your raster (see `check_landscape()`).
 
 All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn` for the euclidean nearest-neighbor distance):   
 

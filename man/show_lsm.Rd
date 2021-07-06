@@ -2,79 +2,9 @@
 % Please edit documentation in R/show_lsm.R
 \name{show_lsm}
 \alias{show_lsm}
-\alias{show_lsm.RasterLayer}
-\alias{show_lsm.RasterStack}
-\alias{show_lsm.RasterBrick}
-\alias{show_lsm.stars}
-\alias{show_lsm.list}
 \title{Show landscape metrics}
 \usage{
 show_lsm(
-  landscape,
-  what,
-  class,
-  directions,
-  consider_boundary,
-  edge_depth,
-  labels,
-  label_lsm,
-  nrow,
-  ncol
-)
-
-\method{show_lsm}{RasterLayer}(
-  landscape,
-  what,
-  class = "global",
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  labels = FALSE,
-  label_lsm = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_lsm}{RasterStack}(
-  landscape,
-  what,
-  class = "global",
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  labels = FALSE,
-  label_lsm = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_lsm}{RasterBrick}(
-  landscape,
-  what,
-  class = "global",
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  labels = FALSE,
-  label_lsm = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_lsm}{stars}(
-  landscape,
-  what,
-  class = "global",
-  directions = 8,
-  consider_boundary = FALSE,
-  edge_depth = 1,
-  labels = FALSE,
-  label_lsm = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_lsm}{list}(
   landscape,
   what,
   class = "global",

@@ -2,52 +2,9 @@
 % Please edit documentation in R/show_patches.R
 \name{show_patches}
 \alias{show_patches}
-\alias{show_patches.RasterLayer}
-\alias{show_patches.RasterStack}
-\alias{show_patches.RasterBrick}
-\alias{show_patches.stars}
-\alias{show_patches.list}
 \title{Show patches}
 \usage{
-show_patches(landscape, class, directions, labels, nrow, ncol)
-
-\method{show_patches}{RasterLayer}(
-  landscape,
-  class = "global",
-  directions = 8,
-  labels = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_patches}{RasterStack}(
-  landscape,
-  class = "global",
-  directions = 8,
-  labels = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_patches}{RasterBrick}(
-  landscape,
-  class = "global",
-  directions = 8,
-  labels = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_patches}{stars}(
-  landscape,
-  class = "global",
-  directions = 8,
-  labels = FALSE,
-  nrow = NULL,
-  ncol = NULL
-)
-
-\method{show_patches}{list}(
+show_patches(
   landscape,
   class = "global",
   directions = 8,

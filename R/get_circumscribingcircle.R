@@ -26,105 +26,9 @@
 #' @rdname get_circumscribingcircle
 #'
 #' @export
-get_circumscribingcircle <- function(landscape,
-                                     directions,
-                                     level) UseMethod("get_circumscribingcircle")
+get_circumscribingcircle <- function(landscape, directions = 8, level = "patch") {
 
-#' @name get_circumscribingcircle
-#' @export
-get_circumscribingcircle.RasterLayer <- function(landscape,
-                                                 directions = 8,
-                                                 level = "patch") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_circumscribingcircle_calc,
-                     directions = directions,
-                     level = level)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    return(result)
-}
-
-#' @name get_circumscribingcircle
-#' @export
-get_circumscribingcircle.RasterStack <- function(landscape,
-                                                 directions = 8,
-                                                 level = "patch") {
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_circumscribingcircle_calc,
-                     directions = directions,
-                     level = level)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    return(result)
-}
-
-#' @name get_circumscribingcircle
-#' @export
-get_circumscribingcircle.RasterBrick <- function(landscape,
-                                                 directions = 8,
-                                                 level = "patch") {
-
-    result <- lapply(seq_along(raster::as.list(landscape)), function(x) {
-
-        resolution_xy <- raster::res(landscape[[x]])
-        resolution_x <- resolution_xy[[1]]
-        resolution_y <- resolution_xy[[2]]
-
-        mat <- raster::as.matrix(landscape[[x]])
-        circle <- rcpp_get_circle(mat, resolution_xy = resolution_x)
-
-        tibble::tibble(layer = x,
-                       id = circle$patch_id,
-                       dist = circle$circle_diameter)
-    })
-
-    result <- do.call(rbind, result)
-
-    return(result)
-}
-
-#' @name get_circumscribingcircle
-#' @export
-get_circumscribingcircle.stars <- function(landscape,
-                                           directions = 8,
-                                           level = "patch") {
-
-    landscape <- methods::as(landscape, "Raster")
-
-    result <- lapply(X = raster::as.list(landscape),
-                     FUN = get_circumscribingcircle_calc,
-                     directions = directions,
-                     level = level)
-
-    layer <- rep(seq_along(result),
-                 vapply(result, nrow, FUN.VALUE = integer(1)))
-
-    result <- do.call(rbind, result)
-
-    result <- tibble::add_column(result, layer, .before = TRUE)
-
-    return(result)
-}
-
-#' @name get_circumscribingcircle
-#' @export
-get_circumscribingcircle.list <- function(landscape,
-                                          directions = 8,
-                                          level = "patch") {
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = get_circumscribingcircle_calc,
@@ -139,6 +43,7 @@ get_circumscribingcircle.list <- function(landscape,
     result <- tibble::add_column(result, layer, .before = TRUE)
 
     return(result)
+
 }
 
 get_circumscribingcircle_calc <- function(landscape, level, directions) {
@@ -175,17 +80,15 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     if (level == "patch") {
 
         # what classes are present
-        classes <- get_unique_values(landscape)[[1]]
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
 
         # loop all classes
         circle <- do.call(rbind,
                           lapply(classes, function(patches_class) {
                               # get patches
-                              landscape_labeled <- get_patches(landscape,
-                                                               class = patches_class,
-                                                               directions = directions,
-                                                               to_disk = FALSE,
-                                                               return_raster = FALSE)[[1]]
+                              landscape_labeled <- get_patches_int(landscape,
+                                                                   class = patches_class,
+                                                                   directions = directions)[[1]]
 
                               # get circle
                               cbind(class = as.integer(patches_class),

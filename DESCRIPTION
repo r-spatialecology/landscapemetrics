@@ -1,7 +1,7 @@
 Type: Package
 Package: landscapemetrics
 Title: Landscape Metrics for Categorical Map Patterns
-Version: 1.5.2
+Version: 1.5.3
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth",
              role = c("aut", "cre"),
              email = "mhk.hesselbarth@gmail.com",
@@ -66,11 +66,11 @@ Suggests:
     knitr,
     rgeos,
     rmarkdown,
+    terra,
     testthat
 Enhances:
     stars, 
     sf,
-    terra
 LinkingTo: 
     Rcpp,
     RcppArmadillo
@@ -78,6 +78,6 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1
 SystemRequirements: C++11
 VignetteBuilder: knitr

@@ -6,6 +6,10 @@ output:
     html_preview: false
 ---
 
+```{r, echo = FALSE}
+library(landscapetools)
+```
+
 # Introduction
 
 Ecology and landscape ecology mainly studies interactions between organisms and their environment. In a wider sense, the environment perceived by the organism can be defined as a landscape. This can spread from huge areas for e.g. mobile, large-bodied mammals to much smaller areas for e.g. immobile insects and always depends on the research question.
@@ -15,15 +19,8 @@ Landscape metrics are tools to characterize a landscape. This includes mainly de
 The `landscapemetrics` package supports `raster` spatial objects.  A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells. Consequently, the cells are the smallest "resolution of information". Because `landscapemetrics` deals with categorical data, each cell has to be assigned to a discrete class (see Fig. 1 for details). 
 These classes must be positive integer numbers. 
 
-```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as by humans percieved, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
-library(NLMR)
-library(landscapetools)
-library(magrittr)
-
-landscapes <- list("a) Continous Landscape" = nlm_fbm(100, 100, fract_dim = 1.3, user_seed = 5),
-     "b) Categorical Landscape" = nlm_fbm(100, 100, fract_dim = 1.3, user_seed = 5) %>% landscapetools::util_classify(weighting = c(0.2, 0.2, 0.2, 0.2, 0.2)))
-
-landscapetools::show_landscape(landscapes, unique_scales = TRUE)
+```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
+landscapetools::show_landscape(landscapemetrics:::landscape_background, unique_scales = TRUE)
 ```
 
 ## Levels of landscape metrics
