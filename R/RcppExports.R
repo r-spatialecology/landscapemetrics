@@ -64,6 +64,10 @@ rcpp_get_coocurrence_matrix_diag <- function(x, directions) {
     .Call('_landscapemetrics_rcpp_get_coocurrence_matrix_diag', PACKAGE = 'landscapemetrics', x, directions)
 }
 
+rcpp_get_coocurrence_matrix_single <- function(x, directions, single_class) {
+    .Call('_landscapemetrics_rcpp_get_coocurrence_matrix_single', PACKAGE = 'landscapemetrics', x, directions, single_class)
+}
+
 triangular_index <- function(r, c) {
     .Call('_landscapemetrics_triangular_index', PACKAGE = 'landscapemetrics', r, c)
 }
