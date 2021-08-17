@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Sampling around points of interest</h1>
             
-            <h4 class="date">2021-07-06</h4>
+            <h4 class="date">2021-08-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/guide_sample_lsm.Rmd"><code>vignettes/articles/guide_sample_lsm.Rmd</code></a></small>
       <div class="hidden name"><code>guide_sample_lsm.Rmd</code></div>
@@ -205,7 +205,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../../reference/extract_lsm.html">extract_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">points</span>, what <span class="op">=</span> <span class="st">"lsm_p_area"</span><span class="op">)</span>
 <span class="co">## Warning: Only using 'what' argument.</span>
 <span class="co">## Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">## # A tibble: 3 x 7</span>
+<span class="co">## # A tibble: 3 × 7</span>
 <span class="co">##   layer level class    id metric  value extract_id</span>
 <span class="co">##   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
 <span class="co">## 1     1 patch     3    24 area   0.0457          1</span>
@@ -216,7 +216,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/extract_lsm.html">extract_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">sample_lines</span>, type <span class="op">=</span> <span class="st">"core area metric"</span><span class="op">)</span>
 <span class="co">## Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">## # A tibble: 18 x 7</span>
+<span class="co">## # A tibble: 18 × 7</span>
 <span class="co">##    layer level class    id metric   value extract_id</span>
 <span class="co">##    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span>
 <span class="co">##  1     1 patch     1     3 cai    48.0             1</span>
@@ -249,7 +249,7 @@
            level <span class="op">=</span> <span class="st">"landscape"</span>, type <span class="op">=</span> <span class="st">"diversity metric"</span>, 
            classes_max <span class="op">=</span> <span class="fl">3</span>,
            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">## # A tibble: 27 x 8</span>
+<span class="co">## # A tibble: 27 × 8</span>
 <span class="co">##    layer level     class    id metric     value plot_id percentage_inside</span>
 <span class="co">##    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;   &lt;int&gt;             &lt;dbl&gt;</span>
 <span class="co">##  1     1 landscape    NA    NA msidi      0.954       1                75</span>

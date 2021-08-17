@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Landscape distribution statistics</h1>
             
-            <h4 class="date">2021-07-06</h4>
+            <h4 class="date">2021-08-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/landscape_distribution_statistics.Rmd"><code>vignettes/articles/landscape_distribution_statistics.Rmd</code></a></small>
       <div class="hidden name"><code>landscape_distribution_statistics.Rmd</code></div>
@@ -202,7 +202,7 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>value.am <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">value.w</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">value.y</span><span class="op">)</span><span class="op">)</span> 
 
 <span class="va">metric_wght_mean</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   class value.am
 ##   &lt;int&gt;    &lt;dbl&gt;
 ## 1     1     2.35
@@ -222,7 +222,7 @@
 <span class="va">metric_range_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">metric_patch</span><span class="op">$</span><span class="va">value</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">metric_range_c</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   class range
 ##   &lt;int&gt; &lt;dbl&gt;
 ## 1     1  1.6 
@@ -245,7 +245,7 @@
 <span class="va">metric_md_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">metric_patch</span><span class="op">$</span><span class="va">value</span><span class="op">)</span>
 
 <span class="va">metric_md_c</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   class median
 ##   &lt;int&gt;  &lt;dbl&gt;
 ## 1     1   1   

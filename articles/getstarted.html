@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Get Started with landscapemetrics</h1>
             
-            <h4 class="date">2021-07-06</h4>
+            <h4 class="date">2021-08-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/getstarted.Rmd"><code>vignettes/getstarted.Rmd</code></a></small>
       <div class="hidden name"><code>getstarted.Rmd</code></div>
@@ -267,7 +267,7 @@ lsm_l_enn()</code></pre>
 
 <span class="co"># Calculate e.g. perimeter of all patches</span>
 <span class="fu"><a href="../reference/lsm_p_perim.html">lsm_p_perim</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 27 x 6</span>
+<span class="co">#&gt; # A tibble: 27 × 6</span>
 <span class="co">#&gt;    layer level class    id metric value</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1 patch     1     1 perim      4</span>
@@ -303,19 +303,19 @@ lsm_l_enn()</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># list all available metrics</span>
 <span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 133 x 5</span>
-<span class="co">#&gt;    metric name                            type               level function_name</span>
-<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                           &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;        </span>
-<span class="co">#&gt;  1 area   patch area                      area and edge met… patch lsm_p_area   </span>
-<span class="co">#&gt;  2 cai    core area index                 core area metric   patch lsm_p_cai    </span>
-<span class="co">#&gt;  3 circle related circumscribing circle   shape metric       patch lsm_p_circle </span>
-<span class="co">#&gt;  4 contig contiguity index                shape metric       patch lsm_p_contig </span>
-<span class="co">#&gt;  5 core   core area                       core area metric   patch lsm_p_core   </span>
-<span class="co">#&gt;  6 enn    euclidean nearest neighbor dis… aggregation metric patch lsm_p_enn    </span>
-<span class="co">#&gt;  7 frac   fractal dimension index         shape metric       patch lsm_p_frac   </span>
-<span class="co">#&gt;  8 gyrate radius of gyration              area and edge met… patch lsm_p_gyrate </span>
-<span class="co">#&gt;  9 ncore  number of core areas            core area metric   patch lsm_p_ncore  </span>
-<span class="co">#&gt; 10 para   perimeter-area ratio            shape metric       patch lsm_p_para   </span>
+<span class="co">#&gt; # A tibble: 133 × 5</span>
+<span class="co">#&gt;    metric name                                type                 level function_name</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;                               &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;        </span>
+<span class="co">#&gt;  1 area   patch area                          area and edge metric patch lsm_p_area   </span>
+<span class="co">#&gt;  2 cai    core area index                     core area metric     patch lsm_p_cai    </span>
+<span class="co">#&gt;  3 circle related circumscribing circle       shape metric         patch lsm_p_circle </span>
+<span class="co">#&gt;  4 contig contiguity index                    shape metric         patch lsm_p_contig </span>
+<span class="co">#&gt;  5 core   core area                           core area metric     patch lsm_p_core   </span>
+<span class="co">#&gt;  6 enn    euclidean nearest neighbor distance aggregation metric   patch lsm_p_enn    </span>
+<span class="co">#&gt;  7 frac   fractal dimension index             shape metric         patch lsm_p_frac   </span>
+<span class="co">#&gt;  8 gyrate radius of gyration                  area and edge metric patch lsm_p_gyrate </span>
+<span class="co">#&gt;  9 ncore  number of core areas                core area metric     patch lsm_p_ncore  </span>
+<span class="co">#&gt; 10 para   perimeter-area ratio                shape metric         patch lsm_p_para   </span>
 <span class="co">#&gt; # … with 123 more rows</span>
 
 <span class="co"># list only aggregation metrics at landscape level and just return function name</span>
@@ -346,7 +346,7 @@ lsm_l_enn()</code></pre>
 
 <span class="co"># look at the results</span>
 <span class="va">patch_metrics</span> 
-<span class="co">#&gt; # A tibble: 81 x 6</span>
+<span class="co">#&gt; # A tibble: 81 × 6</span>
 <span class="co">#&gt;    layer level class    id metric value</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1 patch     1     1 cai      0  </span>
@@ -374,19 +374,19 @@ lsm_l_enn()</code></pre>
                                              y <span class="op">=</span> <span class="va">lsm_abbreviations_names</span>, 
                                              by <span class="op">=</span> <span class="st">"metric"</span><span class="op">)</span>
 <span class="va">patch_metrics_full_names</span>
-<span class="co">#&gt; # A tibble: 81 x 10</span>
-<span class="co">#&gt;    layer level.x class    id metric value name     type    level.y function_name</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;        </span>
-<span class="co">#&gt;  1     1 patch       1     1 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  2     1 patch       1     2 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  3     1 patch       1     3 cai     48.0 core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  4     1 patch       1     4 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  5     1 patch       1     5 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  6     1 patch       1     6 cai     14.3 core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  7     1 patch       1     7 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  8     1 patch       1     8 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt;  9     1 patch       1     9 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; 10     1 patch       2    10 cai     31.4 core ar… core a… patch   lsm_p_cai    </span>
+<span class="co">#&gt; # A tibble: 81 × 10</span>
+<span class="co">#&gt;    layer level.x class    id metric value name            type  level.y function_name</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;        </span>
+<span class="co">#&gt;  1     1 patch       1     1 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  2     1 patch       1     2 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  3     1 patch       1     3 cai     48.0 core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  4     1 patch       1     4 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  5     1 patch       1     5 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  6     1 patch       1     6 cai     14.3 core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  7     1 patch       1     7 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  8     1 patch       1     8 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt;  9     1 patch       1     9 cai      0   core area index core… patch   lsm_p_cai    </span>
+<span class="co">#&gt; 10     1 patch       2    10 cai     31.4 core area index core… patch   lsm_p_cai    </span>
 <span class="co">#&gt; # … with 71 more rows</span></code></pre></div>
 <p>Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical <code>tibble</code>, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. <code>level = "patch"</code>. Additionally, similar to <code><a href="../reference/list_lsm.html">list_lsm()</a></code> you can also specify e.g. a certain group of metrics. Of course, you can also include the full names and information of all metrics using <code>full_name = TRUE</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -394,7 +394,7 @@ lsm_l_enn()</code></pre>
 <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, 
               what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; # A tibble: 5 x 6</span>
+<span class="co">#&gt; # A tibble: 5 × 6</span>
 <span class="co">#&gt;   layer level     class    id metric  value</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1 class         1    NA pland   19.9 </span>
@@ -408,7 +408,7 @@ lsm_l_enn()</code></pre>
               type <span class="op">=</span> <span class="st">"aggregation metric"</span>, 
               level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; # A tibble: 41 x 6</span>
+<span class="co">#&gt; # A tibble: 41 × 6</span>
 <span class="co">#&gt;    layer level     class    id metric     value</span>
 <span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1 landscape    NA    NA ai       81.1   </span>
@@ -428,14 +428,14 @@ lsm_l_enn()</code></pre>
               what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span>,
               full_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; # A tibble: 5 x 9</span>
-<span class="co">#&gt;   layer level   class    id metric  value name         type        function_name</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;        </span>
-<span class="co">#&gt; 1     1 class       1    NA pland   19.9  percentage … area and e… lsm_c_pland  </span>
-<span class="co">#&gt; 2     1 class       2    NA pland   26.9  percentage … area and e… lsm_c_pland  </span>
-<span class="co">#&gt; 3     1 class       3    NA pland   53.2  percentage … area and e… lsm_c_pland  </span>
-<span class="co">#&gt; 4     1 landsc…    NA    NA ta       0.09 total area   area and e… lsm_l_ta     </span>
-<span class="co">#&gt; 5     1 landsc…    NA    NA te     364    total edge   area and e… lsm_l_te</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 5 × 9</span>
+<span class="co">#&gt;   layer level     class    id metric  value name                    type  function_name</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt; &lt;chr&gt;        </span>
+<span class="co">#&gt; 1     1 class         1    NA pland   19.9  percentage of landscape area… lsm_c_pland  </span>
+<span class="co">#&gt; 2     1 class         2    NA pland   26.9  percentage of landscape area… lsm_c_pland  </span>
+<span class="co">#&gt; 3     1 class         3    NA pland   53.2  percentage of landscape area… lsm_c_pland  </span>
+<span class="co">#&gt; 4     1 landscape    NA    NA ta       0.09 total area              area… lsm_l_ta     </span>
+<span class="co">#&gt; 5     1 landscape    NA    NA te     364    total edge              area… lsm_l_te</span></code></pre></div>
 </div>
 </div>
   </div>
