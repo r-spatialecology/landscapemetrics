@@ -134,29 +134,35 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
             if (resolution_x == resolution_y) {
 
                 # get adjacencies
-                neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                               directions = as.matrix(4))
+                neighbor_matrix <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                               directions = as.matrix(4),
+                                                               single_class = -999)
+                # neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
+                #                                                       directions = as.matrix(4))
+
 
 
                 # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
-                edge_ik <- (sum(neighbor_matrix[2:ncol(neighbor_matrix), 1])) * resolution_x
+                edge_ik <- (sum(neighbor_matrix[2:nrow(neighbor_matrix), 1])) * resolution_x
             }
 
             else {
 
                 # get adjacencies
-                left_right_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                                     directions = as.matrix(left_right_matrix))
+                left_right_neighbours <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                                     directions = as.matrix(left_right_matrix),
+                                                                     single_class = -999)
 
                 # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
-                edge_ik_left_right <- sum(left_right_neighbours[1 ,2:ncol(left_right_neighbours)]) * resolution_x
+                edge_ik_left_right <- sum(left_right_neighbours[2:nrow(left_right_neighbours), 1]) * resolution_x
 
                 # get adjacencies
-                top_bottom_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                                     directions = as.matrix(top_bottom_matrix))
+                top_bottom_neighbours <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                                     directions = as.matrix(top_bottom_matrix),
+                                                                     single_class = -999)
 
                 # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
-                edge_ik_top_bottom <- sum(top_bottom_neighbours[1 ,2:ncol(top_bottom_neighbours)]) * resolution_y
+                edge_ik_top_bottom <- sum(top_bottom_neighbours[2:nrow(top_bottom_neighbours), 1]) * resolution_y
 
                 # add edge length in x- and y-direction
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
