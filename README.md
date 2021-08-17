@@ -120,7 +120,7 @@ show_landscape(landscape, discrete = TRUE)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
-#> # A tibble: 27 x 6
+#> # A tibble: 27 × 6
 #>    layer level class    id metric value
 #>    <int> <chr> <int> <int> <chr>  <dbl>
 #>  1     1 patch     1     1 enn     7   
@@ -137,12 +137,12 @@ lsm_p_enn(landscape)
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
-#> # A tibble: 1 x 6
+#> # A tibble: 1 × 6
 #>   layer level     class    id metric value
 #>   <int> <chr>     <int> <int> <chr>  <dbl>
 #> 1     1 landscape    NA    NA ta      0.09
 lsm_c_te(landscape)
-#> # A tibble: 3 x 6
+#> # A tibble: 3 × 6
 #>   layer level class    id metric value
 #>   <int> <chr> <int> <int> <chr>  <dbl>
 #> 1     1 class     1    NA te       180
@@ -157,7 +157,7 @@ calculate a bunch of metrics:
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
 #> Warning: Please use 'check_landscape()' to ensure the input data is valid.
-#> # A tibble: 324 x 6
+#> # A tibble: 324 × 6
 #>    layer level class    id metric  value
 #>    <int> <chr> <int> <int> <chr>   <dbl>
 #>  1     1 patch     1     1 area   0.0001
