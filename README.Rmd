@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 **landscapemetrics** is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
 
-**landscapemetrics** supports `raster` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
+**landscapemetrics** supports `raster`, `terra`, and `stars` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of `RasterLayer`, `SpatRaster`, or `stars` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
 
 ### Citation
 
@@ -57,6 +57,7 @@ remotes::install_github("r-spatialecology/landscapemetrics")
 ```
 
 #### Announcement
+
 Due to an improved connected-component labelling algorithm (**landscapemetrics** v1.4 and higher), patches are labeled in a different order than before and therefore different patch IDs might be used compared to previous versions. However, results for all metrics are identical.
 
 ## Using landscapemetrics
@@ -99,7 +100,7 @@ library(landscapemetrics)
 library(landscapetools)
 
 # landscape raster
-show_landscape(landscape)
+show_landscape(landscape, discrete = TRUE)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)

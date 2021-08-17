@@ -19,10 +19,11 @@ metrics of landscape complexity: a marginal entropy, a conditional
 entropy, a joint entropy, and a mutual information (Nowosad and
 Stepinski 2019).
 
-**landscapemetrics** supports `raster` spatial objects and takes
-`RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
-as input arguments. Every function can be used in a piped workflow, as
-it always takes the data as the first argument and returns a tibble.
+**landscapemetrics** supports `raster`, `terra`, and `stars` spatial
+objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of
+`RasterLayer`, `SpatRaster`, or `stars` as input arguments. Every
+function can be used in a piped workflow, as it always takes the data as
+the first argument and returns a tibble.
 
 ### Citation
 
@@ -110,7 +111,7 @@ library(landscapemetrics)
 library(landscapetools)
 
 # landscape raster
-show_landscape(landscape)
+show_landscape(landscape, discrete = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
