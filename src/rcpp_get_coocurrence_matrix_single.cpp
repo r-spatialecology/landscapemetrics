@@ -30,14 +30,16 @@ IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix x,
     // NAs need an index, otherwise they are counted as neighbors of class[0]
     class_index.insert(std::make_pair(na, n_classes));
 
+    int single_class_index = class_index[single_class];
+
     for (unsigned col = 0; col < ncols; col++) {
         for (unsigned row = 0; row < nrows; row++) {
             const int tmp = x[col * nrows + row];
             if (tmp == na)
-                continue;
-            unsigned focal_class = class_index[tmp];
-            if (focal_class == single_class)
-                continue;
+              continue;
+            int focal_class = class_index[tmp];
+            if (focal_class != single_class_index)
+              continue;
             for (int h = 0; h < neigh_len; h++) {
                 int neig_col = neig_coords[h][0] + col;
                 int neig_row = neig_coords[h][1] + row;
@@ -71,5 +73,4 @@ mat <- raster::as.matrix(test)
 four <- as.matrix(4)
 rcpp_get_coocurrence_matrix(mat, four)
 rcpp_get_coocurrence_matrix_single(mat, four, 11)
-
 */
