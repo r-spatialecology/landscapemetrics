@@ -110,29 +110,32 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         if (resolution_x == resolution_y) {
 
             # get coocurrence matrix
-            neighbour_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                            directions = as.matrix(4))
+            neighbour_matrix <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                            directions = as.matrix(4),
+                                                            single_class = -999)
 
             # get adjacencies between patches and background cells (-999 always first row of matrix) and convert to perimeter
-            perimeter_patch_ij <- neighbour_matrix[1, 2:ncol(neighbour_matrix)] * resolution_x
+            perimeter_patch_ij <- neighbour_matrix[2:nrow(neighbour_matrix), 1] * resolution_x
         }
 
         # x-y resolution not identical, count adjacencies seperatly for x- and y-direction
         else {
 
             # get coocurrence matrix in x-direction
-            left_right_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                                 directions = as.matrix(left_right_matrix))
+            left_right_neighbours <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                                 directions = as.matrix(left_right_matrix),
+                                                                 single_class = -999)
 
             # get adjacencies between patches and background cells (-999 always first row of matrix) and convert to perimeter
-            perimeter_patch_ij_left_right <- left_right_neighbours[1, 2:ncol(left_right_neighbours)] * resolution_x
+            perimeter_patch_ij_left_right <- left_right_neighbours[2:nrow(left_right_neighbours), 1] * resolution_x
 
             # get coocurrennce matrix in y-direction
-            top_bottom_neighbours <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                                                                 directions = as.matrix(top_bottom_matrix))
+            top_bottom_neighbours <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
+                                                                 directions = as.matrix(top_bottom_matrix),
+                                                                 single_class = -999)
 
             # get adjacencies between patches and background cells (-999 always first row of matrix) and convert to perimeter
-            perimeter_patch_ij_top_bottom <- top_bottom_neighbours[1, 2:ncol(top_bottom_neighbours)] * resolution_y
+            perimeter_patch_ij_top_bottom <- top_bottom_neighbours[2:nrow(top_bottom_neighbours), 1] * resolution_y
 
             # add perim of both directions for each patch
             perimeter_patch_ij <- perimeter_patch_ij_top_bottom + perimeter_patch_ij_left_right
