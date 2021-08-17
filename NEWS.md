@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.4
+* Improvements
+    * Improved memory performance related to perimeter and edge calculations
+
 # landscapemetrics 1.5.3
 * Improvements
     * Improved terra objects (SpatRaster) support for almost all functions.
