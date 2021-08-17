@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // rcpp_ccl
 void rcpp_ccl(IntegerMatrix mat, int directions);
 RcppExport SEXP _landscapemetrics_rcpp_ccl(SEXP matSEXP, SEXP directionsSEXP) {
@@ -111,6 +116,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_coocurrence_matrix_single
+IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix x, const arma::imat directions, const int single_class);
+RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix_single(SEXP xSEXP, SEXP directionsSEXP, SEXP single_classSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< const int >::type single_class(single_classSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix_single(x, directions, single_class));
+    return rcpp_result_gen;
+END_RCPP
+}
 // triangular_index
 int triangular_index(int r, int c);
 RcppExport SEXP _landscapemetrics_triangular_index(SEXP rSEXP, SEXP cSEXP) {
@@ -195,6 +213,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_landscapemetrics_rcpp_get_composition_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_composition_vector, 1},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_matrix_diag", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_diag, 2},
+    {"_landscapemetrics_rcpp_get_coocurrence_matrix_single", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_matrix_single, 3},
     {"_landscapemetrics_triangular_index", (DL_FUNC) &_landscapemetrics_triangular_index, 2},
     {"_landscapemetrics_rcpp_get_coocurrence_vector", (DL_FUNC) &_landscapemetrics_rcpp_get_coocurrence_vector, 3},
     {"_landscapemetrics_rcpp_get_entropy", (DL_FUNC) &_landscapemetrics_rcpp_get_entropy, 2},
