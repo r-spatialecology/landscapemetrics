@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**landscapemetrics** is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
+**landscapemetrics** is an `R` package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
 
 **landscapemetrics** supports `raster`, `terra`, and `stars` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of `RasterLayer`, `SpatRaster`, or `stars` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble. 
 

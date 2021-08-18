@@ -20,13 +20,14 @@ jobs:
     - uses: r-lib/actions/setup-pandoc@v1
 
     # Install packages needed
-    - name: install required packages
-      run: |
-        install.packages("remotes")
-        remotes::install_cran("rmarkdown")
-        remotes::install_local(".")
+      - name: Install rmarkdown, remotes, and the local package
+        run: |
+          install.packages("remotes")
+          remotes::install_cran("rmarkdown")
+          remotes::install_local(".")
+        shell: Rscript {0}
 
-    # Render READEME.md using rmarkdown
+    # Render README.md using rmarkdown
     - name: render README
       run: Rscript -e 'rmarkdown::render("README.Rmd")'
 
