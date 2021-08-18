@@ -309,8 +309,8 @@
 <span class="co">#&gt; # A tibble: 2 × 6</span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 218.25µs  223.4µs     4181.</span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           7.69ms   8.27ms      105.</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4) 222.27µs 299.33µs     3542.</span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           7.73ms   8.61ms      101.</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -378,8 +378,8 @@
 <span class="co">#&gt; # A tibble: 2 × 6</span>
 <span class="co">#&gt;   expression                                                min   median `itr/sec`</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                                           &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.38ms   4.56ms     215. </span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches$layer_1$class_1)           37.46ms  40.97ms      21.2</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.49ms   4.73ms     204. </span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches$layer_1$class_1)           38.46ms  40.97ms      23.3</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>
