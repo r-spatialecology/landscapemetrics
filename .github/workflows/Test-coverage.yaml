@@ -4,7 +4,7 @@ on:
       - CRAN
       - main
 
-name: test-coverage
+name: Test-coverage
 
 jobs:
   test-coverage:
