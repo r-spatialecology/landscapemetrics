@@ -27,7 +27,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Render README
-        run: Rscript -e 'rmarkdown::render("examples/README.Rmd")'
+        run: Rscript -e 'rmarkdown::render("README.Rmd")'
 
       - name: Commit results
         run: |
