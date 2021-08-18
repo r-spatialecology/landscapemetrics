@@ -126,9 +126,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         if (max(class_edge, na.rm = TRUE) == -999) {
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
-        }
-
-        else {
+        } else {
 
             # get all core patches
             patch_core <- get_patches_int(class_edge,
@@ -170,8 +168,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
         tibble::tibble(
             class = patches_class,
-            value = result
-        )
+            value = result)
         })
     )
 

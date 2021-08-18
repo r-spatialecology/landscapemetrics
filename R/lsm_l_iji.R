@@ -89,9 +89,7 @@ lsm_l_iji_calc <- function(landscape, verbose) {
                               id = as.integer(NA),
                               metric = "iji",
                               value = as.double(NA)))
-    }
-
-    else {
+    } else {
 
         diag(adjacencies) <- 0
 

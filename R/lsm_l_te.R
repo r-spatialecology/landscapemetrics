@@ -96,9 +96,8 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
                                                        directions = as.matrix(4))
 
         edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) * resolution_x
-    }
 
-    else {
+    } else {
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,

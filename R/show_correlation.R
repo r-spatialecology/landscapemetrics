@@ -185,11 +185,7 @@ show_correlation <- function(data, method = "pearson",
     if (length(present_levels) == 1) {
 
         plot_corrs <- ggplot2::ggplot(data = plot_list[[present_levels]],
-                                      ggplot2::aes(
-                                          x = metric_1,
-                                          y = metric_2,
-                                          fill = value
-                                      )) +
+                                      ggplot2::aes( x = metric_1, y = metric_2, fill = value)) +
             ggplot2::geom_tile() +
             ggplot2::geom_tile(color = "white") +
             ggplot2::scale_fill_gradient2(
@@ -206,7 +202,7 @@ show_correlation <- function(data, method = "pearson",
                           y = "",
                           title = paste(toupper(substr(present_levels, 1, 1)),
                                         substr(present_levels, 2, nchar(present_levels))
-                                        , " Level", sep="")) +
+                                        , " Level", sep = "")) +
             ggplot2::theme(
                 axis.text.x = ggplot2::element_text(
                     angle = 90, vjust = vjust
@@ -215,13 +211,10 @@ show_correlation <- function(data, method = "pearson",
             ) +
             ggplot2::coord_fixed()
 
-        if(labels) {
+        if (labels) {
             plot_corrs <- plot_corrs +
                 ggplot2::geom_text(data = plot_list[[present_levels]],
-                                   ggplot2::aes(
-                                       x = metric_1,
-                                       y = metric_2,
-                                       label = round(value, 2)
+                                   ggplot2::aes(x = metric_1, y = metric_2, label = round(value, 2)
                                    ))
         }
 
@@ -255,10 +248,7 @@ show_correlation <- function(data, method = "pearson",
             factor(corrs_df$id, levels = unique(corrs_df$id))
 
         plot_corrs <- ggplot2::ggplot(data = corrs_df,
-                                      ggplot2::aes(
-                                          x = metric_1,
-                                          y = metric_2,
-                                          fill = value
+                                      ggplot2::aes(x = metric_1, y = metric_2, fill = value
                                       )) +
             ggplot2::facet_wrap(id ~ ., scales = "free") +
             ggplot2::geom_tile() +
@@ -278,13 +268,10 @@ show_correlation <- function(data, method = "pearson",
                            text = ggplot2::element_text(size = text_size)
             )
 
-        if(labels) {
+        if (labels) {
             plot_corrs <- plot_corrs +
                 ggplot2::geom_text(data = corrs_df,
-                                   ggplot2::aes(
-                                       x = metric_1,
-                                       y = metric_2,
-                                       label = round(value, 2)
+                                   ggplot2::aes(x = metric_1, y = metric_2, label = round(value, 2)
                                    ))
         }
 

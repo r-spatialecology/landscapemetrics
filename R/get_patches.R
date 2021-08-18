@@ -67,14 +67,12 @@ get_patches <- function(landscape, class = "all", directions = 8,
 
                }
 
-               result <- get_patches_int(x_matrix, class, directions)
+               result_temp <- get_patches_int(x_matrix, class, directions)
 
                if ((return_raster || to_disk) && !inherits(x = x, what = "matrix")) {
 
-                   result <- lapply(result,
-                                    FUN = matrix_to_raster,
-                                    landscape = x,
-                                    to_disk = to_disk)
+                   result_temp <- lapply(result_temp, FUN = matrix_to_raster,
+                                         landscape = x, to_disk = to_disk)
 
                } else if ((return_raster || to_disk) && inherits(x = x, what = "matrix")) {
 
@@ -83,14 +81,9 @@ get_patches <- function(landscape, class = "all", directions = 8,
 
                }
 
-               return(result)
-           },
-
-           class = class,
-           directions = directions,
-           return_raster = return_raster,
-           to_disk = to_disk)
-
+               return(result_temp)
+           }, class = class,  directions = directions,
+           return_raster = return_raster, to_disk = to_disk)
 
     names(result) <- paste0("layer_", 1:length(landscape))
 
@@ -136,25 +129,22 @@ get_patches_int <- function(landscape,
             if (directions == 4) {
                 #patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
                 rcpp_ccl(filter_matrix, 4)
-                patch_landscape <- filter_matrix
+                patch_landscape_temp <- filter_matrix
             }
 
             # connected labeling with 8 neighbours
             if (directions == 8) {
                 #patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
                 rcpp_ccl(filter_matrix, 8)
-                patch_landscape <- filter_matrix
+                patch_landscape_temp <- filter_matrix
             }
 
-            return(patch_landscape)
+            return(patch_landscape_temp)
         })
 
         names(patch_landscape) <- paste0("class_", class)
 
-        return(patch_landscape)
-    }
-
-    else {
+    } else {
 
         patch_landscape <- lapply(X = unique_classes, FUN = function(class) {
 
@@ -163,22 +153,23 @@ get_patches_int <- function(landscape,
             # connected labeling with 4 neighbours
             if (directions == 4) {
                 rcpp_ccl(filter_matrix, 4)
-                patch_landscape <- filter_matrix
+                patch_landscape_temp <- filter_matrix
             }
 
             # connected labeling with 8 neighbours
             if (directions == 8) {
                 rcpp_ccl(filter_matrix, 8)
-                patch_landscape <- filter_matrix
+                patch_landscape_temp <- filter_matrix
             }
 
-            return(patch_landscape)
+            return(patch_landscape_temp)
         })
 
         names(patch_landscape) <- paste0("class_", unique_classes)
 
         patch_landscape <- patch_landscape[order(nchar(names(patch_landscape)), names(patch_landscape))]
 
-        return(patch_landscape)
     }
+
+    return(patch_landscape)
 }

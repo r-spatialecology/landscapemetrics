@@ -225,8 +225,7 @@ extract_lsm_internal <- function(landscape,
                            what = metrics_list,
                            directions = directions,
                            verbose = verbose,
-                           progress = progress,
-                           ...)
+                           progress = progress, ...)
 
   # only patchs that contain a sample point
   extract_metrics <- merge(x = metrics, y = point_id,

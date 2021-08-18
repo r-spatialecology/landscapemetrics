@@ -36,6 +36,5 @@ data_info <- function(landscape){
                         yes = "integer",
                         no = "non-integer"))
 
-    tibble::tibble(class = class,
-                   n_classes = length(landscape_values))
+    tibble::tibble(class = class, n_classes = length(landscape_values))
 }

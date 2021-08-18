@@ -98,7 +98,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions)
 
-    return(do.call(rbind, lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
+    pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
         class_name <- as.integer(np_class[class_current, "class"])
 
@@ -129,5 +129,6 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
             metric = "pafrac",
             value = as.double(pafrac))
         })
-    ))
+
+    do.call("rbind", pafrac_class)
 }

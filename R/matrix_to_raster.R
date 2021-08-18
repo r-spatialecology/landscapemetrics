@@ -39,16 +39,14 @@ matrix_to_raster <- function(matrix,
 
     if (landscape_empty) {
       landscape_empty <- landscape
-    }
 
-    else {
+    } else {
       landscape_empty <- raster::raster(x = raster::extent(landscape),
                                         resolution = raster::res(landscape),
                                         crs = raster::crs(landscape))
     }
-  }
 
-  else if (!all(c(is.null(extent), is.null(resolution), is.null(crs)))) {
+  } else if (!all(c(is.null(extent), is.null(resolution), is.null(crs)))) {
     landscape_empty <- raster::raster(x = extent,
                                       resolution = resolution,
                                       crs = crs)
@@ -90,16 +88,14 @@ matrix_to_raster <- function(matrix,
 
     # close writing connections
     result <- raster::writeStop(result)
-  }
 
   # create raster in memory
-  else {
+  } else {
 
     # set values of empty raster according to matrix
     result <- raster::setValues(x = landscape_empty,
                                 values = matrix)
   }
-
 
   return(result)
 }

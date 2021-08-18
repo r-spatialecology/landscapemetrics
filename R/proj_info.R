@@ -29,13 +29,12 @@ proj_info <- function(landscape) {
     if (!is.na(landscape_proj)) {
 
         # long-lat projection
-        if(raster::isLonLat(landscape)) {
+        if (raster::isLonLat(landscape)) {
 
             tibble::tibble(crs = "geographic", units = "degrees")
-        }
 
         # projected projection
-        else {
+        } else {
 
             # get units
             proj_units <- strsplit(sub(".*units=", "", landscape_proj), " ",
@@ -43,10 +42,9 @@ proj_info <- function(landscape) {
 
             tibble::tibble(crs = "projected", units = proj_units)
         }
-    }
 
     # no projection present
-    else {
+    } else {
         tibble::tibble(crs = NA, units = NA)
     }
 }

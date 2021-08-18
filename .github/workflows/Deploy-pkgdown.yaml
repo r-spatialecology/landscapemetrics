@@ -3,23 +3,22 @@ on:
     branches:
       - CRAN
       - main
+    tags:
+      -'*'
 
 name: Deploy-pkgdown
 
 jobs:
-  pkgdown:
+  deploy-pkgdown:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
-      - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@master
-        with:
-          crayon.enabled: 'FALSE'
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -28,7 +27,7 @@ jobs:
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Cache R packages
+      - name: Restore R package cache
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -37,14 +36,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("pkgdown", type = "binary")
-          remotes::install_cran("patchwork")
-          remotes::install_cran("tidyverse")
-          remotes::install_cran("landscapetools")
-          remotes::install_cran("bench")
-          remotes::install_version("SDMTools", version = "1.1-221.2")
+          install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
       - name: Install package

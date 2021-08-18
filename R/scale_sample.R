@@ -154,11 +154,10 @@ scale_sample_int <- function(landscape,
                               size = size,
                               verbose = verbose)
 
-        # how many plots are present
-        number_plots <- length(y)
-    }
+        # # how many plots are present
+        # number_plots <- length(y)
 
-    else {
+    } else {
 
         stop("'y' must be a matrix or SpatialPoints.",
              call. = FALSE)
