@@ -116,10 +116,9 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
 
             # get adjacencies between patches and background cells (-999 always first row of matrix) and convert to perimeter
             perimeter_patch_ij <- neighbour_matrix[2:nrow(neighbour_matrix), 1] * resolution_x
-        }
 
         # x-y resolution not identical, count adjacencies seperatly for x- and y-direction
-        else {
+        } else {
 
             # get coocurrence matrix in x-direction
             left_right_neighbours <- rcpp_get_coocurrence_matrix_single(landscape_labeled,

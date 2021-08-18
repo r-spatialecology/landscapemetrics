@@ -91,9 +91,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
             id = as.integer(NA),
             metric = "te",
             value = as.double(0))
-    }
-
-    else {
+    } else {
 
         # resolution not identical in x and y direction
         if (resolution_x != resolution_y) {
@@ -107,7 +105,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                                           NA, 1, NA), 3, 3, byrow = TRUE)
         }
 
-        return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
+        te_class <- lapply(X = classes, FUN = function(patches_class) {
 
             # get connected patches
             landscape_labeled <- get_patches_int(landscape,
@@ -119,7 +117,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
 
             landscape_labeled[edge_cells] <- -999
 
-            # add one row/coloumn to count landscape boundary
+            # add one row/column to count landscape boundary
             if (count_boundary) {
                 landscape_labeled <- pad_raster_internal(landscape = landscape_labeled,
                                                          pad_raster_value = -999,
@@ -137,10 +135,6 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                 neighbor_matrix <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
                                                                directions = as.matrix(4),
                                                                single_class = -999)
-                # neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_labeled,
-                #                                                       directions = as.matrix(4))
-
-
 
                 # sum of all adjacencies between patch id and non-class patches (-999) converted to edge length
                 edge_ik <- (sum(neighbor_matrix[2:nrow(neighbor_matrix), 1])) * resolution_x
@@ -175,6 +169,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                 metric = "te",
                 value = as.double(edge_ik))
             })
-        ))
+
+        do.call("rbind", te_class)
     }
 }

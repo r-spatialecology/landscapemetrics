@@ -148,10 +148,9 @@ sample_lsm_int <- function(landscape,
         if (nzchar(system.file(package = "rgeos"))) {
 
             y <- sp::disaggregate(y)
-        }
 
         # warning that rgeos is not installed
-        else {
+        } else {
 
             if (verbose) {
 
@@ -162,9 +161,7 @@ sample_lsm_int <- function(landscape,
 
         # how many plots are present
         # number_plots <- length(y)
-    }
-
-    else {
+    } else {
 
         # check if size argument is only one number
         if (length(size) != 1 | any(size <= 0)) {
@@ -189,31 +186,29 @@ sample_lsm_int <- function(landscape,
                                   shape = shape,
                                   size = size,
                                   verbose = verbose)
-        }
 
         # check if sf object is provided
-        else if (inherits(x = y, what = "sf")) {
+        } else if (inherits(x = y, what = "sf")) {
 
             # check if points have the right class
             if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
 
                 y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-            }
 
-            else if (inherits(x = y, what = c("sf", "sfc"))) {
+            } else if (inherits(x = y, what = c("sf", "sfc"))) {
 
                 if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
 
                     y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+
                 } else {
 
                     stop(
                         "landscapemetrics currently only supports sf point and polygon features for landscape metrics sampling"
                     )
                 }
-            }
 
-            else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
+            } else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
                                               "MULTILINESTRING", "MULTIPOLYGON"))) {
 
                 stop(
@@ -226,10 +221,9 @@ sample_lsm_int <- function(landscape,
                                   shape = shape,
                                   size = size,
                                   verbose = verbose)
-        }
 
         # use lines
-        else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
+        } else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
 
             # convert to SpatialLines
             if (inherits(x = y, what = "SpatialLinesDataFrame")) {
@@ -246,15 +240,13 @@ sample_lsm_int <- function(landscape,
                 # create buffer around lines
                 y <- raster::buffer(x = y,
                                     width = size, dissolve = FALSE)
-            }
 
-            else {
+            } else {
                 stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
                      call. = FALSE)
             }
-        }
 
-        else {
+        } else {
 
             stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
                  call. = FALSE)
@@ -314,11 +306,11 @@ sample_lsm_int <- function(landscape,
 
         # add plot id 1...n
         if (is.null(plot_id)) {
+
             result_current_plot$plot_id <- current_plot
-        }
 
         # add plot_id
-        else {
+        } else {
             result_current_plot$plot_id <- plot_id[current_plot]
         }
 
@@ -327,9 +319,7 @@ sample_lsm_int <- function(landscape,
 
             # calculate ratio between actual area and theoretical area
             result_current_plot$percentage_inside <- 0
-        }
-
-        else {
+        } else {
 
             # calculate ratio between actual area and theoretical area
             result_current_plot$percentage_inside <- area$value /
@@ -339,13 +329,12 @@ sample_lsm_int <- function(landscape,
         # add sample plot raster
         result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
 
-        return(result_current_plot)
-    }))},
-    warning = function(cond) {
+        return(result_current_plot)}))}, warning = function(cond) {
 
-        warning_messages <<- c(warning_messages, conditionMessage(cond))
+            warning_messages <<- c(warning_messages, conditionMessage(cond))
 
-        invokeRestart("muffleWarning")})
+            invokeRestart("muffleWarning")}
+    )
 
     if (progress) {
 

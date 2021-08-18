@@ -45,11 +45,6 @@ calculate_correlation <- function(metrics, method = "pearson",
         metrics_patch_wide <- stats::xtabs(value ~ id + metric,
                                            data = metrics_patch[, c(4:6)])
 
-        # get rid of xtabs class
-        # attr(metrics_patch_wide, "class") <- NULL
-        #
-        # attr(metrics_patch_wide, "call") <- NULL
-
         # get correlation
         correlation_matrix_patch <- stats::cor(metrics_patch_wide,
                                                method = method)
@@ -59,15 +54,13 @@ calculate_correlation <- function(metrics, method = "pearson",
                                            diag = !diag)] <- NA
 
         # reformat to data frame
-        correlation_matrix_patch_df <-
-            data.frame(
-                metric_1 = rownames(correlation_matrix_patch)[row(correlation_matrix_patch)],
-                metric_2 = colnames(correlation_matrix_patch)[col(correlation_matrix_patch)],
-                value = c(correlation_matrix_patch)
-            )
+        correlation_matrix_patch_df <- data.frame(
+            metric_1 = rownames(correlation_matrix_patch)[row(correlation_matrix_patch)],
+            metric_2 = colnames(correlation_matrix_patch)[col(correlation_matrix_patch)],
+            value = c(correlation_matrix_patch))
 
         # only complete cases
-        patch <- tibble::as_tibble(correlation_matrix_patch_df[stats::complete.cases(correlation_matrix_patch_df),])
+        patch <- tibble::as_tibble(correlation_matrix_patch_df[stats::complete.cases(correlation_matrix_patch_df), ])
     }
 
     # class level metrics
@@ -88,32 +81,24 @@ calculate_correlation <- function(metrics, method = "pearson",
         metrics_class_wide <- stats::xtabs(value ~ class + metric,
                                            data = metrics_class[, c(3, 5:6)])
 
-        # get rid of xtabs class
-        # attr(metrics_class_wide, "class") <- NULL
-        #
-        # attr(metrics_class_wide, "call") <- NULL
-
         # get correlation
         correlation_matrix_class <- stats::cor(metrics_class_wide,
                                                method = method)
 
         # only lower triangle and diag according to setting
-        correlation_matrix_class[upper.tri(correlation_matrix_class,
-                                           diag = !diag)] <- NA
+        correlation_matrix_class[upper.tri(correlation_matrix_class, diag = !diag)] <- NA
 
         # reshape to long format
-        correlation_matrix_class_df <-
-            data.frame(
-                metric_1 = rownames(correlation_matrix_class)[row(correlation_matrix_class)],
-                metric_2 = colnames(correlation_matrix_class)[col(correlation_matrix_class)],
-                value = c(correlation_matrix_class)
-            )
+        correlation_matrix_class_df <- data.frame(
+            metric_1 = rownames(correlation_matrix_class)[row(correlation_matrix_class)],
+            metric_2 = colnames(correlation_matrix_class)[col(correlation_matrix_class)],
+            value = c(correlation_matrix_class))
 
         # only complete cases
-        class <- tibble::as_tibble(correlation_matrix_class_df[stats::complete.cases(correlation_matrix_class_df),])
+        class <- tibble::as_tibble(correlation_matrix_class_df[stats::complete.cases(correlation_matrix_class_df), ])
     }
 
-    # landscape e
+    # landscape
     if ("landscape" %in% present_levels) {
 
         # which rows are landscape level
@@ -134,28 +119,20 @@ calculate_correlation <- function(metrics, method = "pearson",
             metrics_landscape_wide <- stats::xtabs(value ~ layer + metric,
                                                    data = metrics_landscape[, c(1, 5:6)])
 
-            # set xtabs class to null
-            # attr(metrics_landscape_wide, "landscape") <- NULL
-            #
-            # attr(metrics_landscape_wide, "call") <- NULL
-
             # get correlation
             correlation_matrix_landscape <- stats::cor(metrics_landscape_wide, method = method)
 
             # only upper triangle and diag according to setting
-            correlation_matrix_landscape[upper.tri(correlation_matrix_landscape,
-                                                   diag = !diag)] <- NA
+            correlation_matrix_landscape[upper.tri(correlation_matrix_landscape, diag = !diag)] <- NA
 
             # save in data frame
-            correlation_matrix_landscape_df <-
-                data.frame(
-                    metric_1 = rownames(correlation_matrix_landscape)[row(correlation_matrix_landscape)],
-                    metric_2 = colnames(correlation_matrix_landscape)[col(correlation_matrix_landscape)],
-                    value = c(correlation_matrix_landscape)
-                )
+            correlation_matrix_landscape_df <- data.frame(
+                metric_1 = rownames(correlation_matrix_landscape)[row(correlation_matrix_landscape)],
+                metric_2 = colnames(correlation_matrix_landscape)[col(correlation_matrix_landscape)],
+                value = c(correlation_matrix_landscape))
 
             # only complete casses
-            landscape <- tibble::as_tibble(correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df),])
+            landscape <- tibble::as_tibble(correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df), ])
         }
     }
 
@@ -171,9 +148,7 @@ calculate_correlation <- function(metrics, method = "pearson",
 
         if (length(correlation_list) == 1 ) {
             correlation_list <- correlation_list[[1]]
-        }
-
-        else{
+        } else{
             warning("Simplifying only possible if one level is present.", call. = FALSE)
         }
     }

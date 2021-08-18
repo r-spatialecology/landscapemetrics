@@ -61,7 +61,7 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
 get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
 
-    # conver to matrix
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells

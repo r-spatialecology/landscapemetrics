@@ -88,9 +88,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
                               id = as.integer(NA),
                               metric = "contag",
                               value = as.double(NA)))
-    }
-
-    else {
+    } else {
 
         adjacencies <- rcpp_get_coocurrence_matrix(landscape,
                                                    as.matrix(4))
