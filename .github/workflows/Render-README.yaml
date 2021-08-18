@@ -22,9 +22,9 @@ jobs:
     # Install packages needed
     - name: install required packages
       run: |
-          install.packages("remotes")
-          remotes::install_cran("rmarkdown")
-          remotes::install_local(".")
+        install.packages("remotes")
+        remotes::install_cran("rmarkdown")
+        remotes::install_local(".")
 
     # Render READEME.md using rmarkdown
     - name: render README
