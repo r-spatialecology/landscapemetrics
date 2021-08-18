@@ -23,6 +23,7 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_cran("rmarkdown")
+          remotes::install_cran("landscapetools")
           remotes::install_local(".")
         shell: Rscript {0}
 
