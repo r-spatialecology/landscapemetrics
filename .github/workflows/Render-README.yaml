@@ -10,16 +10,15 @@ name: Render-README
 
 jobs:
   render-readme:
-    # The type of runner that the job will run on
+    name: Render README
     runs-on: macOS-latest
-
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: r-lib/actions/setup-r@v1
-    - uses: r-lib/actions/setup-pandoc@v1
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
 
-    # Install packages needed
       - name: Install rmarkdown, remotes, and the local package
         run: |
           install.packages("remotes")
@@ -27,15 +26,12 @@ jobs:
           remotes::install_local(".")
         shell: Rscript {0}
 
-    # Render README.md using rmarkdown
-    - name: render README
-      run: Rscript -e 'rmarkdown::render("README.Rmd")'
+      - name: Render README
+        run: Rscript -e 'rmarkdown::render("examples/README.Rmd")'
 
-    # Commit and push files to github
-    - name: commit rendered README
-      run: |
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
-        git add README.md man/figures/README-*
-        git commit -m "Re-build README.md" || echo "No changes to commit"
-        git push origin || echo "No changes to commit"
+      - name: Commit results
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git commit examples/README.md -m 'Re-build README.Rmd' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
