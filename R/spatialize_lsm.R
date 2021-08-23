@@ -196,22 +196,19 @@ spatialize_lsm_internal <- function(landscape,
             result <- raster::writeStop(result)
 
             return(result)
-        }
-
-        else {
+        } else {
 
             # convert to raster (wrap)
             result <- raster::rasterFromXYZ(fill_value[, c(2, 3, 8)],
                                             crs = crs_input)
 
             return(result)
-        }
-    })},
-    warning = function(cond) {
+        }})}, warning = function(cond) {
 
         warning_messages <<- c(warning_messages, conditionMessage(cond))
 
-        invokeRestart("muffleWarning")})
+        invokeRestart("muffleWarning")}
+    )
 
     # using metrics to name list
     names(result) <- metrics

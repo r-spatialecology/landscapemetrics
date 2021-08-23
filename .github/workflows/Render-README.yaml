@@ -1,12 +1,15 @@
 on:
   push:
+    branches:
+      - CRAN
+      - main
     paths:
       - README.Rmd
 
 name: Render-README
 
 jobs:
-  render:
+  render-readme:
     name: Render README
     runs-on: macOS-latest
     env:
@@ -16,17 +19,12 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Setup R
-        uses: r-lib/actions/setup-r@master
-        with:
-          crayon.enabled: 'FALSE'
-
       - name: Install rmarkdown, remotes, and the local package
         run: |
           install.packages("remotes")
-          remotes::install_local(".")
           remotes::install_cran("rmarkdown")
           remotes::install_cran("landscapetools")
+          remotes::install_local(".")
         shell: Rscript {0}
 
       - name: Render README
@@ -37,5 +35,5 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add README.md man/figures/README-*
-          git commit -m 'Re-build README.Rmd' || echo "No changes to commit"
+          git commit -m "Re-build README.md" || echo "No changes to commit"
           git push origin || echo "No changes to commit"

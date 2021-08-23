@@ -71,7 +71,7 @@ lsm_c_np_calc <- function(landscape, directions){
     classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # get number of patches
-    return(do.call(rbind, lapply(X = classes, FUN = function(patches_class) {
+    np_class <- lapply(X = classes, FUN = function(patches_class) {
 
         # connected labeling current class
         landscape_labeled <- get_patches_int(landscape,
@@ -88,5 +88,6 @@ lsm_c_np_calc <- function(landscape, directions){
             metric = "np",
             value = as.double(np))
         })
-    ))
+
+    do.call(rbind, np_class)
 }

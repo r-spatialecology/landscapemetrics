@@ -95,9 +95,7 @@ show_lsm_internal <- function(landscape, what, class,
                               directions = directions,
                               consider_boundary = consider_boundary,
                               edge_depth = edge_depth)
-    }
-
-    else {
+    } else {
 
         fill_value <- lsm_fun(landscape, directions = directions)
     }
@@ -126,7 +124,7 @@ show_lsm_internal <- function(landscape, what, class,
         } else {
             if (label_lsm) {
                 patches_tibble$label <- round(patches_tibble$value, 2)
-            } else{
+            } else {
                 patches_tibble$label <- patches_tibble$id
             }
         }
@@ -158,16 +156,12 @@ show_lsm_internal <- function(landscape, what, class,
         if (!labels) {
 
             patches_tibble$label <- NA
-        }
-
-        else {
+        } else {
 
             if (label_lsm) {
 
                 patches_tibble$label <- round(patches_tibble$value, 2)
-            }
-
-            else{
+            } else{
 
                 patches_tibble$label <- patches_tibble$id
             }

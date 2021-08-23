@@ -98,8 +98,7 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
 
         tibble::tibble(
             class = as.integer(patches_class),
-            value = area_patch_ij
-        )
+            value = area_patch_ij)
         })
     )
 

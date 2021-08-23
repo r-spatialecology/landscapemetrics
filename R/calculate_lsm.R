@@ -61,23 +61,23 @@
 #'
 #' @export
 calculate_lsm <- function(landscape,
-                               level = NULL,
-                               metric = NULL,
-                               name = NULL,
-                               type = NULL,
-                               what = NULL,
-                               directions = 8,
-                               count_boundary = FALSE,
-                               consider_boundary = FALSE,
-                               edge_depth = 1,
-                               cell_center = FALSE,
-                               classes_max = NULL,
-                               neighbourhood = 4,
-                               ordered = TRUE,
-                               base = "log2",
-                               full_name = FALSE,
-                               verbose = TRUE,
-                               progress = FALSE) {
+                          level = NULL,
+                          metric = NULL,
+                          name = NULL,
+                          type = NULL,
+                          what = NULL,
+                          directions = 8,
+                          count_boundary = FALSE,
+                          consider_boundary = FALSE,
+                          edge_depth = 1,
+                          cell_center = FALSE,
+                          classes_max = NULL,
+                          neighbourhood = 4,
+                          ordered = TRUE,
+                          base = "log2",
+                          full_name = FALSE,
+                          verbose = TRUE,
+                          progress = FALSE) {
 
     landscape <- landscape_as_list(landscape)
 
@@ -152,13 +152,8 @@ calculate_lsm_internal <- function(landscape,
     }
 
     # get name of metrics
-    metrics <- list_lsm(level = level,
-                        metric = metric,
-                        name = name,
-                        type = type,
-                        what = what,
-                        simplify = TRUE,
-                        verbose = verbose)
+    metrics <- list_lsm(level = level, metric = metric, name = name,
+                        type = type, what = what, simplify = TRUE, verbose = verbose)
 
     # use internal functions for calculation
     metrics_calc <- paste0(metrics, "_calc")
@@ -179,7 +174,6 @@ calculate_lsm_internal <- function(landscape,
 
         # print progess using the non-internal name
         if (progress) {
-
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 

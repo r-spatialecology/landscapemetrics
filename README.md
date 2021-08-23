@@ -1,16 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-| Continuous Integration                                                                                                                                                      | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| ![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/workflows/R-CMD-check/badge.svg)                                                                        | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=main) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
+| CI                                                                                                                                                                                                                       | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=main)                                              | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
 
-# landscapemetrics <img src="man/figures/logo.png" align="right" width="150" />
+<img src="man/figures/logo.png" align="right" width="150"/>
+
+# landscapemetrics
 
 ## Overview
 
-**landscapemetrics** is an R package for calculating landscape metrics
+**landscapemetrics** is a `R` package for calculating landscape metrics
 for categorical landscape patterns in a tidy workflow. The package can
 be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
 2012), as it offers a reproducible workflow for landscape analysis in a
@@ -19,10 +21,11 @@ metrics of landscape complexity: a marginal entropy, a conditional
 entropy, a joint entropy, and a mutual information (Nowosad and
 Stepinski 2019).
 
-**landscapemetrics** supports `raster` spatial objects and takes
-`RasterLayer`, `RasterStacks`, `RasterBricks` or lists of `RasterLayer`
-as input arguments. Every function can be used in a piped workflow, as
-it always takes the data as the first argument and returns a tibble.
+**landscapemetrics** supports `raster`, `terra`, and `stars` spatial
+objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of
+`RasterLayer`, `SpatRaster`, or `stars` as input arguments. Every
+function can be used in a piped workflow, as it always takes the data as
+the first argument and returns a `tibble`.
 
 ### Citation
 
@@ -72,9 +75,9 @@ meters or hectares. Before using **landscapemetrics**, be sure to check
 your raster (see `check_landscape()`).
 
 All functions in **landscapemetrics** start with `lsm_` (for
-landscapemetrics). The second part of the name specifies the level
-(patch - `p`, class - `c` or landscape - `l`). The last part of the
-function name is the abbreviation of the corresponding metric
+**l**and**s**cape **m**etrics). The second part of the name specifies
+the level (patch - `p`, class - `c` or landscape - `l`). The last part
+of the function name is the abbreviation of the corresponding metric
 (e.g. `enn` for the euclidean nearest-neighbor distance):
 
     # general structure
@@ -110,7 +113,7 @@ library(landscapemetrics)
 library(landscapetools)
 
 # landscape raster
-show_landscape(landscape)
+show_landscape(landscape, discrete = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
@@ -119,7 +122,7 @@ show_landscape(landscape)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
-#> # A tibble: 27 x 6
+#> # A tibble: 27 × 6
 #>    layer level class    id metric value
 #>    <int> <chr> <int> <int> <chr>  <dbl>
 #>  1     1 patch     1     1 enn     7   
@@ -136,12 +139,12 @@ lsm_p_enn(landscape)
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
-#> # A tibble: 1 x 6
+#> # A tibble: 1 × 6
 #>   layer level     class    id metric value
 #>   <int> <chr>     <int> <int> <chr>  <dbl>
 #> 1     1 landscape    NA    NA ta      0.09
 lsm_c_te(landscape)
-#> # A tibble: 3 x 6
+#> # A tibble: 3 × 6
 #>   layer level class    id metric value
 #>   <int> <chr> <int> <int> <chr>  <dbl>
 #> 1     1 class     1    NA te       180
@@ -156,7 +159,7 @@ calculate a bunch of metrics:
 # calculate all metrics on patch level
 calculate_lsm(landscape, level = "patch")
 #> Warning: Please use 'check_landscape()' to ensure the input data is valid.
-#> # A tibble: 324 x 6
+#> # A tibble: 324 × 6
 #>    layer level class    id metric  value
 #>    <int> <chr> <int> <int> <chr>   <dbl>
 #>  1     1 patch     1     1 area   0.0001

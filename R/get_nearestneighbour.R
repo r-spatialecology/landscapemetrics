@@ -90,7 +90,7 @@ get_nearestneighbour_calc <- function(landscape, return_id,
                                                       FUN = min),
                                      c("id", "dist"))
 
-    if(return_id) {
+    if (return_id) {
 
         min_dist_aggr <- merge(x = min_dist_aggr, y = min_dist[, c(2, 3, 4)],
                                by.x = c("id", "dist"),

@@ -107,9 +107,9 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
     cohesion$value <- (1 - (cohesion$value / denominator$denominator)) *
         ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-   return(tibble::tibble(level = "class",
-                         class = as.integer(cohesion$class),
-                         id = as.integer(NA),
-                         metric = "cohesion",
-                         value = as.double(cohesion$value)))
+    return(tibble::tibble(level = "class",
+                          class = as.integer(cohesion$class),
+                          id = as.integer(NA),
+                          metric = "cohesion",
+                          value = as.double(cohesion$value)))
 }

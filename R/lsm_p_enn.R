@@ -114,9 +114,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
                                                     ": ENN = NA for class with only 1 patch."),
                                              call. = FALSE)
                                  }
-                             }
-
-                             else {
+                             } else {
 
                                  enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
                                                                   return_id = FALSE,

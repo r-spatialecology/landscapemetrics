@@ -64,9 +64,7 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
         }
 
         rpr <- NA
-    }
-
-    else {
+    } else {
 
         pr <- lsm_l_pr_calc(landscape)
 

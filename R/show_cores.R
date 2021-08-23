@@ -75,12 +75,6 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
         warning("'global' and 'all' can't be combined with any other class-argument.", call. = FALSE)
     }
 
-    resolution_xy <- raster::res(landscape)
-    landscape_padded_extent <- raster::extent(landscape) + (2 * resolution_xy)
-    landscape_labeled_empty <- raster::raster(x = landscape_padded_extent,
-                                              resolution = resolution_xy,
-                                              crs = raster::crs(landscape))
-
     landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
     for (i in seq_len(length(landscape_labeled) - 1)) {
@@ -94,17 +88,6 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
     }
 
     boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
-
-        # if (!consider_boundary) {
-        #
-        #     landscape_padded <- pad_raster(patches_class,
-        #                                    pad_raster_value = NA,
-        #                                    pad_raster_cells = 1,
-        #                                    global = FALSE,
-        #                                    return_raster = FALSE)[[1]]
-        #
-        #     patches_class <- raster::setValues(landscape_labeled_empty, landscape_padded)
-        # }
 
         class_edge <- get_boundaries(patches_class,
                                      consider_boundary = consider_boundary)[[1]]
