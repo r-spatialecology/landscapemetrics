@@ -164,14 +164,14 @@
 
 <table class="table">
 <thead><tr class="header">
-<th>Continuous Integration</th>
+<th>CI</th>
 <th>Development</th>
 <th>CRAN</th>
 <th>License</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><img src="https://github.com/r-spatialecology/landscapemetrics/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></td>
+<td><a href="https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main" alt="R-CMD-check"></a></td>
 <td><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></td>
 <td><a href="https://cran.r-project.org/package=landscapemetrics"><img src="https://www.r-pkg.org/badges/version/landscapemetrics" alt="CRAN status"></a></td>
 <td><a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></td>
@@ -184,15 +184,15 @@
 </tr>
 </tbody>
 </table>
-<div id="landscapemetrics-" class="section level1">
+<p><img src="reference/figures/logo.png" align="right" width="150"></p>
+<div id="landscapemetrics" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#landscapemetrics-" class="anchor"></a>landscapemetrics <img src="reference/figures/logo.png" align="right" width="150">
-</h1></div>
+<a href="#landscapemetrics" class="anchor"></a>landscapemetrics</h1></div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><strong>landscapemetrics</strong> is an R package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).</p>
-<p><strong>landscapemetrics</strong> supports <code>raster</code>, <code>terra</code>, and <code>stars</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> lists of <code>RasterLayer</code>, <code>SpatRaster</code>, or <code>stars</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a tibble.</p>
+<p><strong>landscapemetrics</strong> is a <code>R</code> package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).</p>
+<p><strong>landscapemetrics</strong> supports <code>raster</code>, <code>terra</code>, and <code>stars</code> spatial objects and takes <code>RasterLayer</code>, <code>RasterStacks</code>, <code>RasterBricks</code> lists of <code>RasterLayer</code>, <code>SpatRaster</code>, or <code>stars</code> as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a <code>tibble</code>.</p>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h3>
@@ -225,7 +225,7 @@
 <h2 class="hasAnchor">
 <a href="#using-landscapemetrics" class="anchor"></a>Using landscapemetrics</h2>
 <p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code><a href="reference/check_landscape.html">check_landscape()</a></code>).</p>
-<p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the euclidean nearest-neighbor distance):</p>
+<p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for <strong>l</strong>and<strong>s</strong>cape <strong>m</strong>etrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the euclidean nearest-neighbor distance):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># general structure</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
