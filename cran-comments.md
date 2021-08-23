@@ -1,3 +1,6 @@
+# landscapemetrics 1.5.4
+Computational improvements
+
 # landscapemetrics 1.5.3
 Minor bug fixes and improved terra support
 
