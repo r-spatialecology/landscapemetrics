@@ -1,4 +1,8 @@
-# landscapemetrics 1.5.4
+# landscapemetrics 1.5.5
+* Improvements
+   * `spatialize_lsm` can return unique id using `what = "id"`)
+
+# landscapemetrics 1.5.5
 * Improvements
     * Improved memory performance related to perimeter and edge calculations
 
