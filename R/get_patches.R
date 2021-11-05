@@ -127,7 +127,7 @@ get_patches_int <- function(landscape, class, directions,
 
             rcpp_ccl(landscape_temp, 4)
 
-            # connected labeling with 8 neighbours
+        # connected labeling with 8 neighbours
         } else if (directions == 8) {
 
             rcpp_ccl(landscape_temp, 8)
@@ -147,6 +147,10 @@ get_patches_int <- function(landscape, class, directions,
 
     # set class names
     names(patch_landscape) <- paste0("class_", class)
+
+    # reorder classes
+    patch_landscape <- patch_landscape[order(nchar(names(patch_landscape)),
+                                             names(patch_landscape))]
 
     return(patch_landscape)
 }
