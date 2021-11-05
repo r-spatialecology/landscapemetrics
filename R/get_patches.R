@@ -54,36 +54,9 @@ get_patches <- function(landscape, class = "all", directions = 8,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-           FUN = function(x, class, directions, return_raster, to_disk) {
-
-               # convert to matrix
-               if (!inherits(x = x, what = "matrix")) {
-
-                   x_matrix <- raster::as.matrix(x)
-
-               } else {
-
-                   x_matrix <- x
-
-               }
-
-               result_temp <- get_patches_int(x_matrix, class, directions)
-
-               if ((return_raster || to_disk) && !inherits(x = x, what = "matrix")) {
-
-                   result_temp <- lapply(result_temp, FUN = matrix_to_raster,
-                                         landscape = x, to_disk = to_disk)
-
-               } else if ((return_raster || to_disk) && inherits(x = x, what = "matrix")) {
-
-                   warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
-                           call. = FALSE)
-
-               }
-
-               return(result_temp)
-           }, class = class,  directions = directions,
-           return_raster = return_raster, to_disk = to_disk)
+                     FUN = get_patches_int,
+                     class = class, directions = directions,
+                     return_raster = return_raster, to_disk = to_disk)
 
     names(result) <- paste0("layer_", 1:length(landscape))
 
@@ -91,9 +64,27 @@ get_patches <- function(landscape, class = "all", directions = 8,
 
 }
 
-get_patches_int <- function(landscape,
-                            class,
-                            directions) {
+get_patches_int <- function(landscape, class, directions,
+                            return_raster = FALSE, to_disk = FALSE) {
+
+    # convert to matrix
+    if (!inherits(x = landscape, what = "matrix")) {
+
+        landscape_mat <- raster::as.matrix(landscape)
+
+    # already a matrix
+    } else {
+
+        landscape_mat <- landscape
+
+        if (return_raster || to_disk) {
+
+            return_raster <- FALSE
+
+            warning("'return_raster' or 'to_disk' not possible for matrix input.", call. = FALSE)
+
+        }
+    }
 
     # check if directions argument is valid
     if (directions != 4 && directions != 8) {
@@ -104,72 +95,58 @@ get_patches_int <- function(landscape,
         directions <- 8
     }
 
-    # get unique classes
-    unique_classes <- get_unique_values_int(landscape, verbose = FALSE)
+    # get unique class id
+    unique_classes <- get_unique_values_int(landscape_mat, verbose = FALSE)
 
-    # set-up filter matrix
-    filter_matrix <- matrix(NA,
-                            nrow = nrow(landscape),
-                            ncol = ncol(landscape))
+    # check if class is present in landscape
+    if (!any(class %in% unique_classes) && class != "all") {
 
-    # class is specified
-    if (any(class != "all")) {
-
-        # check if class is present in landscape
-        if (!any(class %in% unique_classes)) {
-            stop("Not all provided classes present in landscape")
-        }
-
-        patch_landscape <- lapply(X = class, FUN = function(current_class) {
-
-            # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
-            filter_matrix[landscape == current_class] <- 1L
-
-            # connected labeling with 4 neighbours
-            if (directions == 4) {
-                #patch_landscape <- .Call('ccl_4', filter_matrix, PACKAGE = 'landscapemetrics')
-                rcpp_ccl(filter_matrix, 4)
-                patch_landscape_temp <- filter_matrix
-            }
-
-            # connected labeling with 8 neighbours
-            if (directions == 8) {
-                #patch_landscape <- .Call('ccl_8', filter_matrix, PACKAGE = 'landscapemetrics')
-                rcpp_ccl(filter_matrix, 8)
-                patch_landscape_temp <- filter_matrix
-            }
-
-            return(patch_landscape_temp)
-        })
-
-        names(patch_landscape) <- paste0("class_", class)
-
-    } else {
-
-        patch_landscape <- lapply(X = unique_classes, FUN = function(class) {
-
-            filter_matrix[landscape == class] <- 1L
-
-            # connected labeling with 4 neighbours
-            if (directions == 4) {
-                rcpp_ccl(filter_matrix, 4)
-                patch_landscape_temp <- filter_matrix
-            }
-
-            # connected labeling with 8 neighbours
-            if (directions == 8) {
-                rcpp_ccl(filter_matrix, 8)
-                patch_landscape_temp <- filter_matrix
-            }
-
-            return(patch_landscape_temp)
-        })
-
-        names(patch_landscape) <- paste0("class_", unique_classes)
-
-        patch_landscape <- patch_landscape[order(nchar(names(patch_landscape)), names(patch_landscape))]
+        stop("Not all provided classes present in landscape.", call. = FALSE)
 
     }
+
+    # prepare to loop through all classes
+    if (class == "all") {
+
+        class <- unique_classes
+
+    }
+
+    # CCL all classes
+    patch_landscape <- lapply(class, function(i) {
+
+        # set-up filter matrix
+        landscape_temp <- matrix(NA, nrow = nrow(landscape_mat),
+                                 ncol = ncol(landscape_mat))
+
+        # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
+        landscape_temp[landscape_mat == i] <- 1L
+
+        # connected labeling with 4 neighbours
+        if (directions == 4) {
+
+            rcpp_ccl(landscape_temp, 4)
+
+            # connected labeling with 8 neighbours
+        } else if (directions == 8) {
+
+            rcpp_ccl(landscape_temp, 8)
+
+        }
+
+        # return matrix to
+        if (return_raster) {
+
+            landscape_temp <- matrix_to_raster(matrix = landscape_temp,
+                                                landscape = landscape, to_disk = to_disk)
+        }
+
+        return(landscape_temp)
+
+    })
+
+    # set class names
+    names(patch_landscape) <- paste0("class_", class)
 
     return(patch_landscape)
 }
