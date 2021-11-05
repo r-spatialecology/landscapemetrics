@@ -100,14 +100,6 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
                                      to_disk = to_disk,
                                      return_raster = TRUE)[[1]]
 
-    # continuous, unique patch id
-    for (i in seq_len(length(landscape_labeled) - 1)) {
-
-        max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
-    }
-
     # get dataframe with patch ID and coordinates to merge with result of metric
     # MH: Do we really want to remove NA?
     patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),

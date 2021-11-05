@@ -16,18 +16,6 @@ test_that("spatialize_lsm returns all selected metrics", {
     expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
 })
 
-test_that("spatialize_lsm returns id", {
-
-    result <- spatialize_lsm(landscape, what = "id",
-                             verbose = FALSE)
-
-    expect_length(object = result, n = 1)
-
-    expect_equal(object = names(result[[1]]), expected = "id")
-
-    expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
-})
-
 test_that("spatialize_lsm returns returns correct type of metrics", {
 
     metrics <- list_lsm(level = "patch", type = "shape metric", simplify = TRUE)
