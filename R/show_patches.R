@@ -55,13 +55,6 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
     landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
-    for (i in seq_len(length(landscape_labeled) - 1)) {
-
-        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
-    }
-
     if (any(class == "global")) {
 
         patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
