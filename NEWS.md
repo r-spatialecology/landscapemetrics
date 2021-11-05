@@ -1,6 +1,6 @@
 # landscapemetrics 1.5.5
 * Improvements
-   * `spatialize_lsm` can return unique id using `what = "id"`)
+   * `get_patches` returns a unique patch id for all classes
 
 # landscapemetrics 1.5.5
 * Improvements

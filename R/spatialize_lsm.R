@@ -22,8 +22,6 @@
 #' (see \code{list_lsm} for details) where each cell has the landscape metric
 #' value of the patch it belongs to. Only patch level metrics are allowed.
 #'
-#' If \code{what = "id"}, a \code{RasterLayer} with unique patch ids is returned.
-#'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
 #' \code{\link{show_lsm}}
@@ -38,13 +36,10 @@
 #' @rdname spatialize_lsm
 #'
 #' @export
-spatialize_lsm <- function(landscape, level = "patch", metric = NULL,  name = NULL,
-                                type = NULL,
-                                what = NULL,
-                                directions = 8,
-                                progress = FALSE,
-                                to_disk = getOption("to_disk", default = FALSE),
-                                ...) {
+spatialize_lsm <- function(landscape, level = "patch", metric = NULL, name = NULL,
+                           type = NULL, what = NULL, directions = 8, progress = FALSE,
+                           to_disk = getOption("to_disk", default = FALSE),
+                           ...) {
 
     landscape <- landscape_as_list(landscape)
 
@@ -74,177 +69,150 @@ spatialize_lsm <- function(landscape, level = "patch", metric = NULL,  name = NU
     return(result)
 }
 
-spatialize_lsm_internal <- function(landscape,
-                                    level, metric, name, type, what,
-                                    directions,
-                                    progress, to_disk, ...) {
+spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
+                                    directions, progress, to_disk, ...) {
 
-    # get patch ids
-    if ("id" %in% what && length(what) == 1) {
+    # get name of metrics
+    metrics <- list_lsm(level = level,
+                        metric = metric,
+                        name = name,
+                        type = type,
+                        what = what,
+                        simplify = TRUE,
+                        verbose = FALSE)
 
-        landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
+    # how many metrics need to be calculated?
+    number_metrics <- length(metrics)
 
-        for (i in seq_len(length(landscape_labeled) - 1)) {
+    # error if no patch level metrics are provided
+    if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {
+        stop("'spatialize_lsm()' only takes patch level metrics.",
+             call. = FALSE)
+    }
 
-            max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
+    # get CRS of input
+    crs_input <- raster::crs(landscape)
 
-            landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
+    # get patches
+    landscape_labeled <- get_patches(landscape,
+                                     class = "all",
+                                     directions = directions,
+                                     to_disk = to_disk,
+                                     return_raster = TRUE)[[1]]
+
+    # continuous, unique patch id
+    for (i in seq_len(length(landscape_labeled) - 1)) {
+
+        max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
+
+        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
+    }
+
+    # get dataframe with patch ID and coordinates to merge with result of metric
+    # MH: Do we really want to remove NA?
+    patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+                                                na.rm = TRUE),
+                                            xy = TRUE)
+
+    # modify names
+    names(patches_tibble) <- c("x", "y", "id")
+
+    # replace all 0 values for NA
+    patches_tibble$id <- replace(patches_tibble$id,
+                                 patches_tibble$id == 0,
+                                 NA)
+
+    # create object for warning messages
+    warning_messages <- character(0)
+
+    # loop through metrics and return raster with value for each patch
+    result <- withCallingHandlers(expr = {lapply(seq_along(metrics), function(x) {
+
+        # print progress using the non-internal name
+        if (progress) {
+
+            cat("\r> Progress metrics: ", x, "/", number_metrics)
         }
 
-        # convert to stack for easier overlay
-        landscape_labeled <- raster::stack(landscape_labeled)
+        # get metric value
+        fill_value <- calculate_lsm(landscape,
+                                    what = metrics[[x]],
+                                    progress = FALSE,
+                                    ...)
 
-        # replace all NA with zero for overlay sum
-        raster::values(landscape_labeled)[is.na(raster::values(landscape_labeled))] <- 0
+        # merge with coords data frame
+        fill_value <- merge(x = patches_tibble,
+                            y = fill_value,
+                            by = "id",
+                            all.x = TRUE)
 
-        # overlay all layers as one raster
-        result <- list(id = raster::overlay(landscape_labeled, fun = sum))
+        if (to_disk) {
 
-    # calculate metrics
-    } else {
+            # order fill_value by x
+            index <- order(fill_value$x)
+            fill_value <- fill_value[index, ]
 
-        # get name of metrics
-        metrics <- list_lsm(level = level,
-                            metric = metric,
-                            name = name,
-                            type = type,
-                            what = what,
-                            simplify = TRUE,
-                            verbose = FALSE)
+            # split by y
+            fill_value <- rev(split(x = fill_value, f = fill_value$y))
 
-        # how many metrics need to be calculated?
-        number_metrics <- length(metrics)
+            # create empty raster
+            result <- raster::raster(landscape)
 
-        # error if no patch level metrics are provided
-        if (!all(metrics %in% list_lsm(level = "patch", simplify = TRUE))) {
-            stop("'spatialize_lsm()' only takes patch level metrics.",
-                 call. = FALSE)
-        }
+            # get block size
+            block_size <- raster::blockSize(result)
 
-        # get CRS of input
-        crs_input <- raster::crs(landscape)
+            # starting to write values in raster
+            result <- raster::writeStart(x = result,
+                                         filename = raster::rasterTmpFile(),
+                                         overwrite = TRUE)
 
-        # get patches
-        landscape_labeled <- get_patches(landscape,
-                                         class = "all",
-                                         directions = directions,
-                                         to_disk = to_disk,
-                                         return_raster = TRUE)[[1]]
+            # loop through all block sizes
+            for (i in 1:block_size$n) {
 
-        # continuous, unique patch id
-        for (i in seq_len(length(landscape_labeled) - 1)) {
+                # start and end row of current block
+                start_row <- block_size$row[i]
+                end_row <- block_size$row[i] + (block_size$nrows[i] - 1)
 
-            max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
+                # get values of current rows and combine to df
+                values_temp <- do.call("rbind", fill_value[start_row:end_row])
 
-            landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
-        }
-
-        # get dataframe with patch ID and coordinates to merge with result of metric
-        # MH: Do we really want to remove NA?
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
-                                                    na.rm = TRUE),
-                                                xy = TRUE)
-
-        # modify names
-        names(patches_tibble) <- c("x", "y", "id")
-
-        # replace all 0 values for NA
-        patches_tibble$id <- replace(patches_tibble$id,
-                                     patches_tibble$id == 0,
-                                     NA)
-
-        # create object for warning messages
-        warning_messages <- character(0)
-
-        # loop through metrics and return raster with value for each patch
-        result <- withCallingHandlers(expr = {lapply(seq_along(metrics), function(x) {
-
-            # print progress using the non-internal name
-            if (progress) {
-
-                cat("\r> Progress metrics: ", x, "/", number_metrics)
+                # write current block
+                result <- raster::writeValues(x = result,
+                                              v = values_temp$value,
+                                              start = block_size$row[i])
             }
 
-            # get metric value
-            fill_value <- calculate_lsm(landscape,
-                                        what = metrics[[x]],
-                                        progress = FALSE,
-                                        ...)
+            # close writing connections
+            result <- raster::writeStop(result)
 
-            # merge with coords data frame
-            fill_value <- merge(x = patches_tibble,
-                                y = fill_value,
-                                by = "id",
-                                all.x = TRUE)
+            return(result)
+        } else {
 
-            if (to_disk) {
+            # convert to raster (wrap)
+            result <- raster::rasterFromXYZ(fill_value[, c(2, 3, 8)],
+                                            crs = crs_input)
 
-                # order fill_value by x
-                index <- order(fill_value$x)
-                fill_value <- fill_value[index, ]
-
-                # split by y
-                fill_value <- rev(split(x = fill_value, f = fill_value$y))
-
-                # create empty raster
-                result <- raster::raster(landscape)
-
-                # get block size
-                block_size <- raster::blockSize(result)
-
-                # starting to write values in raster
-                result <- raster::writeStart(x = result,
-                                             filename = raster::rasterTmpFile(),
-                                             overwrite = TRUE)
-
-                # loop through all block sizes
-                for (i in 1:block_size$n) {
-
-                    # start and end row of current block
-                    start_row <- block_size$row[i]
-                    end_row <- block_size$row[i] + (block_size$nrows[i] - 1)
-
-                    # get values of current rows and combine to df
-                    values_temp <- do.call("rbind", fill_value[start_row:end_row])
-
-                    # write current block
-                    result <- raster::writeValues(x = result,
-                                                  v = values_temp$value,
-                                                  start = block_size$row[i])
-                }
-
-                # close writing connections
-                result <- raster::writeStop(result)
-
-                return(result)
-            } else {
-
-                # convert to raster (wrap)
-                result <- raster::rasterFromXYZ(fill_value[, c(2, 3, 8)],
-                                                crs = crs_input)
-
-                return(result)
-            }})}, warning = function(cond) {
+            return(result)
+        }})}, warning = function(cond) {
 
             warning_messages <<- c(warning_messages, conditionMessage(cond))
 
             invokeRestart("muffleWarning")}
-        )
+    )
 
-        # using metrics to name list
-        names(result) <- metrics
+    # using metrics to name list
+    names(result) <- metrics
 
-        if (progress) {cat("\n")}
+    if (progress) {cat("\n")}
 
-        # warnings present
-        if (length(warning_messages) > 0) {
+    # warnings present
+    if (length(warning_messages) > 0) {
 
-            # only unique warnings
-            warning_messages <- unique(warning_messages)
+        # only unique warnings
+        warning_messages <- unique(warning_messages)
 
-            # print warnings
-            lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
-        }
+        # print warnings
+        lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
     }
 
     return(result)

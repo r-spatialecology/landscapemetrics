@@ -52,8 +52,6 @@ contains each input layer (only one element if \code{RasterLayer} was provided).
 The second level contains a \code{RasterLayer} for each selected metric
 (see \code{list_lsm} for details) where each cell has the landscape metric
 value of the patch it belongs to. Only patch level metrics are allowed.
-
-If \code{what = "id"}, a \code{RasterLayer} with unique patch ids is returned.
 }
 \examples{
 spatialize_lsm(landscape, what = "lsm_p_area")
