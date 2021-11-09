@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -233,15 +233,21 @@ units of the coordinate reference system, a class of the input landscape's
 values and the number of classes found in the landscape.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>augusta_nlcd</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   layer       crs units   class n_classes OK
-#&gt; 1     1 projected     m integer        15  ✔</div><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>podlasie_ccilc</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt;   layer        crs   units   class n_classes OK
-#&gt; 1     1 geographic degrees integer        14  ✖</div><div class='input'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>landscape</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span></div><div class='output co'>#&gt;   layer crs units   class n_classes OK
-#&gt; 1     1  NA    NA integer         3  ?⃝
-#&gt; 2     2  NA    NA integer         3  ?⃝</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>augusta_nlcd</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   layer       crs units   class n_classes OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     1 projected     m integer        15  ✔</span>
+<span class='r-in'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='va'>podlasie_ccilc</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   layer        crs   units   class n_classes OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     1 geographic degrees integer        14  ✖</span>
+<span class='r-in'><span class='fu'>check_landscape</span><span class='op'>(</span><span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/stack.html'>stack</a></span><span class='op'>(</span><span class='va'>landscape</span>, <span class='va'>landscape</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Caution: Coordinate reference system not metric - Units of results based on cellsizes and/or distances may be incorrect.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   layer crs units   class n_classes OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     1  NA    NA integer         3  ?⃝</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     2  NA    NA integer         3  ?⃝</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

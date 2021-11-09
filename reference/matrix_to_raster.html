@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -257,18 +257,19 @@
 <code>landscape</code> or <code>extent</code>, <code>resolution</code> and <code>crs</code> must be specified.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>test_matrix</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>augusta_nlcd</span><span class='op'>)</span>
-<span class='fu'>matrix_to_raster</span><span class='op'>(</span>matrix <span class='op'>=</span> <span class='va'>test_matrix</span>, landscape <span class='op'>=</span> <span class='va'>augusta_nlcd</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; class      : RasterLayer 
-#&gt; dimensions : 440, 679, 298760  (nrow, ncol, ncell)
-#&gt; resolution : 30, 30  (x, y)
-#&gt; extent     : 1249635, 1270005, 1246815, 1260015  (xmin, xmax, ymin, ymax)
-#&gt; crs        : +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs 
-#&gt; source     : memory
-#&gt; names      : layer 
-#&gt; values     : 11, 95  (min, max)
-#&gt; </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>test_matrix</span> <span class='op'>&lt;-</span> <span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>augusta_nlcd</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>matrix_to_raster</span><span class='op'>(</span>matrix <span class='op'>=</span> <span class='va'>test_matrix</span>, landscape <span class='op'>=</span> <span class='va'>augusta_nlcd</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class      : RasterLayer </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> dimensions : 440, 679, 298760  (nrow, ncol, ncell)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> resolution : 30, 30  (x, y)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> extent     : 1249635, 1270005, 1246815, 1260015  (xmin, xmax, ymin, ymax)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> crs        : +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,-0,-0,-0,0 +units=m +no_defs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> source     : memory</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> names      : layer </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> values     : 11, 95  (min, max)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

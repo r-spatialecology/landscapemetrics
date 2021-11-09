@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Utility functions</h1>
             
-            <h4 class="date">2021-08-23</h4>
+            <h4 class="date">2021-11-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/master/vignettes/articles/utility.Rmd"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="hidden name"><code>utility.Rmd</code></div>
@@ -173,10 +173,8 @@
 <a href="#visualizing-landscapes" class="anchor"></a>Visualizing landscapes</h3>
 <p>We can use the <code>show_landscape</code> function from <a href="https://github.com/ropensci/landscapetools">landscapetools</a> to have look at our landscape.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ropensci.github.io/landscapetools/">landscapetools</a></span><span class="op">)</span>
-
-<span class="co"># Plot landscape</span>
-<span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> </code></pre></div>
+<code class="sourceCode R"><span class="co"># Plot landscape</span>
+<span class="fu">landscapetools</span><span class="fu">::</span><span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> </code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. This why we show in the following how to dissect this landscape visually into the compoments, that drive the calculation of landscape metrics.</p>
 </div>
@@ -185,9 +183,7 @@
 <a href="#visualizing-patches" class="anchor"></a>Visualizing patches</h3>
 <p>To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function <code><a href="../../reference/show_patches.html">show_patches()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
-
-<span class="co"># Plot landscape + landscape with labeled patches</span>
+<code class="sourceCode R"><span class="co"># Plot landscape + landscape with labeled patches</span>
 <span class="fu"><a href="../../reference/show_patches.html">show_patches</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> 
 <span class="co">#&gt; $layer_1</span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-2-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -252,7 +248,7 @@
 <span class="co">#&gt; crs        : NA </span>
 <span class="co">#&gt; source     : memory</span>
 <span class="co">#&gt; names      : layer </span>
-<span class="co">#&gt; values     : 1, 14  (min, max)</span>
+<span class="co">#&gt; values     : 10, 23  (min, max)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $layer_1$class_3</span>
@@ -263,7 +259,7 @@
 <span class="co">#&gt; crs        : NA </span>
 <span class="co">#&gt; source     : memory</span>
 <span class="co">#&gt; names      : layer </span>
-<span class="co">#&gt; values     : 1, 4  (min, max)</span></code></pre></div>
+<span class="co">#&gt; values     : 24, 27  (min, max)</span></code></pre></div>
 </div>
 <div id="get-adjacencies" class="section level3">
 <h3 class="hasAnchor">
@@ -299,7 +295,6 @@
 <span class="op">}</span>
 
 <span class="co"># compare the two implementations</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/bench">bench</a></span><span class="op">)</span>
 <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>
     <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, neighbourhood <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
     <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,
@@ -309,8 +304,8 @@
 <span class="co">#&gt; # A tibble: 2 × 6</span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   &lt;bch:expr&gt;                                    &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4)  215.9µs  224.9µs     4378.</span>
-<span class="co">#&gt; 2 adj_raster(landscape)                           7.49ms   8.01ms      112.</span>
+<span class="co">#&gt; 1 get_adjacencies(landscape, neighbourhood = 4)  278.7µs  313.6µs    2934. </span>
+<span class="co">#&gt; 2 adj_raster(landscape)                           9.34ms   10.1ms      98.2</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -333,53 +328,46 @@
 
 <span class="co"># create a function that would do the same with the raster package</span>
 <span class="va">nearest_raster_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">np_class</span> <span class="op">&lt;-</span> <span class="va">patches</span> <span class="op">%&gt;%</span>
-        <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html">values</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    
+    <span class="va">np_class</span> <span class="op">&lt;-</span> <span class="va">patches</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+        <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html">values</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+        <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
         <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="op">)</span>
     
-    <span class="va">points_class</span> <span class="op">&lt;-</span> <span class="va">patches</span> <span class="op">%&gt;%</span>
-        <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/rasterToPoints.html">rasterToPoints</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-        <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/deprecated.html">as.tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-        <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"id"</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">points_class</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/rasterToPoints.html">rasterToPoints</a></span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://rdrr.io/pkg/raster/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
     
-    <span class="va">minimum_distance</span> <span class="op">&lt;-</span> <span class="va">np_class</span> <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="va">minimum_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="va">np_class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
         <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">patch_ij</span><span class="op">)</span> <span class="op">{</span>
-            <span class="va">patch_focal</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">id</span> <span class="op">==</span> <span class="va">patch_ij</span><span class="op">)</span>
+            <span class="va">patch_focal</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">layer</span> <span class="op">==</span> <span class="va">patch_ij</span><span class="op">)</span>
             
             <span class="va">patch_others</span> <span class="op">&lt;-</span>
-                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">id</span> <span class="op">!=</span> <span class="va">patch_ij</span><span class="op">)</span>
+                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">layer</span> <span class="op">!=</span> <span class="va">patch_ij</span><span class="op">)</span>
             
             <span class="va">minimum_distance</span> <span class="op">&lt;-</span>
                 <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/pointDistance.html">pointDistance</a></span><span class="op">(</span><span class="va">patch_focal</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,
                                       <span class="va">patch_others</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,
-                                      lonlat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+                                      lonlat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
                 <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="op">)</span>
         <span class="op">}</span><span class="op">)</span>
     
-    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">points_class</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">)</span>,
-                   distance <span class="op">=</span> <span class="va">minimum_distance</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="va">points_class</span><span class="op">$</span><span class="va">layer</span><span class="op">)</span><span class="op">)</span>, distance <span class="op">=</span> <span class="va">minimum_distance</span><span class="op">)</span>
     
 <span class="op">}</span>
 
 
 <span class="co"># compare the two implementations</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/bench">bench</a></span><span class="op">)</span>
 <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bench/man/mark.html">mark</a></span><span class="op">(</span>
     <span class="fu"><a href="../../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,
     <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>,
     iterations <span class="op">=</span> <span class="fl">100</span>, check <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
-<span class="co">#&gt; Warning: `as.tibble()` was deprecated in tibble 2.0.0.</span>
-<span class="co">#&gt; Please use `as_tibble()` instead.</span>
-<span class="co">#&gt; The signature and semantics have changed, see `?as_tibble`.</span>
 <span class="co">#&gt; # A tibble: 2 × 6</span>
-<span class="co">#&gt;   expression                                                min   median `itr/sec`</span>
-<span class="co">#&gt;   &lt;bch:expr&gt;                                           &lt;bch:tm&gt; &lt;bch:tm&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.43ms      5ms     198. </span>
-<span class="co">#&gt; 2 nearest_raster_fun(patches$layer_1$class_1)           36.97ms   38.5ms      25.8</span>
+<span class="co">#&gt;   expression                                                min median `itr/sec`</span>
+<span class="co">#&gt;   &lt;bch:expr&gt;                                           &lt;bch:tm&gt; &lt;bch:&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   5.12ms  6.1ms     158. </span>
+<span class="co">#&gt; 2 nearest_raster_fun(patches$layer_1$class_1)           32.03ms 34.6ms      28.9</span>
 <span class="co">#&gt; # … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span>
 
 <span class="co"># check if results are identical</span>

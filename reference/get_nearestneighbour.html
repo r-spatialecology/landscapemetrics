@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -233,48 +233,50 @@ might be returned.</p>
     <p>Based on RCpp code of Florian Privé <a href='mailto:florian.prive.21@gmail.com'>florian.prive.21@gmail.com</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get patches for class 1</span>
-<span class='va'>class_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-
-<span class='co'># calculate the distance between patches</span>
-<span class='fu'>get_nearestneighbour</span><span class='op'>(</span><span class='va'>class_1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 14 × 3</span>
-#&gt;    layer    id  dist
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1     1  4.47
-#&gt; <span style='color: #BCBCBC;'> 2</span>     1     2  4.47
-#&gt; <span style='color: #BCBCBC;'> 3</span>     1     3  3.16
-#&gt; <span style='color: #BCBCBC;'> 4</span>     1     4  2   
-#&gt; <span style='color: #BCBCBC;'> 5</span>     1     5  3   
-#&gt; <span style='color: #BCBCBC;'> 6</span>     1     6  2   
-#&gt; <span style='color: #BCBCBC;'> 7</span>     1     7  3   
-#&gt; <span style='color: #BCBCBC;'> 8</span>     1     8  3   
-#&gt; <span style='color: #BCBCBC;'> 9</span>     1     9  3   
-#&gt; <span style='color: #BCBCBC;'>10</span>     1    10  2.83
-#&gt; <span style='color: #BCBCBC;'>11</span>     1    11  5.83
-#&gt; <span style='color: #BCBCBC;'>12</span>     1    12  2   
-#&gt; <span style='color: #BCBCBC;'>13</span>     1    13  2.83
-#&gt; <span style='color: #BCBCBC;'>14</span>     1    14  3.16</div><div class='input'><span class='fu'>get_nearestneighbour</span><span class='op'>(</span><span class='va'>class_1</span>, return_id <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 16 × 4</span>
-#&gt;    layer    id  dist id_neighbour
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1     1  4.47            5
-#&gt; <span style='color: #BCBCBC;'> 2</span>     1     2  4.47            3
-#&gt; <span style='color: #BCBCBC;'> 3</span>     1     3  3.16            6
-#&gt; <span style='color: #BCBCBC;'> 4</span>     1     4  2              12
-#&gt; <span style='color: #BCBCBC;'> 5</span>     1     4  2               6
-#&gt; <span style='color: #BCBCBC;'> 6</span>     1     5  3               7
-#&gt; <span style='color: #BCBCBC;'> 7</span>     1     6  2               4
-#&gt; <span style='color: #BCBCBC;'> 8</span>     1     7  3               5
-#&gt; <span style='color: #BCBCBC;'> 9</span>     1     7  3               8
-#&gt; <span style='color: #BCBCBC;'>10</span>     1     8  3               7
-#&gt; <span style='color: #BCBCBC;'>11</span>     1     9  3              10
-#&gt; <span style='color: #BCBCBC;'>12</span>     1    10  2.83            4
-#&gt; <span style='color: #BCBCBC;'>13</span>     1    11  5.83           14
-#&gt; <span style='color: #BCBCBC;'>14</span>     1    12  2               4
-#&gt; <span style='color: #BCBCBC;'>15</span>     1    13  2.83            4
-#&gt; <span style='color: #BCBCBC;'>16</span>     1    14  3.16            4</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># get patches for class 1</span></span>
+<span class='r-in'><span class='va'>class_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_patches.html'>get_patches</a></span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># calculate the distance between patches</span></span>
+<span class='r-in'><span class='fu'>get_nearestneighbour</span><span class='op'>(</span><span class='va'>class_1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 14 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    layer    id  dist</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     1    10  4.47</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     1    11  4.47</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     1    12  3.16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     1    13  2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     1    14  3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     1    15  2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     1    16  3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     1    17  3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     1    18  3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     1    19  2.83</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>     1    20  5.83</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>     1    21  2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>     1    22  2.83</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>     1    23  3.16</span>
+<span class='r-in'><span class='fu'>get_nearestneighbour</span><span class='op'>(</span><span class='va'>class_1</span>, return_id <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 16 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    layer    id  dist id_neighbour</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     1    10  4.47           14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     1    11  4.47           12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     1    12  3.16           15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     1    13  2              21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     1    13  2              15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     1    14  3              16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     1    15  2              13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     1    16  3              14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     1    16  3              17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     1    17  3              16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span>     1    18  3              19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span>     1    19  2.83           13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span>     1    20  5.83           23</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span>     1    21  2              13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span>     1    22  2.83           13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span>     1    23  3.16           13</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

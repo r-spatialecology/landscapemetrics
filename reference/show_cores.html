@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -262,16 +262,25 @@ edge to be considered as core cell</p></td>
 corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># show "global" core area</span>
-<span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='st'>"global"</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_cores-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
-<span class='co'># show the core area of every class as facet</span>
-<span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='st'>"all"</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_cores-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
-<span class='co'># show only the core area of class 1 and 3</span>
-<span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $layer_1</div><div class='img'><img src='show_cores-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># show "global" core area</span></span>
+<span class='r-in'><span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='st'>"global"</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $layer_1</span>
+<span class='r-plt img'><img src='show_cores-1.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># show the core area of every class as facet</span></span>
+<span class='r-in'><span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='st'>"all"</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $layer_1</span>
+<span class='r-plt img'><img src='show_cores-2.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># show only the core area of class 1 and 3</span></span>
+<span class='r-in'><span class='fu'>show_cores</span><span class='op'>(</span><span class='va'>landscape</span>, class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, labels <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $layer_1</span>
+<span class='r-plt img'><img src='show_cores-3.png' alt='' width='700' height='433' /></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

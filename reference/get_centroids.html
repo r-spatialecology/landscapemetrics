@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">landscapemetrics | Landscape Metrics for Categorical Map Patterns</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.5</span>
       </span>
     </div>
 
@@ -248,23 +248,24 @@ located within each patch, use the <code>cell_center</code> argument. In this ca
 centroid is defined as the cell center that is the closest to the mean location.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># get centroid location</span>
-<span class='fu'>get_centroids</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 27 × 6</span>
-#&gt;    layer level class    id     x     y
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1 patch     1     1  0.5  29.5 
-#&gt; <span style='color: #BCBCBC;'> 2</span>     1 patch     1     2  0.7  20.9 
-#&gt; <span style='color: #BCBCBC;'> 3</span>     1 patch     1     3 13.8  18.0 
-#&gt; <span style='color: #BCBCBC;'> 4</span>     1 patch     1     4  0.5   2.5 
-#&gt; <span style='color: #BCBCBC;'> 5</span>     1 patch     1     5  0.5   0.5 
-#&gt; <span style='color: #BCBCBC;'> 6</span>     1 patch     1     6 16.9   8.21
-#&gt; <span style='color: #BCBCBC;'> 7</span>     1 patch     1     7 20.5   0.5 
-#&gt; <span style='color: #BCBCBC;'> 8</span>     1 patch     1     8 26.1   2.3 
-#&gt; <span style='color: #BCBCBC;'> 9</span>     1 patch     1     9 29.5   6.5 
-#&gt; <span style='color: #BCBCBC;'>10</span>     1 patch     2    10  2.81 25.2 
-#&gt; <span style='color: #949494;'># … with 17 more rows</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># get centroid location</span></span>
+<span class='r-in'><span class='fu'>get_centroids</span><span class='op'>(</span><span class='va'>landscape</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 27 × 6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    layer level class    id     x     y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>     1 patch     1     1  0.5  29.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>     1 patch     1     2  0.7  20.9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     1 patch     1     3 13.8  18.0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     1 patch     1     4  0.5   2.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>     1 patch     1     5  0.5   0.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     1 patch     1     6 16.9   8.21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     1 patch     1     7 20.5   0.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     1 patch     1     8 26.1   2.3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     1 patch     1     9 29.5   6.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     1 patch     2    10  2.81 25.2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 17 more rows</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
