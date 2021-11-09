@@ -23,7 +23,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: pkgdown, dplyr, purrr, bench
+          extra-packages: pkgdown, bench, dplyr, landscapetools, purrr
           needs: website
 
       - name: Install dependencies
