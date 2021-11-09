@@ -13,6 +13,8 @@ We provide the function `window_lsm()` in **landscapemetrics** to analyse an inp
 ```{r packages, message = FALSE}
 library(landscapemetrics)
 library(raster)
+
+library(ggplot2)
 ```
 
 First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell.  Because we want to weight all cells identically, all values need to be 1 (for more details, see `?raster::focal()`). 
@@ -34,25 +36,21 @@ To be type-stable, the result will be a nested list.  The first level includes a
 ```{r plot-result, echo = FALSE, fig.align = "center"}
 result_stack <- raster::stack(landscape, result[[1]]$lsm_l_pr)
 
-ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
-    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(), 
-                   axis.ticks = ggplot2::element_blank(), 
-                   axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   legend.position = "bottom")
+ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    geom_raster(aes(x = x, y = y, fill = factor(clumps))) + 
+    scale_fill_viridis_d(name = "Landscape class") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(), 
+          axis.text = element_blank(), axis.title = element_blank(), 
+          legend.position = "bottom")
 
-ggplot2::ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(layer))) + 
-    ggplot2::scale_fill_viridis_d(name = "Number of classes", option = "C") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(), 
-                   axis.ticks = ggplot2::element_blank(), 
-                   axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   legend.position = "bottom")
+ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) + 
+    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(layer))) + 
+    scale_fill_viridis_d(name = "Number of classes", option = "C") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(), 
+          axis.text = element_blank(), axis.title = element_blank(), 
+          legend.position = "bottom")
 ```
 
 In the future, we also plan to allow class level metrics, however, patch metrics are not meaningful (McGarigal 2012) and will not be included in the future.

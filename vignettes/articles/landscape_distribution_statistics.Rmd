@@ -13,6 +13,7 @@ Even though they are not implemented in **landscapemetrics**, R allows to calcul
 ```{r packages, message = FALSE}
 library(landscapemetrics)
 library(raster)
+
 library(dplyr)
 ```
 
@@ -49,8 +50,8 @@ To calculate the area-weighted mean on landscape-level, comment out the `dplyr::
 
 ```{r mean_b}
 # calculate weighted mean
-metric_wght_mean <- left_join(x = metric_patch, y = area_patch, 
-                              by = c("layer", "level", "class", "id")) %>%
+metric_wght_mean <- dplyr::left_join(x = metric_patch, y = area_patch, 
+                                     by = c("layer", "level", "class", "id")) %>%
   dplyr::mutate(value.w = value.x * value.y) %>%
   dplyr::group_by(class) %>%
   dplyr::summarise(value.am = sum(value.w) / sum(value.y)) 

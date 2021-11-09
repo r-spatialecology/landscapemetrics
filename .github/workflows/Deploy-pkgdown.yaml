@@ -23,7 +23,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: pkgdown
+          extra-packages: [pkgdown, dplyr, purrr, bench]
           needs: website
 
       - name: Deploy package

@@ -8,7 +8,9 @@ output:
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
 library(raster)
-library(tidyverse)
+
+library(dplyr)
+library(purrr)
 ```
 
 # Comparison with FRAGSTATS
@@ -37,8 +39,8 @@ cv <- function(x) {
 
 # CV calculated from patch values of FRAGSTATS 
 fragstats_calculated <- fragstats_patch_landscape %>%
-    group_by(TYPE) %>%
-    summarise(cv = cv(AREA)) %>%
+    dplyr::group_by(TYPE) %>%
+    dplyr::summarise(cv = cv(AREA)) %>%
     purrr::set_names("class", "fragstats_calculated") 
 
 # Output of FRAGSTATS
@@ -51,13 +53,11 @@ landscapemetrics_output <- lsm_c_area_cv(landscape) %>%
     dplyr::select(class, value) %>%
     purrr::set_names("class", "landscapemetrics")
 
-fragstats <- full_join(x = fragstats_output,
-                       y = fragstats_calculated, 
-                       by = "class") 
+fragstats <- dplyr::full_join(x = fragstats_output, y = fragstats_calculated, 
+                              by = "class") 
 
-cv_full <- full_join(x = fragstats, 
-                     y = landscapemetrics_output,
-                     by = "class")
+cv_full <- dplyr::full_join(x = fragstats, y = landscapemetrics_output,
+                            by = "class")
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1"> Show/Hide Results </button>  
@@ -74,8 +74,8 @@ As for the *cv*, the results for the *sd* are similiar. The result calculated fr
 ```{r}
 # SD calculated from patch values of FRAGSTATS
 fragstats_calculated <- fragstats_patch_landscape %>%
-  group_by(TYPE) %>%
-  summarise(sd = sd(AREA)) %>%
+  dplyr::group_by(TYPE) %>%
+  dplyr::summarise(sd = sd(AREA)) %>%
   purrr::set_names("class", "fragstats_calculated") 
 
 
@@ -89,13 +89,11 @@ landscapemetrics_output <- lsm_c_area_sd(landscape) %>%
   dplyr::select(class, value) %>%
   purrr::set_names("class", "landscapemetrics")
 
-fragstats <- full_join(x = fragstats_output, 
-                       y = fragstats_calculated,
-                       by = "class")
+fragstats <- dplyr::full_join(x = fragstats_output, y = fragstats_calculated,
+                              by = "class")
 
-sd_full <- full_join(x = fragstats,
-                     y = landscapemetrics_output,
-                     by = "class")
+sd_full <- dplyr::full_join(x = fragstats, y = landscapemetrics_output,
+                            by = "class")
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#2"> Show/Hide Results </button>  
@@ -136,14 +134,12 @@ landscapemetrics_gyrate <- lsm_p_gyrate(landscape) %>%
   dplyr::select(id, value) %>%
   purrr::set_names("id", "landscapemetrics_gyrate")
 
-fragstats <- full_join(x = fragstats_area,
-                       y = fragstats_gyrate,
-                       by = "id") %>%
+fragstats <- dplyr::full_join(x = fragstats_area, y = fragstats_gyrate, 
+                              by = "id") %>%
   dplyr::filter(fragstats_area == 0.0001)
 
-landscapemetrics <- full_join(x = landscapemetrics_area,
-                              y = landscapemetrics_gyrate,
-                              by = "id") %>%
+landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
+                                     y = landscapemetrics_gyrate, by = "id") %>%
   dplyr::filter(landscapemetrics_area == 0.0001)
 ```
 
@@ -187,9 +183,9 @@ We implemented PARA as documented in the FRAGSTATS manual using square meters. N
 fragstats <- fragstats_patch_landscape %>%
     dplyr::select(PID, AREA, PERIM, PARA) %>%
     purrr::set_names("id", "area", "perim", "para") %>%
-    mutate(para_calculated_ha = perim / area, 
-           para_calculated_m = perim / (area * 10000)) %>%
-    arrange(area)
+    dplyr::mutate(para_calculated_ha = perim / area, 
+                  para_calculated_m = perim / (area * 10000)) %>%
+    dplyr::arrange(area)
 
 # Output of landscapemetrics
 area_landscapmetrics <- lsm_p_area(landscape) %>%
@@ -207,11 +203,10 @@ para_landscapemetrics <- lsm_p_para(landscape) %>%
 landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
                                      y = perim_landscapmetrics, 
                                      by = "id") %>%
-    full_join(para_landscapemetrics, 
-                     by = "id") %>%
-    mutate(para_calculated_ha = perim / area, 
-           para_calculated_m = perim / (area * 10000)) %>% 
-    arrange(area)
+    dplyr::full_join(para_landscapemetrics, by = "id") %>%
+    dplyr::mutate(para_calculated_ha = perim / area, 
+                  para_calculated_m = perim / (area * 10000)) %>% 
+    dplyr::arrange(area)
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
@@ -252,8 +247,7 @@ circle_landscapmetrics <- lsm_p_circle(landscape) %>%
     dplyr::select(id, value) %>%
     purrr::set_names("id_lsm", "circle_lsm")
 
-landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
-                                     y = circle_landscapmetrics, 
+landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, y = circle_landscapmetrics, 
                                      by = "id_lsm") %>%
   dplyr::filter(area_lsm == 0.0001)
 ```
@@ -281,25 +275,22 @@ mat[4, 4:10] <- 1
 ras <- raster::raster(mat, xmn = 0, xmx = 13, ymn = 0, ymx = 13)
 
 # get circumscribing circle 
-circle_lsm <- landscapemetrics::get_circumscribingcircle(ras)
+circle_lsm <- get_circumscribingcircle(ras)
 
 # construct circle using diameter / 2
-circle_lsm <- landscapemetrics::construct_buffer(coords = matrix(c(circle_lsm$center_x, 
-                                                                   circle_lsm$center_y),
-                                                                 nrow = 1, ncol = 2),
-                                                 shape = "circle", 
-                                                 size = circle_lsm$value / 2,
-                                                 return_sp = FALSE)
+circle_lsm <- construct_buffer(coords = matrix(c(circle_lsm$center_x, 
+                                                 circle_lsm$center_y),
+                                               nrow = 1, ncol = 2),
+                               shape = "circle", size = circle_lsm$value / 2,
+                               return_sp = FALSE)
 
 # calculate max distance between corner points of cells
 circle_max_dist <- dist(matrix(data = c(3, 10, 7, 4), byrow = TRUE, nrow = 2, ncol = 2))
 
 # construct circle using diamter /2
-circle_max_dist <- landscapemetrics::construct_buffer(coords = matrix(c(6.5, 7.5),
-                                                                      nrow = 1, ncol = 2),
-                                                 shape = "circle", 
-                                                 size = circle_max_dist / 2,
-                                                 return_sp = FALSE)
+circle_max_dist <- construct_buffer(coords = matrix(c(6.5, 7.5), nrow = 1, ncol = 2),
+                                    shape = "circle", size = circle_max_dist / 2,
+                                    return_sp = FALSE)
 
 # plot results
 plot(ras, col = "#D5B528", legend = FALSE)

@@ -16,8 +16,11 @@ knitr::opts_chunk$set(
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
 library(raster)
-library(dplyr)
 library(landscapetools)
+
+library(bench)
+library(dplyr)
+library(purrr)
 ```
 
 ## Visualisization functions
@@ -26,10 +29,8 @@ library(landscapetools)
 We can use the `show_landscape` function from [landscapetools](https://github.com/ropensci/landscapetools) to have look at our landscape.
 
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
-library(landscapetools)
-
 # Plot landscape
-show_landscape(landscape) 
+landscapetools::show_landscape(landscape) 
 ```
 
 This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. This why we show in the following how to dissect this landscape visually into the compoments, that drive the calculation of landscape metrics.
@@ -39,8 +40,6 @@ This is how we typically inspect our landscape, but which also makes it quite ha
 To visualize patches in a landscape and encode each patch with an ID that can be used to compare a landscape metric with the actual landscape you can use the auxiliary visualisation function `show_patches()`:
 
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
-library(landscapemetrics)
-
 # Plot landscape + landscape with labeled patches
 show_patches(landscape) 
 ```
@@ -110,7 +109,6 @@ adj_raster <- function(landscape){
 }
 
 # compare the two implementations
-library(bench)
 bench::mark(
     get_adjacencies(landscape, neighbourhood = 4),
     adj_raster(landscape),
@@ -142,7 +140,6 @@ nearest_raster_fun <- function(patches) {
     
     points_class <- patches %>%
         raster::rasterToPoints() %>%
-        tibble::as.tibble() %>%
         purrr::set_names(c("x", "y", "id"))
     
     minimum_distance <- np_class %>%
@@ -160,14 +157,12 @@ nearest_raster_fun <- function(patches) {
                 min()
         })
     
-    tibble::tibble(id = unique(sort(points_class$id)),
-                   distance = minimum_distance)
+    data.frame(id = unique(sort(points_class$id)), distance = minimum_distance)
     
 }
 
 
 # compare the two implementations
-library(bench)
 bench::mark(
     get_nearestneighbour(patches$layer_1$class_1)[, 2:3],
     nearest_raster_fun(patches$layer_1$class_1),
