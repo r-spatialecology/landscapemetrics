@@ -77,16 +77,6 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
-    for (i in seq_len(length(landscape_labeled) - 1)) {
-
-        max(get_unique_values_int(raster::as.matrix(landscape_labeled[[i]]),
-                                  verbose = FALSE))
-
-        max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
-    }
-
     boundary <- lapply(X = landscape_labeled, FUN = function(patches_class) {
 
         class_edge <- get_boundaries(patches_class,
