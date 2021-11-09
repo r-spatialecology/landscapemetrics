@@ -8,7 +8,7 @@ on:
 name: Deploy-pkgdown
 
 jobs:
-  pkgdown:
+  deploy-pkgdown:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages(c("remotes"))
-          remotes::install_cran(pkgs = "SDMTools", version = "1.1-221.2")
+          remotes::install_version(package = "SDMTools", version = "1.1-221.2")
         shell: Rscript {0}
 
       - name: Deploy package
