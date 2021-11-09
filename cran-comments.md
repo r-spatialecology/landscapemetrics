@@ -1,5 +1,5 @@
 # landscapemetrics 1.5.5
-Adding new functionality
+Improved user experience
 
 # landscapemetrics 1.5.4
 Computational improvements

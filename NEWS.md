@@ -2,7 +2,7 @@
 * Improvements
    * `get_patches` returns a unique patch id for all classes
 
-# landscapemetrics 1.5.5
+# landscapemetrics 1.5.4
 * Improvements
     * Improved memory performance related to perimeter and edge calculations
 
