@@ -7,7 +7,6 @@ output:
 ---
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
-library(patchwork)
 library(raster)
 library(tidyverse)
 ```
@@ -319,7 +318,7 @@ polygon(circle_max_dist, border = "#922418", lwd = 2.5) # red circle
 To get all availabel metrics on e.g. patch level with `SDMTools`, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.
 
 ```{r}
-library(SDMTools)
+library(SDMTools) # remotes::install_version("SDMTools", version = "1.1-221.2")
 
 # binarize every class in the landscape and calculate patch metrics
 sdmtools_result <- lapply(raster::unique(landscape), FUN = function(x){
