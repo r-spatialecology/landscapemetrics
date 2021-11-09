@@ -132,23 +132,22 @@ min_dist <- get_nearestneighbour(patches$layer_1$class_1)
 
 # create a function that would do the same with the raster package
 nearest_raster_fun <- function(patches) {
+    
     np_class <- patches %>%
         raster::values() %>%
         unique() %>%
         na.omit() %>%
         length()
     
-    points_class <- patches %>%
-        raster::rasterToPoints() %>%
-        purrr::set_names(c("x", "y", "id"))
+    points_class <- raster::rasterToPoints(patches) %>% 
+        as.data.frame()
     
-    minimum_distance <- np_class %>%
-        seq_len() %>%
+    minimum_distance <- seq_len(np_class) %>%
         purrr::map_dbl(function(patch_ij) {
-            patch_focal <- dplyr::filter(points_class, id == patch_ij)
+            patch_focal <- dplyr::filter(points_class, layer == patch_ij)
             
             patch_others <-
-                dplyr::filter(points_class, id != patch_ij)
+                dplyr::filter(points_class, layer != patch_ij)
             
             minimum_distance <-
                 raster::pointDistance(patch_focal[1:2],
@@ -157,7 +156,7 @@ nearest_raster_fun <- function(patches) {
                 min()
         })
     
-    data.frame(id = unique(sort(points_class$id)), distance = minimum_distance)
+    data.frame(id = unique(sort(points_class$layer)), distance = minimum_distance)
     
 }
 
