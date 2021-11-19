@@ -33,6 +33,12 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
+      - name: Install spatial dependencie
+        if: runner.os == 'macOS'
+        run: |
+          brew install gdal
+          brew install proj
+
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
