@@ -40,7 +40,7 @@ jobs:
           brew install proj
 
       - name : Install libudunits2
-        if: runner.os == 'Ubuntu'
+        if: runner.os == 'Linux'
         run: sudo apt-get install libudunits2-dev
 
       - uses: r-lib/actions/setup-r@v1
