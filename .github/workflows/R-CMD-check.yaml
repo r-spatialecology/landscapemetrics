@@ -31,9 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-     - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install spatial dependencie
+      - name: Install spatial dependencies
         if: runner.os == 'macOS'
         run: |
           brew install gdal
@@ -51,7 +51,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: rcmdcheck, sf, stars
+          extra-packages: rcmdcheck
 
       - uses: r-lib/actions/check-r-package@v1
 
