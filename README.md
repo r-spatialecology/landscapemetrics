@@ -1,14 +1,12 @@
 
+# landscapemetrics <img src="man/figures/logo.png" align="right" alt="" width="150" />
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 | [![codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg?token=xjYJMNMGBU)](https://codecov.io/gh/r-spatialecology/landscapemetrics)                                  | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
-
-<a href='https://r-spatialecology.github.io/landscapemetrics/'><img src='man/figures/logo.png' align="right" width="150" /></a>
-
-# landscapemetrics
 
 ## Overview
 
@@ -27,7 +25,7 @@ objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of
 function can be used in a piped workflow, as it always takes the data as
 the first argument and returns a `tibble`.
 
-### Citation
+#### Citation
 
 To cite **landscapemetrics** or acknowledge its use, please cite the
 following Software note, substituting the version of the application
@@ -204,11 +202,12 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-  - McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
-    Pattern Analysis Program for Categorical and Continuous Maps.
-    Computer software program produced by the authors at the University
-    of Massachusetts, Amherst. Available at the following website:
-    <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
-  - Nowosad J., TF Stepinski. 2019. Information theory as a consistent
-    framework for quantification and classification of landscape
-    patterns. <https://doi.org/10.1007/s10980-019-00830-x>
+McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
+Pattern Analysis Program for Categorical and Continuous Maps. Computer
+software program produced by the authors at the University of
+Massachusetts, Amherst. Available at the following website:
+<http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+
+Nowosad J., TF Stepinski. 2019. Information theory as a consistent
+framework for quantification and classification of landscape patterns.
+<https://doi.org/10.1007/s10980-019-00830-x>
