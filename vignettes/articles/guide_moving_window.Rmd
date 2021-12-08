@@ -2,6 +2,12 @@
 title: "Moving window"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Moving window}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 Results of a landscape analysis are scale dependent (Šímová 2012). One approach to deal with this is by using a moving window (Hagen-Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood is assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). The result of a moving window analysis is a raster with an identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).

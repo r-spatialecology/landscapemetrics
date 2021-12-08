@@ -1,9 +1,13 @@
 ---
-title: "New Metrics outside FRAGSTATS"
+title: "New metrics outside FRAGSTATS"
 date: "`r Sys.Date()`"
-output:
-  github_document:
-    html_preview: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{New metrics outside FRAGSTATS}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}

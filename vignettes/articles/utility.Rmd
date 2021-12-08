@@ -1,9 +1,13 @@
 ---
 title: "Utility functions"
 date: "`r Sys.Date()`"
-output:
-  github_document:
-    html_preview: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Utility functions}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}

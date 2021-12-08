@@ -1,9 +1,13 @@
 ---
 title: "General background"
 date: "`r Sys.Date()`"
-output:
-  github_document:
-    html_preview: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{General background}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE}

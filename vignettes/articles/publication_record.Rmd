@@ -1,9 +1,11 @@
 ---
 title: Publication record
 date: "`r Sys.Date()`"
-output:
-  github_document:
-    html_preview: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Publication record}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 We are always happy to hear from you if you used `landscapemetrics` for a publication. You can either just drop us an e-mail or [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/).

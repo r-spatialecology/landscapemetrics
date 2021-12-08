@@ -1,10 +1,15 @@
 ---
 title: "Differences FRAGSTATS|landscapemetrics|SDMTools"
 date: "`r Sys.Date()`"
-output: 
-  github_document:
-    html_preview: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Differences FRAGSTATS|landscapemetrics|SDMTools}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
+
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
 library(raster)

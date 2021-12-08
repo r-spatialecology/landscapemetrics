@@ -2,6 +2,12 @@
 title: "Landscape distribution statistics"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Landscape distribution statistics}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 Landscape distribution statistics summarise the properties of all patches belonging to the same class *i* or of all patches in the landscape together (McGarigal et al. 2012). 
