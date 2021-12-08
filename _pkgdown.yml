@@ -76,7 +76,7 @@ navbar:
     getstarted:
       text: "Get Started"
       icon: fa fa-magic
-      href: articles/get-started.html
+      href: articles/get_started.html
 
     reference:
       icon: fa-gears
