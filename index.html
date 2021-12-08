@@ -59,10 +59,17 @@
     <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="articles/get_started.html">
+  <a class="nav-link" href="articles/get-started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
   </a>
 </li>
 <li class="nav-item dropdown">
@@ -114,6 +121,13 @@
     </a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    News
+  </a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -121,24 +135,15 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="nav-link" href="news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+  <a class="external-link nav-link" href="https://github.com/r-spatialecology/landscapemetrics/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
-    news
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="reference/index.html">
-    <span class="fa fa-gears"></span>
+  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+    <span class="fa fa-user"></span>
      
-    functions
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fa fa-github fa-lg"></span>
-     
-    github
   </a>
 </li>
       </ul>
@@ -170,6 +175,7 @@
 </tr>
 </tbody>
 </table>
+<p><a href="https://r-spatialecology.github.io/landscapemetrics/"><img src="reference/figures/logo.png" align="right" width="150"></a></p>
 <div class="section level1">
 <div class="page-header">
 <img src="logo.png" class="logo" alt=""><h1 id="landscapemetrics">landscapemetrics<a class="anchor" aria-label="anchor" href="#landscapemetrics"></a>
@@ -274,7 +280,7 @@
 
 <span class="co"># landscape raster</span>
 <span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html" class="external-link">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span>
@@ -353,39 +359,7 @@
 </div>
 </div>
 
-  </main><aside class="col-md-3"><div class="links">
-<h2 data-toc-skip>Links</h2>
-<ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=landscapemetrics" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/r-spatialecology/landscapemetrics/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/r-spatialecology/landscapemetrics/issues" class="external-link">Report a bug</a></li>
-</ul>
-</div>
-
-<div class="license">
-<h2 data-toc-skip>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
-</ul>
-</div>
-
-<div class="community">
-<h2 data-toc-skip>Community</h2>
-<ul class="list-unstyled">
-<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
-<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
-</ul>
-</div>
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing landscapemetrics</a></li>
-</ul>
-</div>
-
-<div class="developers">
+  </main><aside class="col-md-3"><div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Maximillian H.K. Hesselbarth <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-1125-9918" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
@@ -396,10 +370,11 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://r-spatialecology.github.io/landscapemetrics/"><img src="reference/figures/logo.png" align="right" width="150"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
 

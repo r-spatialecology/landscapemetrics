@@ -43,10 +43,17 @@
     <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../articles/get_started.html">
+  <a class="nav-link" href="../articles/get-started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
   </a>
 </li>
 <li class="active nav-item dropdown">
@@ -98,6 +105,13 @@
     </a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    News
+  </a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -105,24 +119,15 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+  <a class="external-link nav-link" href="https://github.com/r-spatialecology/landscapemetrics/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
-    news
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-gears"></span>
+  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+    <span class="fa fa-user"></span>
      
-    functions
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/r-spatialecology/landscapemetrics">
-    <span class="fa fa-github fa-lg"></span>
-     
-    github
   </a>
 </li>
       </ul>
@@ -282,8 +287,8 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4) 211.61µs 232.51µs    <span style="text-decoration: underline;">4</span>223. </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           9.52ms   9.82ms      99.3</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  244.6µs  304.7µs    <span style="text-decoration: underline;">3</span>048. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           9.15ms   10.6ms      94.2</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -344,8 +349,8 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="co">#&gt;   expression                                               min  median `itr/sec`</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  4.64ms  4.82ms     197. </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)          29.36ms 30.43ms      32.3</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  5.15ms  6.13ms     154. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)          30.05ms 36.28ms      27.0</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="co"># check if results are identical</span>
