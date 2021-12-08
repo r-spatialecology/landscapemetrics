@@ -14,7 +14,7 @@
 #' @docType package
 #' @useDynLib landscapemetrics
 #' @importFrom Rcpp sourceCpp
-# nocov start
+#' @keywords internal
 "_PACKAGE"
 
 globalVariables(c("class_name",
@@ -51,5 +51,3 @@ globalVariables(c("class_name",
                   "x_centroid",
                   "y",
                   "y_centroid"))
-
-# nocov end
