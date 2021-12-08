@@ -43,7 +43,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../articles/get-started.html">
+  <a class="nav-link" href="../articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -287,8 +287,8 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  244.6µs  304.7µs    <span style="text-decoration: underline;">3</span>048. </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           9.15ms   10.6ms      94.2</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  256.8µs 287.25µs    <span style="text-decoration: underline;">3</span>359. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           9.22ms   9.91ms      99.6</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -349,8 +349,8 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="co">#&gt;   expression                                               min  median `itr/sec`</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  5.15ms  6.13ms     154. </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)          30.05ms 36.28ms      27.0</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.9ms  5.77ms     168. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)           30.3ms 33.07ms      30.0</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="co"># check if results are identical</span>
