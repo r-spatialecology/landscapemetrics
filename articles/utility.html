@@ -282,8 +282,8 @@
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="co">#&gt;   expression                                         min   median `itr/sec`</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  227.4µs  254.1µs     <span style="text-decoration: underline;">3</span>793.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           8.25ms   9.23ms      107.</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4) 211.61µs 232.51µs    <span style="text-decoration: underline;">4</span>223. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           9.52ms   9.82ms      99.3</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
@@ -342,10 +342,10 @@
     iterations <span class="op">=</span> <span class="fl">100</span>, check <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span>
-<span class="co">#&gt;   expression                                                min median `itr/sec`</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.62ms  5.3ms     187. </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)            28.6ms 30.2ms      32.7</span>
+<span class="co">#&gt;   expression                                               min  median `itr/sec`</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  4.64ms  4.82ms     197. </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)          29.36ms 30.43ms      32.3</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, gc/sec &lt;dbl&gt;</span></span>
 
 <span class="co"># check if results are identical</span>
