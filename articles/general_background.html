@@ -40,7 +40,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../articles/get_started.html">
@@ -136,11 +136,14 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="general_background_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>General background</h1>
             
-            <h4 data-toc-skip class="date">2021-12-09</h4>
+            <h4 data-toc-skip class="date">2022-01-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/general_background.Rmd" class="external-link"><code>vignettes/articles/general_background.Rmd</code></a></small>
       <div class="d-none name"><code>general_background.Rmd</code></div>
@@ -148,9 +151,9 @@
 
     
     
-<div class="section level1">
-<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h1>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>Ecology and landscape ecology mainly studies interactions between organisms and their environment. In a wider sense, the environment perceived by the organism can be defined as a landscape. This can spread from huge areas for e.g. mobile, large-bodied mammals to much smaller areas for e.g. immobile insects and always depends on the research question.</p>
 <p>Landscape metrics are tools to characterize a landscape. This includes mainly describing the composition and configuration of a landscape. While the composition basically describes how much of the landscape is occupied by a certain land cover type, the configuration mainly describes the spatial arrangement of the landcover types. The basic idea of landscape metrics is to condense as much information as possible into single number.</p>
 <p>The <code>landscapemetrics</code> package supports <code>raster</code> spatial objects. A raster (sometimes also referred to as grid) contains spatial information by dividing the landscape into discrete cells. Consequently, the cells are the smallest “resolution of information”. Because <code>landscapemetrics</code> deals with categorical data, each cell has to be assigned to a discrete class (see Fig. 1 for details). These classes must be positive integer numbers.</p>
@@ -159,17 +162,17 @@
 Fig 1.: a) and b) are the same landscape, but with a continous (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.
 </p>
 </div>
-<div class="section level2">
-<h2 id="levels-of-landscape-metrics">Levels of landscape metrics<a class="anchor" aria-label="anchor" href="#levels-of-landscape-metrics"></a>
-</h2>
+<div class="section level3">
+<h3 id="levels-of-landscape-metrics">Levels of landscape metrics<a class="anchor" aria-label="anchor" href="#levels-of-landscape-metrics"></a>
+</h3>
 <p><strong>Landscape metrics</strong> can be calculated for three different levels (or “scales”). Each level contains information about different aspects of the landscape. Level of interest depends largely on the research question. Often, even a combination of several levels can be useful. Similar, also the decision of which metric to use depends on the research question asked.</p>
 <p><strong>A patch</strong> is defined as neighboring cells belonging to the same class <code>i</code>. Hereby, <code>landscapemetrics</code> uses the 8-neighbors rule (Queen’s case) to identify patches. Patch level metrics are calculated for every patch in the landscape, regardless of the class that the patch belongs to. The output will match the number of patches present in the landscape. These metrics are also often the basis for metrics of the other two levels.</p>
 <p><strong>Class level metrics</strong> summaries all patches belonging to one class <code>i</code>. These metrics can be either the “distribution” of patch level metrics of all patches of class <code>i</code> (e.g. the mean) or consider only patches of class <code>i</code> for the calculations of the metric. Regardless of the mathematical background, the output will always match the number of classes present. Class level metrics are suitable to describe the composition and configuration of the landscape.</p>
 <p><strong>Landscape level metrics</strong> summaries the whole landscape into one value. This can either be done by summarising metrics of lower levels or calculating a metric including all patches and classes. Following, the output will always be just one number.Landscape level metrics are suitable for condensing information about the landscape into just one value.</p>
 </div>
-<div class="section level2">
-<h2 id="classes-of-landscape-metrics">Classes of landscape metrics<a class="anchor" aria-label="anchor" href="#classes-of-landscape-metrics"></a>
-</h2>
+<div class="section level3">
+<h3 id="classes-of-landscape-metrics">Classes of landscape metrics<a class="anchor" aria-label="anchor" href="#classes-of-landscape-metrics"></a>
+</h3>
 <p>There are six different classes of landscape metrics implemented in <code>landscapemetrics</code>:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Area and edge metrics</strong> describe the size of patches and classes and the amount of edge. An edge is defined as the border between two patches of class <code>i</code> and <code>k</code> in meters. These metrics mainly characterize the composition of the landscape and are able to show dominance or rareness of classes.</p></li>
@@ -180,15 +183,15 @@ Fig 1.: a) and b) are the same landscape, but with a continous (a) and categoric
 <li><p><strong>Complexity metrics</strong> For more information, please see <a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/new_metrics.html">New Metrics outside FRAGSTATS</a>.</p></li>
 </ol>
 </div>
-<div class="section level2">
-<h2 id="other-software-to-calculate-landscape-metrics">Other software to calculate landscape metrics<a class="anchor" aria-label="anchor" href="#other-software-to-calculate-landscape-metrics"></a>
-</h2>
+<div class="section level3">
+<h3 id="other-software-to-calculate-landscape-metrics">Other software to calculate landscape metrics<a class="anchor" aria-label="anchor" href="#other-software-to-calculate-landscape-metrics"></a>
+</h3>
 <p>There are already software packages available to calculate landscape metrics, the most famous one probably being the stand-alone software FRAGSTATS (McGarigal <em>et al.</em> 2012). But also add-ons to GIS software are available, e.g. r.le (Baker &amp; Cai 1992) or its successor r.li for GRASS GIS. Lastly, also an R package, namely <code>SDMTools</code> (VanDerWal <em>et al.</em> 2014), can be used.</p>
 <p>Nevertheless, we decided to re-implement most of the metrics available in <a href="https://www.umass.edu/landeco/research/fragstats/documents/fragstats_documents.html" class="external-link">FRAGSTATS</a>. We wanted to provide a comprehensive collection of landscape metrics in R. While FRAGSTATS is an extensive collection it is only available for Windows. Note, that even though we tried to re-implement the metrics as described in the FRAGSTATS manual, there are some differences (<a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/comparing_fragstats_landscapemetrics.html">Differences FRAGSTATS|landscapemetrics</a>). Further, <code>SDMTools</code> contains only a subset of metrics and does not cover all levels (<a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/general-background.html">General background</a>). Lastly, we want to start a collection of landscape metrics being open source and easily extendable by new (future) landscape metrics (see <a href="CONTRIBUTING.html">CONTRIBUTING</a>). Also, one major advantage of <code>landscapemetrics</code> are the utility functions for e.g. the visualization or sampling of landscape metrics.</p>
 <p>Those were the main reasons we implemented <code>landscapemetrics</code>, however, we want to fully appreciate and acknowledge the already present software.</p>
-<div class="section level3">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
+<div class="section level4">
+<h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h4>
 <ul>
 <li><p>Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.</p></li>
 <li><p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="external-link uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
@@ -210,7 +213,7 @@ Fig 1.: a) and b) are the same landscape, but with a continous (a) and categoric
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer>

@@ -40,7 +40,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../articles/get_started.html">
@@ -136,11 +136,14 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="new_metrics_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>New metrics outside FRAGSTATS</h1>
             
-            <h4 data-toc-skip class="date">2021-12-09</h4>
+            <h4 data-toc-skip class="date">2022-01-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/new_metrics.Rmd" class="external-link"><code>vignettes/articles/new_metrics.Rmd</code></a></small>
       <div class="d-none name"><code>new_metrics.Rmd</code></div>
@@ -148,6 +151,8 @@
 
     
     
+<pre><code><span class="co">#&gt; Warning: multiple methods tables found for 'direction'</span>
+<span class="co">#&gt; Warning: multiple methods tables found for 'gridDistance'</span></code></pre>
 <p>One of the reason to start <code>landscapemetrics</code> was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.</p>
 <div class="section level2">
 <h2 id="information-theory-based-framework-for-the-analysis-of-landscape-patterns">Information theory-based framework for the analysis of landscape patterns<a class="anchor" aria-label="anchor" href="#information-theory-based-framework-for-the-analysis-of-landscape-patterns"></a>
@@ -170,7 +175,7 @@
 <a href="https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_relmutinf.html">lsm_l_relmutinf</a> - Relative mutual information. Due to the spatial autocorrelation, the value of mutual information tends to grow with a diversity of the landscape (marginal entropy). To adjust this tendency, it is possible to calculate relative mutual information by dividing the mutual information by the marginal entropy. Relative mutual information always has a range between 0 and 1 and can be used to compare spatial data with different number and distribution of categories.</li>
 </ul>
 <div class="figure" style="text-align: center">
-<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/main/articles/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
+<img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/main/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
 </p>
 </div>
 <p>For more information read the <a href="https://nowosad.github.io/post/ent-bp1/" class="external-link">Information theory provides a consistent framework for the analysis of spatial patterns</a> blog post.</p>
@@ -188,7 +193,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer>

@@ -40,7 +40,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="../articles/get_started.html">
@@ -136,11 +136,14 @@
     
   </div>
 </nav><div class="container template-article">
+
+
+
 <script src="landscape_distribution_statistics_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Landscape distribution statistics</h1>
             
-            <h4 data-toc-skip class="date">2021-12-09</h4>
+            <h4 data-toc-skip class="date">2022-01-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/landscape_distribution_statistics.Rmd" class="external-link"><code>vignettes/articles/landscape_distribution_statistics.Rmd</code></a></small>
       <div class="d-none name"><code>landscape_distribution_statistics.Rmd</code></div>
@@ -150,8 +153,11 @@
     
 <p>Landscape distribution statistics summarise the properties of all patches belonging to the same class <em>i</em> or of all patches in the landscape together (McGarigal et al. 2012). This includes, for example, the mean, the coefficient of variation, or the standard deviation of a certain metric. These measures are implemented in the <strong>landscapemetrics</strong> package and are indicated by the corresponding suffixes (<code>_mn</code>, <code>_cv</code>, <code>_sd</code>). However, other distribution statistics also might be of interest. Even though they are not implemented in <strong>landscapemetrics</strong>, R allows to calculate them straightforwardly.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Warning: multiple methods tables found for 'direction'</span></code></pre>
+<pre><code><span class="co">## Warning: multiple methods tables found for 'gridDistance'</span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
 <p><img src="landscape_distribution_statistics_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
@@ -159,7 +165,7 @@
 <h2 id="implemented-distribution-statistics">Implemented distribution statistics<a class="anchor" aria-label="anchor" href="#implemented-distribution-statistics"></a>
 </h2>
 <p>The already implemented distribution statistics on class- and landscape-level are indicated by the corresponding suffixes (<code>_mn</code> = mean, <code>_cv</code> = Coefficient of variation , <code>_sd</code> = Standard deviation) and can be calculted without any further calculations needed.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># calculate mean shape index on class level</span>
 <span class="va">mean_shape_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_c_shape_mn.html">lsm_c_shape_mn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
 
@@ -170,14 +176,14 @@
 <h2 id="area-weighted-mean">Area-weighted mean<a class="anchor" aria-label="anchor" href="#area-weighted-mean"></a>
 </h2>
 <p>First, we want to calculate the metric of interest on the patch level. Additionally, we want the patch area of each patch.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># calculate required metric for each patch (e.g. lsm_p_shape)</span>
 <span class="va">metric_patch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_shape.html">lsm_p_shape</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
 
 <span class="co"># calculate area for each patch</span>
 <span class="va">area_patch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></code></pre></div>
 <p>Now, we should join the metric value with the area of each patch, multiply the two values, and calculate the area-weighted mean. To calculate the area-weighted mean on landscape-level, comment out the <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> line.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># calculate weighted mean</span>
 <span class="va">metric_wght_mean</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">metric_patch</span>, y <span class="op">=</span> <span class="va">area_patch</span>, 
                                      by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"layer"</span>, <span class="st">"level"</span>, <span class="st">"class"</span>, <span class="st">"id"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -197,7 +203,7 @@
 <h2 id="range">Range<a class="anchor" aria-label="anchor" href="#range"></a>
 </h2>
 <p>The range equals to the minimum value subtracted from the maximum value of the metric of interest for each patch (McGarigal et al. 2012). This can be calculated using the <code>min()/max()</code> function or the <code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code> function.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># class level</span>
 <span class="va">metric_range_c</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">metric_patch</span>, <span class="va">class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span>
@@ -212,7 +218,7 @@
 <span class="co">## <span style="color: #BCBCBC;">1</span>     1  1.6 </span>
 <span class="co">## <span style="color: #BCBCBC;">2</span>     2  1.05</span>
 <span class="co">## <span style="color: #BCBCBC;">3</span>     3  3.05</span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metric_range_l</span></code></pre></div>
 <pre><code><span class="co">## [1] 3.046512</span></code></pre>
 </div>
@@ -220,7 +226,7 @@
 <h2 id="median">Median<a class="anchor" aria-label="anchor" href="#median"></a>
 </h2>
 <p>The median equals to the value that divides all (ordered) values into two equal groups. There is a base R function available, <code><a href="https://rdrr.io/r/stats/median.html" class="external-link">median()</a></code>, that can be applied to values grouped by class or all values (landscape-level).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># class level</span>
 <span class="va">metric_md_c</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">metric_patch</span>, <span class="va">class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span>
@@ -235,7 +241,7 @@
 <span class="co">## <span style="color: #BCBCBC;">1</span>     1   1   </span>
 <span class="co">## <span style="color: #BCBCBC;">2</span>     2   1   </span>
 <span class="co">## <span style="color: #BCBCBC;">3</span>     3   1.24</span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metric_md_l</span></code></pre></div>
 <pre><code><span class="co">## [1] 1</span></code></pre>
 <div class="section level3">
@@ -260,7 +266,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer>
