@@ -49,7 +49,11 @@ raster_to_points_internal <- function(landscape, return_NA) {
                                         cell = 1:raster::ncell(landscape))
 
     # add values including NA
-    xyz[, 3] <- raster::getValues(landscape)
+    if (class(landscape) == "RasterLayer") {
+        xyz[, 3] <- raster::getValues(landscape)
+    } else {
+        xyz[, 3] <- terra::values(landscape)
+    }
 
     if (!return_NA) {
         xyz <- xyz[!is.na(xyz[, 3]), ]
