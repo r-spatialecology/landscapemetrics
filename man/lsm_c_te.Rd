@@ -27,7 +27,7 @@ TE is an 'Area and edge metric'. Total (class) edge includes all edges between c
 all other classes k. It measures the configuration of the landscape because a highly
 fragmented landscape will have many edges. However, total edge is an absolute measure,
 making comparisons among landscapes with different total areas difficult. If
-\code{cound_boundary = TRUE} also edges to the landscape boundary are included.
+\code{count_boundary = TRUE} also edges to the landscape boundary are included.
 
 \subsection{Units}{Meters}
 \subsection{Range}{TE >= 0}

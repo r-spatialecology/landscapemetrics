@@ -25,10 +25,12 @@ where \eqn{CONTIG[patch_{ij}]} is the contiguity of each patch.
 CONTIG_SD is a 'Shape metric'. It summarises each class as the mean of each patch
 belonging to class i. CONTIG_SD asses the spatial connectedness (contiguity) of
 cells in patches. The metric coerces patch values to a value of 1 and the background
-to NA. A nine cell focal filter matrix:\preformatted{filter_matrix <- matrix(c(1, 2, 1,
+to NA. A nine cell focal filter matrix:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{filter_matrix <- matrix(c(1, 2, 1,
                           2, 1, 2,
                           1, 2, 1), 3, 3, byrow = T)
-}
+}\if{html}{\out{</div>}}
 
 ... is then used to weight orthogonally contiguous pixels more heavily than
 diagonally contiguous pixels. Therefore, larger and more connections between
