@@ -95,9 +95,15 @@ show_lsm_internal <- function(landscape, what, class,
 
     if (any(class == "global")) {
 
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
-                                                    na.rm = TRUE),
-                                                xy = TRUE)
+        if (inherits(x = landscape_labeled[[1]], what = "RasterLayer")) {
+            patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+                                                        na.rm = TRUE),
+                                                    xy = TRUE)
+        } else {
+            patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
+                                                       na.rm = TRUE),
+                                                   xy = TRUE, na.rm = FALSE)
+        }
 
         names(patches_tibble) <- c("x", "y", "id")
 
@@ -127,7 +133,11 @@ show_lsm_internal <- function(landscape, what, class,
 
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "id"
-            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            if (inherits(x = landscape_labeled[[i]], what = "RasterLayer")) {
+                x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            } else {
+                x <- terra::as.data.frame(landscape_labeled[[i]], xy = TRUE, na.rm = FALSE)
+            }
             x$class <- names(landscape_labeled[i])
             return(x)}
         )

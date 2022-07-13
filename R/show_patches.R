@@ -57,9 +57,14 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
     if (any(class == "global")) {
 
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
-                                                    na.rm = TRUE),
-                                                xy = TRUE)
+        if (inherits(x = landscape_labeled[[1]], what = "RasterLayer")) {
+            patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+                                                        na.rm = TRUE),
+                                                    xy = TRUE)
+        } else {
+            patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled), na.rm = TRUE),
+                                                   xy = TRUE, na.rm = FALSE)
+        }
 
         names(patches_tibble) <- c("x", "y", "value")
 
