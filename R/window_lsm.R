@@ -128,10 +128,10 @@ window_lsm_int <- function(landscape,
 
     number_metrics <- length(metrics_list)
 
-    # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+    # check if patch-level metrics are selected
+    if (any(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
 
-        stop("'window_lsm()' is only able to calculate landscape level metrics.",
+        stop("'window_lsm()' is not able to calculate patch level metrics.",
              call. = FALSE)
     }
 
@@ -150,6 +150,7 @@ window_lsm_int <- function(landscape,
         n_col = terra::ncol(window)
     }
 
+
     # create object for warning messages
     warning_messages <- character(0)
 
@@ -161,6 +162,12 @@ window_lsm_int <- function(landscape,
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 
+        if (metrics_list[[current_metric]] %in% list_lsm(level = "class", simplify = TRUE)) {
+            classes <- suppressWarnings(get_unique_values(landscape) |> unlist())
+        } else {
+            classes <- NULL
+        }
+
         terra::focal(x = landscape, w = window, fun = function(x) {
 
             calculate_lsm_focal(landscape = x,
@@ -169,6 +176,7 @@ window_lsm_int <- function(landscape,
                                 resolution = resolution,
                                 points = points,
                                 what = metrics_list[[current_metric]],
+                                classes = classes,
                                 ...)},
             na.policy = na_policy, fillvalue = NA)
     })},
@@ -201,6 +209,7 @@ calculate_lsm_focal <- function(landscape,
                                 resolution,
                                 points,
                                 what,
+                                classes,
                                 ...) {
 
     # convert focal window to matrix
@@ -251,9 +260,19 @@ calculate_lsm_focal <- function(landscape,
     # run function
     x <- do.call(what = foo,
                  args = arguments_values)
-    result <- x$value
-    if (!anyNA(x$class)) {
-        names(result) <- paste("class:",x$class)
+
+    if (!is.null(classes)) {
+        result <- vector(length = length(classes))
+        names(result) <- paste(classes)
+        for (class in classes) {
+            if (class %in% x$class) {
+                result[paste(class)] <- x[x$class == class,]$value
+            } else {
+                result[paste(class)] <- NA
+            }
+        }
+    } else {
+        result <- x$value
     }
 
     return(result)

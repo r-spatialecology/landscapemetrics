@@ -31,7 +31,7 @@ landscape_as_list(landscape)
 \method{landscape_as_list}{numeric}(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, Stars or a list of rasterLayers}
+\item{landscape}{SpatRaster, Raster* Layer, Stack, Brick, Stars or a list of rasterLayers}
 }
 \value{
 list

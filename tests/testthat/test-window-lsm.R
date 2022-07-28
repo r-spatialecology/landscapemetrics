@@ -41,7 +41,7 @@ test_that("window_lsm returns works for all data types", {
 test_that("window_lsm returns all errors", {
 
     expect_error(window_lsm(landscape, window = window, what = "lsm_p_area"),
-                 regexp = "'window_lsm()' is only able to calculate landscape level metrics.",
+                 regexp = "'window_lsm()' is not able to calculate patch level metrics.",
                  fixed = TRUE)
 
     expect_error(window_lsm(landscape, window = window_even, what = "lsm_l_pr"),
