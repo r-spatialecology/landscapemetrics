@@ -23,7 +23,7 @@ where \eqn{e_{ik}} is the edge lengths in meters.
 TE is an 'Area and edge metric'. Total edge includes all edges. It measures the
 configuration of the landscape because a highly fragmented landscape will have many
 edges. However, total edge is an absolute measure, making comparisons among landscapes
-with different total areas difficult. If \code{cound_boundary = TRUE} also edges to the
+with different total areas difficult. If \code{count_boundary = TRUE} also edges to the
 landscape boundary are included.
 
 \subsection{Units}{Meters}
