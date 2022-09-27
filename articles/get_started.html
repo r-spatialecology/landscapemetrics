@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started">
 <meta property="og:description" content="landscapemetrics">
@@ -140,10 +140,10 @@
 
 
 <script src="get_started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get started</h1>
             
-            <h4 data-toc-skip class="date">2022-01-18</h4>
+            <h4 data-toc-skip class="date">2022-09-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/get_started.Rmd" class="external-link"><code>vignettes/get_started.Rmd</code></a></small>
       <div class="d-none name"><code>get_started.Rmd</code></div>
@@ -151,8 +151,6 @@
 
     
     
-<pre><code><span class="co">#&gt; Warning: multiple methods tables found for 'direction'</span>
-<span class="co">#&gt; Warning: multiple methods tables found for 'gridDistance'</span></code></pre>
 <div class="section level2">
 <h2 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
 </h2>
@@ -215,27 +213,27 @@ lsm_l_enn()</code></pre>
 <h2 id="checking-your-landscape">Checking your landscape<a class="anchor" aria-label="anchor" href="#checking-your-landscape"></a>
 </h2>
 <p>Before using <code>landscapemetrics</code> and calculating landscape metrics in general, it makes sense to check your landscape. If your landscape has some properties that restrict the calculation or interpretation of landscape metrics, that should be detected with <code>check_landscape</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># import raster</span>
-<span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span>
-<span class="co"># ... or any other raster file type, geotiff, ...</span>
-
-<span class="co"># Check your landscape</span>
-<span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/landscape.html">landscape</a></span><span class="op">)</span> <span class="co"># because CRS is unkown, not clear</span>
-<span class="co">#&gt; Warning: Caution: Coordinate reference system not metric - Units of results</span>
-<span class="co">#&gt; based on cellsizes and/or distances may be incorrect.</span>
-<span class="co">#&gt;   layer crs units   class n_classes OK</span>
-<span class="co">#&gt; 1     1  NA    NA integer         3  ?⃝</span>
-
-<span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/podlasie_ccilc.html">podlasie_ccilc</a></span><span class="op">)</span> <span class="co"># wrong units</span>
-<span class="co">#&gt; Warning: Caution: Coordinate reference system not metric - Units of results</span>
-<span class="co">#&gt; based on cellsizes and/or distances may be incorrect.</span>
-<span class="co">#&gt;   layer        crs   units   class n_classes OK</span>
-<span class="co">#&gt; 1     1 geographic degrees integer        14  ✖</span>
-
-<span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span> <span class="co"># everything is ok</span>
-<span class="co">#&gt;   layer       crs units   class n_classes OK</span>
-<span class="co">#&gt; 1     1 projected     m integer        15  ✔</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># import raster</span></span>
+<span><span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span></span>
+<span><span class="co"># ... or any other raster file type, geotiff, ...</span></span>
+<span></span>
+<span><span class="co"># Check your landscape</span></span>
+<span><span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/landscape.html">landscape</a></span><span class="op">)</span> <span class="co"># because CRS is unkown, not clear</span></span>
+<span><span class="co">#&gt; Warning: Caution: Coordinate reference system not metric - Units of results</span></span>
+<span><span class="co">#&gt; based on cellsizes and/or distances may be incorrect.</span></span>
+<span><span class="co">#&gt;   layer crs units   class n_classes OK</span></span>
+<span><span class="co">#&gt; 1     1  NA    NA integer         3  ?⃝</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/podlasie_ccilc.html">podlasie_ccilc</a></span><span class="op">)</span> <span class="co"># wrong units</span></span>
+<span><span class="co">#&gt; Warning: Caution: Coordinate reference system not metric - Units of results</span></span>
+<span><span class="co">#&gt; based on cellsizes and/or distances may be incorrect.</span></span>
+<span><span class="co">#&gt;   layer        crs   units   class n_classes OK</span></span>
+<span><span class="co">#&gt; 1     1 geographic degrees integer        14  ✖</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span> <span class="co"># everything is ok</span></span>
+<span><span class="co">#&gt;   layer       crs units   class n_classes OK</span></span>
+<span><span class="co">#&gt; 1     1 projected     m integer        15  ✔</span></span></code></pre></div>
 <p>The <strong>requirements</strong> to calculate meaningful landscape metrics are:</p>
 <ol style="list-style-type: decimal">
 <li><p>The distance units of your projection are <strong>meter</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function.</p></li>
@@ -247,182 +245,183 @@ lsm_l_enn()</code></pre>
 <h2 id="using-landscapemetrics">Using <code>landscapemetrics</code><a class="anchor" aria-label="anchor" href="#using-landscapemetrics"></a>
 </h2>
 <p>If you are sure that your landscape is suitable for the calculation of landscape metrics, <code>landscapemetrics</code> makes this quite easy:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># import raster</span>
-<span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span>
-<span class="co"># ... or any other raster file type, geotiff, ...</span>
-
-<span class="co"># Calculate e.g. perimeter of all patches</span>
-<span class="fu"><a href="../reference/lsm_p_perim.html">lsm_p_perim</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 6</span></span>
-<span class="co">#&gt;    layer level class    id metric value</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1 perim      4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 perim     12</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 perim    130</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4 perim      4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5 perim      4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 perim     20</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7 perim      8</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 perim     10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 perim      4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch     2    10 perim     38</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 17 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># import raster</span></span>
+<span><span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span></span>
+<span><span class="co"># ... or any other raster file type, geotiff, ...</span></span>
+<span></span>
+<span><span class="co"># Calculate e.g. perimeter of all patches</span></span>
+<span><span class="fu"><a href="../reference/lsm_p_perim.html">lsm_p_perim</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 6</span></span></span>
+<span><span class="co">#&gt;    layer level class    id metric value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1 perim      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 perim     12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 perim    130</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4 perim      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5 perim      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 perim     20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7 perim      8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 perim     10</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 perim      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch     2    10 perim     38</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 17 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="using-landscapemetrics-in-a-tidy-workflow">Using <code>landscapemetrics</code> in a tidy workflow<a class="anchor" aria-label="anchor" href="#using-landscapemetrics-in-a-tidy-workflow"></a>
 </h3>
 <p>Every function in <em>landscapemetrics</em> accept data as its first argument, which makes piping a natural workflow. A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># all patch IDs of class 2 with an ENN &gt; 2.5</span>
-<span class="va">subsample_patches</span> <span class="op">&lt;-</span> <span class="va">landscape</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-    <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">class</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="va">value</span> <span class="op">&gt;</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span>
-
-<span class="co"># show results</span>
-<span class="va">subsample_patches</span>
-<span class="co">#&gt;  [1] 10 11 12 14 16 17 18 19 20 22 23</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># all patch IDs of class 2 with an ENN &gt; 2.5</span></span>
+<span><span class="va">subsample_patches</span> <span class="op">&lt;-</span> <span class="va">landscape</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">class</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="va">value</span> <span class="op">&gt;</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># show results</span></span>
+<span><span class="va">subsample_patches</span></span>
+<span><span class="co">#&gt;  [1] 10 11 12 14 16 17 18 19 20 22 23</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-multiple-metric-functions">Use multiple metric functions<a class="anchor" aria-label="anchor" href="#use-multiple-metric-functions"></a>
 </h3>
 <p>To list all available metrics, just use the <code><a href="../reference/list_lsm.html">list_lsm()</a></code> function. Here, you can specify e.g. a level or type of metrics.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># list all available metrics</span>
-<span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 133 × 5</span></span>
-<span class="co">#&gt;    metric name                                type           level function_name</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> area   patch area                          area and edge… patch lsm_p_area   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> cai    core area index                     core area met… patch lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> circle related circumscribing circle       shape metric   patch lsm_p_circle </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> contig contiguity index                    shape metric   patch lsm_p_contig </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> core   core area                           core area met… patch lsm_p_core   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> enn    euclidean nearest neighbor distance aggregation m… patch lsm_p_enn    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> frac   fractal dimension index             shape metric   patch lsm_p_frac   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> gyrate radius of gyration                  area and edge… patch lsm_p_gyrate </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ncore  number of core areas                core area met… patch lsm_p_ncore  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> para   perimeter-area ratio                shape metric   patch lsm_p_para   </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 123 more rows</span></span>
-
-<span class="co"># list only aggregation metrics at landscape level and just return function name</span>
-<span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"landscape"</span>, 
-         type <span class="op">=</span> <span class="st">"aggregation metric"</span>, 
-         simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "lsm_l_ai"       "lsm_l_cohesion" "lsm_l_contag"   "lsm_l_division"</span>
-<span class="co">#&gt;  [5] "lsm_l_enn_cv"   "lsm_l_enn_mn"   "lsm_l_enn_sd"   "lsm_l_iji"     </span>
-<span class="co">#&gt;  [9] "lsm_l_lsi"      "lsm_l_mesh"     "lsm_l_np"       "lsm_l_pd"      </span>
-<span class="co">#&gt; [13] "lsm_l_pladj"    "lsm_l_split"</span>
-
-<span class="co"># you can also combine arguments and only return the function names</span>
-<span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span>, 
-         type <span class="op">=</span> <span class="st">"core area metric"</span>, 
-         simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt;  [1] "lsm_p_cai"      "lsm_p_core"     "lsm_p_ncore"    "lsm_l_cai_cv"  </span>
-<span class="co">#&gt;  [5] "lsm_l_cai_mn"   "lsm_l_cai_sd"   "lsm_l_core_cv"  "lsm_l_core_mn" </span>
-<span class="co">#&gt;  [9] "lsm_l_core_sd"  "lsm_l_dcad"     "lsm_l_dcore_cv" "lsm_l_dcore_mn"</span>
-<span class="co">#&gt; [13] "lsm_l_dcore_sd" "lsm_l_ndca"     "lsm_l_tca"</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># list all available metrics</span></span>
+<span><span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 133 × 5</span></span></span>
+<span><span class="co">#&gt;    metric name                                type                 level funct…¹</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> area   patch area                          area and edge metric patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> cai    core area index                     core area metric     patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> circle related circumscribing circle       shape metric         patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> contig contiguity index                    shape metric         patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> core   core area                           core area metric     patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> enn    euclidean nearest neighbor distance aggregation metric   patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> frac   fractal dimension index             shape metric         patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> gyrate radius of gyration                  area and edge metric patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ncore  number of core areas                core area metric     patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> para   perimeter-area ratio                shape metric         patch lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 123 more rows, and abbreviated variable name ¹​function_name</span></span></span>
+<span></span>
+<span><span class="co"># list only aggregation metrics at landscape level and just return function name</span></span>
+<span><span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span>level <span class="op">=</span> <span class="st">"landscape"</span>, </span>
+<span>         type <span class="op">=</span> <span class="st">"aggregation metric"</span>, </span>
+<span>         simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "lsm_l_ai"       "lsm_l_cohesion" "lsm_l_contag"   "lsm_l_division"</span></span>
+<span><span class="co">#&gt;  [5] "lsm_l_enn_cv"   "lsm_l_enn_mn"   "lsm_l_enn_sd"   "lsm_l_iji"     </span></span>
+<span><span class="co">#&gt;  [9] "lsm_l_lsi"      "lsm_l_mesh"     "lsm_l_np"       "lsm_l_pd"      </span></span>
+<span><span class="co">#&gt; [13] "lsm_l_pladj"    "lsm_l_split"</span></span>
+<span></span>
+<span><span class="co"># you can also combine arguments and only return the function names</span></span>
+<span><span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span>, </span>
+<span>         type <span class="op">=</span> <span class="st">"core area metric"</span>, </span>
+<span>         simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "lsm_p_cai"      "lsm_p_core"     "lsm_p_ncore"    "lsm_l_cai_cv"  </span></span>
+<span><span class="co">#&gt;  [5] "lsm_l_cai_mn"   "lsm_l_cai_sd"   "lsm_l_core_cv"  "lsm_l_core_mn" </span></span>
+<span><span class="co">#&gt;  [9] "lsm_l_core_sd"  "lsm_l_dcad"     "lsm_l_dcore_cv" "lsm_l_dcore_mn"</span></span>
+<span><span class="co">#&gt; [13] "lsm_l_dcore_sd" "lsm_l_ndca"     "lsm_l_tca"</span></span></code></pre></div>
 <p>As the result of every function always returns a <code>tibble</code>, combining the metrics that were selected for your research question is straightforward:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># bind results from different metric functions</span>
-<span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/lsm_p_cai.html">lsm_p_cai</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># look at the results</span>
-<span class="va">patch_metrics</span> 
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 6</span></span>
-<span class="co">#&gt;    layer level class    id metric value</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 cai     48.0</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 cai     14.3</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 cai      0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch     2    10 cai     31.4</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># bind results from different metric functions</span></span>
+<span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/lsm_p_cai.html">lsm_p_cai</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># look at the results</span></span>
+<span><span class="va">patch_metrics</span> </span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 6</span></span></span>
+<span><span class="co">#&gt;    layer level class    id metric value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 cai     48.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 cai     14.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 cai      0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch     2    10 cai     31.4</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows</span></span></span></code></pre></div>
 <p>All metrics are abbreviated in the result <code>tibble</code>. Therefore, we provide a <code>tibble</code> containing the full metric names, as well as the class of each metric (<code>lsm_abbreviations_names</code>). Using e.g. the <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join()</a></code> function of the <code>dplyr</code> package one could join a result <code>tibble</code> and the abbrevations <code>tibble</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># bind results from different metric functions</span>
-<span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/lsm_p_cai.html">lsm_p_cai</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="co"># look at the results</span>
-<span class="va">patch_metrics_full_names</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">patch_metrics</span>,
-                                             y <span class="op">=</span> <span class="va">lsm_abbreviations_names</span>, 
-                                             by <span class="op">=</span> <span class="st">"metric"</span><span class="op">)</span>
-<span class="va">patch_metrics_full_names</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 10</span></span>
-<span class="co">#&gt;    layer level.x class    id metric value name     type    level.y function_name</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch       1     1 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch       1     2 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch       1     3 cai     48.0 core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch       1     4 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch       1     5 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch       1     6 cai     14.3 core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch       1     7 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch       1     8 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch       1     9 cai      0   core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch       2    10 cai     31.4 core ar… core a… patch   lsm_p_cai    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># bind results from different metric functions</span></span>
+<span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/lsm_p_cai.html">lsm_p_cai</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co"># look at the results</span></span>
+<span><span class="va">patch_metrics_full_names</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">patch_metrics</span>,</span>
+<span>                                             y <span class="op">=</span> <span class="va">lsm_abbreviations_names</span>, </span>
+<span>                                             by <span class="op">=</span> <span class="st">"metric"</span><span class="op">)</span></span>
+<span><span class="va">patch_metrics_full_names</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 10</span></span></span>
+<span><span class="co">#&gt;    layer level.x class    id metric value name            type   level.y funct…¹</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 patch       1     1 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 patch       1     2 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 patch       1     3 cai     48.0 core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 patch       1     4 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 patch       1     5 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 patch       1     6 cai     14.3 core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 patch       1     7 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 patch       1     8 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch       1     9 cai      0   core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch       2    10 cai     31.4 core area index core … patch   lsm_p_…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows, and abbreviated variable name ¹​function_name</span></span></span></code></pre></div>
 <p>Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical <code>tibble</code>, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. <code>level = "patch"</code>. Additionally, similar to <code><a href="../reference/list_lsm.html">list_lsm()</a></code> you can also specify e.g. a certain group of metrics. Of course, you can also include the full names and information of all metrics using <code>full_name = TRUE</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate certain metrics</span>
-<span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, 
-              what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span>
-<span class="co">#&gt;   layer level     class    id metric  value</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 class         1    <span style="color: #BB0000;">NA</span> pland   19.9 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 class         2    <span style="color: #BB0000;">NA</span> pland   26.9 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 class         3    <span style="color: #BB0000;">NA</span> pland   53.2 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ta       0.09</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> te     364</span>
-
-<span class="co"># calculate all aggregation metrics on patch and landscape level</span>
-<span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, 
-              type <span class="op">=</span> <span class="st">"aggregation metric"</span>, 
-              level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 41 × 6</span></span>
-<span class="co">#&gt;    layer level     class    id metric     value</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ai       81.1   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> cohesion 95.4   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> contag   25.2   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> division  0.696 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_cv   39.8   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_mn    3.18  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_sd    1.27  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> iji      87.8   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> lsi       4.03  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mesh      0.027<span style="text-decoration: underline;">3</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows</span></span>
-
-<span class="co"># show full information of all metrics</span>
-<span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, 
-              what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span>,
-              full_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span>
-<span class="co">#&gt;   layer level     class    id metric  value name        type       function_name</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 class         1    <span style="color: #BB0000;">NA</span> pland   19.9  percentage… area and … lsm_c_pland  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 class         2    <span style="color: #BB0000;">NA</span> pland   26.9  percentage… area and … lsm_c_pland  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 class         3    <span style="color: #BB0000;">NA</span> pland   53.2  percentage… area and … lsm_c_pland  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ta       0.09 total area  area and … lsm_l_ta     </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> te     364    total edge  area and … lsm_l_te</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># calculate certain metrics</span></span>
+<span><span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, </span>
+<span>              what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
+<span><span class="co">#&gt;   layer level     class    id metric  value</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 class         1    <span style="color: #BB0000;">NA</span> pland   19.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 class         2    <span style="color: #BB0000;">NA</span> pland   26.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 class         3    <span style="color: #BB0000;">NA</span> pland   53.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ta       0.09</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> te     364</span></span>
+<span></span>
+<span><span class="co"># calculate all aggregation metrics on patch and landscape level</span></span>
+<span><span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, </span>
+<span>              type <span class="op">=</span> <span class="st">"aggregation metric"</span>, </span>
+<span>              level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 41 × 6</span></span></span>
+<span><span class="co">#&gt;    layer level     class    id metric     value</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ai       81.1   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> cohesion 95.4   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> contag   25.2   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> division  0.696 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_cv   39.8   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_mn    3.18  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> enn_sd    1.27  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> iji      87.8   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> lsi       4.03  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mesh      0.027<span style="text-decoration: underline;">3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 31 more rows</span></span></span>
+<span></span>
+<span><span class="co"># show full information of all metrics</span></span>
+<span><span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, </span>
+<span>              what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_c_pland"</span>, <span class="st">"lsm_l_ta"</span>, <span class="st">"lsm_l_te"</span><span class="op">)</span>,</span>
+<span>              full_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
+<span><span class="co">#&gt;   layer level     class    id metric  value name                   type  funct…¹</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 class         1    <span style="color: #BB0000;">NA</span> pland   19.9  percentage of landsca… area… lsm_c_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 class         2    <span style="color: #BB0000;">NA</span> pland   26.9  percentage of landsca… area… lsm_c_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 class         3    <span style="color: #BB0000;">NA</span> pland   53.2  percentage of landsca… area… lsm_c_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ta       0.09 total area             area… lsm_l_…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> te     364    total edge             area… lsm_l_…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​function_name</span></span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -438,7 +437,7 @@ lsm_l_enn()</code></pre>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

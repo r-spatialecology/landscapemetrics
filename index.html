@@ -22,8 +22,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Landscape Metrics for Categorical Map Patterns">
 <meta property="og:description" content="Calculates landscape metrics for categorical landscape patterns in 
@@ -158,8 +158,7 @@
 <img src="logo.png" class="logo" alt=""><h1 id="landscapemetrics-">landscapemetrics <a class="anchor" aria-label="anchor" href="#landscapemetrics-"></a>
 </h1>
 </div>
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-<table class="table">
+<!-- README.md is generated from README.Rmd. Please edit that file --><table class="table">
 <thead><tr class="header">
 <th>CI</th>
 <th>Development</th>
@@ -190,10 +189,8 @@
 <h4 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h4>
 <p>To cite <strong>landscapemetrics</strong> or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘ver. 0’:</p>
-<p>
-</p>
+<p></p>
 <p><i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (ver. 0). </i></p>
-
 <p>For more information see <a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html">Publication record</a> vignette. The get a BibTex entry, please use <code>citation("landscapemetrics")</code>.</p>
 </div>
 </div>
@@ -202,12 +199,12 @@
 </h2>
 <p>There are several ways to install <strong>landscapemetrics</strong>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Get the stable version from CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"landscapemetrics"</span><span class="op">)</span>
-
-<span class="co"># Alternatively, you can install the development version from Github</span>
-<span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatialecology/landscapemetrics"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Get the stable version from CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"landscapemetrics"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Alternatively, you can install the development version from Github</span></span>
+<span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-spatialecology/landscapemetrics"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="announcement">Announcement<a class="anchor" aria-label="anchor" href="#announcement"></a>
 </h4>
@@ -275,63 +272,63 @@
 </h3>
 <p>Every function follows the same implementation design, so the usage is quite straightforward:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ropensci.github.io/landscapetools/" class="external-link">landscapetools</a></span><span class="op">)</span>
-
-<span class="co"># landscape raster</span>
-<span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html" class="external-link">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ropensci.github.io/landscapetools/" class="external-link">landscapetools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># landscape raster</span></span>
+<span><span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html" class="external-link">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span>
-<span class="fu"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 27 × 6</span>
-<span class="co">#&gt;    layer level class    id metric value</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1 patch     1     1 enn     7   </span>
-<span class="co">#&gt;  2     1 patch     1     2 enn     4   </span>
-<span class="co">#&gt;  3     1 patch     1     3 enn     2.83</span>
-<span class="co">#&gt;  4     1 patch     1     4 enn     2   </span>
-<span class="co">#&gt;  5     1 patch     1     5 enn     2   </span>
-<span class="co">#&gt;  6     1 patch     1     6 enn     2.83</span>
-<span class="co">#&gt;  7     1 patch     1     7 enn     4.12</span>
-<span class="co">#&gt;  8     1 patch     1     8 enn     4.12</span>
-<span class="co">#&gt;  9     1 patch     1     9 enn     4.24</span>
-<span class="co">#&gt; 10     1 patch     2    10 enn     4.47</span>
-<span class="co">#&gt; # … with 17 more rows</span>
-
-<span class="co"># calculate the total area and total class edge length</span>
-<span class="fu"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 × 6</span>
-<span class="co">#&gt;   layer level     class    id metric value</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1 landscape    NA    NA ta      0.09</span>
-<span class="fu"><a href="reference/lsm_c_te.html">lsm_c_te</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 × 6</span>
-<span class="co">#&gt;   layer level class    id metric value</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1 class     1    NA te       180</span>
-<span class="co">#&gt; 2     1 class     2    NA te       227</span>
-<span class="co">#&gt; 3     1 class     3    NA te       321</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span></span>
+<span><span class="fu"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 27 × 6</span></span>
+<span><span class="co">#&gt;    layer level class    id metric value</span></span>
+<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1     1 patch     1     1 enn     7   </span></span>
+<span><span class="co">#&gt;  2     1 patch     1     2 enn     4   </span></span>
+<span><span class="co">#&gt;  3     1 patch     1     3 enn     2.83</span></span>
+<span><span class="co">#&gt;  4     1 patch     1     4 enn     2   </span></span>
+<span><span class="co">#&gt;  5     1 patch     1     5 enn     2   </span></span>
+<span><span class="co">#&gt;  6     1 patch     1     6 enn     2.83</span></span>
+<span><span class="co">#&gt;  7     1 patch     1     7 enn     4.12</span></span>
+<span><span class="co">#&gt;  8     1 patch     1     8 enn     4.12</span></span>
+<span><span class="co">#&gt;  9     1 patch     1     9 enn     4.24</span></span>
+<span><span class="co">#&gt; 10     1 patch     2    10 enn     4.47</span></span>
+<span><span class="co">#&gt; # … with 17 more rows</span></span>
+<span></span>
+<span><span class="co"># calculate the total area and total class edge length</span></span>
+<span><span class="fu"><a href="reference/lsm_l_ta.html">lsm_l_ta</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 6</span></span>
+<span><span class="co">#&gt;   layer level     class    id metric value</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1 landscape    NA    NA ta      0.09</span></span>
+<span><span class="fu"><a href="reference/lsm_c_te.html">lsm_c_te</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 6</span></span>
+<span><span class="co">#&gt;   layer level class    id metric value</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1 class     1    NA te       180</span></span>
+<span><span class="co">#&gt; 2     1 class     2    NA te       227</span></span>
+<span><span class="co">#&gt; 3     1 class     3    NA te       321</span></span></code></pre></div>
 <p>There is also a wrapper around every metric in the package to quickly calculate a bunch of metrics:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate all metrics on patch level</span>
-<span class="fu"><a href="reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, level <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="co">#&gt; # A tibble: 324 × 6</span>
-<span class="co">#&gt;    layer level class    id metric  value</span>
-<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     1 patch     1     1 area   0.0001</span>
-<span class="co">#&gt;  2     1 patch     1     2 area   0.0005</span>
-<span class="co">#&gt;  3     1 patch     1     3 area   0.0148</span>
-<span class="co">#&gt;  4     1 patch     1     4 area   0.0001</span>
-<span class="co">#&gt;  5     1 patch     1     5 area   0.0001</span>
-<span class="co">#&gt;  6     1 patch     1     6 area   0.0014</span>
-<span class="co">#&gt;  7     1 patch     1     7 area   0.0003</span>
-<span class="co">#&gt;  8     1 patch     1     8 area   0.0005</span>
-<span class="co">#&gt;  9     1 patch     1     9 area   0.0001</span>
-<span class="co">#&gt; 10     1 patch     2    10 area   0.0035</span>
-<span class="co">#&gt; # … with 314 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># calculate all metrics on patch level</span></span>
+<span><span class="fu"><a href="reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, level <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
+<span><span class="co">#&gt; # A tibble: 324 × 6</span></span>
+<span><span class="co">#&gt;    layer level class    id metric  value</span></span>
+<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1     1 patch     1     1 area   0.0001</span></span>
+<span><span class="co">#&gt;  2     1 patch     1     2 area   0.0005</span></span>
+<span><span class="co">#&gt;  3     1 patch     1     3 area   0.0148</span></span>
+<span><span class="co">#&gt;  4     1 patch     1     4 area   0.0001</span></span>
+<span><span class="co">#&gt;  5     1 patch     1     5 area   0.0001</span></span>
+<span><span class="co">#&gt;  6     1 patch     1     6 area   0.0014</span></span>
+<span><span class="co">#&gt;  7     1 patch     1     7 area   0.0003</span></span>
+<span><span class="co">#&gt;  8     1 patch     1     8 area   0.0005</span></span>
+<span><span class="co">#&gt;  9     1 patch     1     9 area   0.0001</span></span>
+<span><span class="co">#&gt; 10     1 patch     2    10 area   0.0035</span></span>
+<span><span class="co">#&gt; # … with 314 more rows</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="utility-functions">Utility functions<a class="anchor" aria-label="anchor" href="#utility-functions"></a>
@@ -392,7 +389,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>

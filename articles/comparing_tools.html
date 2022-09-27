@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Differences FRAGSTATS|landscapemetrics|SDMTools">
 <meta property="og:description" content="landscapemetrics">
@@ -140,10 +140,10 @@
 
 
 <script src="comparing_tools_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Differences FRAGSTATS|landscapemetrics|SDMTools</h1>
             
-            <h4 data-toc-skip class="date">2022-01-18</h4>
+            <h4 data-toc-skip class="date">2022-09-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/comparing_tools.Rmd" class="external-link"><code>vignettes/articles/comparing_tools.Rmd</code></a></small>
       <div class="d-none name"><code>comparing_tools.Rmd</code></div>
@@ -165,38 +165,38 @@
 <p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (<em>sd</em>) or coefficient of variation (<em>cv</em>) of all values belonging to class <em>i</em>). While the results are identical for single patches and the mean of all patches, there are some slight differences between <code>lanscapemetrics</code> and FRAGSTATS for the standard deviation and the coefficent of variation. <code>landscapemetrics</code> uses base <code>R</code> functions for that, so we should assume that the calculation of such indices is correct.</p>
 <p>In the following, we are comparing the <em>cv</em> for the patch area. We are including the <em>cv</em> calculated from all patch areas and the actual output of FRAGSTATS as well as the output of <code>landscapemetrics</code>. Interestingly, the <em>cv</em> calculated from all patches of FRAGSTATS is identical to the cv of <code>landscapemetrics</code>, but the actual result of FRAGSTATS is slightly different.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># function to calculate coefficient of variation</span>
-<span class="va">cv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-    <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>
-<span class="op">}</span>
-
-<span class="co"># CV calculated from patch values of FRAGSTATS </span>
-<span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cv <span class="op">=</span> <span class="fu">cv</span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> 
-
-<span class="co"># Output of FRAGSTATS</span>
-<span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span> 
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_CV</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span>
-
-<span class="co"># Output of landscapemetrics</span>
-<span class="va">landscapemetrics_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">class</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"landscapemetrics"</span><span class="op">)</span>
-
-<span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_output</span>, y <span class="op">=</span> <span class="va">fragstats_calculated</span>, 
-                              by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span> 
-
-<span class="va">cv_full</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats</span>, y <span class="op">=</span> <span class="va">landscapemetrics_output</span>,
-                            by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># function to calculate coefficient of variation</span></span>
+<span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># CV calculated from patch values of FRAGSTATS </span></span>
+<span><span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cv <span class="op">=</span> <span class="fu">cv</span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Output of FRAGSTATS</span></span>
+<span><span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_CV</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Output of landscapemetrics</span></span>
+<span><span class="va">landscapemetrics_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_c_area_cv.html">lsm_c_area_cv</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">class</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"landscapemetrics"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_output</span>, y <span class="op">=</span> <span class="va">fragstats_calculated</span>, </span>
+<span>                              by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">cv_full</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats</span>, y <span class="op">=</span> <span class="va">landscapemetrics_output</span>,</span>
+<span>                            by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1">
 Show/Hide Results
 </button>
 <div id="1" class="collapse">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>
@@ -228,34 +228,34 @@ Show/Hide Results
 </div>
 <p>As for the <em>cv</em>, the results for the <em>sd</em> are similiar. The result calculated from all patch areas of FRAGSTATS is identical to the result of <code>landscapemetrics</code>, but not the actual result of FRAGSTATS.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># SD calculated from patch values of FRAGSTATS</span>
-<span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> 
-
-
-<span class="co"># Output of FRAGSTATS</span>
-<span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_SD</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span>
-
-<span class="co"># Output of landscapemetrics</span>
-<span class="va">landscapemetrics_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">class</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"landscapemetrics"</span><span class="op">)</span>
-
-<span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_output</span>, y <span class="op">=</span> <span class="va">fragstats_calculated</span>,
-                              by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span>
-
-<span class="va">sd_full</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats</span>, y <span class="op">=</span> <span class="va">landscapemetrics_output</span>,
-                            by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># SD calculated from patch values of FRAGSTATS</span></span>
+<span><span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">TYPE</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">AREA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_calculated"</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="co"># Output of FRAGSTATS</span></span>
+<span><span class="va">fragstats_output</span> <span class="op">&lt;-</span> <span class="va">fragstats_class_landscape</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">TYPE</span>, <span class="va">AREA_SD</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"fragstats_output"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Output of landscapemetrics</span></span>
+<span><span class="va">landscapemetrics_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_c_area_sd.html">lsm_c_area_sd</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">class</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="st">"landscapemetrics"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_output</span>, y <span class="op">=</span> <span class="va">fragstats_calculated</span>,</span>
+<span>                              by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sd_full</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats</span>, y <span class="op">=</span> <span class="va">landscapemetrics_output</span>,</span>
+<span>                            by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#2">
 Show/Hide Results
 </button>
 <div id="2" class="collapse">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">class</th>
@@ -298,37 +298,37 @@ Show/Hide Results
 </blockquote>
 <p>However, for patches containing a single cell FRAGSTATS returns a value of <em>GYRATE = 0.5</em>. In the following table, patches with an area of <em>area = 0.0001</em> consist of only one cell.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Calculate patch area</span>
-<span class="va">fragstats_area</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"fragstats_area"</span><span class="op">)</span>
-
-<span class="va">landscapemetrics_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span><span class="op">)</span>
-
-<span class="co"># Calculate GYRATE</span>
-<span class="va">fragstats_gyrate</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">GYRATE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span><span class="op">)</span>
-
-<span class="va">landscapemetrics_gyrate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span><span class="op">)</span>
-
-<span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_area</span>, y <span class="op">=</span> <span class="va">fragstats_gyrate</span>, 
-                              by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fragstats_area</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span>
-
-<span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landscapemetrics_area</span>, 
-                                     y <span class="op">=</span> <span class="va">landscapemetrics_gyrate</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">landscapemetrics_area</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Calculate patch area</span></span>
+<span><span class="va">fragstats_area</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"fragstats_area"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">landscapemetrics_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"landscapemetrics_area"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate GYRATE</span></span>
+<span><span class="va">fragstats_gyrate</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">GYRATE</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"fragstats_gyrate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">landscapemetrics_gyrate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_gyrate.html">lsm_p_gyrate</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"landscapemetrics_gyrate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fragstats_area</span>, y <span class="op">=</span> <span class="va">fragstats_gyrate</span>, </span>
+<span>                              by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fragstats_area</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">landscapemetrics_area</span>, </span>
+<span>                                     y <span class="op">=</span> <span class="va">landscapemetrics_gyrate</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">landscapemetrics_area</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#3">
 Show/Hide Results
 </button>
 <div id="3" class="collapse">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="3%">
@@ -432,40 +432,40 @@ Show/Hide Results
 <p>Contrastingly, the output of FRAGSTATS gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
 <p>We implemented PARA as documented in the FRAGSTATS manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the FRAGSTATS output to meters per square meters.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
-<span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">PERIM</span>, <span class="va">PARA</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>para_calculated_ha <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="va">area</span>, 
-                  para_calculated_m <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="op">(</span><span class="va">area</span> <span class="op">*</span> <span class="fl">10000</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">area</span><span class="op">)</span>
-
-<span class="co"># Output of landscapemetrics</span>
-<span class="va">area_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"area"</span><span class="op">)</span>
-
-<span class="va">perim_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_perim.html">lsm_p_perim</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"perim"</span><span class="op">)</span>
-
-<span class="va">para_landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_para.html">lsm_p_para</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"para"</span><span class="op">)</span>
-
-<span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">area_landscapmetrics</span>, 
-                                     y <span class="op">=</span> <span class="va">perim_landscapmetrics</span>, 
-                                     by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">para_landscapemetrics</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>para_calculated_ha <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="va">area</span>, 
-                  para_calculated_m <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="op">(</span><span class="va">area</span> <span class="op">*</span> <span class="fl">10000</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">area</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Output of FRAGSTATS</span></span>
+<span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">PERIM</span>, <span class="va">PARA</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"area"</span>, <span class="st">"perim"</span>, <span class="st">"para"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>para_calculated_ha <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="va">area</span>, </span>
+<span>                  para_calculated_m <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="op">(</span><span class="va">area</span> <span class="op">*</span> <span class="fl">10000</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">area</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Output of landscapemetrics</span></span>
+<span><span class="va">area_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"area"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">perim_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_perim.html">lsm_p_perim</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"perim"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">para_landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_para.html">lsm_p_para</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"para"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">area_landscapmetrics</span>, </span>
+<span>                                     y <span class="op">=</span> <span class="va">perim_landscapmetrics</span>, </span>
+<span>                                     by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">para_landscapemetrics</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>para_calculated_ha <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="va">area</span>, </span>
+<span>                  para_calculated_m <span class="op">=</span> <span class="va">perim</span> <span class="op">/</span> <span class="op">(</span><span class="va">area</span> <span class="op">*</span> <span class="fl">10000</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">area</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4">
 Show/Hide Results
 </button>
 <div id="4" class="collapse">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="2%">
@@ -899,30 +899,30 @@ Show/Hide Results
 </blockquote>
 <p>Nevertheless, because also patches with only one cell have a dimension in the raster context, we decided to calculate the CIRCLE metric for such patches.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Output of FRAGSTATS</span>
-<span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">CIRCLE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_fs"</span>, <span class="st">"area_fs"</span>, <span class="st">"circle_fs"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">area_fs</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span>
-
-<span class="co"># Output of landscapemetrics</span>
-<span class="va">area_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_lsm"</span>, <span class="st">"area_lsm"</span><span class="op">)</span>
-
-<span class="va">circle_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_lsm"</span>, <span class="st">"circle_lsm"</span><span class="op">)</span>
-
-<span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">area_landscapmetrics</span>, y <span class="op">=</span> <span class="va">circle_landscapmetrics</span>, 
-                                     by <span class="op">=</span> <span class="st">"id_lsm"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">area_lsm</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Output of FRAGSTATS</span></span>
+<span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PID</span>, <span class="va">AREA</span>, <span class="va">CIRCLE</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_fs"</span>, <span class="st">"area_fs"</span>, <span class="st">"circle_fs"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">area_fs</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Output of landscapemetrics</span></span>
+<span><span class="va">area_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_area.html">lsm_p_area</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_lsm"</span>, <span class="st">"area_lsm"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">circle_landscapmetrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lsm_p_circle.html">lsm_p_circle</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="st">"id_lsm"</span>, <span class="st">"circle_lsm"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">landscapemetrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">area_landscapmetrics</span>, y <span class="op">=</span> <span class="va">circle_landscapmetrics</span>, </span>
+<span>                                     by <span class="op">=</span> <span class="st">"id_lsm"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">area_lsm</span> <span class="op">==</span> <span class="fl">0.0001</span><span class="op">)</span></span></code></pre></div>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#5">
 Show/Hide Results
 </button>
 <div id="5" class="collapse">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">id_fs</th>
@@ -986,38 +986,38 @@ Show/Hide Results
 </div>
 <p>It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle. However, this does not necessarily result in the correct circumscribing circle. While this approach works well for more compact patch shapes, there are some cases in which the approach fails. One example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm calculates the true circumscribing circle also for such patches.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># create matrix</span>
-<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">13</span>, ncol <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>
-
-<span class="co"># create T-shaped patches</span>
-<span class="va">mat</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">9</span>, <span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-<span class="va">mat</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-
-<span class="co"># convert to raster</span>
-<span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">mat</span>, xmn <span class="op">=</span> <span class="fl">0</span>, xmx <span class="op">=</span> <span class="fl">13</span>, ymn <span class="op">=</span> <span class="fl">0</span>, ymx <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>
-
-<span class="co"># get circumscribing circle </span>
-<span class="va">circle_lsm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">ras</span><span class="op">)</span>
-
-<span class="co"># construct circle using diameter / 2</span>
-<span class="va">circle_lsm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_buffer.html">construct_buffer</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">circle_lsm</span><span class="op">$</span><span class="va">center_x</span>, 
-                                                 <span class="va">circle_lsm</span><span class="op">$</span><span class="va">center_y</span><span class="op">)</span>,
-                                               nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
-                               shape <span class="op">=</span> <span class="st">"circle"</span>, size <span class="op">=</span> <span class="va">circle_lsm</span><span class="op">$</span><span class="va">value</span> <span class="op">/</span> <span class="fl">2</span>,
-                               return_sp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># calculate max distance between corner points of cells</span>
-<span class="va">circle_max_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span>, <span class="fl">7</span>, <span class="fl">4</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># construct circle using diamter /2</span>
-<span class="va">circle_max_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_buffer.html">construct_buffer</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6.5</span>, <span class="fl">7.5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
-                                    shape <span class="op">=</span> <span class="st">"circle"</span>, size <span class="op">=</span> <span class="va">circle_max_dist</span> <span class="op">/</span> <span class="fl">2</span>,
-                                    return_sp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># plot results</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ras</span>, col <span class="op">=</span> <span class="st">"#D5B528"</span>, legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html" class="external-link">polygon</a></span><span class="op">(</span><span class="va">circle_lsm</span>, border <span class="op">=</span> <span class="st">"#84A98E"</span>, lwd <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="co"># green circle</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html" class="external-link">polygon</a></span><span class="op">(</span><span class="va">circle_max_dist</span>, border <span class="op">=</span> <span class="st">"#922418"</span>, lwd <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="co"># red circle</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># create matrix</span></span>
+<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">13</span>, ncol <span class="op">=</span> <span class="fl">13</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create T-shaped patches</span></span>
+<span><span class="va">mat</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">9</span>, <span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">mat</span><span class="op">[</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># convert to raster</span></span>
+<span><span class="va">ras</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">mat</span>, xmn <span class="op">=</span> <span class="fl">0</span>, xmx <span class="op">=</span> <span class="fl">13</span>, ymn <span class="op">=</span> <span class="fl">0</span>, ymx <span class="op">=</span> <span class="fl">13</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># get circumscribing circle </span></span>
+<span><span class="va">circle_lsm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">ras</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># construct circle using diameter / 2</span></span>
+<span><span class="va">circle_lsm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_buffer.html">construct_buffer</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">circle_lsm</span><span class="op">$</span><span class="va">center_x</span>, </span>
+<span>                                                 <span class="va">circle_lsm</span><span class="op">$</span><span class="va">center_y</span><span class="op">)</span>,</span>
+<span>                                               nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                               shape <span class="op">=</span> <span class="st">"circle"</span>, size <span class="op">=</span> <span class="va">circle_lsm</span><span class="op">$</span><span class="va">value</span> <span class="op">/</span> <span class="fl">2</span>,</span>
+<span>                               return_sp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># calculate max distance between corner points of cells</span></span>
+<span><span class="va">circle_max_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">10</span>, <span class="fl">7</span>, <span class="fl">4</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># construct circle using diamter /2</span></span>
+<span><span class="va">circle_max_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/construct_buffer.html">construct_buffer</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6.5</span>, <span class="fl">7.5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                                    shape <span class="op">=</span> <span class="st">"circle"</span>, size <span class="op">=</span> <span class="va">circle_max_dist</span> <span class="op">/</span> <span class="fl">2</span>,</span>
+<span>                                    return_sp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ras</span>, col <span class="op">=</span> <span class="st">"#D5B528"</span>, legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html" class="external-link">polygon</a></span><span class="op">(</span><span class="va">circle_lsm</span>, border <span class="op">=</span> <span class="st">"#84A98E"</span>, lwd <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="co"># green circle</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html" class="external-link">polygon</a></span><span class="op">(</span><span class="va">circle_max_dist</span>, border <span class="op">=</span> <span class="st">"#922418"</span>, lwd <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="co"># red circle</span></span></code></pre></div>
 <p><img src="comparing_tools_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 </div>
@@ -1032,34 +1032,34 @@ Show/Hide Results
 </h3>
 <p>To get all availabel metrics on e.g. patch level with <code>SDMTools</code>, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.rforge.net/SDMTools/" class="external-link">SDMTools</a></span><span class="op">)</span> <span class="co"># remotes::install_version("SDMTools", version = "1.1-221.2")</span></code></pre></div>
-<pre><code><span class="co">## </span>
-<span class="co">## Attaching package: 'SDMTools'</span></code></pre>
-<pre><code><span class="co">## The following object is masked from 'package:raster':</span>
-<span class="co">## </span>
-<span class="co">##     distance</span></code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.rforge.net/SDMTools/" class="external-link">SDMTools</a></span><span class="op">)</span> <span class="co"># remotes::install_version("SDMTools", version = "1.1-221.2")</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'SDMTools'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:raster':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     distance</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># binarize every class in the landscape and calculate patch metrics</span>
-<span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">tmp_land</span> <span class="op">&lt;-</span> <span class="va">landscape</span>
-  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">!=</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span>
-  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/getValues.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span>
-  <span class="va">ccl</span> <span class="op">&lt;-</span> <span class="fu">SDMTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SDMTools/man/ConnCompLabel.html" class="external-link">ConnCompLabel</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/SDMTools/man/PatchStat.html" class="external-link">PatchStat</a></span><span class="op">(</span><span class="va">ccl</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-
-<span class="co"># combine to one data frame</span>
-<span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">sdmtools_result</span>, .id <span class="op">=</span> <span class="st">"Class"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># binarize every class in the landscape and calculate patch metrics</span></span>
+<span><span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">tmp_land</span> <span class="op">&lt;-</span> <span class="va">landscape</span></span>
+<span>  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">!=</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span>  <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span>  <span class="va">ccl</span> <span class="op">&lt;-</span> <span class="fu">SDMTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SDMTools/man/ConnCompLabel.html" class="external-link">ConnCompLabel</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/SDMTools/man/PatchStat.html" class="external-link">PatchStat</a></span><span class="op">(</span><span class="va">ccl</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># combine to one data frame</span></span>
+<span><span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">sdmtools_result</span>, .id <span class="op">=</span> <span class="st">"Class"</span><span class="op">)</span></span></code></pre></div>
 <p><code>landscapemetrics</code> offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally. To get all metrics on patch level with <code>landscapemetrics</code> you could for example do:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></code></pre>
+<code class="sourceCode R"><span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span></code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6">
 Show/Hide Results
 </button>
 <div id="6" class="collapse">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">bind_rows</span><span class="op">(</span><span class="va">sdmtools_result</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">bind_rows</span><span class="op">(</span><span class="va">sdmtools_result</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="3%">
@@ -1523,7 +1523,7 @@ Show/Hide Results
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
