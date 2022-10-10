@@ -21,15 +21,15 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: codemeta
+          extra-packages: any::codemeta
 
       - name: Write codemeta file
         run: Rscript -e 'codemeta::write_codemeta()'
 
       - name: Commit codemeta file
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add codemeta.json
           git commit -m "Re-write codemeta.json" || echo "No changes to commit"
           git push origin || echo "No changes to commit"
