@@ -1,0 +1,37 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    paths: ['DESCRIPTION']
+
+name: Write-codemeta
+
+jobs:
+  render-readme:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: codemeta
+
+      - name: Render README files
+        run: Rscript -e 'codemeta::write_codemeta()'
+
+      - name: Commit README
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add codemeta.json
+          git commit -m "Re-write codemeta.json" || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
