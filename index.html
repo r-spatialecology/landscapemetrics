@@ -216,20 +216,20 @@
 </h2>
 <p>The resolution of a raster cell has to be in <strong>meters</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. Before using <strong>landscapemetrics</strong>, be sure to check your raster (see <code><a href="reference/check_landscape.html">check_landscape()</a></code>).</p>
 <p>All functions in <strong>landscapemetrics</strong> start with <code>lsm_</code> (for <strong>l</strong>and<strong>s</strong>cape <strong>m</strong>etrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code> for the euclidean nearest-neighbor distance):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># general structure</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Patch level</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">## lsm_p_"metric"</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">lsm_p_enn</span>()</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Class level</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## lsm_c_"metric"</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="kw">lsm_c_enn</span>()</span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Landscape level</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">## lsm_p_"metric"</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="kw">lsm_l_enn</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># general structure</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lsm_<span class="st">"level"</span>_<span class="st">"metric"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Patch level</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">## lsm_p_"metric"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lsm_p_enn</span>()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Class level</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">## lsm_c_"metric"</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lsm_c_enn</span>()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Landscape level</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## lsm_p_"metric"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lsm_l_enn</span>()</span></code></pre></div>
 <p>All functions return an identical structured tibble:</p>
 <table class="table">
 <thead><tr class="header">
