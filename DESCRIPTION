@@ -36,7 +36,7 @@ Authors@R: c(person("Maximilian H.K.", "Hesselbarth",
              role = "ctb", 
              comment = "Bugfix in sample_metrics()")
              )
-Maintainer: Maximillian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
+Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description: Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
     'FRAGSTATS' (<https://www.umass.edu/landeco/research/fragstats/fragstats.html>) 
