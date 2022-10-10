@@ -32,9 +32,14 @@ jobs:
          remotes::install_version(package = "SDMTools", version = "1.1-221.2")
         shell: Rscript {0}
 
+      - name: Build site
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
+
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           clean: false
           branch: gh-pages
+          folder: docs
