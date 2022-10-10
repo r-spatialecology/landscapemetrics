@@ -1,5 +1,5 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+
 on:
   push:
     paths: ['DESCRIPTION']
@@ -17,18 +17,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: r-lib/actions/setup-pandoc@v1
-
       - uses: r-lib/actions/setup-r@v1
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
           extra-packages: codemeta
 
-      - name: Render README files
+      - name: Write codemeta file
         run: Rscript -e 'codemeta::write_codemeta()'
 
-      - name: Commit README
+      - name: Commit codemeta file
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
