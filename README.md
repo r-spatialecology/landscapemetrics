@@ -4,7 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 | [![codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg?token=xjYJMNMGBU)](https://codecov.io/gh/r-spatialecology/landscapemetrics)                                  | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
 
@@ -32,11 +32,9 @@ following Software note, substituting the version of the application
 that you used for ‘ver. 0’:
 
 <p>
-
 <i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
 J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
 metrics. Ecography, 42: 1648-1657 (ver. 0). </i>
-
 </p>
 
 For more information see [Publication
@@ -80,26 +78,26 @@ of the function name is the abbreviation of the corresponding metric
 
     # general structure
     lsm_"level"_"metric"
-    
+
     # Patch level
     ## lsm_p_"metric"
     lsm_p_enn()
-    
+
     # Class level
     ## lsm_c_"metric"
     lsm_c_enn()
-    
+
     # Landscape level
     ## lsm_p_"metric"
     lsm_l_enn()
 
 All functions return an identical structured tibble:
 
-| layer | level     | class | id | metric           | value |
-| ----- | --------- | ----- | -- | ---------------- | ----- |
-| 1     | patch     | 1     | 1  | landscape metric | x     |
-| 1     | class     | 1     | NA | landscape metric | x     |
-| 1     | landscape | NA    | NA | landscape metric | x     |
+| layer | level     | class | id  | metric           | value |
+|-------|-----------|-------|-----|------------------|-------|
+| 1     | patch     | 1     | 1   | landscape metric | x     |
+| 1     | class     | 1     | NA  | landscape metric | x     |
+| 1     | landscape | NA    | NA  | landscape metric | x     |
 
 ### Using metric functions
 
@@ -117,7 +115,6 @@ show_landscape(landscape, discrete = TRUE)
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
-
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 #> # A tibble: 27 × 6
@@ -185,7 +182,7 @@ analysis or the development of new metrics. They all start with the
 prefix `get_`. All of them are implemented with Rcpp and have either
 memory or performance advantages compared to raster functions.
 
-For more details, see the `vignette("utility")`
+For more details, see the `vignette("utility")`.
 
 ### Contributing
 
@@ -194,7 +191,7 @@ provide an open-source code collection of landscape metrics. This
 includes, besides bug reports, especially the idea to include new
 metrics and functions. Therefore, in case you want to suggest new
 metrics or functions and in the best case even contribute code, we
-warmly welcome to do so\! For more information see
+warmly welcome to do so! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
 Maintainers and contributors must follow this repository’s [CODE OF
