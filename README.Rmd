@@ -123,7 +123,7 @@ calculate_lsm(landscape, level = "patch")
 
 Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix `get_`. All of them are implemented with Rcpp and have either memory or performance advantages compared to raster functions.
 
-For more details, see the  `vignette("utility")`
+For more details, see the  `vignette("utility")`.
 
 ### Contributing
 
