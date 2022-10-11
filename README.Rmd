@@ -58,7 +58,7 @@ remotes::install_github("r-spatialecology/landscapemetrics")
 
 #### Announcement
 
-Due to an improved connected-component labeling algorithm (**landscapemetrics** v1.4 and higher), patches are labeled in a different order than before and therefore different patch IDs might be used compared to previous versions. However, results for all metrics are identical.
+Due to an improved connected-component labelling algorithm (**landscapemetrics** v1.4 and higher), patches are labeled in a different order than before and therefore different patch IDs might be used compared to previous versions. However, results for all metrics are identical.
 
 ## Using landscapemetrics
 
