@@ -189,7 +189,6 @@
 <h4 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h4>
 <p>To cite <strong>landscapemetrics</strong> or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘ver. 0’:</p>
-<p></p>
 <p><i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019. landscapemetrics: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (ver. 0). </i></p>
 <p>For more information see <a href="https://r-spatialecology.github.io/landscapemetrics/articles/articles/publication_record.html">Publication record</a> vignette. The get a BibTex entry, please use <code>citation("landscapemetrics")</code>.</p>
 </div>
@@ -279,8 +278,7 @@
 <span><span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html" class="external-link">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span></span>
+<code class="sourceCode R"><span><span class="co"># calculate for example the Euclidean nearest-neighbor distance on patch level</span></span>
 <span><span class="fu"><a href="reference/lsm_p_enn.html">lsm_p_enn</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 27 × 6</span></span>
 <span><span class="co">#&gt;    layer level class    id metric value</span></span>
@@ -335,7 +333,7 @@
 </h3>
 <p><strong>landscapemetrics</strong> further provides several visualization functions, e.g. show all labeled patches or the core area of all patches. All visualization functions start with the prefix <code>show_</code> (e.g. <code><a href="reference/show_cores.html">show_cores()</a></code>).</p>
 <p>Important building blocks of the package are exported to help facilitate analysis or the development of new metrics. They all start with the prefix <code>get_</code>. All of them are implemented with Rcpp and have either memory or performance advantages compared to raster functions.</p>
-<p>For more details, see the <code><a href="articles/utility.html">vignette("utility")</a></code></p>
+<p>For more details, see the <code><a href="articles/utility.html">vignette("utility")</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
