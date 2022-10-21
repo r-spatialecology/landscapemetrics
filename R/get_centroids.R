@@ -27,13 +27,13 @@
 get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
                           return_sp = FALSE, verbose = TRUE) {
 
+    landscape <- landscape_as_list(landscape)
+
     if (return_sp) {
 
         crs <- raster::crs(landscape)
 
     }
-
-    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = get_centroids_calc,
