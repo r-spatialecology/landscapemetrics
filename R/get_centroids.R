@@ -31,7 +31,7 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
     if (return_sp) {
 
-        crs <- raster::crs(landscape)
+        crs <- raster::crs(landscape[[1]])
 
     }
 
