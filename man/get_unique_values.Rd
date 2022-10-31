@@ -7,7 +7,7 @@
 get_unique_values(x, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{x}{Vector, matrix, raster, stars, or SpatRaster (terra) object or list of previous.}
+\item{x}{Vector, matrix, raster, stars, or terra object or list of previous.}
 
 \item{simplify}{If true, a vector will be returned instead of a list for
 1-dimensional input}

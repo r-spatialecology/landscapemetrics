@@ -13,15 +13,13 @@ window_lsm(
   type = NULL,
   what = NULL,
   progress = FALSE,
-  na_policy = "all",
   ...
 )
 }
 \arguments{
 \item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
 
-\item{window}{Moving window matrix. The window can be defined as one (for a square) or two numbers (row, col);
-or with an odd-sized weights matrix. For details see \code{?terra::focal}}
+\item{window}{Moving window matrix.}
 
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 
@@ -36,11 +34,6 @@ It is also possible to specify functions as a vector of strings, e.g. \code{what
 
 \item{progress}{Print progress report.}
 
-\item{na_policy}{Determines the behaviour for focal NA cells.
-Either "all" (compute for all cells), "only" (only for cells that are NA) or
-"omit" (skip cells that are NA). Use na.rm=TRUE to ignore cells that are NA around a focal cell.
-For details see \code{?terra::focal}}
-
 \item{...}{Arguments passed on to \code{calculate_lsm()}.}
 }
 \value{
@@ -52,9 +45,9 @@ Moving window
 \details{
 The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-details, see \code{?terra::focal()} and \code{terra::focalMat()}. The result will be a \code{SpatRaster} in which each focal cell includes
+details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
-To be type stable, the result is always a nested list (first level for \code{SpatRaster} layers, second level
+To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
 for selected landscape metrics).
 }
 \examples{
@@ -62,6 +55,9 @@ for selected landscape metrics).
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
+
+window_circular <- matrix(c(NA, 1, NA, 1, 1, 1, NA, 1, NA), nrow = 3, ncol = 3)
+window_lsm(landscape, window = window_circular, what = c("lsm_l_pr", "lsm_l_joinent"))
 }
 
 }
@@ -76,7 +72,7 @@ earth observation and geoinformation, 44, 205-216.
 McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
-website: \url{http://www.umass.edu/landeco/research/fragstats/fragstats.html}
+website: \url{https://www.umass.edu/landeco/}
 }
 \seealso{
 \code{\link{list_lsm}} \cr

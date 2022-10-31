@@ -2,7 +2,7 @@
 #'
 #' @description Convert raster input to list
 #'
-#' @param landscape SpatRaster, Raster* Layer, Stack, Brick, Stars or a list of rasterLayers
+#' @param landscape Raster* Layer, Stack, Brick, Stars or a list of rasterLayers
 #'
 #' @details Mainly for internal use
 #'
@@ -59,9 +59,9 @@ landscape_as_list.stars <- function(landscape) {
 #' @export
 landscape_as_list.SpatRaster <- function(landscape) {
 
-    landscape <- methods::as(landscape, "SpatRaster")
+    landscape <- methods::as(landscape, "Raster")
 
-    landscape <- terra::as.list(landscape)
+    landscape <- raster::as.list(landscape)
 
     return(landscape)
 }

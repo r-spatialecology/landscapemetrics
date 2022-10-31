@@ -67,6 +67,6 @@ In the future, we also plan to allow class level metrics, however, patch metrics
 
 - Hagen-Zanker, A. 2016. A computational framework for generalized moving windows and its application to landscape pattern analysis. International journal of applied earth observation and geoinformation, 44, 205-216.
 
-- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <https://www.umass.edu/landeco/>
 
 - Šímová, P., & Gdulová, K. 2012. Landscape indices behavior: A review of scale effects. Applied Geography, 34, 385–394.
