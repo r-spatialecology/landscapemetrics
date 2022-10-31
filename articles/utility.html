@@ -320,8 +320,8 @@ at adjacencies).</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                                         min   median `itr/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  209.6µs  215.8µs     <span style="text-decoration: underline;">4</span>546.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           8.28ms   8.37ms      118.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4) 215.71µs  220.6µs     <span style="text-decoration: underline;">4</span>437.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           8.31ms   8.46ms      117.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
@@ -384,8 +384,8 @@ fast way to calculate the nearest neighbour between classes in a raster
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                                                min   median itr/s…¹</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.16ms   4.21ms   235. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)           63.32ms  63.79ms    15.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.29ms   4.37ms   227. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)            65.9ms  67.61ms    14.8</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;, and abbreviated</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`itr/sec`</span></span></span>
 <span></span>
