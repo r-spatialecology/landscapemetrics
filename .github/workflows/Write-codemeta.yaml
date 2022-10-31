@@ -7,7 +7,7 @@ on:
 name: Write-codemeta
 
 jobs:
-  render-readme:
+  write-codemeta:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
