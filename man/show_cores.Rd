@@ -16,7 +16,7 @@ show_cores(
 )
 }
 \arguments{
-\item{landscape}{Raster object}
+\item{landscape}{Raster or SpatRaster object}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
