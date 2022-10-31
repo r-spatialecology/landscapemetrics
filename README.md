@@ -118,6 +118,7 @@ show_landscape(landscape, discrete = TRUE)
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
+
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)
 #> # A tibble: 27 × 6
@@ -206,7 +207,7 @@ McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
 Pattern Analysis Program for Categorical and Continuous Maps. Computer
 software program produced by the authors at the University of
 Massachusetts, Amherst. Available at the following website:
-<http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+<https://www.umass.edu/landeco/>
 
 Nowosad J., TF Stepinski. 2019. Information theory as a consistent
 framework for quantification and classification of landscape patterns.
