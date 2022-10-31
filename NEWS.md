@@ -1,3 +1,7 @@
+# landscapemetrics 2.0.0
+* Improvements
+    * Using `terra` instead of `raster` as main underlying framework
+
 # landscapemetrics 1.5.5
 * Improvements
     * `get_patches` returns a unique patch id for all classes
