@@ -144,7 +144,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get started</h1>
             
-            <h4 data-toc-skip class="date">2022-10-21</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/get_started.Rmd" class="external-link"><code>vignettes/get_started.Rmd</code></a></small>
       <div class="d-none name"><code>get_started.Rmd</code></div>
@@ -155,7 +155,12 @@
 <div class="section level2">
 <h2 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
 </h2>
-<p>All functions in <code>landscapemetrics</code> start with <code>lsm_</code> (for landscapemetrics). The second part of the name specifies the level (patch - <code>p</code>, class - <code>c</code> or landscape - <code>l</code>). The last part of the function name is the abbreviation of the corresponding metric (e.g. <code>enn</code>for the euclidean nearest-neighbor distance):</p>
+<p>All functions in <code>landscapemetrics</code> start with
+<code>lsm_</code> (for landscapemetrics). The second part of the name
+specifies the level (patch - <code>p</code>, class - <code>c</code> or
+landscape - <code>l</code>). The last part of the function name is the
+abbreviation of the corresponding metric (e.g. <code>enn</code>for the
+euclidean nearest-neighbor distance):</p>
 <pre><code># general structure
 lsm_"level"_"metric"
 
@@ -173,7 +178,15 @@ lsm_l_enn()</code></pre>
 <p>All functions return an identical structured tibble:</p>
 <p style="text-align:center;">
 </p>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+</colgroup>
 <thead><tr class="header">
 <th>layer</th>
 <th>level</th>
@@ -213,7 +226,11 @@ lsm_l_enn()</code></pre>
 <div class="section level2">
 <h2 id="checking-your-landscape">Checking your landscape<a class="anchor" aria-label="anchor" href="#checking-your-landscape"></a>
 </h2>
-<p>Before using <code>landscapemetrics</code> and calculating landscape metrics in general, it makes sense to check your landscape. If your landscape has some properties that restrict the calculation or interpretation of landscape metrics, that should be detected with <code>check_landscape</code>:</p>
+<p>Before using <code>landscapemetrics</code> and calculating landscape
+metrics in general, it makes sense to check your landscape. If your
+landscape has some properties that restrict the calculation or
+interpretation of landscape metrics, that should be detected with
+<code>check_landscape</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import raster</span></span>
 <span><span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span></span>
@@ -235,17 +252,27 @@ lsm_l_enn()</code></pre>
 <span><span class="fu"><a href="../reference/check_landscape.html">check_landscape</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span> <span class="co"># everything is ok</span></span>
 <span><span class="co">#&gt;   layer       crs units   class n_classes OK</span></span>
 <span><span class="co">#&gt; 1     1 projected     m integer        15  ✔</span></span></code></pre></div>
-<p>The <strong>requirements</strong> to calculate meaningful landscape metrics are:</p>
+<p>The <strong>requirements</strong> to calculate meaningful landscape
+metrics are:</p>
 <ol style="list-style-type: decimal">
-<li><p>The distance units of your projection are <strong>meter</strong>, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function.</p></li>
-<li><p>Your raster encodes landscape classes as integers (1, 2, 3, 4, …, <em>n</em>).</p></li>
-<li><p>Landscape metrics describe <em>categorical</em> landscapes, that means that your landscape needs to be classified (we throw a warning if you have more than 30 classes to make sure you work with a classified landscape).</p></li>
+<li><p>The distance units of your projection are <strong>meter</strong>,
+as the package converts units internally and returns results in either
+meters, square meters or hectares. For more information see the help
+file of each function.</p></li>
+<li><p>Your raster encodes landscape classes as integers (1, 2, 3, 4, …,
+<em>n</em>).</p></li>
+<li><p>Landscape metrics describe <em>categorical</em> landscapes, that
+means that your landscape needs to be classified (we throw a warning if
+you have more than 30 classes to make sure you work with a classified
+landscape).</p></li>
 </ol>
 </div>
 <div class="section level2">
 <h2 id="using-landscapemetrics">Using <code>landscapemetrics</code><a class="anchor" aria-label="anchor" href="#using-landscapemetrics"></a>
 </h2>
-<p>If you are sure that your landscape is suitable for the calculation of landscape metrics, <code>landscapemetrics</code> makes this quite easy:</p>
+<p>If you are sure that your landscape is suitable for the calculation
+of landscape metrics, <code>landscapemetrics</code> makes this quite
+easy:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># import raster</span></span>
 <span><span class="co"># for local file: raster("pathtoyourraster/raster.asc")</span></span>
@@ -270,7 +297,10 @@ lsm_l_enn()</code></pre>
 <div class="section level3">
 <h3 id="using-landscapemetrics-in-a-tidy-workflow">Using <code>landscapemetrics</code> in a tidy workflow<a class="anchor" aria-label="anchor" href="#using-landscapemetrics-in-a-tidy-workflow"></a>
 </h3>
-<p>Every function in <em>landscapemetrics</em> accept data as its first argument, which makes piping a natural workflow. A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.</p>
+<p>Every function in <em>landscapemetrics</em> accept data as its first
+argument, which makes piping a natural workflow. A possible use case is
+that you would load your spatial data, calculate some landscape metrics
+and then use the resulting tibble in further analyses.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># all patch IDs of class 2 with an ENN &gt; 2.5</span></span>
 <span><span class="va">subsample_patches</span> <span class="op">&lt;-</span> <span class="va">landscape</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -285,7 +315,8 @@ lsm_l_enn()</code></pre>
 <div class="section level3">
 <h3 id="use-multiple-metric-functions">Use multiple metric functions<a class="anchor" aria-label="anchor" href="#use-multiple-metric-functions"></a>
 </h3>
-<p>To list all available metrics, just use the <code><a href="../reference/list_lsm.html">list_lsm()</a></code> function. Here, you can specify e.g. a level or type of metrics.</p>
+<p>To list all available metrics, just use the <code><a href="../reference/list_lsm.html">list_lsm()</a></code>
+function. Here, you can specify e.g. a level or type of metrics.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># list all available metrics</span></span>
 <span><span class="fu"><a href="../reference/list_lsm.html">list_lsm</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -321,7 +352,9 @@ lsm_l_enn()</code></pre>
 <span><span class="co">#&gt;  [5] "lsm_l_cai_mn"   "lsm_l_cai_sd"   "lsm_l_core_cv"  "lsm_l_core_mn" </span></span>
 <span><span class="co">#&gt;  [9] "lsm_l_core_sd"  "lsm_l_dcad"     "lsm_l_dcore_cv" "lsm_l_dcore_mn"</span></span>
 <span><span class="co">#&gt; [13] "lsm_l_dcore_sd" "lsm_l_ndca"     "lsm_l_tca"</span></span></code></pre></div>
-<p>As the result of every function always returns a <code>tibble</code>, combining the metrics that were selected for your research question is straightforward:</p>
+<p>As the result of every function always returns a <code>tibble</code>,
+combining the metrics that were selected for your research question is
+straightforward:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># bind results from different metric functions</span></span>
 <span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
@@ -346,7 +379,13 @@ lsm_l_enn()</code></pre>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 cai      0  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch     2    10 cai     31.4</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows</span></span></span></code></pre></div>
-<p>All metrics are abbreviated in the result <code>tibble</code>. Therefore, we provide a <code>tibble</code> containing the full metric names, as well as the class of each metric (<code>lsm_abbreviations_names</code>). Using e.g. the <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join()</a></code> function of the <code>dplyr</code> package one could join a result <code>tibble</code> and the abbrevations <code>tibble</code>.</p>
+<p>All metrics are abbreviated in the result <code>tibble</code>.
+Therefore, we provide a <code>tibble</code> containing the full metric
+names, as well as the class of each metric
+(<code>lsm_abbreviations_names</code>). Using e.g. the
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join()</a></code> function of the <code>dplyr</code> package one
+could join a result <code>tibble</code> and the abbrevations
+<code>tibble</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># bind results from different metric functions</span></span>
@@ -374,7 +413,14 @@ lsm_l_enn()</code></pre>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     1 patch       1     9 cai      0   core area index core … patch   lsm_p_…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     1 patch       2    10 cai     31.4 core area index core … patch   lsm_p_…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 71 more rows, and abbreviated variable name ¹​function_name</span></span></span></code></pre></div>
-<p>Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical <code>tibble</code>, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. <code>level = "patch"</code>. Additionally, similar to <code><a href="../reference/list_lsm.html">list_lsm()</a></code> you can also specify e.g. a certain group of metrics. Of course, you can also include the full names and information of all metrics using <code>full_name = TRUE</code>.</p>
+<p>Additionally, we provide a wrapper where the desired metrics can be
+specified as a vector of strings. Because all metrics regardless of the
+level return an identical <code>tibble</code>, different levels can be
+mixed. It is also possible to calculate all available metrics at a
+certain level using e.g. <code>level = "patch"</code>. Additionally,
+similar to <code><a href="../reference/list_lsm.html">list_lsm()</a></code> you can also specify e.g. a certain
+group of metrics. Of course, you can also include the full names and
+information of all metrics using <code>full_name = TRUE</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate certain metrics</span></span>
 <span><span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, </span>

@@ -144,7 +144,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Differences FRAGSTATS|landscapemetrics|SDMTools</h1>
             
-            <h4 data-toc-skip class="date">2022-10-21</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/comparing_tools.Rmd" class="external-link"><code>vignettes/articles/comparing_tools.Rmd</code></a></small>
       <div class="d-none name"><code>comparing_tools.Rmd</code></div>
@@ -155,16 +155,46 @@
 <div class="section level2">
 <h2 id="comparison-with-fragstats">Comparison with FRAGSTATS<a class="anchor" aria-label="anchor" href="#comparison-with-fragstats"></a>
 </h2>
-<p><code>landscapemetrics</code> re-implements landscape metrics as they are mostly described in the FRAGSTATS software (McGarigal <em>et al.</em> 2012). Therefore, we compared our results with the results of FRAGSTATS. In the process, we recognized a few differences between the results.</p>
-<p>Some metrics in FRAGSTATS are interdependent across scales. Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level. We list the metrics with deviations at the lowest level.</p>
-<p>Unfortunatly, we do not have access to the source code of FRAGSTATS. Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.</p>
+<p><code>landscapemetrics</code> re-implements landscape metrics as they
+are mostly described in the FRAGSTATS software (McGarigal <em>et
+al.</em> 2012). Therefore, we compared our results with the results of
+FRAGSTATS. In the process, we recognized a few differences between the
+results.</p>
+<p>Some metrics in FRAGSTATS are interdependent across scales. Thus, if
+there is a deviation at the patch level, it propagates through the
+class- and landscape-level. We list the metrics with deviations at the
+lowest level.</p>
+<p>Unfortunatly, we do not have access to the source code of FRAGSTATS.
+Therefore, we are not able to finally explain the present differences
+between the results, nevertheless, we try to guess the most likely
+reasons.</p>
 <div class="section level3">
 <h3 id="general-differences">General differences<a class="anchor" aria-label="anchor" href="#general-differences"></a>
 </h3>
-<p>Firstly, the patch ID is ordered in a different way, due to technical reasons (how connected patches are specified). Therefore, one has to pay attention comparing the results on patch level for FRAGSTATS and <code>landscapemetrics</code>.</p>
-<p>All double precision floating point numbers are rounded after the 4th decimal place in FRAGSTATS. Contrastingly, we do not round the numbers. Naturally, this can lead to small deviations between the results.</p>
-<p>There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g. the mean, standard deviation (<em>sd</em>) or coefficient of variation (<em>cv</em>) of all values belonging to class <em>i</em>). While the results are identical for single patches and the mean of all patches, there are some slight differences between <code>lanscapemetrics</code> and FRAGSTATS for the standard deviation and the coefficent of variation. <code>landscapemetrics</code> uses base <code>R</code> functions for that, so we should assume that the calculation of such indices is correct.</p>
-<p>In the following, we are comparing the <em>cv</em> for the patch area. We are including the <em>cv</em> calculated from all patch areas and the actual output of FRAGSTATS as well as the output of <code>landscapemetrics</code>. Interestingly, the <em>cv</em> calculated from all patches of FRAGSTATS is identical to the cv of <code>landscapemetrics</code>, but the actual result of FRAGSTATS is slightly different.</p>
+<p>Firstly, the patch ID is ordered in a different way, due to technical
+reasons (how connected patches are specified). Therefore, one has to pay
+attention comparing the results on patch level for FRAGSTATS and
+<code>landscapemetrics</code>.</p>
+<p>All double precision floating point numbers are rounded after the 4th
+decimal place in FRAGSTATS. Contrastingly, we do not round the numbers.
+Naturally, this can lead to small deviations between the results.</p>
+<p>There are quite a few metrics on class- and landscape-level that
+summarise patch level metrics (e.g. the mean, standard deviation
+(<em>sd</em>) or coefficient of variation (<em>cv</em>) of all values
+belonging to class <em>i</em>). While the results are identical for
+single patches and the mean of all patches, there are some slight
+differences between <code>lanscapemetrics</code> and FRAGSTATS for the
+standard deviation and the coefficent of variation.
+<code>landscapemetrics</code> uses base <code>R</code> functions for
+that, so we should assume that the calculation of such indices is
+correct.</p>
+<p>In the following, we are comparing the <em>cv</em> for the patch
+area. We are including the <em>cv</em> calculated from all patch areas
+and the actual output of FRAGSTATS as well as the output of
+<code>landscapemetrics</code>. Interestingly, the <em>cv</em> calculated
+from all patches of FRAGSTATS is identical to the cv of
+<code>landscapemetrics</code>, but the actual result of FRAGSTATS is
+slightly different.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># function to calculate coefficient of variation</span></span>
 <span><span class="va">cv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -195,7 +225,7 @@
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1">
 Show/Hide Results
 </button>
-<div id="1" class="collapse">
+<div id="id_1" class="collapse">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -227,7 +257,10 @@ Show/Hide Results
 </tbody>
 </table>
 </div>
-<p>As for the <em>cv</em>, the results for the <em>sd</em> are similiar. The result calculated from all patch areas of FRAGSTATS is identical to the result of <code>landscapemetrics</code>, but not the actual result of FRAGSTATS.</p>
+<p>As for the <em>cv</em>, the results for the <em>sd</em> are similiar.
+The result calculated from all patch areas of FRAGSTATS is identical to
+the result of <code>landscapemetrics</code>, but not the actual result
+of FRAGSTATS.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># SD calculated from patch values of FRAGSTATS</span></span>
 <span><span class="va">fragstats_calculated</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
@@ -254,7 +287,7 @@ Show/Hide Results
 <button class="btn btn-primary" data-toggle="collapse" data-target="#2">
 Show/Hide Results
 </button>
-<div id="2" class="collapse">
+<div id="id_2" class="collapse">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">cv_full</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -293,11 +326,14 @@ Show/Hide Results
 <div class="section level4">
 <h4 id="gyrate-metric">GYRATE metric<a class="anchor" aria-label="anchor" href="#gyrate-metric"></a>
 </h4>
-<p>According to FRAGSTATS the radius of gyration for a patch consisting of only a single cell should equal GYRATE = 0.</p>
+<p>According to FRAGSTATS the radius of gyration for a patch consisting
+of only a single cell should equal GYRATE = 0.</p>
 <blockquote>
 <p>[…] GYRATE = 0 when the patch consists of a single cell […]</p>
 </blockquote>
-<p>However, for patches containing a single cell FRAGSTATS returns a value of <em>GYRATE = 0.5</em>. In the following table, patches with an area of <em>area = 0.0001</em> consist of only one cell.</p>
+<p>However, for patches containing a single cell FRAGSTATS returns a
+value of <em>GYRATE = 0.5</em>. In the following table, patches with an
+area of <em>area = 0.0001</em> consist of only one cell.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate patch area</span></span>
 <span><span class="va">fragstats_area</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
@@ -327,7 +363,7 @@ Show/Hide Results
 <button class="btn btn-primary" data-toggle="collapse" data-target="#3">
 Show/Hide Results
 </button>
-<div id="3" class="collapse">
+<div id="id_3" class="collapse">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -399,7 +435,9 @@ Show/Hide Results
 </tbody>
 </table>
 </div>
-<p>Additionally, we recognized small differences for all other patches as well. However, we could not find an explanation for this difference, yet.</p>
+<p>Additionally, we recognized small differences for all other patches
+as well. However, we could not find an explanation for this difference,
+yet.</p>
 <div class="section level5">
 <h5 id="error-propagation-for-metrics-based-on-gyrate-metric">Error propagation (for metrics based on <em>GYRATE</em> metric)<a class="anchor" aria-label="anchor" href="#error-propagation-for-metrics-based-on-gyrate-metric"></a>
 </h5>
@@ -426,12 +464,18 @@ Show/Hide Results
 <div class="section level4">
 <h4 id="para-metric">PARA metric<a class="anchor" aria-label="anchor" href="#para-metric"></a>
 </h4>
-<p>The documentation of FRAGSTATS defines the perimeter-area ratio the following:</p>
+<p>The documentation of FRAGSTATS defines the perimeter-area ratio the
+following:</p>
 <blockquote>
-<p>[…] PARA equals the ratio of the patch perimeter (m) to area (m2). […]</p>
+<p>[…] PARA equals the ratio of the patch perimeter (m) to area (m2).
+[…]</p>
 </blockquote>
-<p>Contrastingly, the output of FRAGSTATS gives the result as the ratio of the patch perimeter in meters to area in hectares.</p>
-<p>We implemented PARA as documented in the FRAGSTATS manual using square meters. Nevertheless, the differences between the softwares are only based on different units, as shown by converting the FRAGSTATS output to meters per square meters.</p>
+<p>Contrastingly, the output of FRAGSTATS gives the result as the ratio
+of the patch perimeter in meters to area in hectares.</p>
+<p>We implemented PARA as documented in the FRAGSTATS manual using
+square meters. Nevertheless, the differences between the softwares are
+only based on different units, as shown by converting the FRAGSTATS
+output to meters per square meters.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Output of FRAGSTATS</span></span>
 <span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
@@ -464,7 +508,7 @@ Show/Hide Results
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4">
 Show/Hide Results
 </button>
-<div id="4" class="collapse">
+<div id="id_4" class="collapse">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -879,7 +923,8 @@ Show/Hide Results
 </table>
 </div>
 <div class="section level5">
-<h5 id="error-propagation-for-metrics-based-on-para-metric">Error propagation (for metrics based on <strong>PARA</strong> metric)<a class="anchor" aria-label="anchor" href="#error-propagation-for-metrics-based-on-para-metric"></a>
+<h5 id="error-propagation-for-metrics-based-on-para-metric">Error propagation (for metrics based on <strong>PARA</strong>
+metric)<a class="anchor" aria-label="anchor" href="#error-propagation-for-metrics-based-on-para-metric"></a>
 </h5>
 <div class="section level6">
 <h6 id="class-level-1">Class level<a class="anchor" aria-label="anchor" href="#class-level-1"></a>
@@ -894,11 +939,14 @@ Show/Hide Results
 <div class="section level4">
 <h4 id="circle-metric">CIRCLE metric<a class="anchor" aria-label="anchor" href="#circle-metric"></a>
 </h4>
-<p>According to FRAGSTATS, for patches with only one cell CIRCLE = 0.</p>
+<p>According to FRAGSTATS, for patches with only one cell CIRCLE =
+0.</p>
 <blockquote>
 <p>[…] CIRCLE = 0 for one cell patches. […]</p>
 </blockquote>
-<p>Nevertheless, because also patches with only one cell have a dimension in the raster context, we decided to calculate the CIRCLE metric for such patches.</p>
+<p>Nevertheless, because also patches with only one cell have a
+dimension in the raster context, we decided to calculate the CIRCLE
+metric for such patches.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Output of FRAGSTATS</span></span>
 <span><span class="va">fragstats</span> <span class="op">&lt;-</span> <span class="va">fragstats_patch_landscape</span> <span class="op">%&gt;%</span></span>
@@ -921,7 +969,7 @@ Show/Hide Results
 <button class="btn btn-primary" data-toggle="collapse" data-target="#5">
 Show/Hide Results
 </button>
-<div id="5" class="collapse">
+<div id="id_5" class="collapse">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">fragstats</span>, <span class="va">landscapemetrics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -985,7 +1033,13 @@ Show/Hide Results
 </tbody>
 </table>
 </div>
-<p>It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle. However, this does not necessarily result in the correct circumscribing circle. While this approach works well for more compact patch shapes, there are some cases in which the approach fails. One example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm calculates the true circumscribing circle also for such patches.</p>
+<p>It seems like FRAGSTATS uses the largest distance between the corner
+points of the cells to calculate the diameter of the circumscribing
+circle. However, this does not necessarily result in the correct
+circumscribing circle. While this approach works well for more compact
+patch shapes, there are some cases in which the approach fails. One
+example are T-shaped patches. Contrastingly to FRAGSTATS, our algorithm
+calculates the true circumscribing circle also for such patches.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create matrix</span></span>
 <span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">13</span>, ncol <span class="op">=</span> <span class="fl">13</span><span class="op">)</span></span>
@@ -1026,12 +1080,24 @@ Show/Hide Results
 <div class="section level2">
 <h2 id="comparison-with-sdmtools">Comparison with SDMTools<a class="anchor" aria-label="anchor" href="#comparison-with-sdmtools"></a>
 </h2>
-<p><code>SDMTools</code> (VanDerWal et al. 2014) (still available, but apparently not longer maintained) offers landscape metrics on patch and class level. However, it does not return the same results as FRAGSTATS. The main reason for this are different standard defaults (e.g. <code>SDMTools</code> always considers the global landscape boundary) and that <code>SDMTools</code> returns results in map units and not in m^2/hectar, as FRAGSTATS/<code>landscapemetrics</code>. This also explains differences between our package and <code>SDMTools</code>.</p>
-<p><a href="https://github.com/jsta" class="external-link">Joseph Stachelek</a> was so nice to remind us of these issues and provided the comparison.</p>
+<p><code>SDMTools</code> (VanDerWal et al. 2014) (still available, but
+apparently not longer maintained) offers landscape metrics on patch and
+class level. However, it does not return the same results as FRAGSTATS.
+The main reason for this are different standard defaults
+(e.g. <code>SDMTools</code> always considers the global landscape
+boundary) and that <code>SDMTools</code> returns results in map units
+and not in m^2/hectar, as FRAGSTATS/<code>landscapemetrics</code>. This
+also explains differences between our package and
+<code>SDMTools</code>.</p>
+<p><a href="https://github.com/jsta" class="external-link">Joseph Stachelek</a> was so nice to
+remind us of these issues and provided the comparison.</p>
 <div class="section level3">
 <h3 id="patch-metrics">Patch metrics<a class="anchor" aria-label="anchor" href="#patch-metrics"></a>
 </h3>
-<p>To get all availabel metrics on e.g. patch level with <code>SDMTools</code>, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.</p>
+<p>To get all availabel metrics on e.g. patch level with
+<code>SDMTools</code>, you have to make a binary landscape for every
+class in your landscape, perform connected components labelling on it
+and then calculate the patch metrics.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.rforge.net/SDMTools/" class="external-link">SDMTools</a></span><span class="op">)</span> <span class="co"># remotes::install_version("SDMTools", version = "1.1-221.2")</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -1051,14 +1117,17 @@ Show/Hide Results
 <span></span>
 <span><span class="co"># combine to one data frame</span></span>
 <span><span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">sdmtools_result</span>, .id <span class="op">=</span> <span class="st">"Class"</span><span class="op">)</span></span></code></pre></div>
-<p><code>landscapemetrics</code> offers for such tasks the function <code>get_patches</code> and for the metrics itself all of that is done internally. To get all metrics on patch level with <code>landscapemetrics</code> you could for example do:</p>
+<p><code>landscapemetrics</code> offers for such tasks the function
+<code>get_patches</code> and for the metrics itself all of that is done
+internally. To get all metrics on patch level with
+<code>landscapemetrics</code> you could for example do:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span></code></pre>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6">
 Show/Hide Results
 </button>
-<div id="6" class="collapse">
+<div id="id_6" class="collapse">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">bind_rows</span><span class="op">(</span><span class="va">sdmtools_result</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -1506,8 +1575,14 @@ Show/Hide Results
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <ul>
-<li><p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="external-link uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
-<li><p>Jeremy VanDerWal, Lorena Falconi, Stephanie Januchowski, Luke Shoo and Collin Storlie (2014). SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="external-link uri">https://CRAN.R-project.org/package=SDMTools</a></p></li>
+<li><p>McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial
+Pattern Analysis Program for Categorical and Continuous Maps. Computer
+software program produced by the authors at the University of
+Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="external-link uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
+<li><p>Jeremy VanDerWal, Lorena Falconi, Stephanie Januchowski, Luke
+Shoo and Collin Storlie (2014). SDMTools: Species Distribution Modelling
+Tools: Tools for processing data associated with species distribution
+modelling exercises. R package version 1.1-221. <a href="https://CRAN.R-project.org/package=SDMTools" class="external-link uri">https://CRAN.R-project.org/package=SDMTools</a></p></li>
 </ul>
 </div>
 </div>

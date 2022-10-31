@@ -144,7 +144,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Moving window</h1>
             
-            <h4 data-toc-skip class="date">2022-10-21</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/guide_moving_window.Rmd" class="external-link"><code>vignettes/articles/guide_moving_window.Rmd</code></a></small>
       <div class="d-none name"><code>guide_moving_window.Rmd</code></div>
@@ -152,17 +152,38 @@
 
     
     
-<p>Results of a landscape analysis are scale dependent (Šímová 2012). One approach to deal with this is by using a moving window (Hagen-Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood is assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). The result of a moving window analysis is a raster with an identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).</p>
+<p>Results of a landscape analysis are scale dependent (Šímová 2012).
+One approach to deal with this is by using a moving window (Hagen-Zanker
+2016). For each focal cell in the landscape, a matrix is used to specify
+the neighborhood and the metric value of this local neighborhood is
+assigned to each focal cell (Fletcher 2018). Thereby, the windows are
+allowed to overlap (McGarigal et al. 2012). The result of a moving
+window analysis is a raster with an identical extent as the input,
+however, each cell now describes the neighborhood in regard to the
+variability of the chosen metric (Hagen-Zanker 2016). Of course, the
+selection of the matrix size largely influences the scale of the result
+(Hagen-Zanker 2016).</p>
 <div class="section level2">
 <h2 id="implementation-in-landscapemetrics">Implementation in <strong>landscapemetrics</strong><a class="anchor" aria-label="anchor" href="#implementation-in-landscapemetrics"></a>
 </h2>
-<p>We provide the function <code><a href="../reference/window_lsm.html">window_lsm()</a></code> in <strong>landscapemetrics</strong> to analyse an input raster using the moving window approach. The function allows to specify the neighborhood using a matrix using the <code><a href="https://rdrr.io/pkg/terra/man/focal.html" class="external-link">raster::focal()</a></code> function internally. Currently, only the landscape level metrics are possible to calculate and they can be specified similarly to <code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code>. For details, see <code>?list_lsm()</code>.</p>
+<p>We provide the function <code><a href="../reference/window_lsm.html">window_lsm()</a></code> in
+<strong>landscapemetrics</strong> to analyse an input raster using the
+moving window approach. The function allows to specify the neighborhood
+using a matrix using the <code><a href="https://rdrr.io/pkg/terra/man/focal.html" class="external-link">raster::focal()</a></code> function
+internally. Currently, only the landscape level metrics are possible to
+calculate and they can be specified similarly to
+<code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code>. For details, see
+<code>?list_lsm()</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<p>First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell. Because we want to weight all cells identically, all values need to be 1 (for more details, see <code>?raster::focal()</code>).</p>
+<p>First, we need to specify the local neighborhood matrix. This matrix
+must have sides defined as odd numbers, in which the focal cell is
+always the center cell. Because we want to weight all cells identically,
+all values need to be 1 (for more details, see
+<code>?raster::focal()</code>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">moving_window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">moving_window</span></span></code></pre></div>
@@ -170,7 +191,10 @@
 <span><span class="co">## [1,]    1    1    1</span></span>
 <span><span class="co">## [2,]    1    1    1</span></span>
 <span><span class="co">## [3,]    1    1    1</span></span></code></pre>
-<p>Now, we can easily pass this matrix to <code><a href="../reference/window_lsm.html">window_lsm()</a></code> together with the input landscape. For this example, we want to calculate the number of classes (<code>lsm_l_pr</code>) and the joint entropy (<code>lsm_l_joinent</code>) for the local neighborhoods.</p>
+<p>Now, we can easily pass this matrix to <code><a href="../reference/window_lsm.html">window_lsm()</a></code>
+together with the input landscape. For this example, we want to
+calculate the number of classes (<code>lsm_l_pr</code>) and the joint
+entropy (<code>lsm_l_joinent</code>) for the local neighborhoods.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/window_lsm.html">window_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, window <span class="op">=</span> <span class="va">moving_window</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">result</span></span></code></pre></div>
@@ -195,17 +219,34 @@
 <span><span class="co">## source     : memory</span></span>
 <span><span class="co">## names      : layer </span></span>
 <span><span class="co">## values     : 1, 3  (min, max)</span></span></code></pre>
-<p>To be type-stable, the result will be a nested list. The first level includes all layers of a <code>RasterStack</code> (only one if a <code>RasterLayer</code> is provided), the second level all selected metrics. The resulting <code>RasterLayers</code> describe the local neighborhood according to the moving window around each focal cell. In the case of <code>lsm_l_pr</code> this the number of classes present.</p>
+<p>To be type-stable, the result will be a nested list. The first level
+includes all layers of a <code>RasterStack</code> (only one if a
+<code>RasterLayer</code> is provided), the second level all selected
+metrics. The resulting <code>RasterLayers</code> describe the local
+neighborhood according to the moving window around each focal cell. In
+the case of <code>lsm_l_pr</code> this the number of classes
+present.</p>
 <p><img src="guide_moving_window_files/figure-html/plot-result-1.png" width="700" style="display: block; margin: auto;"><img src="guide_moving_window_files/figure-html/plot-result-2.png" width="700" style="display: block; margin: auto;"></p>
-<p>In the future, we also plan to allow class level metrics, however, patch metrics are not meaningful (McGarigal 2012) and will not be included in the future.</p>
+<p>In the future, we also plan to allow class level metrics, however,
+patch metrics are not meaningful (McGarigal 2012) and will not be
+included in the future.</p>
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <ul>
-<li><p>Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling: Applications with R. Springer International Publishing. 523 pages</p></li>
-<li><p>Hagen-Zanker, A. 2016. A computational framework for generalized moving windows and its application to landscape pattern analysis. International journal of applied earth observation and geoinformation, 44, 205-216.</p></li>
-<li><p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="external-link uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
-<li><p>Šímová, P., &amp; Gdulová, K. 2012. Landscape indices behavior: A review of scale effects. Applied Geography, 34, 385–394.</p></li>
+<li><p>Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and
+Conservation Modeling: Applications with R. Springer International
+Publishing. 523 pages</p></li>
+<li><p>Hagen-Zanker, A. 2016. A computational framework for generalized
+moving windows and its application to landscape pattern analysis.
+International journal of applied earth observation and geoinformation,
+44, 205-216.</p></li>
+<li><p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4:
+Spatial Pattern Analysis Program for Categorical and Continuous Maps.
+Computer software program produced by the authors at the University of
+Massachusetts, Amherst. Available at the following website: <a href="http://www.umass.edu/landeco/research/fragstats/fragstats.html" class="external-link uri">http://www.umass.edu/landeco/research/fragstats/fragstats.html</a></p></li>
+<li><p>Šímová, P., &amp; Gdulová, K. 2012. Landscape indices behavior: A
+review of scale effects. Applied Geography, 34, 385–394.</p></li>
 </ul>
 </div>
 </div>
