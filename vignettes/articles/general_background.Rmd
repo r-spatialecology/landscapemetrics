@@ -66,6 +66,6 @@ Those were the main reasons we implemented `landscapemetrics`, however, we want 
 
 - Baker, W.L. and Cai, Y. 1992. The r.le programs for multiscale analysis of landscape structure using the GRASS geographical information system. Landscape Ecology 7(4):291-302.
 
-- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <https://www.umass.edu/landeco/>
 
 - VanDerWal, J., Falconi, L., Januchowski, S., Shoo, L., and Storlie, C. 2014. SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. <https://CRAN.R-project.org/package=SDMTools>

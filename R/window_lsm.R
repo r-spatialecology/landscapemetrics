@@ -52,7 +52,7 @@
 #' McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
-#' website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+#' website: <https://www.umass.edu/landeco/>
 #'
 #' @export
 window_lsm <- function(landscape,
