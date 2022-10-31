@@ -170,21 +170,7 @@ extract_lsm_internal <- function(landscape,
   }
 
   # get patches of landscape
-  landscape_labeled <- get_patches(landscape,
-                                   directions = directions,
-                                   class = "all",
-                                   to_disk = getOption("to_disk", default = FALSE),
-                                   return_raster = TRUE)[[1]]
-
-  # label patch id continuously
-  for (i in seq_len(length(landscape_labeled) - 1)) {
-
-    # max patch id of current layer
-    max_patch_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-    # add max patch id to ids of next layer
-    landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_patch_id
-  }
+  landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
 
   # combine to one raster layer
   landscape_id <- raster::merge(raster::stack(landscape_labeled))

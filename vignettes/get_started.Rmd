@@ -1,17 +1,15 @@
 ---
-title: "Get Started with landscapemetrics"
+title: "Get started"
 date: "`r Sys.Date()`"
-output:
-  rmarkdown::html_vignette:
-    toc: true
-    html_preview: false
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Get Started}
+  %\VignetteIndexEntry{Get started}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,

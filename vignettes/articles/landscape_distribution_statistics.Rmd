@@ -2,6 +2,12 @@
 title: "Landscape distribution statistics"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Landscape distribution statistics}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 Landscape distribution statistics summarise the properties of all patches belonging to the same class *i* or of all patches in the landscape together (McGarigal et al. 2012). 
@@ -13,6 +19,7 @@ Even though they are not implemented in **landscapemetrics**, R allows to calcul
 ```{r packages, message = FALSE}
 library(landscapemetrics)
 library(raster)
+
 library(dplyr)
 ```
 
@@ -49,8 +56,8 @@ To calculate the area-weighted mean on landscape-level, comment out the `dplyr::
 
 ```{r mean_b}
 # calculate weighted mean
-metric_wght_mean <- left_join(x = metric_patch, y = area_patch, 
-                              by = c("layer", "level", "class", "id")) %>%
+metric_wght_mean <- dplyr::left_join(x = metric_patch, y = area_patch, 
+                                     by = c("layer", "level", "class", "id")) %>%
   dplyr::mutate(value.w = value.x * value.y) %>%
   dplyr::group_by(class) %>%
   dplyr::summarise(value.am = sum(value.w) / sum(value.y)) 
@@ -94,4 +101,4 @@ metric_md_l
 
 ### References 
 
-- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <https://www.umass.edu/landeco/>

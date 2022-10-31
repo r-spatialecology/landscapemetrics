@@ -25,10 +25,12 @@ where \eqn{CONTIG[patch_{ij}]} is the contiguity of each patch.
 CONTIG_SD is a 'Shape metric'. It summarises the landscape as the standard deviation of all patches
 in the landscape. CONTIG_SD asses the spatial connectedness (contiguity) of
 cells in patches. The metric coerces patch values to a value of 1 and the background
-to NA. A nine cell focal filter matrix:\preformatted{filter_matrix <- matrix(c(1, 2, 1,
+to NA. A nine cell focal filter matrix:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{filter_matrix <- matrix(c(1, 2, 1,
                           2, 1, 2,
                           1, 2, 1), 3, 3, byrow = T)
-}
+}\if{html}{\out{</div>}}
 
 ... is then used to weight orthogonally contiguous pixels more heavily than
 diagonally contiguous pixels. Therefore, larger and more connections between
@@ -48,7 +50,7 @@ lsm_l_contig_sd(landscape)
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
-web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+web site: https://www.umass.edu/landeco/
 
 LaGro, J. 1991. Assessing patch shape in landscape mosaics.
 Photogrammetric Engineering and Remote Sensing, 57(3), 285-293

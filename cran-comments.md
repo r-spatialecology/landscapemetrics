@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.5
+- Improved user experience
+- Fix typo in Maintainer name
+
 # landscapemetrics 1.5.4
 Computational improvements
 

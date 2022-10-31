@@ -2,12 +2,20 @@
 title: "Sampling around points of interest"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sampling around points of interest}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r packages, message = FALSE}
-library(ggplot2)
 library(landscapemetrics)
 library(raster)
+library(sp)
+
+library(ggplot2)
 ```
 
 **landscapemetrics** provides several functions to sample metrics *at* or *around* sample points. On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points. For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), SpatialPoints and SpatialLines ([**sp**](https://cran.r-project.org/web/packages/sp/index.html); Roger et al. 2013) and even [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported. For some functions, also SpatialPolygons (i.e. sample plots) can be provided.
@@ -36,20 +44,17 @@ sample_lines
 `extract_lsm()` returns the metrics of all patches in which a sample point is located. However, since this only makes sense for individual patches, it's only possible to extract patch-level metrics.
 
 ```{r, echo = FALSE, fig.align = "center"}
-ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
-    ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-                        ggplot2::aes(x = x, y = y), pch = 19, size = 1.5) + 
-    ggplot2::geom_path(data = data.frame(x = c(x1, x2), 
-                                         y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)), 
-                       ggplot2::aes(x = x, y = y, group = id), size = 1) + 
-    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(), 
-                   axis.ticks = ggplot2::element_blank(), 
-                   axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   legend.position = "bottom")
+ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    geom_raster(aes(x = x, y = y, fill = factor(clumps))) + 
+    geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
+               aes(x = x, y = y), pch = 19, size = 1.5) + 
+    geom_path(data = data.frame(x = c(x1, x2), y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)), 
+              aes(x = x, y = y, group = id), size = 1) + 
+    scale_fill_viridis_d(name = "Landscape class") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(), 
+          axis.text = element_blank(), axis.title = element_blank(), 
+          legend.position = "bottom")
 ```
 
 Now, it's straightforward to extract e.g. the patch area of all patches in which a sample point is located. Similar to all functions calculating several landscape metrics, the selected metrics can be specified by various arguments (see `list_lsm()` for more details). The resulting tibble includes one extra column (compared to `calculate_lsm()`), indicating the ID of the sample points.
@@ -80,21 +85,18 @@ sample_plots <- data.frame(construct_buffer(coords = points,
                                             size = 10, 
                                             return_sp = FALSE))
 
-ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) +
-    ggplot2::geom_polygon(data = sample_plots, ggplot2::aes(x = sample_plots[, 1],
-                                                            y = sample_plots[, 2],
-                                                            group = sample_plots[, 3]),
-                          col = "black", fill = NA) +
-    ggplot2::geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-                        ggplot2::aes(x = x, y = y), pch = 19, size = 1.5) + 
-    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(),
-                   axis.ticks = ggplot2::element_blank(),
-                   axis.text = ggplot2::element_blank(),
-                   axis.title = ggplot2::element_blank(),
-                   legend.position = "bottom") 
+ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) +
+    geom_polygon(data = sample_plots, aes(x = sample_plots[, 1], y = sample_plots[, 2], 
+                                          group = sample_plots[, 3]),
+                 col = "black", fill = NA) +
+    geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
+               aes(x = x, y = y), pch = 19, size = 1.5) + 
+    scale_fill_viridis_d(name = "Landscape class") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(),
+          axis.text = element_blank(),  axis.title = element_blank(),
+          legend.position = "bottom") 
 ```
 
 ```{r, collapse = TRUE}

@@ -55,6 +55,9 @@ for selected landscape metrics).
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
+
+window_circular <- matrix(c(NA, 1, NA, 1, 1, 1, NA, 1, NA), nrow = 3, ncol = 3)
+window_lsm(landscape, window = window_circular, what = c("lsm_l_pr", "lsm_l_joinent"))
 }
 
 }
@@ -69,7 +72,7 @@ earth observation and geoinformation, 44, 205-216.
 McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
-website: \url{http://www.umass.edu/landeco/research/fragstats/fragstats.html}
+website: \url{https://www.umass.edu/landeco/}
 }
 \seealso{
 \code{\link{list_lsm}} \cr

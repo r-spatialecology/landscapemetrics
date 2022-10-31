@@ -1,14 +1,15 @@
 
+# landscapemetrics <img src="man/figures/logo.png" align="right" alt="" width="150" />
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- Start Badges -->
 
-| CI                                                                                                                                                                                                                       | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![Coverage](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg)](https://codecov.io/github/r-spatialecology/landscapemetrics?branch=main)                                              | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
+| CI                                                                                                                                                                                                           | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)                         | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg?token=xjYJMNMGBU)](https://codecov.io/gh/r-spatialecology/landscapemetrics)                                  | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
 
-<img src="man/figures/logo.png" align="right" width="150"/>
-
-# landscapemetrics
+<!-- End Badges -->
 
 ## Overview
 
@@ -27,18 +28,16 @@ objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of
 function can be used in a piped workflow, as it always takes the data as
 the first argument and returns a `tibble`.
 
-### Citation
+#### Citation
 
 To cite **landscapemetrics** or acknowledge its use, please cite the
 following Software note, substituting the version of the application
 that you used for ‘ver. 0’:
 
 <p>
-
 <i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
 J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
 metrics. Ecography, 42: 1648-1657 (ver. 0). </i>
-
 </p>
 
 For more information see [Publication
@@ -82,26 +81,26 @@ of the function name is the abbreviation of the corresponding metric
 
     # general structure
     lsm_"level"_"metric"
-    
+
     # Patch level
     ## lsm_p_"metric"
     lsm_p_enn()
-    
+
     # Class level
     ## lsm_c_"metric"
     lsm_c_enn()
-    
+
     # Landscape level
     ## lsm_p_"metric"
     lsm_l_enn()
 
 All functions return an identical structured tibble:
 
-| layer | level     | class | id | metric           | value |
-| ----- | --------- | ----- | -- | ---------------- | ----- |
-| 1     | patch     | 1     | 1  | landscape metric | x     |
-| 1     | class     | 1     | NA | landscape metric | x     |
-| 1     | landscape | NA    | NA | landscape metric | x     |
+| layer | level     | class | id  | metric           | value |
+|-------|-----------|-------|-----|------------------|-------|
+| 1     | patch     | 1     | 1   | landscape metric | x     |
+| 1     | class     | 1     | NA  | landscape metric | x     |
+| 1     | landscape | NA    | NA  | landscape metric | x     |
 
 ### Using metric functions
 
@@ -116,7 +115,7 @@ library(landscapetools)
 show_landscape(landscape, discrete = TRUE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -187,9 +186,7 @@ analysis or the development of new metrics. They all start with the
 prefix `get_`. All of them are implemented with Rcpp and have either
 memory or performance advantages compared to raster functions.
 
-For more details, see the [utility
-function](https://r-spatialecology.github.io/landscapemetrics/articles/articles/utility.html)
-vignette.
+For more details, see the `vignette("utility")`.
 
 ### Contributing
 
@@ -198,7 +195,7 @@ provide an open-source code collection of landscape metrics. This
 includes, besides bug reports, especially the idea to include new
 metrics and functions. Therefore, in case you want to suggest new
 metrics or functions and in the best case even contribute code, we
-warmly welcome to do so\! For more information see
+warmly welcome to do so! For more information see
 [CONTRIBUTING](CONTRIBUTING.md).
 
 Maintainers and contributors must follow this repository’s [CODE OF
@@ -206,11 +203,12 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-  - McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
-    Pattern Analysis Program for Categorical and Continuous Maps.
-    Computer software program produced by the authors at the University
-    of Massachusetts, Amherst. Available at the following website:
-    <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
-  - Nowosad J., TF Stepinski. 2019. Information theory as a consistent
-    framework for quantification and classification of landscape
-    patterns. <https://doi.org/10.1007/s10980-019-00830-x>
+McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
+Pattern Analysis Program for Categorical and Continuous Maps. Computer
+software program produced by the authors at the University of
+Massachusetts, Amherst. Available at the following website:
+<https://www.umass.edu/landeco/>
+
+Nowosad J., TF Stepinski. 2019. Information theory as a consistent
+framework for quantification and classification of landscape patterns.
+<https://doi.org/10.1007/s10980-019-00830-x>

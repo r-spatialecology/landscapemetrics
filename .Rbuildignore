@@ -22,3 +22,4 @@ vignettes/articles
 ^pkgdown
 ^\.github$
 test_data/
+^CODE_OF_CONDUCT\.md$

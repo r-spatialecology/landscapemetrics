@@ -80,13 +80,6 @@ show_lsm_internal <- function(landscape, what, class,
 
     landscape_labeled <- get_patches(landscape, directions = directions)[[1]]
 
-    for (i in seq_len(length(landscape_labeled) - 1)) {
-
-        max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
-    }
-
     lsm_fun <- match.fun(what)
 
     if (what %in% c("lsm_p_core", "lsm_p_ncore")) {

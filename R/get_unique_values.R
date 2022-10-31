@@ -75,5 +75,5 @@ get_unique_values_int <- function(landscape, verbose) {
 
     }
 
-    rcpp_get_unique_values(landscape)
+    sort(rcpp_get_unique_values(landscape))
 }

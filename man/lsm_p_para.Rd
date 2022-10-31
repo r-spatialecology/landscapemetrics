@@ -41,7 +41,7 @@ lsm_p_para(landscape)
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
-web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+web site: https://www.umass.edu/landeco/
 }
 \seealso{
 \code{\link{lsm_p_area}},

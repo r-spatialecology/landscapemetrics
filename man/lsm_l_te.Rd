@@ -23,7 +23,7 @@ where \eqn{e_{ik}} is the edge lengths in meters.
 TE is an 'Area and edge metric'. Total edge includes all edges. It measures the
 configuration of the landscape because a highly fragmented landscape will have many
 edges. However, total edge is an absolute measure, making comparisons among landscapes
-with different total areas difficult. If \code{cound_boundary = TRUE} also edges to the
+with different total areas difficult. If \code{count_boundary = TRUE} also edges to the
 landscape boundary are included.
 
 \subsection{Units}{Meters}
@@ -39,7 +39,7 @@ lsm_l_te(landscape)
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 Program for Categorical and Continuous Maps. Computer software program produced by
 the authors at the University of Massachusetts, Amherst. Available at the following
-web site: http://www.umass.edu/landeco/research/fragstats/fragstats.html
+web site: https://www.umass.edu/landeco/
 }
 \seealso{
 \code{\link{lsm_p_perim}}

@@ -33,6 +33,9 @@
 #' window <- matrix(1, nrow = 5,ncol = 5)
 #' window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 #' window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
+#'
+#' window_circular <- matrix(c(NA, 1, NA, 1, 1, 1, NA, 1, NA), nrow = 3, ncol = 3)
+#' window_lsm(landscape, window = window_circular, what = c("lsm_l_pr", "lsm_l_joinent"))
 #' }
 #'
 #' @aliases window_lsm
@@ -49,7 +52,7 @@
 #' McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical and Continuous Maps. Computer software program produced by
 #' the authors at the University of Massachusetts, Amherst. Available at the following
-#' website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+#' website: <https://www.umass.edu/landeco/>
 #'
 #' @export
 window_lsm <- function(landscape,
@@ -129,10 +132,6 @@ window_lsm_int <- function(landscape,
     # resolution of original raster
     resolution <- raster::res(landscape)
 
-    # get dimensions of window
-    n_row = nrow(window)
-    n_col = ncol(window)
-
     # create object for warning messages
     warning_messages <- character(0)
 
@@ -147,8 +146,7 @@ window_lsm_int <- function(landscape,
         raster::focal(x = landscape, w = window, fun = function(x) {
 
             calculate_lsm_focal(landscape = x,
-                                n_row = n_row,
-                                n_col = n_col,
+                                raster_window = window,
                                 resolution = resolution,
                                 points = points,
                                 what = metrics_list[[current_metric]],
@@ -179,15 +177,14 @@ window_lsm_int <- function(landscape,
 }
 
 calculate_lsm_focal <- function(landscape,
-                                n_row,
-                                n_col,
+                                raster_window,
                                 resolution,
                                 points,
                                 what,
                                 ...) {
 
     # convert focal window to matrix
-    raster_window <- matrix(landscape, n_row, n_col)
+    raster_window[!is.na(raster_window)] <- landscape
 
     # get internal calculation function
     what <- paste0(what, "_calc")

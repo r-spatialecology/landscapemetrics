@@ -36,16 +36,10 @@
 #' @rdname spatialize_lsm
 #'
 #' @export
-spatialize_lsm <- function(landscape,
-                                level = "patch",
-                                metric = NULL,
-                                name = NULL,
-                                type = NULL,
-                                what = NULL,
-                                directions = 8,
-                                progress = FALSE,
-                                to_disk = getOption("to_disk", default = FALSE),
-                                ...) {
+spatialize_lsm <- function(landscape, level = "patch", metric = NULL, name = NULL,
+                           type = NULL, what = NULL, directions = 8, progress = FALSE,
+                           to_disk = getOption("to_disk", default = FALSE),
+                           ...) {
 
     landscape <- landscape_as_list(landscape)
 
@@ -75,12 +69,8 @@ spatialize_lsm <- function(landscape,
     return(result)
 }
 
-spatialize_lsm_internal <- function(landscape,
-                                    level, metric, name, type, what,
-                                    directions,
-                                    progress,
-                                    to_disk,
-                                    ...) {
+spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
+                                    directions, progress, to_disk, ...) {
 
     # get name of metrics
     metrics <- list_lsm(level = level,
@@ -109,14 +99,6 @@ spatialize_lsm_internal <- function(landscape,
                                      directions = directions,
                                      to_disk = to_disk,
                                      return_raster = TRUE)[[1]]
-
-    # continuous, unique patch id
-    for (i in seq_len(length(landscape_labeled) - 1)) {
-
-        max_id <- max(raster::values(landscape_labeled[[i]]), na.rm = TRUE)
-
-        landscape_labeled[[i + 1]] <- landscape_labeled[[i + 1]] + max_id
-    }
 
     # get dataframe with patch ID and coordinates to merge with result of metric
     # MH: Do we really want to remove NA?
@@ -205,9 +187,9 @@ spatialize_lsm_internal <- function(landscape,
             return(result)
         }})}, warning = function(cond) {
 
-        warning_messages <<- c(warning_messages, conditionMessage(cond))
+            warning_messages <<- c(warning_messages, conditionMessage(cond))
 
-        invokeRestart("muffleWarning")}
+            invokeRestart("muffleWarning")}
     )
 
     # using metrics to name list

@@ -2,6 +2,12 @@
 title: "Moving window"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Moving window}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 Results of a landscape analysis are scale dependent (Šímová 2012). One approach to deal with this is by using a moving window (Hagen-Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood is assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). The result of a moving window analysis is a raster with an identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).
@@ -13,6 +19,8 @@ We provide the function `window_lsm()` in **landscapemetrics** to analyse an inp
 ```{r packages, message = FALSE}
 library(landscapemetrics)
 library(raster)
+
+library(ggplot2)
 ```
 
 First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell.  Because we want to weight all cells identically, all values need to be 1 (for more details, see `?raster::focal()`). 
@@ -34,25 +42,21 @@ To be type-stable, the result will be a nested list.  The first level includes a
 ```{r plot-result, echo = FALSE, fig.align = "center"}
 result_stack <- raster::stack(landscape, result[[1]]$lsm_l_pr)
 
-ggplot2::ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
-    ggplot2::scale_fill_viridis_d(name = "Landscape class") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(), 
-                   axis.ticks = ggplot2::element_blank(), 
-                   axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   legend.position = "bottom")
+ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+    geom_raster(aes(x = x, y = y, fill = factor(clumps))) + 
+    scale_fill_viridis_d(name = "Landscape class") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(), 
+          axis.text = element_blank(), axis.title = element_blank(), 
+          legend.position = "bottom")
 
-ggplot2::ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) + 
-    ggplot2::geom_raster(ggplot2::aes(x = x, y = y, fill = factor(layer))) + 
-    ggplot2::scale_fill_viridis_d(name = "Number of classes", option = "C") + 
-    ggplot2::coord_equal() + 
-    ggplot2::theme(axis.line = ggplot2::element_blank(), 
-                   axis.ticks = ggplot2::element_blank(), 
-                   axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   legend.position = "bottom")
+ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) + 
+    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(layer))) + 
+    scale_fill_viridis_d(name = "Number of classes", option = "C") + 
+    coord_equal() + 
+    theme(axis.line = element_blank(), axis.ticks = element_blank(), 
+          axis.text = element_blank(), axis.title = element_blank(), 
+          legend.position = "bottom")
 ```
 
 In the future, we also plan to allow class level metrics, however, patch metrics are not meaningful (McGarigal 2012) and will not be included in the future.
@@ -63,6 +67,6 @@ In the future, we also plan to allow class level metrics, however, patch metrics
 
 - Hagen-Zanker, A. 2016. A computational framework for generalized moving windows and its application to landscape pattern analysis. International journal of applied earth observation and geoinformation, 44, 205-216.
 
-- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <http://www.umass.edu/landeco/research/fragstats/fragstats.html>
+- McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <https://www.umass.edu/landeco/>
 
 - Šímová, P., & Gdulová, K. 2012. Landscape indices behavior: A review of scale effects. Applied Geography, 34, 385–394.
