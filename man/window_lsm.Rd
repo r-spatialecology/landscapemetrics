@@ -55,6 +55,9 @@ for selected landscape metrics).
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
+
+window_circular <- matrix(c(NA, 1, NA, 1, 1, 1, NA, 1, NA), nrow = 3, ncol = 3)
+window_lsm(landscape, window = window_circular, what = c("lsm_l_pr", "lsm_l_joinent"))
 }
 
 }
