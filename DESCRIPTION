@@ -56,7 +56,6 @@ Imports:
     ggplot2,
     methods,
     raster,
-    terra,
     Rcpp,
     sp,
     stats,
@@ -67,6 +66,7 @@ Suggests:
     knitr,
     rgeos,
     rmarkdown,
+    terra,
     testthat
 Enhances:
     stars, 

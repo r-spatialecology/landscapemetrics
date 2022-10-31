@@ -86,13 +86,9 @@ get_patches_int <- function(landscape, class, directions,
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        if (inherits(x = landscape, what = "RasterLayer")) {
-            landscape_mat <- raster::as.matrix(landscape)
-        } else if (inherits(x = landscape, what = "SpatRaster")) {
-            landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-        }
+        landscape_mat <- raster::as.matrix(landscape)
 
-        # already a matrix
+    # already a matrix
     } else {
 
         landscape_mat <- landscape
@@ -147,7 +143,7 @@ get_patches_int <- function(landscape, class, directions,
 
             rcpp_ccl(landscape_temp, 4)
 
-            # connected labeling with 8 neighbours
+        # connected labeling with 8 neighbours
         } else if (directions == 8) {
 
             rcpp_ccl(landscape_temp, 8)
@@ -164,7 +160,7 @@ get_patches_int <- function(landscape, class, directions,
         if (return_raster) {
 
             landscape_temp <- matrix_to_raster(matrix = landscape_temp,
-                                               landscape = landscape, to_disk = to_disk)
+                                                landscape = landscape, to_disk = to_disk)
         }
 
         patch_landscape[[i]] <- landscape_temp

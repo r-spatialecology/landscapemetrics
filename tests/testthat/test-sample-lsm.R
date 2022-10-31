@@ -65,14 +65,14 @@ test_that("sample_lsm works for polygons ", {
 
     expect_true(all("patch" %in% result_poly$level))
 
-    # if (!nzchar(system.file(package = "rgeos"))) {
-    #
-    #     expect_warning(sample_lsm(landscape,
-    #                               y = sample_plots, size = 5,
-    #                               what = "lsm_p_area"),
-    #                    regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
-    #                    fixed = TRUE)
-    # }
+    if (!nzchar(system.file(package = "rgeos"))) {
+
+        expect_warning(sample_lsm(landscape,
+                                  y = sample_plots, size = 5,
+                                  what = "lsm_p_area"),
+                       regexp = "Package 'rgeos' not installed. Please make sure polygons are disaggregated.",
+                       fixed = TRUE)
+    }
 })
 
 test_that("sample_lsm works for lines ", {

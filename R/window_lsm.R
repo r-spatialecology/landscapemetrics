@@ -3,8 +3,7 @@
 #' @description Moving window
 #'
 #' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param window Moving window matrix. The window can be defined as one (for a square) or two numbers (row, col);
-#' or with an odd-sized weights matrix. For details see \code{?terra::focal}
+#' @param window Moving window matrix.
 #' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')
@@ -12,18 +11,14 @@
 #' @param what Selected level of metrics: either "patch", "class" or "landscape".
 #' It is also possible to specify functions as a vector of strings, e.g. `what = c("lsm_c_ca", "lsm_l_ta")`.
 #' @param progress Print progress report.
-#' @param na_policy Determines the behaviour for focal NA cells.
-#' Either "all" (compute for all cells), "only" (only for cells that are NA) or
-#' "omit" (skip cells that are NA). Use na.rm=TRUE to ignore cells that are NA around a focal cell.
-#' For details see \code{?terra::focal}
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
 #'
 #' @details
 #' The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 #' metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-#' details, see \code{?terra::focal()} and \code{terra::focalMat()}. The result will be a \code{SpatRaster} in which each focal cell includes
+#' details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 #' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
-#' To be type stable, the result is always a nested list (first level for \code{SpatRaster} layers, second level
+#' To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
 #' for selected landscape metrics).
 #'
 #' @seealso
@@ -61,21 +56,16 @@
 #'
 #' @export
 window_lsm <- function(landscape,
-                       window,
-                       level = "landscape",
-                       metric = NULL,
-                       name = NULL,
-                       type = NULL,
-                       what = NULL,
-                       progress = FALSE,
-                       na_policy = "all",
-                       ...) {
+                            window,
+                            level = "landscape",
+                            metric = NULL,
+                            name = NULL,
+                            type = NULL,
+                            what = NULL,
+                            progress = FALSE,
+                            ...) {
 
-    if (inherits(x = landscape, what = "list")) {
-        landscape <- lapply(landscape, function(x) {terra::rast(x)})
-    } else {
-        landscape <- landscape |> terra::rast() |> landscape_as_list()
-    }
+    landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
 
@@ -92,7 +82,6 @@ window_lsm <- function(landscape,
                        type = type,
                        what = what,
                        progress = FALSE,
-                       na_policy = na_policy,
                        ...)
     })
 
@@ -111,7 +100,6 @@ window_lsm_int <- function(landscape,
                            type,
                            what,
                            progress,
-                           na_policy,
                            ...) {
 
     # check if window has uneven sides
@@ -131,10 +119,10 @@ window_lsm_int <- function(landscape,
 
     number_metrics <- length(metrics_list)
 
-    # check if patch-level metrics are selected
-    if (any(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
+    # check if non-landscape-level metrics are selected
+    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
 
-        stop("'window_lsm()' is not able to calculate patch level metrics.",
+        stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
 
@@ -142,7 +130,7 @@ window_lsm_int <- function(landscape,
     points <- raster_to_points(landscape)[, 2:4]
 
     # resolution of original raster
-    resolution <- terra::res(landscape)
+    resolution <- raster::res(landscape)
 
     # create object for warning messages
     warning_messages <- character(0)
@@ -155,28 +143,21 @@ window_lsm_int <- function(landscape,
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 
-        if (metrics_list[[current_metric]] %in% list_lsm(level = "class", simplify = TRUE)) {
-            classes <- suppressWarnings(get_unique_values(landscape) |> unlist())
-        } else {
-            classes <- NULL
-        }
-
-        terra::focal(x = landscape, w = window, fun = function(x) {
+        raster::focal(x = landscape, w = window, fun = function(x) {
 
             calculate_lsm_focal(landscape = x,
                                 raster_window = window,
                                 resolution = resolution,
                                 points = points,
                                 what = metrics_list[[current_metric]],
-                                classes = classes,
                                 ...)},
-            na.policy = na_policy, fillvalue = NA)
-    })},
-    warning = function(cond) {
+            pad = TRUE, padValue = NA)
+        })},
+        warning = function(cond) {
 
-        warning_messages <<- c(warning_messages, conditionMessage(cond))
+            warning_messages <<- c(warning_messages, conditionMessage(cond))
 
-        invokeRestart("muffleWarning")})
+            invokeRestart("muffleWarning")})
 
     names(result) <- metrics_list
 
@@ -200,7 +181,6 @@ calculate_lsm_focal <- function(landscape,
                                 resolution,
                                 points,
                                 what,
-                                classes,
                                 ...) {
 
     # convert focal window to matrix
@@ -249,23 +229,9 @@ calculate_lsm_focal <- function(landscape,
     arguments_values$landscape <- raster_window
 
     # run function
-    x <- do.call(what = foo,
-                 args = arguments_values)
+    result <- do.call(what = foo,
+                      args = arguments_values)
 
-    if (!is.null(classes)) {
-        result <- vector(length = length(classes))
-        names(result) <- paste(classes)
-        for (class in classes) {
-            if (class %in% x$class) {
-                result[paste(class)] <- x[x$class == class,]$value
-            } else {
-                result[paste(class)] <- NA
-            }
-        }
-    } else {
-        result <- x$value
-    }
-
-    return(result)
+    return(result$value)
 }
 
