@@ -2,7 +2,7 @@
 #'
 #' @description Show core area
 #'
-#' @param landscape Raster object
+#' @param landscape Raster or SpatRaster object
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param class How to show the core area: "global" (single map), "all" (every class as facet), or a vector with the specific classes one wants to show (every selected class as facet).
@@ -96,28 +96,53 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
                 full_edge[which(class_edge[] == 1)] <- 1
             }
         }
-
-        raster::crop(full_edge, directions = 4, y = landscape)
+        if (inherits(x = landscape, what = "RasterLayer")) {
+            raster::crop(full_edge, y = landscape)
+        } else {
+            terra::crop(full_edge, y = landscape)
+        }
     })
 
     # reset boundaries
-    boundary <- lapply(X = seq_along(boundary),
-                       FUN = function(i){
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
+    if (inherits(x = boundary[[1]], what = "RasterLayer")) {
+        boundary <- lapply(X = seq_along(boundary),
+                           FUN = function(i){
+                               raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
 
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
-                               raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
+                               raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
+                                   raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
 
-                           return(boundary[[i]])
-                       }
-    )
+                               return(boundary[[i]])
+                           }
+        )
+    } else {
+        boundary <- lapply(X = seq_along(boundary),
+                           FUN = function(i){
+                               terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 1)] <- -999
 
-    boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
-                                                        na.rm = TRUE),
-                                                    xy = TRUE)
+                               terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)] <-
+                                   terra::values(landscape_labeled[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)]
+
+                               return(boundary[[i]])
+                           }
+        )
+    }
+    if (inherits(x = boundary[[1]], what = "RasterLayer")) {
+        boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
+                                                            na.rm = TRUE),
+                                                        xy = TRUE)
+    } else {
+        boundary_labeled_stack <- terra::as.data.frame(sum(terra::rast(boundary),
+                                                           na.rm = TRUE),
+                                                       xy = TRUE, na.rm = FALSE)
+    }
     names(boundary_labeled_stack) <- c("x", "y", "values")
 
-    boundary_labeled_stack$class <-  raster::values(landscape)
+    if (inherits(x = landscape, what = "RasterLayer")) {
+        boundary_labeled_stack$class <- raster::values(landscape)
+    } else {
+        boundary_labeled_stack$class <- terra::values(landscape)
+    }
     boundary_labeled_stack$core_label <- boundary_labeled_stack$values
 
     boundary_labeled_stack$values <-  ifelse(boundary_labeled_stack$values == -999, 0, 1)

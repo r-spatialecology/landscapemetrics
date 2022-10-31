@@ -17,7 +17,7 @@ matrix_to_raster(
 \arguments{
 \item{matrix}{matrix with values.}
 
-\item{landscape}{RasterLayer.}
+\item{landscape}{RasterLayer or SpatRaster}
 
 \item{landscape_empty}{If true, RasterLayer is landscape_empty}
 

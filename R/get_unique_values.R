@@ -2,7 +2,7 @@
 #'
 #' @description This function returns the unique values of an object.
 #'
-#' @param x Vector, matrix, raster, stars, or terra object or list of previous.
+#' @param x Vector, matrix, raster, stars, or SpatRaster (terra) object or list of previous.
 #' @param simplify If true, a vector will be returned instead of a list for
 #' 1-dimensional input
 #' @param verbose If true, warning messages are printend
@@ -59,6 +59,9 @@ get_unique_values_int <- function(landscape, verbose) {
     if (inherits(x = landscape, what = "RasterLayer")) {
 
         landscape <- raster::as.matrix(landscape)
+
+    } else if (inherits(x = landscape, what = "SpatRaster")) {
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
 
     } else if (!inherits(x = landscape, what = "matrix") &&
                !inherits(x = landscape, what = "integer") &&

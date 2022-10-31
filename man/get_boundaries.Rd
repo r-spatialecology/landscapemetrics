@@ -14,7 +14,7 @@ get_boundaries(
 )
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix.}
+\item{landscape}{SpatRaster, RasterLayer or matrix.}
 
 \item{consider_boundary}{Logical if cells that only neighbour the landscape
 boundary should be considered as edge.}
@@ -29,7 +29,7 @@ edge to be considered as core cell.}
 \item{return_raster}{If false, matrix is returned.}
 }
 \value{
-List with RasterLayer or matrix
+List with SpatRaster, RasterLayer or matrix
 }
 \description{
 Get boundary cells of patches
