@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "landscapemetrics",
-  "description": "Calculates landscape metrics for categorical landscape patterns in a tidy workflow. 'landscapemetrics' reimplements the most common metrics from 'FRAGSTATS' (<https://www.umass.edu/landeco/research/fragstats/fragstats.html>) and new ones from the current literature on landscape metrics. This package supports 'raster' spatial objects and takes RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the 'raster' package as input arguments. It further provides utility functions to visualize patches, select metrics and building blocks to develop new metrics.",
+  "description": "Calculates landscape metrics for categorical landscape patterns in a tidy workflow. 'landscapemetrics' reimplements the most common metrics from 'FRAGSTATS' (<https://www.umass.edu/landeco/>) and new ones from the current literature on landscape metrics. This package supports 'raster' spatial objects and takes RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the 'raster' package as input arguments. It further provides utility functions to visualize patches, select metrics and building blocks to develop new metrics.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
   "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
@@ -13,7 +13,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -152,18 +152,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "terra",
-      "name": "terra",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=terra"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -225,6 +213,18 @@
     },
     "6": {
       "@type": "SoftwareApplication",
+      "identifier": "terra",
+      "name": "terra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=terra"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
       "provider": {
@@ -235,7 +235,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcpp"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "sp",
       "name": "sp",
@@ -247,12 +247,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=sp"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -266,7 +266,7 @@
     },
     "SystemRequirements": "C++11"
   },
-  "fileSize": "1885.14KB",
+  "fileSize": "1883.114KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
