@@ -26,8 +26,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, any::bench, any::dplyr, any::landscapetools, any::purrr, any::stars, cran/adehabitat, cran/SDMTools, local::.
+          extra-packages: any::pkgdown, any::bench, any::dplyr, any::landscapetools, any::purrr, any::stars, local::.
           needs: website
+
+      - name: Install SDMTools
+        run: Rscript -e 'pak::pkg_install("cran/SDMTools")'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
