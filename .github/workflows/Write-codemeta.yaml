@@ -3,25 +3,26 @@
 on:
   push:
     paths: ['DESCRIPTION']
+  workflow_dispatch:
 
 name: Write-codemeta
 
 jobs:
   write-codemeta:
     runs-on: ubuntu-latest
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-r@v2
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::codemeta
+          use-public-rspm: true
+
+      - name: Install codemeta
+        run: Rscript -e 'install.packages("codemeta")'
 
       - name: Write codemeta file
         run: Rscript -e 'codemeta::write_codemeta()'
