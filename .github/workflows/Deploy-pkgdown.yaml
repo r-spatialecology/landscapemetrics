@@ -26,8 +26,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, any::bench, any::dplyr, any::landscapetools,
-                          any::purrr, any::stars, cran/adehabitat, cran/SDMTools, local::.
+          extra-packages: any::pkgdown, any::bench, any::dplyr, any::landscapetools, any::purrr, any::stars, cran/adehabitat, cran/SDMTools, local::.
           needs: website
 
       - name: Build site
