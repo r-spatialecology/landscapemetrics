@@ -3,7 +3,7 @@
 
 on:
   push:
-    branches: [CRAN, main, development]
+    branches: [main, development]
   pull_request:
     branches: [CRAN, main]
   workflow_dispatch:

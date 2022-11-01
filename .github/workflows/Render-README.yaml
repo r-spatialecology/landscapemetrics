@@ -2,6 +2,7 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
+    branches: [main, development]
     paths: ["README.Rmd"]
   workflow_dispatch:
 
