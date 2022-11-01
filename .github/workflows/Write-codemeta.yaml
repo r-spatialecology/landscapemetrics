@@ -3,6 +3,7 @@
 on:
   push:
     paths: ['DESCRIPTION']
+  workflow_dispatch:
 
 name: Write-codemeta
 
@@ -10,7 +11,7 @@ jobs:
   write-codemeta:
     runs-on: ubuntu-latest
 
-   env:
+    env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -22,6 +23,9 @@ jobs:
 
       - name: Install codemeta
         run: Rscript -e 'install.packages("codemeta")'
+
+      - name: Write codemeta file
+        run: Rscript -e 'codemeta::write_codemeta()'
 
       - name: Commit codemeta file
         run: |
