@@ -6,6 +6,7 @@ on:
     branches: [CRAN, main, development]
   pull_request:
     branches: [CRAN, main]
+  workflow_dispatch:
 
 name: Test-coverage
 
