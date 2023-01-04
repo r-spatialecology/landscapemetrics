@@ -2,7 +2,9 @@
 * Improvements
     * `get_patches` returns a unique patch id for all classes
     * Adds adds the ability to use a circular window in `window_lsm()`
- * Various
+* Bugfixes
+    * SHEI now equals to 0 when only one patch present 
+* Various
     * Fix typo in Maintainer name
 
 # landscapemetrics 1.5.4
