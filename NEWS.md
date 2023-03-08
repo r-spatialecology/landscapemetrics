@@ -5,7 +5,8 @@
 * Bugfixes
     * SHEI now equals to 0 when only one patch present 
 * Various
-    * Fix typo in Maintainer name
+    * Fixes typo in Maintainer name
+    * Removes rgeos dependency
 
 # landscapemetrics 1.5.4
 * Improvements

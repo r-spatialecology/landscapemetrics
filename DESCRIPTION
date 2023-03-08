@@ -64,13 +64,12 @@ Suggests:
     covr,
     dplyr,
     knitr,
-    rgeos,
     rmarkdown,
     terra,
     testthat
 Enhances:
-    stars, 
-    sf,
+    stars,
+    sf
 LinkingTo: 
     Rcpp,
     RcppArmadillo
