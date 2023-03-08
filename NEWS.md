@@ -1,3 +1,11 @@
+# landscapemetrics 2.0.0
+* Improvements
+    * Using `terra` instead of raster as main underlying framework
+* Bugfixes
+    * SHEI now equals 0 when only one patch is present
+* Various
+    * Removes `rgeos` dependency
+    
 # landscapemetrics 1.5.5
 * Improvements
     * `get_patches` returns a unique patch id for all classes
@@ -6,7 +14,6 @@
     * SHEI now equals to 0 when only one patch present 
 * Various
     * Fixes typo in Maintainer name
-    * Removes rgeos dependency
 
 # landscapemetrics 1.5.4
 * Improvements
