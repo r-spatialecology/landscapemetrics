@@ -55,10 +55,10 @@ Imports:
     cli,
     ggplot2,
     methods,
-    raster,
     Rcpp,
     sp,
     stats,
+    terra,
     tibble
 Suggests: 
     covr,

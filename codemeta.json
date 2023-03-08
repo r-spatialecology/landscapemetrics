@@ -140,18 +140,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "terra",
-      "name": "terra",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=terra"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -201,18 +189,6 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "raster",
-      "name": "raster",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=raster"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
       "provider": {
@@ -223,22 +199,34 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rcpp"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
-      "identifier": "sp",
-      "name": "sp",
+      "identifier": "sf",
+      "name": "sf",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=sp"
+      "sameAs": "https://CRAN.R-project.org/package=sf"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "terra",
+      "name": "terra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=terra"
     },
     "9": {
       "@type": "SoftwareApplication",

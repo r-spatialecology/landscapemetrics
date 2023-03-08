@@ -1,3 +1,6 @@
+# landscapemetrics 2.0.0
+Using `terra` instead of `raster` as main underlying framework
+
 # landscapemetrics 1.5.5
 - Improved user experience
 - Fix typo in Maintainer name
