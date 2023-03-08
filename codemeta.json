@@ -140,6 +140,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "terra",
+      "name": "terra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=terra"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -201,15 +213,15 @@
     },
     "6": {
       "@type": "SoftwareApplication",
-      "identifier": "sf",
-      "name": "sf",
+      "identifier": "sp",
+      "name": "sp",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=sf"
+      "sameAs": "https://CRAN.R-project.org/package=sp"
     },
     "7": {
       "@type": "SoftwareApplication",
@@ -242,7 +254,7 @@
     },
     "SystemRequirements": "C++11"
   },
-  "fileSize": "1876.556KB",
+  "fileSize": "1876.241KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
