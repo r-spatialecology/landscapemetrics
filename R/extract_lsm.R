@@ -38,7 +38,7 @@
 #' extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
 #'
 #' \dontrun{
-#' # use lines (works only if rgeos is installed)
+#' # use lines
 #' x1 <- c(1, 5, 15, 10)
 #' y1 <- c(1, 5, 15, 25)
 #'

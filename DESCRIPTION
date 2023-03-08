@@ -56,7 +56,7 @@ Imports:
     ggplot2,
     methods,
     Rcpp,
-    sf,
+    sp,
     stats,
     terra,
     tibble
@@ -64,13 +64,12 @@ Suggests:
     covr,
     dplyr,
     knitr,
-    rgeos,
     rmarkdown,
+    terra,
     testthat
 Enhances:
-    raster,
-    stars, 
-    sp,
+    stars,
+    sf
 LinkingTo: 
     Rcpp,
     RcppArmadillo
@@ -78,6 +77,6 @@ ByteCompile: true
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 SystemRequirements: C++11
 VignetteBuilder: knitr

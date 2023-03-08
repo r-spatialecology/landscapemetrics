@@ -2,6 +2,8 @@ context("landscape level lsm_l_shei metric")
 
 landscapemetrics_landscape_landscape_value <- lsm_l_shei(landscape)
 
+
+
 test_that("lsm_l_shei is typestable", {
     expect_is(lsm_l_shei(landscape), "tbl_df")
     expect_is(lsm_l_shei(landscape_stack), "tbl_df")
@@ -20,5 +22,10 @@ test_that("lsm_l_shei returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$id, "integer")
     expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
+})
+
+landscape[] = 1
+test_that("lsm_l_shei returns 0 when only one patch present", {
+    expect_equal(lsm_l_shei(landscape)$value, 0)
 })
 
