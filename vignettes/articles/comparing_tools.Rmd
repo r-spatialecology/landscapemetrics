@@ -16,6 +16,10 @@ library(raster)
 
 library(dplyr)
 library(purrr)
+
+landscape <- terra::unwrap(landscapemetrics::landscape)
+augusta_nlcd <- terra::unwrap(landscapemetrics::augusta_nlcd)
+podlasie_ccilc <- terra::unwrap(landscapemetrics::podlasie_ccilc)
 ```
 
 # Comparison with FRAGSTATS
@@ -276,8 +280,8 @@ mat <- matrix(data = NA, nrow = 13, ncol = 13)
 mat[4:9, 7] <- 1
 mat[4, 4:10] <- 1
 
-# convert to raster
-ras <- raster::raster(mat, xmn = 0, xmx = 13, ymn = 0, ymx = 13)
+# convert to terra
+ras <- terra::rast(mat, xmin = 0, xmax = 13, ymin = 0, ymax = 13)
 
 # get circumscribing circle 
 circle_lsm <- get_circumscribingcircle(ras)

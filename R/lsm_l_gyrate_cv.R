@@ -90,7 +90,7 @@ lsm_l_gyrate_cv_calc <- function(landscape, directions, cell_center,
                               value = as.double(NA)))
     }
 
-    gyrate_cv <- raster::cv(gyrate_patch$value)
+    gyrate_cv <- sd(gyrate_patch$value) / mean(gyrate_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

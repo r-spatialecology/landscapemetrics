@@ -5,3 +5,7 @@
     about the 'terra' package can be found here: https://rspatial.org/index.html.")
 
 }
+
+# landscape <- terra::unwrap(landscapemetrics::landscape)
+# augusta_nlcd <- terra::unwrap(landscapemetrics::augusta_nlcd)
+# podlasie_ccilc <- terra::unwrap(landscapemetrics::podlasie_ccilc)

@@ -12,7 +12,6 @@ test_that("lsm_p_core works for a single class landscape", {
 test_that("lsm_p_core is typestable", {
     expect_is(lsm_p_core(landscape), "tbl_df")
     expect_is(lsm_p_core(landscape_stack), "tbl_df")
-    expect_is(lsm_p_core(landscape_brick), "tbl_df")
     expect_is(lsm_p_core(landscape_list), "tbl_df")
 })
 

@@ -77,7 +77,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

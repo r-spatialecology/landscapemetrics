@@ -2,11 +2,7 @@ context("show_cores")
 
 cores_landscape <- show_cores(landscape)
 
-cores_terra <- show_cores(landscape_terra)
-
 cores_landscape_stack <- show_cores(landscape_stack, class = 1)
-
-cores_landscape_brick <- show_cores(landscape_brick, class = "all")
 
 cores_landscape_list <- show_cores(landscape_list, class = c(2,3))
 
@@ -16,13 +12,7 @@ test_that("show_cores returns a plot for each list entry", {
     expect_true(all(vapply(cores_landscape,  FUN = function(x)
         inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
 
-    expect_true(all(vapply(cores_terra,  FUN = function(x)
-        inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
-
     expect_true(all(vapply(cores_landscape_stack,  FUN = function(x)
-        inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
-
-    expect_true(all(vapply(cores_landscape_brick,  FUN = function(x)
         inherits(x = x,  c("gg","ggplot")), FUN.VALUE = logical(1))))
 
     expect_true(all(vapply(cores_landscape_list,  FUN = function(x)

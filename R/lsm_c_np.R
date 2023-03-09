@@ -55,7 +55,7 @@ lsm_c_np_calc <- function(landscape, directions){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

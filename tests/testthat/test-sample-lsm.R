@@ -4,30 +4,30 @@ context("sample_lsm")
 sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 
 # use sp points
-points_sp <- sp::SpatialPoints(sample_points)
+points_sf <- sf::st_multipoint(sample_points)
 
-# use polygons
-poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
-                           c(-2.5, 12.5, 12.5, -2.5)))
-poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
-                           c(-7.5, 23.5, 23.5, -7.5)))
-poly_1 <- sp::Polygons(list(poly_1), "p1")
-poly_2 <- sp::Polygons(list(poly_2), "p2")
+# # use polygons
+# poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
+#                            c(-2.5, 12.5, 12.5, -2.5)))
+# poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
+#                            c(-7.5, 23.5, 23.5, -7.5)))
+# poly_1 <- sp::Polygons(list(poly_1), "p1")
+# poly_2 <- sp::Polygons(list(poly_2), "p2")
 
-sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
+# sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
 
 # wrong plots
 sample_points_wrong <- cbind(sample_points, 1)
 
-# use lines
-x1 <- c(1, 5, 15, 10)
-y1 <- c(1, 5, 15, 25)
-
-x2 <- c(10, 25)
-y2 <- c(5, 5)
-
-sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-                                                     sp::Line(cbind(x2, y2))), ID = "a")))
+# # use lines
+# x1 <- c(1, 5, 15, 10)
+# y1 <- c(1, 5, 15, 25)
+#
+# x2 <- c(10, 25)
+# y2 <- c(5, 5)
+#
+# sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+#                                                      sp::Line(cbind(x2, y2))), ID = "a")))
 
 test_that("sample_lsm works for a matrix", {
 
@@ -41,10 +41,10 @@ test_that("sample_lsm works for a matrix", {
     expect_true(all(c("np", "ta") %in% result_mat$metric))
 })
 
-test_that("sample_lsm works for sp points", {
+test_that("sample_lsm works for sf points", {
 
     result_sp <- sample_lsm(landscape,
-                            y = points_sp, size = 5,
+                            y = points_sf, size = 5,
                             shape = "square",
                             what = "lsm_l_np",
                             verbose = FALSE)
@@ -54,31 +54,31 @@ test_that("sample_lsm works for sp points", {
     expect_true(all(c("np") %in% result_sp$metric))
 })
 
-test_that("sample_lsm works for polygons ", {
+# test_that("sample_lsm works for polygons ", {
+#
+#     result_poly <- sample_lsm(landscape,
+#                               y = sample_plots, size = 5,
+#                               level = "patch",
+#                               verbose = FALSE)
+#
+#     expect_is(object = result_poly, class = "tbl_df")
+#
+#     expect_true(all("patch" %in% result_poly$level))
+#
+# })
 
-    result_poly <- sample_lsm(landscape,
-                              y = sample_plots, size = 5,
-                              level = "patch",
-                              verbose = FALSE)
-
-    expect_is(object = result_poly, class = "tbl_df")
-
-    expect_true(all("patch" %in% result_poly$level))
-
-})
-
-test_that("sample_lsm works for lines ", {
-
-    result_lines <- sample_lsm(landscape,
-                               y = sample_lines,
-                               size = 5,
-                               level = "landscape",
-                               verbose = FALSE)
-
-    expect_is(object = result_lines, class = "tbl_df")
-
-    expect_true(all("landscape" %in% result_lines$level))
-})
+# test_that("sample_lsm works for lines ", {
+#
+#     result_lines <- sample_lsm(landscape,
+#                                y = sample_lines,
+#                                size = 5,
+#                                level = "landscape",
+#                                verbose = FALSE)
+#
+#     expect_is(object = result_lines, class = "tbl_df")
+#
+#     expect_true(all("landscape" %in% result_lines$level))
+# })
 
 test_that("sample_lsm forwards arguments to calculate_lsm", {
 
@@ -138,36 +138,26 @@ test_that("sample_lsm can return all classes", {
 test_that("sample_lsm works for all data type", {
 
     result_stack <- sample_lsm(landscape_stack,
-                               y = sample_plots,
+                               y = sample_points,
                                size = 5,
                                what = "lsm_l_ta",
                                verbose = FALSE)
 
-    result_brick <- sample_lsm(landscape_brick,
-                              y = sample_plots,
-                              size = 5,
-                              what = "lsm_l_ta",
-                              verbose = FALSE)
-
     result_list <- sample_lsm(landscape_list,
-                              y = sample_plots,
+                              y = sample_points,
                               size = 5,
                               what = "lsm_l_ta",
                               verbose = FALSE)
 
     expect_is(result_stack, class = "tbl_df")
-    expect_is(result_brick, class = "tbl_df")
     expect_is(result_list, class = "tbl_df")
 
     expect_equal(object = result_stack$layer,
-                 expected = c(1, 1, 2, 2))
-    expect_equal(object = result_brick$layer,
-                 expected = c(1, 1, 2, 2))
+                 expected = c(1, 1, 1, 2, 2, 2))
     expect_equal(object = result_list$layer,
-                 expected = c(1, 1, 2, 2))
+                 expected = c(1, 1, 1, 2, 2, 2))
 
     expect_true("ta" %in% result_stack$metric)
-    expect_true("ta" %in% result_brick$metric)
     expect_true("ta" %in% result_list$metric)
 
 })
@@ -177,7 +167,7 @@ test_that("sample_lsm returns errors", {
     expect_error(sample_lsm(landscape,
                             y = 1:3,
                             size = 5),
-                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
+                 regexp = "landscapemetrics currently only supports matrix, sf points or polygon features for landscape metric sampling.",
                  fixed = TRUE)
 
     expect_error(sample_lsm(landscape,

@@ -80,8 +80,7 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
 
     # calculate cv
     shape_cv <- stats::aggregate(x = shape[, 5], by = shape[, 2],
-                                 FUN = raster::cv,
-                                 na.rm = TRUE)
+                                 FUN = function(x) sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(shape_cv$class),

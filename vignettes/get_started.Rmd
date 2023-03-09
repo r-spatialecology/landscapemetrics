@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
 library(landscapemetrics)
 library(raster)
 library(dplyr)
+
+landscape <- terra::unwrap(landscapemetrics::landscape)
+augusta_nlcd <- terra::unwrap(landscapemetrics::augusta_nlcd)
+podlasie_ccilc <- terra::unwrap(landscapemetrics::podlasie_ccilc)
 ```
 
 ## Design
@@ -67,11 +71,11 @@ it makes sense to check your landscape. If your landscape has some properties th
 # ... or any other raster file type, geotiff, ...
 
 # Check your landscape
-check_landscape(landscapemetrics::landscape) # because CRS is unkown, not clear
+check_landscape(landscape) # because CRS is unkown, not clear
 
-check_landscape(landscapemetrics::podlasie_ccilc) # wrong units
+check_landscape(podlasie_ccilc) # wrong units
 
-check_landscape(landscapemetrics::augusta_nlcd) # everything is ok
+check_landscape(augusta_nlcd) # everything is ok
 ```
 
 The **requirements** to calculate meaningful landscape metrics are:

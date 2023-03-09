@@ -4,12 +4,10 @@ test_that("get_centroids runs for all data types", {
 
     raster_layer <- get_centroids(landscape)
     raster_stack <- get_centroids(landscape_stack)
-    raster_brick <- get_centroids(landscape_brick)
     raster_list <- get_centroids(landscape_list)
 
     expect_is(raster_layer, "tbl_df")
     expect_is(raster_stack, "tbl_df")
-    expect_is(raster_brick, "tbl_df")
     expect_is(raster_list, "tbl_df")
 })
 
@@ -47,10 +45,10 @@ test_that("get_centroids allows to set cell_center", {
     expect_true(object = nrow(centroids) > np$value)
 })
 
-test_that("get_centroids can return sp", {
+test_that("get_centroids can return sf", {
 
     centroids_sp <- get_centroids(landscape, cell_center = TRUE,
-                                  return_sp = TRUE)
+                                  return_sf = TRUE)
 
-    expect_is(centroids_sp, "SpatialPointsDataFrame")
+    expect_is(centroids_sp, "sf")
 })

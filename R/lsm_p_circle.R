@@ -73,10 +73,10 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get resolution
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # check if resolution is identical

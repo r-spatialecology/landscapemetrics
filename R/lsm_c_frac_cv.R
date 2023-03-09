@@ -80,7 +80,7 @@ lsm_c_frac_cv_calc <- function(landscape, directions, resolution = NULL){
     }
 
     frac_cv <- stats::aggregate(x = frac[, 5], by = frac[, 2],
-                                FUN = raster::cv)
+                                FUN = function(x) sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(frac_cv$class),

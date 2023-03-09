@@ -12,6 +12,7 @@ editor_options:
 
 ```{r, echo = FALSE}
 library(landscapetools)
+library(terra)
 ```
 
 # Introduction
@@ -24,7 +25,11 @@ The `landscapemetrics` package supports `raster` spatial objects.  A raster (som
 These classes must be positive integer numbers. 
 
 ```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
-landscapetools::show_landscape(landscapemetrics:::landscape_background, unique_scales = TRUE)
+
+lsm_a <- terra::unwrap(landscapemetrics:::landscape_background$`a) Continous Landscape`)
+lsm_b <- terra::unwrap(landscapemetrics:::landscape_background$`b) Categorical Landscape`)
+
+terra::plot(c(lsm_a, lsm_b))
 ```
 
 ## Levels of landscape metrics

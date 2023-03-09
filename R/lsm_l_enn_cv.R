@@ -83,7 +83,7 @@ lsm_l_enn_cv_calc <- function(landscape, directions, verbose,
                               value = as.double(NA)))
     }
 
-    enn_cv <- raster::cv(enn_patch$value)
+    enn_cv <- sd(enn_patch$value) / mean(enn_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

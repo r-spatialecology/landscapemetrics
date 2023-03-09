@@ -87,7 +87,7 @@ lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
     }
 
     # summarise for classes
-    cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = raster::cv)
+    cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = function(x) sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(cai_cv$class),

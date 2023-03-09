@@ -21,19 +21,12 @@ test_that("show_lsm can handle stacks, bricks and lists", {
 
     plots_list <- show_lsm(landscape_list, what = "lsm_p_area")
     plots_stack <- show_lsm(landscape_stack, what = "lsm_p_area")
-    plots_brick <- show_lsm(landscape_brick, what = "lsm_p_area")
-    plots_terra <- show_lsm(landscape_terra, what = "lsm_p_area")
 
     expect_is(plots_list[[1]], "ggplot")
     expect_is(plots_list[[2]], "ggplot")
 
     expect_is(plots_stack[[1]], "ggplot")
     expect_is(plots_stack[[2]], "ggplot")
-
-    expect_is(plots_brick[[1]], "ggplot")
-    expect_is(plots_brick[[2]], "ggplot")
-
-    expect_is(plots_terra[[1]], "ggplot")
 
 })
 

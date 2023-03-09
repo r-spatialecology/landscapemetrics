@@ -5,7 +5,6 @@ landscapemetrics_landscape_landscape_value <- lsm_l_contig_cv(landscape)
 test_that("lsm_l_contig_cv is typestable", {
     expect_is(lsm_l_contig_cv(landscape), "tbl_df")
     expect_is(lsm_l_contig_cv(landscape_stack), "tbl_df")
-    expect_is(lsm_l_contig_cv(landscape_brick), "tbl_df")
     expect_is(lsm_l_contig_cv(landscape_list), "tbl_df")
 })
 

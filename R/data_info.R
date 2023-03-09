@@ -23,7 +23,7 @@
 data_info <- function(landscape){
 
     # get raster values
-    landscape_values <- unique(raster::values(landscape))
+    landscape_values <- unique(terra::values(landscape, mat = FALSE))
 
     # remove NA values (mess up with test if integer values)
     landscape_values <- landscape_values[!is.na(landscape_values)]

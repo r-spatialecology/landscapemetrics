@@ -18,7 +18,7 @@ matrix
 Raster to points
 }
 \details{
-Wrapper around raster::xyFromCell and raster::getValues to get raster_to_points
+Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
 function including NA values
 }
 \examples{

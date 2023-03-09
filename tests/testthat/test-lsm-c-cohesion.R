@@ -5,7 +5,6 @@ landscapemetrics_class_landscape_value <- lsm_c_cohesion(landscape)
 test_that("lsm_c_cohesion is typestable", {
     expect_is(lsm_c_cohesion(landscape), "tbl_df")
     expect_is(lsm_c_cohesion(landscape_stack), "tbl_df")
-    expect_is(lsm_c_cohesion(landscape_brick), "tbl_df")
     expect_is(lsm_c_cohesion(landscape_list), "tbl_df")
 })
 

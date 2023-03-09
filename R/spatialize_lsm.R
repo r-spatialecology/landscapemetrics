@@ -91,7 +91,7 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
     }
 
     # get CRS of input
-    crs_input <- raster::crs(landscape)
+    crs_input <- terra::crs(landscape)
 
     # get patches
     landscape_labeled <- get_patches(landscape,
@@ -102,7 +102,7 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
 
     # get dataframe with patch ID and coordinates to merge with result of metric
     # MH: Do we really want to remove NA?
-    patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+    patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
                                                 na.rm = TRUE),
                                             xy = TRUE)
 
@@ -148,43 +148,34 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
             fill_value <- rev(split(x = fill_value, f = fill_value$y))
 
             # create empty raster
-            result <- raster::raster(landscape)
-
-            # get block size
-            block_size <- raster::blockSize(result)
+            out <- terra::rast(landscape)
 
             # starting to write values in raster
-            result <- raster::writeStart(x = result,
-                                         filename = raster::rasterTmpFile(),
-                                         overwrite = TRUE)
+            blks <- terra::writeStart(x = out, filename = paste0(tempfile(), ".tif"),
+                                      overwrite = TRUE)
 
             # loop through all block sizes
-            for (i in 1:block_size$n) {
+            for (i in 1:blks$n) {
 
                 # start and end row of current block
-                start_row <- block_size$row[i]
-                end_row <- block_size$row[i] + (block_size$nrows[i] - 1)
+                start_row <- blks$row[i]
+                end_row <- blks$row[i] + (blks$nrows[i] - 1)
 
                 # get values of current rows and combine to df
                 values_temp <- do.call("rbind", fill_value[start_row:end_row])
 
-                # write current block
-                result <- raster::writeValues(x = result,
-                                              v = values_temp$value,
-                                              start = block_size$row[i])
+                terra::writeValues(out, values_temp$value, blks$row[i], blks$nrows[i])
             }
 
-            # close writing connections
-            result <- raster::writeStop(result)
+            terra::writeStop(out)
 
-            return(result)
+            return(out)
         } else {
 
             # convert to raster (wrap)
-            result <- raster::rasterFromXYZ(fill_value[, c(2, 3, 8)],
-                                            crs = crs_input)
+            out <- terra::rast(fill_value[, c(2, 3, 8)], crs = crs_input)
 
-            return(result)
+            return(out)
         }})}, warning = function(cond) {
 
             warning_messages <<- c(warning_messages, conditionMessage(cond))

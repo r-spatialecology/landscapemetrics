@@ -66,9 +66,9 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

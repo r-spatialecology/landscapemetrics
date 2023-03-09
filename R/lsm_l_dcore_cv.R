@@ -89,7 +89,7 @@ lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_d
                               value = as.double(NA)))
     }
 
-    dcore_cv <- raster::cv(dcore_patch$value)
+    dcore_cv <- sd(dcore_patch$value) / mean(dcore_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

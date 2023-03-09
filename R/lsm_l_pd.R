@@ -59,9 +59,9 @@ lsm_l_pd <- function(landscape, directions = 8) {
 lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
 
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

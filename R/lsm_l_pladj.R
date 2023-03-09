@@ -51,7 +51,7 @@ lsm_l_pladj <- function(landscape) {
 lsm_l_pladj_calc <- function(landscape) {
 
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

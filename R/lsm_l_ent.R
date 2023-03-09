@@ -53,7 +53,7 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

@@ -49,7 +49,7 @@
 lsm_l_para_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
-    result <- lapply(X = raster::as.list(landscape),
+    result <- lapply(X = terra::as.list(landscape),
                      FUN = lsm_l_para_mn_calc,
                      directions = directions)
 

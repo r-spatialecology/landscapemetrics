@@ -5,7 +5,6 @@ landscapemetrics_class_landscape_value <- lsm_c_ai(landscape)
 test_that("lsm_c_ai is typestable", {
     expect_is(lsm_c_ai(landscape), "tbl_df")
     expect_is(lsm_c_ai(landscape_stack), "tbl_df")
-    expect_is(lsm_c_ai(landscape_brick), "tbl_df")
     expect_is(lsm_c_ai(landscape_list), "tbl_df")
 })
 
@@ -14,7 +13,7 @@ test_that("lsm_c_ai returns the desired number of columns", {
 })
 
 test_that("lsm_c_ai handles NAs correctly", {
-    r <- raster::raster(nrow = 10, ncol = 10)
+    r <- terra::rast(nrow = 10, ncol = 10)
     r[] <- 1
     expect_equal(lsm_c_ai(r)$value, 100)
     r[1, 1] <- NA

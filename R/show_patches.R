@@ -44,7 +44,7 @@ show_patches <- function(landscape, class = "global", directions = 8,
 show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {
 
     if (any(!(class %in% c("all", "global")))) {
-        if (!any(class %in% raster::unique(landscape))) {
+        if (!any(class %in% unique(terra::values(landscape, mat = FALSE)))) {
             stop("'class' must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
@@ -57,7 +57,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
     if (any(class == "global")) {
 
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+        patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
                                                     na.rm = TRUE),
                                                 xy = TRUE)
 
@@ -80,7 +80,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "value"
-            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            x <- terra::as.data.frame(landscape_labeled[[i]], xy = TRUE)
             x$class <- names(landscape_labeled[i])
             return(x)}
         )

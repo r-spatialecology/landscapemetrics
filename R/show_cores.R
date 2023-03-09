@@ -64,7 +64,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     if (any(!(class %in% c("all", "global")))) {
 
-        if (!any(class %in% raster::unique(landscape))) {
+        if (!any(class %in% unique(terra::values(landscape, mat = FALSE)))) {
 
             stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
@@ -88,7 +88,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
             for (i in seq_len(edge_depth - 1)) {
 
-                raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
+                terra::values(class_edge)[terra::values(class_edge) == 1] <- NA
 
                 class_edge <- get_boundaries(class_edge,
                                              consider_boundary)[[1]]
@@ -97,27 +97,25 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
             }
         }
 
-        raster::crop(full_edge, directions = 4, y = landscape)
+        terra::crop(full_edge, y = landscape)
     })
 
     # reset boundaries
     boundary <- lapply(X = seq_along(boundary),
                        FUN = function(i){
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
+                           terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 1)] <- -999
 
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
-                               raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
+                           terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)] <-
+                               terra::values(landscape_labeled[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)]
 
                            return(boundary[[i]])
                        }
     )
 
-    boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
-                                                        na.rm = TRUE),
-                                                    xy = TRUE)
+    boundary_labeled_stack <- terra::as.data.frame(sum(terra::rast(boundary), na.rm = TRUE), xy = TRUE)
     names(boundary_labeled_stack) <- c("x", "y", "values")
 
-    boundary_labeled_stack$class <-  raster::values(landscape)
+    boundary_labeled_stack$class <-  terra::values(landscape, mat = FALSE)
     boundary_labeled_stack$core_label <- boundary_labeled_stack$values
 
     boundary_labeled_stack$values <-  ifelse(boundary_labeled_stack$values == -999, 0, 1)

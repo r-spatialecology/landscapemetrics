@@ -45,7 +45,7 @@ Moving window
 \details{
 The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
+details, see \code{?terra::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
 for selected landscape metrics).

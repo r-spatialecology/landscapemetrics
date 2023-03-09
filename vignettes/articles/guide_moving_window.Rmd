@@ -21,6 +21,8 @@ library(landscapemetrics)
 library(raster)
 
 library(ggplot2)
+
+landscape <- terra::unwrap(landscapemetrics::landscape)
 ```
 
 First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell.  Because we want to weight all cells identically, all values need to be 1 (for more details, see `?raster::focal()`). 

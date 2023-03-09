@@ -84,7 +84,7 @@ lsm_c_enn_cv_calc <- function(landscape, directions, verbose,
                               value = as.double(NA)))
     }
 
-    enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = raster::cv)
+    enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = function(x) sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(enn_cv$class),

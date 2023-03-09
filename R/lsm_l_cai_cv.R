@@ -89,7 +89,7 @@ lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
                               value = as.double(NA)))
     }
 
-    cai_cv <- raster::cv(cai_patch$value)
+    cai_cv <- sd(cai_patch$value) / mean(cai_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

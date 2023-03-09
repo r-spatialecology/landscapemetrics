@@ -8,8 +8,8 @@ y1 <- c(1, 5, 15, 25)
 x2 <- c(10, 25)
 y2 <- c(5, 5)
 
-sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-                                                     sp::Line(cbind(x2, y2))), ID = "a")))
+# sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
+#                                                      sp::Line(cbind(x2, y2))), ID = "a")))
 
 test_that("extract_lsm returns correct metrics", {
 
@@ -36,16 +36,16 @@ test_that("extract_lsm returns correct metrics", {
     expect_true(all(unique(patch_all$metric) == list_lsm(level = "patch")[,1]))
 })
 
-test_that("extract_lsm works for lines", {
-
-    result <- extract_lsm(landscape,
-                          y = sample_lines,
-                          what = "lsm_p_area",
-                          verbose = FALSE)
-
-    expect_is(result, "tbl_df")
-    expect_true(all(result$metric %in% "area"))
-})
+# test_that("extract_lsm works for lines", {
+#
+#     result <- extract_lsm(landscape,
+#                           y = sample_lines,
+#                           what = "lsm_p_area",
+#                           verbose = FALSE)
+#
+#     expect_is(result, "tbl_df")
+#     expect_true(all(result$metric %in% "area"))
+# })
 
 test_that("extract_lsm forwards arguments to calculate_lsm", {
 
@@ -84,29 +84,20 @@ test_that("extract_lsm works for all data types", {
                                 what = "lsm_p_area",
                                 verbose = FALSE)
 
-    result_brick <- extract_lsm(landscape = landscape_brick,
-                                y = sample_points,
-                                what = "lsm_p_area",
-                                verbose = FALSE)
-
     result_list <- extract_lsm(landscape = landscape_list,
                                y = sample_points,
                                what = "lsm_p_area",
                                verbose = FALSE)
 
     expect_is(result_stack, "tbl_df")
-    expect_is(result_brick, "tbl_df")
     expect_is(result_list, "tbl_df")
 
     expect_equal(object = result_stack$layer,
-                 expected = c(1, 1, 1, 2, 2, 2))
-    expect_equal(object = result_brick$layer,
                  expected = c(1, 1, 1, 2, 2, 2))
     expect_equal(object = result_list$layer,
                  expected = c(1, 1, 1, 2, 2, 2))
 
     expect_true("area" %in% result_stack$metric)
-    expect_true("area" %in% result_brick$metric)
     expect_true("area" %in% result_list$metric)
 })
 
@@ -130,7 +121,7 @@ test_that("extract_lsm throws errors", {
                  fixed = TRUE)
 
     expect_error(extract_lsm(landscape, y = 1:3),
-                 regexp = "'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.",
+                 regexp = "'y' must be a matrix or sf object.",
                  fixed = TRUE)
 })
 

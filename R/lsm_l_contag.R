@@ -63,7 +63,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

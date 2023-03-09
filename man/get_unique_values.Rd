@@ -23,10 +23,10 @@ Fast and memory friendly Rcpp implementation to find the unique values of an obj
 \examples{
 get_unique_values(landscape)
 
-landscape_stack <- raster::stack(landscape, landscape, landscape)
+landscape_stack <- c(landscape, landscape, landscape)
 get_unique_values(landscape_stack)
 
-landscape_matrix <- raster::as.matrix(landscape)
+landscape_matrix <-terra::as.matrix(landscape, wide = TRUE)
 get_unique_values(landscape_matrix)
 
 x_vec <- c(1, 2, 1, 1, 2, 2)

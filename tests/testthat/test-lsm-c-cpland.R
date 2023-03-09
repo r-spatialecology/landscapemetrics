@@ -5,7 +5,6 @@ landscapemetrics_class_landscape_value <- lsm_c_cpland(landscape)
 test_that("lsm_c_cpland is typestable", {
     expect_is(lsm_c_cpland(landscape), "tbl_df")
     expect_is(lsm_c_cpland(landscape_stack), "tbl_df")
-    expect_is(lsm_c_cpland(landscape_brick), "tbl_df")
     expect_is(lsm_c_cpland(landscape_list), "tbl_df")
 })
 

@@ -28,9 +28,6 @@ test_that("window_lsm returns works for all data types", {
     expect_is(window_lsm(landscape_stack, window = window, what = "lsm_l_pr"),
               class = "list")
 
-    expect_is(window_lsm(landscape_brick, window = window, what = "lsm_l_pr"),
-              class = "list")
-
     expect_is(window_lsm(landscape_list, window = window, what = "lsm_l_pr"),
               class = "list")
 })

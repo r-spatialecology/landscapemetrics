@@ -62,7 +62,7 @@ lsm_c_iji_calc <- function(landscape, verbose) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

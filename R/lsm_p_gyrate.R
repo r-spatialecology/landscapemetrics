@@ -78,7 +78,7 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

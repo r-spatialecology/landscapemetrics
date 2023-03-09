@@ -64,9 +64,9 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

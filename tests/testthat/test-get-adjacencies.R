@@ -4,13 +4,11 @@ test_that("get_adjacencies runs for all data types", {
 
     raster_layer <- get_adjacencies(landscape)
     raster_stack <- get_adjacencies(landscape_stack)
-    raster_brick <- get_adjacencies(landscape_brick)
     raster_list <- get_adjacencies(landscape_list)
     raster_matrix <- get_adjacencies(landscape_matrix)
 
     expect_is(raster_layer, "list")
     expect_is(raster_stack, "list")
-    expect_is(raster_brick, "list")
     expect_is(raster_list, "list")
     expect_is(raster_matrix, "list")
 })
@@ -57,7 +55,7 @@ test_that("get_adjacencies runs also for the upper triangle", {
 
 test_that("get_adjacencies works for different values of neighborhood than 4", {
 
-    new_ras <- raster::raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
+    new_ras <- terra::rast(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
 
     adjacencies_4 <- get_adjacencies(new_ras, neighbourhood = 4)
     adjacencies_8 <- get_adjacencies(new_ras, neighbourhood = 8)

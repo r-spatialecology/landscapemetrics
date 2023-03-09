@@ -85,7 +85,7 @@ lsm_c_circle_cv_calc <- function(landscape, directions, resolution = NULL) {
     }
 
     # summarise for classes
-    circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = raster::cv)
+    circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = function(x) sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(circle_cv$class),

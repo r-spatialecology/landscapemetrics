@@ -60,7 +60,7 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

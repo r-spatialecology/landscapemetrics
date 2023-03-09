@@ -1,5 +1,8 @@
+# landscapemetrics 2.0.0
+Remove dependencies
+
 # landscapemetrics 1.5.6
-Remove dependecies
+Remove dependencies
 
 # landscapemetrics 1.5.5
 - Improved user experience

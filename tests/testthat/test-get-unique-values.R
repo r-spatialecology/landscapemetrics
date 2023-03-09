@@ -60,25 +60,6 @@ test_that("get_unique_values works for RasterStack", {
                    fixed = TRUE)
 })
 
-test_that("get_unique_values works for RasterBrick", {
-
-    expect_is(get_unique_values(landscape_brick), class = "list")
-    expect_length(get_unique_values(landscape_brick), n = 2)
-
-    expect_warning(get_unique_values(landscape_brick, simplify = TRUE),
-                   regexp = "Not able to simplify input with more than one layer.",
-                   fixed = TRUE)
-})
-
-test_that("get_unique_values works for terra", {
-
-    expect_is(get_unique_values(landscape_terra), class = "list")
-    expect_length(get_unique_values(landscape_terra), n = 1)
-
-    expect_equal(get_unique_values(landscape_terra, simplify = TRUE),
-                 expected = c(1, 2, 3))
-})
-
 test_that("get_unique_values works only for correct data types", {
 
 expect_error(get_unique_values(list_y),

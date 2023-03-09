@@ -84,7 +84,7 @@ lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # summarise for class
     core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
-                                FUN = raster::cv)
+                                FUN = function(x) sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(core_cv$class),

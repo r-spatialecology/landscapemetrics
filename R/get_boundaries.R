@@ -37,7 +37,7 @@ get_boundaries <- function(landscape,
 
     result <- lapply(X = landscape, function(x) {
 
-        result_temp <- get_boundaries_calc(raster::as.matrix(x),
+        result_temp <- get_boundaries_calc(terra::as.matrix(x, wide = TRUE),
                                            consider_boundary = consider_boundary,
                                            edge_depth = edge_depth,
                                            as_NA = as_NA,
@@ -78,8 +78,7 @@ get_boundaries_calc <- function(landscape,
     }
 
     # get boundaries
-    landscape_boundaries <- rcpp_get_boundaries(landscape,
-                                                directions = 4)
+    landscape_boundaries <- rcpp_get_boundaries(landscape, directions = 4)
 
     # loop if edge_depth > 1
     if (edge_depth > 1) {

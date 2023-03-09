@@ -2,11 +2,8 @@
 % Please edit documentation in R/landscape_as_list.R
 \name{landscape_as_list}
 \alias{landscape_as_list}
-\alias{landscape_as_list.RasterLayer}
-\alias{landscape_as_list.RasterStack}
-\alias{landscape_as_list.RasterBrick}
-\alias{landscape_as_list.stars}
 \alias{landscape_as_list.SpatRaster}
+\alias{landscape_as_list.stars}
 \alias{landscape_as_list.list}
 \alias{landscape_as_list.matrix}
 \alias{landscape_as_list.numeric}
@@ -14,15 +11,9 @@
 \usage{
 landscape_as_list(landscape)
 
-\method{landscape_as_list}{RasterLayer}(landscape)
-
-\method{landscape_as_list}{RasterStack}(landscape)
-
-\method{landscape_as_list}{RasterBrick}(landscape)
+\method{landscape_as_list}{SpatRaster}(landscape)
 
 \method{landscape_as_list}{stars}(landscape)
-
-\method{landscape_as_list}{SpatRaster}(landscape)
 
 \method{landscape_as_list}{list}(landscape)
 
@@ -43,6 +34,6 @@ Convert raster input to list
 Mainly for internal use
 }
 \examples{
-landscape_as_list(raster::stack(landscape, landscape))
+landscape_as_list(c(landscape, landscape))
 
 }

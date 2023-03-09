@@ -6,11 +6,7 @@ test_that("calculate_lsm can take different raster inputs", {
                             verbose = FALSE), "tbl_df")
     expect_is(calculate_lsm(landscape_stack, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_brick, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
     expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_terra, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
 
 })

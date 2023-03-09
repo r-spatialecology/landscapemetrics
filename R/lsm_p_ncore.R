@@ -40,9 +40,6 @@
 #'
 #' @return tibble
 #'
-#' @importFrom stats na.omit
-#' @importFrom raster ncell
-#'
 #' @examples
 #' lsm_p_ncore(landscape)
 #'
@@ -86,7 +83,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

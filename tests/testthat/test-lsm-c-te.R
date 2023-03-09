@@ -11,12 +11,11 @@ test_lsm[8, 6] <- 1
 test_lsm[6, 4] <- 1
 test_lsm[6, 6] <- 2
 
-test_lsm <- raster::raster(test_lsm, xmn = 0, xmx = 30, ymn = 0, ymx = 25)
+test_lsm <- terra::rast(test_lsm)
 
 test_that("lsm_c_te is typestable", {
     expect_is(lsm_c_te(landscape), "tbl_df")
     expect_is(lsm_c_te(landscape_stack), "tbl_df")
-    expect_is(lsm_c_te(landscape_brick), "tbl_df")
     expect_is(lsm_c_te(landscape_list), "tbl_df")
 })
 

@@ -5,7 +5,6 @@ landscapemetrics_landscape_landscape_value <- lsm_l_relmutinf(landscape)
 test_that("lsm_l_relmutinf is typestable", {
     expect_is(lsm_l_relmutinf(landscape), "tbl_df")
     expect_is(lsm_l_relmutinf(landscape_stack), "tbl_df")
-    expect_is(lsm_l_relmutinf(landscape_brick), "tbl_df")
     expect_is(lsm_l_relmutinf(landscape_list), "tbl_df")
 })
 

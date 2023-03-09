@@ -5,7 +5,6 @@ landscapemetrics_patch_landscape_value <- lsm_p_shape(landscape)
 test_that("lsm_p_shape is typestable", {
     expect_is(lsm_p_shape(landscape), "tbl_df")
     expect_is(lsm_p_shape(landscape_stack), "tbl_df")
-    expect_is(lsm_p_shape(landscape_brick), "tbl_df")
     expect_is(lsm_p_shape(landscape_list), "tbl_df")
 })
 

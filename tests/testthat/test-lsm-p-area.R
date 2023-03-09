@@ -5,7 +5,6 @@ landscapemetrics_patch_landscape_value <- lsm_p_area(landscape)
 test_that("lsm_p_area is typestable", {
     expect_is(lsm_p_area(landscape), "tbl_df")
     expect_is(lsm_p_area(landscape_stack), "tbl_df")
-    expect_is(lsm_p_area(landscape_brick), "tbl_df")
     expect_is(lsm_p_area(landscape_list), "tbl_df")
 })
 

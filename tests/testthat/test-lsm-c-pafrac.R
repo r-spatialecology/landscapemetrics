@@ -9,8 +9,6 @@ test_that("lsm_c_pafrac is typestable", {
                            verbose = FALSE), "tbl_df")
     expect_is(lsm_c_pafrac(landscape_stack,
                            verbose = FALSE), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_brick,
-                           verbose = FALSE), "tbl_df")
     expect_is(lsm_c_pafrac(landscape_list,
                            verbose = FALSE), "tbl_df")
 })

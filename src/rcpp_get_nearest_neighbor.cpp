@@ -94,52 +94,50 @@ NumericMatrix rcpp_get_nearest_neighbor(const NumericMatrix& points) {
 /*** R
 landscape_labeled <- get_patches(landscape)
 
-    patches_class <- landscape_labeled[[1]]
+patches_class <- landscape_labeled[[1]][[1]]
 
-class_boundaries <-
-    raster::boundaries(patches_class, directions = 4,
-                       asNA = TRUE)
+class_boundaries <- terra::boundaries(patches_class, directions = 4, falseval = NA)
 
-    raster::values(class_boundaries)[raster::values(!is.na(class_boundaries))] <-
-        raster::values(patches_class)[raster::values(!is.na(class_boundaries))]
+terra::values(class_boundaries)[terra::values(!is.na(class_boundaries))] <-
+    terra::values(patches_class)[terra::values(!is.na(class_boundaries))]
 
-points_class <- raster::xyFromCell(class_boundaries,
-                                   cell = 1:raster::ncell(class_boundaries)) %>%
-cbind(raster::values(class_boundaries)) %>%
-stats::na.omit() %>%
-tibble::as.tibble() %>%
-purrr::set_names(c("x", "y", "id"))  %>%
-dplyr::arrange(id,-y)
+points_class <- terra::xyFromCell(class_boundaries, cell = 1:terra::ncell(class_boundaries)) |>
+    cbind(terra::values(class_boundaries, mat = FALSE)) |>
+    stats::na.omit() |>
+    tibble::as.tibble() |>
+    purrr::set_names(c("x", "y", "id")) |>
+    dplyr::arrange(id, -y)
 
+X2 <- as.matrix(points_class)
 
-    X2 <- as.matrix(points_class)
+res <- landscapemetrics:::rcpp_get_nearest_neighbor(X2)
 
+find_closest <- function(X) {
+    ord <- order(X[, 1])
+    num <- seq_along(ord)
+    rank <- match(num, ord)
 
-    res <- landscapemetrics:::rcpp_get_nearest_neighbor(X2)
+    res <- rcpp_get_nearest_neighbor(X[ord,])
 
-    find_closest <- function(X) {
-        ord <- order(X[, 1])
-        num <- seq_along(ord)
-        rank <- match(num, ord)
-
-        res <- rcpp_get_nearest_neighbor(X[ord,])
-
-        unname(cbind(num, res[rank], X[, 3]))
+    unname(cbind(num, res[rank], X[, 3]))
     }
+
 res2 <- find_closest(X2)
-    stopifnot(identical(res[, 2], res2[, 2]))
 
-    microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_nearest_neighbor(X2),
-                                   find_closest(X2))
+stopifnot(identical(res[, 2], res2[, 2]))
 
-    X3 <- X2[rep(seq_len(nrow(X2)), 50),]
+microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_nearest_neighbor(X2),
+                               find_closest(X2))
+X3 <- X2[rep(seq_len(nrow(X2)), 50),]
+
 microbenchmark::microbenchmark(landscapemetrics:::rcpp_get_nearest_neighbor(X3),
                                find_closest(X3),
                                times = 20)
-    stopifnot(identical(
-            landscapemetrics:::rcpp_get_nearest_neighbor(X3),
-            find_closest(X3)
-    ))
+
+stopifnot(identical(
+    landscapemetrics:::rcpp_get_nearest_neighbor(X3),
+    find_closest(X3)
+))
 
 # compute_d2(X2[1, 1], X2[1, 2], X2[1, 1], X2[1, 2])
 # compute_d2(X2[2, 1], X2[2, 2], X2[1, 1], X2[1, 2])

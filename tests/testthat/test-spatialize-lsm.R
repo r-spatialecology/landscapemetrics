@@ -13,7 +13,7 @@ test_that("spatialize_lsm returns all selected metrics", {
 
                  expected = c("lsm_p_area", "lsm_p_contig", "lsm_p_perim"))
 
-    expect_true(object = all(sapply(result[[1]], class) == "RasterLayer"))
+    expect_true(object = all(sapply(result[[1]], class) == "SpatRaster"))
 })
 
 test_that("spatialize_lsm returns returns correct type of metrics", {
@@ -37,8 +37,8 @@ test_that("spatialize_lsm returns CRS", {
     result <- spatialize_lsm(podlasie_ccilc, what = "lsm_p_area",
                              verbose = FALSE)
 
-    expect_equal(object = raster::projection(result[[1]][[1]]),
-                 expected = raster::projection(podlasie_ccilc))
+    expect_equal(object = terra::crs(result[[1]][[1]], proj = TRUE),
+                 expected = terra::crs(podlasie_ccilc, proj = TRUE))
 })
 
 test_that("spatialize_lsm forwards arguments to calculate_lsm", {
@@ -53,17 +53,11 @@ test_that("spatialize_lsm works for all data types", {
 
     expect_length(object = spatialize_lsm(landscape_stack,
                                           what = "lsm_p_area",
-                                          verbose = FALSE),
-                  n = 2)
-
-    expect_length(object = spatialize_lsm(landscape_brick, what = "lsm_p_area",
-                                          verbose = FALSE),
-                  n = 2)
+                                          verbose = FALSE), n = 2)
 
     expect_length(object = spatialize_lsm(list(landscape, landscape),
                                           what = "lsm_p_area",
-                                          verbose = FALSE),
-                  n = 2)
+                                          verbose = FALSE), n = 2)
 })
 
 test_that("spatialize_lsm uses temp file", {
@@ -72,7 +66,7 @@ test_that("spatialize_lsm uses temp file", {
                              to_disk = TRUE,
                              verbose = FALSE)
 
-    expect_false(raster::inMemory(result[[1]]$lsm_p_area))
+    expect_false(terra::inMemory(result[[1]]$lsm_p_area))
 })
 
 

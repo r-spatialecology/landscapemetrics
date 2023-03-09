@@ -52,7 +52,7 @@ this option can be set globally, so that every function that internally uses
 patched_raster <- get_patches(landscape, class = 1)
 
 # count patches
-length(raster::unique(patched_raster[[1]]))
+nrow(terra::unique(patched_raster[[1]][[1]]))
 
 # check for patches of every class
 patched_raster <-  get_patches(landscape)

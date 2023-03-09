@@ -32,14 +32,6 @@ test_that("check_landscape works (maybe) for landscape stack", {
     expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
 })
 
-test_that("check_landscape works (maybe) for landscape brick", {
-
-    check_tibble <- check_landscape(landscape_brick,
-                                    verbose = FALSE)
-
-    expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
-})
-
 test_that("check_landscape works (maybe) for landscape list", {
 
     check_tibble <- check_landscape(landscape_list,

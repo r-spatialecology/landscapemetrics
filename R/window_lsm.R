@@ -16,7 +16,7 @@
 #' @details
 #' The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 #' metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-#' details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
+#' details, see \code{?terra::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 #' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 #' To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
 #' for selected landscape metrics).
@@ -130,7 +130,7 @@ window_lsm_int <- function(landscape,
     points <- raster_to_points(landscape)[, 2:4]
 
     # resolution of original raster
-    resolution <- raster::res(landscape)
+    resolution <- terra::res(landscape)
 
     # create object for warning messages
     warning_messages <- character(0)
@@ -143,15 +143,14 @@ window_lsm_int <- function(landscape,
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
 
-        raster::focal(x = landscape, w = window, fun = function(x) {
+        terra::focal(x = landscape, w = dim(window), fun = function(x) {
 
             calculate_lsm_focal(landscape = x,
                                 raster_window = window,
                                 resolution = resolution,
                                 points = points,
                                 what = metrics_list[[current_metric]],
-                                ...)},
-            pad = TRUE, padValue = NA)
+                                ...)}, fillvalue = NA)
         })},
         warning = function(cond) {
 

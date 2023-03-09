@@ -17,7 +17,7 @@
 #' @examples
 #' check_landscape(augusta_nlcd)
 #' check_landscape(podlasie_ccilc)
-#' check_landscape(raster::stack(landscape, landscape))
+#' check_landscape(c(landscape, landscape))
 #'
 #' @aliases check_landscape
 #' @rdname check_landscape

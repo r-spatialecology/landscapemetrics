@@ -67,9 +67,9 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

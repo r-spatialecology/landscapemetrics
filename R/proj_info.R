@@ -23,13 +23,13 @@
 proj_info <- function(landscape) {
 
     # get projection of raster
-    landscape_proj <- raster::projection(landscape)
+    landscape_proj <- terra::crs(landscape, proj = TRUE)
 
     # there is a projection
-    if (!is.na(landscape_proj)) {
+    if (landscape_proj != "") {
 
         # long-lat projection
-        if (raster::isLonLat(landscape)) {
+        if (terra::is.lonlat(landscape)) {
 
             tibble::tibble(crs = "geographic", units = "degrees")
 

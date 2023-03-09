@@ -13,10 +13,10 @@
 #' @examples
 #' get_unique_values(landscape)
 #'
-#' landscape_stack <- raster::stack(landscape, landscape, landscape)
+#' landscape_stack <- c(landscape, landscape, landscape)
 #' get_unique_values(landscape_stack)
 #'
-#' landscape_matrix <- raster::as.matrix(landscape)
+#' landscape_matrix <-terra::as.matrix(landscape, wide = TRUE)
 #' get_unique_values(landscape_matrix)
 #'
 #' x_vec <- c(1, 2, 1, 1, 2, 2)
@@ -56,9 +56,9 @@ get_unique_values <- function(x, simplify = FALSE, verbose = TRUE) {
 
 get_unique_values_int <- function(landscape, verbose) {
 
-    if (inherits(x = landscape, what = "RasterLayer")) {
+    if (inherits(x = landscape, what = "SpatRaster")) {
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
 
     } else if (!inherits(x = landscape, what = "matrix") &&
                !inherits(x = landscape, what = "integer") &&

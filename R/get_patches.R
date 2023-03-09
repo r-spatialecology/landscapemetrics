@@ -38,7 +38,7 @@
 #' patched_raster <- get_patches(landscape, class = 1)
 #'
 #' # count patches
-#' length(raster::unique(patched_raster[[1]]))
+#' nrow(terra::unique(patched_raster[[1]][[1]]))
 #'
 #' # check for patches of every class
 #' patched_raster <-  get_patches(landscape)
@@ -86,7 +86,7 @@ get_patches_int <- function(landscape, class, directions,
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        landscape_mat <- raster::as.matrix(landscape)
+        landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 
     # already a matrix
     } else {

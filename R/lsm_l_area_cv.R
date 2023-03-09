@@ -75,7 +75,7 @@ lsm_l_area_cv_calc <- function(landscape, directions, resolution = NULL){
     }
 
     # calculate cv
-    area_cv <- raster::cv(area_patch$value)
+    area_cv <- sd(area_patch$value) / mean(area_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

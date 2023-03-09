@@ -79,7 +79,7 @@ lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    frac_cv <- raster::cv(frac_patch$value)
+    frac_cv <- sd(frac_patch$value) / mean(frac_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

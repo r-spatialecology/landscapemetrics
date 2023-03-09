@@ -52,7 +52,7 @@ lsm_c_pladj_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

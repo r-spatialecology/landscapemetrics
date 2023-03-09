@@ -165,10 +165,10 @@ calculate_lsm_internal <- function(landscape,
     points <- raster_to_points(landscape)[, 2:4]
 
     # resolution of original raster
-    resolution <- raster::res(landscape)
+    resolution <- terra::res(landscape)
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    landscape <- terra::as.matrix(landscape, wide = TRUE)
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
 

@@ -81,7 +81,7 @@ lsm_l_circle_cv_calc <- function(landscape, directions, resolution = NULL) {
                               value = as.double(NA)))
     }
 
-    circle_cv <- raster::cv(circle_patch$value)
+    circle_cv <- sd(circle_patch$value) / mean(circle_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

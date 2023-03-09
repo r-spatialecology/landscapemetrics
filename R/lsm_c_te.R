@@ -62,9 +62,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

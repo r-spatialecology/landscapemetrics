@@ -64,12 +64,11 @@ IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix x,
 }
 
 /*** R
-
-library(raster)
+library(terra)
 library(dplyr)
-test <- landscapemetrics::augusta_nlcd
-test <- raster("~/Desktop/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
-mat <- raster::as.matrix(test)
+test <- terra::unwrap(landscapemetrics::augusta_nlcd)
+# test <- raster("~/Desktop/lc_2008_4bit_clip.tif") # produces a matrix filled with NA ????
+mat <- terra::as.matrix(test, wide = TRUE)
 four <- as.matrix(4)
 rcpp_get_coocurrence_matrix(mat, four)
 rcpp_get_coocurrence_matrix_single(mat, four, 11)

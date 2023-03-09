@@ -3,7 +3,7 @@
 #' @description Extract metrics
 #'
 #' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
+#' @param y 2-column matrix with coordinates or sf point or line geometries.
 #' @param extract_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
@@ -20,7 +20,7 @@
 #' @details
 #' This functions extracts the metrics of all patches the spatial object(s) `y`
 #' (e.g. spatial points) are located within. Only patch level metrics are possible
-#' to extract. Please be aware that the output is sligthly different to all
+#' to extract. Please be aware that the output is slightly different to all
 #' other `lsm`-function of `landscapemetrics`. Returns a tibble with chosen
 #' metrics and the ID of the spatial objects.
 #'
@@ -34,37 +34,19 @@
 #' extract_lsm(landscape, y = points)
 #' extract_lsm(landscape, y = points, type = "aggregation metric")
 #'
-#' points_sp <- sp::SpatialPoints(points)
-#' extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
-#'
 #' \dontrun{
 #' # use lines
-#' x1 <- c(1, 5, 15, 10)
-#' y1 <- c(1, 5, 15, 25)
 #'
-#' x2 <- c(10, 25)
-#' y2 <- c(5, 5)
-#'
-#' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-#' sp::Line(cbind(x2, y2))), ID = "a")))
-#' extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
 #' }
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
 #'
 #' @export
-extract_lsm <- function(landscape,
-                             y,
-                             extract_id = NULL,
-                             metric = NULL,
-                             name = NULL,
-                             type = NULL,
-                             what = NULL,
-                             directions = 8,
-                             progress = FALSE,
-                             verbose = TRUE,
-                             ...) {
+extract_lsm <- function(landscape, y,
+                        extract_id = NULL, metric = NULL,
+                        name = NULL, type = NULL, what = NULL, directions = 8,
+                        progress = FALSE, verbose = TRUE, ...) {
 
   landscape <- landscape_as_list(landscape)
 
@@ -131,6 +113,7 @@ extract_lsm_internal <- function(landscape,
     if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
 
       y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+
     }
 
     else if (inherits(x = y, what = c("sf", "sfc"))) {
@@ -157,15 +140,9 @@ extract_lsm_internal <- function(landscape,
     }
   }
 
-  # if Spatial Lines disaggregate
-  else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
+  else if (!inherits(x = y, what = "matrix")) {
 
-    y <- sp::disaggregate(y)
-  }
-
-  else if (!inherits(x = y, what = c("matrix", "SpatialPoints", "SpatialPointsDataFrame"))) {
-
-    stop("'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.",
+    stop("'y' must be a matrix or sf object.",
          call. = FALSE)
   }
 
@@ -173,12 +150,10 @@ extract_lsm_internal <- function(landscape,
   landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
 
   # combine to one raster layer
-  landscape_id <- raster::merge(raster::stack(landscape_labeled))
+  landscape_id <- sum(terra::rast(landscape_labeled), na.rm = TRUE)
 
   # get patch id of sample points
-  point_id <- raster::extract(x = landscape_id,
-                              y = y,
-                              df = TRUE)
+  point_id <- cbind(ID = 1:nrow(y), terra::extract(x = landscape_id, y = y))
 
   # rename df
   names(point_id) <- c("extract_id", "id")
