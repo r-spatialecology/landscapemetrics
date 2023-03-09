@@ -1,7 +1,7 @@
 Type: Package
 Package: landscapemetrics
 Title: Landscape Metrics for Categorical Map Patterns
-Version: 2.0.0
+Version: 1.5.6
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth",
              role = c("aut", "cre"),
              email = "mhk.hesselbarth@gmail.com",
@@ -58,7 +58,7 @@ Imports:
     Rcpp,
     sp,
     stats,
-    terra,
+    raster,
     tibble
 Suggests: 
     covr,

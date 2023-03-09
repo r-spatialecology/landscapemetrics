@@ -1,6 +1,4 @@
-# landscapemetrics 2.0.0
-* Improvements
-    * Using `terra` instead of raster as main underlying framework
+# landscapemetrics 1.5.6
 * Bugfixes
     * SHEI now equals 0 when only one patch is present
 * Various
