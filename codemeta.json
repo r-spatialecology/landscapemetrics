@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0",
+  "version": "1.5.6",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -230,15 +230,15 @@
     },
     "8": {
       "@type": "SoftwareApplication",
-      "identifier": "terra",
-      "name": "terra",
+      "identifier": "raster",
+      "name": "raster",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=terra"
+      "sameAs": "https://CRAN.R-project.org/package=raster"
     },
     "9": {
       "@type": "SoftwareApplication",
@@ -254,7 +254,7 @@
     },
     "SystemRequirements": "C++11"
   },
-  "fileSize": "1876.241KB",
+  "fileSize": "1876.924KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
