@@ -18,14 +18,15 @@ We provide the function `window_lsm()` in **landscapemetrics** to analyse an inp
 
 ```{r packages, message = FALSE}
 library(landscapemetrics)
-library(raster)
+library(terra)
 
 library(ggplot2)
 
+# internal data needs to be unwrapped
 landscape <- terra::unwrap(landscapemetrics::landscape)
 ```
 
-First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell.  Because we want to weight all cells identically, all values need to be 1 (for more details, see `?raster::focal()`). 
+First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell (for more details, see `?terra::focal()`). 
 
 ```{r neighbourhood-matrix}
 moving_window <- matrix(1, nrow = 3, ncol = 3)
@@ -39,7 +40,7 @@ result <- window_lsm(landscape, window = moving_window, what = c("lsm_l_pr", "ls
 result
 ```
 
-To be type-stable, the result will be a nested list.  The first level includes all layers of a `RasterStack` (only one if a `RasterLayer` is provided), the second level all selected metrics. The resulting `RasterLayers` describe the local neighborhood according to the moving window around each focal cell. In the case of `lsm_l_pr` this the number of classes present.
+To be type-stable, the result will be a nested list.  The first level includes all layers of a `SpatRaster` (only one if a `SpatRaster` is provided), the second level all selected metrics. The resulting `SpatRaster` describe the local neighborhood according to the moving window around each focal cell. In the case of `lsm_l_pr` this the number of classes present.
 
 ```{r plot-result, echo = FALSE, fig.align = "center"}
 result_stack <- raster::stack(landscape, result[[1]]$lsm_l_pr)

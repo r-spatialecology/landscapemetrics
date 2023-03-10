@@ -34,7 +34,7 @@ README last updated: `r Sys.Date()`
 
 **landscapemetrics** is a `R` package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.* 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).
 
-**landscapemetrics** supports `raster`, `terra`, and `stars` spatial objects and takes `RasterLayer`, `RasterStacks`, `RasterBricks` lists of `RasterLayer`, `SpatRaster`, or `stars` as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a `tibble`. 
+**landscapemetrics** supports **terra**, and **stars** and takes `SpatRaster` or `stars` spatial objects as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a `tibble`. 
 
 #### Citation
 
@@ -103,10 +103,13 @@ Every function follows the same implementation design, so the usage is quite str
 
 ```{r, message = FALSE, warning = FALSE, fig.align = "center", out.width = "75%"}
 library(landscapemetrics)
-library(landscapetools)
+library(terra)
+
+# internal data needs to be unwrapped
+landscape <- terra::unwrap(landscapemetrics::landscape)
 
 # landscape raster
-show_landscape(landscape, discrete = TRUE)
+plot(landscape)
 
 # calculate for example the Euclidean nearest-neighbor distance on patch level
 lsm_p_enn(landscape)

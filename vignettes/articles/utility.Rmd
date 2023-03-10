@@ -19,8 +19,7 @@ knitr::opts_chunk$set(
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
-library(raster)
-library(landscapetools)
+library(terra)
 
 library(bench)
 library(dplyr)
@@ -30,11 +29,11 @@ library(purrr)
 ## Visualisization functions
 
 ### Visualizing landscapes
-We can use the `show_landscape` function from [landscapetools](https://github.com/ropensci/landscapetools) to have look at our landscape.
+We can use the `plot` function from **terra** to have look at our landscape.
 
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
 # Plot landscape
-landscapetools::show_landscape(landscape) 
+plot(landscape) 
 ```
 
 This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. This why we show in the following how to dissect this landscape visually into the compoments, that drive the calculation of landscape metrics.
@@ -83,7 +82,7 @@ show_correlation(metrics, method = "pearson")
 ## Building blocks
 
 ### Get patches
-`landscapemetrics` makes internally heavy use of an connected labeling algorithm and exports an re-implementation of this algorithm (`get_patches`). The function return a list, where each list entry includes all patches of the corresponding class. The patches are labeld from 1...to n. 
+**landscapemetrics** makes internally heavy use of an connected labeling algorithm and exports an re-implementation of this algorithm (`get_patches`). The function return a list, where each list entry includes all patches of the corresponding class. The patches are labeld from 1...to n. 
 
 ```{r}
 # get a list of all patches for each class
@@ -91,7 +90,7 @@ get_patches(landscape)
 ```
 
 ### Get adjacencies
-Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for e.g. developing new metrics. Hence, `landscapemetrics` exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).
+Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for e.g. developing new metrics. Hence, **landscapemetrics** exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).
 
 ```{r}
 # calculate full adjacency matrix
@@ -104,28 +103,26 @@ diagonal_matrix <- matrix(c(1,  NA,  1,
 get_adjacencies(landscape, diagonal_matrix)
 
 # equivalent with the raster package:
-adj_raster <- function(landscape){
-    adjacencies <- raster::adjacent(landscape, 
-                                    cells = 1:raster::ncell(landscape), 
-                                    directions = 4, 
-                                    pairs = TRUE)
-    table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
+adj_terra <- function(x){
+    adjacencies <- terra::adjacent(x, 1:terra::ncell(x), "rook", pairs=TRUE)
+    table(terra::values(x, mat = FALSE)[adjacencies[,1]],
+          terra::values(x, mat = FALSE)[adjacencies[,2]])
 }
 
 # compare the two implementations
 bench::mark(
     get_adjacencies(landscape, neighbourhood = 4),
-    adj_raster(landscape),
-    iterations = 100, 
+    adj_terra(landscape),
+    iterations = 250, 
     check = FALSE
 )
 
-adj_raster(landscape) == get_adjacencies(landscape, 4)[[1]]
+adj_terra(landscape) == get_adjacencies(landscape, 4)[[1]]
 ```
 
 ### Get nearest neighbour
 
-`landscapemetrics` implements a memory efficient and quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).
+**landscapemetrics** implements a memory efficient and quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).
 
 ```{r}
 # run connected labeling for podlasie raster
@@ -135,32 +132,32 @@ patches <- get_patches(landscape, class = 1)
 min_dist <- get_nearestneighbour(patches$layer_1$class_1)
 
 # create a function that would do the same with the raster package
-nearest_raster_fun <- function(patches) {
+nn_terra <- function(patches) {
     
-    np_class <- patches %>%
-        raster::values() %>%
-        unique() %>%
-        na.omit() %>%
+    np_class <- terra::values(patches[[1]][[1]]) |>
+        na.omit() |>
+        unique() |>
         length()
     
-    points_class <- raster::rasterToPoints(patches) %>% 
-        as.data.frame()
+    points_class <- terra::as.data.frame(patches[[1]][[1]], xy = TRUE)
     
-    minimum_distance <- seq_len(np_class) %>%
+    minimum_distance <- seq_len(np_class) |>
         purrr::map_dbl(function(patch_ij) {
-            patch_focal <- dplyr::filter(points_class, layer == patch_ij)
             
-            patch_others <-
-                dplyr::filter(points_class, layer != patch_ij)
+            patch_focal <- dplyr::filter(points_class, lyr.1 == patch_ij) |> 
+                dplyr::select(x, y) |> 
+                as.matrix(ncol = 2)
             
-            minimum_distance <-
-                raster::pointDistance(patch_focal[1:2],
-                                      patch_others[1:2],
-                                      lonlat = FALSE) %>%
+            patch_others <- dplyr::filter(points_class, lyr.1 != patch_ij) |> 
+                dplyr::select(x, y) |> 
+                as.matrix(ncol = 2)
+            
+            minimum_distance <- terra::distance(patch_focal, patch_others,
+                                                lonlat = FALSE) |>
                 min()
         })
     
-    data.frame(id = unique(sort(points_class$layer)), distance = minimum_distance)
+    data.frame(id = unique(sort(points_class$lyr.1)), distance = minimum_distance)
     
 }
 
@@ -168,12 +165,12 @@ nearest_raster_fun <- function(patches) {
 # compare the two implementations
 bench::mark(
     get_nearestneighbour(patches$layer_1$class_1)[, 2:3],
-    nearest_raster_fun(patches$layer_1$class_1),
-    iterations = 100, check = FALSE
+    nn_terra(patches$layer_1$class_1),
+    iterations = 250, check = FALSE
 )
 
 # check if results are identical
-get_nearestneighbour(patches$layer_1$class_1)[, 2:3] == nearest_raster_fun(patches$layer_1$class_1)
+get_nearestneighbour(patches$layer_1$class_1)[, 2:3] == nn_terra(patches$layer_1$class_1)
 ```
 
 ### Get circumscribing circle

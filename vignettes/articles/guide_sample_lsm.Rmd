@@ -12,33 +12,30 @@ editor_options:
 
 ```{r packages, message = FALSE}
 library(landscapemetrics)
-library(raster)
-library(sp)
+library(terra)
+library(sf)
 
 library(ggplot2)
 
+# internal data needs to be unwrapped
 landscape <- terra::unwrap(landscapemetrics::landscape)
 ```
 
-**landscapemetrics** provides several functions to sample metrics *at* or *around* sample points. On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points. For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), SpatialPoints and SpatialLines ([**sp**](https://cran.r-project.org/web/packages/sp/index.html); Roger et al. 2013) and even [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported. For some functions, also SpatialPolygons (i.e. sample plots) can be provided.
+**landscapemetrics** provides several functions to sample metrics *at* or *around* sample points. On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points. For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), or [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported.
 
 First, we create some example sample locations.
 
 ```{r, collapse = TRUE}
 # create some example points
-points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
+(points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE))
 
-points
-
-# create some example lines
-x1 <- c(1, 5, 15, 10)
-y1 <- c(1, 5, 15, 25)
-x2 <- c(10, 25)
-y2 <- c(5, 5)
-sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)), 
-                                                     sp::Line(cbind(x2, y2))), ID = "a")))
-
-sample_lines
+# # create some example lines
+# x1 <- c(1, 5, 15, 10)
+# y1 <- c(1, 5, 15, 25)
+# x2 <- c(10, 25)
+# y2 <- c(5, 5)
+# 
+# sample_lines <- sf::st_multilinestring(x = list(cbind(x1, y1), cbind(x2, y2)))
 ```
 
 ## Extract landscape metrics at sample points
@@ -46,14 +43,15 @@ sample_lines
 `extract_lsm()` returns the metrics of all patches in which a sample point is located. However, since this only makes sense for individual patches, it's only possible to extract patch-level metrics.
 
 ```{r, echo = FALSE, fig.align = "center"}
-ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+ggplot(data = terra::as.data.frame(landscape, xy = TRUE)) + 
     geom_raster(aes(x = x, y = y, fill = factor(clumps))) + 
     geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-               aes(x = x, y = y), pch = 19, size = 1.5) + 
-    geom_path(data = data.frame(x = c(x1, x2), y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)), 
-              aes(x = x, y = y, group = id), size = 1) + 
+               aes(x = x, y = y), pch = 19, size = 1.5, color = "red") + 
+    # geom_path(data = data.frame(x = c(x1, x2), y = c(y1, y2), id = c(1, 1, 1, 1, 2, 2)),
+    #           aes(x = x, y = y, group = id), size = 1, color = "red") +
     scale_fill_viridis_d(name = "Landscape class") + 
     coord_equal() + 
+    theme_minimal() +
     theme(axis.line = element_blank(), axis.ticks = element_blank(), 
           axis.text = element_blank(), axis.title = element_blank(), 
           legend.position = "bottom")
@@ -67,11 +65,11 @@ Because three sample points were provided and only the patch area was requested,
 extract_lsm(landscape, y = points, what = "lsm_p_area")
 ```
 
-If a line is provided, the results include the patch-level metric for all patches touched by the line. The use of the function is exactly the same as for points. 
+<!-- If a line is provided, the results include the patch-level metric for all patches touched by the line. The use of the function is exactly the same as for points.  -->
 
-For each patch, all core area metrics are returned. While the long line touches three patches (2, 12, 20), line two only touches two patches (20, 25). In this example, all core are metrics are selected for extraction.
+<!-- For each patch, all core area metrics are returned. While the long line touches three patches (2, 12, 20), line two only touches two patches (20, 25). In this example, all core are metrics are selected for extraction. -->
 
-```{r, collapse = TRUE}
+```{r, collapse = TRUE, echo = FALSE, eval = FALSE}
 extract_lsm(landscape, y = sample_lines, type = "core area metric")
 ```
 
@@ -79,23 +77,22 @@ extract_lsm(landscape, y = sample_lines, type = "core area metric")
 
 To sample landscape metrics within a certain buffer *around* sample points, there is `sample_lsm()`. Now, the size of the buffers around the sample locations must be specified. The functions clips the landscape within the buffer (in other words sample plots) and calculates the selected metrics. 
 
-The resulting *tibble* incldues two extra columns. Again, the id of the sample point is included. Furthermore, the size of the actual sampled landscape can be different to the provided size due to two reasons. Firstly, because clipping raster cells using a circle or a sample plot not directly at a cell center lead to inaccuracies. Secondly, sample plots can exceed the landscape boundary. Therefore, we report the actual clipped sample plot area relative in relation to the theoretical, maximum sample plot area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
+The resulting `tibble` includes two extra columns. Again, the id of the sample point is included. Furthermore, the size of the actual sampled landscape can be different to the provided size due to two reasons. Firstly, because clipping raster cells using a circle or a sample plot not directly at a cell center lead to inaccuracies. Secondly, sample plots can exceed the landscape boundary. Therefore, we report the actual clipped sample plot area relative in relation to the theoretical, maximum sample plot area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
 
 ```{r, echo = FALSE, fig.align = "center"}
-sample_plots <- data.frame(construct_buffer(coords = points, 
-                                            shape = "circle", 
-                                            size = 10, 
-                                            return_sp = FALSE))
+sample_plots <- data.frame(construct_buffer(coords = points, shape = "circle", 
+                                            size = 10, return_sf = FALSE))
 
-ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
-    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) +
+ggplot(data = terra::as.data.frame(landscape, xy = TRUE)) + 
+    geom_raster(aes(x = x, y = y, fill = factor(clumps))) +
     geom_polygon(data = sample_plots, aes(x = sample_plots[, 1], y = sample_plots[, 2], 
                                           group = sample_plots[, 3]),
-                 col = "black", fill = NA) +
+                 col = "red", fill = NA) +
     geom_point(data = data.frame(x = points[, 1], y = points[, 2]), 
-               aes(x = x, y = y), pch = 19, size = 1.5) + 
+               aes(x = x, y = y), pch = 19, size = 1.5, color = "red") + 
     scale_fill_viridis_d(name = "Landscape class") + 
     coord_equal() + 
+    theme_minimal() +
     theme(axis.line = element_blank(), axis.ticks = element_blank(),
           axis.text = element_blank(),  axis.title = element_blank(),
           legend.position = "bottom") 
@@ -104,11 +101,10 @@ ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) +
 ```{r, collapse = TRUE}
 sample_lsm(landscape, y = points, size = 10, 
            level = "landscape", type = "diversity metric", 
-           classes_max = 3,
-           verbose = FALSE)
+           classes_max = 3, verbose = FALSE)
 ```
 
-It's also possible to construct buffers around lines, and to directly provide SpatialPolygons as sample plots.
+<!-- It's also possible to construct buffers around lines, and to directly provide SpatialPolygons as sample plots. -->
 
 ### References
 

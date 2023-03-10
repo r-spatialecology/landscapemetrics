@@ -18,16 +18,16 @@ Even though they are not implemented in **landscapemetrics**, R allows to calcul
 
 ```{r packages, message = FALSE}
 library(landscapemetrics)
-library(raster)
+library(terra)
 
 library(dplyr)
-```
 
-```{r, echo=FALSE}
-landscapetools::show_landscape(landscape, discrete = TRUE) 
+# internal data needs to be unwrapped
+landscape <- terra::unwrap(landscapemetrics::landscape)
 ```
 
 ## Implemented distribution statistics ## 
+
 The already implemented distribution statistics on class- and landscape-level are indicated by the corresponding suffixes (`_mn` = mean, `_cv` = Coefficient of variation , `_sd` = Standard deviation) and can be calculted without any further calculations needed.
 
 ```{r implemented}
