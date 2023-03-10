@@ -35,7 +35,7 @@ for all patches. Increases, without limit, as the variation of the fractal dimen
 indices increases.}
 }
 \examples{
-lsm_c_frac_cv(landscape)
+lsm_c_frac_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -48,8 +48,7 @@ Mandelbrot, B. B. 1977. Fractals: Form, Chance, and Dimension.
 San Francisco. W. H. Freeman and Company.
 }
 \seealso{
-\code{\link{lsm_p_frac}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_frac}}, \cr
 \code{\link{lsm_c_frac_mn}},
 \code{\link{lsm_c_frac_sd}}, \cr
 \code{\link{lsm_l_frac_mn}},

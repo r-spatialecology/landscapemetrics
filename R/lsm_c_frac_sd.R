@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_frac_sd(landscape)
+#' lsm_c_frac_sd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_frac_sd
 #' @rdname lsm_c_frac_sd

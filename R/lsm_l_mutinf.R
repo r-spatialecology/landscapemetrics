@@ -25,7 +25,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_mutinf(landscape)
+#' lsm_l_mutinf(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_mutinf
 #' @rdname lsm_l_mutinf

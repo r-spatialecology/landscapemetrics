@@ -38,7 +38,7 @@ boundary is not included) and increases, without limit, as the landscapes become
 patchy}
 }
 \examples{
-lsm_l_ed(landscape)
+lsm_l_ed(terra::unwrap(landscape))
 
 }
 \references{

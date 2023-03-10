@@ -26,7 +26,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_condent(landscape)
+#' lsm_l_condent(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_condent
 #' @rdname lsm_l_condent

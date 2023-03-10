@@ -23,7 +23,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_perim(landscape)
+#' lsm_p_perim(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_perim
 #' @rdname lsm_p_perim

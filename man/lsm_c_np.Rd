@@ -31,7 +31,7 @@ necessarily contain information about the configuration or composition of the cl
 increases, without limit, as the number of patches increases}
 }
 \examples{
-lsm_c_np(landscape)
+lsm_c_np(terra::unwrap(landscape))
 
 }
 \references{

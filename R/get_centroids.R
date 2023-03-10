@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' # get centroid location
-#' get_centroids(landscape)
+#' get_centroids(terra::unwrap(landscape))
 #'
 #' @aliases get_centroids
 #' @rdname get_centroids

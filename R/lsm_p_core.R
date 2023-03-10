@@ -41,7 +41,7 @@
 #' @importFrom stats na.omit
 #'
 #' @examples
-#' lsm_p_core(landscape)
+#' lsm_p_core(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_core
 #' @rdname lsm_p_core

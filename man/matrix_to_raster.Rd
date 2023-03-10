@@ -40,6 +40,8 @@ Converts \code{matrix} to a raster with same characteristics as \code{landscape}
 \code{landscape} or \code{extent}, \code{resolution} and \code{crs} must be specified.
 }
 \examples{
+augusta_nlcd <- terra::unwrap(augusta_nlcd)
+
 test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)
 

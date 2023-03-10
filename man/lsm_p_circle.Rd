@@ -35,7 +35,7 @@ of the patch and is comparable among patches with different area.
 a linear patch.}
 }
 \examples{
-lsm_p_circle(landscape)
+lsm_p_circle(terra::unwrap(landscape))
 
 }
 \references{

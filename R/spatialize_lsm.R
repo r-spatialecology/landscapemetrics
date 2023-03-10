@@ -29,7 +29,7 @@
 #' @return list
 #'
 #' @examples
-#' spatialize_lsm(landscape, what = "lsm_p_area")
+#' spatialize_lsm(terra::unwrap(landscape), what = "lsm_p_area")
 #'
 #' @aliases spatialize_lsm
 #'

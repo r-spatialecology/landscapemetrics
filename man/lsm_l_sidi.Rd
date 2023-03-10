@@ -34,7 +34,7 @@ SIDI < 1 when the number of class types increases while the proportions are equa
 distributed}
 }
 \examples{
-lsm_l_sidi(landscape)
+lsm_l_sidi(terra::unwrap(landscape))
 
 }
 \references{

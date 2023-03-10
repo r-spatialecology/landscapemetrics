@@ -33,7 +33,7 @@ measure of dominance.
 and equals LPI = 100 when only one patch is present}
 }
 \examples{
-lsm_l_lpi(landscape)
+lsm_l_lpi(terra::unwrap(landscape))
 
 }
 \references{

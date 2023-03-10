@@ -20,8 +20,7 @@
 #' Increases, without limit, as the variation of patch areas increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_area}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_area}}, \cr
 #' \code{\link{lsm_c_area_mn}},
 #' \code{\link{lsm_c_area_sd}},
 #' \code{\link{lsm_c_area_cv}}, \cr
@@ -31,7 +30,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_area_cv(landscape)
+#' lsm_l_area_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_area_cv
 #' @rdname lsm_l_area_cv

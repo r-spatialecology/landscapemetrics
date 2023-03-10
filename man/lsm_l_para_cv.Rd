@@ -35,7 +35,7 @@ all patches. Increases, without limit, as the variation of the perimeter-area ra
 increases.}
 }
 \examples{
-lsm_l_para_cv(landscape)
+lsm_l_para_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -45,8 +45,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_para}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_para}}, \cr
 \code{\link{lsm_c_para_mn}},
 \code{\link{lsm_c_para_sd}},
 \code{\link{lsm_c_para_cv}}, \cr

@@ -32,7 +32,7 @@ easily comparable because it is scaled to the mean.
 Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
-lsm_l_area_cv(landscape)
+lsm_l_area_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -42,8 +42,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_area}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_area}}, \cr
 \code{\link{lsm_c_area_mn}},
 \code{\link{lsm_c_area_sd}},
 \code{\link{lsm_c_area_cv}}, \cr

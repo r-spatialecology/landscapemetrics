@@ -33,7 +33,7 @@ diagonal of the adjacency table). The number of classes to calculate IJI must be
 and equals 100 when a class is equally adjacent to all other classes.}
 }
 \examples{
-lsm_c_iji(landscape)
+lsm_c_iji(terra::unwrap(landscape))
 }
 \references{
 McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis

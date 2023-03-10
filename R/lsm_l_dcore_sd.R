@@ -38,7 +38,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_dcore_sd(landscape)
+#' lsm_l_dcore_sd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_dcore_sd
 #' @rdname lsm_l_dcore_sd

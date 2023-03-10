@@ -29,8 +29,7 @@
 #' indices increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_cai}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_cai}}, \cr
 #' \code{\link{lsm_c_cai_mn}},
 #' \code{\link{lsm_c_cai_sd}},
 #' \code{\link{lsm_c_cai_cv}}, \cr
@@ -40,7 +39,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_cai_cv(landscape)
+#' lsm_l_cai_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_cai_cv
 #' @rdname lsm_l_cai_cv

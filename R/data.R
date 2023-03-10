@@ -118,7 +118,7 @@
 #' a more readable results tibble or for visualizing your results.
 #'
 #' @examples
-#' patch_area <- lsm_p_area(landscape)
+#' patch_area <- lsm_p_area(terra::unwrap(landscape))
 #' patch_area <- merge(x = patch_area, y = lsm_abbreviations_names, by = c("level", "metric"))
 #'
 #' @format A tibble object.

@@ -34,7 +34,7 @@ patch form will not change the ratio.
 for a irregular patch shape.}
 }
 \examples{
-lsm_p_frac(landscape)
+lsm_p_frac(terra::unwrap(landscape))
 
 }
 \references{

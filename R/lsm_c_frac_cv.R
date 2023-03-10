@@ -23,8 +23,7 @@
 #' indices increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_frac}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_frac}}, \cr
 #' \code{\link{lsm_c_frac_mn}},
 #' \code{\link{lsm_c_frac_sd}}, \cr
 #' \code{\link{lsm_l_frac_mn}},
@@ -34,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_frac_cv(landscape)
+#' lsm_c_frac_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_frac_cv
 #' @rdname lsm_c_frac_cv

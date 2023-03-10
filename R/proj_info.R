@@ -10,9 +10,9 @@
 #' @return raster
 #'
 #' @examples
-#' proj_info(landscape)
-#' proj_info(augusta_nlcd)
-#' proj_info(podlasie_ccilc)
+#' proj_info(terra::unwrap(landscape))
+#' proj_info(terra::unwrap(augusta_nlcd))
+#' proj_info(terra::unwrap(podlasie_ccilc))
 #'
 #' @aliases proj_info
 #' @rdname proj_info

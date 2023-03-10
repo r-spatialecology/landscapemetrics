@@ -45,9 +45,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' calculate_lsm(landscape, progress = TRUE)
-#' calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
-#' calculate_lsm(landscape, level = c("class", "landscape"), type = "aggregation metric")
+#' calculate_lsm(terra::unwrap(landscape), progress = TRUE)
+#' calculate_lsm(terra::unwrap(landscape), what = c("patch", "lsm_c_te", "lsm_l_pr"))
+#' calculate_lsm(terra::unwrap(landscape), level = c("class", "landscape"),
+#' type = "aggregation metric")
 #' }
 #'
 #' @aliases calculate_lsm

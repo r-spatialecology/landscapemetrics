@@ -33,7 +33,7 @@ character directly comparable among landscapes with different total areas.
 Equals PLAND = 100 when only one patch is present.}
 }
 \examples{
-lsm_c_pland(landscape)
+lsm_c_pland(terra::unwrap(landscape))
 
 }
 \references{

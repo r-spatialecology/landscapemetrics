@@ -33,7 +33,7 @@ the landscape.
 Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
-lsm_c_area_sd(landscape)
+lsm_c_area_sd(terra::unwrap(landscape))
 
 }
 \references{

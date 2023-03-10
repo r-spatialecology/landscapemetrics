@@ -31,7 +31,7 @@ Increases, without limit, as the length of the actual edges increases, i.e.
 the patches become less compact.}
 }
 \examples{
-lsm_l_lsi(landscape)
+lsm_l_lsi(terra::unwrap(landscape))
 
 }
 \references{

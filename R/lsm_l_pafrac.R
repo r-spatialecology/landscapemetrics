@@ -32,7 +32,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_pafrac(landscape)
+#' lsm_l_pafrac(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_pafrac
 #' @rdname lsm_l_pafrac

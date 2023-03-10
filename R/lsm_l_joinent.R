@@ -24,7 +24,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_joinent(landscape)
+#' lsm_l_joinent(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_joinent
 #' @rdname lsm_l_joinent

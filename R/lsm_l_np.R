@@ -25,7 +25,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_np(landscape)
+#' lsm_l_np(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_np
 #' @rdname lsm_l_np

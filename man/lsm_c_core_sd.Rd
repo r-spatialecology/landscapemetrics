@@ -43,7 +43,7 @@ differences among patches of the same class i in the landscape.
 Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
-lsm_c_core_sd(landscape)
+lsm_c_core_sd(terra::unwrap(landscape))
 
 }
 \references{

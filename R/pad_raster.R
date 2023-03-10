@@ -17,7 +17,7 @@
 #' @return raster
 #'
 #' @examples
-#' pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
+#' pad_raster(terra::unwrap(landscape), pad_raster_value = -1, pad_raster_cells = 2)
 #'
 #' @aliases pad_raster
 #' @rdname pad_raster

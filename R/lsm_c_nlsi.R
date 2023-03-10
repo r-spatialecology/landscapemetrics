@@ -30,7 +30,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_nlsi(landscape)
+#' lsm_c_nlsi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_nlsi
 #' @rdname lsm_c_nlsi

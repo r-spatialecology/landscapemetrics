@@ -36,7 +36,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_gyrate(landscape)
+#' lsm_p_gyrate(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_gyrate
 #' @rdname lsm_p_gyrate

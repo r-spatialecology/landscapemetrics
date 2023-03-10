@@ -31,7 +31,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cpland(landscape)
+#' lsm_c_cpland(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_cpland
 #' @rdname lsm_c_cpland

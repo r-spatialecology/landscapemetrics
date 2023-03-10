@@ -33,7 +33,7 @@ equals the perimeter if the patch would be maximally compact.
 Increases, without limit, as the variation of the shape index increases.}
 }
 \examples{
-lsm_c_shape_cv(landscape)
+lsm_c_shape_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -46,8 +46,7 @@ Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 Wildl. Soc.Bull. 3:171-173.
 }
 \seealso{
-\code{\link{lsm_p_shape}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_shape}}, \cr
 \code{\link{lsm_c_shape_mn}},
 \code{\link{lsm_c_shape_sd}}, \cr
 \code{\link{lsm_l_shape_mn}},

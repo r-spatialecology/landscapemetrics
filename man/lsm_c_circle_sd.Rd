@@ -34,7 +34,7 @@ for all patches. Increases, without limit, as the variation of related circumscr
 circles increases.}
 }
 \examples{
-lsm_c_circle_sd(landscape)
+lsm_c_circle_sd(terra::unwrap(landscape))
 
 }
 \references{

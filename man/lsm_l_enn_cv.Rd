@@ -37,7 +37,7 @@ scaled to the mean, it is easily comparable among different landscapes.
 identical for all patches. Increases, without limit, as the variation of ENN increases.}
 }
 \examples{
-lsm_l_enn_cv(landscape)
+lsm_l_enn_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -51,8 +51,7 @@ structure and breeding birds in the Oregon Coast Range.
 Ecological monographs, 65(3), 235-260.
 }
 \seealso{
-\code{\link{lsm_p_enn}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_enn}}, \cr
 \code{\link{lsm_c_enn_mn}},
 \code{\link{lsm_c_enn_sd}},
 \code{\link{lsm_c_enn_cv}}, \cr

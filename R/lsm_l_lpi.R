@@ -28,7 +28,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_lpi(landscape)
+#' lsm_l_lpi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_lpi
 #' @rdname lsm_l_lpi

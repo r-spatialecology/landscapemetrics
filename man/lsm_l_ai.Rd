@@ -33,7 +33,7 @@ The metric is based on he adjacency matrix and the single-count method.
 for maximally aggregated classes.}
 }
 \examples{
-lsm_l_ai(landscape)
+lsm_l_ai(terra::unwrap(landscape))
 
 }
 \references{

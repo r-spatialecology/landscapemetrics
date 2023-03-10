@@ -10,9 +10,9 @@
 #' @return raster
 #'
 #' @examples
-#' data_info(landscape)
-#' data_info(augusta_nlcd)
-#' data_info(podlasie_ccilc)
+#' data_info(terra::unwrap(landscape))
+#' data_info(terra::unwrap(augusta_nlcd))
+#' data_info(terra::unwrap(podlasie_ccilc))
 #'
 #' @aliases data_info
 #' @rdname data_info

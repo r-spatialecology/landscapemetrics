@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_shape(landscape)
+#' lsm_p_shape(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_shape
 #' @rdname lsm_p_shape

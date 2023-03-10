@@ -1,10 +1,10 @@
 
 points_matrix <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 
-points_sp <- sp::SpatialPoints(matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE))
-
-points_spdf <- sp::SpatialPointsDataFrame(matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE),
-                                          data = data.frame(ID = rep(1,3)))
+# points_sp <- sp::SpatialPoints(matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE))
+#
+# points_spdf <- sp::SpatialPointsDataFrame(matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE),
+#                                           data = data.frame(ID = rep(1,3)))
 
 # points_point <- sf::st_point(matrix(c(10, 5), ncol = 2, byrow = TRUE))
 #

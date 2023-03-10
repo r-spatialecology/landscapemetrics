@@ -41,7 +41,7 @@
 #' @importFrom stats sd
 #'
 #' @examples
-#' lsm_c_dcore_sd(landscape)
+#' lsm_c_dcore_sd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_dcore_sd
 #' @rdname lsm_c_dcore_sd

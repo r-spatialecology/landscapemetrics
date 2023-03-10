@@ -11,6 +11,8 @@
 #' Fast and memory friendly Rcpp implementation to find the unique values of an object.
 #'
 #' @examples
+#' landscape <- terra::unwrap(landscape)
+#'
 #' get_unique_values(landscape)
 #'
 #' landscape_stack <- c(landscape, landscape, landscape)

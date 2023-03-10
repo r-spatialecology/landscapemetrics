@@ -42,7 +42,7 @@ because the sum of edges increase as patches are less aggregated.
 and patch shapes simplify. TCA = 0 when every cell in every patch is an edge.}
 }
 \examples{
-lsm_l_tca(landscape)
+lsm_l_tca(terra::unwrap(landscape))
 
 }
 \references{

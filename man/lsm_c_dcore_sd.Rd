@@ -47,7 +47,7 @@ core areas. Increases, without limit, as the variation of number of disjunct cor
 increases.}
 }
 \examples{
-lsm_c_dcore_sd(landscape)
+lsm_c_dcore_sd(terra::unwrap(landscape))
 
 }
 \references{

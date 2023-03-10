@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' # get patches for class 1
-#' class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
+#' class_1 <- get_patches(terra::unwrap(landscape), class = 2)[[1]][[1]]
 #'
 #' # calculate the distance between patches
 #' get_nearestneighbour(class_1)

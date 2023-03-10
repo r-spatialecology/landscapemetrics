@@ -35,7 +35,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_dcad(landscape)
+#' lsm_c_dcad(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_dcad
 #' @rdname lsm_c_dcad

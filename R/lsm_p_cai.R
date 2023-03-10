@@ -41,7 +41,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_cai(landscape)
+#' lsm_p_cai(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_cai
 #' @rdname lsm_p_cai

@@ -39,7 +39,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_gyrate_mn(landscape)
+#' lsm_c_gyrate_mn(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_gyrate_mn
 #' @rdname lsm_c_gyrate_mn

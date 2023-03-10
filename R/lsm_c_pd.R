@@ -29,7 +29,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_pd(landscape)
+#' lsm_c_pd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_pd
 #' @rdname lsm_c_pd

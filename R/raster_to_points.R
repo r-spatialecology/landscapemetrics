@@ -12,7 +12,7 @@
 #' @return matrix
 #'
 #' @examples
-#' raster_to_points(landscape)
+#' raster_to_points(terra::unwrap(landscape))
 #'
 #' @aliases raster_to_points
 #' @rdname raster_to_points

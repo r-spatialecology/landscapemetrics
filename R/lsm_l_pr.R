@@ -20,7 +20,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_pr(landscape)
+#' lsm_l_pr(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_pr
 #' @rdname lsm_l_pr

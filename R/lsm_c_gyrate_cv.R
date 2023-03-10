@@ -30,8 +30,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_gyrate}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_gyrate}}, \cr
 #' \code{\link{lsm_c_gyrate_mn}},
 #' \code{\link{lsm_c_gyrate_sd}}, \cr
 #' \code{\link{lsm_l_gyrate_mn}},
@@ -41,7 +40,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_gyrate_cv(landscape)
+#' lsm_c_gyrate_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_gyrate_cv
 #' @rdname lsm_c_gyrate_cv

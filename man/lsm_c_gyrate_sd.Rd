@@ -42,7 +42,7 @@ for all patches. Increases, without limit, as the variation of the radius of gyr
 increases.}
 }
 \examples{
-lsm_c_gyrate_sd(landscape)
+lsm_c_gyrate_sd(terra::unwrap(landscape))
 
 }
 \references{
@@ -55,8 +55,7 @@ Keitt, T. H., Urban, D. L., & Milne, B. T. 1997. Detecting critical scales
 in fragmented landscapes. Conservation ecology, 1(1).
 }
 \seealso{
-\code{\link{lsm_p_gyrate}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_gyrate}}, \cr
 \code{\link{lsm_c_gyrate_mn}},
 \code{\link{lsm_c_gyrate_cv}}, \cr
 \code{\link{lsm_l_gyrate_mn}},

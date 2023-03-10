@@ -25,7 +25,7 @@
 #' \code{\link{lsm_l_ai}}
 #'
 #' @examples
-#' lsm_c_ai(landscape)
+#' lsm_c_ai(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_ai
 #' @rdname lsm_c_ai

@@ -15,9 +15,9 @@
 #' @return tibble
 #'
 #' @examples
-#' check_landscape(augusta_nlcd)
-#' check_landscape(podlasie_ccilc)
-#' check_landscape(c(landscape, landscape))
+#' check_landscape(terra::unwrap(augusta_nlcd))
+#' check_landscape(terra::unwrap(podlasie_ccilc))
+#' check_landscape(c(terra::unwrap(landscape), terra::unwrap(landscape)))
 #'
 #' @aliases check_landscape
 #' @rdname check_landscape
@@ -65,7 +65,7 @@ check_landscape_calc <- function(landscape, verbose) {
                       no = ifelse(test = info$class_ok == "notok" || info$units_ok == "notok",
                                   yes = cli::symbol$cross,
                                   no = ifelse(test = info$class_ok == "maybe" || info$units_ok == "maybe" || info$n_classes_ok == "maybe",
-                                              yes = cli::symbol$circle_question_mark,
+                                              yes = cli::symbol$fancy_question_mark,
                                               no = NA)))
 
     info <- info[, c("crs", "units", "class", "n_classes", "OK")]

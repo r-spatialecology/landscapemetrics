@@ -33,7 +33,7 @@ metric is the simplest measure of composition.
 \subsection{Behaviour}{Increases, without limit, as the patch size increases.}
 }
 \examples{
-lsm_p_area(landscape)
+lsm_p_area(terra::unwrap(landscape))
 
 }
 \references{

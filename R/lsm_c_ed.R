@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_ed(landscape)
+#' lsm_c_ed(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_ed
 #' @rdname lsm_c_ed

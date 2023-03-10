@@ -23,8 +23,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_para}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_para}}, \cr
 #' \code{\link{lsm_c_para_mn}},
 #' \code{\link{lsm_c_para_sd}},
 #' \code{\link{lsm_c_para_cv}}, \cr
@@ -34,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_para_cv(landscape)
+#' lsm_l_para_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_para_cv
 #' @rdname lsm_l_para_cv

@@ -31,7 +31,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_ca(landscape)
+#' lsm_c_ca(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_ca
 #' @rdname lsm_c_ca

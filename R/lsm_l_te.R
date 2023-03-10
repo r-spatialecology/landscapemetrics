@@ -27,7 +27,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_te(landscape)
+#' lsm_l_te(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_te
 #' @rdname lsm_l_te

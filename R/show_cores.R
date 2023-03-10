@@ -20,6 +20,8 @@
 #' @return ggplot
 #'
 #' @examples
+#' landscape <- terra::unwrap(landscape)
+#'
 #' # show "global" core area
 #' show_cores(landscape, class = "global", labels = FALSE)
 #'

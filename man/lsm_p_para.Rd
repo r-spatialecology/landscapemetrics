@@ -34,7 +34,7 @@ the patch size while not changing the patch form will change the ratio.
 increases.}
 }
 \examples{
-lsm_p_para(landscape)
+lsm_p_para(terra::unwrap(landscape))
 
 }
 \references{

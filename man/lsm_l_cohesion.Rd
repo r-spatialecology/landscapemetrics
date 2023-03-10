@@ -29,7 +29,7 @@ COHESION is an 'Aggregation metric'.
 \subsection{Behaviour}{Unknown}
 }
 \examples{
-lsm_l_cohesion(landscape)
+lsm_l_cohesion(terra::unwrap(landscape))
 
 }
 \references{

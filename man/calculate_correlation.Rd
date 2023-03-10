@@ -32,7 +32,7 @@ for the landscape level more than one landscape needs to be present. All input
 must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
-metrics <- calculate_lsm(landscape, what = c("patch", "class"))
+metrics <- calculate_lsm(terra::unwrap(landscape), what = c("patch", "class"))
 calculate_correlation(metrics, method = "pearson")
 
 }

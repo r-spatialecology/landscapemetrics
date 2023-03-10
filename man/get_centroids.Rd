@@ -36,6 +36,6 @@ centroid is defined as the cell center that is the closest to the mean location.
 }
 \examples{
 # get centroid location
-get_centroids(landscape)
+get_centroids(terra::unwrap(landscape))
 
 }

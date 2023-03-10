@@ -41,7 +41,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_contig_cv(landscape)
+#' lsm_l_contig_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_contig_cv
 #' @rdname lsm_l_contig_cv

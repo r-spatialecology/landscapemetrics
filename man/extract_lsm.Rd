@@ -59,8 +59,8 @@ metrics and the ID of the spatial objects.
 }
 \examples{
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-extract_lsm(landscape, y = points)
-extract_lsm(landscape, y = points, type = "aggregation metric")
+extract_lsm(terra::unwrap(landscape), y = points)
+extract_lsm(terra::unwrap(landscape), y = points, type = "aggregation metric")
 
 \dontrun{
 # use lines

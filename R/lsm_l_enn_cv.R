@@ -24,8 +24,7 @@
 #' identical for all patches. Increases, without limit, as the variation of ENN increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_enn}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_enn}}, \cr
 #' \code{\link{lsm_c_enn_mn}},
 #' \code{\link{lsm_c_enn_sd}},
 #' \code{\link{lsm_c_enn_cv}}, \cr
@@ -35,7 +34,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_enn_cv(landscape)
+#' lsm_l_enn_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_enn_cv
 #' @rdname lsm_l_enn_cv

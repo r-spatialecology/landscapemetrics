@@ -27,7 +27,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_division(landscape)
+#' lsm_c_division(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_division
 #' @rdname lsm_c_division

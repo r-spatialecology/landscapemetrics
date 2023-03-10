@@ -35,7 +35,7 @@ i.e. the form approaches a rather small square. Increases, without limit, as PAR
 i.e. patches become more complex.}
 }
 \examples{
-lsm_l_para_mn(landscape)
+lsm_l_para_mn(terra::unwrap(landscape))
 
 }
 \references{

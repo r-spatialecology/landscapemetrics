@@ -28,8 +28,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_ncore}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_ncore}}, \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_sd}}, \cr
 #' \code{\link{lsm_l_dcore_mn}},
@@ -39,7 +38,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_dcore_cv(landscape)
+#' lsm_c_dcore_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_dcore_cv
 #' @rdname lsm_c_dcore_cv

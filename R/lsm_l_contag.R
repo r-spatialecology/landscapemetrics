@@ -29,7 +29,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_contag(landscape)
+#' lsm_l_contag(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_contag
 #' @rdname lsm_l_contag

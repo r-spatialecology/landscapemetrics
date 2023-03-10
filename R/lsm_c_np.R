@@ -24,7 +24,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_np(landscape)
+#' lsm_c_np(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_np
 #' @rdname lsm_c_np

@@ -34,7 +34,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_circle(landscape)
+#' lsm_p_circle(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_circle
 #' @rdname lsm_p_circle

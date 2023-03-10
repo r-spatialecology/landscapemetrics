@@ -34,7 +34,7 @@ scaled to the mean and comparable among different landscapes.
 if all patches are irregular.}
 }
 \examples{
-lsm_l_frac_mn(landscape)
+lsm_l_frac_mn(terra::unwrap(landscape))
 
 }
 \references{

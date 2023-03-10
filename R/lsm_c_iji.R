@@ -26,7 +26,7 @@
 #' @return tibble
 #
 #' @examples
-#'lsm_c_iji(landscape)
+#'lsm_c_iji(terra::unwrap(landscape))
 #
 #' @aliases lsm_c_iji
 #' @rdname lsm_c_iji

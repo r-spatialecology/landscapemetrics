@@ -34,7 +34,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_para_sd(landscape)
+#' lsm_c_para_sd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_para_sd
 #' @rdname lsm_c_para_sd

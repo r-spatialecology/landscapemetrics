@@ -14,7 +14,7 @@
 #' @return list
 #'
 #' @examples
-#' metrics <- calculate_lsm(landscape, what = c("patch", "class"))
+#' metrics <- calculate_lsm(terra::unwrap(landscape), what = c("patch", "class"))
 #' calculate_correlation(metrics, method = "pearson")
 #'
 #' @aliases calculate_correlation

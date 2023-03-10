@@ -42,7 +42,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_contig(landscape)
+#' lsm_p_contig(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_contig
 #' @rdname lsm_p_contig

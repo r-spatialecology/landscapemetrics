@@ -32,7 +32,7 @@ division index is negatively correlated with the  effective mesh size  (\code{\l
 DIVISION = 1 if all patches of class i are single cells.}
 }
 \examples{
-lsm_c_division(landscape)
+lsm_c_division(terra::unwrap(landscape))
 
 }
 \references{

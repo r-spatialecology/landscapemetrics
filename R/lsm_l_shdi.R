@@ -23,7 +23,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_shdi(landscape)
+#' lsm_l_shdi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_shdi
 #' @rdname lsm_l_shdi

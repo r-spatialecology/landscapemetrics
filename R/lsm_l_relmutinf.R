@@ -25,7 +25,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_relmutinf(landscape)
+#' lsm_l_relmutinf(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_relmutinf
 #' @rdname lsm_l_relmutinf

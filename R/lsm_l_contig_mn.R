@@ -40,7 +40,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_contig_mn(landscape)
+#' lsm_l_contig_mn(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_contig_mn
 #' @rdname lsm_l_contig_mn

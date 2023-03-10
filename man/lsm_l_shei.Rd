@@ -30,7 +30,7 @@ measure of dominance.
 when the proportion of classes is completely equally distributed}
 }
 \examples{
-lsm_l_shei(landscape)
+lsm_l_shei(terra::unwrap(landscape))
 
 }
 \references{

@@ -6,14 +6,12 @@
 \alias{landscapemetrics-package}
 \title{landscapemetrics}
 \description{
-Calculates landscape metrics for categorical landscape patterns in
-a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
-FRAGSTATS and new ones from the current literature on landscape metrics.
-This package supports raster spatial objects and takes
-RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
-'raster' package as input arguments. It further provides utility functions
-to visualize patches, select metrics and building blocks to develop new
-metrics.
+Calculates landscape metrics for categorical landscape patterns in  a tidy workflow.
+'landscapemetrics' reimplements the most common metrics from 'FRAGSTATS' (\url{https://www.umass.edu/landeco/})
+and new ones from the current  literature on landscape metrics. This package
+supports 'terra' SpatRaster objects  as input arguments. It further provides
+utility functionn to visualize patches, select metrics and building blocks to
+develop new metrics.
 }
 \seealso{
 Useful links:

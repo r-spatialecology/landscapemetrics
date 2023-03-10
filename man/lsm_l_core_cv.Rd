@@ -45,7 +45,7 @@ because it is scaled to the mean.
 Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
-lsm_l_core_cv(landscape)
+lsm_l_core_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -55,8 +55,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_core}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_core}}, \cr
 \code{\link{lsm_c_core_mn}},
 \code{\link{lsm_c_core_sd}},
 \code{\link{lsm_c_core_cv}}, \cr

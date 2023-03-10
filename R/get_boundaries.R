@@ -20,7 +20,7 @@
 #' @return List with RasterLayer or matrix
 #'
 #' @examples
-#' class_1 <- get_patches(landscape, class = 1)[[1]]
+#' class_1 <- get_patches(terra::unwrap(landscape), class = 1)[[1]][[1]]
 #'
 #' get_boundaries(class_1)
 #' get_boundaries(class_1, return_raster = FALSE)

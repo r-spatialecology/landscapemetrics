@@ -26,7 +26,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_lsi(landscape)
+#' lsm_l_lsi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_lsi
 #' @rdname lsm_l_lsi

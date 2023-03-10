@@ -29,7 +29,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_te(landscape)
+#' lsm_c_te(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_te
 #' @rdname lsm_c_te

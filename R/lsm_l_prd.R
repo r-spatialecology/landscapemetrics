@@ -24,7 +24,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_prd(landscape)
+#' lsm_l_prd(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_prd
 #' @rdname lsm_l_prd

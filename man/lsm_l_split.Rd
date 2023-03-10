@@ -32,7 +32,7 @@ landscape would be divided into equally sized patches.
 the number of patches increases and is limited if all cells are a patch}
 }
 \examples{
-lsm_l_split(landscape)
+lsm_l_split(terra::unwrap(landscape))
 
 }
 \references{

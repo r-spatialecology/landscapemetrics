@@ -26,8 +26,7 @@
 #' Increases, without limit, as the variation of patch core areas increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_core}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_core}}, \cr
 #' \code{\link{lsm_c_core_mn}},
 #' \code{\link{lsm_c_core_sd}},
 #' \code{\link{lsm_c_core_cv}}, \cr
@@ -37,7 +36,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_core_cv(landscape)
+#' lsm_l_core_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_core_cv
 #' @rdname lsm_l_core_cv

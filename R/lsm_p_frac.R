@@ -34,7 +34,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_frac(landscape)
+#' lsm_p_frac(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_frac
 #' @rdname lsm_p_frac

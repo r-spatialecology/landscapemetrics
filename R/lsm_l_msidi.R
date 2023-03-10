@@ -23,7 +23,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_msidi(landscape)
+#' lsm_l_msidi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_msidi
 #' @rdname lsm_l_msidi

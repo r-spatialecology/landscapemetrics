@@ -35,7 +35,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_enn(landscape)
+#' lsm_p_enn(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_enn
 #' @rdname lsm_p_enn

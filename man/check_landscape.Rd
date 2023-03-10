@@ -26,8 +26,8 @@ units of the coordinate reference system, a class of the input landscape's
 values and the number of classes found in the landscape.
 }
 \examples{
-check_landscape(augusta_nlcd)
-check_landscape(podlasie_ccilc)
-check_landscape(c(landscape, landscape))
+check_landscape(terra::unwrap(augusta_nlcd))
+check_landscape(terra::unwrap(podlasie_ccilc))
+check_landscape(c(terra::unwrap(landscape), terra::unwrap(landscape)))
 
 }

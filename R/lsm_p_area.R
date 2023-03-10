@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_area(landscape)
+#' lsm_p_area(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_area
 #' @rdname lsm_p_area

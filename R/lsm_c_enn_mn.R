@@ -35,7 +35,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_enn_mn(landscape)
+#' lsm_c_enn_mn(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_enn_mn
 #' @rdname lsm_c_enn_mn

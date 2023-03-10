@@ -32,7 +32,7 @@ class i would be divided into equally sized patches.
 the number of patches of class i increases and is limited if all cells are a patch}
 }
 \examples{
-lsm_c_split(landscape)
+lsm_c_split(terra::unwrap(landscape))
 
 }
 \references{

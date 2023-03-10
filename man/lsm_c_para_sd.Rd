@@ -35,7 +35,7 @@ all patches. Increases, without limit, as the variation of the perimeter-area ra
 increases.}
 }
 \examples{
-lsm_c_para_sd(landscape)
+lsm_c_para_sd(terra::unwrap(landscape))
 
 }
 \references{

@@ -48,7 +48,7 @@ all patches. Increases, without limit, as the variation of the core area
 indices increases.}
 }
 \examples{
-lsm_l_cai_cv(landscape)
+lsm_l_cai_cv(terra::unwrap(landscape))
 
 }
 \references{
@@ -58,8 +58,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_cai}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_cai}}, \cr
 \code{\link{lsm_c_cai_mn}},
 \code{\link{lsm_c_cai_sd}},
 \code{\link{lsm_c_cai_cv}}, \cr

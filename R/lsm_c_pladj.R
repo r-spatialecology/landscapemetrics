@@ -22,7 +22,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_pladj(landscape)
+#' lsm_c_pladj(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_pladj
 #' @rdname lsm_c_pladj

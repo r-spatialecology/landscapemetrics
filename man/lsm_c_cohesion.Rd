@@ -34,7 +34,7 @@ configuration of the landscape.
 Increases if patches of class i become more aggregated.}
 }
 \examples{
-lsm_c_cohesion(landscape)
+lsm_c_cohesion(terra::unwrap(landscape))
 
 }
 \references{

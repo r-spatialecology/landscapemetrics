@@ -28,7 +28,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_sidi(landscape)
+#' lsm_l_sidi(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_sidi
 #' @rdname lsm_l_sidi

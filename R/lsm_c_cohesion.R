@@ -29,7 +29,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cohesion(landscape)
+#' lsm_c_cohesion(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_cohesion
 #' @rdname lsm_c_cohesion

@@ -21,7 +21,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_ent(landscape)
+#' lsm_l_ent(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_ent
 #' @rdname lsm_l_ent

@@ -24,10 +24,10 @@ cells of the patch are included in the patch.
 }
 \examples{
 # get circle around each patch
-get_circumscribingcircle(landscape)
+get_circumscribingcircle(terra::unwrap(landscape))
 
 # get circle around whole class
-get_circumscribingcircle(landscape, level = "class")
+get_circumscribingcircle(terra::unwrap(landscape), level = "class")
 
 }
 \references{

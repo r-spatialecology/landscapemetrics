@@ -33,7 +33,7 @@ equals the perimeter if the patch would be maximally compact.
 increases, without limit, as the patch shape becomes more complex.}
 }
 \examples{
-lsm_p_shape(landscape)
+lsm_p_shape(terra::unwrap(landscape))
 
 }
 \references{

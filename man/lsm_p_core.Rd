@@ -46,7 +46,7 @@ and the patch shape simplifies (more core area). CORE = 0 when every cell in
 the patch is an edge.}
 }
 \examples{
-lsm_p_core(landscape)
+lsm_p_core(terra::unwrap(landscape))
 
 }
 \references{

@@ -47,7 +47,7 @@ all patches. Increases, without limit, as the variation of core area
 indices increases.}
 }
 \examples{
-lsm_l_cai_sd(landscape)
+lsm_l_cai_sd(terra::unwrap(landscape))
 
 }
 \references{

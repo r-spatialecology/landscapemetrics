@@ -30,7 +30,7 @@ MSIDI is a 'Diversity metric'.
 limit, as the amount of patches with equally distributed landscape proportions increases}
 }
 \examples{
-lsm_l_msidi(landscape)
+lsm_l_msidi(terra::unwrap(landscape))
 
 }
 \references{

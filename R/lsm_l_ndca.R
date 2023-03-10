@@ -35,7 +35,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_ndca(landscape)
+#' lsm_l_ndca(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_ndca
 #' @rdname lsm_l_ndca

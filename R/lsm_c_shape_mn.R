@@ -32,7 +32,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_shape_mn(landscape)
+#' lsm_c_shape_mn(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_shape_mn
 #' @rdname lsm_c_shape_mn

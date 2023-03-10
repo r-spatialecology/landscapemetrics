@@ -41,7 +41,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_ncore(landscape)
+#' lsm_p_ncore(terra::unwrap(landscape))
 #'
 #' @aliases lsm_p_ncore
 #' @rdname lsm_p_ncore

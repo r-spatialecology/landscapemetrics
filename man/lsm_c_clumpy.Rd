@@ -35,7 +35,7 @@ the double-count method.
 and 1 for maximally aggregated classes.}
 }
 \examples{
-lsm_c_clumpy(landscape)
+lsm_c_clumpy(terra::unwrap(landscape))
 
 }
 \references{

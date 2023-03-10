@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_circle_cv(landscape)
+#' lsm_l_circle_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_circle_cv
 #' @rdname lsm_l_circle_cv

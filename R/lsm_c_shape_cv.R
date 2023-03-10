@@ -21,8 +21,7 @@
 #' Increases, without limit, as the variation of the shape index increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_shape}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_shape}}, \cr
 #' \code{\link{lsm_c_shape_mn}},
 #' \code{\link{lsm_c_shape_sd}}, \cr
 #' \code{\link{lsm_l_shape_mn}},
@@ -32,7 +31,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_shape_cv(landscape)
+#' lsm_c_shape_cv(terra::unwrap(landscape))
 #'
 #' @aliases lsm_c_shape_cv
 #' @rdname lsm_c_shape_cv

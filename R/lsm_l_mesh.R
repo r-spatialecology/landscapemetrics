@@ -29,7 +29,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_mesh(landscape)
+#' lsm_l_mesh(terra::unwrap(landscape))
 #'
 #' @aliases lsm_l_mesh
 #' @rdname lsm_l_mesh

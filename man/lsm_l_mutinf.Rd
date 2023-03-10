@@ -31,7 +31,7 @@ It disambiguates landscape pattern types characterize
 by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 }
 \examples{
-lsm_l_mutinf(landscape)
+lsm_l_mutinf(terra::unwrap(landscape))
 
 }
 \references{
