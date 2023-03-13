@@ -51,7 +51,6 @@ Depends:
 Imports: 
     cli,
     ggplot2,
-    methods,
     Rcpp,
     sf,
     stats,
@@ -64,7 +63,8 @@ Suggests:
     rmarkdown,
     testthat
 Enhances:
-    stars
+    stars,
+    raster
 LinkingTo: 
     Rcpp,
     RcppArmadillo
