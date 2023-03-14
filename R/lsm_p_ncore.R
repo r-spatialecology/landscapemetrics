@@ -41,7 +41,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_ncore(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_ncore(landscape)
 #'
 #' @aliases lsm_p_ncore
 #' @rdname lsm_p_ncore
@@ -83,7 +84,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

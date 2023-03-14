@@ -47,7 +47,8 @@ tibble
 Number of core areas (Core area metric)
 }
 \examples{
-lsm_p_ncore(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_p_ncore(landscape)
 
 }
 \references{

@@ -41,7 +41,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_cai(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_cai(landscape)
 #'
 #' @aliases lsm_p_cai
 #' @rdname lsm_p_cai
@@ -80,7 +81,7 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

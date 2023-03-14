@@ -39,7 +39,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_core(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_core(landscape)
 #'
 #' @aliases lsm_p_core
 #' @rdname lsm_p_core
@@ -75,7 +76,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_para(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_para(landscape)
 #'
 #' @aliases lsm_p_para
 #' @rdname lsm_p_para
@@ -66,7 +67,7 @@ lsm_p_para_calc <- function(landscape, directions, resolution = NULL){
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

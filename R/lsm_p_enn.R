@@ -35,7 +35,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_enn(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_enn(landscape)
 #'
 #' @aliases lsm_p_enn
 #' @rdname lsm_p_enn
@@ -77,7 +78,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

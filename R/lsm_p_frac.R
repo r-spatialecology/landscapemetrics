@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_frac(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_frac(landscape)
 #'
 #' @aliases lsm_p_frac
 #' @rdname lsm_p_frac
@@ -70,7 +71,7 @@ lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

@@ -12,7 +12,8 @@
 #' @return matrix
 #'
 #' @examples
-#' raster_to_points(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' raster_to_points(landscape)
 #'
 #' @aliases raster_to_points
 #' @rdname raster_to_points
@@ -45,7 +46,7 @@ raster_to_points_internal <- function(landscape, return_NA) {
                   nrow = terra::ncell(landscape), ncol = 3)
 
     # get coordinates
-    xyz[, c(1,2)] <- terra::xyFromCell(landscape, cell = 1:terra::ncell(landscape))
+    xyz[, c(1, 2)] <- terra::xyFromCell(landscape, cell = 1:terra::ncell(landscape))
 
     # add values including NA
     xyz[, 3] <- terra::values(landscape, mat = FALSE)

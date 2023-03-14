@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_circle(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_circle(landscape)
 #'
 #' @aliases lsm_p_circle
 #' @rdname lsm_p_circle
@@ -76,7 +77,7 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
         resolution <- terra::res(landscape)
 
         # convert to matrix
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # check if resolution is identical

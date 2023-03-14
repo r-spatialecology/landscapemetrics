@@ -38,7 +38,8 @@ as the distance between neighbouring patches of the same class i increases, i.e.
 more isolated.}
 }
 \examples{
-lsm_p_enn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_p_enn(landscape)
 
 }
 \references{

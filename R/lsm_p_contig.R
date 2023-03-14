@@ -42,7 +42,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_contig(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_contig(landscape)
 #'
 #' @aliases lsm_p_contig
 #' @rdname lsm_p_contig
@@ -76,7 +77,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -125,9 +126,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                                                 directions = as.matrix(straigth_matrix)) * 2
 
         # calculated contiguity
-        contiguity <- (((diagonal_neighbours +
-                             straigth_neighbours +
-                             n_cells) /
+        contiguity <- (((diagonal_neighbours + straigth_neighbours + n_cells) /
                             n_cells) - 1) / 12
 
         class <- patches_class

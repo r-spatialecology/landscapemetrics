@@ -33,7 +33,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_area(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_p_area(landscape)
 #'
 #' @aliases lsm_p_area
 #' @rdname lsm_p_area
@@ -68,7 +69,7 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
 
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

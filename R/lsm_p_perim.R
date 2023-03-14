@@ -23,7 +23,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_perim()
+#' landscape <- terra::rast(landscape)
+#' lsm_p_perim(landscape)
 #'
 #' @aliases lsm_p_perim
 #' @rdname lsm_p_perim
@@ -55,7 +56,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

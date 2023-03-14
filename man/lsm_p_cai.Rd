@@ -41,7 +41,8 @@ relative, it is comparable among patches with different area.
 approaches CAI = 100 with increasing percentage of core area within a patch.}
 }
 \examples{
-lsm_p_cai(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_p_cai(landscape)
 
 }
 \references{
