@@ -7,7 +7,7 @@
 get_adjacencies(landscape, neighbourhood = 4, what = "full", upper = FALSE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are
 considered as neighbours: 4 (rook's case), 8 (queen's case) or a binary matrix

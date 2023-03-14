@@ -7,7 +7,7 @@
 lsm_p_perim(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -16,7 +16,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 tibble
 }
 \description{
-Perimeter (Area and edge metric))
+Perimeter (Area and edge metric)
 }
 \details{
 \deqn{PERIM = p_{ij}}
@@ -33,7 +33,7 @@ patch area (larger perimeter for larger patches), but also patch shape
 complexity increases.}
 }
 \examples{
-lsm_p_perim(terra::unwrap(landscape))
+lsm_p_perim()
 
 }
 \references{

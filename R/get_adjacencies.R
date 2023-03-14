@@ -2,7 +2,7 @@
 #'
 #' @description Fast calculation of adjacencies between classes in a raster
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param neighbourhood The number of directions in which cell adjacencies are
 #' considered as neighbours: 4 (rook's case), 8 (queen's case) or a binary matrix
 #'  where the ones define the neighbourhood. The default is 4.

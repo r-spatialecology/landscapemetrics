@@ -1,8 +1,8 @@
 #' PERIM (patch level)
 #'
-#' @description Perimeter (Area and edge metric))
+#' @description Perimeter (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -23,7 +23,7 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_p_perim(terra::unwrap(landscape))
+#' lsm_p_perim()
 #'
 #' @aliases lsm_p_perim
 #' @rdname lsm_p_perim

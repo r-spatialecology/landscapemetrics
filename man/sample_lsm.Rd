@@ -18,7 +18,7 @@ sample_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{y}{2-column matrix with coordinates, sf points or sf polygons.}
 

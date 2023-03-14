@@ -7,7 +7,7 @@
 lsm_p_para(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stack, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}

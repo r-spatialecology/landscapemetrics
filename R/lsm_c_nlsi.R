@@ -2,7 +2,7 @@
 #'
 #' @description Normalized landscape shape index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{nLSI = \frac{e_{i} - \min e_{i}} {\max e_{i} - \min e_{i}}}

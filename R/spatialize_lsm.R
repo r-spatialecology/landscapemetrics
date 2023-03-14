@@ -2,7 +2,7 @@
 #'
 #' @description Spatialize landscape metric values
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param level Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).
 #' @param metric Abbreviation of metrics (e.g. 'area').
 #' @param name Full name of metrics (e.g. 'core area')

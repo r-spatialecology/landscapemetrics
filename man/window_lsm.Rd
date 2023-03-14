@@ -17,7 +17,7 @@ window_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{window}{Moving window matrix.}
 
