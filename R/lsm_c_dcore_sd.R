@@ -38,8 +38,6 @@
 #'
 #' @return tibble
 #'
-#' @importFrom stats sd
-#'
 #' @examples
 #' lsm_c_dcore_sd(terra::unwrap(landscape))
 #'

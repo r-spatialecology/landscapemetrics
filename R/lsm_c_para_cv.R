@@ -75,7 +75,8 @@ lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    para_cv <- stats::aggregate(x = para[, 5], by = para[, 2], FUN = function(x) sd(x) / mean(x) * 100)
+    para_cv <- stats::aggregate(x = para[, 5], by = para[, 2],
+                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(para_cv$class),

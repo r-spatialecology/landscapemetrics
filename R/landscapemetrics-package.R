@@ -11,41 +11,24 @@
 #' @name landscapemetrics
 #' @docType package
 #' @useDynLib landscapemetrics
-#' @importFrom Rcpp sourceCpp
+#' @importFrom Rcpp evalCpp
 #' @keywords internal
 "_PACKAGE"
 
-globalVariables(c("class_name",
-                  "class.get_patches",
-                  "count",
-                  "crs",
+globalVariables(c("class_name", "class.get_patches", "count", "crs",
                   "dist",
                   "extract_id",
                   "function_name",
                   "global",
                   "id",
-                  "label",
-                  "landscape",
-                  "lsm_abbreviations_names",
-                  "layer",
-                  "layer2",
-                  "level",
-                  "metric",
-                  "metric_new",
-                  "metric_1",
-                  "metric_2",
-                  "minp",
-                  "n",
-                  "name",
-                  "n_classes",
+                  "label", "landscape", "lsm_abbreviations_names", "layer", "layer2", "level",
+                  "metric", "metric_new", "metric_1", "metric_2", "minp",
+                  "n", "name", "n_classes",
                   "OK",
                   "patch_id",
                   "raster_sample_plots",
                   "type",
                   "unpad_raster_value",
-                  "value",
-                  "values",
-                  "x",
-                  "x_centroid",
-                  "y",
-                  "y_centroid"))
+                  "value", "values",
+                  "x", "x_centroid",
+                  "y", "y_centroid"))

@@ -90,7 +90,7 @@ lsm_c_gyrate_cv_calc <- function(landscape, directions, cell_center,
     }
 
     gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
-                                  FUN = function(x) sd(x) / mean(x) * 100)
+                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(gyrate_cv$class),

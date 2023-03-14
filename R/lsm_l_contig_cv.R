@@ -85,7 +85,7 @@ lsm_l_contig_cv_calc <- function(landscape, directions) {
                               value = as.double(NA)))
     }
 
-    contig_cv <- sd(contig_patch$value) / mean(contig_patch$value) * 100
+    contig_cv <- stats::sd(contig_patch$value) / mean(contig_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

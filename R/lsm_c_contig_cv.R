@@ -85,7 +85,7 @@ lsm_c_contig_cv_calc <- function(landscape, directions) {
     }
 
     contig_cv <- stats::aggregate(x = contig[, 5], by = contig[, 2],
-                                  FUN = function(x) sd(x) / mean(x) * 100)
+                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(contig_cv$class),

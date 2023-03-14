@@ -75,7 +75,7 @@ lsm_l_para_cv_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    para_cv <- sd(para_patch$value) / mean(para_patch$value) * 100
+    para_cv <- stats::sd(para_patch$value) / mean(para_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

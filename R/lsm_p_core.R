@@ -38,8 +38,6 @@
 #'
 #' @return tibble
 #'
-#' @importFrom stats na.omit
-#'
 #' @examples
 #' lsm_p_core(terra::unwrap(landscape))
 #'

@@ -78,7 +78,7 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
     }
 
     # calculate cv
-    shape_cv <- sd(shape$value, na.rm = TRUE) / mean(shape$value, na.rm = TRUE) * 100
+    shape_cv <- stats::sd(shape$value, na.rm = TRUE) / mean(shape$value, na.rm = TRUE) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),
