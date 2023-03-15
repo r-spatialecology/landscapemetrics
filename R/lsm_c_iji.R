@@ -26,7 +26,8 @@
 #' @return tibble
 #
 #' @examples
-#'lsm_c_iji(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_iji(landscape)
 #
 #' @aliases lsm_c_iji
 #' @rdname lsm_c_iji
@@ -62,7 +63,7 @@ lsm_c_iji_calc <- function(landscape, verbose) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

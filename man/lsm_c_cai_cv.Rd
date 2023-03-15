@@ -48,7 +48,8 @@ for all patches. Increases, without limit, as the variation of the core area
 indices increases.}
 }
 \examples{
-lsm_c_cai_cv(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_cai_cv(landscape)
 
 }
 \references{

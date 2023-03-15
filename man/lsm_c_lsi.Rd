@@ -31,7 +31,8 @@ patches are maximally aggregated. Increases, without limit, as the length of the
 actual edges increases, i.e. the patches become less compact.}
 }
 \examples{
-lsm_c_lsi(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_lsi(landscape)
 
 }
 \references{

@@ -28,7 +28,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_lpi(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_lpi(landscape)
 #'
 #' @aliases lsm_c_lpi
 #' @rdname lsm_c_lpi

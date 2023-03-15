@@ -31,7 +31,8 @@
 #' \code{\link{lsm_l_frac_cv}}
 #'
 #' @examples
-#' lsm_c_frac_mn(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_frac_mn(landscape)
 #'
 #' @aliases lsm_c_frac_mn
 #' @rdname lsm_c_frac_mn

@@ -39,7 +39,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cai_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_cai_cv(landscape)
 #'
 #' @aliases lsm_c_cai_cv
 #' @rdname lsm_c_cai_cv

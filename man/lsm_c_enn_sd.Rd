@@ -37,7 +37,8 @@ scaled to the mean, it is easily comparable among different landscapes.
 identical for all patches. Increases, without limit, as the variation of ENN increases.}
 }
 \examples{
-lsm_c_enn_sd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_enn_sd(landscape)
 
 }
 \references{

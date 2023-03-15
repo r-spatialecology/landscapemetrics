@@ -34,7 +34,8 @@ landscapes with different total area are possible.
 if every cell is a different patch.}
 }
 \examples{
-lsm_c_pd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_pd(landscape)
 
 }
 \references{

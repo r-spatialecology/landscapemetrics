@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_enn_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_enn_cv(landscape)
 #'
 #' @aliases lsm_c_enn_cv
 #' @rdname lsm_c_enn_cv

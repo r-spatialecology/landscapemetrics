@@ -27,7 +27,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_split(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_split(landscape)
 #'
 #' @aliases lsm_c_split
 #' @rdname lsm_c_split

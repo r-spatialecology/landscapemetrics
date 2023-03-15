@@ -36,7 +36,8 @@ become small. Increases, without limit, as the patch areas of class i become
 large. CA = TA if only one class is present.}
 }
 \examples{
-lsm_c_ca(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_ca(landscape)
 
 }
 \references{

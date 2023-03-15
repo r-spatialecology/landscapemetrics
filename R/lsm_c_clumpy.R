@@ -26,7 +26,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_clumpy(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_clumpy(landscape)
 #'
 #' @aliases lsm_c_clumpy
 #' @rdname lsm_c_clumpy

@@ -35,7 +35,8 @@ making comparisons among landscapes with different total areas difficult. If
 as landscape becomes more fragmented}
 }
 \examples{
-lsm_c_te(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_te(landscape)
 
 }
 \references{

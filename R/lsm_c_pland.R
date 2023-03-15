@@ -27,7 +27,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_pland(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_pland(landscape)
 #'
 #' @aliases lsm_c_pland
 #' @rdname lsm_c_pland

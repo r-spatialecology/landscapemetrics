@@ -34,7 +34,8 @@ for all patches. Increases, without limit, as the variation of the fractal dimen
 indices increases.}
 }
 \examples{
-lsm_c_frac_sd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_frac_sd(landscape)
 
 }
 \references{

@@ -46,7 +46,8 @@ the amount of core area increases, i.e. patches become larger while being rather
 in shape.}
 }
 \examples{
-lsm_c_cpland(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_cpland(landscape)
 
 }
 \references{

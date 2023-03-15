@@ -33,7 +33,8 @@ class area (\code{\link{lsm_c_ca}}), it can also give an an idea of patch struct
 limit, as the patch areas increase.}
 }
 \examples{
-lsm_c_area_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_area_mn(landscape)
 
 }
 \references{

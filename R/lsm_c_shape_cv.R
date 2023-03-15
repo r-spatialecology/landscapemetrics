@@ -31,7 +31,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_shape_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_shape_cv(landscape)
 #'
 #' @aliases lsm_c_shape_cv
 #' @rdname lsm_c_shape_cv

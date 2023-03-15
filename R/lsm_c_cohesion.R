@@ -29,7 +29,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cohesion(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_cohesion(landscape)
 #'
 #' @aliases lsm_c_cohesion
 #' @rdname lsm_c_cohesion

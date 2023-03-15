@@ -33,7 +33,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_core_mn(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_core_mn(landscape)
 #'
 #' @aliases lsm_c_core_mn
 #' @rdname lsm_c_core_mn

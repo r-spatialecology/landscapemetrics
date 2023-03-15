@@ -32,7 +32,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_pafrac(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_pafrac(landscape)
 #'
 #' @aliases lsm_c_pafrac
 #' @rdname lsm_c_pafrac
@@ -70,7 +71,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

@@ -26,7 +26,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_lsi(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_lsi(landscape)
 #'
 #' @aliases lsm_c_lsi
 #' @rdname lsm_c_lsi
@@ -61,7 +62,7 @@ lsm_c_lsi_calc <- function(landscape) {
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

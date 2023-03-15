@@ -32,7 +32,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_shape_sd(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_shape_sd(landscape)
 #'
 #' @aliases lsm_c_shape_sd
 #' @rdname lsm_c_shape_sd

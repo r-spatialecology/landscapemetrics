@@ -31,7 +31,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_cpland(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_cpland(landscape)
 #'
 #' @aliases lsm_c_cpland
 #' @rdname lsm_c_cpland
@@ -66,7 +67,7 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

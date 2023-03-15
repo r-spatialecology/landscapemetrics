@@ -24,7 +24,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_np(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_np(landscape)
 #'
 #' @aliases lsm_c_np
 #' @rdname lsm_c_np
@@ -55,7 +56,7 @@ lsm_c_np_calc <- function(landscape, directions){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA

@@ -33,7 +33,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_frac_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_frac_cv(landscape)
 #'
 #' @aliases lsm_c_frac_cv
 #' @rdname lsm_c_frac_cv

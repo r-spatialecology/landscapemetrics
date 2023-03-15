@@ -38,7 +38,8 @@ boundary is not included) and increases, without limit, as the landscapes become
 patchy}
 }
 \examples{
-lsm_c_ed(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_ed(landscape)
 
 }
 \references{

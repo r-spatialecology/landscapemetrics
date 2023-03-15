@@ -44,7 +44,8 @@ core areas, whereby a core area is a 'patch within the patch' containing only co
 without limit, as the number of disjunct core areas increases.}
 }
 \examples{
-lsm_c_dcore_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_dcore_mn(landscape)
 
 }
 \references{

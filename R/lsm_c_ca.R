@@ -31,7 +31,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_c_ca(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_c_ca(landscape)
 #'
 #' @aliases lsm_c_ca
 #' @rdname lsm_c_ca

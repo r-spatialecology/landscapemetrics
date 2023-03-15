@@ -38,7 +38,8 @@ issue.
 approaches PAFRAC = 2 for irregular shapes}
 }
 \examples{
-lsm_c_pafrac(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_c_pafrac(landscape)
 
 }
 \references{
