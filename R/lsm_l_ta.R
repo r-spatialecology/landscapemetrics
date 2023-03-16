@@ -26,7 +26,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_ta(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_ta(landscape)
 #'
 #' @aliases lsm_l_ta
 #' @rdname lsm_l_ta

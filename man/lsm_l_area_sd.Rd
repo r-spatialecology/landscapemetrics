@@ -31,7 +31,8 @@ the differences among all patches in the landscape.
 Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
-lsm_l_area_sd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_area_sd(landscape)
 
 }
 \references{

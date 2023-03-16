@@ -29,7 +29,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_mesh(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_mesh(landscape)
 #'
 #' @aliases lsm_l_mesh
 #' @rdname lsm_l_mesh

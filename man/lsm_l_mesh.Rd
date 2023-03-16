@@ -34,7 +34,8 @@ perfectly, negatively correlated to \code{\link{lsm_c_division}}.
 one cell and equals total area if only one patch is present.}
 }
 \examples{
-lsm_l_mesh(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_mesh(landscape)
 
 }
 \references{

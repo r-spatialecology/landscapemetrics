@@ -33,7 +33,8 @@ landscape area (\code{\link{lsm_l_ta}}), it can also give an an idea of patch st
 limit, as the patch areas increase.}
 }
 \examples{
-lsm_l_area_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_area_mn(landscape)
 
 }
 \references{

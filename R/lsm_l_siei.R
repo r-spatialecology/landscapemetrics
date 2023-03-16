@@ -28,7 +28,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_siei(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_siei(landscape)
 #'
 #' @aliases lsm_l_siei
 #' @rdname lsm_l_siei

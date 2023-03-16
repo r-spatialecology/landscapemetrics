@@ -29,7 +29,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_pd(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_pd(landscape)
 #'
 #' @aliases lsm_l_pd
 #' @rdname lsm_l_pd
@@ -61,7 +62,7 @@ lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

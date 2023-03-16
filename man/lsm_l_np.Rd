@@ -32,7 +32,8 @@ composition of the landscape.
 increases, without limit, as the number of patches increases}
 }
 \examples{
-lsm_l_np(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_np(landscape)
 
 }
 \references{

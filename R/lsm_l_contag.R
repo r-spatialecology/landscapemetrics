@@ -29,7 +29,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_contag(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_contag(landscape)
 #'
 #' @aliases lsm_l_contag
 #' @rdname lsm_l_contag

@@ -35,7 +35,8 @@ the functions returns \code{NA}.
 but the maximum number of classes is large. Equals RPR = 100 when m = m_max}
 }
 \examples{
-lsm_l_rpr(terra::unwrap(landscape), classes_max = 5)
+landscape <- terra::rast(landscape)
+lsm_l_rpr(landscape, classes_max = 5)
 
 }
 \references{

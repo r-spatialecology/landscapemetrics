@@ -24,7 +24,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_rpr(terra::unwrap(landscape), classes_max = 5)
+#' landscape <- terra::rast(landscape)
+#' lsm_l_rpr(landscape, classes_max = 5)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr

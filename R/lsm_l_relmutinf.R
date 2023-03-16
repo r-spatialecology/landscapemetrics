@@ -25,7 +25,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_relmutinf(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_relmutinf(landscape)
 #'
 #' @aliases lsm_l_relmutinf
 #' @rdname lsm_l_relmutinf
@@ -59,7 +60,7 @@ lsm_l_relmutinf_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -83,7 +84,7 @@ lsm_l_relmutinf_calc <- function(landscape, neighbourhood, ordered, base){
     cplx <- rcpp_get_entropy(coh, base)
     conf <- cplx - comp
     aggr <- comp - conf
-    rel <- ifelse(aggr == 0, 1, aggr / comp)
+    rel  <- ifelse(aggr == 0, 1, aggr / comp)
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

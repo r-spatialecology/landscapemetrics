@@ -32,7 +32,8 @@ landscape boundary are included.
 as landscape becomes more fragmented}
 }
 \examples{
-lsm_l_te(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_te(landscape)
 
 }
 \references{

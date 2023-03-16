@@ -30,7 +30,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_area_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_area_cv(landscape)
 #'
 #' @aliases lsm_l_area_cv
 #' @rdname lsm_l_area_cv

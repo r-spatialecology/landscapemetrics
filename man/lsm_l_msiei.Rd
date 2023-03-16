@@ -28,7 +28,8 @@ MSIEI is a 'Diversity metric'.
 MSIEI = 1 as the proportional distribution of patches becomes more even}
 }
 \examples{
-lsm_l_msiei(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_msiei(landscape)
 
 }
 \references{

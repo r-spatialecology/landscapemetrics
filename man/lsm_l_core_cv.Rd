@@ -45,7 +45,8 @@ because it is scaled to the mean.
 Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
-lsm_l_core_cv(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_core_cv(landscape)
 
 }
 \references{

@@ -29,7 +29,7 @@ to NA. A nine cell focal filter matrix:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{filter_matrix <- matrix(c(1, 2, 1,
                           2, 1, 2,
-                          1, 2, 1), 3, 3, byrow = T)
+                          1, 2, 1), 3, 3, byrow = TRUE)
 }\if{html}{\out{</div>}}
 
 ... is then used to weight orthogonally contiguous pixels more heavily than
@@ -43,7 +43,8 @@ identical for all patches. Increases, without limit, as the variation of
 CONTIG increases.}
 }
 \examples{
-lsm_l_contig_sd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_contig_sd(landscape)
 
 }
 \references{

@@ -20,7 +20,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_pr(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_pr(landscape)
 #'
 #' @aliases lsm_l_pr
 #' @rdname lsm_l_pr
@@ -59,9 +60,9 @@ lsm_l_pr_calc <- function(landscape){
                               value = as.double(NA)))
     }
 
-    return(tibble::tibble(level = 'landscape',
+    return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),
                           id = as.integer(NA),
-                          metric = 'pr',
+                          metric = "pr",
                           value = as.double(richness)))
 }

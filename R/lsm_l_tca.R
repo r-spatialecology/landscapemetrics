@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_tca(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_tca(landscape)
 #'
 #' @aliases lsm_l_tca
 #' @rdname lsm_l_tca

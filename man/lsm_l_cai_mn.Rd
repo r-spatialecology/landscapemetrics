@@ -45,7 +45,8 @@ value than itself (rook's case).
 approaches CAI_MN = 100 with increasing percentage of core area within patches.}
 }
 \examples{
-lsm_l_cai_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_cai_mn(landscape)
 
 }
 \references{

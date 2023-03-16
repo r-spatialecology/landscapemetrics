@@ -26,7 +26,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_condent(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_condent(landscape)
 #'
 #' @aliases lsm_l_condent
 #' @rdname lsm_l_condent
@@ -60,7 +61,7 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

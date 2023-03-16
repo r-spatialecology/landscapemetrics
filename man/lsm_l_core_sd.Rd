@@ -44,7 +44,8 @@ differences among all patches in the landscape.
 Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
-lsm_l_core_sd(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_core_sd(landscape)
 
 }
 \references{

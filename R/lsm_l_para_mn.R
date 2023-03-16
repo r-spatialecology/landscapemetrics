@@ -34,7 +34,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_para_mn(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_para_mn(landscape)
 #'
 #' @aliases lsm_l_para_mn
 #' @rdname lsm_l_para_mn

@@ -25,7 +25,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_mutinf(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_mutinf(landscape)
 #'
 #' @aliases lsm_l_mutinf
 #' @rdname lsm_l_mutinf
@@ -59,7 +60,7 @@ lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

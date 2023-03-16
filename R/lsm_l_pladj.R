@@ -22,7 +22,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_pladj(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_pladj(landscape)
 #'
 #' @aliases lsm_l_pladj
 #' @rdname lsm_l_pladj
@@ -51,7 +52,7 @@ lsm_l_pladj <- function(landscape) {
 lsm_l_pladj_calc <- function(landscape) {
 
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

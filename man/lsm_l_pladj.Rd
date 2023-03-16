@@ -31,7 +31,8 @@ i.e. every cell is a different patch. Equals PLADJ = 100 when the only one patch
 is present.}
 }
 \examples{
-lsm_l_pladj(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_pladj(landscape)
 
 }
 \references{

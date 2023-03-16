@@ -33,7 +33,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_ed(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_ed(landscape)
 #'
 #' @aliases lsm_l_ed
 #' @rdname lsm_l_ed
@@ -68,7 +69,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

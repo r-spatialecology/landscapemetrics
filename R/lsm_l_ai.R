@@ -26,7 +26,8 @@
 #' \code{\link{lsm_c_ai}}
 #'
 #' @examples
-#' lsm_l_ai(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_ai(landscape)
 #'
 #' @aliases lsm_l_ai
 #' @rdname lsm_l_ai
@@ -61,7 +62,7 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
 
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

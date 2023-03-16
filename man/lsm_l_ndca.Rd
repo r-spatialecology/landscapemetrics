@@ -48,7 +48,8 @@ an edge cell. NDCA increases, with out limit, as core area increases and patch s
 disjunct core areas (i.e. patch shapes become rather complex).}
 }
 \examples{
-lsm_l_ndca(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_ndca(landscape)
 
 }
 \references{

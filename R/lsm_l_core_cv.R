@@ -36,7 +36,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_core_cv(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_core_cv(landscape)
 #'
 #' @aliases lsm_l_core_cv
 #' @rdname lsm_l_core_cv

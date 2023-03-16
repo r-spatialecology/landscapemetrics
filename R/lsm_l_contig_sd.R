@@ -18,7 +18,7 @@
 #' ```
 #' filter_matrix <- matrix(c(1, 2, 1,
 #'                           2, 1, 2,
-#'                           1, 2, 1), 3, 3, byrow = T)
+#'                           1, 2, 1), 3, 3, byrow = TRUE)
 #' ```
 #' ... is then used to weight orthogonally contiguous pixels more heavily than
 #' diagonally contiguous pixels. Therefore, larger and more connections between
@@ -41,7 +41,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_contig_sd(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_contig_sd(landscape)
 #'
 #' @aliases lsm_l_contig_sd
 #' @rdname lsm_l_contig_sd

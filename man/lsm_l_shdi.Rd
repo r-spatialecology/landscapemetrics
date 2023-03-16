@@ -29,7 +29,8 @@ without limit, as the number of classes increases while the proportions are
 equally distributed}
 }
 \examples{
-lsm_l_shdi(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_shdi(landscape)
 
 }
 \references{

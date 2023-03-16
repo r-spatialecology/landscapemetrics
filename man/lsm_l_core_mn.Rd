@@ -43,7 +43,8 @@ neighbour with a different value than themselves (rook's case).
 without limit, as the core area indices increase.}
 }
 \examples{
-lsm_l_core_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_core_mn(landscape)
 
 }
 \references{

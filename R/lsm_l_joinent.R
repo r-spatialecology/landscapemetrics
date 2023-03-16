@@ -24,7 +24,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_joinent(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_joinent(landscape)
 #'
 #' @aliases lsm_l_joinent
 #' @rdname lsm_l_joinent
@@ -58,7 +59,7 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

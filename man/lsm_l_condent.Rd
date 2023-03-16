@@ -32,7 +32,8 @@ It measures a only a geometric intricacy (configurational complexity)
 of a landscape pattern.
 }
 \examples{
-lsm_l_condent(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_condent(landscape)
 
 }
 \references{

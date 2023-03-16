@@ -39,7 +39,8 @@ The number of classes to calculate CONTAG must be >= than 2.
 and 100 indicates that all cells are equally adjacent to all other classes.}
 }
 \examples{
-lsm_l_contag(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_contag(landscape)
 
 }
 \references{

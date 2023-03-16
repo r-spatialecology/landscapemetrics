@@ -36,7 +36,8 @@
 #' @return tibble
 #'
 #' @examples
-#' lsm_l_core_sd(terra::unwrap(landscape))
+#' landscape <- terra::rast(landscape)
+#' lsm_l_core_sd(landscape)
 #'
 #' @aliases lsm_l_core_sd
 #' @rdname lsm_l_core_sd

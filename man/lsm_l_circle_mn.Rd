@@ -33,7 +33,8 @@ of all patches is small. Increases, without limit, as the related circumscribing
 increase.}
 }
 \examples{
-lsm_l_circle_mn(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_circle_mn(landscape)
 
 }
 \references{
