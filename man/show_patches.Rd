@@ -36,7 +36,7 @@ The functions plots the landscape with the patches labeled with the
 corresponding patch id.
 }
 \examples{
-landscape <- terra::unwrap(landscape)
+landscape <- terra::rast(landscape)
 
 show_patches(landscape)
 show_patches(landscape, class = c(1, 2))

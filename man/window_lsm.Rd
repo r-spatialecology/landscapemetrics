@@ -47,11 +47,13 @@ The function calculates for each focal cell the selected landscape metrics (curr
 metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
 details, see \code{?terra::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
-To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
+To be type stable, the actual result is always a nested list (first level for \code{RasterStack} layers, second level
 for selected landscape metrics).
 }
 \examples{
 \dontrun{
+landscape <- terra::rast(landscape)
+landscape_stack <- c(landscape, landscape)
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))

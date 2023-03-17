@@ -19,9 +19,12 @@ Data info
 Check class of raster values and number of classes
 }
 \examples{
-data_info(terra::unwrap(landscape))
-data_info(terra::unwrap(augusta_nlcd))
-data_info(terra::unwrap(podlasie_ccilc))
+augusta_nlcd <- terra::rast(augusta_nlcd)
+data_info(augusta_nlcd)
+podlasie_ccilc <- terra::rast(podlasie_ccilc)
+data_info(podlasie_ccilc)
+landscape <- terra::rast(landscape)
+data_info(landscape)
 
 }
 \keyword{internal}

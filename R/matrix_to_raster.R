@@ -3,10 +3,10 @@
 #' @description Convert matrix to raster
 #'
 #' @param matrix matrix with values.
-#' @param landscape RasterLayer.
-#' @param landscape_empty If true, RasterLayer is landscape_empty
-#' @param extent Extent of RasterLayer.
-#' @param resolution Resolution of RasterLayer.
+#' @param landscape SpatRaster
+#' @param landscape_empty If true, SpatRaster is landscape_empty
+#' @param extent Extent of SpatRaster
+#' @param resolution Resolution of SpatRaster
 #' @param crs CRS of raster layer.
 #' @param to_disk If TRUE raster will be saved to disk.
 #'
@@ -17,7 +17,7 @@
 #' @return raster
 #'
 #' @examples
-#' augusta_nlcd <- terra::unwrap(augusta_nlcd)
+#' augusta_nlcd <- terra::rast(augusta_nlcd)
 #'
 #' test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 #' matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)

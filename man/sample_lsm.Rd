@@ -28,7 +28,7 @@ points will be labelled 1...n.}
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
-the side-length for squares in mapunits. For lines size equals the width of the buffer.}
+the side-length for squares in map units. For lines size equals the width of the buffer.}
 
 \item{all_classes}{Logical if NA should be returned for classes not present in some sample plots.}
 
@@ -65,7 +65,7 @@ automatically all possibilities are selected. Therefore, to get \strong{all}
 available metrics, don't specify any of the above arguments.
 }
 \examples{
-landscape <- terra::unwrap(landscape)
+landscape <- terra::rast(landscape)
 
 # use a matrix
 sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)

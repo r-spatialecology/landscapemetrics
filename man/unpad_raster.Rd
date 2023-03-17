@@ -32,7 +32,8 @@ Adding padding to raster
 Removes equally (in all four directions) additional cells around the raster
 }
 \examples{
-lsm_padded <- pad_raster(terra::unwrap(landscape), pad_raster_cells = 2, pad_raster_value = -1)
+landscape <- terra::rast(landscape)
+lsm_padded <- pad_raster(landscape, pad_raster_cells = 2, pad_raster_value = -1)
 unpad_raster(lsm_padded[[1]], unpad_raster_cells = 2)
 
 }

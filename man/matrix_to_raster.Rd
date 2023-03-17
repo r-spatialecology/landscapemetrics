@@ -17,13 +17,13 @@ matrix_to_raster(
 \arguments{
 \item{matrix}{matrix with values.}
 
-\item{landscape}{RasterLayer.}
+\item{landscape}{SpatRaster}
 
-\item{landscape_empty}{If true, RasterLayer is landscape_empty}
+\item{landscape_empty}{If true, SpatRaster is landscape_empty}
 
-\item{extent}{Extent of RasterLayer.}
+\item{extent}{Extent of SpatRaster}
 
-\item{resolution}{Resolution of RasterLayer.}
+\item{resolution}{Resolution of SpatRaster}
 
 \item{crs}{CRS of raster layer.}
 
@@ -40,7 +40,7 @@ Converts \code{matrix} to a raster with same characteristics as \code{landscape}
 \code{landscape} or \code{extent}, \code{resolution} and \code{crs} must be specified.
 }
 \examples{
-augusta_nlcd <- terra::unwrap(augusta_nlcd)
+augusta_nlcd <- terra::rast(augusta_nlcd)
 
 test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)

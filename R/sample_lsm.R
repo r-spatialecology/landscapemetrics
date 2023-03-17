@@ -8,7 +8,7 @@
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
-#' the side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' the side-length for squares in map units. For lines size equals the width of the buffer.
 #' @param all_classes Logical if NA should be returned for classes not present in some sample plots.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
@@ -40,7 +40,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::unwrap(landscape)
+#' landscape <- terra::rast(landscape)
 #'
 #' # use a matrix
 #' sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
@@ -162,7 +162,7 @@ sample_lsm_int <- function(landscape,
     }
 
     # get area of all polygons
-    maximum_area <-sf::st_area(y) / 10000
+    maximum_area <- sf::st_area(y) / 10000
 
     number_plots <- nrow(y)
 

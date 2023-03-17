@@ -9,7 +9,8 @@
 #' @return list
 #'
 #' @examples
-#' landscape_as_list(c(terra::unwrap(landscape), terra::unwrap(landscape)))
+#' landscape <- terra::rast(landscape)
+#' landscape_as_list(c(landscape, landscape))
 #'
 #' @aliases landscape_as_list
 #' @rdname landscape_as_list

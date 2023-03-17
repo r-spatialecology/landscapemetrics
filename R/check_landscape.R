@@ -15,9 +15,12 @@
 #' @return tibble
 #'
 #' @examples
-#' check_landscape(terra::unwrap(augusta_nlcd))
-#' check_landscape(terra::unwrap(podlasie_ccilc))
-#' check_landscape(c(terra::unwrap(landscape), terra::unwrap(landscape)))
+#' augusta_nlcd <- terra::rast(augusta_nlcd)
+#' check_landscape(augusta_nlcd)
+#' podlasie_ccilc <- terra::rast(podlasie_ccilc)
+#' check_landscape(podlasie_ccilc)
+#' landscape <- terra::rast(landscape)
+#' check_landscape(c(landscape, landscape))
 #'
 #' @aliases check_landscape
 #' @rdname check_landscape

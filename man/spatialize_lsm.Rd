@@ -54,7 +54,8 @@ The second level contains a \code{RasterLayer} for each selected metric
 value of the patch it belongs to. Only patch level metrics are allowed.
 }
 \examples{
-spatialize_lsm(terra::unwrap(landscape), what = "lsm_p_area")
+landscape <- terra::rast(landscape)
+spatialize_lsm(landscape, what = "lsm_p_area")
 
 }
 \seealso{
