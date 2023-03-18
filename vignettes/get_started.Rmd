@@ -22,15 +22,17 @@ library(landscapemetrics)
 library(terra)
 library(dplyr)
 
-# internal data needs to be unwrapped
-landscape <- terra::unwrap(landscapemetrics::landscape)
-augusta_nlcd <- terra::unwrap(landscapemetrics::augusta_nlcd)
-podlasie_ccilc <- terra::unwrap(landscapemetrics::podlasie_ccilc)
+# internal data needs to be read
+landscape <- terra::rast(landscape)
+augusta_nlcd <- terra::rast(augusta_nlcd)
+podlasie_ccilc <- terra::rast(podlasie_ccilc)
 ```
 
 ## Design
 
-All functions in **landscapemetrics** start with `lsm_` (for landscapemetrics). The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`). The last part of the function name is the abbreviation of the corresponding metric (e.g. `enn`for the euclidean nearest-neighbor distance): 
+Most functions in **landscapemetrics** start with `lsm_` (for **l**and**s**cape**m**etrics). 
+The second part of the name specifies the level (patch - `p`, class - `c` or landscape - `l`).
+The last part of the function name is the abbreviation of the corresponding metric (e.g., `enn`for the euclidean nearest-neighbor distance): 
 
 ```
 # general structure
@@ -49,7 +51,7 @@ lsm_c_enn()
 lsm_l_enn()
 ```
 
-All functions return an identical structured tibble:
+All `lsm_` functions return an identically structured tibble:
 
 <p style="text-align:center;">
 
@@ -63,8 +65,8 @@ All functions return an identical structured tibble:
 
 ## Checking your landscape
 
-Before using **landscapemetrics** and calculating landscape metrics in general,
-it makes sense to check your landscape. If your landscape has some properties that restrict the calculation or interpretation of landscape metrics, that should be detected with `check_landscape`:
+Before using **landscapemetrics** and calculating landscape metrics in general, it makes sense to check your landscape.
+If your landscape has some properties that restrict the calculation or interpretation of landscape metrics, that should be detected with `check_landscape`:
 
 ```{r}
 # import raster
@@ -72,7 +74,7 @@ it makes sense to check your landscape. If your landscape has some properties th
 # ... or any other raster file type, geotiff, ...
 
 # Check your landscape
-check_landscape(landscape) # because CRS is unkown, not clear
+check_landscape(landscape) # because CRS is unknown, not clear
 
 check_landscape(podlasie_ccilc) # wrong units
 
@@ -81,10 +83,9 @@ check_landscape(augusta_nlcd) # everything is ok
 
 The **requirements** to calculate meaningful landscape metrics are:
 
-1. The distance units of your projection are **meter**, as the package converts units internally and returns results in either meters, square meters or hectares. For more information see the help file of each function. 
-
+1. The distance units of your projection are **meters**, as the package converts units internally and returns results in either meters, square meters or hectares.
+For more information see the help file of each function. 
 2. Your raster encodes landscape classes as integers (1, 2, 3, 4, ..., *n*).
-
 3. Landscape metrics describe *categorical* landscapes, that means that your landscape needs to be classified (we throw a warning if you have more than 30 classes to make sure you work with a classified landscape).
 
 ## Using **landscapemetrics**
@@ -102,7 +103,8 @@ lsm_p_perim(landscape)
 
 ### Using **landscapemetrics** in a tidy workflow
 
-Every function in *landscapemetrics* accept data as its first argument, which makes piping a natural workflow. A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.
+Every function in *landscapemetrics* accept data as its first argument, which makes piping a natural workflow.
+A possible use case is that you would load your spatial data, calculate some landscape metrics and then use the resulting tibble in further analyses.
 
 ```{r, message=FALSE}
 # all patch IDs of class 2 with an ENN > 2.5
@@ -117,7 +119,8 @@ subsample_patches
 
 ### Use multiple metric functions
 
-To list all available metrics, just use the `list_lsm()` function. Here, you can specify e.g. a level or type of metrics. 
+To list all available metrics, just use the `list_lsm()` function. 
+Here, you can specify, for example, a level or type of metrics. 
 
 ```{r}
 # list all available metrics
@@ -134,7 +137,7 @@ list_lsm(level = c("patch", "landscape"),
          simplify = TRUE)
 ```
 
-As the result of every function always returns a `tibble`, combining the metrics that were selected for your research question is straightforward:
+Every function returns a `tibble`, thus combining the metrics that were selected for your research question is straightforward:
 
 ```{r, message=FALSE}
 # bind results from different metric functions
@@ -148,10 +151,11 @@ patch_metrics <- dplyr::bind_rows(
 patch_metrics 
 ```
 
-All metrics are abbreviated in the result `tibble`. Therefore, we provide a `tibble` containing the full metric names, as well as the class of each metric (`lsm_abbreviations_names`). Using e.g. the `left_join()` function of the `dplyr` package one could join a result `tibble` and the abbreviations `tibble`.
+All metrics are abbreviated in the result `tibble`.
+Therefore, we provide a `tibble` containing the full metric names, as well as the class of each metric (`lsm_abbreviations_names`). 
+Using e.g. the `left_join()` function of the **dplyr** package one could join a result `tibble` and the abbreviations `tibble`.
 
 ```{r, message=FALSE}
-
 # bind results from different metric functions
 patch_metrics <- dplyr::bind_rows(
   lsm_p_cai(landscape),
@@ -165,8 +169,11 @@ patch_metrics_full_names <- dplyr::left_join(x = patch_metrics,
 patch_metrics_full_names
 ```
 
-
-Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings. Because all metrics regardless of the level return an identical `tibble`, different levels can be mixed. It is also possible to calculate all available metrics at a certain level using e.g. `level = "patch"`. Additionally, similar to `list_lsm()` you can also specify e.g. a certain group of metrics. Of course, you can also include the full names and information of all metrics using `full_name = TRUE`.
+Additionally, we provide a wrapper where the desired metrics can be specified as a vector of strings.
+Because all metrics regardless of the level return an identical `tibble`, different levels can be mixed.
+It is also possible to calculate all available metrics at a certain level using, e.g., `level = "patch"`.
+Additionally, similar to `list_lsm()` you can also specify, e.g., a certain group of metrics.
+Of course, you can also include the full names and information of all metrics using `full_name = TRUE`.
 
 ```{r, message=FALSE}
 # calculate certain metrics
