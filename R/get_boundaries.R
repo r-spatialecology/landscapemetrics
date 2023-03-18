@@ -2,7 +2,7 @@
 #'
 #' @description Get boundary cells of patches
 #'
-#' @param landscape RasterLayer or matrix.
+#' @param landscape SpatRaster or matrix.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as edge.
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch
@@ -20,7 +20,8 @@
 #' @return List with RasterLayer or matrix
 #'
 #' @examples
-#' class_1 <- get_patches(terra::unwrap(landscape), class = 1)[[1]][[1]]
+#' landscape <- terra::rast(landscape)
+#' class_1 <- get_patches(landscape, class = 1)[[1]][[1]]
 #'
 #' get_boundaries(class_1)
 #' get_boundaries(class_1, return_raster = FALSE)

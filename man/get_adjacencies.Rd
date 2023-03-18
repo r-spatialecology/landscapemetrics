@@ -38,12 +38,12 @@ like adjacencies, a count for how many edges a shared in each class with the sam
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{
-landscape <- terra::unwrap(landscape)
+landscape <- terra::rast(landscape)
 # calculate full adjacency matrix
 get_adjacencies(landscape, 4)
 
-# equivalent with the raster package:
-adjacencies <- terra::adjacent(landscape, 1:terra::ncell(landscape), "rook", pairs=TRUE)
+# equivalent with the terra package:
+adjacencies <- terra::adjacent(landscape, 1:terra::ncell(landscape), "rook", pairs = TRUE)
 table(terra::values(landscape, mat = FALSE)[adjacencies[,1]],
 terra::values(landscape, mat = FALSE)[adjacencies[,2]])
 

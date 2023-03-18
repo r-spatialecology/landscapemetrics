@@ -26,12 +26,12 @@
 #' @return matrix with adjacencies between classes in a raster and between cells from the same class.
 #'
 #' @examples
-#' landscape <- terra::unwrap(landscape)
+#' landscape <- terra::rast(landscape)
 #' # calculate full adjacency matrix
 #' get_adjacencies(landscape, 4)
 #'
-#' # equivalent with the raster package:
-#' adjacencies <- terra::adjacent(landscape, 1:terra::ncell(landscape), "rook", pairs=TRUE)
+#' # equivalent with the terra package:
+#' adjacencies <- terra::adjacent(landscape, 1:terra::ncell(landscape), "rook", pairs = TRUE)
 #' table(terra::values(landscape, mat = FALSE)[adjacencies[,1]],
 #' terra::values(landscape, mat = FALSE)[adjacencies[,2]])
 #'

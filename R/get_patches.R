@@ -34,7 +34,7 @@
 #' @return List
 #'
 #' @examples
-#' landscape <- terra::unwrap(landscape)
+#' landscape <- terra::rast(landscape)
 #'
 #' # check for patches of class 1
 #' patched_raster <- get_patches(landscape, class = 1)

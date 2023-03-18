@@ -48,7 +48,7 @@ this option can be set globally, so that every function that internally uses
 \code{get_patches} can make use of that.
 }
 \examples{
-landscape <- terra::unwrap(landscape)
+landscape <- terra::rast(landscape)
 
 # check for patches of class 1
 patched_raster <- get_patches(landscape, class = 1)

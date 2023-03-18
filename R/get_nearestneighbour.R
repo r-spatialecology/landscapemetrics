@@ -2,7 +2,7 @@
 #'
 #' @description Euclidean distance to nearest neighbour
 #'
-#' @param landscape RasterLayer or matrix (with x,y,id columns).
+#' @param landscape SpatRaster or matrix (with x,y,id columns).
 #' @param return_id If TRUE, also the patch ID of the nearest neighbour is returned.
 #'
 #' @details
@@ -18,7 +18,8 @@
 #'
 #' @examples
 #' # get patches for class 1
-#' class_1 <- get_patches(terra::unwrap(landscape), class = 2)[[1]][[1]]
+#' landscape <- terra::rast(landscape)
+#' class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 #'
 #' # calculate the distance between patches
 #' get_nearestneighbour(class_1)

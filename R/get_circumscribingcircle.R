@@ -2,7 +2,7 @@
 #'
 #' @description Diameter of the circumscribing circle around patches
 #'
-#' @param landscape RasterLayer or matrix (with x, y, id columns)
+#' @param landscape SpatRaster or matrix (with x, y, id columns)
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param level Either 'patch' or 'class' for the corresponding level.
@@ -16,11 +16,13 @@
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'
 #' @examples
+#' landscape <- terra::rast(landscape)
+#'
 #' # get circle around each patch
-#' get_circumscribingcircle(terra::unwrap(landscape))
+#' get_circumscribingcircle(landscape)
 #'
 #' # get circle around whole class
-#' get_circumscribingcircle(terra::unwrap(landscape), level = "class")
+#' get_circumscribingcircle(landscape, level = "class")
 #'
 #' @aliases get_circumscribingcircle
 #' @rdname get_circumscribingcircle
