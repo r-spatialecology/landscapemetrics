@@ -43,7 +43,8 @@ identical for all patches. Increases, without limit, as the variation of
 CONTIG increases.}
 }
 \examples{
-lsm_l_contig_cv(terra::unwrap(landscape))
+landscape <- terra::rast(landscape)
+lsm_l_contig_cv(landscape)
 
 }
 \references{
