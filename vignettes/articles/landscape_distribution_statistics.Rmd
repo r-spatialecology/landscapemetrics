@@ -19,16 +19,15 @@ Even though they are not implemented in **landscapemetrics**, R allows to calcul
 ```{r packages, message = FALSE}
 library(landscapemetrics)
 library(terra)
-
 library(dplyr)
 
-# internal data needs to be unwrapped
-landscape <- terra::unwrap(landscapemetrics::landscape)
+# internal data needs to be read
+landscape <- terra::rast(landscape)
 ```
 
 ## Implemented distribution statistics ## 
 
-The already implemented distribution statistics on class- and landscape-level are indicated by the corresponding suffixes (`_mn` = mean, `_cv` = Coefficient of variation , `_sd` = Standard deviation) and can be calculted without any further calculations needed.
+The already implemented distribution statistics on class- and landscape-level are indicated by the corresponding suffixes (`_mn` = mean, `_cv` = Coefficient of variation , `_sd` = Standard deviation) and can be calculated directly.
 
 ```{r implemented}
 # calculate mean shape index on class level
@@ -46,9 +45,11 @@ Additionally, we want the patch area of each patch.
 ```{r mean_a}
 # calculate required metric for each patch (e.g. lsm_p_shape)
 metric_patch <- lsm_p_shape(landscape)
+metric_patch
 
 # calculate area for each patch
 area_patch <- lsm_p_area(landscape)
+area_patch
 ```
 
 Now, we should join the metric value with the area of each patch, multiply the two values, and calculate the area-weighted mean. 
@@ -57,9 +58,9 @@ To calculate the area-weighted mean on landscape-level, comment out the `dplyr::
 ```{r mean_b}
 # calculate weighted mean
 metric_wght_mean <- dplyr::left_join(x = metric_patch, y = area_patch, 
-                                     by = c("layer", "level", "class", "id")) %>%
-  dplyr::mutate(value.w = value.x * value.y) %>%
-  dplyr::group_by(class) %>%
+                                     by = c("layer", "level", "class", "id")) |>
+  dplyr::mutate(value.w = value.x * value.y) |>
+  dplyr::group_by(class) |>
   dplyr::summarise(value.am = sum(value.w) / sum(value.y)) 
 
 metric_wght_mean
@@ -72,13 +73,12 @@ This can be calculated using the `min()/max()` function or the `range()` functio
 
 ```{r range}
 # class level
-metric_range_c <- dplyr::group_by(metric_patch, class) %>% 
+metric_range_c <- dplyr::group_by(metric_patch, class) |> 
     dplyr::summarise(range = max(value) - min(value))
+metric_range_c
 
 # landscape level
 metric_range_l <- diff(range(metric_patch$value))
-
-metric_range_c
 metric_range_l
 ```
 
@@ -89,13 +89,12 @@ There is a base R function available, `median()`, that can be applied to values 
 
 ```{r median}
 # class level
-metric_md_c <- dplyr::group_by(metric_patch, class) %>% 
+metric_md_c <- dplyr::group_by(metric_patch, class) |> 
     dplyr::summarise(median = median(value))
+metric_md_c
 
 # landscape level
 metric_md_l <- median(metric_patch$value)
-
-metric_md_c
 metric_md_l
 ```
 

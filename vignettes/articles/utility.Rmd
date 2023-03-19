@@ -20,15 +20,18 @@ knitr::opts_chunk$set(
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
 library(terra)
-
 library(bench)
 library(dplyr)
 library(purrr)
+
+# internal data needs to be read
+landscape <- terra::rast(landscape)
 ```
 
 ## Visualisization functions
 
 ### Visualizing landscapes
+
 We can use the `plot` function from **terra** to have look at our landscape.
 
 ```{r fig.height=12, fig.asp=0.50, fig.align='center', fig.retina = 2}
@@ -36,7 +39,8 @@ We can use the `plot` function from **terra** to have look at our landscape.
 plot(landscape) 
 ```
 
-This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. This why we show in the following how to dissect this landscape visually into the compoments, that drive the calculation of landscape metrics.
+This is how we typically inspect our landscape, but which also makes it quite hard to relate to the landscape metrics we are interested in. 
+This why we show in the following how to dissect this landscape visually into the components, that drive the calculation of landscape metrics.
 
 ### Visualizing patches
 
@@ -54,18 +58,26 @@ You can also plot all patches of each class grouped.
 show_patches(landscape, class = "all", labels = FALSE)
 ```
 
-To show only the core area, there is the visualization function `show_cores`. The arguments are similar to `show_patches()`
+To show only the core area, there is the visualization function `show_cores`.
+The arguments are similar to `show_patches()`:
 
 ```{r fig.width=7, fig.height=7, fig.asp=0.50, fig.align='center', fig.retina = 2}
 # show core area of class 1 and 3
 show_cores(landscape, class = c(1, 2), labels = FALSE)
 ```
 
-Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g. the patch area, using `show_lsm()`. You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`). To get the result as a *RasterLayer*, there is `spatialize_lsm()`.
+Lastly, you can also "fill" the colours of each patch according to its value of a certain patch level metric, e.g., the patch area, using `show_lsm()`.
+You can chose if the label should be the patch id or the actual value of the landscape metric (`label_lsm = TRUE/FALSE`). 
 
 ```{r fig.width=7, fig.height=7, fig.asp=0.50, fig.align='center', fig.retina = 2}
 # fill patch according to area
 show_lsm(landscape, what = "lsm_p_area", class = "global", label_lsm = TRUE)
+```
+
+To get the result as a *SpatRaster*, there is `spatialize_lsm()`.
+
+```{r}
+spatialize_lsm(landscape, what = "lsm_p_area")
 ```
 
 ## Show correlation
@@ -82,7 +94,10 @@ show_correlation(metrics, method = "pearson")
 ## Building blocks
 
 ### Get patches
-**landscapemetrics** makes internally heavy use of an connected labeling algorithm and exports an re-implementation of this algorithm (`get_patches`). The function return a list, where each list entry includes all patches of the corresponding class. The patches are labeld from 1...to n. 
+
+**landscapemetrics** makes internally heavy use of an connected labeling algorithm and exports an re-implementation of this algorithm (`get_patches()`). 
+This function return a list, where each list entry includes all patches of the corresponding class.
+The patches are labeled from 1...to n. 
 
 ```{r}
 # get a list of all patches for each class
@@ -90,7 +105,9 @@ get_patches(landscape)
 ```
 
 ### Get adjacencies
-Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for e.g. developing new metrics. Hence, **landscapemetrics** exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).
+
+Adjacencies are a central part for landscape metrics, so calculating them quick and in a flexible way is key for, e.g., developing new metrics.
+Hence, **landscapemetrics** exports a function that can calculate adjacencies in any number if directions when provided with a binary matrix (NA / 1 - NA are cells that would be left out for looking at adjacencies).
 
 ```{r}
 # calculate full adjacency matrix
@@ -102,7 +119,7 @@ diagonal_matrix <- matrix(c(1,  NA,  1,
                             1,  NA,  1), 3, 3, byrow = TRUE)
 get_adjacencies(landscape, diagonal_matrix)
 
-# equivalent with the raster package:
+# equivalent with the terra package:
 adj_terra <- function(x){
     adjacencies <- terra::adjacent(x, 1:terra::ncell(x), "rook", pairs=TRUE)
     table(terra::values(x, mat = FALSE)[adjacencies[,1]],
@@ -125,7 +142,7 @@ adj_terra(landscape) == get_adjacencies(landscape, 4)[[1]]
 **landscapemetrics** implements a memory efficient and quite fast way to calculate the nearest neighbour between classes in a raster (or matrix).
 
 ```{r}
-# run connected labeling for podlasie raster
+# run connected labeling for raster
 patches <- get_patches(landscape, class = 1)
 
 # calculate the minimum distance between patches in a landscape
@@ -175,7 +192,9 @@ get_nearestneighbour(patches$layer_1$class_1)[, 2:3] == nn_terra(patches$layer_1
 
 ### Get circumscribing circle
 
-To get the smallest circumscribing circle that includes all cells of the patch, simply run `get_circumscribingcircle()`. The result returns the diameter for each circle that includes all cells of each patch. This includes not only the cell centers but the whole cells using the cells corners. 
+To get the smallest circumscribing circle that includes all cells of the patch, simply run `get_circumscribingcircle()`.
+The result returns the diameter for each circle that includes all cells of each patch. 
+This includes not only the cell centers but the whole cells using the cells corners. 
 
 ```{r}
 # get all patches of class 1
@@ -183,4 +202,5 @@ class_1 <- get_patches(landscape, class = 1)
 
 # get smallest circumscribing circle for each patch
 circle <- get_circumscribingcircle(class_1$layer_1$class_1)
+circle
 ```
