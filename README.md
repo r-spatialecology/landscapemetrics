@@ -4,7 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
 
-README last updated: 2023-03-13
+README last updated: 2023-03-19
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                    | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -117,8 +117,8 @@ quite straightforward:
 library(landscapemetrics)
 library(terra)
 
-# internal data needs to be unwrapped
-landscape <- terra::unwrap(landscapemetrics::landscape)
+# internal data needs to be read
+landscape <- terra::rast(landscape)
 
 # landscape raster
 plot(landscape)
