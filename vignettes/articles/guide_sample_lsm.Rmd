@@ -14,14 +14,15 @@ editor_options:
 library(landscapemetrics)
 library(terra)
 library(sf)
-
 library(ggplot2)
 
-# internal data needs to be unwrapped
-landscape <- terra::unwrap(landscapemetrics::landscape)
+# internal data needs to be read
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
-**landscapemetrics** provides several functions to sample metrics *at* or *around* sample points. On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points. For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), or [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported.
+**landscapemetrics** provides several functions to sample metrics *at* or *around* sample points.
+On possible application for this feature could be a study in which the study organism only encounters the landscape within a local neighborhood of sample points.
+For most functions, sample points can be provided as a 2-column matrix(x- and y-coordinate), or [**sf**](https://cran.r-project.org/web/packages/sf/index.html) objects (Pebesma 2018) are supported.
 
 First, we create some example sample locations.
 
@@ -40,7 +41,8 @@ First, we create some example sample locations.
 
 ## Extract landscape metrics at sample points
 
-`extract_lsm()` returns the metrics of all patches in which a sample point is located. However, since this only makes sense for individual patches, it's only possible to extract patch-level metrics.
+`extract_lsm()` returns the metrics of all patches in which a sample point is located.
+However, since this only makes sense for individual patches, it's only possible to extract patch-level metrics.
 
 ```{r, echo = FALSE, fig.align = "center"}
 ggplot(data = terra::as.data.frame(landscape, xy = TRUE)) + 
@@ -57,9 +59,14 @@ ggplot(data = terra::as.data.frame(landscape, xy = TRUE)) +
           legend.position = "bottom")
 ```
 
-Now, it's straightforward to extract e.g. the patch area of all patches in which a sample point is located. Similar to all functions calculating several landscape metrics, the selected metrics can be specified by various arguments (see `list_lsm()` for more details). The resulting tibble includes one extra column (compared to `calculate_lsm()`), indicating the ID of the sample points.
+Now, it's straightforward to extract e.g. the patch area of all patches in which a sample point is located.
+Similar to all functions calculating several landscape metrics, the selected metrics can be specified by various arguments (see `list_lsm()` for more details). 
+The resulting tibble includes one extra column (compared to `calculate_lsm()`), indicating the ID of the sample points.
 
-Because three sample points were provided and only the patch area was requested, the resulting tibble also has three rows - one for each sample point. The first and the second sample point are actually located in the same patch and following also the area is identical. The third sample point is located in a much smaller patch. The *tibble* gives also information about the patch ids and the land-cover classes in which sample points are located.
+Because three sample points were provided and only the patch area was requested, the resulting tibble also has three rows - one for each sample point. 
+The first and the second sample point are actually located in the same patch and following also the area is identical. 
+The third sample point is located in a much smaller patch. 
+The *tibble* gives also information about the patch ids and the land-cover classes in which sample points are located.
 
 ```{r, collapse = TRUE}
 extract_lsm(landscape, y = points, what = "lsm_p_area")
@@ -75,9 +82,16 @@ extract_lsm(landscape, y = sample_lines, type = "core area metric")
 
 ## Sample landscape metrics at sample points
 
-To sample landscape metrics within a certain buffer *around* sample points, there is `sample_lsm()`. Now, the size of the buffers around the sample locations must be specified. The functions clips the landscape within the buffer (in other words sample plots) and calculates the selected metrics. 
+To sample landscape metrics within a certain buffer *around* sample points, there is `sample_lsm()`.
+Now, the size of the buffers around the sample locations must be specified. 
+The functions clips the landscape within the buffer (in other words sample plots) and calculates the selected metrics. 
 
-The resulting `tibble` includes two extra columns. Again, the id of the sample point is included. Furthermore, the size of the actual sampled landscape can be different to the provided size due to two reasons. Firstly, because clipping raster cells using a circle or a sample plot not directly at a cell center lead to inaccuracies. Secondly, sample plots can exceed the landscape boundary. Therefore, we report the actual clipped sample plot area relative in relation to the theoretical, maximum sample plot area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
+The resulting `tibble` includes two extra columns.
+Again, the id of the sample point is included.
+Furthermore, the size of the actual sampled landscape can be different to the provided size due to two reasons. 
+Firstly, because clipping raster cells using a circle or a sample plot not directly at a cell center lead to inaccuracies.
+Secondly, sample plots can exceed the landscape boundary.
+Therefore, we report the actual clipped sample plot area relative in relation to the theoretical, maximum sample plot area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
 
 ```{r, echo = FALSE, fig.align = "center"}
 sample_plots <- data.frame(construct_buffer(coords = points, shape = "circle", 
