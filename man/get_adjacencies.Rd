@@ -38,7 +38,7 @@ like adjacencies, a count for how many edges a shared in each class with the sam
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 # calculate full adjacency matrix
 get_adjacencies(landscape, 4)
 

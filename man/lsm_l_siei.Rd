@@ -34,7 +34,7 @@ SIEI = 1 when the number of class types increases while the proportions are
 equally distributed}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_siei(landscape)
 
 }

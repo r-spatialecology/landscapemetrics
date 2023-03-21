@@ -32,7 +32,7 @@ easily comparable because it is scaled to the mean.
 Increases, without limit, as the variation of patch areas increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_area_cv(landscape)
 
 }

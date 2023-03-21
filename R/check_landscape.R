@@ -15,11 +15,11 @@
 #' @return tibble
 #'
 #' @examples
-#' augusta_nlcd <- terra::rast(augusta_nlcd)
+#' augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 #' check_landscape(augusta_nlcd)
-#' podlasie_ccilc <- terra::rast(podlasie_ccilc)
+#' podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 #' check_landscape(podlasie_ccilc)
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' check_landscape(c(landscape, landscape))
 #'
 #' @aliases check_landscape

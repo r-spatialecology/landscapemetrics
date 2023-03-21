@@ -33,7 +33,7 @@ metric is the simplest measure of composition.
 \subsection{Behaviour}{Increases, without limit, as the patch size increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_area(landscape)
 
 }

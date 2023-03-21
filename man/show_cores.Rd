@@ -45,7 +45,7 @@ The functions plots the core area of patches labeled with the
 corresponding patch id. The edges are the grey cells surrounding the patches and are always shown.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 
 # show "global" core area
 show_cores(landscape, class = "global", labels = FALSE)

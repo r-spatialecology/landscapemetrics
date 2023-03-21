@@ -41,7 +41,7 @@ cell or a cell with a different value than itself. Non-boundary cells only
 neighbour cells with the same value than themself.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 class_1 <- get_patches(landscape, class = 1)[[1]][[1]]
 
 get_boundaries(class_1)

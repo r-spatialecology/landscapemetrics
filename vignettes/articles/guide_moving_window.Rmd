@@ -29,7 +29,7 @@ library(terra)
 library(ggplot2)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
 First, we need to specify the local neighborhood matrix. 

@@ -34,7 +34,7 @@ for all patches. Increases, without limit, as the variation of related circumscr
 circles increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_circle_cv(landscape)
 
 }

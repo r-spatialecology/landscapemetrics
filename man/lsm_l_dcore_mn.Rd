@@ -44,7 +44,7 @@ whereby a core area is a 'patch within the patch' containing only core cells.
 without limit, as the number of disjunct core areas increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_dcore_mn(landscape)
 
 }

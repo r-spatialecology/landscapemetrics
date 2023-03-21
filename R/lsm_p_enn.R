@@ -35,7 +35,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_enn(landscape)
 #'
 #' @aliases lsm_p_enn

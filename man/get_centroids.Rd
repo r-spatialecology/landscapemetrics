@@ -36,7 +36,7 @@ centroid is defined as the cell center that is the closest to the mean location.
 }
 \examples{
 # get centroid location
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 get_centroids(landscape)
 
 }

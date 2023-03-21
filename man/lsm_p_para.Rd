@@ -34,7 +34,7 @@ the patch size while not changing the patch form will change the ratio.
 increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_para(landscape)
 
 }

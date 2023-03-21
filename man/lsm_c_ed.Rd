@@ -38,7 +38,7 @@ boundary is not included) and increases, without limit, as the landscapes become
 patchy}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_ed(landscape)
 
 }

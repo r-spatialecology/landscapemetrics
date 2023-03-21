@@ -26,7 +26,7 @@
 #' @return tibble
 #
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_iji(landscape)
 #
 #' @aliases lsm_c_iji

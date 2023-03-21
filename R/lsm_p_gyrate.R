@@ -36,7 +36,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_gyrate(landscape)
 #'
 #' @aliases lsm_p_gyrate

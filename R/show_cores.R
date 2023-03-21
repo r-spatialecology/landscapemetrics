@@ -20,7 +20,7 @@
 #' @return ggplot
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #'
 #' # show "global" core area
 #' show_cores(landscape, class = "global", labels = FALSE)

@@ -19,7 +19,7 @@ library(dplyr)
 library(purrr)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
 > The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently.

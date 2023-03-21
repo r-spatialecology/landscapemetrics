@@ -35,7 +35,7 @@ the double-count method.
 and 1 for maximally aggregated classes.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_clumpy(landscape)
 
 }

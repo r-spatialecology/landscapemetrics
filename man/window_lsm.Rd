@@ -52,7 +52,7 @@ for selected landscape metrics).
 }
 \examples{
 \dontrun{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 landscape_stack <- c(landscape, landscape)
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))

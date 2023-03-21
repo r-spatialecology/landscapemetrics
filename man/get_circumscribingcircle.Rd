@@ -23,7 +23,7 @@ is based on the maximum distance between the corners of each cell. This ensures 
 cells of the patch are included in the patch.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 
 # get circle around each patch
 get_circumscribingcircle(landscape)

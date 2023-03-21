@@ -23,9 +23,9 @@ library(terra)
 library(dplyr)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
-augusta_nlcd <- terra::rast(augusta_nlcd)
-podlasie_ccilc <- terra::rast(podlasie_ccilc)
+landscape <- terra::rast(landscapemetrics::landscape)
+augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
+podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 ```
 
 ## Design

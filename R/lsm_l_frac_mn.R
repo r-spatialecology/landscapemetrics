@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_frac_mn(landscape)
 #'
 #' @aliases lsm_l_frac_mn

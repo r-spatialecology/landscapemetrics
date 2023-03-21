@@ -30,7 +30,7 @@ measure of dominance.
 when the proportion of classes is completely equally distributed}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_shei(landscape)
 
 }

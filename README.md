@@ -118,7 +118,7 @@ library(landscapemetrics)
 library(terra)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 
 # landscape raster
 plot(landscape)

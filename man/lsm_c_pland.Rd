@@ -33,7 +33,7 @@ character directly comparable among landscapes with different total areas.
 Equals PLAND = 100 when only one patch is present.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_pland(landscape)
 
 }

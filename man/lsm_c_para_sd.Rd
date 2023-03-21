@@ -35,7 +35,7 @@ all patches. Increases, without limit, as the variation of the perimeter-area ra
 increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_para_sd(landscape)
 
 }

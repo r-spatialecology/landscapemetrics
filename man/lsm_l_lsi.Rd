@@ -31,7 +31,7 @@ Increases, without limit, as the length of the actual edges increases, i.e.
 the patches become less compact.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_lsi(landscape)
 
 }

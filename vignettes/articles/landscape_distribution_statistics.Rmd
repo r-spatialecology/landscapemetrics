@@ -22,7 +22,7 @@ library(terra)
 library(dplyr)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
 ## Implemented distribution statistics ## 

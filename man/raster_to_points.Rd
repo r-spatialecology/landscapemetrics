@@ -22,7 +22,7 @@ Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
 function including NA values
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 raster_to_points(landscape)
 
 }

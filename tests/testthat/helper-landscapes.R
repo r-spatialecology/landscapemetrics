@@ -1,8 +1,8 @@
 # create landscapes
 
-landscape <- terra::rast(landscape)
-augusta_nlcd <- terra::rast(augusta_nlcd)
-podlasie_ccilc <- terra::rast(podlasie_ccilc)
+landscape <- terra::rast(landscapemetrics::landscape)
+augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
+podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 
 landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 

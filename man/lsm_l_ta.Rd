@@ -31,7 +31,7 @@ in the landscape. It is the area of the observation area.
 without limit, as the size of the landscape increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_ta(landscape)
 
 }

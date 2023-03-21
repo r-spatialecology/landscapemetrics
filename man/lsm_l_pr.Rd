@@ -29,7 +29,7 @@ different total areas.
 limit, as the number of classes increases}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_pr(landscape)
 
 }

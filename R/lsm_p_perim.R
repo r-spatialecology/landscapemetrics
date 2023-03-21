@@ -23,7 +23,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_perim(landscape)
 #'
 #' @aliases lsm_p_perim

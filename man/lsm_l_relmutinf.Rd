@@ -31,7 +31,7 @@ Due to the spatial autocorrelation, the value of mutual information tends to gro
 When the value of mutual information equals to 0, then relative mutual information is 1.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_relmutinf(landscape)
 
 }

@@ -24,7 +24,7 @@ might be returned.
 }
 \examples{
 # get patches for class 1
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 
 # calculate the distance between patches

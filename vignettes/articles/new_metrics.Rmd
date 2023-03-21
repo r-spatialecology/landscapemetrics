@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 library(landscapemetrics)
 
 # internal data needs to be read
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
 One of the reason to start **landscapemetrics** was also to have a collection of metrics that are not included in FRAGSTATS. 

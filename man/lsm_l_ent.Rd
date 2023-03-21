@@ -26,7 +26,7 @@ Marginal entropy \[H(x)\]
 It measures a diversity (thematic complexity) of landscape classes.
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_ent(landscape)
 
 }

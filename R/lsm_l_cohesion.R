@@ -24,7 +24,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_cohesion(landscape)
 #'
 #' @aliases lsm_l_cohesion

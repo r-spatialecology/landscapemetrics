@@ -31,7 +31,7 @@ It disambiguates landscape pattern types characterize
 by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_mutinf(landscape)
 
 }

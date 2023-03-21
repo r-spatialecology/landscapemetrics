@@ -32,7 +32,7 @@ composition of the landscape.
 increases, without limit, as the number of patches increases}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_np(landscape)
 
 }

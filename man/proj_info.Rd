@@ -20,11 +20,11 @@ Check projection of RasterLayer
 }
 \examples{
 
-augusta_nlcd <- terra::rast(augusta_nlcd)
+augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 proj_info(augusta_nlcd)
-podlasie_ccilc <- terra::rast(podlasie_ccilc)
+podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 proj_info(podlasie_ccilc)
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 proj_info(landscape)
 
 }

@@ -34,7 +34,7 @@ comparisons among landscapes with different total area are possible.
 if every cell is a different patch.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_pd(landscape)
 
 }

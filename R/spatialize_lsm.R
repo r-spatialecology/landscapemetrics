@@ -29,7 +29,7 @@
 #' @return list
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' spatialize_lsm(landscape, what = "lsm_p_area")
 #'
 #' @aliases spatialize_lsm

@@ -26,7 +26,7 @@
 #' @return matrix with adjacencies between classes in a raster and between cells from the same class.
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' # calculate full adjacency matrix
 #' get_adjacencies(landscape, 4)
 #'

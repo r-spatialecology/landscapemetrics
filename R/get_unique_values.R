@@ -11,7 +11,7 @@
 #' Fast and memory friendly Rcpp implementation to find the unique values of an object.
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #'
 #' get_unique_values(landscape)
 #'

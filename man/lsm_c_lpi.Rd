@@ -33,7 +33,7 @@ measure of dominance.
 and equals LPI = 100 when only one patch is present}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_lpi(landscape)
 
 }

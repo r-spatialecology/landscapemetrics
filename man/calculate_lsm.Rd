@@ -87,7 +87,7 @@ above arguments.
 }
 \examples{
 \dontrun{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 calculate_lsm(landscape, progress = TRUE)
 calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
 calculate_lsm(landscape, level = c("class", "landscape"),

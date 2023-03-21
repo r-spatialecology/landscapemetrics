@@ -40,7 +40,7 @@ cells to all possible cell-center centroids.
 Increases, without limit, when only one patch is present.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_gyrate(landscape)
 
 }

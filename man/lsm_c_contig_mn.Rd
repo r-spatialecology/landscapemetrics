@@ -42,7 +42,7 @@ patch cells in the rookie case result in larger contiguity index values.
 patches.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_contig_mn(landscape)
 
 }

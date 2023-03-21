@@ -25,7 +25,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_shei(landscape)
 #'
 #' @aliases lsm_l_shei

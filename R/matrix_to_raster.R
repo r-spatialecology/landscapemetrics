@@ -17,7 +17,7 @@
 #' @return raster
 #'
 #' @examples
-#' augusta_nlcd <- terra::rast(augusta_nlcd)
+#' augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 #'
 #' test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 #' matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)

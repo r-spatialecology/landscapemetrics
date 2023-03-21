@@ -33,7 +33,7 @@ diagonal of the adjacency table). The number of classes to calculate IJI must be
 and equals 100 when a class is equally adjacent to all other classes.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_iji(landscape)
 }
 \references{

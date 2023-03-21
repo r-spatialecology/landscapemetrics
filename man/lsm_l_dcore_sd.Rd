@@ -46,7 +46,7 @@ core areas. Increases, without limit, as the variation of number of disjunct cor
 increases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_dcore_sd(landscape)
 
 }

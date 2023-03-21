@@ -15,7 +15,7 @@
 #' @return ggplot
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #'
 #' show_patches(landscape)
 #' show_patches(landscape, class = c(1, 2))

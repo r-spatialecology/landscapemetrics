@@ -39,7 +39,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_cai_sd(landscape)
 #'
 #' @aliases lsm_c_cai_sd

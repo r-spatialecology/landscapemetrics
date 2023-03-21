@@ -33,7 +33,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_shape(landscape)
 #'
 #' @aliases lsm_p_shape

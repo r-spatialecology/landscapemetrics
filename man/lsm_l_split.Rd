@@ -32,7 +32,7 @@ landscape would be divided into equally sized patches.
 the number of patches increases and is limited if all cells are a patch}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_split(landscape)
 
 }

@@ -34,7 +34,7 @@ is rather large. Increases, without limit, as the number of classes increases an
 total landscape area decreases.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_prd(landscape)
 
 }

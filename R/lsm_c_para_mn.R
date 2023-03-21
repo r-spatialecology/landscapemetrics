@@ -34,7 +34,7 @@
 #' @return tibble
 #'
 #' @examples
-#' landscape <- terra::rast(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_para_mn(landscape)
 #'
 #' @aliases lsm_c_para_mn

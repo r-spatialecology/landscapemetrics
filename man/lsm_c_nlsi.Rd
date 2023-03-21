@@ -35,7 +35,7 @@ increases the more disaggregated patches are and equals nLSI = 1 for a maximal d
 (i.e. a "checkerboard pattern").}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_nlsi(landscape)
 
 }

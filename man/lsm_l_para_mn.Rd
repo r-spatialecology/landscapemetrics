@@ -35,7 +35,7 @@ i.e. the form approaches a rather small square. Increases, without limit, as PAR
 i.e. patches become more complex.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_para_mn(landscape)
 
 }

@@ -45,7 +45,7 @@ value than itself (rook's case).
 approaches CAI_MN = 100 with increasing percentage of core area within patches.}
 }
 \examples{
-landscape <- terra::rast(landscape)
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_cai_mn(landscape)
 
 }
