@@ -132,7 +132,7 @@ calculate_correlation <- function(metrics, method = "pearson",
                 metric_2 = colnames(correlation_matrix_landscape)[col(correlation_matrix_landscape)],
                 value = c(correlation_matrix_landscape))
 
-            # only complete casses
+            # only complete cases
             landscape <- tibble::as_tibble(correlation_matrix_landscape_df[stats::complete.cases(correlation_matrix_landscape_df), ])
         }
     }
@@ -147,7 +147,7 @@ calculate_correlation <- function(metrics, method = "pearson",
     # only return tibble if possible
     if (simplify) {
 
-        if (length(correlation_list) == 1 ) {
+        if (length(correlation_list) == 1) {
             correlation_list <- correlation_list[[1]]
         } else{
             warning("Simplifying only possible if one level is present.", call. = FALSE)
