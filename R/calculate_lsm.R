@@ -200,7 +200,7 @@ calculate_lsm_internal <- function(landscape,
                           "name", "type", "function_name")
 
         result <- merge(x = result,
-                        y = landscapemetrics::lsm_abbreviations_names,
+                        y = lsm_abbreviations_names,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 

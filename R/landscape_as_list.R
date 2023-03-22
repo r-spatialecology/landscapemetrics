@@ -31,7 +31,7 @@ landscape_as_list.SpatRaster <- function(landscape) {
 #' @export
 landscape_as_list.RasterLayer <- function(landscape) {
 
-    landscape <- terra::rast(landscapemetrics::landscape)
+    landscape <- terra::rast(landscape)
     landscape <- terra::as.list(landscape)
 
     return(landscape)
@@ -41,7 +41,7 @@ landscape_as_list.RasterLayer <- function(landscape) {
 #' @export
 landscape_as_list.RasterBrick <- function(landscape) {
 
-    landscape <- terra::rast(landscapemetrics::landscape)
+    landscape <- terra::rast(landscape)
     landscape <- terra::as.list(landscape)
 
     return(landscape)
@@ -51,7 +51,7 @@ landscape_as_list.RasterBrick <- function(landscape) {
 #' @export
 landscape_as_list.RasterStack <- function(landscape) {
 
-    landscape <- terra::rast(landscapemetrics::landscape)
+    landscape <- terra::rast(landscape)
     landscape <- terra::as.list(landscape)
 
     return(landscape)
@@ -61,7 +61,7 @@ landscape_as_list.RasterStack <- function(landscape) {
 #' @export
 landscape_as_list.stars <- function(landscape) {
 
-    landscape <- terra::rast(landscapemetrics::landscape)
+    landscape <- terra::rast(landscape)
     landscape <- terra::as.list(landscape)
 
     return(landscape)
