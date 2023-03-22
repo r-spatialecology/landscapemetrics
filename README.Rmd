@@ -28,7 +28,7 @@ README last updated: `r Sys.Date()`
 
 <!-- End Badges -->
 
-> Starting from v2.0.0 landscapemetrics does not support the 'raster' or 'sp' package anymore. They are replaced with 'terra' and 'sf', respectively. More information about the terra package can be found here: <https://rspatial.org/index.html>.
+> Starting from v2.0.0, **landscapemetrics** does not support the `raster` or `sp` packages. They are replaced by `terra` and `sf`, respectively. More information about the `terra` package can be found here: <https://rspatial.org/index.html>.
 
 ## Overview
 
@@ -38,12 +38,12 @@ README last updated: `r Sys.Date()`
 
 #### Citation
 
-To cite **landscapemetrics** or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for 'ver. 0':
+To cite **landscapemetrics** or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for 'v0.0':
 
 <p>
 <i> 
 Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad, J. 2019.
-landscapemetrics: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (ver. 0). 
+landscapemetrics: an open‐source R tool to calculate landscape metrics. Ecography, 42: 1648-1657 (v0.0). 
 </i>
 </p>
 
