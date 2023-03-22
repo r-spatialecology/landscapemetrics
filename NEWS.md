@@ -1,9 +1,17 @@
+# landscapemetrics 1.5.6
+* Bugfixes
+    * SHEI now equals 0 when only one patch is present
+* Various
+    * Removes `rgeos` dependency
+    
 # landscapemetrics 1.5.5
 * Improvements
     * `get_patches` returns a unique patch id for all classes
     * Adds adds the ability to use a circular window in `window_lsm()`
- * Various
-    * Fix typo in Maintainer name
+* Bugfixes
+    * SHEI now equals to 0 when only one patch present 
+* Various
+    * Fixes typo in Maintainer name
 
 # landscapemetrics 1.5.4
 * Improvements

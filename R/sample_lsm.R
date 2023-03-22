@@ -49,7 +49,7 @@
 #' sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 #'
 #' \dontrun{
-#' # use lines (works only if rgeos is installed)
+#' # use lines
 #' x1 <- c(1, 5, 15, 10)
 #' y1 <- c(1, 5, 15, 25)
 #'
@@ -143,21 +143,7 @@ sample_lsm_int <- function(landscape,
 
             y <- sp::SpatialPolygons(y@polygons)
         }
-
-        # disaggregate if rgeos is installed
-        if (nzchar(system.file(package = "rgeos"))) {
-
-            y <- sp::disaggregate(y)
-
-        # warning that rgeos is not installed
-        } else {
-
-            if (verbose) {
-
-                warning("Package 'rgeos' is not installed. Please make sure polygons are disaggregated.",
-                        call. = FALSE)
-            }
-        }
+        y <- disaggregate_sp_tmp(y)
 
         # how many plots are present
         # number_plots <- length(y)
@@ -230,21 +216,11 @@ sample_lsm_int <- function(landscape,
 
                 y <- sp::SpatialLines(y@lines)
             }
+            # disaggregate lines
+            y <- disaggregate_sp_tmp(y)
 
-            # check if rgeos is installed
-            if (nzchar(system.file(package = "rgeos"))) {
-
-                # disaggregate lines
-                y <- sp::disaggregate(y)
-
-                # create buffer around lines
-                y <- raster::buffer(x = y,
-                                    width = size, dissolve = FALSE)
-
-            } else {
-                stop("To sample landscape metrics in buffers around lines, the package 'rgeos' must be installed.",
-                     call. = FALSE)
-            }
+            # create buffer around lines
+            y <- raster::buffer(x = y, width = size, dissolve = FALSE)
 
         } else {
 

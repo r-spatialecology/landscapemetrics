@@ -72,7 +72,12 @@ lsm_l_shei_calc <- function(landscape, resolution = NULL){
 
     prop <- prop$value / 100
 
-    shei <- sum(-prop * log(prop, exp(1))) / log(length(prop), exp(1))
+    log_len_prop <- log(length(prop), exp(1))
+    if (log_len_prop == 0){
+        shei <- 0
+    } else {
+        shei <- sum(-prop * log_len_prop) / log_len_prop
+    }
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

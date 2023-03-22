@@ -106,12 +106,10 @@ sample_lsm(landscape, y = points, size = 10,
            verbose = FALSE)
 ```
 
-It's also possible to construct buffers around lines, however, only if the [**rgeos**](https://cran.r-project.org/web/packages/rgeos/index.html) (Bivand & Rundel 2018) package is installed. Also, it's possibe to directly provide SpatialPolygons as sample plots.
+It's also possible to construct buffers around lines, and to directly provide SpatialPolygons as sample plots.
 
 ### References
 
 Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal, https://journal.r-project.org/archive/2018/RJ-2018-009/
-
-Roger Bivand and Colin Rundel (2018). rgeos: Interface to Geometry Engine - Open Source ('GEOS'). R package version 0.4-2. https://CRAN.R-project.org/package=rgeos
 
 Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013. Applied spatial data analysis with R, Second edition. Springer, NY. http://www.asdar-book.org/

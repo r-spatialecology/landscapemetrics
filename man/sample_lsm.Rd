@@ -74,7 +74,7 @@ points_sp <- sp::SpatialPoints(sample_points)
 sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
 
 \dontrun{
-# use lines (works only if rgeos is installed)
+# use lines
 x1 <- c(1, 5, 15, 10)
 y1 <- c(1, 5, 15, 25)
 
