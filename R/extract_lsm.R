@@ -84,120 +84,89 @@ extract_lsm <- function(landscape, y,
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
-extract_lsm_internal <- function(landscape,
-                                 y,
-                                 extract_id,
-                                 metric, name, type, what,
-                                 directions,
-                                 progress,
-                                 verbose,
-                                 ...) {
+extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, what,
+                                 directions, progress, verbose, ...) {
 
-  # get list of metrics to calculate
-  metrics_list <- list_lsm(level = "patch",
-                           metric = metric,
-                           name = name,
-                           type = type,
-                           what = what,
-                           simplify = TRUE,
-                           verbose = verbose)
+    # get list of metrics to calculate
+    metrics_list <- list_lsm(level = "patch", metric = metric, name = name,
+                             type = type, what = what, simplify = TRUE, verbose = verbose)
 
-  # check if only patch level metrics are selected
-  if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
+    # check if only patch level metrics are selected
+    if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
 
-    stop("'extract_lsm()' only takes patch level metrics.", call. = FALSE)
-  }
-
-  # check if sf object is provided
-  if (inherits(x = y, what = "sf")) {
-
-    # check if points have the right class
-    if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
-
-      y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+        stop("'extract_lsm()' only takes patch level metrics.", call. = FALSE)
 
     }
 
-    else if (inherits(x = y, what = c("sf", "sfc"))) {
+    # convert to coords if sf object is provided
+    if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
+        inherits(x = y, what = "SpatVector")) {
 
-      if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+        if (terra::geomtype(y) != "points") stop("landscapemetrics currently only supports point features for metrics extraction",
+                                                 call. = FALSE)
 
-        y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
+        y <- terra::vect(y)
+
+        y <- matrix(terra::crds(y), ncol = 2)
+
+    } else if (!inherits(x = y, what = "matrix")) {
+
+    stop("'y' must be a matrix or sf object.", call. = FALSE)
+
+    }
+
+    # get patches of landscape
+    landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
+
+    # combine to one raster layer
+    landscape_id <- sum(terra::rast(landscape_labeled), na.rm = TRUE)
+
+    # get patch id of sample points
+    point_id <- cbind(ID = 1:nrow(y), terra::extract(x = landscape_id, y = y))
+
+    # rename df
+    names(point_id) <- c("extract_id", "id")
+
+    # check if length is identical if ids are provided
+    if (!is.null(extract_id)) {
+
+      if (length(extract_id) != nrow(point_id)) {
+
+        if (verbose) {
+
+          warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
+                  call. = FALSE)
+        }
+
+        extract_id <- seq_len(nrow(point_id))
+
       }
-
-      else {
-
-        stop(
-          "landscapemetrics currently only supports point features for landscape metrics extraction."
-        )
-      }
     }
 
-    else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
-                                      "MULTILINESTRING", "MULTIPOLYGON"))) {
 
-      stop(
-        "landscapemetrics currently only supports sf point features for landscape metrics extraction."
-      )
+    if (!is.null(extract_id)) {
+      point_id[, 1] <- extract_id
     }
-  }
 
-  else if (!inherits(x = y, what = "matrix")) {
+    point_id <- point_id[!duplicated(point_id), ]
 
-    stop("'y' must be a matrix or sf object.",
-         call. = FALSE)
-  }
+    # calculate metrics
+    # can we somehow calculate only the patches we actually want?
+    metrics <- calculate_lsm(landscape,
+                             what = metrics_list,
+                             directions = directions,
+                             verbose = verbose,
+                             progress = progress, ...)
 
-  # get patches of landscape
-  landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
+    # only patchs that contain a sample point
+    extract_metrics <- merge(x = metrics, y = point_id,
+                             by = "id",
+                             all.x = FALSE, all.y = FALSE, sort = FALSE)
 
-  # combine to one raster layer
-  landscape_id <- sum(terra::rast(landscape_labeled), na.rm = TRUE)
+    # order cols
+    extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]
 
-  # get patch id of sample points
-  point_id <- cbind(ID = 1:nrow(y), terra::extract(x = landscape_id, y = y))
+    # order rows
+    tibble::as_tibble(extract_metrics)
 
-  # rename df
-  names(point_id) <- c("extract_id", "id")
-
-  # check if length is identical if ids are provided
-  if (!is.null(extract_id)) {
-
-    if (length(extract_id) != nrow(point_id)) {
-
-      if (verbose) {
-
-        warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
-                call. = FALSE)
-      }
-
-      extract_id <- seq_len(nrow(point_id))
-    }
-  }
-
-
-  if (!is.null(extract_id)) {
-    point_id[, 1] <- extract_id
-  }
-
-  point_id <- point_id[!duplicated(point_id), ]
-
-  # calculate metrics
-  # can we somehow calculate only the patches we actually want?
-  metrics <- calculate_lsm(landscape,
-                           what = metrics_list,
-                           directions = directions,
-                           verbose = verbose,
-                           progress = progress, ...)
-
-  # only patchs that contain a sample point
-  extract_metrics <- merge(x = metrics, y = point_id,
-                           by = "id",
-                           all.x = FALSE, all.y = FALSE, sort = FALSE)
-
-  # order cols
-  extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]
-
-  # order rows
-  tibble::as_tibble(extract_metrics)
 }
