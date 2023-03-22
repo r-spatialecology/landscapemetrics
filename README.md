@@ -4,7 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
 
-Last updated: 2022-11-01
+README last updated: 2023-03-10
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                | CRAN                                                                                                                                                 | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -12,6 +12,11 @@ Last updated: 2022-11-01
 | [![codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg?token=xjYJMNMGBU)](https://codecov.io/gh/r-spatialecology/landscapemetrics)                                  | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)                 | [![CRAN downloads](http://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](http://cran.rstudio.com/web/packages/landscapemetrics/index.html) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-blue.svg)](https://doi.org/10.1111/ecog.04617)      |
 
 <!-- End Badges -->
+
+> Starting from v2.0.0 landscapemetrics does not support the ‘raster’ or
+> ‘sp’ package anymore. They are replaced with ‘terra’ and ‘sf’,
+> respectively. More information about the terra package can be found
+> here: <https://rspatial.org/index.html>.
 
 ## Overview
 
