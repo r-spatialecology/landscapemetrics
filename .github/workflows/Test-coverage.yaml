@@ -4,8 +4,6 @@
 on:
   push:
     branches: [main, development]
-  pull_request:
-    branches: [CRAN, main]
   workflow_dispatch:
 
 name: Test-coverage
