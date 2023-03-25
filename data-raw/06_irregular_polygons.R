@@ -14,4 +14,5 @@ irregular_areas = supercells(my_cat_raster2[[-c(1, 2)]], k = 30,
 
 plot(my_cat_raster, type = "classes")
 plot(vect(irregular_areas), add = TRUE)
-usethis::use_data(irregular_areas)
+irregular_areas = irregular_areas[1]
+usethis::use_data(irregular_areas, overwrite = TRUE)
