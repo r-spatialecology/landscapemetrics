@@ -124,3 +124,10 @@
 #'
 #' @format A tibble object.
 "lsm_abbreviations_names"
+
+#' Irregular polygons
+#'
+#' An example irregular polygons for the area in `augusta_nlcd`
+#'
+#' @format An sf object.
+"irregular_areas"
