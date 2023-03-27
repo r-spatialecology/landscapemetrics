@@ -3,7 +3,7 @@
 #' @description Extract metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates or sf point or line geometries.
+#' @param y 2-column matrix with coordinates or sf point geometries.
 #' @param extract_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
@@ -98,22 +98,8 @@ extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, w
 
     }
 
-    # convert to coords if sf object is provided
-    if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
-        inherits(x = y, what = "SpatVector")) {
-
-        if (terra::geomtype(y) != "points") stop("landscapemetrics currently only supports point features for metrics extraction",
-                                                 call. = FALSE)
-
-        y <- terra::vect(y)
-
-        y <- matrix(terra::crds(y), ncol = 2)
-
-    } else if (!inherits(x = y, what = "matrix")) {
-
-    stop("'y' must be a matrix or sf object.", call. = FALSE)
-
-    }
+    # convert to coordinates
+    y <- points_as_mat(pts = y)
 
     # get patches of landscape
     landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
@@ -160,8 +146,7 @@ extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, w
 
     # only patchs that contain a sample point
     extract_metrics <- merge(x = metrics, y = point_id,
-                             by = "id",
-                             all.x = FALSE, all.y = FALSE, sort = FALSE)
+                             by = "id", all.x = FALSE, all.y = FALSE, sort = FALSE)
 
     # order cols
     extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]

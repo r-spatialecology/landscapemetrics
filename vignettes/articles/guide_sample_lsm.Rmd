@@ -95,7 +95,7 @@ Therefore, we report the actual clipped sample plot area relative in relation to
 
 ```{r, echo = FALSE, fig.align = "center"}
 sample_plots <- data.frame(construct_buffer(coords = points, shape = "circle", 
-                                            size = 10, return_sf = FALSE))
+                                            size = 10, return_vec = FALSE))
 
 ggplot(data = terra::as.data.frame(landscape, xy = TRUE)) + 
     geom_raster(aes(x = x, y = y, fill = factor(clumps))) +

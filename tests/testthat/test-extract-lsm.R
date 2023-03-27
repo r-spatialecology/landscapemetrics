@@ -121,7 +121,7 @@ test_that("extract_lsm throws errors", {
                  fixed = TRUE)
 
     expect_error(extract_lsm(landscape, y = 1:3),
-                 regexp = "'y' must be a matrix or sf object.",
+                 regexp = "'y' must be a matrix, SpatVecotr, or sf object.",
                  fixed = TRUE)
 })
 

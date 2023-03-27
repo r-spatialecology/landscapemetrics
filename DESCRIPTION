@@ -52,7 +52,6 @@ Imports:
     cli,
     ggplot2,
     Rcpp,
-    sf,
     stats,
     terra,
     tibble
@@ -63,8 +62,9 @@ Suggests:
     rmarkdown,
     testthat
 Enhances:
-    stars,
-    raster
+    raster, 
+    sf,
+    stars
 LinkingTo: 
     Rcpp,
     RcppArmadillo

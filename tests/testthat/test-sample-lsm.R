@@ -1,34 +1,5 @@
 context("sample_lsm")
 
-# use a matrix
-sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-
-# use sp points
-points_sf <- sf::st_multipoint(sample_points)
-
-# # use polygons
-# poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
-#                            c(-2.5, 12.5, 12.5, -2.5)))
-# poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
-#                            c(-7.5, 23.5, 23.5, -7.5)))
-# poly_1 <- sp::Polygons(list(poly_1), "p1")
-# poly_2 <- sp::Polygons(list(poly_2), "p2")
-
-# sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
-
-# wrong plots
-sample_points_wrong <- cbind(sample_points, 1)
-
-# # use lines
-# x1 <- c(1, 5, 15, 10)
-# y1 <- c(1, 5, 15, 25)
-#
-# x2 <- c(10, 25)
-# y2 <- c(5, 5)
-#
-# sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-#                                                      sp::Line(cbind(x2, y2))), ID = "a")))
-
 test_that("sample_lsm works for a matrix", {
 
     result_mat <- sample_lsm(landscape,
@@ -167,7 +138,7 @@ test_that("sample_lsm returns errors", {
     expect_error(sample_lsm(landscape,
                             y = 1:3,
                             size = 5),
-                 regexp = "landscapemetrics currently only supports matrix, sf points or polygon features for landscape metric sampling.",
+                 regexp = "Please provide a matrix with coords, points or polygons object.",
                  fixed = TRUE)
 
     expect_error(sample_lsm(landscape,
@@ -179,12 +150,6 @@ test_that("sample_lsm returns errors", {
 })
 
 test_that("sample_lsm returns warnings", {
-
-    expect_warning(sample_lsm(landscape,
-                              y = sample_points_wrong, size = 5,
-                              what = "lsm_l_pr"),
-                   regexp = "'y' should be a two column matrix including x- and y-coordinates.",
-                   fixed = TRUE)
 
     expect_warning(sample_lsm(landscape,
                               y = sample_points, size = 50, what = "lsm_l_ta"),

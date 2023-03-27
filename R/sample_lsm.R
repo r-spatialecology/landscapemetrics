@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates, sf points or sf polygons.
+#' @param y 2-column matrix with coordinates or sf point geometries.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
@@ -107,45 +107,30 @@ sample_lsm_int <- function(landscape,
 
     }
 
-    if (inherits(x = y, what = "matrix") | inherits(x = y, what = "POINT") | inherits(x = y, what = "MULTIPOINT")) {
+    # check if y is sf object
+    if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
+        inherits(x = y, what = "SpatVector")) {
 
-        if (ncol(y) != 2 & verbose) {
-            warning("'y' should be a two column matrix including x- and y-coordinates.",
-                    call. = FALSE)
-        }
+        # convert to terra
+        y <- as(y, "SpatVector")
 
-        # construct plot area around sample sample_points
-        y <- construct_buffer(coords = y, shape = shape,
-                              size = size, verbose = verbose)
+        if (terra::geomtype(y) == "points") y <- construct_buffer(coords = y, shape = shape, size = size,
+                                                                  return_vec = TRUE, verbose = verbose)
 
-    } else if (inherits(x = y, what = "POLYGON") | inherits(x = y, what = "MULTIPOLYGON")) { # check for sf polygon classes
+    # y should be matrix or points
+    } else if (inherits(x = y, what = "matrix")) {
 
-        y <- sf::st_sf(data.frame(id = 1:length(y), geom = sf::st_sfc(y)))
+       y <- construct_buffer(coords = y, shape = shape, size = size,
+                             return_vec = TRUE, verbose = verbose)
 
-    } else if (inherits(x = y, what = "sf")) {
-
-        if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
-
-            # construct plot area around sample sample_points
-            y <- construct_buffer(coords = y, shape = shape,
-                                  size = size, verbose = verbose)
-
-        } else if (all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))) {
-
-            print("Nothing to do")
-
-        } else {
-
-            stop("landscapemetrics currently only supports matrix, sf points or polygon features for landscape metric sampling.")
-
-        }
     } else {
 
-        stop(
-            "landscapemetrics currently only supports matrix, sf points or polygon features for landscape metric sampling."
-        )
+        stop("Please provide a matrix with coords, points or polygons object.", call. = FALSE)
 
     }
+
+    # check if y is a polygon
+    if (terra::geomtype(y) != "polygons") stop("Please provide polygon object.", call. = FALSE)
 
     # check if length is identical if ids are provided
     if (!is.null(plot_id)) {
@@ -162,7 +147,7 @@ sample_lsm_int <- function(landscape,
     }
 
     # get area of all polygons
-    maximum_area <- sf::st_area(y) / 10000
+    maximum_area <- terra::expanse(y) / 10000
 
     number_plots <- nrow(y)
 

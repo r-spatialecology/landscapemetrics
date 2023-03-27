@@ -7,7 +7,7 @@
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param cell_center If true, the coordinates of the centroid are forced to be
 #' a cell center within the patch.
-#' @param return_sf If true, a sf object is returned.
+#' @param return_vec If true, a sf object is returned.
 #' @param verbose Print warning messages
 #'
 #' @details
@@ -26,11 +26,11 @@
 #'
 #' @export
 get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
-                          return_sf = FALSE, verbose = TRUE) {
+                          return_vec = FALSE, verbose = TRUE) {
 
     landscape <- landscape_as_list(landscape)
 
-    if (return_sf) {
+    if (return_vec) {
 
         crs <- terra::crs(landscape[[1]])
 
@@ -49,10 +49,9 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
     result <- tibble::add_column(result, layer, .before = TRUE)
 
-    if (return_sf) {
+    if (return_vec) {
 
-        result <- sf::st_as_sf(result, coords = c("x","y"), crs = crs)
-
+        result <- terra::vect(result, geom=c("x", "y"), crs = crs)
     }
 
     return(result)
