@@ -7,13 +7,13 @@
   "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0",
+  "version": "1.5.6",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
+  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -203,6 +203,7 @@
       "@type": "SoftwareApplication",
       "identifier": "Rcpp",
       "name": "Rcpp",
+      "version": ">= 1.0.10",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -230,15 +231,15 @@
     },
     "8": {
       "@type": "SoftwareApplication",
-      "identifier": "terra",
-      "name": "terra",
+      "identifier": "raster",
+      "name": "raster",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=terra"
+      "sameAs": "https://CRAN.R-project.org/package=raster"
     },
     "9": {
       "@type": "SoftwareApplication",
@@ -252,9 +253,9 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    "SystemRequirements": "C++11"
+    "SystemRequirements": null
   },
-  "fileSize": "1876.241KB",
+  "fileSize": "1876.844KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

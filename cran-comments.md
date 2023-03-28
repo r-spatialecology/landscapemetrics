@@ -2,6 +2,8 @@
 Remove dependencies
 
 # landscapemetrics 1.5.6
+This is a re-submission. The below error has now been fixed
+`Specified C++11: please drop specification unless essential`
 Remove dependencies
 
 # landscapemetrics 1.5.5
