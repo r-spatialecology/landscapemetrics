@@ -109,10 +109,10 @@ sample_lsm_int <- function(landscape,
 
     # check if y is sf object
     if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
-        inherits(x = y, what = "SpatVector")) {
+        inherits(x = y, what = "SpatialPolygons") | inherits(x = y, what = "SpatVector")) {
 
         # convert to terra
-        y <- as(y, "SpatVector")
+        y <- methods::as(y, "SpatVector")
 
         if (terra::geomtype(y) == "points") y <- construct_buffer(coords = y, shape = shape, size = size,
                                                                   return_vec = TRUE, verbose = verbose)

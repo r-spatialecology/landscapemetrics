@@ -51,6 +51,7 @@ Depends:
 Imports: 
     cli,
     ggplot2,
+    methods,
     Rcpp,
     stats,
     terra,
@@ -64,6 +65,7 @@ Suggests:
 Enhances:
     raster, 
     sf,
+    sp,
     stars
 LinkingTo: 
     Rcpp,

@@ -9,6 +9,12 @@ test_that("calculate_lsm can take different raster inputs", {
     expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
 
+    expect_is(calculate_lsm(landscape_ras, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+
+    expect_is(calculate_lsm(augusta_nlcd_stars, what = "lsm_l_ta",
+                            verbose = FALSE), "tbl_df")
+
 })
 
 test_that("calculate_lsm can calculate patch metrics", {

@@ -3,15 +3,12 @@ context("construct_buffer")
 test_that("construct_buffer is typestable", {
 
     expect_is(construct_buffer(sample_points, shape = "circle", size = 5), "SpatVector")
-    expect_is(construct_buffer(points_geom, shape = "square", size = 5), "SpatVector")
-    expect_is(construct_buffer(points_sfc, shape = "square", size = 5), "SpatVector")
 
 })
 
 test_that("construct_buffer can return a matrix", {
 
-    expect_is(construct_buffer(sample_points,
-                               shape = "circle", size = 5,
+    expect_is(construct_buffer(sample_points, shape = "circle", size = 5,
                                return_vec = FALSE), "matrix")
 
     expect_is(construct_buffer(points_sf, shape = "circle", size = 5,

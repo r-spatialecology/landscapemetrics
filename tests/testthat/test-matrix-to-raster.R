@@ -1,6 +1,6 @@
 context("matrix_to_raster")
 
-landscape_matrix <-terra::as.matrix(landscape, wide = TRUE)
+landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 
 test_that("matrix_to_raster works with provided landscape", {
 

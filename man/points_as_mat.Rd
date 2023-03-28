@@ -7,7 +7,7 @@
 points_as_mat(pts)
 }
 \arguments{
-\item{pts}{sf object}
+\item{pts}{SpatVector points or sf object}
 }
 \value{
 matrix

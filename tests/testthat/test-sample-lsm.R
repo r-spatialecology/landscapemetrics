@@ -2,8 +2,7 @@ context("sample_lsm")
 
 test_that("sample_lsm works for a matrix", {
 
-    result_mat <- sample_lsm(landscape,
-                             y = sample_points, size = 5,
+    result_mat <- sample_lsm(landscape, y = sample_points, size = 5,
                              shape = "circle",
                              what = c("lsm_l_ta", "lsm_l_np"),
                              verbose = FALSE)
@@ -14,10 +13,8 @@ test_that("sample_lsm works for a matrix", {
 
 test_that("sample_lsm works for sf points", {
 
-    result_sp <- sample_lsm(landscape,
-                            y = points_sf, size = 5,
-                            shape = "square",
-                            what = "lsm_l_np",
+    result_sp <- sample_lsm(landscape, y = points_sf, size = 5,
+                            shape = "square", what = "lsm_l_np",
                             verbose = FALSE)
 
     expect_is(object = result_sp, class = "tbl_df")
@@ -25,18 +22,18 @@ test_that("sample_lsm works for sf points", {
     expect_true(all(c("np") %in% result_sp$metric))
 })
 
-# test_that("sample_lsm works for polygons ", {
-#
-#     result_poly <- sample_lsm(landscape,
-#                               y = sample_plots, size = 5,
-#                               level = "patch",
-#                               verbose = FALSE)
-#
-#     expect_is(object = result_poly, class = "tbl_df")
-#
-#     expect_true(all("patch" %in% result_poly$level))
-#
-# })
+test_that("sample_lsm works for polygons ", {
+
+    result_sf <- sample_lsm(landscape, y = sample_plots, size = 5, level = "patch", verbose = FALSE)
+    result_sp <- sample_lsm(landscape, y = sample_plots_sp, size = 5, level = "patch", verbose = FALSE)
+
+    expect_is(object = result_sf, class = "tbl_df")
+    expect_is(object = result_sp, class = "tbl_df")
+
+    expect_true(all("patch" %in% result_sf$level))
+    expect_true(all("patch" %in% result_sp$level))
+
+})
 
 # test_that("sample_lsm works for lines ", {
 #
@@ -53,35 +50,25 @@ test_that("sample_lsm works for sf points", {
 
 test_that("sample_lsm forwards arguments to calculate_lsm", {
 
-    result_mat <- sample_lsm(landscape,
-                             y = sample_points, size = 5,
-                             shape = "circle",
-                             what = "lsm_p_core",
-                             edge_depth = 100,
-                             verbose = FALSE)
+    result_mat <- sample_lsm(landscape,  y = sample_points, size = 5,
+                             shape = "circle", what = "lsm_p_core",
+                             edge_depth = 100, verbose = FALSE)
 
     expect_true(all(result_mat$value == 0))
 })
 
 test_that("sample_lsm uses sample_ids", {
 
-    result <- sample_lsm(landscape,
-                         y = sample_points,
-                         plot_id = c(5, 25, 15),
-                         size = 15,
-                         shape = "circle",
-                         what = "lsm_l_ta",
+    result <- sample_lsm(landscape, y = sample_points, plot_id = c(5, 25, 15),
+                         size = 15, shape = "circle", what = "lsm_l_ta",
                          verbose = FALSE)
 
     expect_equal(result$plot_id, expected = c(5, 15, 25))
 
-    result_wrong_id <- sample_lsm(landscape,
-                                  y = sample_points,
+    result_wrong_id <- sample_lsm(landscape, y = sample_points,
                                   plot_id = c(5, 25, 15, 1),
-                                  size = 15,
-                                  shape = "circle",
-                                  what = "lsm_l_ta",
-                                  verbose = FALSE)
+                                  size = 15, shape = "circle",
+                                  what = "lsm_l_ta", verbose = FALSE)
 
     expect_equal(result_wrong_id$plot_id, expected = 1:3)
 })
@@ -89,13 +76,9 @@ test_that("sample_lsm uses sample_ids", {
 
 test_that("sample_lsm can return all classes", {
 
-    result_mat <- sample_lsm(landscape,
-                             y = sample_points,
-                             size = 5,
-                             shape = "circle",
-                             what = c("lsm_c_ca", "lsm_l_ta"),
-                             all_classes = TRUE,
-                             verbose = FALSE)
+    result_mat <- sample_lsm(landscape, y = sample_points,
+                             size = 5, shape = "circle", what = c("lsm_c_ca", "lsm_l_ta"),
+                             all_classes = TRUE, verbose = FALSE)
 
     # 3 classes * 3 sample plots + 3 landscape level metrics
     expect_equal(object = nrow(result_mat), expected = 12)
@@ -108,16 +91,12 @@ test_that("sample_lsm can return all classes", {
 
 test_that("sample_lsm works for all data type", {
 
-    result_stack <- sample_lsm(landscape_stack,
-                               y = sample_points,
-                               size = 5,
-                               what = "lsm_l_ta",
+    result_stack <- sample_lsm(landscape_stack, y = sample_points,
+                               size = 5, what = "lsm_l_ta",
                                verbose = FALSE)
 
-    result_list <- sample_lsm(landscape_list,
-                              y = sample_points,
-                              size = 5,
-                              what = "lsm_l_ta",
+    result_list <- sample_lsm(landscape_list, y = sample_points,
+                              size = 5, what = "lsm_l_ta",
                               verbose = FALSE)
 
     expect_is(result_stack, class = "tbl_df")
@@ -135,15 +114,11 @@ test_that("sample_lsm works for all data type", {
 
 test_that("sample_lsm returns errors", {
 
-    expect_error(sample_lsm(landscape,
-                            y = 1:3,
-                            size = 5),
+    expect_error(sample_lsm(landscape, y = 1:3, size = 5),
                  regexp = "Please provide a matrix with coords, points or polygons object.",
                  fixed = TRUE)
 
-    expect_error(sample_lsm(landscape,
-                            y = sample_points,
-                            size = c(5, 15),
+    expect_error(sample_lsm(landscape, y = sample_points, size = c(5, 15),
                             what = "lsm_l_ta"),
                  regexp = "Please provide only one value as size argument (size > 0).",
                  fixed = TRUE)
@@ -156,12 +131,9 @@ test_that("sample_lsm returns warnings", {
                    regexp = "The 'perecentage_inside' is below 90% for at least one buffer.",
                    fixed = TRUE)
 
-    expect_warning(sample_lsm(landscape,
-                              y = sample_points,
-                              plot_id = c(5, 25, 15, 1),
-                              size = 15,
-                              shape = "circle",
-                              what = "lsm_l_ta"),
+    expect_warning(sample_lsm(landscape, y = sample_points,
+                              plot_id = c(5, 25, 15, 1), size = 15,
+                              shape = "circle", what = "lsm_l_ta"),
                    regexp = "Length of plot_id is not identical to length of y. Using 1...n as plot_id.",
                    fixed = TRUE)
 })

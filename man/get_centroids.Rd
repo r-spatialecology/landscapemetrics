@@ -8,7 +8,7 @@ get_centroids(
   landscape,
   directions = 8,
   cell_center = FALSE,
-  return_sf = FALSE,
+  return_vec = FALSE,
   verbose = TRUE
 )
 }
@@ -21,7 +21,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{cell_center}{If true, the coordinates of the centroid are forced to be
 a cell center within the patch.}
 
-\item{return_sf}{If true, a sf object is returned.}
+\item{return_vec}{If true, a sf object is returned.}
 
 \item{verbose}{Print warning messages}
 }

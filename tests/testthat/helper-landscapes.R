@@ -4,6 +4,8 @@ landscape <- terra::rast(landscapemetrics::landscape)
 augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 
+landscape_ras <- raster::raster(landscape)
+
 landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 
 landscape_stack <- c(landscape, landscape)
@@ -21,4 +23,4 @@ landscape_diff_res <- terra::aggregate(landscape, fact = c(1,2))
 landscape_NA <- landscape
 terra::values(landscape_NA) <- NA
 
-# landscape_stars <- stars::st_as_stars(landscape)
+augusta_nlcd_stars <- stars::st_as_stars(augusta_nlcd)

@@ -118,8 +118,6 @@ sample_lsm(landscape, y = points, size = 10,
            classes_max = 3, verbose = FALSE)
 ```
 
-<!-- It's also possible to construct buffers around lines, and to directly provide SpatialPolygons as sample plots. -->
-
 ### References
 
 Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal, https://journal.r-project.org/archive/2018/RJ-2018-009/

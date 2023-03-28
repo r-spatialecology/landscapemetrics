@@ -19,10 +19,10 @@ points_as_mat = function(pts) {
 
     # convert to coords if sf object is provided
     if (inherits(x = pts, what = "sf") | inherits(x = pts, what = "sfc") | inherits(x = pts, what = "sfg") |
-        inherits(x = pts, what = "SpatVector")) {
+        inherits(x = pts, what = "SpatialPoints") | inherits(x = pts, what = "SpatVector")) {
 
         # convert to terra
-        pts <- as(pts, "SpatVector")
+        pts <- methods::as(pts, "SpatVector")
 
         # check of points
         if (terra::geomtype(pts) != "points") stop("landscapemetrics currently only supports point or polygon features.",
@@ -44,7 +44,7 @@ points_as_mat = function(pts) {
     # not supported class at all
     } else {
 
-        stop("'y' must be a matrix, SpatVecotr, or sf object.", call. = FALSE)
+        stop("'y' must be a matrix, SpatVector, or sf object.", call. = FALSE)
 
     }
 }
