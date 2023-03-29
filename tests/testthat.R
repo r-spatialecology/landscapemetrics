@@ -1,9 +1,5 @@
 library(testthat)
 library(landscapemetrics)
-
-library(raster)
-library(sf)
-library(sp)
-library(stars)
+library(terra)
 
 test_check("landscapemetrics")

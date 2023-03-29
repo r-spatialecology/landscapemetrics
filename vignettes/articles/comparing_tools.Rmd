@@ -12,7 +12,6 @@ editor_options:
 
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
-library(raster)
 library(terra)
 library(SDMTools) # remotes::install_version("SDMTools", version = "1.1-221.2")
 library(dplyr)
