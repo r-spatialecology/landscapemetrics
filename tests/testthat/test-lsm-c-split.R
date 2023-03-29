@@ -1,11 +1,9 @@
-context("class level lsm_c_split metric")
-
 landscapemetrics_class_landscape_value <- lsm_c_split(landscape)
 
 test_that("lsm_c_split is typestable", {
-    expect_is(lsm_c_split(landscape), "tbl_df")
-    expect_is(lsm_c_split(landscape_stack), "tbl_df")
-    expect_is(lsm_c_split(landscape_list), "tbl_df")
+    expect_s3_class(lsm_c_split(landscape), "tbl_df")
+    expect_s3_class(lsm_c_split(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_c_split(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_split returns the desired number of columns", {

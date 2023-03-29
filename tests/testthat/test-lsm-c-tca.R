@@ -1,11 +1,9 @@
-context("class level lsm_c_tca metric")
-
 landscapemetrics_class_landscape_value <- lsm_c_tca(landscape)
 
 test_that("lsm_c_tca is typestable", {
-    expect_is(lsm_c_tca(landscape), "tbl_df")
-    expect_is(lsm_c_tca(landscape_stack), "tbl_df")
-    expect_is(lsm_c_tca(landscape_list), "tbl_df")
+    expect_s3_class(lsm_c_tca(landscape), "tbl_df")
+    expect_s3_class(lsm_c_tca(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_c_tca(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_tca returns the desired number of columns", {

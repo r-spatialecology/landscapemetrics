@@ -1,13 +1,11 @@
-context("pad_raster")
-
 test_that("pad_raster can handle all raster inputs", {
 
-    landscape_matrix <-terra::as.matrix(landscape, wide = TRUE)
+    landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 
-    expect_is(pad_raster(landscape), "list")
-    expect_is(pad_raster(landscape_stack), "list")
-    expect_is(pad_raster(landscape_list), "list")
-    expect_is(pad_raster(landscape_matrix, return_raster = FALSE, to_disk = FALSE), "list")
+    expect_type(pad_raster(landscape), "list")
+    expect_type(pad_raster(landscape_stack), "list")
+    expect_type(pad_raster(landscape_list), "list")
+    expect_type(pad_raster(landscape_matrix, return_raster = FALSE, to_disk = FALSE), "list")
 })
 
 test_that("pad_raster adds correct number of rows/cols", {
@@ -38,9 +36,10 @@ test_that("pad_raster can return RasterLayer and matrix", {
 
     mat <- pad_raster(landscape, return_raster = FALSE)[[1]]
 
-    expect_is(object = raster_layer, class = "SpatRaster")
+    expect_s4_class(object = raster_layer, class = "SpatRaster")
 
-    expect_is(object = mat, class = "matrix")
+    expect_true(is.matrix(mat))
+
 })
 
 test_that("pad_raster can return write to disk", {
@@ -58,3 +57,4 @@ test_that("pad_raster returns warning for matrix and return_raster = TRUE", {
     expect_warning(object = pad_raster(landscape_matrix, to_disk = TRUE),
                    regexp = "'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.")
 })
+

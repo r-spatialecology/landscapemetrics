@@ -1,11 +1,9 @@
-context("landscape level lsm_l_dcad metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_dcad(landscape)
 
 test_that("lsm_l_dcad is typestable", {
-    expect_is(lsm_l_dcad(landscape), "tbl_df")
-    expect_is(lsm_l_dcad(landscape_stack), "tbl_df")
-    expect_is(lsm_l_dcad(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_dcad(landscape), "tbl_df")
+    expect_s3_class(lsm_l_dcad(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_dcad(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_dcad returns the desired number of columns", {

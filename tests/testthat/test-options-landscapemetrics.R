@@ -1,5 +1,3 @@
-context("options_landscapemetrics")
-
 test_that("option parameters work", {
 
     options(to_disk = TRUE)

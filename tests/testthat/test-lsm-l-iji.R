@@ -1,12 +1,10 @@
-context("landscape level lsm_l_iji metric")
-
 landscapemetrics_class_landscape_value <- lsm_l_iji(landscape)
 
 test_that("lsm_l_iji is typestable", {
 
-    expect_is(lsm_l_iji(landscape), "tbl_df")
-    expect_is(lsm_l_iji(landscape_stack), "tbl_df")
-    expect_is(lsm_l_iji(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_iji(landscape), "tbl_df")
+    expect_s3_class(lsm_l_iji(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_iji(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_iji returns the desired number of columns", {

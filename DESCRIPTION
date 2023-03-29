@@ -41,7 +41,7 @@ Description: Calculates landscape metrics for categorical landscape patterns in
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
     'FRAGSTATS' (<https://www.umass.edu/landeco/>) and new ones from the current 
     literature on landscape metrics. This package supports 'terra' SpatRaster objects 
-    as input arguments. It further provides utility functions to visualize patches, 
+    as input arguments. It further provides utility functionn to visualize patches, 
     select metrics and building blocks to develop new metrics.
 License: GPL-3
 URL: https://r-spatialecology.github.io/landscapemetrics/
@@ -52,7 +52,7 @@ Imports:
     cli,
     ggplot2,
     methods,
-    Rcpp,
+    Rcpp (>= 1.0.10),
     stats,
     terra,
     tibble
@@ -61,8 +61,8 @@ Suggests:
     dplyr,
     knitr,
     rmarkdown,
-    testthat,
-    sf
+    sf,
+    testthat
 Enhances:
     raster, 
     sp,
@@ -73,7 +73,7 @@ LinkingTo:
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-SystemRequirements: C++11
 VignetteBuilder: knitr

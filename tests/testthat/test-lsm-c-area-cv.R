@@ -1,11 +1,9 @@
-context("class level lsm_c_area_cv cv metric")
-
 landscapemetrics_class_landscape_value <- lsm_c_area_cv(landscape)
 
 test_that("lsm_c_area_cv is typestable", {
-    expect_is(lsm_c_area_cv(landscape), "tbl_df")
-    expect_is(lsm_c_area_cv(landscape_stack), "tbl_df")
-    expect_is(lsm_c_area_cv(landscape_list), "tbl_df")
+    expect_s3_class(lsm_c_area_cv(landscape), "tbl_df")
+    expect_s3_class(lsm_c_area_cv(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_c_area_cv(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_area_cv returns the desired number of columns", {

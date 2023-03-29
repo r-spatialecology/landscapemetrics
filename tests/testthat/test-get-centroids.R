@@ -1,5 +1,3 @@
-context("get_centroids")
-
 centroids <- get_centroids(landscape, verbose = FALSE)
 
 test_that("get_centroids runs for all data types", {
@@ -8,9 +6,9 @@ test_that("get_centroids runs for all data types", {
     raster_stack <- get_centroids(landscape_stack, verbose = FALSE)
     raster_list <- get_centroids(landscape_list, verbose = FALSE)
 
-    expect_is(raster_layer, "tbl_df")
-    expect_is(raster_stack, "tbl_df")
-    expect_is(raster_list, "tbl_df")
+    expect_s3_class(raster_layer, "tbl_df")
+    expect_s3_class(raster_stack, "tbl_df")
+    expect_s3_class(raster_list, "tbl_df")
 })
 
 test_that("get_centroids returns in every column the correct type", {
@@ -48,5 +46,5 @@ test_that("get_centroids can return sf", {
     centroids_spat <- get_centroids(landscape, cell_center = TRUE, return_vec = TRUE,
                                   verbose = FALSE)
 
-    expect_is(centroids_spat, "SpatVector")
+    expect_s4_class(centroids_spat, "SpatVector")
 })

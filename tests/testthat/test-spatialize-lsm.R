@@ -1,5 +1,3 @@
-context("spatialize_lsm")
-
 test_that("spatialize_lsm returns all selected metrics", {
 
     result <- spatialize_lsm(landscape, what = c("lsm_p_area",

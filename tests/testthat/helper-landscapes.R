@@ -4,7 +4,7 @@ landscape <- terra::rast(landscapemetrics::landscape)
 augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 
-# landscape_ras <- raster::raster(landscape)
+landscape_ras <- raster::raster(landscape)
 
 landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 

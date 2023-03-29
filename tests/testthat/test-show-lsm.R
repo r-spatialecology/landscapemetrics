@@ -1,10 +1,8 @@
-context("test-show-lsm")
-
 test_that("show_lsm returns a plot", {
 
     patches_area <- show_lsm(landscape, what = "lsm_p_area")
 
-    expect_is(patches_area[[1]], "ggplot")
+    expect_s3_class(patches_area[[1]], "ggplot")
 
 })
 
@@ -14,7 +12,7 @@ test_that("show_lsm returns a facet plot", {
                              class = c(1, 3),
                              labels = FALSE)
 
-    expect_is(patches_area[[1]]$facet, "FacetWrap")
+    expect_s3_class(patches_area[[1]]$facet, "FacetWrap")
 })
 
 test_that("show_lsm can handle stacks, bricks and lists", {
@@ -22,11 +20,11 @@ test_that("show_lsm can handle stacks, bricks and lists", {
     plots_list <- show_lsm(landscape_list, what = "lsm_p_area")
     plots_stack <- show_lsm(landscape_stack, what = "lsm_p_area")
 
-    expect_is(plots_list[[1]], "ggplot")
-    expect_is(plots_list[[2]], "ggplot")
+    expect_s3_class(plots_list[[1]], "ggplot")
+    expect_s3_class(plots_list[[2]], "ggplot")
 
-    expect_is(plots_stack[[1]], "ggplot")
-    expect_is(plots_stack[[2]], "ggplot")
+    expect_s3_class(plots_stack[[1]], "ggplot")
+    expect_s3_class(plots_stack[[2]], "ggplot")
 
 })
 

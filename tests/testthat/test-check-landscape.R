@@ -1,5 +1,3 @@
-context("check_landscape")
-
 test_that("check_landscape works for augusta_nlcd", {
 
     check_tibble <- check_landscape(augusta_nlcd,

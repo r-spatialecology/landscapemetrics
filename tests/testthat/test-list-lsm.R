@@ -1,5 +1,3 @@
-context("test-list_lsm")
-
 test_that("all argument works for list_lsm()", {
 
     result_level <- list_lsm(level = "landscape")
@@ -12,10 +10,10 @@ test_that("all argument works for list_lsm()", {
     expect_true(all(result_name$name == "patch area"))
     expect_true(all(result_type$type == "aggregation metric"))
 
-    expect_is(result_level, "data.frame")
-    expect_is(result_metric, "data.frame")
-    expect_is(result_name, "data.frame")
-    expect_is(result_type, "data.frame")
+    expect_s3_class(result_level, "data.frame")
+    expect_s3_class(result_metric, "data.frame")
+    expect_s3_class(result_name, "data.frame")
+    expect_s3_class(result_type, "data.frame")
 })
 
 test_that("what argument still works for list_lsm()", {
@@ -25,14 +23,14 @@ test_that("what argument still works for list_lsm()", {
     expect_true(all(result$level %in% c("patch", "landscape")))
     expect_true(result$metric[result$level == "landscape"] == "ta")
 
-    expect_is(result, "data.frame")
+    expect_s3_class(result, "data.frame")
 })
 
 test_that("simplify returns vector", {
 
     result <- list_lsm(simplify = TRUE)
 
-    expect_is(result, "character")
+    expect_type(result, "character")
 })
 
 test_that("returns warning if what and other argument is specified", {
@@ -67,11 +65,11 @@ test_that("Negative subset works for list_lsm()", {
                      any(result_mixed$metric == "cai")))
 
 
-    expect_is(result_level, "data.frame")
-    expect_is(result_metric, "data.frame")
-    expect_is(result_name, "data.frame")
-    expect_is(result_type, "data.frame")
-    expect_is(result_mixed, "data.frame")
+    expect_s3_class(result_level, "data.frame")
+    expect_s3_class(result_metric, "data.frame")
+    expect_s3_class(result_name, "data.frame")
+    expect_s3_class(result_type, "data.frame")
+    expect_s3_class(result_mixed, "data.frame")
 })
 
 test_that("list_lsm returns error", {

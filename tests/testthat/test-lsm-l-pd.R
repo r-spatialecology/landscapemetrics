@@ -1,11 +1,9 @@
-context("landscape level lsm_l_pd metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_pd(landscape)
 
 test_that("lsm_l_pd is typestable", {
-    expect_is(lsm_l_pd(landscape), "tbl_df")
-    expect_is(lsm_l_pd(landscape_stack), "tbl_df")
-    expect_is(lsm_l_pd(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_pd(landscape), "tbl_df")
+    expect_s3_class(lsm_l_pd(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_pd(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_pd returns the desired number of columns", {

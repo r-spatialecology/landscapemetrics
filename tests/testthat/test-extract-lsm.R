@@ -1,5 +1,3 @@
-context("extract_lsm")
-
 test_that("extract_lsm returns correct metrics", {
 
     patch_area <- extract_lsm(landscape, y = sample_points,
@@ -26,7 +24,7 @@ test_that("extract_lsm returns correct metrics", {
 #                           what = "lsm_p_area",
 #                           verbose = FALSE)
 #
-#     expect_is(result, "tbl_df")
+#     expect_s3_class(result, "tbl_df")
 #     expect_true(all(result$metric %in% "area"))
 # })
 
@@ -62,8 +60,8 @@ test_that("extract_lsm works for all data types", {
     result_list <- extract_lsm(landscape = landscape_list, y = sample_points,
                                what = "lsm_p_area", verbose = FALSE)
 
-    expect_is(result_stack, "tbl_df")
-    expect_is(result_list, "tbl_df")
+    expect_s3_class(result_stack, "tbl_df")
+    expect_s3_class(result_list, "tbl_df")
 
     expect_equal(object = result_stack$layer,
                  expected = c(1, 1, 1, 2, 2, 2))

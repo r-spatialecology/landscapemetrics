@@ -1,5 +1,3 @@
-context("get_circumscribingcircle")
-
 test_that("get_circumscribingcircle has one radius for each patch", {
 
     circle <- get_circumscribingcircle(landscape)
@@ -11,7 +9,7 @@ test_that("get_circumscribingcircle has one radius for each patch", {
                              all(!is.na(circle$value)),
                              all(!is.infinite(circle$value))))
 
-    expect_is(circle, class = "tbl")
+    expect_s3_class(circle, class = "tbl")
 })
 
 test_that("get_circumscribingcircle has one radius for each class", {

@@ -1,5 +1,3 @@
-context("unpad_raster")
-
 lsm_padded <- pad_raster(landscape)[[1]]
 stack_padded <- c(pad_raster(landscape_stack))
 matrix_padded <- pad_raster(landscape_matrix, return_raster = FALSE)[[1]]
@@ -9,10 +7,11 @@ lsm_padded_large <- pad_raster(landscape, pad_raster_cells = 5)[[1]]
 
 test_that("unpad_raster can handle all raster inputs", {
 
-    expect_is(object = unpad_raster(lsm_padded), class = "list")
-    expect_is(object = unpad_raster(stack_padded), class = "list")
-    expect_is(object = unpad_raster(list_padded), class = "list")
-    expect_is(object = unpad_raster(matrix_padded, return_raster = FALSE), class = "list")
+    expect_type(object = unpad_raster(lsm_padded), type = "list")
+    expect_type(object = unpad_raster(stack_padded), type = "list")
+    expect_type(object = unpad_raster(list_padded,  return_raster = FALSE), type = "list")
+    expect_type(object = unpad_raster(matrix_padded, return_raster = FALSE),
+                type = "list")
 })
 
 test_that("unpad_raster removes correct number of rows/cols", {
@@ -32,11 +31,13 @@ test_that("unpad_raster removes correct number of rows/cols", {
 
 test_that("unpad_raster can return RasterLayer and matrix", {
 
-    expect_is(object = unpad_raster(lsm_padded)[[1]],
+    expect_s4_class(object = unpad_raster(lsm_padded)[[1]],
               class = "SpatRaster")
 
-    expect_is(object = unpad_raster(matrix_padded, return_raster = FALSE)[[1]],
-              class = "matrix")
+    res_mat <- unpad_raster(matrix_padded, return_raster = FALSE)[[1]]
+
+    expect_true(is.matrix(res_mat))
+
 })
 
 test_that("unpad_raster can return write to disk", {

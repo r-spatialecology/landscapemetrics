@@ -1,5 +1,3 @@
-context("get_nearestneighbour")
-
 # get patches for class 1
 class_1 <- get_patches(landscape, class = 1)[[1]][[1]]
 
@@ -11,9 +9,9 @@ test_that("get_nearestneighbour works for all data types", {
     raster_stack <- get_nearestneighbour(c(all_classes))
     raster_list <- get_nearestneighbour(all_classes)
 
-    expect_is(raster_layer, "tbl_df")
-    expect_is(raster_stack, "tbl_df")
-    expect_is(raster_list, "tbl_df")
+    expect_s3_class(raster_layer, "tbl_df")
+    expect_s3_class(raster_stack, "tbl_df")
+    expect_s3_class(raster_list, "tbl_df")
 })
 
 test_that("get_nearestneighbour returns value for each patch", {

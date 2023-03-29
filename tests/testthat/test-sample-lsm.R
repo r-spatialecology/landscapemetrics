@@ -1,5 +1,3 @@
-context("sample_lsm")
-
 test_that("sample_lsm works for a matrix", {
 
     result_mat <- sample_lsm(landscape, y = sample_points, size = 5,
@@ -7,7 +5,7 @@ test_that("sample_lsm works for a matrix", {
                              what = c("lsm_l_ta", "lsm_l_np"),
                              verbose = FALSE)
 
-    expect_is(object = result_mat, class = "tbl_df")
+    expect_s3_class(object = result_mat, class = "tbl_df")
     expect_true(all(c("np", "ta") %in% result_mat$metric))
 })
 
@@ -17,7 +15,7 @@ test_that("sample_lsm works for sf points", {
                             shape = "square", what = "lsm_l_np",
                             verbose = FALSE)
 
-    expect_is(object = result_sp, class = "tbl_df")
+    expect_s3_class(object = result_sp, class = "tbl_df")
 
     expect_true(all(c("np") %in% result_sp$metric))
 })
@@ -27,8 +25,8 @@ test_that("sample_lsm works for polygons ", {
     result_sf <- sample_lsm(landscape, y = sample_plots, size = 5, level = "patch", verbose = FALSE)
     result_sp <- sample_lsm(landscape, y = sample_plots_sp, size = 5, level = "patch", verbose = FALSE)
 
-    expect_is(object = result_sf, class = "tbl_df")
-    expect_is(object = result_sp, class = "tbl_df")
+    expect_s3_class(object = result_sf, class = "tbl_df")
+    expect_s3_class(object = result_sp, class = "tbl_df")
 
     expect_true(all("patch" %in% result_sf$level))
     expect_true(all("patch" %in% result_sp$level))
@@ -43,7 +41,7 @@ test_that("sample_lsm works for polygons ", {
 #                                level = "landscape",
 #                                verbose = FALSE)
 #
-#     expect_is(object = result_lines, class = "tbl_df")
+#     expect_s3_class(object = result_lines, class = "tbl_df")
 #
 #     expect_true(all("landscape" %in% result_lines$level))
 # })
@@ -99,8 +97,8 @@ test_that("sample_lsm works for all data type", {
                               size = 5, what = "lsm_l_ta",
                               verbose = FALSE)
 
-    expect_is(result_stack, class = "tbl_df")
-    expect_is(result_list, class = "tbl_df")
+    expect_s3_class(result_stack, class = "tbl_df")
+    expect_s3_class(result_list, class = "tbl_df")
 
     expect_equal(object = result_stack$layer,
                  expected = c(1, 1, 1, 2, 2, 2))

@@ -1,5 +1,3 @@
-context("show_patches")
-
 patches_landscape <- show_patches(landscape)
 
 patches_landscape_stack <- show_patches(landscape_stack, class = 1)

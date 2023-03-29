@@ -1,5 +1,3 @@
-context("show_cores")
-
 cores_landscape <- show_cores(landscape)
 
 cores_landscape_stack <- show_cores(landscape_stack, class = 1)

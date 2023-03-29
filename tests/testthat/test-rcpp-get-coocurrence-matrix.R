@@ -1,5 +1,3 @@
-context("coocurrence matrix")
-
 foo <- function(x, directions = "rook") {
 
     adjacencies <- terra::adjacent(x = x, cells = 1:terra::ncell(x),
@@ -19,22 +17,29 @@ land_true3 <- foo(landscape_na)
 land_true4 <- foo(landscape, "queen")
 
 land_result1 <- rcpp_get_coocurrence_matrix(terra::as.matrix(landscape, wide = TRUE), directions = as.matrix(4))
+dimnames(land_result1) <- NULL
+
 land_result2 <- rcpp_get_coocurrence_matrix(terra::as.matrix(podlasie_ccilc, wide = TRUE), directions = as.matrix(4))
+dimnames(land_result2) <- NULL
+
 land_result3 <- rcpp_get_coocurrence_matrix(terra::as.matrix(landscape_na, wide = TRUE), directions = as.matrix(4))
+dimnames(land_result3) <- NULL
+
 land_result4 <- rcpp_get_coocurrence_matrix(terra::as.matrix(landscape, wide = TRUE), directions = as.matrix(8))
+dimnames(land_result4) <- NULL
 
 test_that("rcpp_get_coocurrence_matrix results are correct", {
-    expect_equivalent(land_result1, land_true1)
-    expect_equivalent(land_result2, land_true2)
-    expect_equivalent(land_result3, land_true3)
-    expect_equivalent(land_result4, land_true4)
+    expect_equal(land_result1, land_true1)
+    expect_equal(land_result2, land_true2)
+    expect_equal(land_result3, land_true3)
+    expect_equal(land_result4, land_true4)
 })
 
 test_that("rcpp_get_coocurrence_matrix is typestable", {
-    expect_is(land_result1, "matrix")
-})
 
-context("coocurrence vector")
+    expect_true(is.matrix(land_result1))
+
+})
 
 land_true1_v <- as.vector(land_true1)
 land_true4_v <- as.vector(land_true4)
@@ -43,26 +48,24 @@ land_result1_v <- rcpp_get_coocurrence_vector(terra::as.matrix(landscape, wide =
 land_result4_v <- rcpp_get_coocurrence_vector(terra::as.matrix(landscape, wide = TRUE), directions = as.matrix(8))
 
 test_that("rcpp_get_coocurrence_vector results are correct", {
-    expect_equivalent(land_result1_v, land_true1_v)
-    expect_equivalent(land_result4_v, land_true4_v)
+    expect_equal(land_result1_v, land_true1_v)
+    expect_equal(land_result4_v, land_true4_v)
 })
 
 test_that("rcpp_get_coocurrence_vector is typestable", {
-    expect_is(land_result1_v, "numeric")
+    expect_type(land_result1_v, "double")
 })
 
-context("composition vector")
-
-land_true1_cv <- unclass(table(terra::values(landscape, mat = FALSE)))
+land_true1_cv <- c(table(terra::values(landscape, mat = FALSE)))
 
 land_result1_cv <- rcpp_get_composition_vector(terra::as.matrix(landscape, wide = TRUE))
 
 test_that("rcpp_get_composition_vector results are correct", {
-    expect_equivalent(land_result1_cv, land_true1_cv)
+    expect_equal(land_result1_cv, land_true1_cv)
 })
 
 test_that("rcpp_get_composition_vector is typestable", {
-    expect_is(land_result1_cv, "integer")
+    expect_type(land_result1_cv, "integer")
 })
 
 test_that("triangular_index works properly", {

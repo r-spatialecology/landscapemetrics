@@ -1,5 +1,3 @@
-context("class level lsm_c_te metric")
-
 landscapemetrics_class_landscape_value <- lsm_c_te(landscape)
 
 test_lsm <- matrix(data = NA, nrow = 25, ncol = 30)
@@ -14,9 +12,9 @@ test_lsm[6, 6] <- 2
 test_lsm <- terra::rast(test_lsm)
 
 test_that("lsm_c_te is typestable", {
-    expect_is(lsm_c_te(landscape), "tbl_df")
-    expect_is(lsm_c_te(landscape_stack), "tbl_df")
-    expect_is(lsm_c_te(landscape_list), "tbl_df")
+    expect_s3_class(lsm_c_te(landscape), "tbl_df")
+    expect_s3_class(lsm_c_te(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_c_te(landscape_list), "tbl_df")
 })
 
 test_that("lsm_c_te returns the desired number of columns", {
@@ -38,7 +36,7 @@ test_that("lsm_l_te equals 0 if only one patch is present",  {
 })
 
 test_that("lsm_c_te can handle raster with different xy resolution", {
-    expect_is(lsm_c_te(landscape_diff_res), "tbl_df")
+    expect_s3_class(lsm_c_te(landscape_diff_res), "tbl_df")
 })
 
 test_that("lsm_c_te is the same if count_boundary = FALSE and vice versa", {
