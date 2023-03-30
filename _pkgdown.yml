@@ -20,6 +20,7 @@ reference:
       - fragstats_landscape_landscape
       - fragstats_landscape_augusta_nlcd
       - fragstats_landscape_podlasie
+      - irregular_areas
 
   - title: Options for landscapemetrics
     contents:
