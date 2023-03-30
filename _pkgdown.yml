@@ -91,21 +91,24 @@ navbar:
        - text: "Differences FRAGSTATS|landscapemetrics"
          icon: fa-edit
          href: articles/comparing_tools.html
-       - text: "New Metrics outside FRAGSTATS"
-         icon: fa-sticky-note
-         href: articles/new_metrics.html
-       - text: "Utility functions"
-         icon: fa-comment
-         href: articles/utility.html
-       - text: "Moving window"
-         icon: fa-comment
-         href: articles/guide_moving_window.html
-       - text: "Sample metrics"
-         icon: fa-comment
-         href: articles/guide_sample_lsm.html
        - text: "Landscape distribution statistics"
          icon: fa-comment
          href: articles/landscape_distribution_statistics.html
+       - text: "New Metrics outside FRAGSTATS"
+         icon: fa-sticky-note
+         href: articles/new_metrics.html
+       - text: "Sample metrics"
+         icon: fa-comment
+         href: articles/guide_sample_lsm.html
+       - text: "Moving window"
+         icon: fa-comment
+         href: articles/guide_moving_window.html
+       - text: "Calculating landscape metrics for irregular areas"
+         icon: fa-comment
+         href: articles/irregular_areas.html
+       - text: "Utility functions"
+         icon: fa-comment
+         href: articles/utility.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/publication_record.html
@@ -117,7 +120,7 @@ navbar:
 
     contact:
       icon: fa-user
-      hreft: https://mhesselbarth.rbind.io
+      hreft: https://www.maxhesselbarth.com/
 
 home:
   sidebar:
