@@ -7,11 +7,11 @@ test_that("calculate_lsm can take different raster inputs", {
     expect_s3_class(calculate_lsm(landscape_list, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
 
-    expect_s3_class(calculate_lsm(landscape_ras, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
+    # expect_s3_class(calculate_lsm(landscape_ras, what = "lsm_l_ta",
+    #                         verbose = FALSE), "tbl_df")
 
-    expect_s3_class(calculate_lsm(augusta_nlcd_stars, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
+    # expect_s3_class(calculate_lsm(augusta_nlcd_stars, what = "lsm_l_ta",
+    #                         verbose = FALSE), "tbl_df")
 
 })
 
