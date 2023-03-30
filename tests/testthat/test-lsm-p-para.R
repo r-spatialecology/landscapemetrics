@@ -1,12 +1,9 @@
-context("patch level lsm_p_para metric")
-
 landscapemetrics_patch_landscape_value <- lsm_p_para(landscape)
 
 test_that("lsm_p_para is typestable", {
-    expect_is(lsm_p_para(landscape), "tbl_df")
-    expect_is(lsm_p_para(landscape_stack), "tbl_df")
-    expect_is(lsm_p_para(landscape_brick), "tbl_df")
-    expect_is(lsm_p_para(landscape_list), "tbl_df")
+    expect_s3_class(lsm_p_para(landscape), "tbl_df")
+    expect_s3_class(lsm_p_para(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_p_para(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_para returns the desired number of columns", {

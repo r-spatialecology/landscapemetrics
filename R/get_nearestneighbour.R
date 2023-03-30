@@ -2,7 +2,7 @@
 #'
 #' @description Euclidean distance to nearest neighbour
 #'
-#' @param landscape RasterLayer or matrix (with x,y,id columns).
+#' @param landscape SpatRaster or matrix (with x,y,id columns).
 #' @param return_id If TRUE, also the patch ID of the nearest neighbour is returned.
 #'
 #' @details
@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' # get patches for class 1
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 #'
 #' # calculate the distance between patches
@@ -55,7 +56,7 @@ get_nearestneighbour_calc <- function(landscape, return_id,
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # get edge cells because only they are important for ENN
@@ -78,7 +79,7 @@ get_nearestneighbour_calc <- function(landscape, return_id,
     num <- seq_along(ord)
     rank <- match(num, ord)
 
-    res <- rcpp_get_nearest_neighbor(raster::as.matrix(points)[ord, ])
+    res <- rcpp_get_nearest_neighbor(terra::as.matrix(points, wide= TRUE)[ord, ])
 
     min_dist <- tibble::tibble(cell = num,
                                dist = res[rank, 1],

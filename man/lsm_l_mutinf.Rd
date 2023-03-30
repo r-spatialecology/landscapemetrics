@@ -7,7 +7,7 @@
 lsm_l_mutinf(landscape, neighbourhood = 4, ordered = TRUE, base = "log2")
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -31,6 +31,7 @@ It disambiguates landscape pattern types characterize
 by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_mutinf(landscape)
 
 }

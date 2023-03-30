@@ -2,7 +2,7 @@
 #'
 #' @description Conditional entropy \\[H(y|x)\\]
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours:
 #' 4 (rook's case) or 8 (queen's case). The default is 4.
 #' @param ordered The type of pairs considered.
@@ -26,6 +26,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_condent(landscape)
 #'
 #' @aliases lsm_l_condent
@@ -60,7 +61,7 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

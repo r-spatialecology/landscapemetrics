@@ -1,5 +1,3 @@
-context("show_correlation")
-
 # patch level
 metrics_patch <- calculate_lsm(landscape,
                                what = 'patch',

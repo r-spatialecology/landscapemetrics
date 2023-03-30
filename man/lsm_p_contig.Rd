@@ -7,7 +7,7 @@
 lsm_p_contig(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -44,6 +44,7 @@ patch cells in the rookie case result in larger contiguity index values.
 of 1 (fully connected patch).}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_contig(landscape)
 
 }

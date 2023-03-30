@@ -12,7 +12,7 @@ lsm_c_dcore_mn(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -44,6 +44,7 @@ core areas, whereby a core area is a 'patch within the patch' containing only co
 without limit, as the number of disjunct core areas increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_dcore_mn(landscape)
 
 }

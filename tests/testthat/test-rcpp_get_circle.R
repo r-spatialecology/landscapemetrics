@@ -1,5 +1,3 @@
-context("circle")
-
 # T-shaped patch with 7 cells horizontal and 6 cells vertical
 mat1 <- matrix(data = c(NA,5,NA,NA,NA,NA,NA,
                         NA,5,NA,NA,NA,NA,NA,

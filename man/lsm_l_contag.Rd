@@ -7,7 +7,7 @@
 lsm_l_contag(landscape, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{verbose}{Print warning message if not sufficient patches are present}
 }
@@ -39,6 +39,7 @@ The number of classes to calculate CONTAG must be >= than 2.
 and 100 indicates that all cells are equally adjacent to all other classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_contag(landscape)
 
 }

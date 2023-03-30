@@ -7,7 +7,7 @@
 lsm_p_para(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, stack, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -34,6 +34,7 @@ the patch size while not changing the patch form will change the ratio.
 increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_para(landscape)
 
 }

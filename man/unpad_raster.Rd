@@ -12,7 +12,7 @@ unpad_raster(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{unpad_raster_cells}{Number of rows and columns added}
 
@@ -32,6 +32,7 @@ Adding padding to raster
 Removes equally (in all four directions) additional cells around the raster
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_padded <- pad_raster(landscape, pad_raster_cells = 2, pad_raster_value = -1)
 unpad_raster(lsm_padded[[1]], unpad_raster_cells = 2)
 

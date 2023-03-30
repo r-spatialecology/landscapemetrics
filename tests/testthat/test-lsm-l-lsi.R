@@ -1,12 +1,9 @@
-context("landscape level lsm_l_lsi metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_lsi(landscape)
 
 test_that("lsm_l_lsi is typestable", {
-    expect_is(lsm_l_lsi(landscape), "tbl_df")
-    expect_is(lsm_l_lsi(landscape_stack), "tbl_df")
-    expect_is(lsm_l_lsi(landscape_brick), "tbl_df")
-    expect_is(lsm_l_lsi(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_lsi(landscape), "tbl_df")
+    expect_s3_class(lsm_l_lsi(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_lsi(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_lsi returns the desired number of columns", {

@@ -2,7 +2,7 @@
 #'
 #' @description Adding padding to raster
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param unpad_raster_cells Number of rows and columns added
 #' @param return_raster If false, matrix is returned
 #' @param to_disk Logical argument, if FALSE results of get_patches are hold
@@ -15,6 +15,7 @@
 #' @return raster
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_padded <- pad_raster(landscape, pad_raster_cells = 2, pad_raster_value = -1)
 #' unpad_raster(lsm_padded[[1]], unpad_raster_cells = 2)
 #'
@@ -36,15 +37,15 @@ unpad_raster <- function(landscape,
         result_temp <- unpad_raster_internal(landscape = x,
                                              unpad_raster_cells = unpad_raster_cells)
 
-        if (return_raster && inherits(x = x, what = "RasterLayer")) {
+        if (return_raster && inherits(x = x, what = "SpatRaster")) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            extent = raster::extent(x) -
-                                                raster::res(x) * unpad_raster_cells * 2,
-                                            resolution = raster::res(x), crs =  raster::crs(x),
+                                            extent = terra::ext(x) -
+                                                terra::res(x) * unpad_raster_cells,
+                                            resolution = terra::res(x), crs =  terra::crs(x),
                                             to_disk = to_disk)
 
-        } else if (return_raster || to_disk && !inherits(x = x, what = "RasterLayer")) {
+        } else if (return_raster || to_disk && !inherits(x = x, what = "SpatRaster")) {
 
             warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
                     call. = FALSE)
@@ -65,7 +66,7 @@ unpad_raster_internal <- function(landscape, unpad_raster_cells){
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
 
     }
 

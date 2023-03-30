@@ -1,5 +1,3 @@
-context("check_landscape")
-
 test_that("check_landscape works for augusta_nlcd", {
 
     check_tibble <- check_landscape(augusta_nlcd,
@@ -21,7 +19,7 @@ test_that("check_landscape works (maybe) for landscape", {
     check_tibble <- check_landscape(landscape,
                                     verbose = FALSE)
 
-    expect_true(check_tibble$OK == cli::symbol$circle_question_mark)
+    expect_true(check_tibble$OK == cli::symbol$fancy_question_mark)
 })
 
 test_that("check_landscape works (maybe) for landscape stack", {
@@ -29,15 +27,7 @@ test_that("check_landscape works (maybe) for landscape stack", {
     check_tibble <- check_landscape(landscape_stack,
                                     verbose = FALSE)
 
-    expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
-})
-
-test_that("check_landscape works (maybe) for landscape brick", {
-
-    check_tibble <- check_landscape(landscape_brick,
-                                    verbose = FALSE)
-
-    expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
+    expect_true(all(check_tibble$OK == cli::symbol$fancy_question_mark))
 })
 
 test_that("check_landscape works (maybe) for landscape list", {
@@ -45,7 +35,7 @@ test_that("check_landscape works (maybe) for landscape list", {
     check_tibble <- check_landscape(landscape_list,
                                     verbose = FALSE)
 
-    expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
+    expect_true(all(check_tibble$OK == cli::symbol$fancy_question_mark))
 })
 
 test_that("check_landscape works does not work for double values", {
@@ -65,7 +55,7 @@ test_that("check_landscape works return warning for > 30 classes", {
     check_tibble <- check_landscape(augusta_nlcd,
                                     verbose = FALSE)
 
-    expect_true(all(check_tibble$OK == cli::symbol$circle_question_mark))
+    expect_true(all(check_tibble$OK == cli::symbol$fancy_question_mark))
 })
 
 test_that("check_landscape returns warning if all cells area NA", {

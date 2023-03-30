@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of core area (Core area metric)
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param consider_boundary Logical if cells that only neighbour the landscape
 #' boundary should be considered as core
 #' @param edge_depth Distance (in cells) a cell has the be away from the patch
@@ -24,8 +24,7 @@
 #' Increases, without limit, as the variation of patch core areas increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_core}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_core}}, \cr
 #' \code{\link{lsm_c_core_mn}},
 #' \code{\link{lsm_c_core_sd}}, \cr
 #' \code{\link{lsm_l_core_mn}},
@@ -35,6 +34,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_core_cv(landscape)
 #'
 #' @aliases lsm_c_core_cv
@@ -84,7 +84,7 @@ lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # summarise for class
     core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
-                                FUN = raster::cv)
+                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(core_cv$class),

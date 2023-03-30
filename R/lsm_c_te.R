@@ -2,7 +2,7 @@
 #'
 #' @description Total (class) edge (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param count_boundary Include landscape boundary in edge length
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
@@ -29,6 +29,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_te(landscape)
 #'
 #' @aliases lsm_c_te
@@ -62,9 +63,9 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

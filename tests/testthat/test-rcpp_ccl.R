@@ -1,5 +1,3 @@
-context("rcpp_ccl")
-
 mat8 <- matrix(c(NA, 1L, NA, NA, 1L, 1L, 1L, NA), 4, 2)
 mat4 <- matrix(c(NA, 1L, NA, NA, 1L, 1L, 1L, NA), 4, 2)
 

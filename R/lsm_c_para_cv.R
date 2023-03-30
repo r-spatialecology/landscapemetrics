@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation perimeter-area ratio (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -23,8 +23,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_para}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_para}}, \cr
 #' \code{\link{lsm_c_para_mn}},
 #' \code{\link{lsm_c_para_sd}}, \cr
 #' \code{\link{lsm_l_para_mn}},
@@ -34,6 +33,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_para_cv(landscape)
 #'
 #' @aliases lsm_c_para_cv
@@ -76,7 +76,8 @@ lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    para_cv <- stats::aggregate(x = para[, 5], by = para[, 2], FUN = raster::cv)
+    para_cv <- stats::aggregate(x = para[, 5], by = para[, 2],
+                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(para_cv$class),

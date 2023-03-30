@@ -1,3 +1,9 @@
+# landscapemetrics 2.0.0
+* Improvements
+    * `terra` and `sf` instead of `raster` and `sp` as underlying frameworks
+* New functions
+    * `points_as_mat()` helper function
+
 # landscapemetrics 1.5.6
 * Bugfixes
     * SHEI now equals 0 when only one patch is present

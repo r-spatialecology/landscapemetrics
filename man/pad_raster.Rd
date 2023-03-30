@@ -14,7 +14,7 @@ pad_raster(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{pad_raster_value}{Value of cells added}
 
@@ -38,6 +38,7 @@ Adding padding to raster
 Adds equally (in all four directions) additional cells around the raster
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
 
 }

@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation number of disjunct core areas (Core area metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
@@ -28,8 +28,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_ncore}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_ncore}}, \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_sd}},
 #' \code{\link{lsm_c_dcore_cv}}, \cr
@@ -39,6 +38,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_dcore_cv(landscape)
 #'
 #' @aliases lsm_l_dcore_cv
@@ -89,7 +89,7 @@ lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_d
                               value = as.double(NA)))
     }
 
-    dcore_cv <- raster::cv(dcore_patch$value)
+    dcore_cv <- stats::sd(dcore_patch$value) / mean(dcore_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

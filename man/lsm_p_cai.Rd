@@ -7,7 +7,7 @@
 lsm_p_cai(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -41,6 +41,7 @@ relative, it is comparable among patches with different area.
 approaches CAI = 100 with increasing percentage of core area within a patch.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_p_cai(landscape)
 
 }

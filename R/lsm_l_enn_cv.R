@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of euclidean nearest-neighbor distance (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #' @param verbose Print warning message if not sufficient patches are present
 #'
@@ -24,8 +24,7 @@
 #' identical for all patches. Increases, without limit, as the variation of ENN increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_enn}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_enn}}, \cr
 #' \code{\link{lsm_c_enn_mn}},
 #' \code{\link{lsm_c_enn_sd}},
 #' \code{\link{lsm_c_enn_cv}}, \cr
@@ -35,6 +34,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_enn_cv(landscape)
 #'
 #' @aliases lsm_l_enn_cv
@@ -83,7 +83,7 @@ lsm_l_enn_cv_calc <- function(landscape, directions, verbose,
                               value = as.double(NA)))
     }
 
-    enn_cv <- raster::cv(enn_patch$value)
+    enn_cv <- stats::sd(enn_patch$value) / mean(enn_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

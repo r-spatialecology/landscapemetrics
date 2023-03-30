@@ -5,7 +5,7 @@
 \alias{augusta_nlcd}
 \title{Augusta NLCD 2011}
 \format{
-A raster layer object.
+A raster object.
 }
 \source{
 https://www.mrlc.gov/nlcd2011.php

@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of core area index (Core area metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
@@ -29,8 +29,7 @@
 #' indices increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_cai}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_cai}}, \cr
 #' \code{\link{lsm_c_cai_mn}},
 #' \code{\link{lsm_c_cai_sd}}, \cr
 #' \code{\link{lsm_l_cai_mn}},
@@ -40,6 +39,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_cai_cv(landscape)
 #'
 #' @aliases lsm_c_cai_cv
@@ -87,7 +87,7 @@ lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
     }
 
     # summarise for classes
-    cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = raster::cv)
+    cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(cai_cv$class),

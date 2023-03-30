@@ -10,9 +10,12 @@
 #' @return raster
 #'
 #' @examples
-#' data_info(landscape)
+#' augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 #' data_info(augusta_nlcd)
+#' podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 #' data_info(podlasie_ccilc)
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' data_info(landscape)
 #'
 #' @aliases data_info
 #' @rdname data_info
@@ -23,7 +26,7 @@
 data_info <- function(landscape){
 
     # get raster values
-    landscape_values <- unique(raster::values(landscape))
+    landscape_values <- unique(terra::values(landscape, mat = FALSE))
 
     # remove NA values (mess up with test if integer values)
     landscape_values <- landscape_values[!is.na(landscape_values)]

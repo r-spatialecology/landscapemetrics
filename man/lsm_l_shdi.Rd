@@ -7,7 +7,7 @@
 lsm_l_shdi(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 }
 \value{
 tibble
@@ -29,6 +29,7 @@ without limit, as the number of classes increases while the proportions are
 equally distributed}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_shdi(landscape)
 
 }

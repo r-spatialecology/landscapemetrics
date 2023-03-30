@@ -19,9 +19,13 @@ Projection info
 Check projection of RasterLayer
 }
 \examples{
-proj_info(landscape)
+
+augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 proj_info(augusta_nlcd)
+podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 proj_info(podlasie_ccilc)
+landscape <- terra::rast(landscapemetrics::landscape)
+proj_info(landscape)
 
 }
 \keyword{internal}

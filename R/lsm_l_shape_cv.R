@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation shape index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -21,8 +21,7 @@
 #' Increases, without limit, as the variation of the shape index increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_shape}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_shape}}, \cr
 #' \code{\link{lsm_c_shape_mn}},
 #' \code{\link{lsm_c_shape_sd}}, \cr
 #' \code{\link{lsm_c_shape_cv}},
@@ -32,6 +31,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_shape_cv(landscape)
 #'
 #' @aliases lsm_l_shape_cv
@@ -79,8 +79,7 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution = NULL){
     }
 
     # calculate cv
-    shape_cv <- raster::cv(shape$value,
-                           na.rm = TRUE)
+    shape_cv <- stats::sd(shape$value, na.rm = TRUE) / mean(shape$value, na.rm = TRUE) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

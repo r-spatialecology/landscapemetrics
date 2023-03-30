@@ -1,21 +1,17 @@
-context("get_centroids")
+centroids <- get_centroids(landscape, verbose = FALSE)
 
 test_that("get_centroids runs for all data types", {
 
-    raster_layer <- get_centroids(landscape)
-    raster_stack <- get_centroids(landscape_stack)
-    raster_brick <- get_centroids(landscape_brick)
-    raster_list <- get_centroids(landscape_list)
+    raster_layer <- get_centroids(landscape, verbose = FALSE)
+    raster_stack <- get_centroids(landscape_stack, verbose = FALSE)
+    raster_list <- get_centroids(landscape_list, verbose = FALSE)
 
-    expect_is(raster_layer, "tbl_df")
-    expect_is(raster_stack, "tbl_df")
-    expect_is(raster_brick, "tbl_df")
-    expect_is(raster_list, "tbl_df")
+    expect_s3_class(raster_layer, "tbl_df")
+    expect_s3_class(raster_stack, "tbl_df")
+    expect_s3_class(raster_list, "tbl_df")
 })
 
 test_that("get_centroids returns in every column the correct type", {
-
-    centroids <- get_centroids(landscape)
 
     expect_type(centroids$layer, "integer")
     expect_type(centroids$level, "character")
@@ -26,8 +22,6 @@ test_that("get_centroids returns in every column the correct type", {
 })
 
 test_that("get_centroids returns centroid for each patch", {
-
-    centroids <- get_centroids(landscape)
 
     np <- lsm_l_np(landscape)
 
@@ -47,10 +41,10 @@ test_that("get_centroids allows to set cell_center", {
     expect_true(object = nrow(centroids) > np$value)
 })
 
-test_that("get_centroids can return sp", {
+test_that("get_centroids can return sf", {
 
-    centroids_sp <- get_centroids(landscape, cell_center = TRUE,
-                                  return_sp = TRUE)
+    centroids_spat <- get_centroids(landscape, cell_center = TRUE, return_vec = TRUE,
+                                  verbose = FALSE)
 
-    expect_is(centroids_sp, "SpatialPointsDataFrame")
+    expect_s4_class(centroids_spat, "SpatVector")
 })

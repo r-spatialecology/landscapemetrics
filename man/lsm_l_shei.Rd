@@ -7,7 +7,7 @@
 lsm_l_shei(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 }
 \value{
 tibble
@@ -30,6 +30,7 @@ measure of dominance.
 when the proportion of classes is completely equally distributed}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_shei(landscape)
 
 }

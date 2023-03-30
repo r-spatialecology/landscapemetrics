@@ -7,7 +7,7 @@
 lsm_c_lsi(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 }
 \value{
 tibble
@@ -31,6 +31,7 @@ patches are maximally aggregated. Increases, without limit, as the length of the
 actual edges increases, i.e. the patches become less compact.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_lsi(landscape)
 
 }

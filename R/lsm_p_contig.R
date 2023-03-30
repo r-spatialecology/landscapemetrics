@@ -2,7 +2,7 @@
 #'
 #' @description Contiguity index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -42,6 +42,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_contig(landscape)
 #'
 #' @aliases lsm_p_contig
@@ -76,7 +77,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -125,9 +126,7 @@ lsm_p_contig_calc <- function(landscape, directions) {
                                                                 directions = as.matrix(straigth_matrix)) * 2
 
         # calculated contiguity
-        contiguity <- (((diagonal_neighbours +
-                             straigth_neighbours +
-                             n_cells) /
+        contiguity <- (((diagonal_neighbours + straigth_neighbours + n_cells) /
                             n_cells) - 1) / 12
 
         class <- patches_class

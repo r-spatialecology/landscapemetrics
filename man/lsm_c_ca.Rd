@@ -7,7 +7,7 @@
 lsm_c_ca(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -36,6 +36,7 @@ become small. Increases, without limit, as the patch areas of class i become
 large. CA = TA if only one class is present.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_ca(landscape)
 
 }

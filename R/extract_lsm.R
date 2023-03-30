@@ -2,8 +2,8 @@
 #'
 #' @description Extract metrics
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
+#' @param y 2-column matrix with coordinates or sf point geometries.
 #' @param extract_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
@@ -20,7 +20,7 @@
 #' @details
 #' This functions extracts the metrics of all patches the spatial object(s) `y`
 #' (e.g. spatial points) are located within. Only patch level metrics are possible
-#' to extract. Please be aware that the output is sligthly different to all
+#' to extract. Please be aware that the output is slightly different to all
 #' other `lsm`-function of `landscapemetrics`. Returns a tibble with chosen
 #' metrics and the ID of the spatial objects.
 #'
@@ -30,41 +30,25 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 #' extract_lsm(landscape, y = points)
 #' extract_lsm(landscape, y = points, type = "aggregation metric")
 #'
-#' points_sp <- sp::SpatialPoints(points)
-#' extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
-#'
 #' \dontrun{
 #' # use lines
-#' x1 <- c(1, 5, 15, 10)
-#' y1 <- c(1, 5, 15, 25)
 #'
-#' x2 <- c(10, 25)
-#' y2 <- c(5, 5)
-#'
-#' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-#' sp::Line(cbind(x2, y2))), ID = "a")))
-#' extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
 #' }
 #'
 #' @aliases extract_lsm
 #' @rdname extract_lsm
 #'
 #' @export
-extract_lsm <- function(landscape,
-                             y,
-                             extract_id = NULL,
-                             metric = NULL,
-                             name = NULL,
-                             type = NULL,
-                             what = NULL,
-                             directions = 8,
-                             progress = FALSE,
-                             verbose = TRUE,
-                             ...) {
+extract_lsm <- function(landscape, y,
+                        extract_id = NULL, metric = NULL,
+                        name = NULL, type = NULL, what = NULL, directions = 8,
+                        progress = FALSE, verbose = TRUE, ...) {
 
   landscape <- landscape_as_list(landscape)
 
@@ -100,127 +84,74 @@ extract_lsm <- function(landscape,
   result[with(result, order(layer, extract_id, level, metric, class, id)), ]
 }
 
-extract_lsm_internal <- function(landscape,
-                                 y,
-                                 extract_id,
-                                 metric, name, type, what,
-                                 directions,
-                                 progress,
-                                 verbose,
-                                 ...) {
+extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, what,
+                                 directions, progress, verbose, ...) {
 
-  # get list of metrics to calculate
-  metrics_list <- list_lsm(level = "patch",
-                           metric = metric,
-                           name = name,
-                           type = type,
-                           what = what,
-                           simplify = TRUE,
-                           verbose = verbose)
+    # get list of metrics to calculate
+    metrics_list <- list_lsm(level = "patch", metric = metric, name = name,
+                             type = type, what = what, simplify = TRUE, verbose = verbose)
 
-  # check if only patch level metrics are selected
-  if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
+    # check if only patch level metrics are selected
+    if (!all(metrics_list %in% list_lsm(level = "patch", simplify = TRUE))) {
 
-    stop("'extract_lsm()' only takes patch level metrics.", call. = FALSE)
-  }
+        stop("'extract_lsm()' only takes patch level metrics.", call. = FALSE)
 
-  # check if sf object is provided
-  if (inherits(x = y, what = "sf")) {
-
-    # check if points have the right class
-    if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
-
-      y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
     }
 
-    else if (inherits(x = y, what = c("sf", "sfc"))) {
+    # convert to coordinates
+    y <- points_as_mat(pts = y)
 
-      if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
+    # get patches of landscape
+    landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
 
-        y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-      }
+    # combine to one raster layer
+    landscape_id <- sum(terra::rast(landscape_labeled), na.rm = TRUE)
 
-      else {
+    # get patch id of sample points
+    point_id <- cbind(ID = 1:nrow(y), terra::extract(x = landscape_id, y = y))
 
-        stop(
-          "landscapemetrics currently only supports point features for landscape metrics extraction."
-        )
+    # rename df
+    names(point_id) <- c("extract_id", "id")
+
+    # check if length is identical if ids are provided
+    if (!is.null(extract_id)) {
+
+      if (length(extract_id) != nrow(point_id)) {
+
+        if (verbose) {
+
+          warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
+                  call. = FALSE)
+        }
+
+        extract_id <- seq_len(nrow(point_id))
+
       }
     }
 
-    else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
-                                      "MULTILINESTRING", "MULTIPOLYGON"))) {
 
-      stop(
-        "landscapemetrics currently only supports sf point features for landscape metrics extraction."
-      )
+    if (!is.null(extract_id)) {
+      point_id[, 1] <- extract_id
     }
-  }
 
-  # if Spatial Lines disaggregate
-  else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
+    point_id <- point_id[!duplicated(point_id), ]
 
-    y <- sp::disaggregate(y)
-  }
+    # calculate metrics
+    # can we somehow calculate only the patches we actually want?
+    metrics <- calculate_lsm(landscape,
+                             what = metrics_list,
+                             directions = directions,
+                             verbose = verbose,
+                             progress = progress, ...)
 
-  else if (!inherits(x = y, what = c("matrix", "SpatialPoints", "SpatialPointsDataFrame"))) {
+    # only patchs that contain a sample point
+    extract_metrics <- merge(x = metrics, y = point_id,
+                             by = "id", all.x = FALSE, all.y = FALSE, sort = FALSE)
 
-    stop("'y' must be a matrix, SpatialPoints, SpatialLines or sf point geometries.",
-         call. = FALSE)
-  }
+    # order cols
+    extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]
 
-  # get patches of landscape
-  landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
+    # order rows
+    tibble::as_tibble(extract_metrics)
 
-  # combine to one raster layer
-  landscape_id <- raster::merge(raster::stack(landscape_labeled))
-
-  # get patch id of sample points
-  point_id <- raster::extract(x = landscape_id,
-                              y = y,
-                              df = TRUE)
-
-  # rename df
-  names(point_id) <- c("extract_id", "id")
-
-  # check if length is identical if ids are provided
-  if (!is.null(extract_id)) {
-
-    if (length(extract_id) != nrow(point_id)) {
-
-      if (verbose) {
-
-        warning("Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
-                call. = FALSE)
-      }
-
-      extract_id <- seq_len(nrow(point_id))
-    }
-  }
-
-
-  if (!is.null(extract_id)) {
-    point_id[, 1] <- extract_id
-  }
-
-  point_id <- point_id[!duplicated(point_id), ]
-
-  # calculate metrics
-  # can we somehow calculate only the patches we actually want?
-  metrics <- calculate_lsm(landscape,
-                           what = metrics_list,
-                           directions = directions,
-                           verbose = verbose,
-                           progress = progress, ...)
-
-  # only patchs that contain a sample point
-  extract_metrics <- merge(x = metrics, y = point_id,
-                           by = "id",
-                           all.x = FALSE, all.y = FALSE, sort = FALSE)
-
-  # order cols
-  extract_metrics <- extract_metrics[, c(names(metrics), "extract_id")]
-
-  # order rows
-  tibble::as_tibble(extract_metrics)
 }

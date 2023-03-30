@@ -5,18 +5,20 @@
 #' @param x Vector, matrix, raster, stars, or terra object or list of previous.
 #' @param simplify If true, a vector will be returned instead of a list for
 #' 1-dimensional input
-#' @param verbose If true, warning messages are printend
+#' @param verbose If true, warning messages are printed
 #'
 #' @details
 #' Fast and memory friendly Rcpp implementation to find the unique values of an object.
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' get_unique_values(landscape)
 #'
-#' landscape_stack <- raster::stack(landscape, landscape, landscape)
+#' landscape_stack <- c(landscape, landscape, landscape)
 #' get_unique_values(landscape_stack)
 #'
-#' landscape_matrix <- raster::as.matrix(landscape)
+#' landscape_matrix <- terra::as.matrix(landscape, wide = TRUE)
 #' get_unique_values(landscape_matrix)
 #'
 #' x_vec <- c(1, 2, 1, 1, 2, 2)
@@ -56,9 +58,9 @@ get_unique_values <- function(x, simplify = FALSE, verbose = TRUE) {
 
 get_unique_values_int <- function(landscape, verbose) {
 
-    if (inherits(x = landscape, what = "RasterLayer")) {
+    if (inherits(x = landscape, what = "SpatRaster")) {
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
 
     } else if (!inherits(x = landscape, what = "matrix") &&
                !inherits(x = landscape, what = "integer") &&

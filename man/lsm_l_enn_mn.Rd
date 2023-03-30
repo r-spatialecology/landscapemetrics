@@ -7,7 +7,7 @@
 lsm_l_enn_mn(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 
@@ -37,6 +37,7 @@ as the distance between neighbouring patches of the same class i increases, i.e.
 more isolated.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_enn_mn(landscape)
 
 }

@@ -1,12 +1,9 @@
-context("patch level lsm_p_gyrate metric")
-
 landscapemetrics_patch_landscape_value <- lsm_p_gyrate(landscape)
 
 test_that("lsm_p_gyrate is typestable", {
-    expect_is(lsm_p_gyrate(landscape), "tbl_df")
-    expect_is(lsm_p_gyrate(landscape_stack), "tbl_df")
-    expect_is(lsm_p_gyrate(landscape_brick), "tbl_df")
-    expect_is(lsm_p_gyrate(landscape_list), "tbl_df")
+    expect_s3_class(lsm_p_gyrate(landscape), "tbl_df")
+    expect_s3_class(lsm_p_gyrate(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_p_gyrate(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_gyrate returns the desired number of columns", {

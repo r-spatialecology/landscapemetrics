@@ -7,7 +7,7 @@
 lsm_l_frac_cv(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -35,6 +35,7 @@ for all patches. Increases, without limit, as the variation of the fractal dimen
 indices increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_frac_cv(landscape)
 
 }
@@ -48,8 +49,7 @@ Mandelbrot, B. B. 1977. Fractals: Form, Chance, and Dimension.
 San Francisco. W. H. Freeman and Company.
 }
 \seealso{
-\code{\link{lsm_p_frac}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_frac}}, \cr
 \code{\link{lsm_c_frac_mn}},
 \code{\link{lsm_c_frac_sd}},
 \code{\link{lsm_c_frac_cv}}, \cr

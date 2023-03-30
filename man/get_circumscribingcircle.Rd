@@ -7,7 +7,7 @@
 get_circumscribingcircle(landscape, directions = 8, level = "patch")
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix (with x, y, id columns)}
+\item{landscape}{SpatRaster or matrix (with x, y, id columns)}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -23,6 +23,8 @@ is based on the maximum distance between the corners of each cell. This ensures 
 cells of the patch are included in the patch.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
+
 # get circle around each patch
 get_circumscribingcircle(landscape)
 

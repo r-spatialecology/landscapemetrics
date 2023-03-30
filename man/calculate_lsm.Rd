@@ -26,7 +26,7 @@ calculate_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 
@@ -87,9 +87,11 @@ above arguments.
 }
 \examples{
 \dontrun{
+landscape <- terra::rast(landscapemetrics::landscape)
 calculate_lsm(landscape, progress = TRUE)
 calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
-calculate_lsm(landscape, level = c("class", "landscape"), type = "aggregation metric")
+calculate_lsm(landscape, level = c("class", "landscape"),
+type = "aggregation metric")
 }
 
 }

@@ -7,7 +7,7 @@
 lsm_c_enn_cv(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 
@@ -37,6 +37,7 @@ scaled to the mean, it is easily comparable among different landscapes.
 identical for all patches. Increases, without limit, as the variation of ENN increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_enn_cv(landscape)
 
 }
@@ -51,8 +52,7 @@ structure and breeding birds in the Oregon Coast Range.
 Ecological monographs, 65(3), 235-260.
 }
 \seealso{
-\code{\link{lsm_p_enn}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_enn}}, \cr
 \code{\link{lsm_c_enn_mn}},
 \code{\link{lsm_c_enn_sd}}, \cr
 \code{\link{lsm_l_enn_mn}},

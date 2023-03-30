@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation radius of gyration (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param cell_center If true, the coordinates of the centroid are forced to be
@@ -30,8 +30,7 @@
 #' increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_gyrate}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_gyrate}}, \cr
 #' \code{\link{lsm_c_gyrate_mn}},
 #' \code{\link{lsm_c_gyrate_sd}}, \cr
 #' \code{\link{lsm_l_gyrate_mn}},
@@ -41,6 +40,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_gyrate_cv(landscape)
 #'
 #' @aliases lsm_c_gyrate_cv
@@ -91,7 +91,7 @@ lsm_c_gyrate_cv_calc <- function(landscape, directions, cell_center,
     }
 
     gyrate_cv <- stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
-                                  FUN = raster::cv)
+                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(gyrate_cv$class),

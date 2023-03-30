@@ -7,7 +7,7 @@
 lsm_l_shape_cv(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -33,6 +33,7 @@ equals the perimeter if the patch would be maximally compact.
 Increases, without limit, as the variation of the shape index increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_shape_cv(landscape)
 
 }
@@ -46,8 +47,7 @@ Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 Wildl. Soc.Bull. 3:171-173.
 }
 \seealso{
-\code{\link{lsm_p_shape}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_shape}}, \cr
 \code{\link{lsm_c_shape_mn}},
 \code{\link{lsm_c_shape_sd}}, \cr
 \code{\link{lsm_c_shape_cv}},

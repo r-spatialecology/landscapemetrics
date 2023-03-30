@@ -12,7 +12,7 @@ lsm_c_core_cv(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).}
 
@@ -44,6 +44,7 @@ because it is scaled to the mean.
 Increases, without limit, as the variation of patch core areas increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_core_cv(landscape)
 
 }
@@ -54,8 +55,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_core}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_core}}, \cr
 \code{\link{lsm_c_core_mn}},
 \code{\link{lsm_c_core_sd}}, \cr
 \code{\link{lsm_l_core_mn}},

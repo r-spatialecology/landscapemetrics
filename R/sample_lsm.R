@@ -2,13 +2,13 @@
 #'
 #' @description Sample metrics
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
-#' @param y 2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons, sf points or sf polygons.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
+#' @param y 2-column matrix with coordinates or sf point geometries.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
-#' the side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' the side-length for squares in map units. For lines size equals the width of the buffer.
 #' @param all_classes Logical if NA should be returned for classes not present in some sample plots.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
@@ -18,14 +18,14 @@
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
-#' around sample points, sample lines or within provided SpatialPolygons. The size of the actual
+#' around sample points, sample lines or within provided polygons. The size of the actual
 #' sampled landscape can be different to the provided size due to two reasons.
 #' Firstly, because clipping raster cells using a circle or a sample plot not directly
 #' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
 #' landscape boundary. Therefore, we report the actual clipped sample plot area relative
 #' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
 #' within the landscape will have a `percentage_inside = 50`. Please be aware that the
-#' output is sligthly different to all other `lsm`-function of `landscapemetrics`.
+#' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
 #' and/or `type` (combinations of different arguments are possible (e.g.
@@ -40,51 +40,20 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' # use a matrix
 #' sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 #' sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
-#'
-#' # use sp points
-#' points_sp <- sp::SpatialPoints(sample_points)
-#' sample_lsm(landscape, y = points_sp, size = 15, what = "lsm_l_np", return_raster = TRUE)
-#'
-#' \dontrun{
-#' # use lines
-#' x1 <- c(1, 5, 15, 10)
-#' y1 <- c(1, 5, 15, 25)
-#'
-#' x2 <- c(10, 25)
-#' y2 <- c(5, 5)
-#'
-#' sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-#' sp::Line(cbind(x2, y2))), ID = "a")))
-#' sample_lsm(landscape, y = sample_lines, size = 10, what = "lsm_l_np")
-#'
-#' # use polygons
-#' poly_1 <-  sp::Polygon(cbind(c(2.5, 2.5, 17.5, 17.5),
-#'                            c(-2.5, 12.5, 12.5, -2.5)))
-#' poly_2 <-  sp::Polygon(cbind(c(7.5, 7.5, 23.5, 23.5),
-#'                            c(-7.5, 23.5, 23.5, -7.5)))
-#' poly_1 <- sp::Polygons(list(poly_1), "p1")
-#' poly_2 <- sp::Polygons(list(poly_2), "p2")
-#' sample_plots <- sp::SpatialPolygons(list(poly_1, poly_2))
-#'
-#' sample_lsm(landscape, y = sample_plots, what = "lsm_l_np")
-#' }
 #'
 #' @aliases sample_lsm
 #' @rdname sample_lsm
 #'
 #' @export
-sample_lsm <- function(landscape,
-                            y,
-                            plot_id = NULL,
-                            shape = "square", size,
-                            all_classes = FALSE,
-                            return_raster = FALSE,
-                            verbose = TRUE,
-                            progress = FALSE,
-                            ...) {
+sample_lsm <- function(landscape, y, plot_id = NULL,
+                       shape = "square", size,
+                       all_classes = FALSE, return_raster = FALSE,
+                       verbose = TRUE, progress = FALSE, ...) {
 
     landscape <- landscape_as_list(landscape)
 
@@ -131,108 +100,42 @@ sample_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
-    # use polygon
-    if (inherits(x = y, what = "sf") && all(sf::st_geometry_type(y) %in% c("POLYGON", "MULTIPOLYGON"))) {
-        y <- methods::as(y, "Spatial")
+    # check if size argument is only one number
+    if (length(size) != 1 | any(size <= 0)) {
+
+        stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
+
     }
 
-    if (inherits(x = y, what = c("SpatialPolygons", "SpatialPolygonsDataFrame"))) {
+    # check if y is sf object
+    if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
+        inherits(x = y, what = "SpatialPolygons") | inherits(x = y, what = "SpatVector")) {
 
-        # convert to SpatialPolygons
-        if (inherits(x = y, what = "SpatialPolygonsDataFrame")) {
+        # convert to terra
+        y <- methods::as(y, "SpatVector")
 
-            y <- sp::SpatialPolygons(y@polygons)
-        }
-        y <- disaggregate_sp_tmp(y)
+        if (terra::geomtype(y) == "points") y <- construct_buffer(coords = y, shape = shape, size = size,
+                                                                  return_vec = TRUE, verbose = verbose)
 
-        # how many plots are present
-        # number_plots <- length(y)
+    # y should be matrix or points
+    } else if (inherits(x = y, what = "matrix")) {
+
+       y <- construct_buffer(coords = y, shape = shape, size = size,
+                             return_vec = TRUE, verbose = verbose)
+
     } else {
 
-        # check if size argument is only one number
-        if (length(size) != 1 | any(size <= 0)) {
-            stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
-        }
+        stop("Please provide a matrix with coords, points or polygons object.", call. = FALSE)
 
-        # use points
-        if (inherits(x = y,
-                     what = c("SpatialPoints", "SpatialPolygonsDataFrame", "matrix"))) {
-
-            # points are matrix
-            if (inherits(x = y, what = "matrix")) {
-
-                if (ncol(y) != 2 & verbose) {
-                    warning("'y' should be a two column matrix including x- and y-coordinates.",
-                            call. = FALSE)
-                }
-            }
-
-            # construct plot area around sample sample_points
-            y <- construct_buffer(coords = y,
-                                  shape = shape,
-                                  size = size,
-                                  verbose = verbose)
-
-        # check if sf object is provided
-        } else if (inherits(x = y, what = "sf")) {
-
-            # check if points have the right class
-            if (inherits(x = y, what = c("MULTIPOINT", "POINT"))) {
-
-                y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-
-            } else if (inherits(x = y, what = c("sf", "sfc"))) {
-
-                if (all(sf::st_geometry_type(y) %in% c("POINT", "MULTIPOINT"))) {
-
-                    y <- matrix(sf::st_coordinates(y)[, 1:2], ncol = 2)
-
-                } else {
-
-                    stop(
-                        "landscapemetrics currently only supports sf point and polygon features for landscape metrics sampling"
-                    )
-                }
-
-            } else if (inherits(x = y, what = c("LINESTRING", "POLYGON",
-                                              "MULTILINESTRING", "MULTIPOLYGON"))) {
-
-                stop(
-                    "landscapemetrics currently only supports sf point and polygon features for landscape metrics sampling"
-                )
-            }
-
-            # construct plot area around sample sample_points
-            y <- construct_buffer(coords = y,
-                                  shape = shape,
-                                  size = size,
-                                  verbose = verbose)
-
-        # use lines
-        } else if (inherits(x = y, what = c("SpatialLines", "SpatialLinesDataFrame"))) {
-
-            # convert to SpatialLines
-            if (inherits(x = y, what = "SpatialLinesDataFrame")) {
-
-                y <- sp::SpatialLines(y@lines)
-            }
-            # disaggregate lines
-            y <- disaggregate_sp_tmp(y)
-
-            # create buffer around lines
-            y <- raster::buffer(x = y, width = size, dissolve = FALSE)
-
-        } else {
-
-            stop("'y' must be a matrix, SpatialPoints, SpatialLines, SpatialPolygons, POINT or MULTIPOINT.",
-                 call. = FALSE)
-        }
     }
+
+    # check if y is a polygon
+    if (terra::geomtype(y) != "polygons") stop("Please provide polygon object.", call. = FALSE)
 
     # check if length is identical if ids are provided
     if (!is.null(plot_id)) {
 
-        if (length(plot_id) != length(y)) {
+        if (length(plot_id) != nrow(y)) {
 
             if (verbose) {
                 warning("Length of plot_id is not identical to length of y. Using 1...n as plot_id.",
@@ -244,16 +147,15 @@ sample_lsm_int <- function(landscape,
     }
 
     # get area of all polygons
-    maximum_area <- vapply(y@polygons, function(x) x@area / 10000,
-                           FUN.VALUE = numeric(1))
+    maximum_area <- terra::expanse(y) / 10000
 
-    number_plots <- length(maximum_area)
+    number_plots <- nrow(y)
 
     # create object for warning messages
     warning_messages <- character(0)
 
     # loop through each sample point and calculate metrics
-    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = seq_along(y),
+    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = 1:number_plots,
                                                                 FUN = function(current_plot) {
 
         # print progess using the non-internal name
@@ -263,16 +165,13 @@ sample_lsm_int <- function(landscape,
         }
 
         # crop sample plot
-        landscape_crop <- raster::crop(x = landscape,
-                                       y = y[current_plot])
+        landscape_crop <- terra::crop(x = landscape, y = y[current_plot, ])
 
         # mask sample plot
-        landscape_mask <- raster::mask(x = landscape_crop,
-                                       mask = y[current_plot])
+        landscape_mask <- terra::mask(x = landscape_crop, mask = y[current_plot, ])
 
         # calculate actual area of sample plot
-        area <- lsm_l_ta_calc(landscape_mask,
-                              directions = 8)
+        area <- lsm_l_ta_calc(landscape_mask, directions = 8)
 
         # calculate lsm
         result_current_plot <- calculate_lsm(landscape = landscape_mask,
@@ -291,7 +190,7 @@ sample_lsm_int <- function(landscape,
         }
 
         # all cells are NA
-        if (all(is.na(raster::values(landscape_mask)))) {
+        if (all(is.na(terra::values(landscape_mask, mat = FALSE)))) {
 
             # calculate ratio between actual area and theoretical area
             result_current_plot$percentage_inside <- 0
@@ -303,7 +202,7 @@ sample_lsm_int <- function(landscape,
         }
 
         # add sample plot raster
-        result_current_plot$raster_sample_plots <- raster::as.list(landscape_mask)
+        result_current_plot$raster_sample_plots <- terra::as.list(landscape_mask)
 
         return(result_current_plot)}))}, warning = function(cond) {
 
@@ -321,7 +220,7 @@ sample_lsm_int <- function(landscape,
     if (all_classes && "class" %in% result$level) {
 
         # get all present classes
-        all_classes <- unique(raster::values(landscape))
+        all_classes <- unique(terra::values(landscape, mat = FALSE))
 
         # only results on class level are needed
         result_class <- result[result$level == "class", ]

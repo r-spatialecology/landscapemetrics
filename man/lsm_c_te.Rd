@@ -7,7 +7,7 @@
 lsm_c_te(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{count_boundary}{Include landscape boundary in edge length}
 
@@ -35,6 +35,7 @@ making comparisons among landscapes with different total areas difficult. If
 as landscape becomes more fragmented}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_te(landscape)
 
 }

@@ -2,7 +2,7 @@
 #'
 #' @description Relative patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param classes_max Potential maximum number of present classes
 #' @param verbose Print warning message if not sufficient patches are present
 #'
@@ -24,6 +24,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_rpr(landscape, classes_max = 5)
 #'
 #' @aliases lsm_l_rpr

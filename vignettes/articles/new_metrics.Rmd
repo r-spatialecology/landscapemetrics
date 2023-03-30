@@ -19,9 +19,13 @@ knitr::opts_chunk$set(
 
 ```{r load_libraries_hidden, eval=TRUE, echo=FALSE, message=FALSE, results='hide'}
 library(landscapemetrics)
+
+# internal data needs to be read
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
-One of the reason to start `landscapemetrics` was also to have a collection of metrics that are not included in FRAGSTATS. This vignette will highlight them and provide references for further reading on them.
+One of the reason to start **landscapemetrics** was also to have a collection of metrics that are not included in FRAGSTATS. 
+This vignette will highlight them and provide references for further reading on them.
 
 ## Information theory-based framework for the analysis of landscape patterns
 
@@ -29,7 +33,7 @@ One of the reason to start `landscapemetrics` was also to have a collection of m
 
 Information-theoretical framework can be applied to derive four metrics of landscape complexity: Marginal entropy `[H(x)]`, Conditional entropy `[H(y|x)]`, Joint entropy `[H(x, y)]`, and Mutual information `[I(y,x)]`.
 
-All of these metrics are implemented in `landscapemetrics`:
+All of these metrics are implemented in **landscapemetrics**:
 
 - [lsm_l_ent](https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html) - Marginal entropy `[H(x)]`.
 It represents a diversity (thematic complexity, composition) of spatial categories.
@@ -55,4 +59,4 @@ Relative mutual information always has a range between 0 and 1 and can be used t
 <img src="https://raw.githubusercontent.com/r-spatialecology/landscapemetrics/main/vignettes/articles/it-metrics-example.png" alt="" width="700"><p class="caption">
 </div>
 
-For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://nowosad.github.io/post/ent-bp1/) blog post.
+For more information read the [Information theory provides a consistent framework for the analysis of spatial patterns](https://jakubnowosad.com/posts/2019-06-25-ent-bp1/) blog post.

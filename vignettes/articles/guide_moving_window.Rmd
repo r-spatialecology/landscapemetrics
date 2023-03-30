@@ -10,39 +10,53 @@ editor_options:
   chunk_output_type: console
 ---
 
-Results of a landscape analysis are scale dependent (Šímová 2012). One approach to deal with this is by using a moving window (Hagen-Zanker 2016). For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood is assigned to each focal cell (Fletcher 2018). Thereby, the windows are allowed to overlap (McGarigal et al. 2012). The result of a moving window analysis is a raster with an identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016). Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).
+Results of a landscape analysis are scale dependent (Šímová 2012).
+One approach to deal with this is by using a moving window (Hagen-Zanker 2016).
+For each focal cell in the landscape, a matrix is used to specify the neighborhood and the metric value of this local neighborhood is assigned to each focal cell (Fletcher 2018).
+Thereby, the windows are allowed to overlap (McGarigal et al. 2012).
+The result of a moving window analysis is a raster with an identical extent as the input, however, each cell now describes the neighborhood in regard to the variability of the chosen metric (Hagen-Zanker 2016).
+Of course, the selection of the matrix size largely influences the scale of the result (Hagen-Zanker 2016).
 
 ## Implementation in **landscapemetrics**
 
-We provide the function `window_lsm()` in **landscapemetrics** to analyse an input raster using the moving window approach. The function allows to specify the neighborhood using a matrix using the `raster::focal()` function internally.  Currently, only the landscape level metrics are possible to calculate and they can be specified similarly to `calculate_lsm()`. For details, see `?list_lsm()`.
+We provide the function `window_lsm()` in **landscapemetrics** to analyse an input raster using the moving window approach. The function allows to specify the neighborhood using a matrix using the `terra::focal()` function internally. 
+Currently, only the landscape level metrics are possible to calculate and they can be specified similarly to `calculate_lsm()`.
+For details, see `?list_lsm()`.
 
 ```{r packages, message = FALSE}
 library(landscapemetrics)
-library(raster)
-
+library(terra)
 library(ggplot2)
+
+# internal data needs to be read
+landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
-First, we need to specify the local neighborhood matrix. This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell.  Because we want to weight all cells identically, all values need to be 1 (for more details, see `?raster::focal()`). 
+First, we need to specify the local neighborhood matrix. 
+This matrix must have sides defined as odd numbers, in which the focal cell is always the center cell (for more details, see `?terra::focal()`). 
 
 ```{r neighbourhood-matrix}
 moving_window <- matrix(1, nrow = 3, ncol = 3)
 moving_window
 ```
 
-Now, we can easily pass this matrix to `window_lsm()` together with the input landscape. For this example, we want to calculate the number of classes (`lsm_l_pr`) and the joint entropy (`lsm_l_joinent`) for the local neighborhoods.
+Now, we can easily pass this matrix to `window_lsm()` together with the input landscape.
+For this example, we want to calculate the number of classes (`lsm_l_pr`) and the joint entropy (`lsm_l_joinent`) for the local neighborhoods.
 
 ```{r moving-window}
 result <- window_lsm(landscape, window = moving_window, what = c("lsm_l_pr", "lsm_l_joinent"))
 result
 ```
 
-To be type-stable, the result will be a nested list.  The first level includes all layers of a `RasterStack` (only one if a `RasterLayer` is provided), the second level all selected metrics. The resulting `RasterLayers` describe the local neighborhood according to the moving window around each focal cell. In the case of `lsm_l_pr` this the number of classes present.
+To be type-stable, the result will be a nested list. 
+The first level includes all layers of a `SpatRaster` (only one if a `SpatRaster` is provided), the second level contains all selected metrics. 
+The resulting `SpatRaster` describe the local neighborhood according to the moving window around each focal cell.
+In the case of `lsm_l_pr` this the number of classes present.
 
 ```{r plot-result, echo = FALSE, fig.align = "center"}
-result_stack <- raster::stack(landscape, result[[1]]$lsm_l_pr)
+result_stack <- c(landscape, result[[1]]$lsm_l_pr)
 
-ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) + 
+ggplot(data = terra::as.data.frame(result_stack[[1]], xy = TRUE)) + 
     geom_raster(aes(x = x, y = y, fill = factor(clumps))) + 
     scale_fill_viridis_d(name = "Landscape class") + 
     coord_equal() + 
@@ -50,8 +64,8 @@ ggplot(data = raster::as.data.frame(landscape, xy = TRUE)) +
           axis.text = element_blank(), axis.title = element_blank(), 
           legend.position = "bottom")
 
-ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) + 
-    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(layer))) + 
+ggplot(data = terra::as.data.frame(result_stack[[2]], xy = TRUE)) + 
+    geom_raster(ggplot2::aes(x = x, y = y, fill = factor(clumps))) + 
     scale_fill_viridis_d(name = "Number of classes", option = "C") + 
     coord_equal() + 
     theme(axis.line = element_blank(), axis.ticks = element_blank(), 
@@ -59,14 +73,11 @@ ggplot(data = raster::as.data.frame(result[[1]]$lsm_l_pr, xy = TRUE)) +
           legend.position = "bottom")
 ```
 
-In the future, we also plan to allow class level metrics, however, patch metrics are not meaningful (McGarigal 2012) and will not be included in the future.
+In the future, we also plan to allow class level metrics, however, patch metrics are not meaningful (McGarigal 2012) and will not be added in the future.
 
 ### References 
 
 - Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling: Applications with R. Springer International Publishing. 523 pages
-
 - Hagen-Zanker, A. 2016. A computational framework for generalized moving windows and its application to landscape pattern analysis. International journal of applied earth observation and geoinformation, 44, 205-216.
-
 - McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <https://www.umass.edu/landeco/>
-
 - Šímová, P., & Gdulová, K. 2012. Landscape indices behavior: A review of scale effects. Applied Geography, 34, 385–394.

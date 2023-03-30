@@ -48,6 +48,8 @@ Show landscape metrics on patch level printed in their corresponding patch.
 The function plots all patches with a fill corresponding to the value of the chosen landscape metric on patch level.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
+
 show_lsm(landscape, what = "lsm_p_area", directions = 4)
 show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), label_lsm = TRUE)
 show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)

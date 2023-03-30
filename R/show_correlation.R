@@ -16,6 +16,8 @@
 #' @return ggplot
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' metrics <- calculate_lsm(landscape, what = c("patch", "class"))
 #' show_correlation(data = metrics, method = "pearson")
 #'
@@ -23,7 +25,6 @@
 #' metrics <- calculate_lsm(landscape, what = c("patch", "class"))#'
 #' correlations <- calculate_correlation(metrics)
 #' show_correlation(data = correlations, method = "pearson")
-#'
 #' }
 #'
 #' @aliases show_correlation

@@ -7,7 +7,7 @@
 lsm_l_rpr(landscape, classes_max = NULL, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{classes_max}{Potential maximum number of present classes}
 
@@ -35,6 +35,7 @@ the functions returns \code{NA}.
 but the maximum number of classes is large. Equals RPR = 100 when m = m_max}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_rpr(landscape, classes_max = 5)
 
 }

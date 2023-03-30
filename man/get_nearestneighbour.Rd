@@ -7,7 +7,7 @@
 get_nearestneighbour(landscape, return_id = FALSE)
 }
 \arguments{
-\item{landscape}{RasterLayer or matrix (with x,y,id columns).}
+\item{landscape}{SpatRaster or matrix (with x,y,id columns).}
 
 \item{return_id}{If TRUE, also the patch ID of the nearest neighbour is returned.}
 }
@@ -24,6 +24,7 @@ might be returned.
 }
 \examples{
 # get patches for class 1
+landscape <- terra::rast(landscapemetrics::landscape)
 class_1 <- get_patches(landscape, class = 2)[[1]][[1]]
 
 # calculate the distance between patches

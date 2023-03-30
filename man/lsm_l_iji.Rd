@@ -7,7 +7,7 @@
 lsm_l_iji(landscape, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{verbose}{Print warning message if not sufficient patches are present}
 }
@@ -34,6 +34,7 @@ diagonal of the adjacency table). The number of classes to calculate IJI must be
 and equals 100 when a class is equally adjacent to all other classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_iji(landscape)
 }
 \references{

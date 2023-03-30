@@ -2,7 +2,7 @@
 #'
 #' @description Diameter of the circumscribing circle around patches
 #'
-#' @param landscape RasterLayer or matrix (with x, y, id columns)
+#' @param landscape SpatRaster or matrix (with x, y, id columns)
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param level Either 'patch' or 'class' for the corresponding level.
@@ -16,6 +16,8 @@
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' # get circle around each patch
 #' get_circumscribingcircle(landscape)
 #'
@@ -55,13 +57,13 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
              call. = FALSE)
     }
 
-    if (!inherits(x = landscape, what = "RasterLayer")) {
-        stop("Please provide a 'RasterLayer', 'RasterStack', 'RasterBrick', 'stars'-object or a list with 'RasterLayers'.",
+    if (!inherits(x = landscape, what = "SpatRaster")) {
+        stop("Please provide a 'SpatRaster', 'stars'-object, or a list with 'SpatRaster'.",
              call. = FALSE)
     }
 
     # get resolution
-    resolution <- raster::res(landscape)
+    resolution <- terra::res(landscape)
 
     # check if resolution is identical
     if (!isTRUE(all.equal(resolution[1], resolution[2]))) {
@@ -71,10 +73,10 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     }
 
     # get extent
-    extent <- raster::extent(landscape)
+    extent <- terra::ext(landscape)
 
     # convert to matrix
-    landscape <- raster::as.matrix(landscape)
+    landscape <- terra::as.matrix(landscape, wide = TRUE)
 
     # circle for each patch
     if (level == "patch") {
@@ -122,8 +124,8 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
     }
 
     # shift the coordinates to the original coordinate system
-    circle$center_x = circle$center_x + extent@xmin
-    circle$center_y = circle$center_y + extent@ymin
+    circle$center_x = circle$center_x + extent[1]
+    circle$center_y = circle$center_y + extent[3]
 
     return(circle)
 }

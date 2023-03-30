@@ -7,7 +7,7 @@
 lsm_c_gyrate_sd(landscape, directions = 8, cell_center = FALSE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -42,6 +42,7 @@ for all patches. Increases, without limit, as the variation of the radius of gyr
 increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_gyrate_sd(landscape)
 
 }
@@ -55,8 +56,7 @@ Keitt, T. H., Urban, D. L., & Milne, B. T. 1997. Detecting critical scales
 in fragmented landscapes. Conservation ecology, 1(1).
 }
 \seealso{
-\code{\link{lsm_p_gyrate}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_gyrate}}, \cr
 \code{\link{lsm_c_gyrate_mn}},
 \code{\link{lsm_c_gyrate_cv}}, \cr
 \code{\link{lsm_l_gyrate_mn}},

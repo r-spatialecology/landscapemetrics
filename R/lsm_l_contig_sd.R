@@ -2,7 +2,7 @@
 #'
 #' @description Standard deviation of Contiguity index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
@@ -18,7 +18,7 @@
 #' ```
 #' filter_matrix <- matrix(c(1, 2, 1,
 #'                           2, 1, 2,
-#'                           1, 2, 1), 3, 3, byrow = T)
+#'                           1, 2, 1), 3, 3, byrow = TRUE)
 #' ```
 #' ... is then used to weight orthogonally contiguous pixels more heavily than
 #' diagonally contiguous pixels. Therefore, larger and more connections between
@@ -41,6 +41,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_contig_sd(landscape)
 #'
 #' @aliases lsm_l_contig_sd

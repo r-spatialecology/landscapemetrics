@@ -7,7 +7,7 @@
 lsm_l_msiei(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -28,6 +28,7 @@ MSIEI is a 'Diversity metric'.
 MSIEI = 1 as the proportional distribution of patches becomes more even}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_msiei(landscape)
 
 }

@@ -7,7 +7,7 @@
 lsm_l_tca(landscape, directions = 8, consider_boundary = FALSE, edge_depth = 1)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -42,6 +42,7 @@ because the sum of edges increase as patches are less aggregated.
 and patch shapes simplify. TCA = 0 when every cell in every patch is an edge.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_tca(landscape)
 
 }

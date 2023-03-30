@@ -23,7 +23,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(AREA))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(AREA))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -98,7 +98,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(CAI))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(CAI))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -221,7 +221,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(CONTIG))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(CONTIG))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -281,7 +281,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(CORE))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(CORE))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -384,7 +384,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(NCORE))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(NCORE))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -485,7 +485,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(ENN))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(ENN))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -545,7 +545,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(FRAC))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(FRAC))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -605,7 +605,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(GYRATE))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(GYRATE))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -818,7 +818,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(PARA))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(PARA))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -935,7 +935,7 @@
 #
 # fragstats_class_landscape_value <- fragstats_patch_landscape %>%
 #     dplyr::group_by(TYPE) %>%
-#     dplyr::summarize(metric = raster::cv(SHAPE))
+#     dplyr::summarize(metric = function(x) sd(x) / mean(x) * 100)(SHAPE))
 #
 # names(fragstats_class_landscape_value) <- c("class", "value")
 #
@@ -1065,7 +1065,7 @@
 # context("landscape level area_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(AREA))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(AREA))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_area_cv(landscape)
 #
@@ -1104,7 +1104,7 @@
 # context("landscape level lsm_l_cai_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(CAI))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(CAI))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_cai_cv(landscape)
 #
@@ -1146,7 +1146,7 @@
 # context("landscape level lsm_l_circle_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(CIRCLE))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(CIRCLE))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_circle_cv(landscape)
 #
@@ -1211,9 +1211,9 @@
 #
 # # FRAGSTATS already rounds on patch level
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(CONTIG))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(CONTIG))
 #
-# landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_contig(landscape), value = round(value, 4)), value = raster::cv(value))
+# landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_contig(landscape), value = round(value, 4)), value = function(x) sd(x) / mean(x) * 100)(value))
 #
 # test_that("lsm_l_contig_cv results are equal to fragstats", {
 #     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==
@@ -1252,7 +1252,7 @@
 # context("landscape level lsm_l_core_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(CORE))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(CORE))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_core_cv(landscape)
 #
@@ -1306,7 +1306,7 @@
 # context("landscape level lsm_l_dcore_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(NCORE))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(NCORE))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_dcore_cv(landscape)
 #
@@ -1370,7 +1370,7 @@
 # context("landscape level lsm_l_enn_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(ENN))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(ENN))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_enn_cv(landscape)
 #
@@ -1409,7 +1409,7 @@
 # context("landscape level lsm_l_frac_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(FRAC))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(FRAC))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_frac_cv(landscape)
 #
@@ -1448,7 +1448,7 @@
 # context("landscape level lsm_l_gyrate_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(GYRATE))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(GYRATE))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_gyrate_cv(landscape)
 #
@@ -1579,7 +1579,7 @@
 # context("landscape level lsm_l_para_cv metric")
 #
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(PARA))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(PARA))
 #
 # landscapemetrics_landscape_landscape_value <- lsm_l_para_cv(landscape)
 #
@@ -1676,9 +1676,9 @@
 #
 # # FRAGSTATS already rounds on patch level
 # fragstats_landscape_landscape_area_value <- fragstats_patch_landscape %>%
-#     dplyr::summarize(value = raster::cv(SHAPE))
+#     dplyr::summarize(value = function(x) sd(x) / mean(x) * 100)(SHAPE))
 #
-# landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_shape(landscape), value = round(value, 4)), value = raster::cv(value))
+# landscapemetrics_landscape_landscape_value <- dplyr::summarize(dplyr::dplyr::mutate(lsm_p_shape(landscape), value = round(value, 4)), value = function(x) sd(x) / mean(x) * 100)(value))
 #
 # test_that("lsm_l_shape_cv results are equal to fragstats", {
 #     expect_true(round(fragstats_landscape_landscape_area_value$value, 4) ==

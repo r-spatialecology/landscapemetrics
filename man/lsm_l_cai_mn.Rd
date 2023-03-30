@@ -12,7 +12,7 @@ lsm_l_cai_mn(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -45,6 +45,7 @@ value than itself (rook's case).
 approaches CAI_MN = 100 with increasing percentage of core area within patches.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_cai_mn(landscape)
 
 }

@@ -19,6 +19,8 @@
 #' @return ggplot
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' show_lsm(landscape, what = "lsm_p_area", directions = 4)
 #' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), label_lsm = TRUE)
 #' show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
@@ -65,7 +67,7 @@ show_lsm_internal <- function(landscape, what, class,
 
     if (any(!(class %in% c("all", "global")))) {
 
-        if (!any(class %in% raster::unique(landscape))) {
+        if (!any(class %in% unique(terra::values(landscape, mat = FALSE)))) {
 
             stop("'class' must contain at least one value of a class existing in the landscape.",
                  call. = FALSE)
@@ -95,8 +97,7 @@ show_lsm_internal <- function(landscape, what, class,
 
     if (any(class == "global")) {
 
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
-                                                    na.rm = TRUE),
+        patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled), na.rm = TRUE),
                                                 xy = TRUE)
 
         names(patches_tibble) <- c("x", "y", "id")
@@ -127,7 +128,7 @@ show_lsm_internal <- function(landscape, what, class,
 
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "id"
-            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            x <- terra::as.data.frame(landscape_labeled[[i]], xy = TRUE)
             x$class <- names(landscape_labeled[i])
             return(x)}
         )

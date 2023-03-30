@@ -1,12 +1,9 @@
-context("patch level lsm_p_nca metric")
-
 landscapemetrics_patch_landscape_value <- lsm_p_ncore(landscape)
 
 test_that("lsm_p_ncore is typestable", {
-    expect_is(lsm_p_ncore(landscape), "tbl_df")
-    expect_is(lsm_p_ncore(landscape_stack), "tbl_df")
-    expect_is(lsm_p_ncore(landscape_brick), "tbl_df")
-    expect_is(lsm_p_ncore(landscape_list), "tbl_df")
+    expect_s3_class(lsm_p_ncore(landscape), "tbl_df")
+    expect_s3_class(lsm_p_ncore(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_p_ncore(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_ncore returns the desired number of columns", {

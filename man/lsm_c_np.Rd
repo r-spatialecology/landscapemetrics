@@ -7,7 +7,7 @@
 lsm_c_np(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -31,6 +31,7 @@ necessarily contain information about the configuration or composition of the cl
 increases, without limit, as the number of patches increases}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_np(landscape)
 
 }

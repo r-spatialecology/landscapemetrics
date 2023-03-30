@@ -7,7 +7,7 @@
 lsm_l_para_sd(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -35,6 +35,7 @@ all patches. Increases, without limit, as the variation of the perimeter-area ra
 increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_para_sd(landscape)
 
 }

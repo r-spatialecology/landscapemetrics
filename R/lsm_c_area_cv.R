@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of patch area (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
@@ -20,8 +20,7 @@
 #' Increases, without limit, as the variation of patch areas increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_area}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_area}}, \cr
 #' \code{\link{lsm_c_area_mn}},
 #' \code{\link{lsm_c_area_sd}}, \cr
 #' \code{\link{lsm_l_area_mn}},
@@ -31,6 +30,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_area_cv(landscape)
 #'
 #' @aliases lsm_c_area_cv
@@ -76,7 +76,8 @@ lsm_c_area_cv_calc <- function(landscape, directions, resolution = NULL){
     }
 
     # calculate cv
-    area_cv <- stats::aggregate(area[, 5], by = area[, 2], FUN = raster::cv)
+    area_cv <- stats::aggregate(area[, 5], by = area[, 2],
+                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(area_cv$class),

@@ -1,7 +1,7 @@
 Type: Package
 Package: landscapemetrics
 Title: Landscape Metrics for Categorical Map Patterns
-Version: 1.5.6
+Version: 2.0.0
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth",
              role = c("aut", "cre"),
              email = "mhk.hesselbarth@gmail.com",
@@ -39,13 +39,10 @@ Authors@R: c(person("Maximilian H.K.", "Hesselbarth",
 Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description: Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. 'landscapemetrics' reimplements the most common metrics from
-    'FRAGSTATS' (<https://www.umass.edu/landeco/>) 
-    and new ones from the current literature on landscape metrics.
-    This package supports 'raster' spatial objects and takes 
-    RasterLayer, RasterStacks, RasterBricks or lists of RasterLayer from the
-    'raster' package as input arguments. It further provides utility functions
-    to visualize patches, select metrics and building blocks to develop new 
-    metrics.
+    'FRAGSTATS' (<https://www.umass.edu/landeco/>) and new ones from the current 
+    literature on landscape metrics. This package supports 'terra' SpatRaster objects 
+    as input arguments. It further provides utility functionn to visualize patches, 
+    select metrics and building blocks to develop new metrics.
 License: GPL-3
 URL: https://r-spatialecology.github.io/landscapemetrics/
 BugReports: https://github.com/r-spatialecology/landscapemetrics/issues
@@ -56,26 +53,27 @@ Imports:
     ggplot2,
     methods,
     Rcpp (>= 1.0.10),
-    sp,
     stats,
-    raster,
+    terra,
     tibble
 Suggests: 
     covr,
     dplyr,
     knitr,
     rmarkdown,
-    terra,
+    sf,
     testthat
 Enhances:
-    stars,
-    sf
+    raster, 
+    sp,
+    stars
 LinkingTo: 
     Rcpp,
     RcppArmadillo
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

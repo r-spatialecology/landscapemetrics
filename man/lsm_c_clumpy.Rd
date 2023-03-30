@@ -7,7 +7,7 @@
 lsm_c_clumpy(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
 }
 \value{
 tibble
@@ -35,6 +35,7 @@ the double-count method.
 and 1 for maximally aggregated classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_clumpy(landscape)
 
 }

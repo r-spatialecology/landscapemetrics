@@ -2,7 +2,7 @@
 #'
 #' @description Contagion (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param verbose Print warning message if not sufficient patches are present
 #'
 #' @details
@@ -29,6 +29,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_contag(landscape)
 #'
 #' @aliases lsm_l_contag
@@ -63,7 +64,7 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

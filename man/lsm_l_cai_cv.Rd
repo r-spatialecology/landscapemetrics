@@ -12,7 +12,7 @@ lsm_l_cai_cv(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -48,6 +48,7 @@ all patches. Increases, without limit, as the variation of the core area
 indices increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_cai_cv(landscape)
 
 }
@@ -58,8 +59,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_cai}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_cai}}, \cr
 \code{\link{lsm_c_cai_mn}},
 \code{\link{lsm_c_cai_sd}},
 \code{\link{lsm_c_cai_cv}}, \cr

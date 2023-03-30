@@ -7,7 +7,7 @@
 lsm_c_para_cv(landscape, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -35,6 +35,7 @@ all patches. Increases, without limit, as the variation of the perimeter-area ra
 increases.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_para_cv(landscape)
 
 }
@@ -45,8 +46,7 @@ the authors at the University of Massachusetts, Amherst. Available at the follow
 web site: https://www.umass.edu/landeco/
 }
 \seealso{
-\code{\link{lsm_p_para}},
-\code{\link{cv}}, \cr
+\code{\link{lsm_p_para}}, \cr
 \code{\link{lsm_c_para_mn}},
 \code{\link{lsm_c_para_sd}}, \cr
 \code{\link{lsm_l_para_mn}},

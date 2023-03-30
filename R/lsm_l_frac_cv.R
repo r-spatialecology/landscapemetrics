@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation fractal dimension index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -23,8 +23,7 @@
 #' indices increases.}
 #'
 #' @seealso
-#' \code{\link{lsm_p_frac}},
-#' \code{\link{cv}}, \cr
+#' \code{\link{lsm_p_frac}}, \cr
 #' \code{\link{lsm_c_frac_mn}},
 #' \code{\link{lsm_c_frac_sd}},
 #' \code{\link{lsm_c_frac_cv}}, \cr
@@ -34,6 +33,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_frac_cv(landscape)
 #'
 #' @aliases lsm_l_frac_cv
@@ -79,7 +79,7 @@ lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    frac_cv <- raster::cv(frac_patch$value)
+    frac_cv <- stats::sd(frac_patch$value) / mean(frac_patch$value) * 100
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

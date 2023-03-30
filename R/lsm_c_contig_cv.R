@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of Contiguity index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
 #'
 #' @details
@@ -41,6 +41,7 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_contig_cv(landscape)
 #'
 #' @aliases lsm_c_contig_cv
@@ -85,7 +86,7 @@ lsm_c_contig_cv_calc <- function(landscape, directions) {
     }
 
     contig_cv <- stats::aggregate(x = contig[, 5], by = contig[, 2],
-                                  FUN = raster::cv)
+                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(contig_cv$class),
