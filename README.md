@@ -4,10 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
 
-README last updated: 2023-03-19
-
-README last updated: 2023-03-22
-
+README last updated: 2023-03-30
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                    | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -16,10 +13,9 @@ README last updated: 2023-03-22
 
 <!-- End Badges -->
 
-
-> Starting from v2.0.0 landscapemetrics does not support the ‘raster’ or
-> ‘sp’ package anymore. They are replaced with ‘terra’ and ‘sf’,
-> respectively. More information about the terra package can be found
+> Starting from v2.0.0, **landscapemetrics** does not support the
+> `raster` or `sp` packages. They are replaced by `terra` and `sf`,
+> respectively. More information about the `terra` package can be found
 > here: <https://rspatial.org/index.html>.
 
 ## Overview
@@ -42,12 +38,12 @@ the first argument and returns a `tibble`.
 
 To cite **landscapemetrics** or acknowledge its use, please cite the
 following Software note, substituting the version of the application
-that you used for ‘ver. 0’:
+that you used for ‘v0.0’:
 
 <p>
 <i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
 J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
-metrics. Ecography, 42: 1648-1657 (ver. 0). </i>
+metrics. Ecography, 42: 1648-1657 (v0.0). </i>
 </p>
 
 For more information see [Publication
@@ -147,7 +143,7 @@ lsm_p_enn(landscape)
 #>  8     1 patch     1     8 enn     4.12
 #>  9     1 patch     1     9 enn     4.12
 #> 10     1 patch     2    10 enn     4.47
-#> # … with 18 more rows
+#> # ℹ 18 more rows
 
 # calculate the total area and total class edge length
 lsm_l_ta(landscape)
@@ -184,7 +180,7 @@ calculate_lsm(landscape, level = "patch")
 #>  8     1 patch     1     8 area   0.0003
 #>  9     1 patch     1     9 area   0.0005
 #> 10     1 patch     2    10 area   0.0034
-#> # … with 326 more rows
+#> # ℹ 326 more rows
 ```
 
 ### Utility functions
