@@ -23,4 +23,4 @@ landscape_diff_res <- terra::aggregate(landscape, fact = c(1,2))
 landscape_NA <- landscape
 terra::values(landscape_NA) <- NA
 
-augusta_nlcd_stars <- stars::st_as_stars(augusta_nlcd)
+# augusta_nlcd_stars <- stars::st_as_stars(augusta_nlcd)
