@@ -10,7 +10,7 @@ test_that("construct_buffer can return a matrix", {
     circle_a <- construct_buffer(sample_points, shape = "circle", size = 5,
                                  return_vec = FALSE)
 
-    square <- construct_buffer(points_sf, shape = "square", size = 5,
+    square <- construct_buffer(sample_points, shape = "square", size = 5,
                                return_vec = FALSE)
 
     expect_true(is.matrix(circle_a))
