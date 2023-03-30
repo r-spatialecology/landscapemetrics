@@ -52,7 +52,7 @@ Imports:
     cli,
     ggplot2,
     methods,
-    Rcpp (>= 1.0.10),
+    Rcpp (>= 0.11.0),
     stats,
     terra,
     tibble
@@ -60,13 +60,12 @@ Suggests:
     covr,
     dplyr,
     knitr,
+    raster,
     rmarkdown,
     sf,
-    testthat
-Enhances:
-    raster, 
     sp,
-    stars
+    stars,
+    testthat
 LinkingTo: 
     Rcpp,
     RcppArmadillo
