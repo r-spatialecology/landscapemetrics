@@ -40,8 +40,6 @@ reference:
       - landscape_as_list
       - list_lsm
       - sample_lsm
-      - scale_sample
-      - scale_window
       - spatialize_lsm
       - window_lsm
 
