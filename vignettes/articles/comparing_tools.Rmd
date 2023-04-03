@@ -10,6 +10,10 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
+```
+
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
 library(terra)
