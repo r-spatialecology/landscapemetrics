@@ -1,6 +1,8 @@
 library(NLMR)
+library(landscapetools)
 library(terra)
 library(usethis)
+
 
 #### Create example datasets ####
 set.seed(2018-05-12)

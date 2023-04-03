@@ -1,6 +1,6 @@
 #' Example map (random cluster neutral landscape model).
 #'
-#' An example map to show landscapetools functionality
+#' An example map to show landscapemetrics functionality
 #' generated with the `nlm_randomcluster()` algorithm.
 #'
 #' @format A raster object.

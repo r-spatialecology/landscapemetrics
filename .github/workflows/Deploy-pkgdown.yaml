@@ -31,7 +31,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, any::bench, any::dplyr, any::landscapetools, any::purrr, any::stars, local::.
+          extra-packages: any::pkgdown, any::bench, any::dplyr, any::purrr, any::tidyr, local::.
           needs: website
 
       - name: Install SDMTools

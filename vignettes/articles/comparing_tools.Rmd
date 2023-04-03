@@ -25,7 +25,7 @@ library(purrr)
 landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
-> The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently.
+> The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently. Additionally, we cant install `SDMTools` anymore (R > 4.0).
 
 # Comparison with FRAGSTATS
 
@@ -50,7 +50,7 @@ Contrastingly, we do not round the numbers.
 Naturally, this can lead to small deviations between the results.
 
 There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g., the mean, standard deviation (*sd*) or coefficient of variation (*cv*) of all values belonging to class *i*).
-While the results are identical for single patches and the mean of all patches, there are some slight differences between `lanscapemetrics` and FRAGSTATS for the standard deviation and the coefficient of variation.
+While the results are identical for single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and FRAGSTATS for the standard deviation and the coefficient of variation.
 **landscapemetrics** uses base `R` functions for that, so we should assume that the calculation of such indices is correct.
 
 In the following, we are comparing the *cv* for the patch area. 

@@ -14,7 +14,7 @@ Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
 landscape
 }
 \description{
-An example map to show landscapetools functionality
+An example map to show landscapemetrics functionality
 generated with the \code{nlm_randomcluster()} algorithm.
 }
 \keyword{datasets}
