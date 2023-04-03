@@ -204,7 +204,7 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.1"
+      "version": ">= 3.6"
     },
     "2": {
       "@type": "SoftwareApplication",
