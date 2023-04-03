@@ -9,7 +9,7 @@ sample_lsm(
   y,
   plot_id = NULL,
   shape = "square",
-  size,
+  size = NULL,
   all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,

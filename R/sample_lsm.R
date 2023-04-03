@@ -50,8 +50,7 @@
 #' @rdname sample_lsm
 #'
 #' @export
-sample_lsm <- function(landscape, y, plot_id = NULL,
-                       shape = "square", size,
+sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NULL,
                        all_classes = FALSE, return_raster = FALSE,
                        verbose = TRUE, progress = FALSE, ...) {
 
@@ -91,17 +90,11 @@ sample_lsm <- function(landscape, y, plot_id = NULL,
     result[with(result, order(layer, plot_id, level, metric, class, id)), ]
 }
 
-sample_lsm_int <- function(landscape,
-                           y,
-                           plot_id,
-                           shape, size,
-                           all_classes,
-                           verbose,
-                           progress,
-                           ...) {
+sample_lsm_int <- function(landscape, y, plot_id, shape, size,
+                           all_classes, verbose, progress, ...) {
 
     # check if size argument is only one number
-    if (length(size) != 1 | any(size <= 0)) {
+    if ((length(size) != 1 | any(size <= 0)) & !is.null(size)) {
 
         stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
 
@@ -114,14 +107,22 @@ sample_lsm_int <- function(landscape,
         # convert to terra
         y <- methods::as(y, "SpatVector")
 
-        if (terra::geomtype(y) == "points") y <- construct_buffer(coords = y, shape = shape, size = size,
-                                                                  return_vec = TRUE, verbose = verbose)
+        if (terra::geomtype(y) == "points") {
+
+            if (is.null(size)) stop("Please provide size argument.", call. = FALSE)
+
+            y <- construct_buffer(coords = y, shape = shape, size = size,
+                                  return_vec = TRUE, verbose = verbose)
+
+        }
 
     # y should be matrix or points
     } else if (inherits(x = y, what = "matrix")) {
 
-       y <- construct_buffer(coords = y, shape = shape, size = size,
-                             return_vec = TRUE, verbose = verbose)
+        if (is.null(size)) stop("Please provide size argument.", call. = FALSE)
+
+        y <- construct_buffer(coords = y, shape = shape, size = size,
+                              return_vec = TRUE, verbose = verbose)
 
     } else {
 
