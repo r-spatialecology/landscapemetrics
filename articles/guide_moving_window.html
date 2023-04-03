@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,30 +73,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -125,7 +130,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -144,7 +149,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Moving window</h1>
             
-            <h4 data-toc-skip class="date">2023-03-23</h4>
+            <h4 data-toc-skip class="date">2023-04-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/guide_moving_window.Rmd" class="external-link"><code>vignettes/articles/guide_moving_window.Rmd</code></a></small>
       <div class="d-none name"><code>guide_moving_window.Rmd</code></div>
@@ -169,21 +174,22 @@ selection of the matrix size largely influences the scale of the result
 <p>We provide the function <code><a href="../reference/window_lsm.html">window_lsm()</a></code> in
 <strong>landscapemetrics</strong> to analyse an input raster using the
 moving window approach. The function allows to specify the neighborhood
-using a matrix using the <code><a href="https://rdrr.io/pkg/terra/man/focal.html" class="external-link">raster::focal()</a></code> function
+using a matrix using the <code><a href="https://rdrr.io/pkg/terra/man/focal.html" class="external-link">terra::focal()</a></code> function
 internally. Currently, only the landscape level metrics are possible to
 calculate and they can be specified similarly to
 <code><a href="../reference/calculate_lsm.html">calculate_lsm()</a></code>. For details, see
 <code>?list_lsm()</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># internal data needs to be read</span></span>
+<span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/landscape.html">landscape</a></span><span class="op">)</span></span></code></pre></div>
 <p>First, we need to specify the local neighborhood matrix. This matrix
 must have sides defined as odd numbers, in which the focal cell is
-always the center cell. Because we want to weight all cells identically,
-all values need to be 1 (for more details, see
-<code>?raster::focal()</code>).</p>
+always the center cell (for more details, see
+<code>?terra::focal()</code>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">moving_window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">moving_window</span></span></code></pre></div>
@@ -200,53 +206,55 @@ entropy (<code>lsm_l_joinent</code>) for the local neighborhoods.</p>
 <span><span class="va">result</span></span></code></pre></div>
 <pre><code><span><span class="co">## $layer_1</span></span>
 <span><span class="co">## $layer_1$lsm_l_joinent</span></span>
-<span><span class="co">## class      : RasterLayer </span></span>
-<span><span class="co">## dimensions : 30, 30, 900  (nrow, ncol, ncell)</span></span>
-<span><span class="co">## resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">## extent     : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## crs        : NA </span></span>
-<span><span class="co">## source     : memory</span></span>
-<span><span class="co">## names      : layer </span></span>
-<span><span class="co">## values     : 0, 3.093069  (min, max)</span></span>
-<span><span class="co">## </span></span>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">## extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. :  </span></span>
+<span><span class="co">## source(s)   : memory</span></span>
+<span><span class="co">## name        :   clumps </span></span>
+<span><span class="co">## min value   : 0.000000 </span></span>
+<span><span class="co">## max value   : 3.093069 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $layer_1$lsm_l_pr</span></span>
-<span><span class="co">## class      : RasterLayer </span></span>
-<span><span class="co">## dimensions : 30, 30, 900  (nrow, ncol, ncell)</span></span>
-<span><span class="co">## resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">## extent     : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">## crs        : NA </span></span>
-<span><span class="co">## source     : memory</span></span>
-<span><span class="co">## names      : layer </span></span>
-<span><span class="co">## values     : 1, 3  (min, max)</span></span></code></pre>
+<span><span class="co">## class       : SpatRaster </span></span>
+<span><span class="co">## dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">## resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">## extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">## coord. ref. :  </span></span>
+<span><span class="co">## source(s)   : memory</span></span>
+<span><span class="co">## name        : clumps </span></span>
+<span><span class="co">## min value   :      1 </span></span>
+<span><span class="co">## max value   :      3</span></span></code></pre>
 <p>To be type-stable, the result will be a nested list. The first level
-includes all layers of a <code>RasterStack</code> (only one if a
-<code>RasterLayer</code> is provided), the second level all selected
-metrics. The resulting <code>RasterLayers</code> describe the local
-neighborhood according to the moving window around each focal cell. In
-the case of <code>lsm_l_pr</code> this the number of classes
+includes all layers of a <code>SpatRaster</code> (only one if a
+<code>SpatRaster</code> is provided), the second level contains all
+selected metrics. The resulting <code>SpatRaster</code> describe the
+local neighborhood according to the moving window around each focal
+cell. In the case of <code>lsm_l_pr</code> this the number of classes
 present.</p>
 <p><img src="guide_moving_window_files/figure-html/plot-result-1.png" width="700" style="display: block; margin: auto;"><img src="guide_moving_window_files/figure-html/plot-result-2.png" width="700" style="display: block; margin: auto;"></p>
 <p>In the future, we also plan to allow class level metrics, however,
-patch metrics are not meaningful (McGarigal 2012) and will not be
-included in the future.</p>
+patch metrics are not meaningful (McGarigal 2012) and will not be added
+in the future.</p>
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
 <ul>
-<li><p>Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and
-Conservation Modeling: Applications with R. Springer International
-Publishing. 523 pages</p></li>
-<li><p>Hagen-Zanker, A. 2016. A computational framework for generalized
+<li>Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation
+Modeling: Applications with R. Springer International Publishing. 523
+pages</li>
+<li>Hagen-Zanker, A. 2016. A computational framework for generalized
 moving windows and its application to landscape pattern analysis.
 International journal of applied earth observation and geoinformation,
-44, 205-216.</p></li>
-<li><p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4:
-Spatial Pattern Analysis Program for Categorical and Continuous Maps.
-Computer software program produced by the authors at the University of
-Massachusetts, Amherst. Available at the following website: <a href="https://www.umass.edu/landeco/" class="external-link uri">https://www.umass.edu/landeco/</a></p></li>
-<li><p>Šímová, P., &amp; Gdulová, K. 2012. Landscape indices behavior: A
-review of scale effects. Applied Geography, 34, 385–394.</p></li>
+44, 205-216.</li>
+<li>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
+Pattern Analysis Program for Categorical and Continuous Maps. Computer
+software program produced by the authors at the University of
+Massachusetts, Amherst. Available at the following website: <a href="https://www.umass.edu/landeco/" class="external-link uri">https://www.umass.edu/landeco/</a>
+</li>
+<li>Šímová, P., &amp; Gdulová, K. 2012. Landscape indices behavior: A
+review of scale effects. Applied Geography, 34, 385–394.</li>
 </ul>
 </div>
 </div>

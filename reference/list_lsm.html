@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -191,24 +196,23 @@ web site: https://www.umass.edu/landeco/</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">list_lsm</span><span class="op">(</span>level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"landscape"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"aggregation metric"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    metric   name                                  type             level funct…¹</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> enn      euclidean nearest neighbor distance   aggregation met… patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ai       aggregation index                     aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> cohesion patch cohesion index                  aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> contag   connectance                           aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> division division index                        aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> enn_cv   euclidean nearest neighbor distance   aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> enn_mn   euclidean nearest neighbor distance   aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> enn_sd   euclidean nearest neighbor distance   aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> iji      interspersion and juxtaposition index aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> lsi      landscape shape index                 aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> mesh     effective mesh size                   aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> np       number of patches                     aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> pd       patch density                         aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> pladj    percentage of like adjacencies        aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> split    splitting index                       aggregation met… land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​function_name</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    metric   name                                  type       level function_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> enn      euclidean nearest neighbor distance   aggregati… patch lsm_p_enn    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> ai       aggregation index                     aggregati… land… lsm_l_ai     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> cohesion patch cohesion index                  aggregati… land… lsm_l_cohesi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> contag   connectance                           aggregati… land… lsm_l_contag </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> division division index                        aggregati… land… lsm_l_divisi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> enn_cv   euclidean nearest neighbor distance   aggregati… land… lsm_l_enn_cv </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> enn_mn   euclidean nearest neighbor distance   aggregati… land… lsm_l_enn_mn </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> enn_sd   euclidean nearest neighbor distance   aggregati… land… lsm_l_enn_sd </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> iji      interspersion and juxtaposition index aggregati… land… lsm_l_iji    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> lsi      landscape shape index                 aggregati… land… lsm_l_lsi    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> mesh     effective mesh size                   aggregati… land… lsm_l_mesh   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> np       number of patches                     aggregati… land… lsm_l_np     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> pd       patch density                         aggregati… land… lsm_l_pd     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> pladj    percentage of like adjacencies        aggregati… land… lsm_l_pladj  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> split    splitting index                       aggregati… land… lsm_l_split  </span>
 <span class="r-in"><span><span class="fu">list_lsm</span><span class="op">(</span>level <span class="op">=</span> <span class="st">"-patch"</span>, type <span class="op">=</span> <span class="st">"area and edge metric"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 21 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    metric    name                    type                 level function_name  </span>
@@ -223,7 +227,7 @@ web site: https://www.umass.edu/landeco/</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> gyrate_sd radius of gyration      area and edge metric class lsm_c_gyrate_sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> lpi       largest patch index     area and edge metric class lsm_c_lpi      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pland     percentage of landscape area and edge metric class lsm_c_pland    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 11 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 11 more rows</span></span>
 <span class="r-in"><span><span class="fu">list_lsm</span><span class="op">(</span>metric <span class="op">=</span> <span class="st">"area"</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lsm_p_area"    "lsm_c_area_cv" "lsm_c_area_mn" "lsm_c_area_sd"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "lsm_l_area_cv" "lsm_l_area_mn" "lsm_l_area_sd"</span>
@@ -237,22 +241,21 @@ web site: https://www.umass.edu/landeco/</p>
 <span class="r-in"><span><span class="fu">list_lsm</span><span class="op">(</span>metric <span class="op">=</span> <span class="st">"area"</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patch"</span>, <span class="st">"lsm_l_ta"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Only using 'what' argument.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    metric name                                type                 level funct…¹</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> area   patch area                          area and edge metric patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> cai    core area index                     core area metric     patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> circle related circumscribing circle       shape metric         patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> contig contiguity index                    shape metric         patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> core   core area                           core area metric     patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> enn    euclidean nearest neighbor distance aggregation metric   patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> frac   fractal dimension index             shape metric         patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> gyrate radius of gyration                  area and edge metric patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ncore  number of core areas                core area metric     patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> para   perimeter-area ratio                shape metric         patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> perim  patch perimeter                     area and edge metric patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> shape  shape index                         shape metric         patch lsm_p_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ta     total area                          area and edge metric land… lsm_l_…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​function_name</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    metric name                                type           level function_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> area   patch area                          area and edge… patch lsm_p_area   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> cai    core area index                     core area met… patch lsm_p_cai    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> circle related circumscribing circle       shape metric   patch lsm_p_circle </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> contig contiguity index                    shape metric   patch lsm_p_contig </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> core   core area                           core area met… patch lsm_p_core   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> enn    euclidean nearest neighbor distance aggregation m… patch lsm_p_enn    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> frac   fractal dimension index             shape metric   patch lsm_p_frac   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> gyrate radius of gyration                  area and edge… patch lsm_p_gyrate </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> ncore  number of core areas                core area met… patch lsm_p_ncore  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> para   perimeter-area ratio                shape metric   patch lsm_p_para   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> perim  patch perimeter                     area and edge… patch lsm_p_perim  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> shape  shape index                         shape metric   patch lsm_p_shape  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ta     total area                          area and edge… land… lsm_l_ta     </span>
 <span class="r-in"><span><span class="fu">list_lsm</span><span class="op">(</span>what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_c_tca"</span>, <span class="st">"lsm_l_ta"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   metric name            type                 level     function_name</span>

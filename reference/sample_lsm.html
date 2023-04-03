@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -126,7 +131,7 @@
 <span>  <span class="va">y</span>,</span>
 <span>  plot_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"square"</span>,</span>
-<span>  <span class="va">size</span>,</span>
+<span>  size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_classes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  return_raster <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -138,11 +143,11 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>landscape</dt>
-<dd><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></dd>
+<dd><p>A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.</p></dd>
 
 
 <dt>y</dt>
-<dd><p>2-column matrix with coordinates, SpatialPoints, SpatialLines, SpatialPolygons, sf points or sf polygons.</p></dd>
+<dd><p>2-column matrix with coordinates or sf point geometries.</p></dd>
 
 
 <dt>plot_id</dt>
@@ -156,7 +161,7 @@ points will be labelled 1...n.</p></dd>
 
 <dt>size</dt>
 <dd><p>Approximated size of sample plot. Equals the radius for circles or half of
-the side-length for squares in mapunits. For lines size equals the width of the buffer.</p></dd>
+the side-length for squares in map units. For lines size equals the width of the buffer.</p></dd>
 
 
 <dt>all_classes</dt>
@@ -189,14 +194,14 @@ be returned</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function samples the selected metrics in a buffer area (sample plot)
-around sample points, sample lines or within provided SpatialPolygons. The size of the actual
+around sample points, sample lines or within provided polygons. The size of the actual
 sampled landscape can be different to the provided size due to two reasons.
 Firstly, because clipping raster cells using a circle or a sample plot not directly
 at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
 landscape boundary. Therefore, we report the actual clipped sample plot area relative
 in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
 within the landscape will have a <code>percentage_inside = 50</code>. Please be aware that the
-output is sligthly different to all other <code>lsm</code>-function of <code>landscapemetrics</code>.</p>
+output is slightly different to all other <code>lsm</code>-function of <code>landscapemetrics</code>.</p>
 <p>The metrics can be specified by the arguments <code>what</code>, <code>level</code>, <code>metric</code>, <code>name</code>
 and/or <code>type</code> (combinations of different arguments are possible (e.g.
 <code>level = "class", type = "aggregation metric"</code>). If an argument is not provided,
@@ -210,54 +215,20 @@ available metrics, don't specify any of the above arguments.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># use a matrix</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># use a matrix</span></span></span>
 <span class="r-in"><span><span class="va">sample_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">15</span>, <span class="fl">5</span>, <span class="fl">25</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sample_lsm</span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">sample_points</span>, size <span class="op">=</span> <span class="fl">15</span>, what <span class="op">=</span> <span class="st">"lsm_l_np"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[expanse] unknown CRS. Results can be wrong</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The 'perecentage_inside' is below 90% for at least one buffer.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use 'check_landscape()' to ensure the input data is valid.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   layer level     class    id metric value plot_id percentage_inside</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        18       1              55.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        17       2              66.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        13       3              44.4</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># use sp points</span></span></span>
-<span class="r-in"><span><span class="va">points_sp</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPoints.html" class="external-link">SpatialPoints</a></span><span class="op">(</span><span class="va">sample_points</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">sample_lsm</span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">points_sp</span>, size <span class="op">=</span> <span class="fl">15</span>, what <span class="op">=</span> <span class="st">"lsm_l_np"</span>, return_raster <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The 'perecentage_inside' is below 90% for at least one buffer.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use 'check_landscape()' to ensure the input data is valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   layer level     class    id metric value plot_id percentag…¹ raster_sample_p…²</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        18       1        55.6 <span style="color: #949494;">&lt;RastrLyr[,25,1]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        17       2        66.7 <span style="color: #949494;">&lt;RastrLyr[,20,1]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        13       3        44.4 <span style="color: #949494;">&lt;RastrLyr[,20,1]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​percentage_inside, ²​raster_sample_plots</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># use lines</span></span></span>
-<span class="r-in"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">15</span>, <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sample_lines</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialLines.html" class="external-link">SpatialLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/Line.html" class="external-link">Lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/Line.html" class="external-link">Line</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">y1</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span><span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/Line.html" class="external-link">Line</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x2</span>, <span class="va">y2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, ID <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">sample_lsm</span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">sample_lines</span>, size <span class="op">=</span> <span class="fl">10</span>, what <span class="op">=</span> <span class="st">"lsm_l_np"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># use polygons</span></span></span>
-<span class="r-in"><span><span class="va">poly_1</span> <span class="op">&lt;-</span>  <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="fl">17.5</span>, <span class="fl">17.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                           <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.5</span>, <span class="fl">12.5</span>, <span class="fl">12.5</span>, <span class="op">-</span><span class="fl">2.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">poly_2</span> <span class="op">&lt;-</span>  <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7.5</span>, <span class="fl">7.5</span>, <span class="fl">23.5</span>, <span class="fl">23.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                           <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7.5</span>, <span class="fl">23.5</span>, <span class="fl">23.5</span>, <span class="op">-</span><span class="fl">7.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">poly_1</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">poly_1</span><span class="op">)</span>, <span class="st">"p1"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">poly_2</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">Polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">poly_2</span><span class="op">)</span>, <span class="st">"p2"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">sample_plots</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html" class="external-link">SpatialPolygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">poly_1</span>, <span class="va">poly_2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">sample_lsm</span><span class="op">(</span><span class="va">landscape</span>, y <span class="op">=</span> <span class="va">sample_plots</span>, what <span class="op">=</span> <span class="st">"lsm_l_np"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        20       1              55.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        20       2              66.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> np        14       3              44.4</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

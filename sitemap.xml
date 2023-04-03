@@ -31,6 +31,9 @@
     <loc>https://r-spatialecology.github.io/landscapemetrics/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/irregular_areas.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/articles/landscape_distribution_statistics.html</loc>
   </url>
   <url>
@@ -122,6 +125,9 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/irregular_areas.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape.html</loc>
@@ -550,6 +556,9 @@
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/podlasie_ccilc.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/points_as_mat.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/proj_info.html</loc>
   </url>
   <url>
@@ -569,12 +578,6 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/sample_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/scale_sample.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/scale_window.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_cores.html</loc>

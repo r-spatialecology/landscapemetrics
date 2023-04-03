@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -127,7 +132,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>landscape</dt>
-<dd><p>RasterLayer or matrix (with x, y, id columns)</p></dd>
+<dd><p>SpatRaster or matrix (with x, y, id columns)</p></dd>
 
 
 <dt>directions</dt>
@@ -152,31 +157,33 @@ cells of the patch are included in the patch.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get circle around each patch</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get circle around each patch</span></span></span>
 <span class="r-in"><span><span class="fu">get_circumscribingcircle</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 27 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 28 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    layer level class    id value center_x center_y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1  1.41      0.5     29.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2  4.12      0.5     21  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 29.3      13.2     19.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4  1.41      0.5      2.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5  1.41      0.5      0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6  6.32     17        8  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7  3.16     20.5      0.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8  3.61     26        2.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9  1.41     29.5      6.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1 patch     2    10 10.3       3.5     25.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 17 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1  1.41     0.5      29.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2  4.12     0.5      21  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 15.5      7.38     13.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4  1.41     5.5       0.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5  1.41    11.5       3.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 16.6     19.5      22.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7  6.71    17         8.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8  3.61    20.5       1  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9  3.61    26         2.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     1 patch     2    10 10.8      3.73     25.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 18 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get circle around whole class</span></span></span>
 <span class="r-in"><span><span class="fu">get_circumscribingcircle</span><span class="op">(</span><span class="va">landscape</span>, level <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   layer level class    id value center_x center_y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 class     1    <span style="color: #BB0000;">NA</span>  39.2     12.6     15  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 class     1    <span style="color: #BB0000;">NA</span>  39.6     13.5     15.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1 class     2    <span style="color: #BB0000;">NA</span>  41.7     15       14.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 class     3    <span style="color: #BB0000;">NA</span>  41.7     15.2     15.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     1 class     3    <span style="color: #BB0000;">NA</span>  42.4     15       15  </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

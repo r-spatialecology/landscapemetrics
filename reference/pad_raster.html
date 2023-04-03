@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -134,7 +139,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>landscape</dt>
-<dd><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></dd>
+<dd><p>A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.</p></dd>
 
 
 <dt>pad_raster_value</dt>
@@ -172,17 +177,18 @@ everything in memory. Can be set with a global option, e.g. <code>option(to_disk
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">pad_raster</span><span class="op">(</span><span class="va">landscape</span>, pad_raster_value <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, pad_raster_cells <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pad_raster</span><span class="op">(</span><span class="va">landscape</span>, pad_raster_value <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, pad_raster_cells <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $layer_1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> class      : RasterLayer </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions : 34, 34, 1156  (nrow, ncol, ncell)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> resolution : 1, 1  (x, y)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> extent     : -2, 32, -2, 32  (xmin, xmax, ymin, ymax)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> crs        : NA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> source     : memory</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> names      : layer </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> values     : -1, 3  (min, max)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class       : SpatRaster </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dimensions  : 34, 34, 1  (nrow, ncol, nlyr)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> resolution  : 1, 1  (x, y)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> extent      : -2, 32, -2, 32  (xmin, xmax, ymin, ymax)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> coord. ref. :  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> source(s)   : memory</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> name        : lyr.1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> min value   :    -1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> max value   :     3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

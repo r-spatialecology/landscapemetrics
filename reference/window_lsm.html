@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -137,7 +142,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>landscape</dt>
-<dd><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></dd>
+<dd><p>A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.</p></dd>
 
 
 <dt>window</dt>
@@ -183,9 +188,9 @@ It is also possible to specify functions as a vector of strings, e.g. <code>what
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-details, see <code>?raster::focal()</code>. The result will be a <code>RasterLayer</code> in which each focal cell includes
+details, see <code>?terra::focal()</code>. The result will be a <code>RasterLayer</code> in which each focal cell includes
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
-To be type stable, the acutally result is always a nested list (first level for <code>RasterStack</code> layers, second level
+To be type stable, the actual result is always a nested list (first level for <code>RasterStack</code> layers, second level
 for selected landscape metrics).</p>
     </div>
     <div class="section level2">
@@ -202,12 +207,14 @@ website: <a href="https://www.umass.edu/landeco/" class="external-link">https://
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="list_lsm.html">list_lsm</a></code> <br><code><a href="calculate_lsm.html">calculate_lsm</a></code> <br><code>focal</code></p></div>
+    <div class="dont-index"><p><code><a href="list_lsm.html">list_lsm</a></code> <br><code><a href="calculate_lsm.html">calculate_lsm</a></code> <br><code><a href="https://rdrr.io/pkg/terra/man/focal.html" class="external-link">focal</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">landscape_stack</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="va">landscape</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">window</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>, nrow <span class="op">=</span> <span class="fl">5</span>,ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">window_lsm</span><span class="op">(</span><span class="va">landscape</span>, window <span class="op">=</span> <span class="va">window</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">window_lsm</span><span class="op">(</span><span class="va">landscape_stack</span>, window <span class="op">=</span> <span class="va">window</span>, what <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lsm_l_pr"</span>, <span class="st">"lsm_l_joinent"</span><span class="op">)</span><span class="op">)</span></span></span>

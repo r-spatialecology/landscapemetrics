@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,30 +73,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -125,7 +130,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -144,7 +149,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Utility functions</h1>
             
-            <h4 data-toc-skip class="date">2023-03-23</h4>
+            <h4 data-toc-skip class="date">2023-04-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/utility.Rmd" class="external-link"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="d-none name"><code>utility.Rmd</code></div>
@@ -158,16 +163,16 @@
 <div class="section level3">
 <h3 id="visualizing-landscapes">Visualizing landscapes<a class="anchor" aria-label="anchor" href="#visualizing-landscapes"></a>
 </h3>
-<p>We can use the <code>show_landscape</code> function from <a href="https://github.com/ropensci/landscapetools" class="external-link">landscapetools</a> to
-have look at our landscape.</p>
+<p>We can use the <code>plot</code> function from <strong>terra</strong>
+to have look at our landscape.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot landscape</span></span>
-<span><span class="fu">landscapetools</span><span class="fu">::</span><span class="fu"><a href="https://ropensci.github.io/landscapetools/reference/show_landscape.html" class="external-link">show_landscape</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> </span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-1-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This is how we typically inspect our landscape, but which also makes
 it quite hard to relate to the landscape metrics we are interested in.
 This why we show in the following how to dissect this landscape visually
-into the compoments, that drive the calculation of landscape
+into the components, that drive the calculation of landscape
 metrics.</p>
 </div>
 <div class="section level3">
@@ -190,23 +195,38 @@ you can use the auxiliary visualisation function
 <p><img src="utility_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>To show only the core area, there is the visualization function
 <code>show_cores</code>. The arguments are similar to
-<code><a href="../reference/show_patches.html">show_patches()</a></code></p>
+<code><a href="../reference/show_patches.html">show_patches()</a></code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show core area of class 1 and 3</span></span>
 <span><span class="fu"><a href="../reference/show_cores.html">show_cores</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $layer_1</span></span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>Lastly, you can also “fill” the colours of each patch according to
-its value of a certain patch level metric, e.g. the patch area, using
+its value of a certain patch level metric, e.g., the patch area, using
 <code><a href="../reference/show_lsm.html">show_lsm()</a></code>. You can chose if the label should be the patch
 id or the actual value of the landscape metric
-(<code>label_lsm = TRUE/FALSE</code>). To get the result as a
-<em>RasterLayer</em>, there is <code><a href="../reference/spatialize_lsm.html">spatialize_lsm()</a></code>.</p>
+(<code>label_lsm = TRUE/FALSE</code>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># fill patch according to area</span></span>
 <span><span class="fu"><a href="../reference/show_lsm.html">show_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"lsm_p_area"</span>, class <span class="op">=</span> <span class="st">"global"</span>, label_lsm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $layer_1</span></span></code></pre></div>
 <p><img src="utility_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;"></p>
+<p>To get the result as a <em>SpatRaster</em>, there is
+<code><a href="../reference/spatialize_lsm.html">spatialize_lsm()</a></code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/spatialize_lsm.html">spatialize_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"lsm_p_area"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
+<span><span class="co">#&gt; $layer_1</span></span>
+<span><span class="co">#&gt; $layer_1$lsm_p_area</span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. :  </span></span>
+<span><span class="co">#&gt; source(s)   : memory</span></span>
+<span><span class="co">#&gt; name        :  value </span></span>
+<span><span class="co">#&gt; min value   : 0.0001 </span></span>
+<span><span class="co">#&gt; max value   : 0.0159</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -219,11 +239,11 @@ approach is often simply to calculate as many as possible.</p>
 question that are not highly correlated, you can use the function
 <code><a href="../reference/show_correlation.html">show_correlation()</a></code> to get a first insight into the
 correlation of the metrics you calculated:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Please use 'check_landscape()' to ensure the input data is valid.</span></span>
 <span><span class="fu"><a href="../reference/show_correlation.html">show_correlation</a></span><span class="op">(</span><span class="va">metrics</span>, method <span class="op">=</span> <span class="st">"pearson"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="utility_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="utility_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="building-blocks">Building blocks<a class="anchor" aria-label="anchor" href="#building-blocks"></a>
@@ -231,64 +251,65 @@ correlation of the metrics you calculated:</p>
 <div class="section level3">
 <h3 id="get-patches">Get patches<a class="anchor" aria-label="anchor" href="#get-patches"></a>
 </h3>
-<p><code>landscapemetrics</code> makes internally heavy use of an
+<p><strong>landscapemetrics</strong> makes internally heavy use of an
 connected labeling algorithm and exports an re-implementation of this
-algorithm (<code>get_patches</code>). The function return a list, where
-each list entry includes all patches of the corresponding class. The
-patches are labeld from 1…to n. </p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+algorithm (<code><a href="../reference/get_patches.html">get_patches()</a></code>). This function return a list,
+where each list entry includes all patches of the corresponding class.
+The patches are labeled from 1…to n. </p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get a list of all patches for each class</span></span>
 <span><span class="fu"><a href="../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $layer_1</span></span>
 <span><span class="co">#&gt; $layer_1$class_1</span></span>
-<span><span class="co">#&gt; class      : RasterLayer </span></span>
-<span><span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span></span>
-<span><span class="co">#&gt; resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">#&gt; extent     : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">#&gt; crs        : NA </span></span>
-<span><span class="co">#&gt; source     : memory</span></span>
-<span><span class="co">#&gt; names      : layer </span></span>
-<span><span class="co">#&gt; values     : 1, 9  (min, max)</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. :  </span></span>
+<span><span class="co">#&gt; source(s)   : memory</span></span>
+<span><span class="co">#&gt; name        : lyr.1 </span></span>
+<span><span class="co">#&gt; min value   :     1 </span></span>
+<span><span class="co">#&gt; max value   :     9 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $layer_1$class_2</span></span>
-<span><span class="co">#&gt; class      : RasterLayer </span></span>
-<span><span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span></span>
-<span><span class="co">#&gt; resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">#&gt; extent     : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">#&gt; crs        : NA </span></span>
-<span><span class="co">#&gt; source     : memory</span></span>
-<span><span class="co">#&gt; names      : layer </span></span>
-<span><span class="co">#&gt; values     : 10, 23  (min, max)</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. :  </span></span>
+<span><span class="co">#&gt; source(s)   : memory</span></span>
+<span><span class="co">#&gt; name        : lyr.1 </span></span>
+<span><span class="co">#&gt; min value   :    10 </span></span>
+<span><span class="co">#&gt; max value   :    22 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $layer_1$class_3</span></span>
-<span><span class="co">#&gt; class      : RasterLayer </span></span>
-<span><span class="co">#&gt; dimensions : 30, 30, 900  (nrow, ncol, ncell)</span></span>
-<span><span class="co">#&gt; resolution : 1, 1  (x, y)</span></span>
-<span><span class="co">#&gt; extent     : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
-<span><span class="co">#&gt; crs        : NA </span></span>
-<span><span class="co">#&gt; source     : memory</span></span>
-<span><span class="co">#&gt; names      : layer </span></span>
-<span><span class="co">#&gt; values     : 24, 27  (min, max)</span></span></code></pre></div>
+<span><span class="co">#&gt; class       : SpatRaster </span></span>
+<span><span class="co">#&gt; dimensions  : 30, 30, 1  (nrow, ncol, nlyr)</span></span>
+<span><span class="co">#&gt; resolution  : 1, 1  (x, y)</span></span>
+<span><span class="co">#&gt; extent      : 0, 30, 0, 30  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; coord. ref. :  </span></span>
+<span><span class="co">#&gt; source(s)   : memory</span></span>
+<span><span class="co">#&gt; name        : lyr.1 </span></span>
+<span><span class="co">#&gt; min value   :    23 </span></span>
+<span><span class="co">#&gt; max value   :    28</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="get-adjacencies">Get adjacencies<a class="anchor" aria-label="anchor" href="#get-adjacencies"></a>
 </h3>
 <p>Adjacencies are a central part for landscape metrics, so calculating
-them quick and in a flexible way is key for e.g. developing new metrics.
-Hence, <code>landscapemetrics</code> exports a function that can
-calculate adjacencies in any number if directions when provided with a
-binary matrix (NA / 1 - NA are cells that would be left out for looking
-at adjacencies).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+them quick and in a flexible way is key for, e.g., developing new
+metrics. Hence, <strong>landscapemetrics</strong> exports a function
+that can calculate adjacencies in any number if directions when provided
+with a binary matrix (NA / 1 - NA are cells that would be left out for
+looking at adjacencies).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate full adjacency matrix</span></span>
 <span><span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, neighbourhood <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $layer_1</span></span>
 <span><span class="co">#&gt;     1   2    3</span></span>
-<span><span class="co">#&gt; 1 520  43  137</span></span>
-<span><span class="co">#&gt; 2  43 704  184</span></span>
-<span><span class="co">#&gt; 3 137 184 1528</span></span>
+<span><span class="co">#&gt; 1 542  44  137</span></span>
+<span><span class="co">#&gt; 2  44 696  159</span></span>
+<span><span class="co">#&gt; 3 137 159 1562</span></span>
 <span></span>
 <span><span class="co"># count diagonal neighbour adjacencies</span></span>
 <span><span class="va">diagonal_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,  <span class="cn">NA</span>,  <span class="fl">1</span>,</span>
@@ -297,34 +318,32 @@ at adjacencies).</p>
 <span><span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="va">diagonal_matrix</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $layer_1</span></span>
 <span><span class="co">#&gt;     1   2    3</span></span>
-<span><span class="co">#&gt; 1 466  53  167</span></span>
-<span><span class="co">#&gt; 2  53 602  240</span></span>
-<span><span class="co">#&gt; 3 167 240 1376</span></span>
+<span><span class="co">#&gt; 1 486  56  169</span></span>
+<span><span class="co">#&gt; 2  56 592  215</span></span>
+<span><span class="co">#&gt; 3 169 215 1406</span></span>
 <span></span>
-<span><span class="co"># equivalent with the raster package:</span></span>
-<span><span class="va">adj_raster</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="va">adjacencies</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/adjacent.html" class="external-link">adjacent</a></span><span class="op">(</span><span class="va">landscape</span>, </span>
-<span>                                    cells <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, </span>
-<span>                                    directions <span class="op">=</span> <span class="fl">4</span>, </span>
-<span>                                    pairs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">[</span><span class="va">adjacencies</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">landscape</span><span class="op">[</span><span class="va">adjacencies</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># equivalent with the terra package:</span></span>
+<span><span class="va">adj_terra</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">adjacencies</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/adjacent.html" class="external-link">adjacent</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">:</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">ncell</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"rook"</span>, pairs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span>, mat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="va">adjacencies</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>          <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">x</span>, mat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span><span class="va">adjacencies</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># compare the two implementations</span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, neighbourhood <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
-<span>    <span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
-<span>    iterations <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>    <span class="fu">adj_terra</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>,</span>
+<span>    iterations <span class="op">=</span> <span class="fl">250</span>, </span>
 <span>    check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                                         min   median `itr/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)  216.2µs  224.3µs     <span style="text-decoration: underline;">4</span>360.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_raster(landscape)                           8.27ms   8.38ms      118.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbourhood = 4)    4.1ms   4.79ms      205.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_terra(landscape)                            6.67ms   7.43ms      131.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span></span></span>
 <span></span>
-<span><span class="fu">adj_raster</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu">adj_terra</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    </span></span>
 <span><span class="co">#&gt;        1    2    3</span></span>
 <span><span class="co">#&gt;   1 TRUE TRUE TRUE</span></span>
@@ -334,43 +353,43 @@ at adjacencies).</p>
 <div class="section level3">
 <h3 id="get-nearest-neighbour">Get nearest neighbour<a class="anchor" aria-label="anchor" href="#get-nearest-neighbour"></a>
 </h3>
-<p><code>landscapemetrics</code> implements a memory efficient and quite
-fast way to calculate the nearest neighbour between classes in a raster
-(or matrix).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run connected labeling for podlasie raster</span></span>
+<p><strong>landscapemetrics</strong> implements a memory efficient and
+quite fast way to calculate the nearest neighbour between classes in a
+raster (or matrix).</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># run connected labeling for raster</span></span>
 <span><span class="va">patches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># calculate the minimum distance between patches in a landscape</span></span>
 <span><span class="va">min_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create a function that would do the same with the raster package</span></span>
-<span><span class="va">nearest_raster_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">nn_terra</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    </span>
-<span>    <span class="va">np_class</span> <span class="op">&lt;-</span> <span class="va">patches</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="va">np_class</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">patches</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/pkg/terra/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="va">points_class</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/rasterToPoints.html" class="external-link">rasterToPoints</a></span><span class="op">(</span><span class="va">patches</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="va">points_class</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">patches</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="va">minimum_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">np_class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="va">minimum_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">np_class</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>        <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">patch_ij</span><span class="op">)</span> <span class="op">{</span></span>
-<span>            <span class="va">patch_focal</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">layer</span> <span class="op">==</span> <span class="va">patch_ij</span><span class="op">)</span></span>
 <span>            </span>
-<span>            <span class="va">patch_others</span> <span class="op">&lt;-</span></span>
-<span>                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">layer</span> <span class="op">!=</span> <span class="va">patch_ij</span><span class="op">)</span></span>
+<span>            <span class="va">patch_focal</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">lyr.1</span> <span class="op">==</span> <span class="va">patch_ij</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="fu"><a href="https://rdrr.io/pkg/terra/man/coerce.html" class="external-link">as.matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>            </span>
-<span>            <span class="va">minimum_distance</span> <span class="op">&lt;-</span></span>
-<span>                <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/pointDistance.html" class="external-link">pointDistance</a></span><span class="op">(</span><span class="va">patch_focal</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span>                                      <span class="va">patch_others</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,</span>
-<span>                                      lonlat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>            <span class="va">patch_others</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">points_class</span>, <span class="va">lyr.1</span> <span class="op">!=</span> <span class="va">patch_ij</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>                <span class="fu"><a href="https://rdrr.io/pkg/terra/man/coerce.html" class="external-link">as.matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>            </span>
+<span>            <span class="va">minimum_distance</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/distance.html" class="external-link">distance</a></span><span class="op">(</span><span class="va">patch_focal</span>, <span class="va">patch_others</span>,</span>
+<span>                                                lonlat <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>                <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>        <span class="op">}</span><span class="op">)</span></span>
 <span>    </span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">points_class</span><span class="op">$</span><span class="va">layer</span><span class="op">)</span><span class="op">)</span>, distance <span class="op">=</span> <span class="va">minimum_distance</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">points_class</span><span class="op">$</span><span class="va">lyr.1</span><span class="op">)</span><span class="op">)</span>, distance <span class="op">=</span> <span class="va">minimum_distance</span><span class="op">)</span></span>
 <span>    </span>
 <span><span class="op">}</span></span>
 <span></span>
@@ -378,19 +397,18 @@ fast way to calculate the nearest neighbour between classes in a raster
 <span><span class="co"># compare the two implementations</span></span>
 <span><span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,</span>
-<span>    <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>,</span>
-<span>    iterations <span class="op">=</span> <span class="fl">100</span>, check <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    <span class="fu">nn_terra</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span>,</span>
+<span>    iterations <span class="op">=</span> <span class="fl">250</span>, check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
-<span><span class="co">#&gt;   expression                                                min   median itr/s…¹</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:tm&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]   4.09ms    4.2ms  237.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nearest_raster_fun(patches$layer_1$class_1)           98.75ms  101.9ms    9.78</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;, and abbreviated</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   variable name ¹​`itr/sec`</span></span></span>
+<span><span class="co">#&gt;   expression                                               min  median `itr/sec`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer_1$class_1)[, 2:3]  13.6ms  15.4ms     62.5 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nn_terra(patches$layer_1$class_1)                      118ms   125ms      7.93</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># check if results are identical</span></span>
-<span><span class="fu"><a href="../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">==</span> <span class="fu">nearest_raster_fun</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">==</span> <span class="fu">nn_terra</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         id dist</span></span>
 <span><span class="co">#&gt;  [1,] TRUE TRUE</span></span>
 <span><span class="co">#&gt;  [2,] TRUE TRUE</span></span>
@@ -410,12 +428,25 @@ the patch, simply run <code><a href="../reference/get_circumscribingcircle.html"
 result returns the diameter for each circle that includes all cells of
 each patch. This includes not only the cell centers but the whole cells
 using the cells corners.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get all patches of class 1</span></span>
 <span><span class="va">class_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_patches.html">get_patches</a></span><span class="op">(</span><span class="va">landscape</span>, class <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get smallest circumscribing circle for each patch</span></span>
-<span><span class="va">circle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">class_1</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">circle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_circumscribingcircle.html">get_circumscribingcircle</a></span><span class="op">(</span><span class="va">class_1</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span>
+<span><span class="va">circle</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 7</span></span></span>
+<span><span class="co">#&gt;   layer level class    id value center_x center_y</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 patch     1     1  1.41     0.5      29.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 patch     2     2  4.12     0.5      21  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     1 patch     3     3 15.5      7.38     13.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     1 patch     4     4  1.41     5.5       0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     1 patch     5     5  1.41    11.5       3.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     1 patch     6     6 16.6     19.5      22.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     1 patch     7     7  6.71    17         8.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>     1 patch     8     8  3.61    20.5       1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span>     1 patch     9     9  3.61    26         2.5</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

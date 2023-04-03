@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -115,7 +120,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.5.6" id="landscapemetrics-156">landscapemetrics 1.5.6<a class="anchor" aria-label="anchor" href="#landscapemetrics-156"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.0.0" id="landscapemetrics-200">landscapemetrics 2.0.0<a class="anchor" aria-label="anchor" href="#landscapemetrics-200"></a></h2>
+<ul><li>Improvements
+<ul><li>
+<code>terra</code> and <code>sf</code> instead of <code>raster</code> and <code>sp</code> as underlying frameworks</li>
+</ul></li>
+<li>New functions
+<ul><li>
+<code><a href="../reference/points_as_mat.html">points_as_mat()</a></code> helper function</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.5.6" id="landscapemetrics-156">landscapemetrics 1.5.6<a class="anchor" aria-label="anchor" href="#landscapemetrics-156"></a></h2><p class="text-muted">CRAN release: 2023-03-23</p>
 <ul><li>Bugfixes
 <ul><li>SHEI now equals 0 when only one patch is present</li>
 </ul></li>
@@ -309,9 +325,9 @@
 <ul><li>
 <code><a href="../reference/calculate_correlation.html">calculate_correlation()</a></code> returns a tibble with all correlations between metrics</li>
 <li>
-<code><a href="../reference/scale_sample.html">scale_sample()</a></code> allows to sample landscape metrics in buffer with increasing size</li>
+<code>scale_sample()</code> allows to sample landscape metrics in buffer with increasing size</li>
 <li>
-<code><a href="../reference/scale_window.html">scale_window()</a></code> allows calculate selected metrics in moving windows over the provided landscape.</li>
+<code>scale_window()</code> allows calculate selected metrics in moving windows over the provided landscape.</li>
 </ul></li>
 <li>Improvements
 <ul><li>

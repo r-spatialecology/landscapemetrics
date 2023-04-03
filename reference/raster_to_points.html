@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,30 +49,35 @@
        
       Differences FRAGSTATS|landscapemetrics
     </a>
+    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+      <span class="fa fa-comment"></span>
+       
+      Landscape distribution statistics
+    </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
       <span class="fa fa-sticky-note"></span>
        
       New Metrics outside FRAGSTATS
-    </a>
-    <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
-       
-      Utility functions
-    </a>
-    <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
-       
-      Moving window
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
       <span class="fa fa-comment"></span>
        
       Sample metrics
     </a>
-    <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
+    <a class="dropdown-item" href="../articles/guide_moving_window.html">
       <span class="fa fa-comment"></span>
        
-      Landscape distribution statistics
+      Moving window
+    </a>
+    <a class="dropdown-item" href="../articles/irregular_areas.html">
+      <span class="fa fa-comment"></span>
+       
+      Calculating landscape metrics for irregular areas
+    </a>
+    <a class="dropdown-item" href="../articles/utility.html">
+      <span class="fa fa-comment"></span>
+       
+      Utility functions
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -98,7 +103,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://mhesselbarth.rbind.io">
+  <a class="external-link nav-link" href="https://www.maxhesselbarth.com/">
     <span class="fa fa-user"></span>
      
   </a>
@@ -127,7 +132,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>landscape</dt>
-<dd><p>Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.</p></dd>
+<dd><p>A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.</p></dd>
 
 
 <dt>return_NA</dt>
@@ -142,13 +147,14 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Wrapper around raster::xyFromCell and raster::getValues to get raster_to_points
+    <p>Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
 function including NA values</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">raster_to_points</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">raster_to_points</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        layer    x    y z</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1,]     1  0.5 29.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [2,]     1  1.5 29.5 3</span>
@@ -172,7 +178,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [20,]     1 19.5 29.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [21,]     1 20.5 29.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [22,]     1 21.5 29.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [23,]     1 22.5 29.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [23,]     1 22.5 29.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [24,]     1 23.5 29.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [25,]     1 24.5 29.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [26,]     1 25.5 29.5 3</span>
@@ -227,7 +233,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [75,]     1 14.5 27.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [76,]     1 15.5 27.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [77,]     1 16.5 27.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [78,]     1 17.5 27.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [78,]     1 17.5 27.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [79,]     1 18.5 27.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [80,]     1 19.5 27.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [81,]     1 20.5 27.5 1</span>
@@ -275,7 +281,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [123,]     1  2.5 25.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [124,]     1  3.5 25.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [125,]     1  4.5 25.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [126,]     1  5.5 25.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [126,]     1  5.5 25.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [127,]     1  6.5 25.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [128,]     1  7.5 25.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [129,]     1  8.5 25.5 3</span>
@@ -305,7 +311,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [153,]     1  2.5 24.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [154,]     1  3.5 24.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [155,]     1  4.5 24.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [156,]     1  5.5 24.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [156,]     1  5.5 24.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [157,]     1  6.5 24.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [158,]     1  7.5 24.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [159,]     1  8.5 24.5 3</span>
@@ -383,7 +389,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [231,]     1 20.5 22.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [232,]     1 21.5 22.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [233,]     1 22.5 22.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [234,]     1 23.5 22.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [234,]     1 23.5 22.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [235,]     1 24.5 22.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [236,]     1 25.5 22.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [237,]     1 26.5 22.5 3</span>
@@ -408,11 +414,11 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [256,]     1 15.5 21.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [257,]     1 16.5 21.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [258,]     1 17.5 21.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [259,]     1 18.5 21.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [259,]     1 18.5 21.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [260,]     1 19.5 21.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [261,]     1 20.5 21.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [262,]     1 21.5 21.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [263,]     1 22.5 21.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [263,]     1 22.5 21.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [264,]     1 23.5 21.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [265,]     1 24.5 21.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [266,]     1 25.5 21.5 2</span>
@@ -422,7 +428,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [270,]     1 29.5 21.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [271,]     1  0.5 20.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [272,]     1  1.5 20.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [273,]     1  2.5 20.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [273,]     1  2.5 20.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [274,]     1  3.5 20.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [275,]     1  4.5 20.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [276,]     1  5.5 20.5 3</span>
@@ -470,7 +476,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [318,]     1 17.5 19.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [319,]     1 18.5 19.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [320,]     1 19.5 19.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [321,]     1 20.5 19.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [321,]     1 20.5 19.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [322,]     1 21.5 19.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [323,]     1 22.5 19.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [324,]     1 23.5 19.5 2</span>
@@ -500,7 +506,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [348,]     1 17.5 18.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [349,]     1 18.5 18.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [350,]     1 19.5 18.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [351,]     1 20.5 18.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [351,]     1 20.5 18.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [352,]     1 21.5 18.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [353,]     1 22.5 18.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [354,]     1 23.5 18.5 2</span>
@@ -549,9 +555,9 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [397,]     1  6.5 16.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [398,]     1  7.5 16.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [399,]     1  8.5 16.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [400,]     1  9.5 16.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [400,]     1  9.5 16.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [401,]     1 10.5 16.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [402,]     1 11.5 16.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [402,]     1 11.5 16.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [403,]     1 12.5 16.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [404,]     1 13.5 16.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [405,]     1 14.5 16.5 3</span>
@@ -583,9 +589,9 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [431,]     1 10.5 15.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [432,]     1 11.5 15.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [433,]     1 12.5 15.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [434,]     1 13.5 15.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [434,]     1 13.5 15.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [435,]     1 14.5 15.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [436,]     1 15.5 15.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [436,]     1 15.5 15.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [437,]     1 16.5 15.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [438,]     1 17.5 15.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [439,]     1 18.5 15.5 3</span>
@@ -660,7 +666,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [508,]     1 27.5 13.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [509,]     1 28.5 13.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [510,]     1 29.5 13.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [511,]     1  0.5 12.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [511,]     1  0.5 12.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [512,]     1  1.5 12.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [513,]     1  2.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [514,]     1  3.5 12.5 1</span>
@@ -668,12 +674,12 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [516,]     1  5.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [517,]     1  6.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [518,]     1  7.5 12.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [519,]     1  8.5 12.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [519,]     1  8.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [520,]     1  9.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [521,]     1 10.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [522,]     1 11.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [523,]     1 12.5 12.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [524,]     1 13.5 12.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [524,]     1 13.5 12.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [525,]     1 14.5 12.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [526,]     1 15.5 12.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [527,]     1 16.5 12.5 3</span>
@@ -733,7 +739,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [581,]     1 10.5 10.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [582,]     1 11.5 10.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [583,]     1 12.5 10.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [584,]     1 13.5 10.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [584,]     1 13.5 10.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [585,]     1 14.5 10.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [586,]     1 15.5 10.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [587,]     1 16.5 10.5 3</span>
@@ -754,7 +760,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [602,]     1  1.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [603,]     1  2.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [604,]     1  3.5  9.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [605,]     1  4.5  9.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [605,]     1  4.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [606,]     1  5.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [607,]     1  6.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [608,]     1  7.5  9.5 1</span>
@@ -762,17 +768,17 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [610,]     1  9.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [611,]     1 10.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [612,]     1 11.5  9.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [613,]     1 12.5  9.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [613,]     1 12.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [614,]     1 13.5  9.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [615,]     1 14.5  9.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [616,]     1 15.5  9.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [615,]     1 14.5  9.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [616,]     1 15.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [617,]     1 16.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [618,]     1 17.5  9.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [619,]     1 18.5  9.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [619,]     1 18.5  9.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [620,]     1 19.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [621,]     1 20.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [622,]     1 21.5  9.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [623,]     1 22.5  9.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [623,]     1 22.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [624,]     1 23.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [625,]     1 24.5  9.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [626,]     1 25.5  9.5 3</span>
@@ -801,7 +807,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [649,]     1 18.5  8.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [650,]     1 19.5  8.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [651,]     1 20.5  8.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [652,]     1 21.5  8.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [652,]     1 21.5  8.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [653,]     1 22.5  8.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [654,]     1 23.5  8.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [655,]     1 24.5  8.5 3</span>
@@ -836,7 +842,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [684,]     1 23.5  7.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [685,]     1 24.5  7.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [686,]     1 25.5  7.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [687,]     1 26.5  7.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [687,]     1 26.5  7.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [688,]     1 27.5  7.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [689,]     1 28.5  7.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [690,]     1 29.5  7.5 3</span>
@@ -848,15 +854,15 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [696,]     1  5.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [697,]     1  6.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [698,]     1  7.5  6.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [699,]     1  8.5  6.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [699,]     1  8.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [700,]     1  9.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [701,]     1 10.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [702,]     1 11.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [703,]     1 12.5  6.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [704,]     1 13.5  6.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [705,]     1 14.5  6.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [706,]     1 15.5  6.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [707,]     1 16.5  6.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [705,]     1 14.5  6.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [706,]     1 15.5  6.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [707,]     1 16.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [708,]     1 17.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [709,]     1 18.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [710,]     1 19.5  6.5 2</span>
@@ -869,14 +875,14 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [717,]     1 26.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [718,]     1 27.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [719,]     1 28.5  6.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [720,]     1 29.5  6.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [720,]     1 29.5  6.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [721,]     1  0.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [722,]     1  1.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [723,]     1  2.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [724,]     1  3.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [725,]     1  4.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [726,]     1  5.5  5.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [727,]     1  6.5  5.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [727,]     1  6.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [728,]     1  7.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [729,]     1  8.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [730,]     1  9.5  5.5 3</span>
@@ -886,7 +892,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [734,]     1 13.5  5.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [735,]     1 14.5  5.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [736,]     1 15.5  5.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [737,]     1 16.5  5.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [737,]     1 16.5  5.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [738,]     1 17.5  5.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [739,]     1 18.5  5.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [740,]     1 19.5  5.5 2</span>
@@ -906,10 +912,10 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [754,]     1  3.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [755,]     1  4.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [756,]     1  5.5  4.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [757,]     1  6.5  4.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [757,]     1  6.5  4.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [758,]     1  7.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [759,]     1  8.5  4.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [760,]     1  9.5  4.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [760,]     1  9.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [761,]     1 10.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [762,]     1 11.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [763,]     1 12.5  4.5 3</span>
@@ -926,7 +932,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [774,]     1 23.5  4.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [775,]     1 24.5  4.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [776,]     1 25.5  4.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [777,]     1 26.5  4.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [777,]     1 26.5  4.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [778,]     1 27.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [779,]     1 28.5  4.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [780,]     1 29.5  4.5 3</span>
@@ -938,15 +944,15 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [786,]     1  5.5  3.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [787,]     1  6.5  3.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [788,]     1  7.5  3.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [789,]     1  8.5  3.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [789,]     1  8.5  3.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [790,]     1  9.5  3.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [791,]     1 10.5  3.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [792,]     1 11.5  3.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [791,]     1 10.5  3.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [792,]     1 11.5  3.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [793,]     1 12.5  3.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [794,]     1 13.5  3.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [795,]     1 14.5  3.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [796,]     1 15.5  3.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [797,]     1 16.5  3.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [796,]     1 15.5  3.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [797,]     1 16.5  3.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [798,]     1 17.5  3.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [799,]     1 18.5  3.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [800,]     1 19.5  3.5 2</span>
@@ -960,7 +966,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [808,]     1 27.5  3.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [809,]     1 28.5  3.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [810,]     1 29.5  3.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [811,]     1  0.5  2.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [811,]     1  0.5  2.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [812,]     1  1.5  2.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [813,]     1  2.5  2.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [814,]     1  3.5  2.5 3</span>
@@ -994,7 +1000,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [842,]     1  1.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [843,]     1  2.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [844,]     1  3.5  1.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [845,]     1  4.5  1.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [845,]     1  4.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [846,]     1  5.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [847,]     1  6.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [848,]     1  7.5  1.5 2</span>
@@ -1004,12 +1010,12 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [852,]     1 11.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [853,]     1 12.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [854,]     1 13.5  1.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [855,]     1 14.5  1.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [855,]     1 14.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [856,]     1 15.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [857,]     1 16.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [858,]     1 17.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [859,]     1 18.5  1.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [860,]     1 19.5  1.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [860,]     1 19.5  1.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [861,]     1 20.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [862,]     1 21.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [863,]     1 22.5  1.5 2</span>
@@ -1017,15 +1023,15 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [865,]     1 24.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [866,]     1 25.5  1.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [867,]     1 26.5  1.5 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [868,]     1 27.5  1.5 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [868,]     1 27.5  1.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [869,]     1 28.5  1.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [870,]     1 29.5  1.5 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [871,]     1  0.5  0.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [871,]     1  0.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [872,]     1  1.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [873,]     1  2.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [874,]     1  3.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [875,]     1  4.5  0.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [876,]     1  5.5  0.5 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [876,]     1  5.5  0.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [877,]     1  6.5  0.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [878,]     1  7.5  0.5 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [879,]     1  8.5  0.5 2</span>
@@ -1039,7 +1045,7 @@ function including NA values</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [887,]     1 16.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [888,]     1 17.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [889,]     1 18.5  0.5 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [890,]     1 19.5  0.5 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [890,]     1 19.5  0.5 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [891,]     1 20.5  0.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [892,]     1 21.5  0.5 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [893,]     1 22.5  0.5 2</span>
