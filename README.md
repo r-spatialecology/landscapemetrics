@@ -212,11 +212,10 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial
-Pattern Analysis Program for Categorical and Continuous Maps. Computer
-software program produced by the authors at the University of
-Massachusetts, Amherst. Available at the following website:
-<https://www.umass.edu/landeco/>
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial 
+Pattern Analysis Program for Categorical Maps. Computer software 
+program produced by the authors; available at the following web 
+site: <https://www.fragstats.org>
 
 Nowosad J., TF Stepinski. 2019. Information theory as a consistent
 framework for quantification and classification of landscape patterns.
