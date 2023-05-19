@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "landscapemetrics",
-  "description": "Calculates landscape metrics for categorical landscape patterns in a tidy workflow. 'landscapemetrics' reimplements the most common metrics from 'FRAGSTATS' (<https://www.fragstats.org/>) and new ones from the current literature on landscape metrics. This package supports 'terra' SpatRaster objects as input arguments. It further provides utility functionn to visualize patches, select metrics and building blocks to develop new metrics.",
+  "description": "Calculates landscape metrics for categorical landscape patterns in a tidy workflow. 'landscapemetrics' reimplements the most common metrics from 'FRAGSTATS' (<https://www.umass.edu/landeco/>) and new ones from the current literature on landscape metrics. This package supports 'terra' SpatRaster objects as input arguments. It further provides utility functionn to visualize patches, select metrics and building blocks to develop new metrics.",
   "name": "landscapemetrics: Landscape Metrics for Categorical Map Patterns",
   "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
