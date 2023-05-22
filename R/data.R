@@ -26,87 +26,6 @@
 #' @source http://maps.elie.ucl.ac.be/CCI/viewer/
 "podlasie_ccilc"
 
-#' Fragstats results for landscapemetrics::landscape (patch level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on patch
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_patch_landscape"
-
-#' Fragstats results for landscapemetrics::augusta_nlcd (patch level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on patch
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_patch_augusta_nlcd"
-
-#' Fragstats results for landscapemetrics::podlasie (patch level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on patch
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_patch_podlasie"
-
-#' Fragstats results for landscapemetrics::landscape (class level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on class
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_class_landscape"
-
-#' Fragstats results for landscapemetrics::augusta_nlcd (class level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on class
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_class_augusta_nlcd"
-
-#' Fragstats results for landscapemetrics::podlasie (class level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on class
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_class_podlasie"
-
-
-#' Fragstats results for landscapemetrics::landscape (landscape level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on landscape
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_landscape_landscape"
-
-#' Fragstats results for landscapemetrics::augusta_nlcd (landscape level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on landscape
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_landscape_augusta_nlcd"
-
-#' Fragstats results for landscapemetrics::podlasie_ccilc (landscape level)
-#'
-#' A single tibble for every spatial dataset included in landscapemetrics
-#' that contains the FRAGSTAT results for every implemented metric on landscape
-#' level.
-#'
-#' @format A tibble object.
-"fragstats_landscape_podlasie"
 
 #' Tibble of abbreviations coming from FRAGSTATS
 #'
@@ -124,10 +43,3 @@
 #'
 #' @format A tibble object.
 "lsm_abbreviations_names"
-
-#' Irregular polygons
-#'
-#' An example irregular polygons for the area in `augusta_nlcd`
-#'
-#' @format An sf object.
-"irregular_areas"

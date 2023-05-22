@@ -11,15 +11,6 @@ reference:
       - landscape
       - augusta_nlcd
       - podlasie_ccilc
-      - fragstats_patch_landscape
-      - fragstats_patch_augusta_nlcd
-      - fragstats_patch_podlasie
-      - fragstats_class_landscape
-      - fragstats_class_augusta_nlcd
-      - fragstats_class_podlasie
-      - fragstats_landscape_landscape
-      - fragstats_landscape_augusta_nlcd
-      - fragstats_landscape_podlasie
       - irregular_areas
 
   - title: Options for landscapemetrics

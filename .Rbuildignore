@@ -21,6 +21,5 @@ vignettes/articles
 ^\.httr-oauth$
 ^pkgdown
 ^\.github$
-test_data/
 ^CODE_OF_CONDUCT\.md$
 ^CRAN-SUBMISSION$

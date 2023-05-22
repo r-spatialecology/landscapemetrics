@@ -65,7 +65,9 @@ Suggests:
     sf,
     sp,
     stars,
-    testthat
+    stringr,
+    testthat, 
+    tidyr
 LinkingTo: 
     Rcpp,
     RcppArmadillo
