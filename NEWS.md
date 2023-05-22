@@ -3,6 +3,8 @@
     * `terra` and `sf` instead of `raster` and `sp` as underlying frameworks
 * New functions
     * `points_as_mat()` helper function
+* Bugfixes
+    * There was a bug introduced previoulsy in the calculation of SHEI
 
 # landscapemetrics 1.5.6
 * Bugfixes
