@@ -5,6 +5,8 @@
     * `points_as_mat()` helper function
 * Bugfixes
     * There was a bug introduced previoulsy in the calculation of SHEI
+* Various 
+    * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
 
 # landscapemetrics 1.5.6
 * Bugfixes
