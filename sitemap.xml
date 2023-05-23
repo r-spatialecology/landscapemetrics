@@ -76,33 +76,6 @@
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/extract_lsm.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_class_augusta_nlcd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_class_landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_class_podlasie.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_landscape_augusta_nlcd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_landscape_landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_landscape_podlasie.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_patch_augusta_nlcd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_patch_landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/fragstats_patch_podlasie.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_adjacencies.html</loc>
   </url>
   <url>
@@ -125,9 +98,6 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/irregular_areas.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape.html</loc>

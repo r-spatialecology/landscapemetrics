@@ -69,37 +69,37 @@
       General Background
     </a>
     <a class="dropdown-item" href="../articles/comparing_tools.html">
-      <span class="fa fa-edit"></span>
+      <span class="fa fa-book"></span>
        
       Differences FRAGSTATS|landscapemetrics
     </a>
     <a class="dropdown-item" href="../articles/landscape_distribution_statistics.html">
-      <span class="fa fa-comment"></span>
+      <span class="fa fa-book"></span>
        
       Landscape distribution statistics
     </a>
     <a class="dropdown-item" href="../articles/new_metrics.html">
-      <span class="fa fa-sticky-note"></span>
+      <span class="fa fa-book"></span>
        
       New Metrics outside FRAGSTATS
     </a>
     <a class="dropdown-item" href="../articles/guide_sample_lsm.html">
-      <span class="fa fa-comment"></span>
+      <span class="fa fa-book"></span>
        
       Sample metrics
     </a>
     <a class="dropdown-item" href="../articles/guide_moving_window.html">
-      <span class="fa fa-comment"></span>
+      <span class="fa fa-book"></span>
        
       Moving window
     </a>
     <a class="dropdown-item" href="../articles/irregular_areas.html">
-      <span class="fa fa-comment"></span>
+      <span class="fa fa-book"></span>
        
       Calculating landscape metrics for irregular areas
     </a>
     <a class="dropdown-item" href="../articles/utility.html">
-      <span class="fa fa-comment"></span>
+      <span class="fa fa-book"></span>
        
       Utility functions
     </a>
@@ -149,7 +149,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Calculating landscape metrics for irregular areas</h1>
             
-            <h4 data-toc-skip class="date">2023-04-03</h4>
+            <h4 data-toc-skip class="date">2023-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/irregular_areas.Rmd" class="external-link"><code>vignettes/articles/irregular_areas.Rmd</code></a></small>
       <div class="d-none name"><code>irregular_areas.Rmd</code></div>
@@ -168,7 +168,7 @@ in this example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/landscapemetrics/">landscapemetrics</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 <p>Next, we need to read in our example data. In this case, we will use
 the Augusta NLCD dataset and an example set of irregular polygons
@@ -176,7 +176,7 @@ provided by the <strong>landscapemetrics</strong> package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read example data ----------------------------------------------------</span></span>
 <span><span class="va">augusta_nlcd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"irregular_areas"</span>, package <span class="op">=</span> <span class="st">"landscapemetrics"</span><span class="op">)</span></span>
+<span><span class="va">irregular_areas</span> <span class="op">&lt;-</span> <span class="fu">landscapemetrics</span><span class="fu">:::</span><span class="va">irregular_areas</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">augusta_nlcd</span>, type <span class="op">=</span> <span class="st">"classes"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
