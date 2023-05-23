@@ -38,10 +38,9 @@ lsm_l_circle_mn(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 
 Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
 landscape structure using the GRASS geographical information system.
