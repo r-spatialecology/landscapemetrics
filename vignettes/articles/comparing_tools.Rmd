@@ -25,7 +25,7 @@ library(purrr)
 landscape <- terra::rast(landscapemetrics::landscape)
 ```
 
-> The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently. Additionally, we cant install `SDMTools` anymore (R > 4.0).
+> **The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently. Additionally, we cant install `SDMTools` anymore (R > 4.0).**
 
 # Comparison with FRAGSTATS
 
