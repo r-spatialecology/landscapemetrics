@@ -4,7 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
 
-README last updated: 2023-03-30
+README last updated: 2023-05-23
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                    | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -23,7 +23,7 @@ README last updated: 2023-03-30
 **landscapemetrics** is a `R` package for calculating landscape metrics
 for categorical landscape patterns in a tidy workflow. The package can
 be used as a drop-in replacement for FRAGSTATS (McGarigal *et al.*
-2012), as it offers a reproducible workflow for landscape analysis in a
+2023), as it offers a reproducible workflow for landscape analysis in a
 single environment. It also allows for calculations of four theoretical
 metrics of landscape complexity: a marginal entropy, a conditional
 entropy, a joint entropy, and a mutual information (Nowosad and
@@ -212,10 +212,10 @@ CONDUCT](CODE_OF_CONDUCT.md).
 
 ### References
 
-McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial 
-Pattern Analysis Program for Categorical Maps. Computer software 
-program produced by the authors; available at the following web 
-site: <https://www.fragstats.org>
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern
+Analysis Program for Categorical Maps. Computer software program
+produced by the authors; available at the following web site:
+<https://www.fragstats.org/>
 
 Nowosad J., TF Stepinski. 2019. Information theory as a consistent
 framework for quantification and classification of landscape patterns.
