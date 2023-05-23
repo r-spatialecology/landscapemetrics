@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. landscapemetrics reimplements the most common metrics from
-    FRAGSTATS (&lt;https://www.umass.edu/landeco/&gt;) and new ones from the current 
+    FRAGSTATS (&lt;https://www.fragstats.org/&gt;) and new ones from the current 
     literature on landscape metrics. This package supports terra SpatRaster objects 
     as input arguments. It further provides utility functionn to visualize patches, 
     select metrics and building blocks to develop new metrics.">
@@ -25,7 +25,7 @@
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Landscape Metrics for Categorical Map Patterns">
 <meta property="og:description" content="Calculates landscape metrics for categorical landscape patterns in 
     a tidy workflow. landscapemetrics reimplements the most common metrics from
-    FRAGSTATS (&lt;https://www.umass.edu/landeco/&gt;) and new ones from the current 
+    FRAGSTATS (&lt;https://www.fragstats.org/&gt;) and new ones from the current 
     literature on landscape metrics. This package supports terra SpatRaster objects 
     as input arguments. It further provides utility functionn to visualize patches, 
     select metrics and building blocks to develop new metrics.">
@@ -159,7 +159,7 @@
 </div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
-<p>README last updated: 2023-03-30</p>
+<p>README last updated: 2023-05-23</p>
 <table class="table">
 <colgroup>
 <col width="35%">
@@ -194,7 +194,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><strong>landscapemetrics</strong> is a <code>R</code> package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2012), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).</p>
+<p><strong>landscapemetrics</strong> is a <code>R</code> package for calculating landscape metrics for categorical landscape patterns in a tidy workflow. The package can be used as a drop-in replacement for FRAGSTATS (McGarigal <em>et al.</em> 2023), as it offers a reproducible workflow for landscape analysis in a single environment. It also allows for calculations of four theoretical metrics of landscape complexity: a marginal entropy, a conditional entropy, a joint entropy, and a mutual information (Nowosad and Stepinski 2019).</p>
 <p><strong>landscapemetrics</strong> supports <strong>terra</strong>, and <strong>stars</strong> and takes <code>SpatRaster</code> or <code>stars</code> spatial objects as input arguments. Every function can be used in a piped workflow, as it always takes the data as the first argument and returns a <code>tibble</code>.</p>
 <div class="section level4">
 <h4 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -361,7 +361,7 @@
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<p>McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical and Continuous Maps. Computer software program produced by the authors at the University of Massachusetts, Amherst. Available at the following website: <a href="https://www.umass.edu/landeco/" class="external-link uri">https://www.umass.edu/landeco/</a></p>
+<p>McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical Maps. Computer software program produced by the authors; available at the following web site: <a href="https://www.fragstats.org/" class="external-link uri">https://www.fragstats.org/</a></p>
 <p>Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework for quantification and classification of landscape patterns. <a href="https://doi.org/10.1007/s10980-019-00830-x" class="external-link uri">https://doi.org/10.1007/s10980-019-00830-x</a></p>
 </div>
 </div>
