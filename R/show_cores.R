@@ -140,26 +140,21 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
     }
 
     plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
-        ggplot2::coord_fixed() +
         ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
         ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
                            colour = "white", na.rm = TRUE) +
         ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
-        ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
-                                   na.value = "grey85") +
+        ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"), na.value = "grey85") +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +
         ggplot2::scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::coord_fixed() +
         ggplot2::guides(fill = "none") +
         ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
         ggplot2::theme(
-            axis.title  = ggplot2::element_blank(),
-            axis.ticks  = ggplot2::element_blank(),
-            axis.text   = ggplot2::element_blank(),
-            panel.grid  = ggplot2::element_blank(),
-            axis.line   = ggplot2::element_blank(),
-            strip.background = ggplot2::element_rect(fill = "grey80"),
-            strip.text = ggplot2::element_text(hjust  = 0),
-            panel.background = ggplot2::element_rect(fill = "grey85"),
+            axis.title  = ggplot2::element_blank(), axis.ticks  = ggplot2::element_blank(),
+            axis.text   = ggplot2::element_blank(), axis.line   = ggplot2::element_blank(),
+            panel.grid  = ggplot2::element_blank(), panel.background = ggplot2::element_rect(fill = "grey85"),
+            strip.background = ggplot2::element_rect(fill = "grey80"), strip.text = ggplot2::element_text(hjust  = 0),
             plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
 
     return(plot)

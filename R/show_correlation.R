@@ -186,21 +186,15 @@ show_correlation <- function(data, method = "pearson",
     if (length(present_levels) == 1) {
 
         plot_corrs <- ggplot2::ggplot(data = plot_list[[present_levels]],
-                                      ggplot2::aes( x = metric_1, y = metric_2, fill = value)) +
-            ggplot2::geom_tile() +
+                                      ggplot2::aes(x = metric_1, y = metric_2, fill = value)) +
             ggplot2::geom_tile(color = "#FBFEF9") +
             ggplot2::scale_fill_gradient2(
-                low = "#0C6291",
-                mid = "#FBFEF9",
-                high = "#A63446",
-                midpoint = 0,
-                limit = c(-1, 1),
-                name = paste0("Correlation\n(Method: ",
-                              method, ")")
+                low = "#0C6291", mid = "#FBFEF9", high = "#A63446",
+                midpoint = 0, limit = c(-1, 1),
+                name = paste0("Correlation\n(Method: ", method, ")")
             ) +
             ggplot2::theme_minimal() +
-            ggplot2::labs(x = "",
-                          y = "",
+            ggplot2::labs(x = "", y = "",
                           title = paste(toupper(substr(present_levels, 1, 1)),
                                         substr(present_levels, 2, nchar(present_levels))
                                         , " Level", sep = "")) +
@@ -252,16 +246,11 @@ show_correlation <- function(data, method = "pearson",
                                       ggplot2::aes(x = metric_1, y = metric_2, fill = value
                                       )) +
             ggplot2::facet_wrap(id ~ ., scales = "free") +
-            ggplot2::geom_tile() +
             ggplot2::geom_tile(color = "#FBFEF9") +
             ggplot2::scale_fill_gradient2(
-                low = "#0C6291",
-                mid = "#FBFEF9",
-                high = "#A63446",
-                midpoint = 0,
-                limit = c(-1, 1),
-                name = paste0("Correlation\n(Method: ",
-                              method, ")")
+                low = "#0C6291", mid = "#FBFEF9", high = "#A63446",
+                midpoint = 0, limit = c(-1, 1),
+                name = paste0("Correlation\n(Method: ", method, ")")
             ) +
             ggplot2::theme_minimal() +
             ggplot2::labs(x = "", y = "") +
