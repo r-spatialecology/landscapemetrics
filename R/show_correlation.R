@@ -188,11 +188,11 @@ show_correlation <- function(data, method = "pearson",
         plot_corrs <- ggplot2::ggplot(data = plot_list[[present_levels]],
                                       ggplot2::aes( x = metric_1, y = metric_2, fill = value)) +
             ggplot2::geom_tile() +
-            ggplot2::geom_tile(color = "white") +
+            ggplot2::geom_tile(color = "#FBFEF9") +
             ggplot2::scale_fill_gradient2(
-                low = "blue",
-                high = "red",
-                mid = "white",
+                low = "#0C6291",
+                mid = "#FBFEF9",
+                high = "#A63446",
                 midpoint = 0,
                 limit = c(-1, 1),
                 name = paste0("Correlation\n(Method: ",
@@ -253,11 +253,11 @@ show_correlation <- function(data, method = "pearson",
                                       )) +
             ggplot2::facet_wrap(id ~ ., scales = "free") +
             ggplot2::geom_tile() +
-            ggplot2::geom_tile(color = "white") +
+            ggplot2::geom_tile(color = "#FBFEF9") +
             ggplot2::scale_fill_gradient2(
-                low = "blue",
-                high = "red",
-                mid = "white",
+                low = "#0C6291",
+                mid = "#FBFEF9",
+                high = "#A63446",
                 midpoint = 0,
                 limit = c(-1, 1),
                 name = paste0("Correlation\n(Method: ",

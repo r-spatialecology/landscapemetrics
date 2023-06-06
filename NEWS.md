@@ -1,10 +1,12 @@
 # landscapemetrics 2.0.0
 * Improvements
     * `terra` and `sf` instead of `raster` and `sp` as underlying frameworks
+    * Adjust all `show_*` functions to avoid `ggplot2` warning
+    * Update color palette of `show_correlation`
 * New functions
     * `points_as_mat()` helper function
 * Bugfixes
-    * There was a bug introduced previoulsy in the calculation of SHEI
+    * There was a bug introduced previously in the calculation of SHEI
 * Various 
     * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
 
