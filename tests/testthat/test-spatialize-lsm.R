@@ -35,8 +35,11 @@ test_that("spatialize_lsm returns CRS", {
     result <- spatialize_lsm(podlasie_ccilc, what = "lsm_p_area",
                              verbose = FALSE)
 
-    expect_equal(object = terra::crs(result[[1]][[1]], proj = TRUE),
-                 expected = terra::crs(podlasie_ccilc, proj = TRUE))
+    # CRS(Raster*) before comparing, or terra::same.crs(x, y).
+
+    expect_true(object = terra::same.crs(x = result[[1]][[1]],
+                                         y = podlasie_ccilc))
+
 })
 
 test_that("spatialize_lsm forwards arguments to calculate_lsm", {
