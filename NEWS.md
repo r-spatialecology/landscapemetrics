@@ -1,3 +1,7 @@
+# landscapemetrics 1.5.7
+* Various
+    * Adjust test suite for `raster` package developments.
+
 # landscapemetrics 1.5.6
 * Bugfixes
     * SHEI now equals 0 when only one patch is present

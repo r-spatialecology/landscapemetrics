@@ -1,3 +1,6 @@
+# landscapemetrics 1.5.7
+Last minor update adjusting for `raster` package changes; the next update will remove the `raster` support.
+
 # landscapemetrics 1.5.6
 This is a re-submission. The below error has now been fixed
 `Specified C++11: please drop specification unless essential`
