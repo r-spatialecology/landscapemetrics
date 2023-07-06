@@ -148,7 +148,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
     }
 
     # get area of all polygons
-    maximum_area <- terra::expanse(y) / 10000
+    maximum_area <- suppressWarnings(terra::expanse(y)) / 10000
 
     number_plots <- nrow(y)
 
