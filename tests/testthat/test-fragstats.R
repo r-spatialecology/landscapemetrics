@@ -1,7 +1,9 @@
 # calculate lsm results
-lsm_landscape <- calculate_lsm(landscape = landscape)
+lsm_landscape <- calculate_lsm(landscape = landscape, level = c("class", "landscape"),
+                               classes_max = 3)
 
-lsm_augusta <- calculate_lsm(landscape = augusta_nlcd)
+lsm_augusta <- calculate_lsm(landscape = augusta_nlcd, level = c("class", "landscape"),
+                             classes_max = 15)
 
 lsm_full <- dplyr::bind_rows(landscape = lsm_landscape, augusta_nlcd = lsm_augusta,
                              .id = "LID")

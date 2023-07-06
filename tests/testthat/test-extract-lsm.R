@@ -11,10 +11,17 @@ test_that("extract_lsm returns correct metrics", {
 
     expect_true(all(patch_core$type == "core area metric"))
 
+    patch_shape <- extract_lsm(landscape, y = sample_points, name = "shape index",
+                               verbose = FALSE)
+
+    expect_true(all(patch_shape$metric == "shape"))
+
     patch_all <- extract_lsm(landscape, y = sample_points,
                              verbose = FALSE)
 
     expect_true(all(unique(patch_all$metric) == list_lsm(level = "patch")[,1]))
+
+
 })
 
 # test_that("extract_lsm works for lines", {
@@ -74,10 +81,9 @@ test_that("extract_lsm works for all data types", {
 
 test_that("extract_lsm returns warnings", {
 
-    expect_warning(extract_lsm(landscape, y = sample_points,
+    expect_warning(extract_lsm(augusta_nlcd, y = sample_points,
                                extract_id = c(15, 25, 5, 1), what = "lsm_p_area"),
-                   regexp = "Length of extract_id is not identical to length of y. Using 1...n as extract_id.",
-                   fixed = TRUE)
+                   regexp = "Length of extract_id is not identical to length of y. Using 1...n as extract_id.")
 })
 
 test_that("extract_lsm throws errors", {

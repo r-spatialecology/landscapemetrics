@@ -50,10 +50,9 @@ test_that("check_landscape works does not work for double values", {
 
 test_that("check_landscape works return warning for > 30 classes", {
 
-    augusta_nlcd[] <- sample(1:35, size = 298760, replace = TRUE)
+    augusta_nlcd[] <- sample(1:35, size = terra::ncell(augusta_nlcd), replace = TRUE)
 
-    check_tibble <- check_landscape(augusta_nlcd,
-                                    verbose = FALSE)
+    check_tibble <- check_landscape(augusta_nlcd, verbose = FALSE)
 
     expect_true(all(check_tibble$OK == cli::symbol$fancy_question_mark))
 })

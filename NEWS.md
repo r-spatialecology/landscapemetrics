@@ -7,6 +7,7 @@
     * `points_as_mat()` helper function
 * Bugfixes
     * There was a bug introduced previously in the calculation of SHEI
+    * `extract_lsm` returned an unneeded warning message
 * Various 
     * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
 

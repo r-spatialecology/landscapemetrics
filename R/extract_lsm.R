@@ -87,8 +87,11 @@ extract_lsm <- function(landscape, y,
 extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, what,
                                  directions, progress, verbose, ...) {
 
+    # check if all selection options are NULL and return level patch
+    level <- switch(is.null(what), "patch", NULL)
+
     # get list of metrics to calculate
-    metrics_list <- list_lsm(level = "patch", metric = metric, name = name,
+    metrics_list <- list_lsm(level = level, metric = metric, name = name,
                              type = type, what = what, simplify = TRUE, verbose = verbose)
 
     # check if only patch level metrics are selected
