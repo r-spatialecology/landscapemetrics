@@ -61,11 +61,12 @@ lsm_l_para_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_para_sd_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_para_sd_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     para_patch <- lsm_p_para_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(para_patch$value))) {

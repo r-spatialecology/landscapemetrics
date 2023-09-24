@@ -54,11 +54,12 @@ lsm_l_msiei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(patch_area$value))) {
@@ -74,7 +75,12 @@ lsm_l_msiei_calc <- function(landscape, directions, resolution = NULL) {
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
-    pr <- length(get_unique_values_int(landscape, verbose = FALSE))
+    if (!is.null(extras)){
+        classes <- extras$classes
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+    }
+    pr <- length(classes)
 
     msiei <- msidi / log(pr)
 

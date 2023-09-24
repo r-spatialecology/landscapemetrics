@@ -51,12 +51,13 @@ lsm_l_prd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_prd_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise for total landscape
     area_total <- sum(area_patch$value)
@@ -71,7 +72,7 @@ lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
     }
 
     # get number of classes
-    pr_landscape <- lsm_l_pr_calc(landscape)
+    pr_landscape <- lsm_l_pr_calc(landscape, extras = extras)
 
     # relative number of classes
     prd <- pr_landscape$value / area_total * 100

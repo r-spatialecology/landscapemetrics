@@ -46,9 +46,14 @@ lsm_l_pr <- function(landscape){
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pr_calc <- function(landscape){
+lsm_l_pr_calc <- function(landscape, extras = NULL){
 
-    richness <- length(get_unique_values_int(landscape, verbose = FALSE))
+    if (!is.null(extras)){
+        classes <- extras$classes
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+    }
+    richness <- length(classes)
 
     # all values NA
     if (richness == 0) {

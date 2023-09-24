@@ -56,7 +56,7 @@ lsm_l_pd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_pd_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
@@ -76,14 +76,16 @@ lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise for total landscape
     area_total <- sum(area_patch$value)
 
     # number of patches for each class
     number_patches <- lsm_c_np_calc(landscape,
-                                    directions = directions)
+                                    directions = directions,
+                                    extras = extras)
 
     # summarise for total landscape
     number_patches <- sum(number_patches$value)

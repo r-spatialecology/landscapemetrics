@@ -54,7 +54,7 @@ lsm_c_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ai_calc <- function(landscape) {
+lsm_c_ai_calc <- function(landscape, extras = NULL) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -75,7 +75,11 @@ lsm_c_ai_calc <- function(landscape) {
                                                          directions = as.matrix(4)) / 2
 
     # get number of cells each class
-    cells_class <- rcpp_get_composition_vector(landscape)
+    if (!is.null(extras)){
+        cells_class <- extras$composition_vector
+    } else {
+        cells_class <- rcpp_get_composition_vector(landscape)
+    }
 
     # save to tibble
     cells_class <- tibble::tibble(class = names(cells_class),

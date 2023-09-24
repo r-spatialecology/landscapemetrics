@@ -53,10 +53,11 @@ lsm_l_np <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_np_calc <- function(landscape, directions) {
+lsm_l_np_calc <- function(landscape, directions, extras = NULL) {
 
     n_patches <- lsm_c_np_calc(landscape,
-                               directions = directions)
+                               directions = directions,
+                               extras = extras)
 
     n_patches <- sum(n_patches$value)
 

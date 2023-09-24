@@ -61,11 +61,12 @@ lsm_c_frac_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_frac_mn_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     frac <- lsm_p_frac_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all cells are NA
     if (all(is.na(frac$value))) {

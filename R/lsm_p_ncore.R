@@ -74,9 +74,9 @@ lsm_p_ncore <- function(landscape,
 }
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                             points = NULL){
+                             points = NULL, extras = NULL){
 
-    # conver to matrix
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
@@ -96,15 +96,19 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     core_class <- do.call(rbind,
                           lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # get unique patch id (must be 1 to number_patches)
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)

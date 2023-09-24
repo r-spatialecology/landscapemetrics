@@ -60,12 +60,13 @@ lsm_l_mesh <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_mesh_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to total area
     area_total <- sum(area_patch$value)

@@ -55,7 +55,7 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
+lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
 
     if (is.null(classes_max)) {
 
@@ -66,7 +66,7 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose) {
         rpr <- NA
     } else {
 
-        pr <- lsm_l_pr_calc(landscape)
+        pr <- lsm_l_pr_calc(landscape, extras = extras)
 
         # all values NA
         if (all(is.na(pr$value))) {

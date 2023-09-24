@@ -68,13 +68,14 @@ lsm_c_dcore_cv <- function(landscape, directions = 8, consider_boundary = FALSE,
 }
 
 lsm_c_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                                points = NULL){
+                                points = NULL, extras = NULL){
 
     dcore <- lsm_p_ncore_calc(landscape,
                               directions = directions,
                               consider_boundary = consider_boundary,
                               edge_depth = edge_depth,
-                              points = points)
+                              points = points,
+                              extras = extras)
 
     # all values NA
     if (all(is.na(dcore$value))) {

@@ -54,7 +54,7 @@ lsm_l_cohesion <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -78,14 +78,16 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution = NULL) {
     # get number of cells in each patch: area = n_cells * res / 10000
     ncells_patch <- lsm_p_area_calc(landscape,
                                     directions = directions,
-                                    resolution = resolution)
+                                    resolution = resolution,
+                                    extras = extras)
 
     ncells_patch$value <- ncells_patch$value * 10000 / prod(resolution)
 
     # get perim for each patch
     perim_patch <- lsm_p_perim_calc(landscape,
                                     directions = directions,
-                                    resolution = resolution)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # denominator for cohesion (perim / n_cells) for landscape
     denominator <- sum(perim_patch$value * sqrt(ncells_patch$value))

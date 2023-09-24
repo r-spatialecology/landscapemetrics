@@ -55,12 +55,13 @@ lsm_c_lpi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_lpi_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all cells are NA
     if (all(is.na(patch_area$value))) {

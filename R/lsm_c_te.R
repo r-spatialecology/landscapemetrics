@@ -58,7 +58,7 @@ lsm_c_te <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
+lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NULL, extras = NULL) {
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -81,7 +81,13 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
     resolution_y <- resolution[[2]]
 
     # get class id
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     if (length(classes) == 1 && !count_boundary) {
 
@@ -109,9 +115,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
         te_class <- lapply(X = classes, function(patches_class) {
 
             # get connected patches
-            landscape_labeled <- get_patches_int(landscape,
-                                                 class = patches_class,
-                                                 directions = directions)[[1]]
+            landscape_labeled <- class_patches[[as.character(patches_class)]]
 
             # set all non-class patches, but not NAs, to -999
             edge_cells <- which(!is.na(landscape) & landscape != patches_class)

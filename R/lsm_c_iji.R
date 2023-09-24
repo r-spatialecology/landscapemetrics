@@ -58,7 +58,7 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_iji_calc <- function(landscape, verbose) {
+lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -74,8 +74,11 @@ lsm_c_iji_calc <- function(landscape, verbose) {
                               value = as.double(NA)))
     }
 
-    adjacencies <- rcpp_get_coocurrence_matrix(landscape,
-                                               as.matrix(4))
+    if (!is.null(extras)){
+        adjacencies <- extras$neighbor_matrix
+    } else {
+        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    }
 
     classes <- rownames(adjacencies)
 

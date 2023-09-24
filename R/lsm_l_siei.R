@@ -57,11 +57,12 @@ lsm_l_siei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_siei_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_siei_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     sidi <- lsm_l_sidi_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution, 
+                            extras = extras)
 
     # all values NA
     if (all(is.na(sidi$value))) {
@@ -72,7 +73,7 @@ lsm_l_siei_calc <- function(landscape, directions, resolution = NULL) {
                               value = as.double(NA)))
     }
 
-    pr <- lsm_l_pr_calc(landscape)
+    pr <- lsm_l_pr_calc(landscape, extras = extras)
 
     siei <- sidi$value / (1 - (1 / pr$value))
 

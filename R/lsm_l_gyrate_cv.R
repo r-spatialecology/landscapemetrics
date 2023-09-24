@@ -73,12 +73,13 @@ lsm_l_gyrate_cv <- function(landscape,
 }
 
 lsm_l_gyrate_cv_calc <- function(landscape, directions, cell_center,
-                                 points = NULL) {
+                                 points = NULL, extras = NULL) {
 
     gyrate_patch <- lsm_p_gyrate_calc(landscape,
                                       directions = directions,
                                       cell_center = cell_center,
-                                      points = points)
+                                      points = points,
+                                      extras = extras)
 
     # all values NA
     if (all(is.na(gyrate_patch$value))) {

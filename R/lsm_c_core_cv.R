@@ -63,14 +63,15 @@ lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, 
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
+lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL) {
 
     # calculate core for each patch
     core <- lsm_p_core_calc(landscape,
                             directions = directions,
                             consider_boundary = consider_boundary,
                             edge_depth = edge_depth,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all values NA
     if (all(is.na(core$value))) {

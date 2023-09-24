@@ -66,14 +66,15 @@ lsm_c_ndca <- function(landscape, directions = 8, consider_boundary = FALSE, edg
 }
 
 lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            points = NULL){
+                            points = NULL, extras = NULL){
 
     # get number of core areas for each patch
     ndca <- lsm_p_ncore_calc(landscape,
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             points = points)
+                             points = points,
+                             extras = extras)
 
     # all cells are NA
     if (all(is.na(ndca$value))) {

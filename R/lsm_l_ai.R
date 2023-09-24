@@ -55,7 +55,7 @@ lsm_l_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, resolution = NULL) {
+lsm_l_ai_calc <- function(landscape, resolution = NULL, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -74,12 +74,13 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
     }
 
     # get aggregation index for each class
-    ai <- lsm_c_ai_calc(landscape)
+    ai <- lsm_c_ai_calc(landscape, extras = extras)
 
     # get proportional class area
     pland <- lsm_c_pland_calc(landscape,
                               directions = 8,
-                              resolution = resolution)
+                              resolution = resolution,
+                              extras = extras)
 
     # final AI index
     result <- sum(ai$value * (pland$value / 100), na.rm = TRUE)

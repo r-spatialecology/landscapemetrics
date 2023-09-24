@@ -66,12 +66,13 @@ lsm_c_circle_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_circle_mn_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_circle_mn_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # calculate circumscribing circle for each patch
     circle <- lsm_p_circle_calc(landscape,
                                 directions = directions,
-                                resolution = resolution)
+                                resolution = resolution,
+                                extras = extras)
 
     # all values NA
     if (all(is.na(circle$value))) {

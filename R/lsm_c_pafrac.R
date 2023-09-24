@@ -64,7 +64,7 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL){
+lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -85,18 +85,21 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL)
     # get patch area in sqm
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     area_patch$value <- area_patch$value * 10000
 
     # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions,
-                                        resolution = resolution)
+                                        resolution = resolution,
+                                        extras = extras)
 
     # get number of patches
     np_class <- lsm_c_np_calc(landscape,
-                              directions = directions)
+                              directions = directions,
+                              extras = extras)
 
     pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 

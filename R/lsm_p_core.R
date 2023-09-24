@@ -69,7 +69,7 @@ lsm_p_core <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -88,15 +88,19 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     core <- do.call(rbind,
                     lapply(classes, function(patches_class) {
 
                         # get connected patches
-                        landscape_labeled <- get_patches_int(landscape,
-                                                             class = patches_class,
-                                                             directions = directions)[[1]]
+                        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
                         # label all edge cells
                         class_edge <- get_boundaries_calc(landscape_labeled,

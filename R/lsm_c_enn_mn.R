@@ -69,12 +69,13 @@ lsm_c_enn_mn <- function(landscape, directions = 8, verbose = TRUE) {
 
 
 lsm_c_enn_mn_calc <- function(landscape, directions, verbose,
-                              points = NULL) {
+                              points = NULL, extras = NULL) {
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
                           verbose = verbose,
-                          points = points)
+                          points = points,
+                          extras = extras)
 
     # all cells are NA
     if (all(is.na(enn$value))) {

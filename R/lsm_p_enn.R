@@ -68,7 +68,7 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 lsm_p_enn_calc <- function(landscape, directions, verbose,
-                           points = NULL) {
+                           points = NULL, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -90,41 +90,15 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
-
-    enn_patch <- do.call(rbind,
-                         lapply(classes, function(patches_class) {
-
-                             # get connected patches
-                             landscape_labeled <- get_patches_int(landscape,
-                                                              class = patches_class,
-                                                              directions = directions)[[1]]
-
-                             # get number of patches
-                             np_class <- max(landscape_labeled, na.rm = TRUE)
-
-                             # ENN doesn't make sense if only one patch is present
-                             if (np_class == 1) {
-
-                                 enn <- tibble::tibble(class = patches_class,
-                                                       dist = as.double(NA))
-
-                                 if (verbose) {
-                                     warning(paste0("Class ", patches_class,
-                                                    ": ENN = NA for class with only 1 patch."),
-                                             call. = FALSE)
-                                 }
-                             } else {
-
-                                 enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
-                                                                  return_id = FALSE,
-                                                                  points = points)
-                             }
-
-                             tibble::tibble(class = patches_class,
-                                            value = enn$dist)
-                         })
-    )
+    if (!is.null(extras$classes)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+        enn_patch <- extras$enn_patch
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+        enn_patch <- get_enn_patch(classes, class_patches, points)
+    }
 
     tibble::tibble(level = "patch",
                    class = as.integer(enn_patch$class),

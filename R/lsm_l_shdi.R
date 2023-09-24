@@ -52,12 +52,13 @@ lsm_l_shdi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shdi_calc <- function(landscape, resolution = NULL) {
+lsm_l_shdi_calc <- function(landscape, resolution = NULL, extras = NULL) {
 
     # get class proportions (direction doesn't matter)
     prop <- lsm_c_pland_calc(landscape,
                              directions = 8,
-                             resolution = resolution)
+                             resolution = resolution,
+                             extras = extras)
 
     # all values NA
     if (all(is.na(prop$value))) {

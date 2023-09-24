@@ -64,13 +64,14 @@ lsm_c_tca <- function(landscape, directions = 8, consider_boundary = FALSE, edge
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL){
 
     core_area <- lsm_p_core_calc(landscape,
                                  directions = directions,
                                  consider_boundary = consider_boundary,
                                  edge_depth = edge_depth,
-                                 resolution = resolution)
+                                 resolution = resolution,
+                                 extras = extras)
 
     # all cells are NA
     if (all(is.na(core_area$value))) {

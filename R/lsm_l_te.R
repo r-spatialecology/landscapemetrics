@@ -54,7 +54,7 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
+lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL, extras = NULL){
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -92,8 +92,11 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
 
     if (resolution_x == resolution_y) {
 
-        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape,
-                                                       directions = as.matrix(4))
+        if (!is.null(extras$neighbor_matrix)){
+            neighbor_matrix <- extras$neighbor_matrix
+        } else {
+            neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(4))
+        }
 
         edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) * resolution_x
 

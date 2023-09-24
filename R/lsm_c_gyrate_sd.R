@@ -72,12 +72,13 @@ lsm_c_gyrate_sd <- function(landscape,
 }
 
 lsm_c_gyrate_sd_calc <- function(landscape, directions, cell_center,
-                                 points = NULL) {
+                                 points = NULL, extras = NULL) {
 
     gyrate <- lsm_p_gyrate_calc(landscape,
                                 directions = directions,
                                 cell_center = cell_center,
-                                points = points)
+                                points = points,
+                                extras = extras)
 
     # all cells are NA
     if (all(is.na(gyrate$value))) {

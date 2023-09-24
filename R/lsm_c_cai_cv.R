@@ -68,13 +68,14 @@ lsm_c_cai_cv <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth){
+lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
     # calculate core area index for each patch
     cai <- lsm_p_cai_calc(landscape,
                           directions = directions,
                           consider_boundary = consider_boundary,
-                          edge_depth = edge_depth)
+                          edge_depth = edge_depth,
+                          extras = extras)
 
     # all values NA
     if (all(is.na(cai$value))) {

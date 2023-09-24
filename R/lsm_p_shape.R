@@ -63,7 +63,7 @@ lsm_p_shape <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
+lsm_p_shape_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -83,12 +83,14 @@ lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
     # get perimeter of patches
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions,
-                                        resolution = resolution)
+                                        resolution = resolution,
+                                        extras = extras)
 
     # get area of patches
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # calculate shape index
     area_patch$value <- area_patch$value * 10000

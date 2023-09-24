@@ -60,12 +60,13 @@ lsm_c_mesh <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_mesh_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_mesh_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to landscape area in sqm
     total_area <- sum(patch_area$value) * 10000

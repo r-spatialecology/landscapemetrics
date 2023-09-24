@@ -72,7 +72,7 @@ lsm_p_contig <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_contig_calc <- function(landscape, directions) {
+lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -89,7 +89,13 @@ lsm_p_contig_calc <- function(landscape, directions) {
     }
 
     # get unique values
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     # diagonal neighbours
     diagonal_matrix <- matrix(c(1, NA, 1,
@@ -105,16 +111,13 @@ lsm_p_contig_calc <- function(landscape, directions) {
                             lapply(classes, function(patches_class) {
 
         # get connected patches
-        patch_mat <- get_patches_int(landscape,
-                                     directions = directions,
-                                     class = patches_class)[[1]]
+        patch_mat <- class_patches[[as.character(patches_class)]]
 
         # get number of cells for each patch
         n_cells <- rcpp_get_composition_vector(patch_mat)
 
         # get number of patches
         n_patches <- length(n_cells)
-
 
         # get diagonal neighbours of same patch
         diagonal_neighbours <- rcpp_get_coocurrence_matrix_diag(patch_mat,
@@ -130,8 +133,8 @@ lsm_p_contig_calc <- function(landscape, directions) {
 
         class <- patches_class
 
-        rm(patch_mat)
-        gc(verbose = FALSE)
+        #rm(patch_mat)
+        #gc(verbose = FALSE)
 
         tibble::tibble(class = class,
                        value = contiguity)

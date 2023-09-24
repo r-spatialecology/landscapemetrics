@@ -67,11 +67,12 @@ lsm_l_circle_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_sd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_circle_sd_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     circle_patch <- lsm_p_circle_calc(landscape,
                                       directions = directions,
-                                      resolution = resolution)
+                                      resolution = resolution,
+                                      extras = extras)
 
     # all values NA
     if (all(is.na(circle_patch$value))) {

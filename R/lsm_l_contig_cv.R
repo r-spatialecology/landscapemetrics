@@ -71,10 +71,11 @@ lsm_l_contig_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_contig_cv_calc <- function(landscape, directions) {
+lsm_l_contig_cv_calc <- function(landscape, directions, extras = NULL) {
 
     contig_patch <- lsm_p_contig_calc(landscape,
-                                      directions = directions)
+                                      directions = directions,
+                                      extras = extras)
 
     # all values NA
     if (all(is.na(contig_patch$value))) {

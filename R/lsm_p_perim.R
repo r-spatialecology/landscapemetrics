@@ -50,7 +50,7 @@ lsm_p_perim <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
+lsm_p_perim_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -72,7 +72,13 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     resolution_y <- resolution[[2]]
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras$classes)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     # raster resolution not identical in x-y directions
     if (!resolution_x == resolution_y) {
@@ -90,9 +96,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
                                lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # cells at the boundary of the landscape need neighbours to calculate perim
         landscape_labeled <- pad_raster_internal(landscape_labeled,

@@ -71,9 +71,9 @@ lsm_c_contig_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_contig_sd_calc <- function(landscape, directions) {
+lsm_c_contig_sd_calc <- function(landscape, directions, extras = NULL) {
 
-    contig <- lsm_p_contig_calc(landscape, directions = directions)
+    contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
 
     # all values NA
     if (all(is.na(contig$value))) {

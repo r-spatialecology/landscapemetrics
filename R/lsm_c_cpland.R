@@ -60,7 +60,7 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL){
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -81,7 +81,8 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     # calculate patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # total landscape area
     area <- sum(area$value)
@@ -91,7 +92,8 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
                                  directions = directions,
                                  consider_boundary = consider_boundary,
                                  edge_depth = edge_depth,
-                                 resolution = resolution)
+                                 resolution = resolution,
+                                 extras = extras)
 
     # summarise core area for classes
     core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2], FUN = sum)

@@ -60,11 +60,12 @@ lsm_c_para_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     para <- lsm_p_para_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all cells are NA
     if (all(is.na(para$value))) {

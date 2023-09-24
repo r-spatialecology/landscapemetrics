@@ -69,7 +69,7 @@ lsm_p_gyrate <- function(landscape, directions = 8,
 }
 
 lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
-                              points = NULL) {
+                              points = NULL, extras = NULL) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -90,16 +90,20 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
                               value = as.double(NA)))
     }
 
-    # get uniuqe class id
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    # get unique class id
+    if (!is.null(extras$classes)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     gyrate <- do.call(rbind,
                       lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                         class = patches_class,
-                                         directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # transpose to get same direction of ID
         landscape_labeled <- t(landscape_labeled)

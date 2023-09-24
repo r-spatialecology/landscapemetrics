@@ -68,13 +68,14 @@ lsm_l_core_sd <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL){
 
     core_patch <- lsm_p_core_calc(landscape,
                                   directions = directions,
                                   consider_boundary = consider_boundary,
                                   edge_depth = edge_depth,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(core_patch$value))) {

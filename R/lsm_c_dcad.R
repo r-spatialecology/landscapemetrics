@@ -65,12 +65,13 @@ lsm_c_dcad <- function(landscape, directions = 8, consider_boundary = FALSE, edg
 }
 
 lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            resolution = NULL, points = NULL){
+                            resolution = NULL, points = NULL, extras = NULL){
 
     # get patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # summarise to total area
     area <- sum(area$value)
@@ -89,7 +90,8 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             points = points)
+                             points = points,
+                             extras = extras)
 
     # summarise for classes
     ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)

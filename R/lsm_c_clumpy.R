@@ -52,7 +52,7 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
+lsm_c_clumpy_calc <- function(landscape, resolution = NULL, extras = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster_internal(landscape,
@@ -99,7 +99,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # test if any NAs introduced
     if (anyNA(cells_class$min_e)) {
-        warning("NAs introduced by lsm_c_clumpy", ccall. = FALSE)
+        warning("NAs introduced by lsm_c_clumpy", call. = FALSE)
     }
 
     # calculate g_i
@@ -108,7 +108,8 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
     # proportional class area - direction has no influence on PLAND
     prop_class <- lsm_c_pland_calc(landscape,
                                    directions = 8,
-                                   resolution = resolution)
+                                   resolution = resolution,
+                                   extras = extras)
 
     prop_class <- prop_class$value / 100
 

@@ -63,11 +63,12 @@ lsm_l_frac_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_frac_cv_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     frac_patch <- lsm_p_frac_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(frac_patch$value))) {

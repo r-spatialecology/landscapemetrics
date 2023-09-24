@@ -68,13 +68,14 @@ lsm_l_ndca <- function(landscape,
 }
 
 lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            points = NULL){
+                            points = NULL, extras = NULL){
 
     ncore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points)
+                                    points = points,
+                                    extras = extras)
 
     ndca <- sum(ncore_patch$value)
 
