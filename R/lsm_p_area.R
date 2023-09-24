@@ -61,13 +61,11 @@ lsm_p_area <- function(landscape, directions = 8) {
 }
 
 
-lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
+lsm_p_area_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -80,22 +78,25 @@ lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
                               value = as.double(NA)))
     }
 
-    # factor to convert cell to area
-    factor_ha <- prod(resolution) / 10000
-
     # get unique class id
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+        area_patches <- extras$area_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+        area_patches <- get_area_patches(class_patches, classes, resolution)
+    }
 
     area_patch <- do.call(rbind,
                           lapply(classes, function(patches_class){
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # multiply number of cells within each patch with hectar factor
-        area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
+        area_patch_ij <- area_patches[[as.character(patches_class)]]
 
         tibble::tibble(
             class = as.integer(patches_class),
