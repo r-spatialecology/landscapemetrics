@@ -57,7 +57,7 @@ lsm_l_condent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
+lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -73,16 +73,15 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base){
                               value = as.double(NA)))
     }
 
-    com <- rcpp_get_coocurrence_matrix(landscape,
-                                       directions = as.matrix(neighbourhood))
-    com_c <- colSums(com)
-
-    coh <- rcpp_get_coocurrence_vector(landscape,
-                                       directions = as.matrix(neighbourhood),
-                                       ordered = ordered)
-
-    comp <- rcpp_get_entropy(com_c, base)
-    cplx <- rcpp_get_entropy(coh, base)
+    if (!is.null(extras)){
+        comp <- extras$comp
+        cplx <- extras$cplx
+    } else {
+        com <- rcpp_get_coocurrence_matrix(landscape,
+                                        directions = as.matrix(neighbourhood))
+        comp <- rcpp_get_entropy(colSums(com), base)
+        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    }
 
     conf <- cplx - comp
 
