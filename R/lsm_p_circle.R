@@ -67,7 +67,7 @@ lsm_p_circle <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
+lsm_p_circle_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -98,21 +98,26 @@ lsm_p_circle_calc <- function(landscape, directions, resolution = NULL) {
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # convert area to m2
     area_patch <- area_patch$value * 10000
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras$classes)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     circle_patch <- do.call(rbind,
                             lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # get circle radius around patch
         circle <- rcpp_get_circle(landscape_labeled,
