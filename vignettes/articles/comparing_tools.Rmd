@@ -11,21 +11,38 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, eval = FALSE)
+knitr::opts_chunk$set(echo = FALSE, eval = TRUE)
 ```
 
 ```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
 library(landscapemetrics)
-library(terra)
-library(SDMTools) # remotes::install_version("SDMTools", version = "1.1-221.2")
+
 library(dplyr)
 library(purrr)
+library(raster)
+library(SDMTools) # remotes::install_version("SDMTools", version = "1.1-221.2")
+library(stringr)
+library(terra)
+library(tidyr)
 
 # internal data needs to be read
 landscape <- terra::rast(landscapemetrics::landscape)
+
+fs_patch_landscape <- read.table(file = "tests/testthat/results-fragstats/landscape.patch", 
+                                 sep  = ",", header = TRUE, na.strings = " N/A ") |>
+    dplyr::select(-LID) |> 
+    dplyr::mutate(TYPE = stringr::str_remove_all(TYPE, pattern = " "),
+                  TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")))
+
+fs_class_landscape <- read.table(file = "tests/testthat/results-fragstats/landscape.class", 
+                                 sep  = ",", header = TRUE, na.strings = " N/A ") |>
+    dplyr::select(-LID) |> 
+    dplyr::mutate(TYPE = stringr::str_remove_all(TYPE, pattern = " "),
+                  TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")))
+
 ```
 
-**The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently. Additionally, we cant install `SDMTools` anymore (R > 4.0).**
+**The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently.**
 
 # Comparison with FRAGSTATS
 
@@ -64,25 +81,33 @@ cv <- function(x) {
 }
 
 # CV calculated from patch values of FRAGSTATS 
-fragstats_calculated <- fragstats_patch_landscape |>
+fs_calculated <- fs_patch_landscape |>
     dplyr::group_by(TYPE) |>
     dplyr::summarise(cv = cv(AREA)) |>
-    purrr::set_names("class", "fragstats_calculated") 
+    purrr::set_names("class", "fs_calc") 
 
 # Output of FRAGSTATS
-fragstats_output <- fragstats_class_landscape |> 
+fs_output <- fs_class_landscape |> 
     dplyr::select(TYPE, AREA_CV) |>
-    purrr::set_names("class", "fragstats_output")
+    purrr::set_names("class", "fs_output")
 
 # Output of landscapemetrics
-landscapemetrics_output <- lsm_c_area_cv(landscape) |>
-    dplyr::select(class, value) |>
-    purrr::set_names("class", "landscapemetrics")
+lsm_calc <- lsm_p_area(landscape) |>
+    dplyr::group_by(class) |>
+    dplyr::summarise(value = cv(value)) |> 
+    purrr::set_names("class", "lsm_calc")
 
-fragstats <- dplyr::full_join(x = fragstats_output, y = fragstats_calculated, 
+lsm_output <- lsm_c_area_cv(landscape) |>
+    dplyr::select(class, value) |>
+    purrr::set_names("class", "lsm_fun")
+
+fragstats <- dplyr::full_join(x = fs_output, y = fs_calculated, 
                               by = "class") 
 
-cv_full <- dplyr::full_join(x = fragstats, y = landscapemetrics_output,
+lsm <- dplyr::full_join(x = lsm_calc, y = lsm_output, 
+                        by = "class") 
+
+cv_full <- dplyr::full_join(x = fragstats, y = lsm,
                             by = "class")
 ```
 
@@ -100,25 +125,33 @@ The result calculated from all patch areas of FRAGSTATS is identical to the resu
 
 ```{r}
 # SD calculated from patch values of FRAGSTATS
-fragstats_calculated <- fragstats_patch_landscape |>
+fs_calculated <- fs_patch_landscape |>
   dplyr::group_by(TYPE) |>
   dplyr::summarise(sd = sd(AREA)) |>
-  purrr::set_names("class", "fragstats_calculated") 
+  purrr::set_names("class", "fs_calculated") 
 
 # Output of FRAGSTATS
-fragstats_output <- fragstats_class_landscape |>
+fs_output <- fs_class_landscape |>
   dplyr::select(TYPE, AREA_SD) |>
-  purrr::set_names("class", "fragstats_output")
+  purrr::set_names("class", "fs_output")
 
 # Output of landscapemetrics
-landscapemetrics_output <- lsm_c_area_sd(landscape) |>
-  dplyr::select(class, value) |>
-  purrr::set_names("class", "landscapemetrics")
+lsm_calc <- lsm_p_area(landscape) |>
+    dplyr::group_by(class) |> 
+    dplyr::summarise(value = sd(value)) |> 
+    purrr::set_names("class", "lsm_calculated")
 
-fragstats <- dplyr::full_join(x = fragstats_output, y = fragstats_calculated,
+lsm_output <- lsm_c_area_sd(landscape) |>
+  dplyr::select(class, value) |>
+  purrr::set_names("class", "lsm_output")
+
+fragstats <- dplyr::full_join(x = fs_output, y = fs_calculated,
                               by = "class")
 
-sd_full <- dplyr::full_join(x = fragstats, y = landscapemetrics_output,
+lsm <- dplyr::full_join(x = lsm_calc, y = lsm_output, 
+                        by = "class") 
+
+sd_full <- dplyr::full_join(x = fragstats, y = lsm,
                             by = "class")
 ```
 
@@ -126,7 +159,7 @@ sd_full <- dplyr::full_join(x = fragstats, y = landscapemetrics_output,
 <div id="2" class="collapse">
 
 ```{r}
-knitr::kable(cbind(cv_full))
+knitr::kable(cbind(sd_full))
 ```
 
 </div>
@@ -144,37 +177,24 @@ In the following table, patches with an area of *area = 0.0001* consist of only 
 
 ```{r}
 # Calculate patch area
-fragstats_area <- fragstats_patch_landscape |>
-  dplyr::select(PID, AREA) |>
-  purrr::set_names("id", "fragstats_area")
-
-landscapemetrics_area <- lsm_p_area(landscape) |>
-  dplyr::select(id, value) |>
-  purrr::set_names("id", "landscapemetrics_area")
-
 # Calculate GYRATE
-fragstats_gyrate <- fragstats_patch_landscape |>
-  dplyr::select(PID, GYRATE) |>
-  purrr::set_names("id", "fragstats_gyrate")
+fs <- fs_patch_landscape |>
+    dplyr::select(PID, AREA, GYRATE) |>
+    purrr::set_names("fs_id", "fs_area", "fs_gyrate") |> 
+    dplyr::filter(fs_area == 0.0001)
 
-landscapemetrics_gyrate <- lsm_p_gyrate(landscape) |>
-  dplyr::select(id, value) |>
-  purrr::set_names("id", "landscapemetrics_gyrate")
-
-fragstats <- dplyr::full_join(x = fragstats_area, y = fragstats_gyrate, 
-                              by = "id") |>
-  dplyr::filter(fragstats_area == 0.0001)
-
-landscapemetrics <- dplyr::full_join(x = landscapemetrics_area, 
-                                     y = landscapemetrics_gyrate, by = "id") |>
-  dplyr::filter(landscapemetrics_area == 0.0001)
+lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_gyrate")) |>
+    tidyr::pivot_wider(names_from = "metric", values_from = "value") |> 
+    dplyr::select(id, area, gyrate) |> 
+    purrr::set_names("lsm_id", "lsm_area", "lsm_gyrate") |> 
+    dplyr::filter(lsm_area == 0.0001)
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#3"> Show/Hide Results </button>  
 <div id="3" class="collapse">
 
 ```{r}
-knitr::kable(cbind(fragstats, landscapemetrics))
+knitr::kable(cbind(fs, lsm))
 ```
 
 </div>
@@ -209,40 +229,25 @@ Nevertheless, the differences between the softwares are only based on different 
 
 ```{r}
 # Output of FRAGSTATS
-fragstats <- fragstats_patch_landscape |>
+fs <- fs_patch_landscape |>
     dplyr::select(PID, AREA, PERIM, PARA) |>
-    purrr::set_names("id", "area", "perim", "para") |>
-    dplyr::mutate(para_calculated_ha = perim / area, 
-                  para_calculated_m = perim / (area * 10000)) |>
-    dplyr::arrange(area)
+    purrr::set_names("fs_id", "fs_area", "fs_perim", "fs_para") |>
+    dplyr::arrange(fs_area)
 
-# Output of landscapemetrics
-area_landscapmetrics <- lsm_p_area(landscape) |>
-    dplyr::select(id, value) |>
-    purrr::set_names("id", "area")
-
-perim_landscapmetrics <- lsm_p_perim(landscape) |>
-    dplyr::select(id, value) |>
-    purrr::set_names("id", "perim")
-
-para_landscapemetrics <- lsm_p_para(landscape) |>
-    dplyr::select(id, value) |>
-    purrr::set_names("id", "para")
-
-landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, 
-                                     y = perim_landscapmetrics, 
-                                     by = "id") |>
-    dplyr::full_join(para_landscapemetrics, by = "id") |>
-    dplyr::mutate(para_calculated_ha = perim / area, 
-                  para_calculated_m = perim / (area * 10000)) |> 
-    dplyr::arrange(area)
+lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_perim", "lsm_p_para")) |> 
+    dplyr::select(-layer, -level, -class) |> 
+    tidyr::pivot_wider(names_from = "metric", values_from = "value") |> 
+    dplyr::mutate(lsm_para_ha = perim / area, lsm_para_m = perim / (area * 10000)) |> 
+    dplyr::select(id, area, perim, para, lsm_para_ha, lsm_para_m) |> 
+    purrr::set_names("lsm_id", "lsm_area", "lsm_perim", "lsm_para", "lsm_para_ha", "lsm_para_m") |>
+    dplyr::arrange(lsm_area)
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
 <div id="4" class="collapse">
 
 ```{r}
-knitr::kable(cbind(fragstats, landscapemetrics))
+knitr::kable(cbind(fs, lsm))
 ```
 
 </div>
@@ -263,31 +268,25 @@ According to FRAGSTATS, for patches with only one cell CIRCLE = 0.
 Nevertheless, because also patches with only one cell have a dimension in the raster context, we decided to calculate the CIRCLE metric for such patches.
 
 ```{r}
-# Output of FRAGSTATS
-fragstats <- fragstats_patch_landscape |>
+# Calculate patch area
+# Calculate GYRATE
+fs <- fs_patch_landscape |>
     dplyr::select(PID, AREA, CIRCLE) |>
-    purrr::set_names("id_fs", "area_fs", "circle_fs") |>
-    dplyr::filter(area_fs == 0.0001)
+    purrr::set_names("fs_id", "fs_area", "fs_circle") |> 
+    dplyr::filter(fs_area == 0.0001)
 
-# Output of landscapemetrics
-area_landscapmetrics <- lsm_p_area(landscape) |>
-    dplyr::select(id, value) |>
-    purrr::set_names("id_lsm", "area_lsm")
-
-circle_landscapmetrics <- lsm_p_circle(landscape) |>
-    dplyr::select(id, value) |>
-    purrr::set_names("id_lsm", "circle_lsm")
-
-landscapemetrics <- dplyr::full_join(x = area_landscapmetrics, y = circle_landscapmetrics, 
-                                     by = "id_lsm") |>
-  dplyr::filter(area_lsm == 0.0001)
+lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
+    tidyr::pivot_wider(names_from = "metric", values_from = "value") |> 
+    dplyr::select(id, area, circle) |> 
+    purrr::set_names("lsm_id", "lsm_area", "lsm_circle") |> 
+    dplyr::filter(lsm_area == 0.0001)
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#5"> Show/Hide Results </button>  
 <div id="5" class="collapse">
 
 ```{r}
-knitr::kable(cbind(fragstats, landscapemetrics))
+knitr::kable(cbind(fs, lsm))
 ```
 
 </div>
@@ -307,7 +306,7 @@ mat[4:9, 7] <- 1
 mat[4, 4:10] <- 1
 
 # convert to terra
-ras <- terra::rast(mat, xmin = 0, xmax = 13, ymin = 0, ymax = 13)
+ras <- terra::rast(mat, extent = c(0, 13, 0, 13))
 
 # get circumscribing circle 
 circle_lsm <- get_circumscribingcircle(ras)
@@ -317,15 +316,15 @@ circle_lsm <- construct_buffer(coords = matrix(c(circle_lsm$center_x,
                                                  circle_lsm$center_y),
                                                nrow = 1, ncol = 2),
                                shape = "circle", size = circle_lsm$value / 2,
-                               return_sp = FALSE)
+                               return_vec  = FALSE)
 
 # calculate max distance between corner points of cells
 circle_max_dist <- dist(matrix(data = c(3, 10, 7, 4), byrow = TRUE, nrow = 2, ncol = 2))
 
-# construct circle using diamter /2
+# construct circle using diameter /2
 circle_max_dist <- construct_buffer(coords = matrix(c(6.5, 7.5), nrow = 1, ncol = 2),
                                     shape = "circle", size = circle_max_dist / 2,
-                                    return_sp = FALSE)
+                                    return_vec = FALSE)
 
 # plot results
 plot(ras, col = "#D5B528", legend = FALSE)
@@ -348,11 +347,11 @@ To get all available metrics on, e.g., patch level with `SDMTools`, you have to 
 
 ```{r}
 # binarize every class in the landscape and calculate patch metrics
-sdmtools_result <- lapply(raster::unique(landscape), FUN = function(x){
+sdmtools_result <- lapply(terra::unique(landscape), FUN = function(x){
   tmp_land <- landscape
-  raster::values(tmp_land)[raster::values(tmp_land) != x] <- NA
-  raster::values(tmp_land)[raster::values(tmp_land) == x] <- 1
-  ccl <- SDMTools::ConnCompLabel(tmp_land)
+  terra::values(tmp_land)[terra::values(tmp_land) != x] <- NA
+  terra::values(tmp_land)[terra::values(tmp_land) == x] <- 1
+  ccl <- SDMTools::ConnCompLabel(raster::raster(tmp_land))
   PatchStat(ccl)
 })
 
@@ -371,7 +370,7 @@ patch_metrics <- calculate_lsm(landscape, what = "patch")
 <div id="6" class="collapse">
 
 ```{r}
-knitr::kable(bind_rows(sdmtools_result))
+knitr::kable(sdmtools_result)
 ```
 
 </div>
