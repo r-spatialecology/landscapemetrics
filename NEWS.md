@@ -10,6 +10,7 @@
     * `extract_lsm` returned an unneeded warning message
 * Various 
     * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
+    * Update FRAGSTATS tests
 
 # landscapemetrics 1.5.6
 * Bugfixes
