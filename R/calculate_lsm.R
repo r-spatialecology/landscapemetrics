@@ -151,6 +151,7 @@ calculate_lsm_internal <- function(landscape,
                     call. = FALSE)
         }
     }
+    landscape <- terra::as.int(landscape)
 
     # get name of metrics
     metrics <- list_lsm(level = level, metric = metric, name = name,
@@ -171,7 +172,7 @@ calculate_lsm_internal <- function(landscape,
     # convert to matrix
     landscape <- terra::as.matrix(landscape, wide = TRUE)
 
-    # prepare extras 
+    # prepare extras
     # toDo: a check if extras are needed would be necessary
     classes <- get_unique_values_int(landscape, verbose = FALSE)
     class_patches <- get_class_patches(landscape, classes, directions = directions)
