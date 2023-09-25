@@ -58,12 +58,11 @@ lsm_c_area_cv <- function(landscape, directions = 8) {
 
 }
 
-lsm_c_area_cv_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
+lsm_c_area_cv_calc <- function(landscape, directions, extras = NULL){
 
     # get area of patches
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution,
                             extras = extras)
 
     # all values NA

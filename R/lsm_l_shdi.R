@@ -52,12 +52,11 @@ lsm_l_shdi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shdi_calc <- function(landscape, resolution = NULL, extras = NULL) {
+lsm_l_shdi_calc <- function(landscape, extras = NULL) {
 
     # get class proportions (direction doesn't matter)
     prop <- lsm_c_pland_calc(landscape,
                              directions = 8,
-                             resolution = resolution,
                              extras = extras)
 
     # all values NA
@@ -73,7 +72,7 @@ lsm_l_shdi_calc <- function(landscape, resolution = NULL, extras = NULL) {
 
     shdi <- sum(-prop * log(prop, exp(1)))
 
-    return(tibble::tibble(level = 'landscape',
+    return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),
                           id = as.integer(NA),
                           metric = "shdi",

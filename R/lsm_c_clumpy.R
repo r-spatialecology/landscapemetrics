@@ -52,7 +52,7 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, resolution = NULL, extras = NULL){
+lsm_c_clumpy_calc <- function(landscape, extras = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster_internal(landscape,
@@ -70,8 +70,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL, extras = NULL){
     }
 
     # get coocurrence
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded,
-                                      directions = as.matrix(4))
+    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
     # like adacencies are on the diagonal and remove adjacencies to boundary
     like_adjacencies <- diag(tb)[2:length(diag(tb))]
@@ -108,7 +107,6 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL, extras = NULL){
     # proportional class area - direction has no influence on PLAND
     prop_class <- lsm_c_pland_calc(landscape,
                                    directions = 8,
-                                   resolution = resolution,
                                    extras = extras)
 
     prop_class <- prop_class$value / 100

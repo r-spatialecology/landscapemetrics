@@ -63,11 +63,10 @@ lsm_c_frac_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_frac_cv_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
+lsm_c_frac_cv_calc <- function(landscape, directions, extras = NULL){
 
     frac <- lsm_p_frac_calc(landscape,
                             directions = directions,
-                            resolution = resolution,
                             extras = extras)
 
     # all cells are NA

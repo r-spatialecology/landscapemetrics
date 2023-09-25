@@ -67,14 +67,12 @@ lsm_l_ndca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            points = NULL, extras = NULL){
+lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
     ncore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points,
                                     extras = extras)
 
     ndca <- sum(ncore_patch$value)

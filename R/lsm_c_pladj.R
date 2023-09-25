@@ -67,8 +67,7 @@ lsm_c_pladj_calc <- function(landscape) {
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
                                    pad_raster_cells = 1, global = FALSE)
 
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded,
-                                      directions = as.matrix(4))
+    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
     pladj <- vapply(X = seq_len(nrow(tb)), FUN = function(x) {
         like_adjacencies <- tb[x, x]

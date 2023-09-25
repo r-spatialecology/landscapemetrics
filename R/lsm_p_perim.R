@@ -50,7 +50,7 @@ lsm_p_perim <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_perim_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
+lsm_p_perim_calc <- function(landscape, directions, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -67,17 +67,17 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL, extras = 
                               value = as.double(NA)))
     }
 
-    # get dimensions of raster
-    resolution_x <- resolution[[1]]
-    resolution_y <- resolution[[2]]
-
     # get unique classes
-    if (!is.null(extras$classes)){
+    if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
+        resolution_x <- extras$resolution[[1]]
+        resolution_y <- extras$resolution[[2]]
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
+        resolution_x <- resolution[[1]]
+        resolution_y <- resolution[[2]]
     }
 
     # raster resolution not identical in x-y directions

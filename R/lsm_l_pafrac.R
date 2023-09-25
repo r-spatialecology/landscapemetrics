@@ -64,12 +64,11 @@ lsm_l_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL, extras = NULL){
+lsm_l_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <-terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -106,13 +105,11 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution = NULL,
         # get patch area
         area_patch <- lsm_p_area_calc(landscape,
                                       directions = directions,
-                                      resolution = resolution,
                                       extras = extras)
 
         # get patch perimeter
         perimeter_patch <- lsm_p_perim_calc(landscape,
                                             directions = directions,
-                                            resolution = resolution,
                                             extras = extras)
 
         regression_model <- stats::lm(log(area_patch$value) ~

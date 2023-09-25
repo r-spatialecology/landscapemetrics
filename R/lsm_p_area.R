@@ -61,7 +61,7 @@ lsm_p_area <- function(landscape, directions = 8) {
 }
 
 
-lsm_p_area_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
+lsm_p_area_calc <- function(landscape, directions, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {

@@ -65,15 +65,13 @@ lsm_c_ndca <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            points = NULL, extras = NULL){
+lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
     # get number of core areas for each patch
     ndca <- lsm_p_ncore_calc(landscape,
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             points = points,
                              extras = extras)
 
     # all cells are NA

@@ -61,11 +61,10 @@ lsm_c_para_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_para_mn_calc <- function(landscape, directions, resolution = NULL, extras = NULL){
+lsm_c_para_mn_calc <- function(landscape, directions, extras = NULL){
 
     para <- lsm_p_para_calc(landscape,
                             directions = directions,
-                            resolution = resolution,
                             extras = extras)
 
     # all cells are NA

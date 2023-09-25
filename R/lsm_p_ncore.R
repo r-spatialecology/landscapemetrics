@@ -73,8 +73,7 @@ lsm_p_ncore <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                             points = NULL, extras = NULL){
+lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -99,6 +98,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
+        points <- extras$points
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)

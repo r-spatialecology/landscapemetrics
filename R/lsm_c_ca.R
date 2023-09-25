@@ -58,12 +58,11 @@ lsm_c_ca <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ca_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
+lsm_c_ca_calc <- function(landscape, directions, extras = NULL) {
 
     # calculate core area for each patch
     core_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution,
                                   extras = extras)
 
     # all values NA

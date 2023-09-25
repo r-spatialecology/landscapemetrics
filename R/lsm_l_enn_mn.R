@@ -67,12 +67,10 @@ lsm_l_enn_mn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_enn_mn_calc <- function(landscape, directions, verbose,
-                              points = NULL, extras = NULL) {
+lsm_l_enn_mn_calc <- function(landscape, directions, verbose, extras = NULL) {
 
     enn_patch <- lsm_p_enn_calc(landscape,
                                 directions = directions, verbose = verbose,
-                                points = points,
                                 extras = extras)
 
     # all values NA

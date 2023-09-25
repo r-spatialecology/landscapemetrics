@@ -67,16 +67,12 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_enn_calc <- function(landscape, directions, verbose,
-                           points = NULL, extras = NULL) {
+lsm_p_enn_calc <- function(landscape, directions, verbose, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]
-
-        # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -90,7 +86,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose,
     }
 
     # get unique classes
-    if (!is.null(extras$classes)){
+    if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
         enn_patch <- extras$enn_patch

@@ -73,13 +73,12 @@ lsm_p_cai <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL){
+lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -95,7 +94,6 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     # get patch area
     area_patch <- lsm_p_area_calc(landscape = landscape,
                                   directions = directions,
-                                  resolution = resolution,
                                   extras = extras)
 
     # convert from ha to sqm
@@ -106,7 +104,6 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
                                   directions = directions,
                                   consider_boundary = consider_boundary,
                                   edge_depth = edge_depth,
-                                  resolution = resolution,
                                   extras = extras)
 
     # calculate CAI index

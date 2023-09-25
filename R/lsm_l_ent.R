@@ -69,8 +69,7 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
     if (!is.null(extras)){
         comp <- extras$comp
     } else {
-        com <- rcpp_get_coocurrence_matrix(landscape,
-                                        directions = as.matrix(neighbourhood))
+        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
         comp <- rcpp_get_entropy(colSums(com), base)
     }
 

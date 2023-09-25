@@ -54,12 +54,11 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL, extras = NULL){
+lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -73,8 +72,13 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL, extras =
     }
 
     # get resolution in x-y directions
-    resolution_x <- resolution[[1]]
-    resolution_y <- resolution[[2]]
+    if (!is.null(extras)){
+        resolution_x <- extras$resolution[[1]]
+        resolution_y <- extras$resolution[[2]]
+    } else {
+        resolution_x <- resolution[[1]]
+        resolution_y <- resolution[[2]]
+    }
 
     if (count_boundary) {
 

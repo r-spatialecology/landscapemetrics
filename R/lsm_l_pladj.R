@@ -68,8 +68,7 @@ lsm_l_pladj_calc <- function(landscape) {
                                             pad_raster_cells = 1,
                                             global = FALSE)
 
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded,
-                                      directions = as.matrix(4))
+    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
     like_adjacencies <- sum(diag(tb)[-1])
     total_adjacencies <- sum(tb[,-1])

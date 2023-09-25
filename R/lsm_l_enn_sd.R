@@ -68,11 +68,10 @@ lsm_l_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 lsm_l_enn_sd_calc <- function(landscape, directions, verbose,
-                              points = NULL, extras = NULL) {
+                              extras = NULL) {
 
     enn_patch <- lsm_p_enn_calc(landscape,
                                 directions = directions, verbose = verbose,
-                                points = points,
                                 extras = extras)
 
     # all values NA

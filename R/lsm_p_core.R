@@ -69,12 +69,11 @@ lsm_p_core <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -91,6 +90,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
+        resolution <- extras$resolution
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)

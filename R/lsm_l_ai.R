@@ -55,12 +55,11 @@ lsm_l_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, resolution = NULL, extras = NULL) {
+lsm_l_ai_calc <- function(landscape, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -79,7 +78,6 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL, extras = NULL) {
     # get proportional class area
     pland <- lsm_c_pland_calc(landscape,
                               directions = 8,
-                              resolution = resolution,
                               extras = extras)
 
     # final AI index

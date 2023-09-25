@@ -71,13 +71,11 @@ lsm_c_gyrate_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_gyrate_mn_calc <- function(landscape, directions, cell_center,
-                                 points = NULL, extras = NULL) {
+lsm_c_gyrate_mn_calc <- function(landscape, directions, cell_center, extras = NULL) {
 
     gyrate <- lsm_p_gyrate_calc(landscape,
                                 directions = directions,
                                 cell_center = cell_center,
-                                points = points,
                                 extras = extras)
 
     # all cells are NA

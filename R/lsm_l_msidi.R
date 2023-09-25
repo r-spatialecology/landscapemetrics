@@ -57,12 +57,11 @@ lsm_l_msidi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL, extras = NULL) {
+lsm_l_msidi_calc <- function(landscape, directions, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -77,7 +76,6 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL, extras = 
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution,
                                   extras = extras)
 
     msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)

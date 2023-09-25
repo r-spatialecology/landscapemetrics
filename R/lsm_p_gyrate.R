@@ -68,15 +68,13 @@ lsm_p_gyrate <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
-                              points = NULL, extras = NULL) {
+lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL) {
 
     # conver to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
         points <- raster_to_points(landscape)[, 2:4]
-
         # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
@@ -91,9 +89,10 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
     }
 
     # get unique class id
-    if (!is.null(extras$classes)){
+    if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
+        points <- extras$points
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
@@ -115,11 +114,11 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center,
         # set ID from class ID to unique patch ID
         points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-        # # conver to tibble
+        # # convert to tibble
         points <- stats::setNames(object = data.frame(points),
                                   nm = c("x", "y", "id"))
 
-        # calcuale the centroid of each patch (mean of all coords)
+        # calculate the centroid of each patch (mean of all coords)
         centroid <- stats::aggregate(points[, c(1, 2)],
                                      by = list(id = points[, 3]),
                                      FUN = mean)

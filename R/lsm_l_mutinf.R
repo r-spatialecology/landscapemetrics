@@ -76,8 +76,7 @@ lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base, extras = 
         comp <- extras$comp
         cplx <- extras$cplx
     } else {
-        com <- rcpp_get_coocurrence_matrix(landscape,
-                                        directions = as.matrix(neighbourhood))
+        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
         comp <- rcpp_get_entropy(colSums(com), base)
         cplx <- get_complexity(landscape, neighbourhood, ordered, base)
     }

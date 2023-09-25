@@ -58,12 +58,11 @@ lsm_c_te <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NULL, extras = NULL) {
+lsm_c_te_calc <- function(landscape, count_boundary, directions, extras = NULL) {
 
-    # conver raster to matrix
+    # convert raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -76,17 +75,17 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                               value = as.double(NA)))
     }
 
-    # get resolution in x-y directions
-    resolution_x <- resolution[[1]]
-    resolution_y <- resolution[[2]]
-
     # get class id
     if (!is.null(extras)){
         classes <- extras$classes
         class_patches <- extras$class_patches
+        resolution_x <- extras$resolution[[1]]
+        resolution_y <- extras$resolution[[2]]
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
+        resolution_x <- resolution[[1]]
+        resolution_y <- resolution[[2]]
     }
 
     if (length(classes) == 1 && !count_boundary) {

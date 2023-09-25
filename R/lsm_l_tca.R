@@ -66,13 +66,12 @@ lsm_l_tca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL, extras = NULL) {
+lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL) {
 
     core_area_patch <- lsm_p_core_calc(landscape,
                                        directions = directions,
                                        consider_boundary = consider_boundary,
                                        edge_depth = edge_depth,
-                                       resolution = resolution,
                                        extras = extras)
 
     total_core_area <- sum(core_area_patch$value)
