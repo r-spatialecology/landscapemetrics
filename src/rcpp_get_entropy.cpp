@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double rcpp_get_entropy(NumericVector x, std::string base = "log2") {
+double rcpp_get_entropy(NumericVector &x, std::string base = "log2") {
         x = x / sum(x);
         double result = 0.0;
         for(int i = 0; i < x.size(); i++){

@@ -1,6 +1,6 @@
 #include "rcpp_get_boundaries.h"
 
-IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx,
+IntegerMatrix rcpp_get_boundaries(const IntegerMatrix &xx,
                                   int directions) {
 
     IntegerMatrix x = add_padding(xx);
