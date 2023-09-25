@@ -19,9 +19,10 @@ test_that("lsm_l_shei returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
-landscape[] = 1
 test_that("lsm_l_shei returns 0 when only one patch present", {
-    expect_equal(lsm_l_shei(landscape)$value, 0)
+    landscape_simple <- landscape
+    landscape_simple[] = 1
+    expect_equal(lsm_l_shei(landscape_simple)$value, 0)
 })
 
 test_that("lsm_l_shei equals FRAGSTATS", {
