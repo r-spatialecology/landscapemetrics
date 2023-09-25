@@ -52,3 +52,14 @@ test_that("lsm_l_te is the same if count_boundary = FALSE", {
     expect_true(all(result_l_cbF$value == result_cbF$value))
     expect_true(all(result_l_cbT$value == max(result_cbT$value)))
 })
+
+test_that("lsm_l_te equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_te(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_te(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "te") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "te") |> dplyr::pull(value)
+
+    expect_equal(object = lsm_landscape, expected = fs_landcape)
+    expect_equal(object = lsm_augusta, expected = fs_augusta)
+})

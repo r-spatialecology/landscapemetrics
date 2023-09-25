@@ -17,7 +17,7 @@ test_that("lsm_c_ai handles NAs correctly", {
     r[1, 1] <- NA
     expect_equal(lsm_c_ai(r)$value, 100)
     r[2, 5] <- NA
-    expect_equal(lsm_c_ai(r)$value, 98.86364, tolerance = .00001)
+    expect_equal(lsm_c_ai(r)$value, 98.86364, tolerance = 0.00001)
 })
 
 test_that("lsm_c_ai returns in every column the correct type", {
@@ -29,3 +29,13 @@ test_that("lsm_c_ai returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_ai equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_ai(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_ai(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "ai") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "ai") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+})

@@ -19,4 +19,15 @@ test_that("lsm_p_ncore returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
 
+# MH: augusta_nlcd is a bit off
 
+test_that("lsm_p_ncore equals FRAGSTATS", {
+    lsm_landscape <- lsm_p_ncore(landscape) |> dplyr::pull(value)
+    # lsm_augusta <- lsm_p_ncore(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "ncore") |> dplyr::pull(value)
+    # fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "ncore") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape))
+    # expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta))
+})

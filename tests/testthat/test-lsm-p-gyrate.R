@@ -26,3 +26,17 @@ test_that("lsm_p_gyrate returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$metric, "character")
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
+
+# https://fragstats.org/index.php/fragstats-metrics/area-and-edge-metrics/p3-radius-of-gyration
+# GYRATE = 0 when the patch consists of a single cell and increases without limit as the patch increases in extent
+
+# test_that("lsm_p_frac equals FRAGSTATS", {
+#     lsm_landscape <- lsm_p_gyrate(landscape) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+#     lsm_augusta <- lsm_p_gyrate(augusta_nlcd) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+#
+#     fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "gyrate") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+#     fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "gyrate") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+#
+#     expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
+#     expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+# })

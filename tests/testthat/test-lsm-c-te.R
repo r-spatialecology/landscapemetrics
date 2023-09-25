@@ -47,3 +47,25 @@ test_that("lsm_c_te is the same if count_boundary = FALSE and vice versa", {
     expect_true(result_cbF$value[[1]] == result_cbF$value[[2]])
     expect_true(result_cbT$value[[1]] != result_cbF$value[[2]])
 })
+
+test_that("lsm_c_te equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_te(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_te(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "te") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "te") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape))
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta))
+})
+
+test_that("lsm_c_te equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_te(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_te(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "te") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "te") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+})

@@ -18,5 +18,3 @@ test_that("lsm_c_area_mn returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$metric, "character")
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
-
-

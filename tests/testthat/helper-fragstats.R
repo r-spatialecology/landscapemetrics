@@ -1,7 +1,7 @@
 # import and reshape FRAGSTATS v2.0 results
 
-fragstats_patch <- c(landscape = testthat::test_path("fragstats", "landscape.patch"),
-                     augusta_nlcd = testthat::test_path("fragstats", "augusta_nlcd.patch")) |>
+fragstats_patch <- c(landscape = testthat::test_path("results-fragstats", "landscape.patch"),
+                     augusta_nlcd = testthat::test_path("results-fragstats", "augusta_nlcd.patch")) |>
     lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
     dplyr::bind_rows(.id = "LID") |>
     tidyr::pivot_longer(cols = -c("LID", "PID", "TYPE"), names_to = "metric") |>
@@ -9,8 +9,8 @@ fragstats_patch <- c(landscape = testthat::test_path("fragstats", "landscape.pat
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")),
                   metric = stringr::str_to_lower(metric))
 
-fragstats_class <- c(landscape = testthat::test_path("fragstats", "landscape.class"),
-                     augusta_nlcd = testthat::test_path("fragstats", "augusta_nlcd.class")) |>
+fragstats_class <- c(landscape = testthat::test_path("results-fragstats", "landscape.class"),
+                     augusta_nlcd = testthat::test_path("results-fragstats", "augusta_nlcd.class")) |>
     lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
     dplyr::bind_rows(.id = "LID") |>
     tidyr::pivot_longer(cols = -c("LID", "TYPE"), names_to = "metric") |>
@@ -18,8 +18,8 @@ fragstats_class <- c(landscape = testthat::test_path("fragstats", "landscape.cla
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")),
                   metric = stringr::str_to_lower(metric))
 
-fragstats_landscape <- c(landscape = testthat::test_path("fragstats", "landscape.land"),
-                     augusta_nlcd = testthat::test_path("fragstats", "augusta_nlcd.land")) |>
+fragstats_landscape <- c(landscape = testthat::test_path("results-fragstats", "landscape.land"),
+                     augusta_nlcd = testthat::test_path("results-fragstats", "augusta_nlcd.land")) |>
     lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
     dplyr::bind_rows(.id = "LID") |>
     tidyr::pivot_longer(cols = -c("LID"), names_to = "metric") |>

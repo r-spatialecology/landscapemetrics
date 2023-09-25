@@ -19,4 +19,13 @@ test_that("lsm_p_frac returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
 
+test_that("lsm_p_frac equals FRAGSTATS", {
+    lsm_landscape <- lsm_p_frac(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_p_frac(augusta_nlcd) |> dplyr::pull(value)
 
+    fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "frac") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "frac") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+})

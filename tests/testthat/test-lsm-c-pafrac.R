@@ -31,3 +31,14 @@ test_that("lsm_c_pafrac throws warning for less than 10 patches",  {
                    regexp = "Class 1: PAFRAC = NA for class with < 10 patches",
                    fixed = TRUE)
 })
+
+test_that("lsm_c_pafrac equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_pafrac(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_pafrac(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "pafrac") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "pafrac") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+})

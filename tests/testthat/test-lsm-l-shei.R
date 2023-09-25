@@ -24,3 +24,13 @@ test_that("lsm_l_shei returns 0 when only one patch present", {
     expect_equal(lsm_l_shei(landscape)$value, 0)
 })
 
+test_that("lsm_l_shei equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_shei(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_shei(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "shei") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "shei") |> dplyr::pull(value)
+
+    expect_equal(object = lsm_landscape, expected = fs_landcape, tolerance = 0.01)
+    expect_equal(object = lsm_augusta, expected = fs_augusta, tolerance = 0.01)
+})

@@ -29,3 +29,14 @@ test_that("lsm_l_iji returns warning for less than 3 classes", {
                    fixed = TRUE)
 })
 
+test_that("lsm_l_iji equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_iji(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_iji(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "iji") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "iji") |> dplyr::pull(value)
+
+    expect_equal(object = lsm_landscape, expected = fs_landcape, tolerance = 0.01)
+    expect_equal(object = lsm_augusta, expected = fs_augusta, tolerance = 0.01)
+})
+

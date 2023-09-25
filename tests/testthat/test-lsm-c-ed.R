@@ -19,3 +19,13 @@ test_that("lsm_c_ed returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_ed equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_ed(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_ed(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landcape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "ed") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "ed") |> dplyr::pull(value)
+
+    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape))
+    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+})
