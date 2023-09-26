@@ -83,7 +83,6 @@ cv <- function(x) {
 ```
 
 ```{r}
-
 # CV calculated from patch values of FRAGSTATS 
 fs_calculated <- fs_patch_landscape |>
     dplyr::group_by(TYPE) |>
@@ -116,10 +115,12 @@ cv_full <- dplyr::full_join(x = fragstats, y = lsm,
 ```
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(cv_full)
-    ```
+<summary>Click for details</summary>
+
+```{r, include = TRUE, echo = FALSE}
+knitr::kable(cv_full)
+```
+    
 </details> 
 
 As for the *cv*, there are also minor differences for the *sd*. 
@@ -158,10 +159,12 @@ sd_full <- dplyr::full_join(x = fragstats, y = lsm,
 ```
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(sd_full)
-    ```
+<summary>Click for details</summary>
+
+```{r, include = TRUE, echo = FALSE}}
+knitr::kable(sd_full)
+```
+
 </details> 
 
 ## Specific differences
@@ -191,10 +194,12 @@ lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_gyrate")) |>
 ```
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(cbind(fs, lsm))
-    ```
+<summary>Click for details</summary>
+
+```{r, include = TRUE, echo = FALSE}
+knitr::kable(cbind(fs, lsm))
+```
+
 </details> 
 
 Additionally, we recognized small differences for all other patches as well.
@@ -228,10 +233,12 @@ lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_perim", "lsm_p_par
 ```
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(cbind(fs, lsm))
-    ```
+<summary>Click for details</summary>
+
+```{r, include = TRUE, echo = FALSE}
+knitr::kable(cbind(fs, lsm))
+```
+
 </details> 
 
 ### CIRCLE metric
@@ -258,10 +265,12 @@ lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
 ```
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(cbind(fs, lsm))
-    ```
+<summary>Click for details</summary>
+  
+```{r, include = TRUE, echo = FALSE}
+knitr::kable(cbind(fs, lsm))
+```
+
 </details> 
 
 It seems like FRAGSTATS uses the largest distance between the corner points of the cells to calculate the diameter of the circumscribing circle.
@@ -342,10 +351,11 @@ patch_metrics <- calculate_lsm(landscape, what = "patch")
 ``` 
 
 <details>
-  <summary>Click for details</summary>
-    ```{r, echo = FALSE, eval = TRUE}
-    knitr::kable(sdmtools_result)
-    ```
+<summary>Click for details</summary>
+
+```{r, include = TRUE, echo = FALSE}
+knitr::kable(sdmtools_result)
+```
 </details> 
 
 ### References 
