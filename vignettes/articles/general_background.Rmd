@@ -32,8 +32,8 @@ Because **landscapemetrics** deals with categorical data, each cell has to be as
 These classes must be positive integer numbers. 
 
 ```{r fig.height=4, fig.align="center", fig.cap="Fig 1.: a) and b) are the same landscape, but with a continous  (a) and categorical (b) representation. A continuous landscape would typically be expected from remote sensing imagery or interpolated enviromental data. Categorical landscapes are mostly classified as percieved by humans, e.g. in land cover and use classes.", echo = FALSE, results = TRUE, message = FALSE, warning = FALSE, error = FALSE}
-lsm_a <- terra::rast(landscapemetrics:::landscape_background$continous)
-lsm_b <- terra::rast(landscapemetrics:::landscape_background$categorical)
+lsm_a <- terra::rast(landscapemetrics:::internal_data$landscape_background$continous)
+lsm_b <- terra::rast(landscapemetrics:::internal_data$landscape_background$categorical)
 
 par(mfrow = c(1, 2))
 plot(lsm_a, col = grDevices::terrain.colors(n = 255), axes = FALSE, main = "a) Continous ")

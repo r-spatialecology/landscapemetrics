@@ -28,14 +28,14 @@ library(tidyr)
 # internal data needs to be read
 landscape <- terra::rast(landscapemetrics::landscape)
 
-fs_patch_landscape <- read.table(file = "tests/testthat/results-fragstats/landscape.patch", 
-                                 sep  = ",", header = TRUE, na.strings = " N/A ") |>
+fs_patch_landscape <- landscapemetrics:::internal_data$fs_data$patch |> 
+    dplyr::filter(LID == "landscape") |> 
     dplyr::select(-LID) |> 
     dplyr::mutate(TYPE = stringr::str_remove_all(TYPE, pattern = " "),
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")))
 
-fs_class_landscape <- read.table(file = "tests/testthat/results-fragstats/landscape.class", 
-                                 sep  = ",", header = TRUE, na.strings = " N/A ") |>
+fs_class_landscape <- landscapemetrics:::internal_data$fs_data$class |> 
+    dplyr::filter(LID == "landscape") |> 
     dplyr::select(-LID) |> 
     dplyr::mutate(TYPE = stringr::str_remove_all(TYPE, pattern = " "),
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")))
