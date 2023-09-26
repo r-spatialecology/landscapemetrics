@@ -282,6 +282,20 @@ Click for details
 <h3 id="specific-differences">Specific differences<a class="anchor" aria-label="anchor" href="#specific-differences"></a>
 </h3>
 <div class="section level4">
+<h4 id="all-core-related-metrics">All core-related metrics<a class="anchor" aria-label="anchor" href="#all-core-related-metrics"></a>
+</h4>
+<p>Different definitions of the core area of a patch result in
+differences for all metrics that somehow related on the core area or
+number of disjunct core areas. <strong>landscapemetrics</strong> uses a
+cell-centered definition of the core area, namely “a cell is defined as
+core area if the cell has no neighbour with a different value than
+itself (rook’s case).” Contrastingly, FRAGSTATS uses “[…] a method
+involving the use of a variably-sized masked placed on cells on the
+perimeter of a patch […]”. Especially for patches with rather
+complicated shapes this seem to result in different core-metric
+values.</p>
+</div>
+<div class="section level4">
 <h4 id="gyrate-metric">GYRATE metric<a class="anchor" aria-label="anchor" href="#gyrate-metric"></a>
 </h4>
 <p>According to FRAGSTATS the radius of gyration for a patch consisting
