@@ -1,3 +1,49 @@
+prepare_extras_spatial <- function(metrics, landscape){
+    extras_df_sub <- subset(extras_df, metric %in% metrics)
+    extras_list <- unique(extras_df_sub$extras)
+
+    extras <- list()
+    if (any(c("enn_patch", "points") %in% extras_list)){
+        extras$points <- raster_to_points(landscape)[, 2:4]
+    }
+    if (any(c("area_patches", "resolution") %in% extras_list)){
+        extras$resolution <- terra::res(landscape)
+    }
+
+    return(extras)
+}
+
+prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, extras){
+    extras_df_sub <- subset(extras_df, metric %in% metrics)
+    extras_list <- unique(extras_df_sub$extras)
+
+    if (any(c("area_patches", "enn_patch", "class_patches", "classes")  %in% extras_list)){
+        extras$classes <- get_unique_values_int(landscape, verbose = FALSE)
+    }
+    if (any(c("area_patches", "enn_patch", "class_patches") %in% extras_list)){
+        extras$class_patches <- get_class_patches(landscape, extras$classes, directions)
+    }
+    if ("area_patches" %in% extras_list){
+        extras$area_patches <- get_area_patches(extras$class_patches, extras$classes, extras$resolution)
+    }
+    if ("composition_vector" %in% extras_list){
+        extras$composition_vector <- rcpp_get_composition_vector(landscape)
+    }
+    if (any(c("comp", "neighbor_matrix") %in% extras_list)){
+        extras$neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
+    }
+    if ("comp" %in% extras_list){
+        extras$comp <- rcpp_get_entropy(colSums(extras$neighbor_matrix), base)
+    }
+    if ("cplx" %in% extras_list){
+        extras$cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    }
+    if ("enn_patch" %in% extras_list){
+        extras$enn_patch <- get_enn_patch(extras$classes, extras$class_patches, extras$points)
+    }
+    return(extras)
+}
+
 get_class_patches <- function(landscape, classes, directions){
     class_patches <- lapply(classes, function(patches_class){
                 landscape_labeled <- get_patches_int(landscape,

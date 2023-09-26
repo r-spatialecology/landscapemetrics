@@ -164,34 +164,13 @@ calculate_lsm_internal <- function(landscape,
     number_metrics <- length(metrics_calc)
 
     # PREPARE EXTRAS
-    # toDo: a check if extras are needed would be necessary
-    # get coordinates of cells
-    points <- raster_to_points(landscape)[, 2:4]
-    # resolution of original raster
-    resolution <- terra::res(landscape)
-    area_patches <- get_area_patches(class_patches, classes, terra::res(landscape))
-    # convert to matrix
+    extras <- prepare_extras_spatial(metrics, landscape)    
+    # convert to matrix !!
     landscape <- terra::as.matrix(landscape, wide = TRUE)
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
-    class_patches <- get_class_patches(landscape, classes, directions = directions)
-    composition_vector <- rcpp_get_composition_vector(landscape)
-    neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
-    comp <- rcpp_get_entropy(colSums(neighbor_matrix), base)
-    cplx <- get_complexity(landscape, neighbourhood, ordered, base)
-    enn_patch <- get_enn_patch(classes, class_patches, points)
 
-    extras <- list(
-        points = points,
-        resolution = resolution,
-        classes = classes,
-        class_patches = class_patches,
-        area_patches = area_patches,
-        neighbor_matrix = neighbor_matrix,
-        composition_vector = composition_vector,
-        comp = comp,
-        cplx = cplx,
-        enn_patch = enn_patch
-    )
+    extras <- prepare_extras_nonspatial(metrics, landscape, directions, neighbourhood,
+                                        ordered, base, extras)
+    #print(names(extras))
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
         # print progess using the non-internal name
