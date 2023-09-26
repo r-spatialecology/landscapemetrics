@@ -10,11 +10,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, eval = TRUE)
+```{r setup, include = FALSE}
+# knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r load_libraries_hidden, message = FALSE, warning = FALSE, include = FALSE}
+```{r load_libraries_hidden, message = FALSE, warning = FALSE}
 library(landscapemetrics)
 
 library(dplyr)
@@ -41,8 +41,6 @@ fs_class_landscape <- landscapemetrics:::internal_data$fs_data$class |>
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")))
 
 ```
-
-**The comparison is currently outdated because the example landscape slightly changed and we trying to re-calculate the FRAGSTATS results currently.**
 
 # Comparison with FRAGSTATS
 
@@ -114,7 +112,7 @@ cv_full <- dplyr::full_join(x = fragstats, y = lsm,
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1"> Show/Hide Results </button>  
 <div id="1" class="collapse">
 
-```{r}
+```{r, }
 knitr::kable(cbind(cv_full))
 ```
 
