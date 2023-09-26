@@ -1,20 +1,23 @@
 ---
-title: "Differences FRAGSTATS|landscapemetrics|SDMTools"
+title: "Differences to FRAGSTATS"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Differences FRAGSTATS|landscapemetrics|SDMTools}
+  %\VignetteIndexEntry{Differences to FRAGSTATS}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
 
+<!-- echo = FALSE hides the code, but will evaluate it and show its output in the knit. -->
+<!-- include = FALSE hides the code AND the output from the knit, but will evaluate the code silently. -->
+
 ```{r setup, include = FALSE}
-# knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = FALSE)
 ```
 
-```{r load_libraries_hidden, message = FALSE, warning = FALSE}
+```{r load_libraries_hidden}
 library(landscapemetrics)
 
 library(dplyr)
@@ -45,38 +48,41 @@ fs_class_landscape <- landscapemetrics:::internal_data$fs_data$class |>
 # Comparison with FRAGSTATS
 
 **landscapemetrics** re-implements landscape metrics as they are mostly described in the FRAGSTATS software (McGarigal *et al.* 2023). 
-Therefore, we compared our results with the results of FRAGSTATS.
+Therefore, we compare our results with the results of FRAGSTATS.
 In the process, we recognized a few differences between the results. 
-
 Some metrics in FRAGSTATS are interdependent across scales. 
 Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level.
-We list the metrics with deviations at the lowest level.
-
+In this document, we list the metrics with deviations at the lowest level only.
 Unfortunately, we do not have access to the source code of FRAGSTATS. 
-Therefore, we are not able to finally explain the present differences between the results, nevertheless, we try to guess the most likely reasons.
+Therefore, we are not able to finally explain all present differences of results.
 
 ## General differences
 
 Firstly, the patch ID is ordered in a different way, due to technical reasons (how connected patches are specified).
 Therefore, one has to pay attention comparing the results on patch level for FRAGSTATS and **landscapemetrics**.
 
-All double precision floating point numbers are rounded after the 4th decimal place in FRAGSTATS.
+All double precision floating point numbers are rounded in FRAGSTATS.
 Contrastingly, we do not round the numbers.
 Naturally, this can lead to small deviations between the results.
+However, these small differences should have no influence on any interpretation of the results.
 
-There are quite a few metrics on class- and landscape-level that summarise patch level metrics (e.g., the mean, standard deviation (*sd*) or coefficient of variation (*cv*) of all values belonging to class *i*).
-While the results are identical for single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and FRAGSTATS for the standard deviation and the coefficient of variation.
-**landscapemetrics** uses base `R` functions for that, so we should assume that the calculation of such indices is correct.
+There are quite a few metrics on class- and landscape-level that summarize patch level metrics (e.g., the mean, standard deviation (*sd*) or coefficient of variation (*cv*) of all values belonging to class *i*).
+While the results are identical for single patches and the mean of all patches, there are some slight differences between **lanscapemetrics** and FRAGSTATS for the *sd* and the *cv*.
+**landscapemetrics** uses base `R` functions and standard statistical definitions to summarize the patch level metrics.
+Again, difference are only very minor and should not affect interpretation of the results.
+In the following, we are comparing the *cv* and *sd* for the patch area. 
 
-In the following, we are comparing the *cv* for the patch area. 
 We are including the *cv* calculated from all patch areas and the actual output of FRAGSTATS as well as the output of **landscapemetrics**.
-Interestingly, the *cv* calculated from all patches of FRAGSTATS is identical to the cv of **landscapemetrics**, but the actual result of FRAGSTATS is slightly different.
+Interestingly, the *cv* calculated from all patches of FRAGSTATS is identical to the *cv* of **landscapemetrics**, but the already summarized result of FRAGSTATS is slightly different.
 
-```{r}
+```{r, include = TRUE}
 # function to calculate coefficient of variation
 cv <- function(x) {
     (sd(x) / mean(x)) * 100
 }
+```
+
+```{r}
 
 # CV calculated from patch values of FRAGSTATS 
 fs_calculated <- fs_patch_landscape |>
@@ -112,14 +118,14 @@ cv_full <- dplyr::full_join(x = fragstats, y = lsm,
 <button class="btn btn-primary" data-toggle="collapse" data-target="#1"> Show/Hide Results </button>  
 <div id="1" class="collapse">
 
-```{r, }
+```{r, include = TRUE}
 knitr::kable(cbind(cv_full))
 ```
 
 </div>
 
-As for the *cv*, the results for the *sd* are similar. 
-The result calculated from all patch areas of FRAGSTATS is identical to the result of **landscapemetrics**, but not the actual result of FRAGSTATS.
+As for the *cv*, there are also minor differences for the *sd*. 
+The result calculated from all patch areas of FRAGSTATS is identical to the result of **landscapemetrics**, but not the summarized result of FRAGSTATS.
 
 ```{r}
 # SD calculated from patch values of FRAGSTATS
@@ -156,7 +162,7 @@ sd_full <- dplyr::full_join(x = fragstats, y = lsm,
 <button class="btn btn-primary" data-toggle="collapse" data-target="#2"> Show/Hide Results </button>  
 <div id="2" class="collapse">
 
-```{r}
+```{r, include = TRUE}
 knitr::kable(cbind(sd_full))
 ```
 
@@ -200,20 +206,6 @@ knitr::kable(cbind(fs, lsm))
 Additionally, we recognized small differences for all other patches as well.
 However, we could not find an explanation for this difference, yet.
 
-#### Error propagation (for metrics based on *GYRATE* metric)
-
-##### Class level
-
-- GYRATE_CV (`lsm_c_gyrate_cv`)
-- GYRATE_MN (`lsm_c_gyrate_mn`)
-- GYRATE_SD (`lsm_c_gyrate_sd`)
-
-##### Landscape level
-
-- GYRATE_CV (`lsm_l_gyrate_cv`)
-- GYRATE_MN (`lsm_l_gyrate_mn`)
-- GYRATE_SD (`lsm_l_gyrate_sd`)
-
 ### PARA metric
 
 The documentation of FRAGSTATS defines the perimeter-area ratio the following: 
@@ -235,27 +227,20 @@ fs <- fs_patch_landscape |>
 lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_perim", "lsm_p_para")) |> 
     dplyr::select(-layer, -level, -class) |> 
     tidyr::pivot_wider(names_from = "metric", values_from = "value") |> 
-    dplyr::mutate(lsm_para_ha = perim / area, lsm_para_m = perim / (area * 10000)) |> 
-    dplyr::select(id, area, perim, para, lsm_para_ha, lsm_para_m) |> 
-    purrr::set_names("lsm_id", "lsm_area", "lsm_perim", "lsm_para", "lsm_para_ha", "lsm_para_m") |>
+    dplyr::mutate(lsm_para_ha = perim / area) |> 
+    dplyr::select(id, area, perim, para, lsm_para_ha) |> 
+    purrr::set_names("lsm_id", "lsm_area", "lsm_perim", "lsm_para", "lsm_para_ha") |>
     dplyr::arrange(lsm_area)
 ```
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#4"> Show/Hide Results </button>  
 <div id="4" class="collapse">
 
-```{r}
+```{r, include = TRUE}
 knitr::kable(cbind(fs, lsm))
 ```
 
 </div>
-
-#### Error propagation (for metrics based on **PARA** metric)
-
-##### Class level
-
-- PARA_MN (`lsm_c_para_mn`)
-- PARA_SD (`lsm_c_para_sd`)
 
 ### CIRCLE metric
 
@@ -283,7 +268,7 @@ lsm <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
 <button class="btn btn-primary" data-toggle="collapse" data-target="#5"> Show/Hide Results </button>  
 <div id="5" class="collapse">
 
-```{r}
+```{r, include = TRUE}
 knitr::kable(cbind(fs, lsm))
 ```
 
@@ -324,11 +309,13 @@ circle_max_dist <- construct_buffer(coords = matrix(c(6.5, 7.5), nrow = 1, ncol 
                                     shape = "circle", size = circle_max_dist / 2,
                                     return_vec = FALSE)
 
+```
+
+```{r, include = TRUE, echo = FALSE, fig.align = "center"}
 # plot results
 plot(ras, col = "#D5B528", legend = FALSE)
 polygon(circle_lsm, border = "#84A98E", lwd = 2.5) # green circle
 polygon(circle_max_dist, border = "#922418", lwd = 2.5) # red circle
-
 ```
 
 # Comparison with SDMTools
@@ -367,13 +354,13 @@ patch_metrics <- calculate_lsm(landscape, what = "patch")
 <button class="btn btn-primary" data-toggle="collapse" data-target="#6"> Show/Hide Results </button>  
 <div id="6" class="collapse">
 
-```{r}
+```{r, include = TRUE}
 knitr::kable(sdmtools_result)
 ```
 
 </div>
 
-## References 
+### References 
 
 - McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis Program for Categorical Maps. Computer software program produced by the authors; available at the following web site: https://www.fragstats.org
 - Jeremy VanDerWal, Lorena Falconi, Stephanie Januchowski, Luke Shoo and Collin Storlie (2014). SDMTools: Species Distribution Modelling Tools: Tools for processing data associated with species distribution modelling exercises. R package version 1.1-221. https://CRAN.R-project.org/package=SDMTools
