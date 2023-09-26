@@ -165,6 +165,11 @@ knitr::kable(sd_full)
 
 ## Specific differences
 
+### All core-related metrics
+
+Different definitions of the core area of a patch result in differences for all metrics that somehow related on the core area or number of disjunct core areas. **landscapemetrics** uses a cell-centered definition of the core area, namely "a cell is defined as core area if the cell has no neighbour with a different value than itself (rook's case)."
+Contrastingly, FRAGSTATS uses "[...] a method involving the use of a variably-sized masked placed on cells on the perimeter of a patch [...]". Especially for patches with rather complicated shapes this seem to result in different core-metric values.
+
 ### GYRATE metric
 
 According to FRAGSTATS the radius of gyration for a patch consisting of only a single cell should equal GYRATE = 0.
