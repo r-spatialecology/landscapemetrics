@@ -75,7 +75,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # raster resolution not identical in x-y directions
-    if (!resolution_x == resolution_y) {
+    if (!all.equal(resolution_x, resolution_y)) {
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,
@@ -107,7 +107,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         landscape_labeled[target_na] <- -999
 
         # x-y resolution is identical
-        if (resolution_x == resolution_y) {
+        if (all.equal(resolution_x, resolution_y)) {
 
             # get coocurrence matrix
             neighbour_matrix <- rcpp_get_coocurrence_matrix_single(landscape_labeled,
