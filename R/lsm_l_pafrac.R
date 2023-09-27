@@ -66,10 +66,12 @@ lsm_l_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_l_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+    if (is.null(extras)){
+        metrics <- "lsm_l_pafrac"
+        extras <- prepare_extras_spatial(metrics, landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -95,8 +97,7 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
         pafrac <-  NA
 
         if (verbose) {
-            warning("PAFRAC = NA for NP < 10",
-                    call. = FALSE)
+            warning("PAFRAC = NA for NP < 10", call. = FALSE)
         }
 
     # calculate pafrac as regression between area and perimeter (beta)

@@ -6,7 +6,8 @@ get_extras_per_file = function(input_fun, lsm_dir, all_extras){
     t1 = readLines(my_files)
     new_df = data.frame(metric = input_fun,
                extras = stringr::str_replace_all(all_extras, "extras\\\\\\$", ""))
-    new_df$used = unlist(lapply(all_extras, \(x) any(stringr::str_detect(t1, x))))
+    new_df$used = unlist(lapply(paste0(all_extras, "$"),
+                                \(x) any(stringr::str_detect(t1, x))))
     new_df = subset(new_df, used)
     return(new_df)
 }
@@ -22,7 +23,6 @@ db_extras1 = map_df(all_lsms$function_name,
     get_extras_per_file, 
     lsm_dir = "~/Software/landscapemetrics/",
     all_extras = all_extras)
-db_extras1
 
 # 2. check which functions are using extras indirectly
 get_int_functions = function(function_name1){
@@ -32,8 +32,16 @@ get_int_functions = function(function_name1){
     data.frame(mainmetric = function_name1, usedmetric = int_functions2)
 }
 
-sel_intfuns = map_df(all_lsms$function_name, get_int_functions) |> 
+sel_intfuns_1degree = map_df(all_lsms$function_name, get_int_functions) |> 
     filter(str_detect(usedmetric, "^lsm"))
+sel_intfuns_2degree = map_df(unique(sel_intfuns_1degree$usedmetric), get_int_functions) |> 
+    filter(str_detect(usedmetric, "^lsm"))
+sel_intfuns_2degree = left_join(sel_intfuns_1degree, sel_intfuns_2degree, by = c("usedmetric" = "mainmetric"), 
+    relationship = "many-to-many") |>
+    select(mainmetric, usedmetric = usedmetric.y) |>
+    filter(!is.na(usedmetric))
+
+sel_intfuns = rbind(sel_intfuns_1degree, sel_intfuns_2degree)
 
 # 3. join them
 db_extras2 = left_join(sel_intfuns, db_extras1, by = c("usedmetric" = "metric"), 
@@ -42,5 +50,6 @@ db_extras2 = left_join(sel_intfuns, db_extras1, by = c("usedmetric" = "metric"),
     select(metric = mainmetric, extras, used)
 
 extras_df = rbind(db_extras1, db_extras2) |> select(-used) |>
-    distinct(metric, extras)
+    distinct(metric, extras) |> 
+    arrange(metric)
 usethis::use_data(extras_df, overwrite = TRUE, internal = TRUE)

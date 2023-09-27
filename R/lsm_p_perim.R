@@ -52,10 +52,12 @@ lsm_p_perim <- function(landscape, directions = 8) {
 
 lsm_p_perim_calc <- function(landscape, directions, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_p_perim"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -68,17 +70,11 @@ lsm_p_perim_calc <- function(landscape, directions, extras = NULL) {
     }
 
     # get unique classes
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-        resolution_x <- extras$resolution[[1]]
-        resolution_y <- extras$resolution[[2]]
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        resolution_x <- resolution[[1]]
-        resolution_y <- resolution[[2]]
-    }
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    resolution <- extras$resolution
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     # raster resolution not identical in x-y directions
     if (!resolution_x == resolution_y) {

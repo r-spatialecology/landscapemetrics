@@ -13,10 +13,13 @@ prepare_extras_spatial <- function(metrics, landscape){
     return(extras)
 }
 
-prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, extras){
+prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, extras = NULL){
     extras_df_sub <- subset(extras_df, metric %in% metrics)
     extras_list <- unique(extras_df_sub$extras)
 
+    if (is.null(extras)){
+        extras <- list()
+    }
     if (any(c("area_patches", "enn_patch", "class_patches", "classes")  %in% extras_list)){
         extras$classes <- get_unique_values_int(landscape, verbose = FALSE)
     }

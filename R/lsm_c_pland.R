@@ -56,6 +56,14 @@ lsm_c_pland <- function(landscape, directions = 8) {
 
 lsm_c_pland_calc <- function(landscape, directions, extras = NULL){
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_pland"
+        extras <- prepare_extras_spatial(metrics, landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
+    }
+
     pland <- lsm_p_area_calc(landscape,
                              directions = directions,
                              extras = extras)

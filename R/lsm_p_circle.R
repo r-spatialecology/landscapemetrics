@@ -69,18 +69,15 @@ lsm_p_circle <- function(landscape, directions = 8) {
 
 lsm_p_circle_calc <- function(landscape, directions, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-
-        # get resolution
-        resolution <- terra::res(landscape)
-        # convert to matrix
+    if (is.null(extras)){
+        metrics <- "lsm_p_circle"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
-    if (!is.null(extras)){
-        resolution <- extras$resolution
-    }
+    resolution <- extras$resolution
 
     # check if resolution is identical
     if (!isTRUE(all.equal(resolution[1], resolution[2]))) {
@@ -107,13 +104,8 @@ lsm_p_circle_calc <- function(landscape, directions, extras = NULL) {
     area_patch <- area_patch$value * 10000
 
     # get unique classes
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-    }
+    classes <- extras$classes
+    class_patches <- extras$class_patches
 
     circle_patch <- do.call(rbind,
                             lapply(classes, function(patches_class) {

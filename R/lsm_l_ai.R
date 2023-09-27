@@ -3,7 +3,9 @@
 #' @description Aggregation index (Aggregation metric)
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
-#'
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' 
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
 #'
@@ -41,10 +43,11 @@
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
-lsm_l_ai <- function(landscape) {
+lsm_l_ai <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
+                     directions = directions,
                      FUN = lsm_l_ai_calc)
 
     layer <- rep(seq_along(result),
@@ -55,12 +58,14 @@ lsm_l_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, extras = NULL) {
+lsm_l_ai_calc <- function(landscape, directions, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_l_ai"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA

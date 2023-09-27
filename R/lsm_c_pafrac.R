@@ -66,10 +66,12 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_c_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_c_pafrac"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA

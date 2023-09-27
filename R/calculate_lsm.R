@@ -201,7 +201,7 @@ calculate_lsm_internal <- function(landscape,
     if (full_name == TRUE) {
 
         col_ordering <- c("level", "class", "id", "metric", "value",
-                          "name", "type", "function_name",#"time"
+                          "name", "type", "function_name"#,"time"
                           )
 
         result <- merge(x = result,
@@ -209,7 +209,7 @@ calculate_lsm_internal <- function(landscape,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 
-        result <- tibble::as_tibble(result[,col_ordering])
+        result <- tibble::as_tibble(result[, col_ordering])
     }
 
     if (progress) {

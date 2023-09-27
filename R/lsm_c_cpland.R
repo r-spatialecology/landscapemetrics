@@ -62,10 +62,12 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
 
 lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
-    # conver to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_c_cpland"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA

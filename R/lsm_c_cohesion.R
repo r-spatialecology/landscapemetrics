@@ -61,10 +61,12 @@ lsm_c_cohesion <- function(landscape, directions = 8) {
 
 lsm_c_cohesion_calc <- function(landscape, directions, extras = NULL) {
 
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_c_cohesion"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -84,9 +86,7 @@ lsm_c_cohesion_calc <- function(landscape, directions, extras = NULL) {
                                   directions = directions,
                                   extras = extras)
 
-    if (!is.null(extras)){
-        resolution <- extras$resolution
-    }
+    resolution <- extras$resolution
     
     # get number of cells for each patch -> area = n_cells * res / 10000
     patch_area$ncells <- patch_area$value * 10000 / prod(resolution)

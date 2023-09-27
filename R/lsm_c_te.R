@@ -60,10 +60,12 @@ lsm_c_te <- function(landscape,
 
 lsm_c_te_calc <- function(landscape, count_boundary, directions, extras = NULL) {
 
-    # convert raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_c_te"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -76,17 +78,11 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     }
 
     # get class id
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-        resolution_x <- extras$resolution[[1]]
-        resolution_y <- extras$resolution[[2]]
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        resolution_x <- resolution[[1]]
-        resolution_y <- resolution[[2]]
-    }
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    resolution <- extras$resolution
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     if (length(classes) == 1 && !count_boundary) {
 

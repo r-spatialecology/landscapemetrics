@@ -63,10 +63,12 @@ lsm_p_area <- function(landscape, directions = 8) {
 
 lsm_p_area_calc <- function(landscape, directions, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_p_area"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -79,15 +81,9 @@ lsm_p_area_calc <- function(landscape, directions, extras = NULL){
     }
 
     # get unique class id
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-        area_patches <- extras$area_patches
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        area_patches <- get_area_patches(class_patches, classes, resolution)
-    }
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    area_patches <- extras$area_patches
 
     area_patch <- do.call(rbind,
                           lapply(classes, function(patches_class){

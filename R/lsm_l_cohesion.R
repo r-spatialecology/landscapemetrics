@@ -56,10 +56,12 @@ lsm_l_cohesion <- function(landscape, directions = 8) {
 
 lsm_l_cohesion_calc <- function(landscape, directions, extras = NULL) {
 
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_l_cohesion"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            directions = directions, extras = extras)
     }
 
     # all values NA
@@ -79,10 +81,7 @@ lsm_l_cohesion_calc <- function(landscape, directions, extras = NULL) {
                                     directions = directions,
                                     extras = extras)
 
-    if (!is.null(extras)){
-        resolution <- extras$resolution
-    }
-
+    resolution <- extras$resolution
     ncells_patch$value <- ncells_patch$value * 10000 / prod(resolution)
 
     # get perim for each patch

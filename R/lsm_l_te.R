@@ -56,10 +56,13 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
 
 lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
 
-    # conver raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (is.null(extras)){
+        metrics <- "lsm_l_te"
+        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+                                            neighbourhood = as.matrix(4),
+                                            extras = extras)
     }
 
     # all values NA
@@ -72,13 +75,9 @@ lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
     }
 
     # get resolution in x-y directions
-    if (!is.null(extras)){
-        resolution_x <- extras$resolution[[1]]
-        resolution_y <- extras$resolution[[2]]
-    } else {
-        resolution_x <- resolution[[1]]
-        resolution_y <- resolution[[2]]
-    }
+    resolution <- extras$resolution
+    resolution_x <- resolution[[1]]
+    resolution_y <- resolution[[2]]
 
     if (count_boundary) {
 
@@ -92,15 +91,16 @@ lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
 
         # set NA to background value
         landscape[is.na(landscape)] <- background_value
+
+        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(4))
+
+    } else {
+
+        neighbor_matrix <- extras$neighbor_matrix
+
     }
 
     if (resolution_x == resolution_y) {
-
-        if (!is.null(extras$neighbor_matrix)){
-            neighbor_matrix <- extras$neighbor_matrix
-        } else {
-            neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(4))
-        }
 
         edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) * resolution_x
 
