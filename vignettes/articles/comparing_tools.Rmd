@@ -238,6 +238,10 @@ knitr::kable(cbind(fs, lsm))
 ```
 </details> 
 
+### SHAPE metric
+
+We are following the definition provided in the latest version of the [FRAGSTATS manual](https://fragstats.org/index.php/fragstats-metrics/shape-metrics/p2-shape-index), in which the shape index is defined as the perimeter (m) divided by the square root of the area (m2) of patch *ij*, adjusted by a constant to adjust for a square standard. Yet, for some patches there are minor differences between **landscapemetrics** and FRAGSTATS.
+
 ### CIRCLE metric
 
 According to FRAGSTATS, for patches with only one cell CIRCLE = 0.
@@ -324,7 +328,7 @@ The main reason for this are different standard defaults (e.g., `SDMTools` alway
 
 To get all available metrics on, e.g., patch level with `SDMTools`, you have to make a binary landscape for every class in your landscape, perform connected components labelling on it and then calculate the patch metrics.
 
-```{r}
+```{r, include = TRUE}
 # binarize every class in the landscape and calculate patch metrics
 sdmtools_result <- lapply(terra::unique(landscape), FUN = function(x){
   tmp_land <- landscape
@@ -341,7 +345,7 @@ sdmtools_result <- dplyr::bind_rows(sdmtools_result, .id = "Class")
 **landscapemetrics** offers for such tasks the function `get_patches()` and for the metrics itself all of that is done internally.
 To get all metrics on patch level with **landscapemetrics** you could for example do:
 
-```{r}
+```{r, include = TRUE, eval = FALSE}
 patch_metrics <- calculate_lsm(landscape, what = "patch")
 ``` 
 
