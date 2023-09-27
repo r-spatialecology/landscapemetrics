@@ -203,15 +203,15 @@ level. Additionally, we want the patch area of each patch.</p>
 <span><span class="co">##    layer level class    id metric value</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     1 patch     1     1 shape   1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 shape   1.2 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 shape   1.76</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     1 patch     1     2 shape   1.34</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     1 patch     1     3 shape   1.77</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span>     1 patch     1     4 shape   1   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span>     1 patch     1     5 shape   1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 shape   1.89</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>     1 patch     1     6 shape   1.90</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span>     1 patch     1     7 shape   1.38</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 shape   1.25</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 shape   1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>     1 patch     2    10 shape   1.58</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     1 patch     1     8 shape   1.44</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     1 patch     1     9 shape   1.12</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>     1 patch     2    10 shape   1.63</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 18 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate area for each patch</span></span>
@@ -247,9 +247,9 @@ calculate the area-weighted mean on landscape-level, comment out the
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">##   class value.am</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1     1.73</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2     1.42</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3     1.91</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1     1.74</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2     1.46</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3     1.97</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="range">Range<a class="anchor" aria-label="anchor" href="#range"></a>
@@ -266,14 +266,14 @@ the <code><a href="https://rdrr.io/r/base/range.html" class="external-link">rang
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">##   class range</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1 0.889</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2 0.767</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3 0.965</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1 0.901</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2 0.633</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3 1.02</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># landscape level</span></span>
 <span><span class="va">metric_range_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">metric_patch</span><span class="op">$</span><span class="va">value</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">metric_range_l</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1.439394</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 1.351802</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="median">Median<a class="anchor" aria-label="anchor" href="#median"></a>
@@ -290,14 +290,14 @@ all values (landscape-level).</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">##   class median</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1   1.2 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2   1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3   1.55</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1   1.34</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2   1.06</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3   1.65</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># landscape level</span></span>
 <span><span class="va">metric_md_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/summarize-generics.html" class="external-link">median</a></span><span class="op">(</span><span class="va">metric_patch</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
 <span><span class="va">metric_md_l</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1.258333</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 1.337487</span></span></code></pre>
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>

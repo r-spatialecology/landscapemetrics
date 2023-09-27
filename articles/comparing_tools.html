@@ -732,6 +732,17 @@ Click for details
 </table></details>
 </div>
 <div class="section level4">
+<h4 id="shape-metric">SHAPE metric<a class="anchor" aria-label="anchor" href="#shape-metric"></a>
+</h4>
+<p>We are following the definition provided in the latest version of the
+<a href="https://fragstats.org/index.php/fragstats-metrics/shape-metrics/p2-shape-index" class="external-link">FRAGSTATS
+manual</a>, in which the shape index is defined as the perimeter (m)
+divided by the square root of the area (m2) of patch <em>ij</em>,
+adjusted by a constant to adjust for a square standard. Yet, for some
+patches there are minor differences between
+<strong>landscapemetrics</strong> and FRAGSTATS.</p>
+</div>
+<div class="section level4">
 <h4 id="circle-metric">CIRCLE metric<a class="anchor" aria-label="anchor" href="#circle-metric"></a>
 </h4>
 <p>According to FRAGSTATS, for patches with only one cell CIRCLE =
@@ -842,10 +853,24 @@ remind us of these issues and provided the comparison.</p>
 <code>SDMTools</code>, you have to make a binary landscape for every
 class in your landscape, perform connected components labelling on it
 and then calculate the patch metrics.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># binarize every class in the landscape and calculate patch metrics</span></span>
+<span><span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">tmp_land</span> <span class="op">&lt;-</span> <span class="va">landscape</span></span>
+<span>  <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">!=</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span>  <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">[</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span>  <span class="va">ccl</span> <span class="op">&lt;-</span> <span class="fu">SDMTools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SDMTools/man/ConnCompLabel.html" class="external-link">ConnCompLabel</a></span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster</a></span><span class="op">(</span><span class="va">tmp_land</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">PatchStat</span><span class="op">(</span><span class="va">ccl</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># combine to one data frame</span></span>
+<span><span class="va">sdmtools_result</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">sdmtools_result</span>, .id <span class="op">=</span> <span class="st">"Class"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>landscapemetrics</strong> offers for such tasks the function
 <code><a href="../reference/get_patches.html">get_patches()</a></code> and for the metrics itself all of that is
 done internally. To get all metrics on patch level with
 <strong>landscapemetrics</strong> you could for example do:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">patch_metrics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_lsm.html">calculate_lsm</a></span><span class="op">(</span><span class="va">landscape</span>, what <span class="op">=</span> <span class="st">"patch"</span><span class="op">)</span></span></code></pre></div>
 <details><summary>
 Click for details
 </summary><table class="table">
