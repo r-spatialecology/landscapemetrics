@@ -27,16 +27,29 @@ test_that("lsm_p_circle can also handle irregular sized cells", {
 # https://fragstats.org/index.php/fragstats-metrics/shape-metrics/p4-related-circumscribing-circle
 # In addition, the index never quite equals 0 because the grid data format doesn't allow patches to be perfectly circular
 
-# MH: Augusta is off quite a bit for smaller patches
+# MH: Something is wrong here
 
 test_that("lsm_p_circle equals FRAGSTATS", {
+    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
 
-    lsm_landscape <- lsm_p_circle(landscape) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-    # lsm_augusta <- lsm_p_circle(augusta_nlcd) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
 
-    fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "circle") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-    # fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "circle") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric %in% c("area", "circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
 
-    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
-    # expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric %in% c("area", "circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
+
+    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
+    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
 })

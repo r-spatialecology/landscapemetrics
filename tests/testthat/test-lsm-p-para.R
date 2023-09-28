@@ -26,9 +26,9 @@ test_that("lsm_p_para equals FRAGSTATS", {
     lsm_landscape <- lsm_p_para(landscape) |> dplyr::pull(value)
     lsm_augusta <- lsm_p_para(augusta_nlcd) |> dplyr::pull(value)
 
-    fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "para") |> dplyr::pull(value)
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "para") |> dplyr::pull(value)
     fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "para") |> dplyr::pull(value)
 
-    expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape / 10000))
-    expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta / 10000), tolerance = 0.01)
+    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape / 10000, tol = tolerance))
+    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta / 10000, tol = tolerance))
 })

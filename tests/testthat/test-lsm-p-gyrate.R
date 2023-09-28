@@ -30,13 +30,28 @@ test_that("lsm_p_gyrate returns in every column the correct type", {
 # https://fragstats.org/index.php/fragstats-metrics/area-and-edge-metrics/p3-radius-of-gyration
 # GYRATE = 0 when the patch consists of a single cell and increases without limit as the patch increases in extent
 
-# test_that("lsm_p_frac equals FRAGSTATS", {
-#     lsm_landscape <- lsm_p_gyrate(landscape) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-#     lsm_augusta <- lsm_p_gyrate(augusta_nlcd) |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-#
-#     fs_landcape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "gyrate") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-#     fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "gyrate") |> dplyr::filter(value != min(value)) |> dplyr::pull(value)
-#
-#     expect_equal(object = sort(lsm_landscape), expected = sort(fs_landcape), tolerance = 0.01)
-#     expect_equal(object = sort(lsm_augusta), expected = sort(fs_augusta), tolerance = 0.01)
-# })
+test_that("lsm_p_frac equals FRAGSTATS", {
+
+    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_gyrate")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(gyrate)
+
+    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_gyrate")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(gyrate)
+
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric %in% c("area", "gyrate")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(gyrate)
+
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric %in% c("area", "gyrate")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(gyrate)
+
+    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
+    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
+})

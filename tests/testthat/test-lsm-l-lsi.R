@@ -23,9 +23,9 @@ test_that("lsm_l_lsi equals FRAGSTATS", {
     lsm_landscape <- lsm_l_lsi(landscape) |> dplyr::pull(value)
     lsm_augusta <- lsm_l_lsi(augusta_nlcd) |> dplyr::pull(value)
 
-    fs_landcape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "lsi") |> dplyr::pull(value)
+    fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "lsi") |> dplyr::pull(value)
     fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "lsi") |> dplyr::pull(value)
 
-    expect_equal(object = lsm_landscape, expected = fs_landcape, tolerance = 0.01)
-    expect_equal(object = lsm_augusta, expected = fs_augusta, tolerance = 0.01)
+    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
+    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
 })
