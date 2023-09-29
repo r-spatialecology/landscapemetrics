@@ -27,6 +27,10 @@
 #' within the landscape will have a `percentage_inside = 50`. Please be aware that the
 #' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
+#' Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
+#' In the first case, each polygon is used as a singular sample area, while in the second
+#' case all polygons are used as one sample area.
+#'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
 #' and/or `type` (combinations of different arguments are possible (e.g.
 #' `level = "class", type = "aggregation metric"`). If an argument is not provided,

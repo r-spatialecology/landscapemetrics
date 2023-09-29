@@ -58,6 +58,10 @@ in relation to the theoretical, maximum sample plot area e.g. a sample plot only
 within the landscape will have a \code{percentage_inside = 50}. Please be aware that the
 output is slightly different to all other \code{lsm}-function of \code{landscapemetrics}.
 
+Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
+In the first case, each polygon is used as a singular sample area, while in the second
+case all polygons are used as one sample area.
+
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
 \verb{level = "class", type = "aggregation metric"}). If an argument is not provided,
