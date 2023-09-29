@@ -73,14 +73,15 @@ lsm_p_cai <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_p_cai"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -95,6 +96,7 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     # get patch area
     area_patch <- lsm_p_area_calc(landscape = landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # convert from ha to sqm
@@ -105,6 +107,7 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
                                   directions = directions,
                                   consider_boundary = consider_boundary,
                                   edge_depth = edge_depth,
+                                  resolution = resolution,
                                   extras = extras)
 
     # calculate CAI index

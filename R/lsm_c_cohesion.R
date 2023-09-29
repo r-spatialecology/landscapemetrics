@@ -59,14 +59,15 @@ lsm_c_cohesion <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cohesion_calc <- function(landscape, directions, extras = NULL) {
+lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_cohesion"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -84,9 +85,8 @@ lsm_c_cohesion_calc <- function(landscape, directions, extras = NULL) {
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
-
-    resolution <- extras$resolution
     
     # get number of cells for each patch -> area = n_cells * res / 10000
     patch_area$ncells <- patch_area$value * 10000 / prod(resolution)
@@ -94,6 +94,7 @@ lsm_c_cohesion_calc <- function(landscape, directions, extras = NULL) {
     # get perim of patch
     perim_patch <- lsm_p_perim_calc(landscape,
                                     directions = directions,
+                                    resolution = resolution,
                                     extras = extras)
 
     # calculate denominator of cohesion

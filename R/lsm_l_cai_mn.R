@@ -69,12 +69,13 @@ lsm_l_cai_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     cai_patch <- lsm_p_cai_calc(landscape,
                                 directions = directions,
                                 consider_boundary = consider_boundary,
                                 edge_depth = edge_depth,
+                                resolution = resolution,
                                 extras = extras)
 
     # all values NA

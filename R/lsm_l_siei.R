@@ -57,10 +57,11 @@ lsm_l_siei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_siei_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_siei_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     sidi <- lsm_l_sidi_calc(landscape,
                             directions = directions,
+                            resolution = resolution,
                             extras = extras)
 
     # all values NA

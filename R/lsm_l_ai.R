@@ -58,14 +58,15 @@ lsm_l_ai <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_l_ai"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -82,7 +83,8 @@ lsm_l_ai_calc <- function(landscape, directions, extras = NULL) {
 
     # get proportional class area
     pland <- lsm_c_pland_calc(landscape,
-                              directions = 8,
+                              directions = 8, 
+                              resolution = resolution,
                               extras = extras)
 
     # final AI index

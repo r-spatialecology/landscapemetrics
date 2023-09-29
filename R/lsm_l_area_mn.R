@@ -59,11 +59,12 @@ lsm_l_area_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_area_mn_calc <- function(landscape, directions, extras = NULL){
+lsm_l_area_mn_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # all values NA

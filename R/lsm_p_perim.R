@@ -50,14 +50,15 @@ lsm_p_perim <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_perim_calc <- function(landscape, directions, extras = NULL) {
+lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_p_perim"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -72,7 +73,6 @@ lsm_p_perim_calc <- function(landscape, directions, extras = NULL) {
     # get unique classes
     classes <- extras$classes
     class_patches <- extras$class_patches
-    resolution <- extras$resolution
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 

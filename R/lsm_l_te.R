@@ -54,15 +54,15 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
+lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_l_te"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            neighbourhood = as.matrix(4),
-                                            extras = extras)
+                                            directions = directions, neighbourhood = 4, resolution = resolution)
     }
 
     # all values NA
@@ -75,7 +75,6 @@ lsm_l_te_calc <- function(landscape, count_boundary, extras = NULL){
     }
 
     # get resolution in x-y directions
-    resolution <- extras$resolution
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 

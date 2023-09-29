@@ -64,14 +64,15 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
+lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_pafrac"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -86,6 +87,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
     # get patch area in sqm
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     area_patch$value <- area_patch$value * 10000
@@ -93,6 +95,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, extras = NULL){
     # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions,
+                                        resolution = resolution,
                                         extras = extras)
 
     # get number of patches

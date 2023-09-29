@@ -1,24 +1,11 @@
-prepare_extras_spatial <- function(metrics, landscape){
+prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, resolution){
     extras_df_sub <- subset(extras_df, metric %in% metrics)
     extras_list <- unique(extras_df_sub$extras)
 
     extras <- list()
+
     if (any(c("enn_patch", "points") %in% extras_list)){
-        extras$points <- raster_to_points(landscape)[, 2:4]
-    }
-    if (any(c("area_patches", "resolution") %in% extras_list)){
-        extras$resolution <- terra::res(landscape)
-    }
-
-    return(extras)
-}
-
-prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, extras = NULL){
-    extras_df_sub <- subset(extras_df, metric %in% metrics)
-    extras_list <- unique(extras_df_sub$extras)
-
-    if (is.null(extras)){
-        extras <- list()
+        extras$points <- get_points(landscape)
     }
     if (any(c("area_patches", "enn_patch", "class_patches", "classes")  %in% extras_list)){
         extras$classes <- get_unique_values_int(landscape, verbose = FALSE)
@@ -27,7 +14,7 @@ prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourh
         extras$class_patches <- get_class_patches(landscape, extras$classes, directions)
     }
     if ("area_patches" %in% extras_list){
-        extras$area_patches <- get_area_patches(extras$class_patches, extras$classes, extras$resolution)
+        extras$area_patches <- get_area_patches(extras$class_patches, extras$classes, resolution)
     }
     if ("composition_vector" %in% extras_list){
         extras$composition_vector <- rcpp_get_composition_vector(landscape)
@@ -108,4 +95,10 @@ get_enn_patch <- function(classes, class_patches, points){
                                             value = enn$dist)
                          })
     )
+}
+
+get_points <- function(landscape){
+    points <- expand.grid(row = 1:nrow(landscape), col = 1:ncol(landscape))
+    points$value <- as.vector(landscape)
+    points
 }

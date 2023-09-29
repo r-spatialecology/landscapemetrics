@@ -54,10 +54,11 @@ lsm_l_msiei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_msiei_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_msiei_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # all values NA

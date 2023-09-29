@@ -64,12 +64,13 @@ lsm_c_core_sd <- function(landscape, directions = 8, consider_boundary = FALSE, 
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     core <- lsm_p_core_calc(landscape,
                             directions = directions,
                             consider_boundary = consider_boundary,
                             edge_depth = edge_depth,
+                            resolution = resolution,
                             extras = extras)
 
     # all values NA

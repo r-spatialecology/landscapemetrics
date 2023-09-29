@@ -164,13 +164,11 @@ calculate_lsm_internal <- function(landscape,
     number_metrics <- length(metrics_calc)
 
     # PREPARE EXTRAS
-    extras <- prepare_extras_spatial(metrics, landscape)    
-    # convert to matrix !!
+    resolution <- terra::res(landscape)
     landscape <- terra::as.matrix(landscape, wide = TRUE)
-
     extras <- prepare_extras_nonspatial(metrics, landscape, directions, neighbourhood,
-                                        ordered, base, extras)
-    #print(names(extras))
+                                        ordered, base, resolution)
+    # print(names(extras))
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
         # print progess using the non-internal name

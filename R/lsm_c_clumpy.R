@@ -52,7 +52,7 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, extras = NULL){
+lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster_internal(landscape,
@@ -107,6 +107,7 @@ lsm_c_clumpy_calc <- function(landscape, extras = NULL){
     # proportional class area - direction has no influence on PLAND
     prop_class <- lsm_c_pland_calc(landscape,
                                    directions = 8,
+                                   resolution,
                                    extras = extras)
 
     prop_class <- prop_class$value / 100

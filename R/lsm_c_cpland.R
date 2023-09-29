@@ -60,14 +60,15 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_cpland"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -82,6 +83,7 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     # calculate patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
+                            resolution = resolution,
                             extras = extras)
 
     # total landscape area
@@ -91,7 +93,8 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     core_area <- lsm_p_core_calc(landscape,
                                  directions = directions,
                                  consider_boundary = consider_boundary,
-                                 edge_depth = edge_depth,
+                                 edge_depth = edge_depth, 
+                                 resolution = resolution,
                                  extras = extras)
 
     # summarise core area for classes

@@ -69,14 +69,15 @@ lsm_p_core <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_p_core"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
     # all values NA
     if (all(is.na(landscape))) {
@@ -90,7 +91,6 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     # get common variables
     classes <- extras$classes
     class_patches <- extras$class_patches
-    resolution <- extras$resolution
 
     core <- do.call(rbind,
                     lapply(classes, function(patches_class) {

@@ -53,10 +53,11 @@ lsm_l_ta <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ta_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_ta_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     total_area <- sum(patch_area$value)

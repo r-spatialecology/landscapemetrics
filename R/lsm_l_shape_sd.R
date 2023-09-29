@@ -62,11 +62,12 @@ lsm_l_shape_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shape_sd_calc <- function(landscape, directions, extras = NULL){
+lsm_l_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # shape index for each patch
     shape <- lsm_p_shape_calc(landscape,
                               directions = directions,
+                              resolution = resolution,
                               extras = extras)
 
     # all values NA

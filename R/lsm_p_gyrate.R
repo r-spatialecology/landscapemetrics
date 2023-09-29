@@ -68,14 +68,12 @@ lsm_p_gyrate <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL) {
+lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
 
-    # conver to matrix
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
-        # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
-        # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -96,6 +94,7 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL)
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
+        points <- get_points(landscape)
     }
 
     gyrate <- do.call(rbind,
@@ -107,12 +106,12 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL)
         # transpose to get same direction of ID
         landscape_labeled <- t(landscape_labeled)
 
-        # get coordinates of current class
-        points <- matrix(points[which(!is.na(landscape_labeled)), ],
-                         ncol = 3)
+        # get (relative) coordinates of current class
+        points <- which(!is.na(landscape_labeled), arr.ind = TRUE)
+        points <- mapply(FUN = `*`, as.data.frame(points), resolution)
 
         # set ID from class ID to unique patch ID
-        points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
+        points <- cbind(points, landscape_labeled[!is.na(landscape_labeled)])
 
         # # convert to tibble
         points <- stats::setNames(object = data.frame(points),
@@ -125,7 +124,7 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL)
 
         # create full data set with raster-points and patch centroids
         full_data <- merge(x = points, y = centroid, by = "id",
-                           suffixes = c("","_centroid"))
+                           suffixes = c("", "_centroid"))
 
         # calculate distance from each cell center to centroid
         full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
@@ -138,7 +137,7 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, extras = NULL)
             centroid <- do.call(rbind, by(data = full_data,
                                           INDICES = full_data[, 1],
                                           FUN = function(x)
-                                              x[x$dist == min(x$dist), ]))[, c(1, 2, 3)]
+                                          x[which(signif(x$dist) == min(signif(x$dist))), ]))[, c(1, 2, 3)]
 
             # create full data set with raster-points and patch centroids
             full_data <- merge(x = points, y = centroid, by = "id",

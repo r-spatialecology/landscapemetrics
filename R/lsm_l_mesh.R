@@ -65,6 +65,7 @@ lsm_l_mesh_calc <- function(landscape, directions, extras = NULL) {
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # summarise to total area

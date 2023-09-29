@@ -67,11 +67,12 @@ lsm_l_dcad <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # summarise to total area

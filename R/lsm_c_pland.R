@@ -54,18 +54,20 @@ lsm_c_pland <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pland_calc <- function(landscape, directions, extras = NULL){
+lsm_c_pland_calc <- function(landscape, directions, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_pland"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     pland <- lsm_p_area_calc(landscape,
                              directions = directions,
+                             resolution = resolution,
                              extras = extras)
 
     # all values NA
@@ -77,9 +79,12 @@ lsm_c_pland_calc <- function(landscape, directions, extras = NULL){
                               value = as.double(NA)))
     }
 
-    pland <- stats::aggregate(x = pland[, 5], by = pland[, 2], FUN = sum)
+    pland <- stats::aggregate(x = pland[, 5], by = list(pland[, 2]), FUN = sum)
 
-    pland$value <- pland$value / sum(pland$value) * 100
+    pland$value <- pland$x / sum(pland$x) * 100
+    pland$class <- pland$Group.1
+
+    # pland$value <- pland$value / sum(pland$value) * 100
 
     return(tibble::tibble(level = "class",
                           class = as.integer(pland$class),

@@ -54,11 +54,12 @@ lsm_l_shei <- function(landscape){
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shei_calc <- function(landscape, extras = NULL){
+lsm_l_shei_calc <- function(landscape, resolution, extras = NULL){
 
     # get class proportions (direction doesn't matter)
     prop <- lsm_c_pland_calc(landscape,
                              directions = 8,
+                             resolution = resolution,
                              extras = extras)
 
     # all values NA

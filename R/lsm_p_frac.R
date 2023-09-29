@@ -64,14 +64,15 @@ lsm_p_frac <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_frac_calc <- function(landscape, directions, extras = NULL){
+lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_p_frac"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -86,11 +87,13 @@ lsm_p_frac_calc <- function(landscape, directions, extras = NULL){
     # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions,
+                                        resolution = resolution,
                                         extras = extras)
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # calculate frac

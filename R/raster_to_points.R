@@ -47,6 +47,7 @@ raster_to_points_internal <- function(landscape, return_NA) {
 
     # get coordinates
     xyz[, c(1, 2)] <- terra::xyFromCell(landscape, cell = 1:terra::ncell(landscape))
+    # xyz[, c(1, 2)] <- terra::crds(landscape)
 
     # add values including NA
     xyz[, 3] <- terra::values(landscape, mat = FALSE)

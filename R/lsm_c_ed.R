@@ -63,14 +63,15 @@ lsm_c_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) {
+lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_ed"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all cells are NA
@@ -85,6 +86,7 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     # get patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
+                            resolution = resolution,
                             extras = extras)
 
     # summarise to total area
@@ -94,6 +96,7 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     edge_class <- lsm_c_te_calc(landscape,
                                 count_boundary = count_boundary,
                                 directions = directions,
+                                resolution = resolution,
                                 extras = extras)
 
     edge_class$value <- edge_class$value / area

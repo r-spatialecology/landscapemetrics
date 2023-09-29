@@ -58,14 +58,15 @@ lsm_c_te <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary, directions, extras = NULL) {
+lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_c_te"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, extras = extras)
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
@@ -80,7 +81,6 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     # get class id
     classes <- extras$classes
     class_patches <- extras$class_patches
-    resolution <- extras$resolution
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 

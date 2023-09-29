@@ -62,14 +62,15 @@ lsm_l_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) {
+lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     if (is.null(extras)){
         metrics <- "lsm_l_ed"
-        extras <- prepare_extras_spatial(metrics, landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, neighbourhood = 4, extras = extras)
+                                            directions = directions, neighbourhood = 4, resolution = resolution)
     }
 
     # all values NA
@@ -84,6 +85,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
+                                  resolution = resolution,
                                   extras = extras)
 
     # summarise to total area
@@ -92,6 +94,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, extras = NULL) 
     # get total edge
     edge_landscape <- lsm_l_te_calc(landscape,
                                     count_boundary = count_boundary,
+                                    resolution = resolution,
                                     extras = extras)
 
     # relative edge density
