@@ -26,7 +26,7 @@ test_that("lsm_c_dcad equals FRAGSTATS", {
     fs_landscape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "dcad") |> dplyr::pull(value)
     fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "dcad") |> dplyr::pull(value)
 
-    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
-    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
 })
 

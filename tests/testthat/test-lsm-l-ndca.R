@@ -19,15 +19,13 @@ test_that("lsm_l_ndca returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
-# MH: Something wrong here
-
 test_that("lsm_l_ndca equals FRAGSTATS", {
     lsm_landscape <- lsm_l_ndca(landscape) |> dplyr::pull(value)
-    # lsm_augusta <- lsm_l_ndca(augusta_nlcd) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_ndca(augusta_nlcd) |> dplyr::pull(value)
 
     fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "ndca") |> dplyr::pull(value)
-    # fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "ndca") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "ndca") |> dplyr::pull(value)
 
-    expect_equal(object = lsm_landscape, expected = fs_landscape)
-    # expect_equal(object = lsm_augusta, expected = fs_augusta)
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
 })

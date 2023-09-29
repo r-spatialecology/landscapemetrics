@@ -49,6 +49,8 @@ fs_class_landscape <- landscapemetrics:::internal_data$fs_data$class |>
 
 **landscapemetrics** re-implements landscape metrics as they are mostly described in the FRAGSTATS software (McGarigal *et al.* 2023). 
 Therefore, we compare our results with the results of FRAGSTATS.
+On patch-level we use a correlation approach testing values calculated by **landscapemetrics** and FRAGSTATS have at least a correlation of *p>=0.975* because we are not able to exactly match patches.
+On class- and landscape-level we can match individual values and test if no deviation is larger than 5%.
 In the process, we recognized a few differences between the results. 
 Some metrics in FRAGSTATS are interdependent across scales. 
 Thus, if there is a deviation at the patch level, it propagates through the class- and landscape-level.
