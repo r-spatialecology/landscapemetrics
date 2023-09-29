@@ -84,9 +84,9 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
                                  FUN = stats::sd,
                                  na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(shape_sd)),
                               class = as.integer(shape_sd$class),
-                              id = as.integer(NA),
-                              metric = "shape_sd",
+                              id = rep(as.integer(NA), nrow(shape_sd)),
+                              metric = rep("shape_sd", nrow(shape_sd)),
                               value = as.double(shape_sd$value))))
 }

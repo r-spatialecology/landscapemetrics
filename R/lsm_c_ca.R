@@ -81,6 +81,6 @@ lsm_c_ca_calc <- function(landscape, directions, resolution, extras = NULL) {
     return(tibble::new_tibble(list(level = rep("class", nrow(ca)),
                           class = as.integer(ca$class),
                           id = rep(as.integer(NA), nrow(ca)),
-                          metric = rep("ca", nrows(ca)),
+                          metric = rep("ca", nrow(ca)),
                           value = as.double(ca$value))))
 }

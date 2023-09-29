@@ -4,10 +4,13 @@
 \alias{lsm_l_ai}
 \title{AI (landscape level)}
 \usage{
-lsm_l_ai(landscape)
+lsm_l_ai(landscape, directions = 8)
 }
 \arguments{
 \item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
+
+\item{directions}{The number of directions in which patches should be
+connected: 4 (rook's case) or 8 (queen's case).}
 }
 \value{
 tibble

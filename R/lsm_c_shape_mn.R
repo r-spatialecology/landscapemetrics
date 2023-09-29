@@ -83,9 +83,9 @@ lsm_c_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL
     shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean,
                                  na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(shape_mn)),
                               class = as.integer(shape_mn$class),
-                              id = as.integer(NA),
-                              metric = "shape_mn",
+                              id = rep(as.integer(NA), nrow(shape_mn)),
+                              metric = rep("shape_mn", nrow(shape_mn)),
                               value = as.double(shape_mn$value))))
 }

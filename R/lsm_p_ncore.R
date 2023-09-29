@@ -82,11 +82,11 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = rep("patch", nrow()),
+        return(tibble::new_tibble(list(level = "patch"),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ncore",
-                              value = as.double(NA))))
+                              value = as.double(NA)))
     }
 
     # get unique classes

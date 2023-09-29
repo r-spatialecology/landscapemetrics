@@ -89,7 +89,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
         }
 
         return(tibble::new_tibble(list(level = rep("class", length(classes)),
-                              class = rep(as.integer(classes), length(classes)),
+                              class = as.integer(classes),
                               id = rep(as.integer(NA), length(classes)),
                               metric = rep("iji", length(classes)),
                               value = rep(as.double(NA), length(classes)))))
@@ -108,7 +108,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         return(tibble::new_tibble(list(
             level = rep("class", length(iji)),
-            class = rep(as.integer(classes), length(iji)),
+            class = as.integer(classes),
             id = rep(as.integer(NA), length(iji)),
             metric = rep("iji", length(iji)),
             value = as.double(iji)

@@ -101,5 +101,5 @@ get_nearestneighbour_calc <- function(landscape, return_id,
         min_dist_aggr <- min_dist_aggr[!duplicated(min_dist_aggr), ]
     }
 
-    tibble::new_tibble(list(min_dist_aggr))
+    tibble::tibble(min_dist_aggr)
 }

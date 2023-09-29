@@ -78,11 +78,11 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = rep("patch", nrow()),
+        return(tibble::new_tibble(list(level = "patch"),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn",
-                              value = as.double(NA))))
+                              value = as.double(NA)))
     }
 
     # get unique classes

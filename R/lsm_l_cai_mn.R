@@ -87,7 +87,7 @@ lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_dep
                               value = as.double(NA))))
     }
 
-    cai_mean <- mean(cai_patch$value)
+    cai_mn <- mean(cai_patch$value)
 
     return(tibble::new_tibble(list(level = rep("landscape", length(cai_mn)),
                  class = rep(as.integer(NA), length(cai_mn)),

@@ -81,11 +81,11 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = rep("patch", nrow()),
+        return(tibble::new_tibble(list(level = "patch"),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contig",
-                              value = as.double(NA))))
+                              value = as.double(NA)))
     }
 
     # get unique values

@@ -74,11 +74,11 @@ lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = rep("patch", nrow()),
+        return(tibble::new_tibble(list(level = "patch"),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area",
-                              value = as.double(NA))))
+                              value = as.double(NA)))
     }
 
     # get unique class id
