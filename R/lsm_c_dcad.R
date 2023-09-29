@@ -77,11 +77,11 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
 
     # all values NA
     if (is.na(area)) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcad",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of core area
@@ -97,9 +97,9 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
     # calculate relative value
     ndca$value <- ndca$value / area * 100
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(ndca)),
                           class = as.integer(ndca$class),
-                          id = as.integer(NA),
-                          metric = "dcad",
-                          value = as.double(ndca$value)))
+                          id = rep(as.integer(NA), nrow(ndca)),
+                          metric = rep("dcad", nrow(ndca)),
+                          value = as.double(ndca$value))))
 }

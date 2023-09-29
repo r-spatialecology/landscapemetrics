@@ -100,12 +100,12 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
                           )
 
         # resulting tibble
-        circle <- tibble::tibble(level = "patch",
+        circle <- tibble::new_tibble(list(level = rep("patch", nrow(circle)),
                                  class = as.integer(circle$class),
                                  id = as.integer(seq_len(nrow(circle))),
                                  value = circle$circle_diameter,
                                  center_x = circle$circle_center_x,
-                                 center_y = circle$circle_center_y)
+                                 center_y = circle$circle_center_y))
     }
 
     # class level (no labeling)
@@ -115,12 +115,12 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
         circle_class <- rcpp_get_circle(landscape, resolution_xy = resolution[1])
 
         # resulting tibble
-        circle <- tibble::tibble(level = "class",
+        circle <- tibble::new_tibble(list(level = rep("class", nrow(circle_class)), 
                                  class = as.integer(circle_class$patch_id),
-                                 id = as.integer(NA),
+                                 id = rep(as.integer(NA), nrow(circle_class)),
                                  value = circle_class$circle_diameter,
                                  center_x = circle_class$circle_center_x,
-                                 center_y = circle_class$circle_center_y)
+                                 center_y = circle_class$circle_center_y))
     }
 
     # shift the coordinates to the original coordinate system

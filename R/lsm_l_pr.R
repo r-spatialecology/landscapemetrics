@@ -57,16 +57,16 @@ lsm_l_pr_calc <- function(landscape, extras = NULL){
 
     # all values NA
     if (richness == 0) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pr",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "pr",
-                          value = as.double(richness)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(richness)),
+                          class = rep(as.integer(NA), length(richness)),
+                          id = rep(as.integer(NA), length(richness)),
+                          metric = rep("pr", length(richness)),
+                          value = as.double(richness))))
 }

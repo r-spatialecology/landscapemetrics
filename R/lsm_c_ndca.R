@@ -76,19 +76,19 @@ lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth
 
     # all cells are NA
     if (all(is.na(ndca$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ndca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # summarise for each class
     ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(ndca$class),
-                          id = as.integer(NA),
-                          metric = "ndca",
-                          value = as.double(ndca$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(ndca)),
+                              class = as.integer(ndca$class),
+                              id = rep(as.integer(NA), nrow(ndca)),
+                              metric = rep("ndca", nrow(ndca)),
+                              value = as.double(ndca$value))))
 }

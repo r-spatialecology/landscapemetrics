@@ -35,7 +35,7 @@ proj_info <- function(landscape) {
         # long-lat projection
         if (terra::is.lonlat(landscape)) {
 
-            tibble::tibble(crs = "geographic", units = "degrees")
+            tibble::new_tibble(list(crs = "geographic", units = "degrees"))
 
         # projected projection
         } else {
@@ -44,11 +44,11 @@ proj_info <- function(landscape) {
             proj_units <- strsplit(sub(".*units=", "", landscape_proj), " ",
                                    fixed = TRUE)[[1]][[1]]
 
-            tibble::tibble(crs = "projected", units = proj_units)
+            tibble::new_tibble(list(crs = "projected", units = proj_units))
         }
 
     # no projection present
     } else {
-        tibble::tibble(crs = NA, units = NA)
+        tibble::new_tibble(list(crs = NA, units = NA))
     }
 }

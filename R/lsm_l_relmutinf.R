@@ -65,11 +65,11 @@ lsm_l_relmutinf_calc <- function(landscape, neighbourhood, ordered, base, extras
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "mutinf",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -85,9 +85,9 @@ lsm_l_relmutinf_calc <- function(landscape, neighbourhood, ordered, base, extras
     aggr <- comp - conf
     rel  <- ifelse(aggr == 0, 1, aggr / comp)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "relmutinf",
-                          value = as.double(rel)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(rel)),
+                          class = rep(as.integer(NA), length(rel)),
+                          id = rep(as.integer(NA), length(rel)),
+                          metric = rep("relmutinf", length(rel)),
+                          value = as.double(rel))))
 }

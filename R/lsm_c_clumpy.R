@@ -62,11 +62,11 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "clumpy",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get coocurrence
@@ -81,9 +81,9 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
     # number cells in each class without -999 lansdcape boundary
     cells_class <- rcpp_get_composition_vector(landscape_padded)[-1]
 
-    # conver to tibble
-    cells_class <- tibble::tibble(class = names(cells_class),
-                                  value = cells_class)
+    # convert to tibble
+    cells_class <- tibble::new_tibble(list(class = names(cells_class),
+                                           value = cells_class))
 
     # calculate minimum perimeter
     cells_class$n <- trunc(sqrt(cells_class$value))
@@ -129,9 +129,9 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
         }
     }, FUN.VALUE = numeric(1))
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", length(clumpy)),
                           class = as.integer(names(g_i)),
-                          id = as.integer(NA),
-                          metric = "clumpy",
-                          value = as.double(clumpy)))
+                          id = rep(as.integer(NA), length(clumpy)),
+                          metric = rep("clumpy", length(clumpy)),
+                          value = as.double(clumpy))))
 }

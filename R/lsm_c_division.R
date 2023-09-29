@@ -71,11 +71,11 @@ lsm_c_division_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "division",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate division for each patch
@@ -87,9 +87,11 @@ lsm_c_division_calc <- function(landscape, directions, resolution, extras = NULL
 
     division$value <- 1 - division$value
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(division$class),
-                          id = as.integer(NA),
-                          metric = "division",
-                          value = as.double(division$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(division)),
+        class = as.integer(division$class),
+        id = rep(as.integer(NA), nrow(division)),
+        metric = rep("division", nrow(division)),
+        value = as.double(division$value)
+    )))
 }

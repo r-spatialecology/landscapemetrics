@@ -81,18 +81,18 @@ lsm_l_gyrate_mn_calc <- function(landscape, directions, cell_center, resolution,
 
     # all values NA
     if (all(is.na(gyrate_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "gyrate_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     gyrate_mn <- mean(gyrate_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "gyrate_mn",
-                          value = as.double(gyrate_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(gyrate_mn)),
+                 class = rep(as.integer(NA), length(gyrate_mn)),
+                 id = rep(as.integer(NA), length(gyrate_mn)),
+                 metric = rep("gyrate_mn", length(gyrate_mn)),
+                 value = as.double(gyrate_mn))))
 }

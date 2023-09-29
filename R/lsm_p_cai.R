@@ -86,11 +86,11 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
@@ -113,11 +113,11 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     # calculate CAI index
     cai_patch <- core_patch$value / area_patch$value * 100
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(area_patch)),
         class = as.integer(area_patch$class),
         id = as.integer(area_patch$id),
-        metric = "cai",
+        metric = rep("cai", nrow(area_patch)),
         value = as.double(cai_patch)
-    )
+    ))
 }

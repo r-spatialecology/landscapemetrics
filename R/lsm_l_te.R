@@ -67,11 +67,11 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "te",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get resolution in x-y directions
@@ -130,9 +130,9 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
         edge_total <- edge_left_right + edge_top_bottom
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "te",
-                          value = as.double(edge_total)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(edge_total)),
+                          class = rep(as.integer(NA), length(edge_total)),
+                          id = rep(as.integer(NA), length(edge_total)),
+                          metric = rep("te", length(edge_total)),
+                          value = as.double(edge_total))))
 }

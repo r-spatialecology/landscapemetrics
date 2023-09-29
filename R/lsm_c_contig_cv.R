@@ -77,19 +77,21 @@ lsm_c_contig_cv_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(contig$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contig_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     contig_cv <- stats::aggregate(x = contig[, 5], by = contig[, 2],
                                   FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(contig_cv$class),
-                          id = as.integer(NA),
-                          metric = "contig_cv",
-                          value = as.double(contig_cv$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(contig_cv)),
+        class = as.integer(contig_cv$class),
+        id = rep(as.integer(NA), nrow(contig_cv)),
+        metric = rep("contig_cv", nrow(contig_cv)),
+        value = as.double(contig_cv$value)
+    )))
 }

@@ -70,11 +70,11 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "msidi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     patch_area <- lsm_p_area_calc(landscape,
@@ -86,9 +86,9 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "msidi",
-                          value = as.double(msidi)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(msidi)),
+                          class = rep(as.integer(NA), length(msidi)),
+                          id = rep(as.integer(NA), length(msidi)),
+                          metric = rep("msidi", length(msidi)),
+                          value = as.double(msidi))))
 }

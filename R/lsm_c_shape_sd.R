@@ -72,11 +72,11 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate sd
@@ -84,9 +84,9 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
                                  FUN = stats::sd,
                                  na.rm = TRUE)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(shape_sd$class),
-                          id = as.integer(NA),
-                          metric = "shape_sd",
-                          value = as.double(shape_sd$value)))
+    return(tibble::new_tibble(list(level = "class",
+                              class = as.integer(shape_sd$class),
+                              id = as.integer(NA),
+                              metric = "shape_sd",
+                              value = as.double(shape_sd$value))))
 }

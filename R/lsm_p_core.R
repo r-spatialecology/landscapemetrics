@@ -81,11 +81,11 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     }
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get common variables
@@ -119,17 +119,17 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                         # all cells minus edge cells equal core and convert to ha
                         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
-                        tibble::tibble(class = patches_class,
-                                       value = core_area)
+                        tibble::new_tibble(list(class = rep(patches_class, length(core_area)),
+                                                value = core_area))
                     })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(core)),
         class = as.integer(core$class),
         id = as.integer(seq_len(nrow(core))),
-        metric = "core",
+        metric = rep("core", nrow(core)),
         value = as.double(core$value)
-    )
+    ))
 }
 

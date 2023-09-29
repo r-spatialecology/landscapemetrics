@@ -64,11 +64,11 @@ lsm_l_prd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "prd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of classes
@@ -77,9 +77,9 @@ lsm_l_prd_calc <- function(landscape, directions, resolution, extras = NULL) {
     # relative number of classes
     prd <- pr_landscape$value / area_total * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "prd",
-                          value = as.double(prd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(prd)),
+                          class = rep(as.integer(NA), length(prd)),
+                          id = rep(as.integer(NA), length(prd)),
+                          metric = rep("prd", length(prd)),
+                          value = as.double(prd))))
 }

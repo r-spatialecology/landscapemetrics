@@ -69,11 +69,11 @@ lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
@@ -96,9 +96,9 @@ lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
     # relative patch density
     patch_density <- number_patches / area_total * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "pd",
-                          value = as.double(patch_density)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(patch_density)),
+                          class = rep(as.integer(NA), length(patch_density)),
+                          id = rep(as.integer(NA), length(patch_density)),
+                          metric = rep("pd", length(patch_density)),
+                          value = as.double(patch_density))))
 }

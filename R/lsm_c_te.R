@@ -71,11 +71,11 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "te",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get class id
@@ -86,12 +86,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     if (length(classes) == 1 && !count_boundary) {
 
-        tibble::tibble(
+        tibble::new_tibble(list(
             level = "class",
             class = as.integer(classes),
             id = as.integer(NA),
             metric = "te",
-            value = as.double(0))
+            value = as.double(0)))
 
     } else {
 
@@ -162,12 +162,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }
 
-            tibble::tibble(
-                level = "class",
-                class = as.integer(patches_class),
-                id = as.integer(NA),
-                metric = "te",
-                value = as.double(edge_ik))
+            tibble::new_tibble(list(
+                level = rep("class", length(edge_ik)),
+                class = rep(as.integer(patches_class), length(edge_ik)),
+                id = rep(as.integer(NA), length(edge_ik)),
+                metric = rep("te", length(edge_ik)),
+                value = as.double(edge_ik)))
         })
 
         do.call("rbind", te_class)

@@ -73,11 +73,11 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
     # all values NA
     if (all(is.na(landscape))) {
 
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               y = as.double(NA),
-                              y = as.double(NA)))
+                              y = as.double(NA))))
     }
 
     # get uniuqe class id
@@ -159,9 +159,9 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
         }
     }
 
-    tibble::tibble(level = "patch",
+    tibble::new_tibble(list(level = rep("patch", nrow(centroid)),
                    class = as.integer(centroid$class),
-                   id = as.integer(id),
+                   id = rep(as.integer(id), nrow(centroid)),
                    x = as.double(centroid$x),
-                   y = as.double(centroid$y))
+                   y = as.double(centroid$y)))
 }

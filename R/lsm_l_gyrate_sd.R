@@ -81,19 +81,19 @@ lsm_l_gyrate_sd_calc <- function(landscape, directions, cell_center, resolution,
 
     # all values NA
     if (all(is.na(gyrate_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "gyrate_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     gyrate_sd <- stats::sd(gyrate_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "gyrate_sd",
-                          value = as.double(gyrate_sd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(gyrate_sd)),
+                 class = rep(as.integer(NA), length(gyrate_sd)),
+                 id = rep(as.integer(NA), length(gyrate_sd)),
+                 metric = rep("gyrate_sd", length(gyrate_sd)),
+                 value = as.double(gyrate_sd))))
 }
 

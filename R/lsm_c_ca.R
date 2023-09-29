@@ -68,19 +68,19 @@ lsm_c_ca_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # summarise for each class
     ca <- stats::aggregate(x = core_patch[, 5], by = core_patch[, 2], FUN = sum)
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(ca)),
                           class = as.integer(ca$class),
-                          id = as.integer(NA),
-                          metric = "ca",
-                          value = as.double(ca$value)))
+                          id = rep(as.integer(NA), nrow(ca)),
+                          metric = rep("ca", nrows(ca)),
+                          value = as.double(ca$value))))
 }

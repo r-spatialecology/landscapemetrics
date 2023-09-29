@@ -81,10 +81,10 @@ get_nearestneighbour_calc <- function(landscape, return_id,
 
     res <- rcpp_get_nearest_neighbor(terra::as.matrix(points, wide= TRUE)[ord, ])
 
-    min_dist <- tibble::tibble(cell = num,
+    min_dist <- tibble::new_tibble(list(cell = num,
                                dist = res[rank, 1],
                                id_focal = points[, 3],
-                               id_neighbour = res[rank, 2])
+                               id_neighbour = res[rank, 2]))
 
     min_dist_aggr <- stats::setNames(stats::aggregate(x = min_dist$dist,
                                                       by = list(min_dist$id_focal),
@@ -101,5 +101,5 @@ get_nearestneighbour_calc <- function(landscape, return_id,
         min_dist_aggr <- min_dist_aggr[!duplicated(min_dist_aggr), ]
     }
 
-    tibble::tibble(min_dist_aggr)
+    tibble::new_tibble(list(min_dist_aggr))
 }

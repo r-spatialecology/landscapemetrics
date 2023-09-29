@@ -76,8 +76,8 @@ get_enn_patch <- function(classes, class_patches, points){
                              # ENN doesn't make sense if only one patch is present
                              if (np_class == 1) {
 
-                                 enn <- tibble::tibble(class = patches_class,
-                                                       dist = as.double(NA))
+                                 enn <- tibble::new_tibble(list(class = patches_class,
+                                                       dist = as.double(NA)))
 
                                  if (verbose) {
                                      warning(paste0("Class ", patches_class,
@@ -91,8 +91,8 @@ get_enn_patch <- function(classes, class_patches, points){
                                                                   points = points)
                              }
 
-                             tibble::tibble(class = patches_class,
-                                            value = enn$dist)
+                             tibble::new_tibble(list(class = rep(patches_class, nrow(enn)),
+                                            value = enn$dist))
                          })
     )
 }

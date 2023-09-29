@@ -63,11 +63,11 @@ lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "perim",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
@@ -140,16 +140,16 @@ lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
             perimeter_patch_ij <- perimeter_patch_ij_top_bottom + perimeter_patch_ij_left_right
         }
 
-        tibble::tibble(class = patches_class,
-                       value = perimeter_patch_ij)
+        tibble::new_tibble(list(class = rep(patches_class, length(perimeter_patch_ij)),
+                       value = perimeter_patch_ij))
         })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(perimeter_patch)),
         class = as.integer(perimeter_patch$class),
         id = as.integer(seq_len(nrow(perimeter_patch))),
-        metric = "perim",
+        metric = rep("perim", nrow(perimeter_patch)),
         value = as.double(perimeter_patch$value)
-    )
+    ))
 }

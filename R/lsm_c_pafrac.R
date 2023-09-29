@@ -77,11 +77,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pafrac",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area in sqm
@@ -127,12 +127,12 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
             pafrac <- 2 / regression_model_class$coefficients[[2]]
         }
 
-        tibble::tibble(
-            level = "class",
-            class = as.integer(class_name),
-            id = as.integer(NA),
-            metric = "pafrac",
-            value = as.double(pafrac))
+        tibble::new_tibble(list(
+            level = rep("class", length(pafrac)),
+            class = rep(as.integer(class_name), length(pafrac)),
+            id = rep(as.integer(NA), length(pafrac)),
+            metric = rep("pafrac", length(pafrac)),
+            value = as.double(pafrac)))
         })
 
     do.call("rbind", pafrac_class)

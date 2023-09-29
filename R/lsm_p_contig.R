@@ -81,11 +81,11 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contig",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique values
@@ -136,17 +136,17 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
         #rm(patch_mat)
         #gc(verbose = FALSE)
 
-        tibble::tibble(class = class,
-                       value = contiguity)
+        tibble::new_tibble(list(class = rep(class, length(contiguity)),
+                                value = contiguity))
 
         })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(contig_patch)),
         class = as.integer(contig_patch$class),
         id = as.integer(seq_len(nrow(contig_patch))),
-        metric = "contig",
+        metric = rep("contig", nrow(contig_patch)),
         value = as.double(contig_patch$value)
-    )
+    ))
 }

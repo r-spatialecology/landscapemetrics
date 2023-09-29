@@ -72,19 +72,19 @@ lsm_l_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (all(is.na(shape$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate mean
     shape_mn <- mean(shape$value, na.rm = TRUE)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "shape_mn",
-                          value = as.double(shape_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(shape_mn)),
+                          class = rep(as.integer(NA), length(shape_mn)),
+                          id = rep(as.integer(NA), length(shape_mn)),
+                          metric = rep("shape_mn", length(shape_mn)),
+                          value = as.double(shape_mn))))
 }

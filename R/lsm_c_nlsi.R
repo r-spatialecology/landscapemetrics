@@ -68,11 +68,11 @@ lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "nlsi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
@@ -147,9 +147,9 @@ lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
 
     }
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(names(nlsi)),
-                          id = as.integer(NA),
-                          metric = "nlsi",
-                          value = as.double(nlsi)))
+    return(tibble::new_tibble(list(level = rep("class", length(nlsi)),
+                              class = as.integer(names(nlsi)),
+                              id = rep(as.integer(NA), length(nlsi)),
+                              metric = rep("nlsi", length(nlsi)),
+                              value = as.double(nlsi))))
 }

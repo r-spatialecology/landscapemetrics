@@ -79,16 +79,16 @@ lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth
 
     # all values NA
     if (is.na(ndca)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ndca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class =  as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ndca",
-                          value = as.double(ndca)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(ndca)),
+                          class = rep(as.integer(NA), length(ndca)),
+                          id = rep(as.integer(NA), length(ndca)),
+                          metric = rep("ndca", length(ndca)),
+                          value = as.double(ndca))))
 }

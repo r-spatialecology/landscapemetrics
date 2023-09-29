@@ -72,19 +72,21 @@ lsm_c_frac_sd_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all cells are NA
     if (all(is.na(frac$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     frac_sd <- stats::aggregate(x = frac[, 5], by = frac[, 2],
                                 FUN = stats::sd)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(frac_sd$class),
-                          id = as.integer(NA),
-                          metric = "frac_sd",
-                          value = as.double(frac_sd$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(frac_sd)),
+        class = as.integer(frac_sd$class),
+        id = rep(as.integer(NA), nrow(frac_sd)),
+        metric = rep("frac_sd", nrow(frac_sd)),
+        value = as.double(frac_sd$value)
+    )))
 }

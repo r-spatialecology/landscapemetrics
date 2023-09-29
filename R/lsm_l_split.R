@@ -71,19 +71,19 @@ lsm_l_split_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "split",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # total area squared divided by sum of area squared for each patch
     split <- (area_total ^ 2) / sum(area_patch$value ^ 2)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "split",
-                          value = as.double(split)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(split)),
+                          class = rep(as.integer(NA), length(split)),
+                          id = rep(as.integer(NA), length(split)),
+                          metric = rep("split", length(split)),
+                          value = as.double(split))))
 }

@@ -79,18 +79,18 @@ lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     core_sd <- stats::sd(core_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "core_sd",
-                          value = as.double(core_sd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(core_sd)),
+                 class = rep(as.integer(NA), length(core_sd)),
+                 id = rep(as.integer(NA), length(core_sd)),
+                 metric = rep("core_sd", length(core_sd)),
+                 value = as.double(core_sd))))
 }

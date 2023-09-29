@@ -64,16 +64,16 @@ lsm_l_ta_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ta",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ta",
-                          value = as.double(total_area)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(total_area)),
+                          class = rep(as.integer(NA), length(total_area)),
+                          id = rep(as.integer(NA), length(total_area)),
+                          metric = rep("ta", length(total_area)),
+                          value = as.double(total_area))))
 }

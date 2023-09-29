@@ -57,11 +57,11 @@ lsm_c_pladj_calc <- function(landscape) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pladj",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
@@ -79,9 +79,9 @@ lsm_c_pladj_calc <- function(landscape) {
     pladj <- pladj[-1]
     names <- row.names(tb)[-1]
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(names),
-                          id = as.integer(NA),
-                          metric = "pladj",
-                          value = as.double(pladj)))
+    return(tibble::new_tibble(list(level = rep("class", length(names)),
+                              class = as.integer(names),
+                              id = rep(as.integer(NA), length(names)),
+                              metric = rep("pladj", length(names)),
+                              value = as.double(pladj))))
 }

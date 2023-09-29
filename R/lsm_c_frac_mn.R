@@ -70,18 +70,20 @@ lsm_c_frac_mn_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all cells are NA
     if (all(is.na(frac$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     frac_mean <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = mean)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(frac_mean$class),
-                          id = as.integer(NA),
-                          metric = "frac_mn",
-                          value = as.double(frac_mean$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(frac_mean)),
+        class = as.integer(frac_mean$class),
+        id = rep(as.integer(NA), nrow(frac_mean)),
+        metric = rep("frac_mn", nrow(frac_mean)),
+        value = as.double(frac_mean$value)
+    )))
 }

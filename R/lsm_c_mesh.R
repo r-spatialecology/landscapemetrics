@@ -73,11 +73,11 @@ lsm_c_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "mesh",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate mesh for each patch
@@ -89,9 +89,9 @@ lsm_c_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
     # relative to total landscape area
     mesh$value <- (mesh$value / total_area) * (1 / 10000)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(mesh$class),
-                          id = as.integer(NA),
-                          metric = "mesh",
-                          value = as.double(mesh$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(mesh)),
+                              class = as.integer(mesh$class),
+                              id = rep(as.integer(NA), nrow(mesh)),
+                              metric = rep("mesh", nrow(mesh)),
+                              value = as.double(mesh$value))))
 }

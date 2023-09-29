@@ -70,19 +70,19 @@ lsm_c_para_sd_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all cells are NA
     if (all(is.na(para$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "para_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     para_sd <- stats::aggregate(x = para[, 5], by = para[, 2],
                                 FUN = stats::sd)
-
-    return(tibble::tibble(level = "class",
-                          class = as.integer(para_sd$class),
-                          id = as.integer(NA),
-                          metric = "para_sd",
-                          value = as.double(para_sd$value)))
+                                
+    return(tibble::new_tibble(list(level = rep("class", nrow(para_sd)),
+                              class = as.integer(para_sd$class),
+                              id = rep(as.integer(NA), nrow(para_sd)),
+                              metric = rep("para_sd", nrow(para_sd)),
+                              value = as.double(para_sd$value))))
 }

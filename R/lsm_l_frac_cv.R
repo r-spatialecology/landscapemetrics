@@ -72,18 +72,18 @@ lsm_l_frac_cv_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(frac_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     frac_cv <- stats::sd(frac_patch$value) / mean(frac_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "frac_cv",
-                          value = as.double(frac_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(frac_cv)),
+                        class = rep(as.integer(NA), length(frac_cv)),
+                        id = rep(as.integer(NA), length(frac_cv)),
+                        metric = rep("frac_cv", length(frac_cv)),
+                        value = as.double(frac_cv))))
 }

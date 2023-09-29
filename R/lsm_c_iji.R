@@ -67,11 +67,11 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "iji",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -88,11 +88,11 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::tibble(level = "class",
-                              class = as.integer(classes),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA)))
+        return(tibble::new_tibble(list(level = rep("class", length(classes)),
+                              class = rep(as.integer(classes), length(classes)),
+                              id = rep(as.integer(NA), length(classes)),
+                              metric = rep("iji", length(classes)),
+                              value = rep(as.double(NA), length(classes)))))
     }
 
     else {
@@ -106,10 +106,12 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-        return(tibble::tibble(level = "class",
-                              class = as.integer(classes),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(iji)))
+        return(tibble::new_tibble(list(
+            level = rep("class", length(iji)),
+            class = rep(as.integer(classes), length(iji)),
+            id = rep(as.integer(NA), length(iji)),
+            metric = rep("iji", length(iji)),
+            value = as.double(iji)
+        )))
     }
 }

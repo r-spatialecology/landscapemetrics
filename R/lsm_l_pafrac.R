@@ -77,11 +77,11 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pafrac",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of patches for each class
@@ -122,9 +122,9 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
         pafrac <- 2 / regression_model$coefficients[[2]]
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "pafrac",
-                          value = as.double(pafrac)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(pafrac)),
+                          class = rep(as.integer(NA), length(pafrac)),
+                          id = rep(as.integer(NA), length(pafrac)),
+                          metric = rep("pafrac", length(pafrac)),
+                          value = as.double(pafrac))))
 }

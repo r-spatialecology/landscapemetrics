@@ -68,11 +68,11 @@ lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contag",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -87,11 +87,11 @@ lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
                     call. = FALSE)
         }
 
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contag",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     } else {
 
         if (!is.null(extras)){
@@ -107,10 +107,10 @@ lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
 
         contag <- (1 + esum / emax) * 100
 
-        return(tibble::tibble(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contag",
-                              value = as.double(contag)))
+        return(tibble::new_tibble(list(level = rep("landscape", length(contag)),
+                 class = rep(as.integer(NA), length(contag)),
+                 id = rep(as.integer(NA), length(contag)),
+                 metric = rep("contag", length(contag)),
+                 value = as.double(contag))))
     }
 }

@@ -73,20 +73,22 @@ lsm_c_core_mn_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # summarise for class
     core_mean <- stats::aggregate(x = core[, 5], by = core[, 2],
                                   FUN = mean)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(core_mean$class),
-                          id = as.integer(NA),
-                          metric = "core_mn",
-                          value = as.double(core_mean$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(core_mean)),
+        class = as.integer(core_mean$class),
+        id = rep(as.integer(NA), nrow(core_mean)),
+        metric = rep("core_mn", nrow(core_mean)),
+        value = as.double(core_mean$value)
+    )))
 }

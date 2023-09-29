@@ -79,18 +79,18 @@ lsm_l_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     core_cv <- stats::sd(core_patch$value) / mean(core_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "core_cv",
-                          value = as.double(core_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(core_cv)),
+                 class = rep(as.integer(NA), length(core_cv)),
+                 id = rep(as.integer(NA), length(core_cv)),
+                 metric = rep("core_cv", length(core_cv)),
+                 value = as.double(core_cv))))
 }

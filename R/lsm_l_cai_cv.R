@@ -82,18 +82,18 @@ lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
 
     # all values NA
     if (all(is.na(cai_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cai_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     cai_cv <- stats::sd(cai_patch$value) / mean(cai_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "cai_cv",
-                          value = as.double(cai_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(cai_cv)),
+                 class = rep(as.integer(NA), length(cai_cv)),
+                 id = rep(as.integer(NA), length(cai_cv)),
+                 metric = rep("cai_cv", length(cai_cv)),
+                 value = as.double(cai_cv))))
 }

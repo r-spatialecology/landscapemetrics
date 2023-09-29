@@ -76,11 +76,11 @@ lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get perimeter of patches
@@ -117,11 +117,11 @@ lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
     #     warning("Calculation of shape index produced NA", call. = FALSE)
     # }
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(perimeter_patch)),
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "shape",
+        metric = rep("shape", nrow(perimeter_patch)),
         value = as.double(perimeter_patch$value / area_patch$minp)
-    )
+    ))
 }

@@ -77,11 +77,11 @@ lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch perimeter
@@ -102,11 +102,11 @@ lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
     # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(perimeter_patch)),
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "frac",
+        metric = rep("frac", nrow(perimeter_patch)),
         value = as.double(frac_patch)
-    )
+    ))
 }

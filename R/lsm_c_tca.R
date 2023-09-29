@@ -75,19 +75,22 @@ lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     # all cells are NA
     if (all(is.na(core_area$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "tca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2],
                                   FUN = sum)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(core_area$class),
-                          id = as.integer(NA),
-                          metric = "tca",
-                          value = as.double(core_area$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", length(core_area$value)),
+        class = as.integer(core_area$class),
+        id = rep(as.integer(NA), length(core_area$value)),
+        metric = rep("tca", length(core_area$value)),
+        value = as.double(core_area$value)
+    ))
+    )
 }

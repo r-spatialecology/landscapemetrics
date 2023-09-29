@@ -68,20 +68,20 @@ lsm_c_area_cv_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(area$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate cv
     area_cv <- stats::aggregate(area[, 5], by = area[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(area_cv)),
                           class = as.integer(area_cv$class),
-                          id = as.integer(NA),
-                          metric = "area_cv",
-                          value = as.double(area_cv$value)))
+                          id = rep(as.integer(NA), nrow(area_cv)),
+                          metric = rep("area_cv", nrow(area_cv)),
+                          value = as.double(area_cv$value))))
 }

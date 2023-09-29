@@ -76,19 +76,19 @@ lsm_l_circle_sd_calc <- function(landscape, directions, resolution, extras = NUL
 
     # all values NA
     if (all(is.na(circle_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "circle_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     circle_sd <- stats::sd(circle_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "circle_sd",
-                          value = as.double(circle_sd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(circle_sd)),
+                 class = rep(as.integer(NA), length(circle_sd)),
+                 id = rep(as.integer(NA), length(circle_sd)),
+                 metric = rep("circle_sd", length(circle_sd)),
+                 value = as.double(circle_sd))))
 }
 

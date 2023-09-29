@@ -65,11 +65,11 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get coocurrence matrix of like_adjacencies
@@ -80,8 +80,8 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     cells_class <- extras$composition_vector
 
     # save to tibble
-    cells_class <- tibble::tibble(class = names(cells_class),
-                                 value = cells_class)
+    cells_class <- tibble::new_tibble(list(class = names(cells_class),
+                                 value = cells_class))
 
     # calculate maximum adjacencies
     cells_class$n <- trunc(sqrt(cells_class$value))
@@ -108,9 +108,9 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     # max_adj can be zero if only one cell is present; set to NA
     ai[is.nan(ai)] <- NA
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", length(ai)),
                           class = as.integer(names(like_adjacencies)),
-                          id = as.integer(NA),
-                          metric = "ai",
-                          value = as.double(ai)))
+                          id = rep(as.integer(NA), length(ai)),
+                          metric = rep("ai", length(ai)),
+                          value = as.double(ai))))
 }

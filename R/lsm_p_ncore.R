@@ -82,11 +82,11 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = rep("patch", nrow()),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ncore",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
@@ -162,17 +162,17 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             result[as.numeric(names(n_core_area))] <- n_core_area
         }
 
-        tibble::tibble(
-            class = patches_class,
-            value = result)
+        tibble::new_tibble(list(
+            class = rep(patches_class, length(result)),
+            value = result))
         })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(core_class)),
         class = as.integer(core_class$class),
         id = as.integer(seq_len(nrow(core_class))),
-        metric = "ncore",
+        metric = rep("ncore", nrow(core_class)),
         value = as.double(core_class$value)
-    )
+    ))
 }

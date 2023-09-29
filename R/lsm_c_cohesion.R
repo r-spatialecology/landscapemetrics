@@ -72,11 +72,11 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cohesion",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of cells (only not NAs)
@@ -111,9 +111,11 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
     cohesion$value <- (1 - (cohesion$value / denominator$denominator)) *
         ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(cohesion$class),
-                          id = as.integer(NA),
-                          metric = "cohesion",
-                          value = as.double(cohesion$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(cohesion)),
+        class = as.integer(cohesion$class),
+        id = rep(as.integer(NA), nrow(cohesion)),
+        metric = rep("cohesion", nrow(cohesion)),
+        value = as.double(cohesion$value)
+    )))
 }

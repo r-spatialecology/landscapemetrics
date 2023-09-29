@@ -64,11 +64,11 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "joinent",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -77,9 +77,9 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base, extras =
         cplx <- get_complexity(landscape, neighbourhood, ordered, base)
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "joinent",
-                          value = as.double(cplx)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(cplx)),
+                 class = rep(as.integer(NA), length(cplx)),
+                 id = rep(as.integer(NA), length(cplx)),
+                 metric = rep("joinent", length(cplx)),
+                 value = as.double(cplx))))
 }

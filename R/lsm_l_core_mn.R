@@ -78,18 +78,18 @@ lsm_l_core_mn_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     core_mn <- mean(core_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "core_mn",
-                          value = as.double(core_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(core_mn)),
+                 class = rep(as.integer(NA), length(core_mn)),
+                 id = rep(as.integer(NA), length(core_mn)),
+                 metric = rep("core_mn", length(core_mn)),
+                 value = as.double(core_mn))))
 }

@@ -60,11 +60,11 @@ lsm_c_np_calc <- function(landscape, directions, extras = NULL){
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "np",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
@@ -85,12 +85,12 @@ lsm_c_np_calc <- function(landscape, directions, extras = NULL){
         # max(patch_id) equals number of patches
         np <- max(landscape_labeled, na.rm = TRUE)
 
-        tibble::tibble(
-            level = "class",
-            class = as.integer(patches_class),
-            id = as.integer(NA),
-            metric = "np",
-            value = as.double(np))
+        tibble::new_tibble(list(
+            level = rep("class", length(np)),
+            class = rep(as.integer(patches_class), length(patches_class)),
+            id = rep(as.integer(NA), length(np)),
+            metric = rep("np", length(np)),
+            value = as.double(np)))
         })
 
     do.call(rbind, np_class)

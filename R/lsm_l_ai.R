@@ -71,11 +71,11 @@ lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get aggregation index for each class
@@ -88,12 +88,12 @@ lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
                               extras = extras)
 
     # final AI index
-    result <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
+    ai <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ai",
-                          value = as.double(result)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(ai)),
+                 class = rep(as.integer(NA), length(ai)),
+                 id = rep(as.integer(NA), length(ai)),
+                 metric = rep("ai", length(ai)),
+                 value = as.double(ai))))
 }
 

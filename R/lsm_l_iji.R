@@ -68,11 +68,11 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "iji",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -87,11 +87,11 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "iji",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     } else {
 
         diag(adjacencies) <- 0
@@ -106,10 +106,10 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
 
-        return(tibble::tibble(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(iji)))
+        return(tibble::new_tibble(list(level = rep("landscape", length(iji)),
+                 class = rep(as.integer(NA), length(iji)),
+                 id = rep(as.integer(NA), length(iji)),
+                 metric = rep("lsm_l_iji", length(iji)),
+                 value = as.double(iji))))
     }
 }

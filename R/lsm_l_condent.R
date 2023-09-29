@@ -66,11 +66,11 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "condent",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -84,9 +84,9 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     conf <- cplx - comp
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "condent",
-                          value = as.double(conf)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(conf)),
+                 class = rep(as.integer(NA), length(conf)),
+                 id = rep(as.integer(NA), length(conf)),
+                 metric = rep("condent", length(conf)),
+                 value = as.double(conf))))
 }

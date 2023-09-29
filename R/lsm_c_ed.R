@@ -76,11 +76,11 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ed",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
@@ -101,9 +101,9 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     edge_class$value <- edge_class$value / area
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(edge_class)),
                           class = as.integer(edge_class$class),
-                          id = as.integer(NA),
-                          metric = "ed",
-                          value = as.double(edge_class$value)))
+                          id = rep(as.integer(NA), nrow(edge_class)),
+                          metric = rep("ed", nrow(edge_class)), 
+                          value = as.double(edge_class$value))))
 }

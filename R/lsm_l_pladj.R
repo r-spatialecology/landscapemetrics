@@ -56,11 +56,11 @@ lsm_l_pladj_calc <- function(landscape) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pladj",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     landscape_padded <- pad_raster_internal(landscape,
@@ -75,9 +75,9 @@ lsm_l_pladj_calc <- function(landscape) {
 
     pladj <- like_adjacencies / total_adjacencies * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "pladj",
-                          value = as.double(pladj)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(pladj)),
+                          class = rep(as.integer(NA), length(pladj)),
+                          id = rep(as.integer(NA), length(pladj)),
+                          metric = rep("pladj", length(pladj)),
+                          value = as.double(pladj))))
 }

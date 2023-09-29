@@ -69,21 +69,21 @@ lsm_l_area_mn_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(area_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate mean
-    area_mean <- mean(area_patch$value)
+    area_mn <- mean(area_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "area_mn",
-                          value = as.double(area_mean)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(area_mn)),
+                 class = rep(as.integer(NA), length(area_mn)),
+                 id = rep(as.integer(NA), length(area_mn)),
+                 metric = rep("area_mn", length(area_mn)),
+                 value = as.double(area_mn))))
 }
 
 

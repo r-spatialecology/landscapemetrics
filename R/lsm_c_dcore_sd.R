@@ -77,18 +77,20 @@ lsm_c_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_d
                               extras = extras)
 
     if (all(is.na(dcore$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcore_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     dcore_sd <- stats::aggregate(x = dcore[, 5], by = dcore[, 2], FUN = stats::sd)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(dcore_sd$class),
-                          id = as.integer(NA),
-                          metric = "dcore_sd",
-                          value = as.double(dcore_sd$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(dcore_sd)),
+        class = as.integer(dcore_sd$class),
+        id = rep(as.integer(NA), nrow(dcore_sd)),
+        metric = rep("dcore_sd", nrow(dcore_sd)),
+        value = as.double(dcore_sd$value)
+    )))
 }

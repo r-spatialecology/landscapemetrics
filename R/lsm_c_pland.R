@@ -72,24 +72,21 @@ lsm_c_pland_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(pland$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pland",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    pland <- stats::aggregate(x = pland[, 5], by = list(pland[, 2]), FUN = sum)
+    pland <- stats::aggregate(x = pland[, 5], by = pland[, 2], FUN = sum)
 
-    pland$value <- pland$x / sum(pland$x) * 100
-    pland$class <- pland$Group.1
+    pland$value <- pland$value / sum(pland$value) * 100
 
-    # pland$value <- pland$value / sum(pland$value) * 100
-
-    return(tibble::tibble(level = "class",
-                          class = as.integer(pland$class),
-                          id = as.integer(NA),
-                          metric = "pland",
-                          value = as.double(pland$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(pland)),
+                              class = as.integer(pland$class),
+                              id = rep(as.integer(NA), nrow(pland)),
+                              metric = rep("pland", nrow(pland)),
+                              value = as.double(pland$value))))
 }
 

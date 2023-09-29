@@ -59,11 +59,11 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ent",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     if (!is.null(extras)){
@@ -73,9 +73,9 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
         comp <- rcpp_get_entropy(colSums(com), base)
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ent",
-                          value = as.double(comp)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(comp)),
+                 class = rep(as.integer(NA), length(comp)),
+                 id = rep(as.integer(NA), length(comp)),
+                 metric = rep("lsm_l_ent", length(comp)),
+                 value = as.double(comp))))
 }
