@@ -103,25 +103,18 @@ lsm_c_lsi_calc <- function(landscape) {
     class_m <- class_area - class_n ^ 2
 
     # calculate min_edge
-    class_perim_min <- ifelse(test = class_m == 0,
-                              yes = class_n * 4,
-                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n),
-                                          yes = 4 * class_n + 2,
-                                          no = ifelse(test = class_area > class_n * (1 + class_n),
-                                                      yes = 4 * class_n + 4,
+    class_perim_min <- ifelse(test = class_m == 0, yes = class_n * 4,
+                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n), yes = 4 * class_n + 2,
+                                          no = ifelse(test = class_area > class_n * (1 + class_n), yes = 4 * class_n + 4,
                                                       no = NA)))
+
+    # test if any NAs introduced
+    if (anyNA(class_perim_min)) {
+        stop("NAs introduced by lsm_c_lsi.", call. = FALSE)
+    }
 
     # calculate LSI
     lsi <- class_perim / class_perim_min
-
-    # test if any NAs introduced
-    if (!all(is.finite(lsi))) {
-
-        warning("NAs introduced by lsm_c_lsi.", call. = FALSE)
-
-        lsi[!is.finite(lsi)] <- NA
-
-    }
 
     return(tibble::tibble(level = "class",
                           class = as.integer(names(lsi)),
