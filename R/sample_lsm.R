@@ -94,9 +94,9 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
                            all_classes, verbose, progress, ...) {
 
     # check if size argument is only one number
-    if ((length(size) != 1 | any(size <= 0)) & !is.null(size)) {
+    if (!is.null(size) & (length(size) != 1 | any(size < 0))) {
 
-        stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
+        stop("Please provide only one value as size argument.", call. = FALSE)
 
     }
 
@@ -109,7 +109,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
 
         if (terra::geomtype(y) == "points") {
 
-            if (is.null(size)) stop("Please provide size argument.", call. = FALSE)
+            if (is.null(size) | size == 0) stop("Please provide size argument size > 0.", call. = FALSE)
 
             y <- construct_buffer(coords = y, shape = shape, size = size,
                                   return_vec = TRUE, verbose = verbose)
