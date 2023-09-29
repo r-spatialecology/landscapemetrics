@@ -18,7 +18,7 @@
 #' under a spatially random distribution. The metric is based on he adjacency matrix and the
 #' the double-count method.
 #'
-#' \subsection{Units}{None}, directions = directions
+#' \subsection{Units}{None}
 #' \subsection{Range}{-1 <= CLUMPY <= 1}
 #' \subsection{Behaviour}{Equals -1 for maximally disaggregated, 0 for randomly distributed
 #' and 1 for maximally aggregated classes.}
