@@ -58,9 +58,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
     landscape_padded <- pad_raster_internal(landscape,
                                             pad_raster_value = -999,
                                             pad_raster_cells = 1,
-                                            global = FALSE)
-
-    landscape_padded[!is.finite(landscape_padded)] <- -999
+                                            global = TRUE)
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {

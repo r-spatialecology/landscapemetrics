@@ -20,7 +20,8 @@ pad_raster(
 
 \item{pad_raster_cells}{Number of rows and columns added}
 
-\item{global}{Only pad around the raster extent or also NA holes "inside"}
+\item{global}{If TRUE, NAs within the landscape are replace with the value; if FALSE only
+padding around the raster is added.}
 
 \item{return_raster}{If false, matrix is returned}
 

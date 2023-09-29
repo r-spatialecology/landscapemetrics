@@ -5,7 +5,8 @@
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param pad_raster_value Value of cells added
 #' @param pad_raster_cells Number of rows and columns added
-#' @param global Only pad around the raster extent or also NA holes "inside"
+#' @param global If TRUE, NAs within the landscape are replace with the value; if FALSE only
+#' padding around the raster is added.
 #' @param return_raster If false, matrix is returned
 #' @param to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, pad_raster writes temporary files and hence, does not hold
