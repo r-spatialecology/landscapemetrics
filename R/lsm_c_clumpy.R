@@ -60,6 +60,8 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
                                             pad_raster_cells = 1,
                                             global = FALSE)
 
+    landscape_padded[!is.finite(landscape_padded)] <- -999
+
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
         return(tibble::tibble(level = "class",
@@ -82,7 +84,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
     # number cells in each class without -999 lansdcape boundary
     cells_class <- rcpp_get_composition_vector(landscape_padded)[-1]
 
-    # conver to tibble
+    # convert to tibble
     cells_class <- tibble::tibble(class = names(cells_class),
                                   value = cells_class)
 
@@ -99,7 +101,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # test if any NAs introduced
     if (anyNA(cells_class$min_e)) {
-        warning("NAs introduced by lsm_c_clumpy", ccall. = FALSE)
+        warning("NAs introduced by lsm_c_clumpy", call. = FALSE)
     }
 
     # calculate g_i
