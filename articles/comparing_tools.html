@@ -165,13 +165,18 @@
 <p><strong>landscapemetrics</strong> re-implements landscape metrics as
 they are mostly described in the FRAGSTATS software (McGarigal <em>et
 al.</em> 2023). Therefore, we compare our results with the results of
-FRAGSTATS. In the process, we recognized a few differences between the
-results. Some metrics in FRAGSTATS are interdependent across scales.
-Thus, if there is a deviation at the patch level, it propagates through
-the class- and landscape-level. In this document, we list the metrics
-with deviations at the lowest level only. Unfortunately, we do not have
-access to the source code of FRAGSTATS. Therefore, we are not able to
-finally explain all present differences of results.</p>
+FRAGSTATS. On patch-level we use a correlation approach testing values
+calculated by <strong>landscapemetrics</strong> and FRAGSTATS have at
+least a correlation of <em>p&gt;=0.975</em> because we are not able to
+exactly match patches. On class- and landscape-level we can match
+individual values and test if no deviation is larger than 5%. In the
+process, we recognized a few differences between the results. Some
+metrics in FRAGSTATS are interdependent across scales. Thus, if there is
+a deviation at the patch level, it propagates through the class- and
+landscape-level. In this document, we list the metrics with deviations
+at the lowest level only. Unfortunately, we do not have access to the
+source code of FRAGSTATS. Therefore, we are not able to finally explain
+all present differences of results.</p>
 <div class="section level3">
 <h3 id="general-differences">General differences<a class="anchor" aria-label="anchor" href="#general-differences"></a>
 </h3>
