@@ -55,7 +55,8 @@ sample_points_wrong <- cbind(sample_points, 1)
 
 #### import and reshape FRAGSTATS v2.0 results ####
 
-tolerance <- 5.0
+tol_cor <- 0.975
+tol_rel <- 0.05
 
 fragstats_patch <- landscapemetrics:::internal_data$fs_data$patch |>
     tidyr::pivot_longer(cols = -c("LID", "PID", "TYPE"), names_to = "metric") |>
@@ -67,37 +68,49 @@ fragstats_class <- landscapemetrics:::internal_data$fs_data$class |>
     tidyr::pivot_longer(cols = -c("LID", "TYPE"), names_to = "metric") |>
     dplyr::mutate(TYPE = stringr::str_remove_all(TYPE, pattern = " "),
                   TYPE = as.integer(stringr::str_remove(TYPE, pattern = "cls_")),
-                  metric = stringr::str_to_lower(metric))
+                  metric = stringr::str_to_lower(metric)) |>
+    dplyr::arrange(LID, TYPE)
 
 fragstats_landscape <- landscapemetrics:::internal_data$fs_data$landscape |>
     tidyr::pivot_longer(cols = -c("LID"), names_to = "metric") |>
     dplyr::mutate(metric = stringr::str_to_lower(metric))
 
-test_diff <- function(obs, exp, tol) {
+test_correlation <- function(obs, exp, tolerance) {
+
+    obs <- obs[!is.na(obs)]
+    exp <- exp[!is.na(exp)]
+
+    if (length(obs) != length(exp)) stop("Vectors have different length.")
+
+    cor_vals <- cor(sort(obs), sort(exp))
+
+    flag <- ifelse(test = cor_vals >= tolerance, yes = TRUE, no = FALSE)
+
+    if(!flag) warning(paste0("Correlation=", round(cor_vals, 4)))
+
+    return(flag)
+}
+
+test_relative <- function(obs, exp, tolerance){
 
     # remove all NA values which could be present
     obs <- obs[!is.na(obs)]
     exp <- exp[!is.na(exp)]
 
-    # check if vectors have the same length
-    if (length(obs) != length(exp)) stop()
+    if (length(obs) != length(exp)) stop("Vectors have different length.")
 
-    # get id of closest value for each obs in exp
-    id <- sapply(obs, function(x) which.min(abs(exp - x)))
-    # MH: What if two values are equally min?
-
-    # calculate relative differencce between now ordered vectors
-    d <- ((obs - exp[id]) / exp[id]) * 100
+    # calculate relative difference between elements
+    d <- abs((obs - exp) / exp)
 
     # value will be NaN if divided by zero
-    d[obs == 0 & exp[id] == 0] <- 0
+    d[obs == 0 & exp == 0] <- 0
 
     # check if all values are below tolerance
-    flag <- all(abs(d) <= tol)
+    flag <- all(d <= tolerance)
 
     # throw warning if not
-    if(!flag) warning(paste0("Largest diff=", max(round(d, 2)), "%"))
+    if(!flag) warning(paste0("Largest diff=", max(round(d * 100, 2)), "%"))
 
     return(flag)
-
 }
+

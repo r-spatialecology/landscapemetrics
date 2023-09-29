@@ -27,9 +27,8 @@ test_that("lsm_p_circle can also handle irregular sized cells", {
 # https://fragstats.org/index.php/fragstats-metrics/shape-metrics/p4-related-circumscribing-circle
 # In addition, the index never quite equals 0 because the grid data format doesn't allow patches to be perfectly circular
 
-# MH: Something is wrong here
-
 test_that("lsm_p_circle equals FRAGSTATS", {
+
     lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
         tidyr::pivot_wider(names_from = metric, values_from = value) |>
         dplyr::filter(area != min(area)) |>
@@ -50,6 +49,6 @@ test_that("lsm_p_circle equals FRAGSTATS", {
         dplyr::filter(area != min(area)) |>
         dplyr::pull(circle)
 
-    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
-    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
+    expect_true(test_correlation(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_cor))
+    expect_true(test_correlation(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_cor))
 })

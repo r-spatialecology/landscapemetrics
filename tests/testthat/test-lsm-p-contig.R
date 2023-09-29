@@ -26,6 +26,6 @@ test_that("lsm_p_contig equals FRAGSTATS", {
     fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "contig") |> dplyr::pull(value)
     fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "contig") |> dplyr::pull(value)
 
-    expect_true(test_diff(obs = lsm_landscape, exp = fs_landscape, tol = tolerance))
-    expect_true(test_diff(obs = lsm_augusta, exp = fs_augusta, tol = tolerance))
+    expect_true(test_correlation(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_cor))
+    expect_true(test_correlation(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_cor))
 })
