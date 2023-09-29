@@ -23,13 +23,12 @@ Mean shape index (Shape metric)
 where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
 
 SHAPE_MN is a 'Shape metric'. The landscape is summarised as the mean
-of all patches in the landscape. SHAPE describes the ratio between the actual perimeter
-of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
-equals the perimeter if the patch would be maximally compact.
+of all patches in the landscape. SHAPE describes the ratio between the actual perimeter of
+the patch and the square root of patch area.
 
 \subsection{Units}{None}
 \subsection{Range}{SHAPE_SD >= 1}
-\subsection{Behaviour}{Equals SHAPE_MN = 0 if all patches are squares.
+\subsection{Behaviour}{Equals SHAPE_MN = 1 if all patches are squares.
 Increases, without limit, as the shapes of patches become more complex.}
 }
 \examples{
