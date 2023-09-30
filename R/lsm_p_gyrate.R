@@ -79,11 +79,11 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch"),
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "gyrate",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique class id

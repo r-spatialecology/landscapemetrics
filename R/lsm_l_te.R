@@ -62,7 +62,7 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
         metrics <- "lsm_l_te"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions, neighbourhood = 4, resolution = resolution)
+                                            neighbourhood = 4, resolution = resolution)
     }
 
     # all values NA

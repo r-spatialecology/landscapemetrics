@@ -81,11 +81,11 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     }
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch"),
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get common variables

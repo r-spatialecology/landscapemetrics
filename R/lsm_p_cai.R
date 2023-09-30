@@ -77,6 +77,10 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (!inherits(landscape, "matrix")){
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+    }
+
     if (is.null(extras)){
         metrics <- "lsm_p_cai"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
@@ -86,11 +90,11 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch"),
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area

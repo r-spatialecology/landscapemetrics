@@ -118,6 +118,6 @@ lsm_l_lsi_calc <- function(landscape, extras = NULL) {
     return(tibble::new_tibble(list(level = rep("landscape", length(lsi)),
                  class = rep(as.integer(NA), length(lsi)),
                  id = rep(as.integer(NA), length(lsi)),
-                 metric = rep("lsm_l_lsi", length(lsi)),
+                 metric = rep("lsi", length(lsi)),
                  value = as.double(lsi))))
 }

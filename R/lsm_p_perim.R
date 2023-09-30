@@ -63,11 +63,11 @@ lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch"),
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "perim",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes

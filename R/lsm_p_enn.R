@@ -72,17 +72,17 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, extras = NULL) {
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        points <- raster_to_points(landscape)[, 2:4]
+        points <- get_points(landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch"),
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes

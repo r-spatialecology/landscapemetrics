@@ -59,8 +59,7 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     if (is.null(extras)){
         metrics <- "lsm_c_ai"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
-                                            directions = directions)
+        extras <- prepare_extras_nonspatial(metrics, landscape = landscape)
     }
 
     # all values NA

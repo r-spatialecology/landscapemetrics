@@ -60,7 +60,7 @@ lsm_l_mesh <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_mesh_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
@@ -86,6 +86,6 @@ lsm_l_mesh_calc <- function(landscape, directions, extras = NULL) {
     return(tibble::new_tibble(list(level = rep("landscape", length(mesh)),
                 class = rep(as.integer(NA), length(mesh)),
                 id = rep(as.integer(NA), length(mesh)),
-                metric = rep("lsm_l_mesh", length(mesh)),
+                metric = rep("mesh", length(mesh)),
                 value = as.double(mesh))))
 }
