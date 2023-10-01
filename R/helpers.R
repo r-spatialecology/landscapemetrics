@@ -1,11 +1,11 @@
 prepare_extras_nonspatial <- function(metrics, landscape, directions, neighbourhood, ordered, base, resolution){
-    extras_df_sub <- subset(extras_df, metric %in% metrics)
+    extras_df_sub <- extras_df[extras_df$metric %in% metrics, ]
     extras_list <- unique(extras_df_sub$extras)
 
     extras <- list()
 
     if (any(c("enn_patch", "points") %in% extras_list)){
-        extras$points <- get_points(landscape)
+        extras$points <- get_points(landscape, resolution)
     }
     if (any(c("area_patches", "enn_patch", "class_patches", "classes")  %in% extras_list)){
         extras$classes <- get_unique_values_int(landscape, verbose = FALSE)
@@ -63,12 +63,12 @@ get_complexity <- function(landscape, neighbourhood, ordered, base){
     return(cplx)
 }
 
-get_enn_patch <- function(classes, class_patches, points){
+get_enn_patch <- function(classes, class_patches, points, verbose = FALSE){
     enn_patch <- do.call(rbind,
                          lapply(classes, function(patches_class) {
 
                              # get connected patches
-                            landscape_labeled <- class_patches[[as.character(patches_class)]]
+                             landscape_labeled <- class_patches[[as.character(patches_class)]]
 
                              # get number of patches
                              np_class <- max(landscape_labeled, na.rm = TRUE)
@@ -97,8 +97,9 @@ get_enn_patch <- function(classes, class_patches, points){
     )
 }
 
-get_points <- function(landscape){
-    points <- expand.grid(row = 1:nrow(landscape), col = 1:ncol(landscape))
-    points$value <- as.vector(landscape)
+get_points <- function(landscape, resolution){
+    points <- expand.grid(col = 1:ncol(landscape), row = 1:nrow(landscape))
+    points <- mapply(FUN = `*`, points, resolution)
+    points <- cbind(points, value = as.vector(landscape))
     points
 }

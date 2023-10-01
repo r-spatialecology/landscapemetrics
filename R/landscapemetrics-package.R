@@ -15,4 +15,4 @@
 #' @keywords internal
 "_PACKAGE"
 
-globalVariables(c("label", "lsm_abbreviations_names", "metric_1", "metric_2", "value", "values", "x", "y"))
+globalVariables(c(".data", "label", "lsm_abbreviations_names", "metric_1", "metric_2", "value", "values", "x", "y"))

@@ -74,12 +74,17 @@ get_nearestneighbour_calc <- function(landscape, return_id,
 
     # set ID from class ID to unique patch ID
     points[, 3] <- class_boundaries[!is.na(class_boundaries)]
+    # str(points)
+    # head(points)
+    # points |> as.data.frame() |> dplyr::slice_min(, n = 5)
 
     ord <- order(as.matrix(points)[, 1])
     num <- seq_along(ord)
     rank <- match(num, ord)
 
-    res <- rcpp_get_nearest_neighbor(terra::as.matrix(points, wide= TRUE)[ord, ])
+    res <- rcpp_get_nearest_neighbor(as.matrix(points)[ord, ])
+    # head(as.matrix(points)[ord, ])
+    # head(res)
 
     min_dist <- tibble::new_tibble(list(cell = num,
                                dist = res[rank, 1],

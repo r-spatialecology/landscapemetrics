@@ -76,6 +76,6 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
     return(tibble::new_tibble(list(level = rep("landscape", length(comp)),
                  class = rep(as.integer(NA), length(comp)),
                  id = rep(as.integer(NA), length(comp)),
-                 metric = rep("lsm_l_ent", length(comp)),
+                 metric = rep("ent", length(comp)),
                  value = as.double(comp))))
 }

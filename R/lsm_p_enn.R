@@ -71,7 +71,6 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
         points <- get_points(landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
