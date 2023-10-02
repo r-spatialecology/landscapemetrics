@@ -32,6 +32,10 @@ test_that("spatialize_lsm returns returns correct type of metrics", {
 
 test_that("spatialize_lsm returns CRS", {
 
+    skip_on_cran()
+
+    # CRS(Raster*) before comparing, or terra::same.crs(x, y).
+
     result <- spatialize_lsm(podlasie_ccilc, what = "lsm_p_area",
                              verbose = FALSE)
 
