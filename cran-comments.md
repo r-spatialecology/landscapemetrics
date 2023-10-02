@@ -1,5 +1,5 @@
 # landscapemetrics 2.0.0
-Remove dependencies
+Major update removing dependency to raster and sp package
 
 # landscapemetrics 1.5.6
 This is a re-submission. The below error has now been fixed
