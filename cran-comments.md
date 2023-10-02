@@ -117,18 +117,5 @@ with a suitable tolerance.
 
 * The software we compare our results to (FRAGSTATS) has only a precision of 4 digits itself. We discussed using relative differences but decided that we do not want to show that our results are equal to the FRAGSTATS results within a tolerance, but rather that our results would be exactly the same assuming the same precision. Therefore we decided to round our results for the tests.
 
-
-## Test environments
-* Windows 10, R 3.5.2
-* ubuntu 18.04, R 3.5.2
-* macOS Mojave, R 3.5.2
-* Windows 10, R (unstable) (2019-01-18 r75994)
-* win-builder (release and devel)
-
-## R CMD check results
-
-0 errors | 0 warnings | 0 note
-
-## Reverse dependencies
-
-There are currently no reverse dependencies.
+## Update Version: 0.1.0
+First submission to CRAN
