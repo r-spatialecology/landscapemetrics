@@ -108,7 +108,7 @@ lsm_l_lsi_calc <- function(landscape) {
                                                       no = NA)))
 
     # test if any NAs introduced
-    if (is.na(lsi)) {
+    if (is.na(total_perim_min)) {
         stop("NAs introduced by lsm_l_lsi.", call. = FALSE)
     }
 

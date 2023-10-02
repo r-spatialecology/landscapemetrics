@@ -150,11 +150,8 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     # test if any NAs introduced
     if (!all(is.finite(nlsi))) {
-
         warning("NAs introduced by lsm_c_nlsi.", call. = FALSE)
-
         nlsi[!is.finite(nlsi)] <- NA
-
     }
 
     return(tibble::tibble(level = "class",
