@@ -2,7 +2,7 @@
 #'
 #' @description Percentage of Like Adjacencies (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{PLADJ = (\frac{g_{ij}} {\sum \limits_{k = 1}^{m} g_{ik}}) * 100}
@@ -22,16 +22,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_pladj(landscape)
 #'
 #' @aliases lsm_l_pladj
 #' @rdname lsm_l_pladj
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/.
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org.
 #'
 #' @export
 lsm_l_pladj <- function(landscape) {
@@ -51,7 +51,7 @@ lsm_l_pladj <- function(landscape) {
 lsm_l_pladj_calc <- function(landscape) {
 
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

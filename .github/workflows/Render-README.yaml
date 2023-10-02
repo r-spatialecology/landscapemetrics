@@ -27,7 +27,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rmarkdown, any::landscapetools, local::.
+          extra-packages: any::rmarkdown, local::.
 
       - name: Render README files
         run: Rscript -e 'rmarkdown::render("README.Rmd")'

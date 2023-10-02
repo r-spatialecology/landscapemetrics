@@ -7,7 +7,7 @@
 lsm_c_clumpy(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
 }
 \value{
 tibble
@@ -29,18 +29,18 @@ the proportion of like adjacencies involving the corresponding class from that e
 under a spatially random distribution. The metric is based on he adjacency matrix and the
 the double-count method.
 
-\subsection{Units}{None}, directions = directions
+\subsection{Units}{None}
 \subsection{Range}{-1 <= CLUMPY <= 1}
 \subsection{Behaviour}{Equals -1 for maximally disaggregated, 0 for randomly distributed
 and 1 for maximally aggregated classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_clumpy(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 }

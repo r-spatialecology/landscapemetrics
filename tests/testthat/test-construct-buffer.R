@@ -1,40 +1,29 @@
-context("construct_buffer")
-
-sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
-points_sp <- sp::SpatialPoints(sample_points)
-points_spdf <- sp::SpatialPointsDataFrame(sample_points,
-                                          data = data.frame(id = 1:3))
-
 test_that("construct_buffer is typestable", {
 
-    expect_is(construct_buffer(sample_points,
-                               shape = "circle", size = 5), "SpatialPolygons")
-    expect_is(construct_buffer(points_sp,
-                               shape = "square", size = 5), "SpatialPolygons")
-    expect_is(construct_buffer(points_spdf,
-                               shape = "square", size = 5), "SpatialPolygons")
+    expect_s4_class(construct_buffer(sample_points, shape = "circle", size = 5),
+                    "SpatVector")
+
 })
 
 test_that("construct_buffer can return a matrix", {
 
-    expect_is(construct_buffer(sample_points,
-                               shape = "circle", size = 5,
-                               return_sp = FALSE), "matrix")
+    circle_a <- construct_buffer(sample_points, shape = "circle", size = 5,
+                                 return_vec = FALSE)
 
-    expect_is(construct_buffer(points_sp,
-                               shape = "circle", size = 5,
-                               return_sp = FALSE), "matrix")
+    square <- construct_buffer(sample_points, shape = "square", size = 5,
+                               return_vec = FALSE)
 
-    expect_is(construct_buffer(points_spdf,
-                               shape = "circle", size = 5,
-                               return_sp = FALSE), "matrix")
+    expect_true(is.matrix(circle_a))
+
+    expect_true(is.matrix(square))
+
 })
 
 test_that("construct_buffer returns error for unkown shape", {
 
     shape <- "3D"
 
-    expect_error(construct_buffer(points_matrix, shape = "3D", size = 5),
+    expect_error(construct_buffer(sample_points, shape = "3D", size = 5),
                  regexp = paste0("Shape option " , shape, " unkown."),
                  fixed = TRUE)
 })

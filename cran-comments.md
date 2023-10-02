@@ -1,5 +1,5 @@
-# landscapemetrics 1.5.7
-Last minor update adjusting for `raster` package changes; the next update will remove the `raster` support.
+# landscapemetrics 2.0.0
+Major update removing dependency to raster and sp package
 
 # landscapemetrics 1.5.6
 This is a re-submission. The below error has now been fixed
@@ -7,8 +7,8 @@ This is a re-submission. The below error has now been fixed
 Remove dependencies
 
 # landscapemetrics 1.5.5
-Improved user experience
-Fix typo in Maintainer name
+- Improved user experience
+- Fix typo in Maintainer name
 
 # landscapemetrics 1.5.4
 Computational improvements

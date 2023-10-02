@@ -2,10 +2,11 @@
 #'
 #' @description Adding padding to raster
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param pad_raster_value Value of cells added
 #' @param pad_raster_cells Number of rows and columns added
-#' @param global Only pad around the raster extent or also NA holes "inside"
+#' @param global If TRUE, NAs within the landscape are replace with the value; if FALSE only
+#' padding around the raster is added.
 #' @param return_raster If false, matrix is returned
 #' @param to_disk Logical argument, if FALSE results of get_patches are hold
 #' in memory. If true, pad_raster writes temporary files and hence, does not hold
@@ -17,6 +18,7 @@
 #' @return raster
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
 #'
 #' @aliases pad_raster
@@ -38,15 +40,14 @@ pad_raster <- function(landscape, pad_raster_value = -999, pad_raster_cells = 1,
                                            pad_raster_cells = pad_raster_cells,
                                            global = global)
 
-        if (return_raster && inherits(x = x, what = "RasterLayer")) {
+        if (return_raster && inherits(x = x, what = "SpatRaster")) {
 
             result_temp <- matrix_to_raster(matrix = result_temp,
-                                            extent = raster::extent(x) +
-                                                raster::res(x) * pad_raster_cells * 2,
-                                            resolution = raster::res(x), crs =  raster::crs(x),
+                                            extent = terra::ext(x) + terra::res(x) * pad_raster_cells,
+                                            resolution = terra::res(x), crs = terra::crs(x),
                                             to_disk = to_disk)
 
-        } else if (return_raster || to_disk && !inherits(x = x, what = "RasterLayer")) {
+        } else if (return_raster || to_disk && !inherits(x = x, what = "SpatRaster")) {
 
             warning("'return_raster = TRUE' or 'to_disk = TRUE' not able for matrix input.",
                     call. = FALSE)
@@ -69,7 +70,7 @@ pad_raster_internal <- function(landscape,
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <-terra::as.matrix(landscape, wide = TRUE)
 
     }
 
@@ -79,9 +80,7 @@ pad_raster_internal <- function(landscape,
                           nrow = pad_raster_cells)
 
     # add columns on both sides
-    landscape_padded <- rbind(y_direction,
-                              landscape,
-                              y_direction,
+    landscape_padded <- rbind(y_direction, landscape, y_direction,
                               deparse.level = 0)
 
     # get pad_raster_values as often as rows time spad_raster_cells to add in x direction
@@ -90,9 +89,7 @@ pad_raster_internal <- function(landscape,
                           ncol = pad_raster_cells)
 
     # add rows on both sides
-    landscape_padded <- cbind(x_direction,
-                              landscape_padded,
-                              x_direction,
+    landscape_padded <- cbind(x_direction, landscape_padded, x_direction,
                               deparse.level = 0)
 
     if (global) {

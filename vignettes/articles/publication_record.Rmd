@@ -8,9 +8,10 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-We are always happy to hear from you if you used `landscapemetrics` for a publication. You can either just drop us an e-mail or [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/).
+We are always happy to hear from you if you used **landscapemetrics** for a publication.
+You can either just drop us an e-mail or [file an issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues/new/).
 
-To cite `landscapemetrics` or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘ver. 0’: 
+To cite **landscapemetrics** or acknowledge its use, please cite the following Software note, substituting the version of the application that you used for ‘ver. 0’: 
 
 <p>
 
@@ -23,4 +24,4 @@ You can get more information about how to cite the package using `citation("land
 
 ## A list of publications
 
-To see all papers that already used `landscapemetrics`, please [click here](https://scholar.google.com/scholar?start=0&hl=en&scisbd=2&as_sdt=80000005&cites=2286255906926357874&scipsc=).
+To see all papers that already used **landscapemetrics**, please [click here](https://scholar.google.com/scholar?start=0&hl=en&scisbd=2&as_sdt=80000005&cites=2286255906926357874&scipsc=).

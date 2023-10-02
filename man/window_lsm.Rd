@@ -17,7 +17,7 @@ window_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{window}{Moving window matrix.}
 
@@ -45,13 +45,15 @@ Moving window
 \details{
 The function calculates for each focal cell the selected landscape metrics (currently only landscape level
 metrics are allowed) for a local neighbourhood. The neighbourhood can be specified using a matrix. For more
-details, see \code{?raster::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
+details, see \code{?terra::focal()}. The result will be a \code{RasterLayer} in which each focal cell includes
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
-To be type stable, the acutally result is always a nested list (first level for \code{RasterStack} layers, second level
+To be type stable, the actual result is always a nested list (first level for \code{RasterStack} layers, second level
 for selected landscape metrics).
 }
 \examples{
 \dontrun{
+landscape <- terra::rast(landscapemetrics::landscape)
+landscape_stack <- c(landscape, landscape)
 window <- matrix(1, nrow = 5,ncol = 5)
 window_lsm(landscape, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
 window_lsm(landscape_stack, window = window, what = c("lsm_l_pr", "lsm_l_joinent"))
@@ -69,10 +71,9 @@ Hagen-Zanker, A. (2016). A computational framework for generalized moving window
 and its application to landscape pattern analysis. International journal of applied
 earth observation and geoinformation, 44, 205-216.
 
-McGarigal, K., Cushman, S.A., and Ene E. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-website: \url{https://www.umass.edu/landeco/}
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{list_lsm}} \cr

@@ -1,17 +1,12 @@
-context("class level lsm_c_pafrac metric")
-
-landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape,
-                                                       verbose = FALSE)
+landscapemetrics_class_landscape_value <- lsm_c_pafrac(landscape, verbose = FALSE)
 
 test_that("lsm_c_pafrac is typestable", {
 
-    expect_is(lsm_c_pafrac(landscape,
+    expect_s3_class(lsm_c_pafrac(landscape,
                            verbose = FALSE), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_stack,
+    expect_s3_class(lsm_c_pafrac(landscape_stack,
                            verbose = FALSE), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_brick,
-                           verbose = FALSE), "tbl_df")
-    expect_is(lsm_c_pafrac(landscape_list,
+    expect_s3_class(lsm_c_pafrac(landscape_list,
                            verbose = FALSE), "tbl_df")
 })
 
@@ -35,4 +30,15 @@ test_that("lsm_c_pafrac throws warning for less than 10 patches",  {
     expect_warning(lsm_c_pafrac(landscape_uniform),
                    regexp = "Class 1: PAFRAC = NA for class with < 10 patches",
                    fixed = TRUE)
+})
+
+test_that("lsm_c_pafrac equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_pafrac(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_pafrac(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "pafrac") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "pafrac") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
 })

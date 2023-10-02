@@ -1,6 +1,9 @@
 library(testthat)
 library(landscapemetrics)
-library(raster)
 library(terra)
+
+library(dplyr)
+library(stringr)
+library(tidyr)
 
 test_check("landscapemetrics")

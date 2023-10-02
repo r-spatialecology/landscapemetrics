@@ -11,15 +11,6 @@ reference:
       - landscape
       - augusta_nlcd
       - podlasie_ccilc
-      - fragstats_patch_landscape
-      - fragstats_patch_augusta_nlcd
-      - fragstats_patch_podlasie
-      - fragstats_class_landscape
-      - fragstats_class_augusta_nlcd
-      - fragstats_class_podlasie
-      - fragstats_landscape_landscape
-      - fragstats_landscape_augusta_nlcd
-      - fragstats_landscape_podlasie
 
   - title: Options for landscapemetrics
     contents:
@@ -40,8 +31,6 @@ reference:
       - landscape_as_list
       - list_lsm
       - sample_lsm
-      - scale_sample
-      - scale_window
       - spatialize_lsm
       - window_lsm
 
@@ -91,23 +80,26 @@ navbar:
          icon: fa-book
          href: articles/general_background.html
        - text: "Differences FRAGSTATS|landscapemetrics"
-         icon: fa-edit
+         icon: fa-book
          href: articles/comparing_tools.html
-       - text: "New Metrics outside FRAGSTATS"
-         icon: fa-sticky-note
-         href: articles/new_metrics.html
-       - text: "Utility functions"
-         icon: fa-comment
-         href: articles/utility.html
-       - text: "Moving window"
-         icon: fa-comment
-         href: articles/guide_moving_window.html
-       - text: "Sample metrics"
-         icon: fa-comment
-         href: articles/guide_sample_lsm.html
        - text: "Landscape distribution statistics"
-         icon: fa-comment
+         icon: fa-book
          href: articles/landscape_distribution_statistics.html
+       - text: "New Metrics outside FRAGSTATS"
+         icon: fa-book
+         href: articles/new_metrics.html
+       - text: "Sample metrics"
+         icon: fa-book
+         href: articles/guide_sample_lsm.html
+       - text: "Moving window"
+         icon: fa-book
+         href: articles/guide_moving_window.html
+       - text: "Calculating landscape metrics for irregular areas"
+         icon: fa-book
+         href: articles/irregular_areas.html
+       - text: "Utility functions"
+         icon: fa-book
+         href: articles/utility.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/publication_record.html
@@ -119,7 +111,7 @@ navbar:
 
     contact:
       icon: fa-user
-      hreft: https://mhesselbarth.rbind.io
+      hreft: https://www.maxhesselbarth.com/
 
 home:
   sidebar:

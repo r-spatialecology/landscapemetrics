@@ -2,16 +2,17 @@
 #'
 #' @description Raster to points
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param return_NA If true, NA cells are also included
 #'
 #' @details
-#' Wrapper around raster::xyFromCell and raster::getValues to get raster_to_points
+#' Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
 #' function including NA values
 #'
 #' @return matrix
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' raster_to_points(landscape)
 #'
 #' @aliases raster_to_points
@@ -42,14 +43,13 @@ raster_to_points_internal <- function(landscape, return_NA) {
 
     # preallocate matrix
     xyz <- matrix(data = NA,
-                  nrow = raster::ncell(landscape), ncol = 3)
+                  nrow = terra::ncell(landscape), ncol = 3)
 
     # get coordinates
-    xyz[, c(1,2)] <- raster::xyFromCell(landscape,
-                                        cell = 1:raster::ncell(landscape))
+    xyz[, c(1, 2)] <- terra::xyFromCell(landscape, cell = 1:terra::ncell(landscape))
 
     # add values including NA
-    xyz[, 3] <- raster::getValues(landscape)
+    xyz[, 3] <- terra::values(landscape, mat = FALSE)
 
     if (!return_NA) {
         xyz <- xyz[!is.na(xyz[, 3]), ]

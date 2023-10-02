@@ -7,5 +7,5 @@ inst/doc
 src/*.o
 src/*.so
 src/*.dll
-test_data/
 ^CRAN-SUBMISSION$
+data-raw/FS-metrics.fca

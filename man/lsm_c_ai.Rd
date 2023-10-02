@@ -7,7 +7,7 @@
 lsm_c_ai(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}
 }
 \value{
 tibble
@@ -31,14 +31,14 @@ The metric is based on he adjacency matrix and the the single-count method.
 for maximally aggregated classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_ai(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 
 He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
 to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.

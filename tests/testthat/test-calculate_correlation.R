@@ -1,5 +1,3 @@
-context("calculate_correlation")
-
 test_that("calculate_correlation returns a list if two levels are present", {
 
     metrics <- calculate_lsm(landscape_stack,
@@ -23,7 +21,7 @@ test_that("calculate_correlation works on landscape level for RasterStacks", {
 
     result <- calculate_correlation(metrics, method = "pearson", simplify = TRUE)
 
-    expect_is(result, "tbl_df")
+    expect_s3_class(result, "tbl_df")
 })
 
 test_that("calculate_correlation returns warnings", {

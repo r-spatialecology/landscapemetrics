@@ -2,7 +2,7 @@
 #
 #' @description Interspersion and Juxtaposition index (Aggregation metric)
 #
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param verbose Print warning message if not sufficient patches are present
 #
 #' @details
@@ -27,16 +27,16 @@
 #' @return tibble
 #
 #' @examples
-#'lsm_l_iji(landscape)
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' lsm_l_iji(landscape)
 #
 #' @aliases lsm_l_iji
 #' @rdname lsm_l_iji
 #
 #' @references
-#'McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#'Program for Categorical and Continuous Maps. Computer software program produced by
-#'the authors at the University of Massachusetts, Amherst. Available at the following
-#'web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #'McGarigal, K., & Marks, B. J. 1995. FRAGSTATS: spatial pattern analysis
 #'program for quantifying landscape structure. Gen. Tech. Rep. PNW-GTR-351.
@@ -63,7 +63,7 @@ lsm_l_iji_calc <- function(landscape, verbose) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

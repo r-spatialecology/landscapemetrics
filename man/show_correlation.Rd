@@ -38,6 +38,8 @@ for the landscape level more than one landscape needs to be present. All input
 must be structured as returned by the \strong{landscapemetrics} package.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
+
 metrics <- calculate_lsm(landscape, what = c("patch", "class"))
 show_correlation(data = metrics, method = "pearson")
 
@@ -45,7 +47,6 @@ show_correlation(data = metrics, method = "pearson")
 metrics <- calculate_lsm(landscape, what = c("patch", "class"))#'
 correlations <- calculate_correlation(metrics)
 show_correlation(data = correlations, method = "pearson")
-
 }
 
 }

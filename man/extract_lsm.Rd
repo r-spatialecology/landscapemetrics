@@ -19,9 +19,9 @@ extract_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
-\item{y}{2-column matrix with coordinates, SpatialPoints, SpatialLines or sf point geometries.}
+\item{y}{2-column matrix with coordinates or sf point geometries.}
 
 \item{extract_id}{Vector with id of sample points. If not provided, sample
 points will be labelled 1...n.}
@@ -53,29 +53,20 @@ Extract metrics
 \details{
 This functions extracts the metrics of all patches the spatial object(s) \code{y}
 (e.g. spatial points) are located within. Only patch level metrics are possible
-to extract. Please be aware that the output is sligthly different to all
+to extract. Please be aware that the output is slightly different to all
 other \code{lsm}-function of \code{landscapemetrics}. Returns a tibble with chosen
 metrics and the ID of the spatial objects.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
+
 points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 extract_lsm(landscape, y = points)
 extract_lsm(landscape, y = points, type = "aggregation metric")
 
-points_sp <- sp::SpatialPoints(points)
-extract_lsm(landscape, y = points_sp, what = "lsm_p_area")
-
 \dontrun{
 # use lines
-x1 <- c(1, 5, 15, 10)
-y1 <- c(1, 5, 15, 25)
 
-x2 <- c(10, 25)
-y2 <- c(5, 5)
-
-sample_lines <- sp::SpatialLines(list(sp::Lines(list(sp::Line(cbind(x1, y1)),
-sp::Line(cbind(x2, y2))), ID = "a")))
-extract_lsm(landscape, y = sample_lines, what = "lsm_p_area")
 }
 
 }

@@ -7,7 +7,7 @@
 lsm_l_ent(landscape, neighbourhood = 4, base = "log2")
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are considered as neighbours:
 4 (rook's case) or 8 (queen's case). The default is 4.}
@@ -26,6 +26,7 @@ Marginal entropy \[H(x)\]
 It measures a diversity (thematic complexity) of landscape classes.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_ent(landscape)
 
 }

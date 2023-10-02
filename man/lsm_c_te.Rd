@@ -7,7 +7,7 @@
 lsm_c_te(landscape, count_boundary = FALSE, directions = 8)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{count_boundary}{Include landscape boundary in edge length}
 
@@ -35,14 +35,14 @@ making comparisons among landscapes with different total areas difficult. If
 as landscape becomes more fragmented}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_te(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{lsm_p_perim}}

@@ -2,7 +2,7 @@
 #'
 #' @description Connected components labeling to derive patches in a landscape.
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param class Either "all" (default) for every class in the raster, or specify
@@ -34,11 +34,13 @@
 #' @return List
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' # check for patches of class 1
 #' patched_raster <- get_patches(landscape, class = 1)
 #'
 #' # count patches
-#' length(raster::unique(patched_raster[[1]]))
+#' nrow(terra::unique(patched_raster[[1]][[1]]))
 #'
 #' # check for patches of every class
 #' patched_raster <-  get_patches(landscape)
@@ -86,7 +88,7 @@ get_patches_int <- function(landscape, class, directions,
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
-        landscape_mat <- raster::as.matrix(landscape)
+        landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 
     # already a matrix
     } else {

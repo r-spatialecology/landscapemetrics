@@ -2,7 +2,7 @@
 #'
 #' @description Mean number of disjunct core areas (Core area metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param consider_boundary Logical if cells that only neighbour the landscape
@@ -36,16 +36,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_dcore_mn(landscape)
 #'
 #' @aliases lsm_l_dcore_mn
 #' @rdname lsm_l_dcore_mn
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' @export
 lsm_l_dcore_mn <- function(landscape,

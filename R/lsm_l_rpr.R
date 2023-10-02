@@ -2,7 +2,7 @@
 #'
 #' @description Relative patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param classes_max Potential maximum number of present classes
 #' @param verbose Print warning message if not sufficient patches are present
 #'
@@ -24,16 +24,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_rpr(landscape, classes_max = 5)
 #'
 #' @aliases lsm_l_rpr
 #' @rdname lsm_l_rpr
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Romme, W. H. 1982. Fire and landscapediversity in subalpine forests of
 #' Yellowstone National Park.Ecol.Monogr. 52:199-221

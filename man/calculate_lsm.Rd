@@ -26,7 +26,7 @@ calculate_lsm(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{level}{Level of metrics. Either 'patch', 'class' or 'landscape' (or vector with combination).}
 
@@ -87,17 +87,18 @@ above arguments.
 }
 \examples{
 \dontrun{
+landscape <- terra::rast(landscapemetrics::landscape)
 calculate_lsm(landscape, progress = TRUE)
 calculate_lsm(landscape, what = c("patch", "lsm_c_te", "lsm_l_pr"))
-calculate_lsm(landscape, level = c("class", "landscape"), type = "aggregation metric")
+calculate_lsm(landscape, level = c("class", "landscape"),
+type = "aggregation metric")
 }
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{list_lsm}}

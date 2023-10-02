@@ -1,18 +1,14 @@
-context("get_adjacencies")
-
 test_that("get_adjacencies runs for all data types", {
 
     raster_layer <- get_adjacencies(landscape)
     raster_stack <- get_adjacencies(landscape_stack)
-    raster_brick <- get_adjacencies(landscape_brick)
     raster_list <- get_adjacencies(landscape_list)
     raster_matrix <- get_adjacencies(landscape_matrix)
 
-    expect_is(raster_layer, "list")
-    expect_is(raster_stack, "list")
-    expect_is(raster_brick, "list")
-    expect_is(raster_list, "list")
-    expect_is(raster_matrix, "list")
+    expect_type(raster_layer, "list")
+    expect_type(raster_stack, "list")
+    expect_type(raster_list, "list")
+    expect_type(raster_matrix, "list")
 })
 
 test_that("get_adjacencies runs and returns a matrix", {
@@ -57,7 +53,7 @@ test_that("get_adjacencies runs also for the upper triangle", {
 
 test_that("get_adjacencies works for different values of neighborhood than 4", {
 
-    new_ras <- raster::raster(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
+    new_ras <- terra::rast(nrows = 3, ncols = 3, vals = c(rep(1, 8), 2))
 
     adjacencies_4 <- get_adjacencies(new_ras, neighbourhood = 4)
     adjacencies_8 <- get_adjacencies(new_ras, neighbourhood = 8)
@@ -68,12 +64,14 @@ test_that("get_adjacencies works for different values of neighborhood than 4", {
 
     adjacencies_diag <- get_adjacencies(new_ras, diagonal_matrix)
 
-    expect_equivalent(adjacencies_4[[1]], matrix(c(20L, 2L, 2L, 0L), ncol = 2))
-    expect_equivalent(adjacencies_8[[1]], matrix(c(34L, 3L, 3L, 0L), ncol = 2))
-    expect_equivalent(adjacencies_diag[[1]], matrix(c(14L, 1L, 1L, 0L), ncol = 2))
+    expect_equal(adjacencies_4[[1]], matrix(c(20L, 2L, 2L, 0L), ncol = 2,
+                                            dimnames = list(c("1","2"), c("1", "2"))))
+    expect_equal(adjacencies_8[[1]], matrix(c(34L, 3L, 3L, 0L), ncol = 2,
+                                            dimnames = list(c("1","2"), c("1", "2"))))
+    expect_equal(adjacencies_diag[[1]], matrix(c(14L, 1L, 1L, 0L), ncol = 2,
+                                               dimnames = list(c("1","2"), c("1", "2"))))
 
 })
-
 
 test_that("get_adjacencies returns error", {
 

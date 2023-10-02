@@ -2,7 +2,7 @@
 #'
 #' @description Aggregation index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
 #'
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
@@ -26,16 +26,16 @@
 #' \code{\link{lsm_c_ai}}
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_ai(landscape)
 #'
 #' @aliases lsm_l_ai
 #' @rdname lsm_l_ai
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
@@ -59,9 +59,9 @@ lsm_l_ai_calc <- function(landscape, resolution = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

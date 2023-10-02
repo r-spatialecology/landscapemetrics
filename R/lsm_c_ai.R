@@ -2,7 +2,7 @@
 #'
 #' @description Aggregation index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
 #'
 #' @details
 #' \deqn{AI = \Bigg[\frac{g_{ii}}{max-g_{ii}} \Bigg](100) }
@@ -25,16 +25,16 @@
 #' \code{\link{lsm_l_ai}}
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_ai(landscape)
 #'
 #' @aliases lsm_c_ai
 #' @rdname lsm_c_ai
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' He, H. S., DeZonia, B. E., & Mladenoff, D. J. 2000. An aggregation index (AI)
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
@@ -58,7 +58,7 @@ lsm_c_ai_calc <- function(landscape) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -77,28 +77,18 @@ lsm_c_ai_calc <- function(landscape) {
     # get number of cells each class
     cells_class <- rcpp_get_composition_vector(landscape)
 
-    # save to tibble
-    cells_class <- tibble::tibble(class = names(cells_class),
-                                 value = cells_class)
-
     # calculate maximum adjacencies
-    cells_class$n <- trunc(sqrt(cells_class$value))
-    cells_class$m <- cells_class$value - cells_class$n ^ 2
-    cells_class$max_adj <- ifelse(test = cells_class$m == 0,
-                                  yes = 2 * cells_class$n * (cells_class$n - 1),
-                                  no = ifelse(test = cells_class$m <= cells_class$n,
-                                              yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 1,
-                                              no = ifelse(test = cells_class$m > cells_class$n,
-                                                          yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 2,
-                                                          no = NA)))
+    n <- trunc(sqrt(cells_class))
+    m <- cells_class - n ^ 2
+    max_adj <- ifelse(test = m == 0, yes = 2 * n * (n - 1),
+                      no = ifelse(test = m <= n, yes = 2 * n * (n - 1) + 2 * m - 1,
+                                  no = ifelse(test = m > n, yes = 2 * n * (n - 1) + 2 * m - 2,
+                                              no = NA)))
 
     # warning if NAs are introduced by ifelse
-    if (anyNA(cells_class$max_adj)) {
-        warning("NAs introduced by lsm_c_ai", call. = FALSE)
+    if (anyNA(max_adj)) {
+        stop("NAs introduced by lsm_c_ai", call. = FALSE)
     }
-
-    # get only max_adj as vector
-    max_adj <- cells_class$max_adj
 
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100

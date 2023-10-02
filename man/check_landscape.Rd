@@ -26,8 +26,11 @@ units of the coordinate reference system, a class of the input landscape's
 values and the number of classes found in the landscape.
 }
 \examples{
+augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 check_landscape(augusta_nlcd)
+podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 check_landscape(podlasie_ccilc)
-check_landscape(raster::stack(landscape, landscape))
+landscape <- terra::rast(landscapemetrics::landscape)
+check_landscape(c(landscape, landscape))
 
 }

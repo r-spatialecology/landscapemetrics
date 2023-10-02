@@ -1,12 +1,9 @@
-context("patch level lsm_p_frac metric")
-
 landscapemetrics_patch_landscape_value <- lsm_p_frac(landscape)
 
 test_that("lsm_p_frac is typestable", {
-    expect_is(lsm_p_frac(landscape), "tbl_df")
-    expect_is(lsm_p_frac(landscape_stack), "tbl_df")
-    expect_is(lsm_p_frac(landscape_brick), "tbl_df")
-    expect_is(lsm_p_frac(landscape_list), "tbl_df")
+    expect_s3_class(lsm_p_frac(landscape), "tbl_df")
+    expect_s3_class(lsm_p_frac(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_p_frac(landscape_list), "tbl_df")
 })
 
 test_that("lsm_p_frac returns the desired number of columns", {
@@ -22,4 +19,13 @@ test_that("lsm_p_frac returns in every column the correct type", {
     expect_type(landscapemetrics_patch_landscape_value$value, "double")
 })
 
+test_that("lsm_p_frac equals FRAGSTATS", {
+    lsm_landscape <- lsm_p_frac(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_p_frac(augusta_nlcd) |> dplyr::pull(value)
 
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "frac") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "frac") |> dplyr::pull(value)
+
+    expect_true(test_correlation(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_cor))
+    expect_true(test_correlation(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_cor))
+})

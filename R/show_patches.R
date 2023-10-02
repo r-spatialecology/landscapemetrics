@@ -15,6 +15,8 @@
 #' @return ggplot
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' show_patches(landscape)
 #' show_patches(landscape, class = c(1, 2))
 #' show_patches(landscape, class = 3, labels = FALSE)
@@ -44,7 +46,7 @@ show_patches <- function(landscape, class = "global", directions = 8,
 show_patches_internal <- function(landscape, class, directions, labels, nrow, ncol) {
 
     if (any(!(class %in% c("all", "global")))) {
-        if (!any(class %in% raster::unique(landscape))) {
+        if (!any(class %in% unique(terra::values(landscape, mat = FALSE)))) {
             stop("'class' must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
     }
@@ -57,7 +59,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
     if (any(class == "global")) {
 
-        patches_tibble <- raster::as.data.frame(sum(raster::stack(landscape_labeled),
+        patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
                                                     na.rm = TRUE),
                                                 xy = TRUE)
 
@@ -80,7 +82,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
         patches_tibble <- lapply(X = seq_along(landscape_labeled), FUN = function(i){
             names(landscape_labeled[[i]]) <- "value"
-            x <- raster::as.data.frame(landscape_labeled[[i]], xy = TRUE)
+            x <- terra::as.data.frame(landscape_labeled[[i]], xy = TRUE)
             x$class <- names(landscape_labeled[i])
             return(x)}
         )
@@ -103,25 +105,26 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
 
     plot <- ggplot2::ggplot(patches_tibble, ggplot2::aes(x, y)) +
         ggplot2::coord_fixed() +
-        ggplot2::geom_raster(ggplot2::aes(fill = value)) +
+        ggplot2::geom_raster(ggplot2::aes(fill = factor(value))) +
         ggplot2::geom_text(ggplot2::aes(label = labels),
                            colour = "white", na.rm = TRUE)  +
-        ggplot2::scale_fill_gradientn(
-            colours = c(
-                "#5F4690",
-                "#1D6996",
-                "#38A6A5",
-                "#0F8554",
-                "#73AF48",
-                "#EDAD08",
-                "#E17C05",
-                "#CC503E",
-                "#94346E",
-                "#6F4070",
-                "#994E95"
-            ),
-            na.value = "grey85"
-        ) +
+        # ggplot2::scale_fill_gradientn(
+        #     colours = c(
+        #         "#5F4690",
+        #         "#1D6996",
+        #         "#38A6A5",
+        #         "#0F8554",
+        #         "#73AF48",
+        #         "#EDAD08",
+        #         "#E17C05",
+        #         "#CC503E",
+        #         "#94346E",
+        #         "#6F4070",
+        #         "#994E95"
+        #     ),
+        #     na.value = "grey85"
+        # ) +
+        ggplot2::scale_fill_viridis_d(option = "F", na.value = "grey85") +
         ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +
         ggplot2::scale_y_continuous(expand = c(0, 0)) +

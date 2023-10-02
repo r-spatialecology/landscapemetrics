@@ -7,7 +7,7 @@
 lsm_l_contag(landscape, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{verbose}{Print warning message if not sufficient patches are present}
 }
@@ -39,15 +39,15 @@ The number of classes to calculate CONTAG must be >= than 2.
 and 100 indicates that all cells are equally adjacent to all other classes.}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_contag(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 
-Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
-contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
+Riitters, K.H., O'Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
+contagion indices for landscape analysis. Landscape ecology, 11, 197-202.
 }

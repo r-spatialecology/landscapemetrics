@@ -8,12 +8,12 @@ get_centroids(
   landscape,
   directions = 8,
   cell_center = FALSE,
-  return_sp = FALSE,
+  return_vec = FALSE,
   verbose = TRUE
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -21,7 +21,7 @@ connected: 4 (rook's case) or 8 (queen's case).}
 \item{cell_center}{If true, the coordinates of the centroid are forced to be
 a cell center within the patch.}
 
-\item{return_sp}{If true, a SpatialPointsDataFrame is returned.}
+\item{return_vec}{If true, a sf object is returned.}
 
 \item{verbose}{Print warning messages}
 }
@@ -36,6 +36,7 @@ centroid is defined as the cell center that is the closest to the mean location.
 }
 \examples{
 # get centroid location
+landscape <- terra::rast(landscapemetrics::landscape)
 get_centroids(landscape)
 
 }

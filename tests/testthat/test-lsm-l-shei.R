@@ -1,14 +1,9 @@
-context("landscape level lsm_l_shei metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_shei(landscape)
 
-
-
 test_that("lsm_l_shei is typestable", {
-    expect_is(lsm_l_shei(landscape), "tbl_df")
-    expect_is(lsm_l_shei(landscape_stack), "tbl_df")
-    expect_is(lsm_l_shei(landscape_brick), "tbl_df")
-    expect_is(lsm_l_shei(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_shei(landscape), "tbl_df")
+    expect_s3_class(lsm_l_shei(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_shei(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_shei returns the desired number of columns", {
@@ -24,8 +19,19 @@ test_that("lsm_l_shei returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
-landscape[] = 1
 test_that("lsm_l_shei returns 0 when only one patch present", {
-    expect_equal(lsm_l_shei(landscape)$value, 0)
+    landscape_simple <- landscape
+    landscape_simple[] = 1
+    expect_equal(lsm_l_shei(landscape_simple)$value, 0)
 })
 
+test_that("lsm_l_shei equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_shei(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_shei(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "shei") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "shei") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
+})

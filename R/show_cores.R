@@ -20,6 +20,8 @@
 #' @return ggplot
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#'
 #' # show "global" core area
 #' show_cores(landscape, class = "global", labels = FALSE)
 #'
@@ -64,7 +66,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     if (any(!(class %in% c("all", "global")))) {
 
-        if (!any(class %in% raster::unique(landscape))) {
+        if (!any(class %in% unique(terra::values(landscape, mat = FALSE)))) {
 
             stop("class must at least contain one value of a class contained in the landscape.", call. = FALSE)
         }
@@ -88,7 +90,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
             for (i in seq_len(edge_depth - 1)) {
 
-                raster::values(class_edge)[raster::values(class_edge) == 1] <- NA
+                terra::values(class_edge)[terra::values(class_edge) == 1] <- NA
 
                 class_edge <- get_boundaries(class_edge,
                                              consider_boundary)[[1]]
@@ -97,27 +99,25 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
             }
         }
 
-        raster::crop(full_edge, directions = 4, y = landscape)
+        terra::crop(full_edge, y = landscape)
     })
 
     # reset boundaries
     boundary <- lapply(X = seq_along(boundary),
                        FUN = function(i){
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 1)] <- -999
+                           terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 1)] <- -999
 
-                           raster::values(boundary[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)] <-
-                               raster::values(landscape_labeled[[i]])[raster::values(!is.na(boundary[[i]])) & raster::values(boundary[[i]] == 0)]
+                           terra::values(boundary[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)] <-
+                               terra::values(landscape_labeled[[i]])[terra::values(!is.na(boundary[[i]])) & terra::values(boundary[[i]] == 0)]
 
                            return(boundary[[i]])
                        }
     )
 
-    boundary_labeled_stack <- raster::as.data.frame(sum(raster::stack(boundary),
-                                                        na.rm = TRUE),
-                                                    xy = TRUE)
+    boundary_labeled_stack <- terra::as.data.frame(sum(terra::rast(boundary), na.rm = TRUE), xy = TRUE)
     names(boundary_labeled_stack) <- c("x", "y", "values")
 
-    boundary_labeled_stack$class <-  raster::values(landscape)
+    boundary_labeled_stack$class <-  terra::values(landscape, mat = FALSE)
     boundary_labeled_stack$core_label <- boundary_labeled_stack$values
 
     boundary_labeled_stack$values <-  ifelse(boundary_labeled_stack$values == -999, 0, 1)
@@ -140,26 +140,21 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
     }
 
     plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
-        ggplot2::coord_fixed() +
         ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
         ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
                            colour = "white", na.rm = TRUE) +
         ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
-        ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"),
-                                   na.value = "grey85") +
+        ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"), na.value = "grey85") +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +
         ggplot2::scale_y_continuous(expand = c(0, 0)) +
+        ggplot2::coord_fixed() +
         ggplot2::guides(fill = "none") +
         ggplot2::labs(titel = NULL, x = NULL, y = NULL) +
         ggplot2::theme(
-            axis.title  = ggplot2::element_blank(),
-            axis.ticks  = ggplot2::element_blank(),
-            axis.text   = ggplot2::element_blank(),
-            panel.grid  = ggplot2::element_blank(),
-            axis.line   = ggplot2::element_blank(),
-            strip.background = ggplot2::element_rect(fill = "grey80"),
-            strip.text = ggplot2::element_text(hjust  = 0),
-            panel.background = ggplot2::element_rect(fill = "grey85"),
+            axis.title  = ggplot2::element_blank(), axis.ticks  = ggplot2::element_blank(),
+            axis.text   = ggplot2::element_blank(), axis.line   = ggplot2::element_blank(),
+            panel.grid  = ggplot2::element_blank(), panel.background = ggplot2::element_rect(fill = "grey85"),
+            strip.background = ggplot2::element_rect(fill = "grey80"), strip.text = ggplot2::element_text(hjust  = 0),
             plot.margin = ggplot2::unit(c(0, 0, 0, 0), "lines"))
 
     return(plot)

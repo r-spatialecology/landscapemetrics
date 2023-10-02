@@ -1,17 +1,17 @@
-context("calculate_lsm")
-
 test_that("calculate_lsm can take different raster inputs", {
 
-    expect_is(calculate_lsm(landscape, what = "lsm_l_ta",
+    expect_s3_class(calculate_lsm(landscape, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_stack, what = "lsm_l_ta",
+    expect_s3_class(calculate_lsm(landscape_stack, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_brick, what = "lsm_l_ta",
+    expect_s3_class(calculate_lsm(landscape_list, what = "lsm_l_ta",
                             verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_list, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
-    expect_is(calculate_lsm(landscape_terra, what = "lsm_l_ta",
-                            verbose = FALSE), "tbl_df")
+
+    # expect_s3_class(calculate_lsm(landscape_ras, what = "lsm_l_ta",
+    #                         verbose = FALSE), "tbl_df")
+
+    # expect_s3_class(calculate_lsm(augusta_nlcd_stars, what = "lsm_l_ta",
+    #                         verbose = FALSE), "tbl_df")
 
 })
 
@@ -20,7 +20,7 @@ test_that("calculate_lsm can calculate patch metrics", {
     patch_metrics <- calculate_lsm(landscape, what = "patch",
                                    verbose = FALSE)
 
-    expect_is(patch_metrics, "tbl_df")
+    expect_s3_class(patch_metrics, "tbl_df")
     expect_true(all(patch_metrics$level == "patch"))
     expect_true(ncol(patch_metrics) > 0)
 })
@@ -30,7 +30,7 @@ test_that("calculate_lsm can calculate class metrics", {
     class_metrics <- calculate_lsm(landscape, what = "class",
                                    verbose = FALSE)
 
-    expect_is(class_metrics, "tbl_df")
+    expect_s3_class(class_metrics, "tbl_df")
     expect_true(all(class_metrics$level == "class"))
     expect_true(ncol(class_metrics) > 0)
 })
@@ -40,7 +40,7 @@ test_that("calculate_lsm can calculate landscape metrics", {
     landscape_metrics <- calculate_lsm(landscape, what = "landscape",
                                        verbose = FALSE)
 
-    expect_is(landscape_metrics, "tbl_df")
+    expect_s3_class(landscape_metrics, "tbl_df")
     expect_true(all(landscape_metrics$level == "landscape"))
     expect_true(ncol(landscape_metrics) > 0)
 })
@@ -51,7 +51,7 @@ test_that("calculate_lsm can take all metrics", {
                                  verbose = FALSE)
 
     expect_true(all(all_metrics$level %in% c("patch", "class","landscape")))
-    expect_is(all_metrics, "tbl_df")
+    expect_s3_class(all_metrics, "tbl_df")
     expect_true(ncol(all_metrics) > 0)
 })
 
@@ -62,7 +62,7 @@ test_that("calculate_lsm can take specific metrics", {
                                       verbose = FALSE)
 
     expect_true(all(specific_metrics$metric %in% c("ed", "enn")))
-    expect_is(specific_metrics, "tbl_df")
+    expect_s3_class(specific_metrics, "tbl_df")
     expect_true(ncol(specific_metrics) > 0)
 })
 

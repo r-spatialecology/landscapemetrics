@@ -1,5 +1,3 @@
-context("landscape level lsm_l_te metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_te(landscape)
 
 test_lsm <- matrix(data = NA, nrow = 25, ncol = 30)
@@ -11,13 +9,12 @@ test_lsm[8, 6] <- 1
 test_lsm[6, 4] <- 1
 test_lsm[6, 6] <- 2
 
-test_lsm <- raster::raster(test_lsm, xmn = 0, xmx = 30, ymn = 0, ymx = 25)
+test_lsm <- terra::rast(test_lsm)
 
 test_that("lsm_l_te is typestable", {
-    expect_is(lsm_l_te(landscape), "tbl_df")
-    expect_is(lsm_l_te(landscape_stack), "tbl_df")
-    expect_is(lsm_l_te(landscape_brick), "tbl_df")
-    expect_is(lsm_l_te(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_te(landscape), "tbl_df")
+    expect_s3_class(lsm_l_te(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_te(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_te returns the desired number of columns", {
@@ -40,7 +37,7 @@ test_that("lsm_l_te option count_boundary is working", {
 })
 
 test_that("lsm_l_te can handle raster with different xy resolution", {
-    expect_is(lsm_l_te(landscape_diff_res), "tbl_df")
+    expect_s3_class(lsm_l_te(landscape_diff_res), "tbl_df")
 })
 
 
@@ -54,4 +51,15 @@ test_that("lsm_l_te is the same if count_boundary = FALSE", {
 
     expect_true(all(result_l_cbF$value == result_cbF$value))
     expect_true(all(result_l_cbT$value == max(result_cbT$value)))
+})
+
+test_that("lsm_l_te equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_te(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_te(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "te") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "te") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
 })

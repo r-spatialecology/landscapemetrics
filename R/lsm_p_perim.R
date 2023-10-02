@@ -1,8 +1,8 @@
 #' PERIM (patch level)
 #'
-#' @description Perimeter (Area and edge metric))
+#' @description Perimeter (Area and edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -23,16 +23,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_p_perim(landscape)
 #'
 #' @aliases lsm_p_perim
 #' @rdname lsm_p_perim
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' @export
 lsm_p_perim <- function(landscape, directions = 8) {
@@ -54,8 +54,8 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
-        landscape <- raster::as.matrix(landscape)
+        resolution <- terra::res(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -75,7 +75,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
     classes <- get_unique_values_int(landscape, verbose = FALSE)
 
     # raster resolution not identical in x-y directions
-    if (!resolution_x == resolution_y) {
+    if (!isTRUE(all.equal(resolution_x, resolution_y))) {
 
         top_bottom_matrix <- matrix(c(NA, NA, NA,
                                       1,  0, 1,
@@ -107,7 +107,7 @@ lsm_p_perim_calc <- function(landscape, directions, resolution = NULL) {
         landscape_labeled[target_na] <- -999
 
         # x-y resolution is identical
-        if (resolution_x == resolution_y) {
+        if (isTRUE(all.equal(resolution_x, resolution_y))) {
 
             # get coocurrence matrix
             neighbour_matrix <- rcpp_get_coocurrence_matrix_single(landscape_labeled,

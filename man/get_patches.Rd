@@ -13,7 +13,7 @@ get_patches(
 )
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{class}{Either "all" (default) for every class in the raster, or specify
 class value. See Details.}
@@ -48,11 +48,13 @@ this option can be set globally, so that every function that internally uses
 \code{get_patches} can make use of that.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
+
 # check for patches of class 1
 patched_raster <- get_patches(landscape, class = 1)
 
 # count patches
-length(raster::unique(patched_raster[[1]]))
+nrow(terra::unique(patched_raster[[1]][[1]]))
 
 # check for patches of every class
 patched_raster <-  get_patches(landscape)

@@ -2,7 +2,7 @@
 #'
 #' @description Landscape shape index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{LSI = \frac{E} {\min E}}
@@ -26,16 +26,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_lsi(landscape)
 #'
 #' @aliases lsm_l_lsi
 #' @rdname lsm_l_lsi
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 #' Wildl. Soc.Bull. 3:171-173.
@@ -59,9 +59,9 @@ lsm_l_lsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -107,15 +107,12 @@ lsm_l_lsi_calc <- function(landscape) {
                                                       yes = 4 * total_n + 4,
                                                       no = NA)))
 
-    lsi <- total_perim / total_perim_min
-
     # test if any NAs introduced
-    if (!is.finite(lsi)) {
-
-        warning("NAs introduced by lsm_l_lsi.", call. = FALSE)
-
-        lsi <- NA
+    if (is.na(total_perim_min)) {
+        stop("NAs introduced by lsm_l_lsi.", call. = FALSE)
     }
+
+    lsi <- total_perim / total_perim_min
 
     return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),

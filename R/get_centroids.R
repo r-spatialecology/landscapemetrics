@@ -2,12 +2,12 @@
 #'
 #' @description Centroid of patches
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #' @param cell_center If true, the coordinates of the centroid are forced to be
 #' a cell center within the patch.
-#' @param return_sp If true, a SpatialPointsDataFrame is returned.
+#' @param return_vec If true, a sf object is returned.
 #' @param verbose Print warning messages
 #'
 #' @details
@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' # get centroid location
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' get_centroids(landscape)
 #'
 #' @aliases get_centroids
@@ -25,13 +26,13 @@
 #'
 #' @export
 get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
-                          return_sp = FALSE, verbose = TRUE) {
+                          return_vec = FALSE, verbose = TRUE) {
 
     landscape <- landscape_as_list(landscape)
 
-    if (return_sp) {
+    if (return_vec) {
 
-        crs <- raster::crs(landscape[[1]])
+        crs <- terra::crs(landscape[[1]])
 
     }
 
@@ -48,11 +49,9 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
     result <- tibble::add_column(result, layer, .before = TRUE)
 
-    if (return_sp) {
+    if (return_vec) {
 
-        result <-  sp::SpatialPointsDataFrame(coords = result[, c(5:6)],
-                                              data = result[, c(1:4)],
-                                              proj4string = crs)
+        result <- terra::vect(result, geom=c("x", "y"), crs = crs)
     }
 
     return(result)
@@ -68,7 +67,7 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
         points <- raster_to_points(landscape)[, 2:4]
 
         # convert to matrix
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA

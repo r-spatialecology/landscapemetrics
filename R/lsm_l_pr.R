@@ -2,7 +2,7 @@
 #'
 #' @description Patch richness (Diversity metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{PR = m}
@@ -20,16 +20,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_pr(landscape)
 #'
 #' @aliases lsm_l_pr
 #' @rdname lsm_l_pr
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' @export
 lsm_l_pr <- function(landscape){
@@ -59,9 +59,9 @@ lsm_l_pr_calc <- function(landscape){
                               value = as.double(NA)))
     }
 
-    return(tibble::tibble(level = 'landscape',
+    return(tibble::tibble(level = "landscape",
                           class = as.integer(NA),
                           id = as.integer(NA),
-                          metric = 'pr',
+                          metric = "pr",
                           value = as.double(richness)))
 }

@@ -7,7 +7,7 @@
 lsm_l_pafrac(landscape, directions = 8, verbose = TRUE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{directions}{The number of directions in which patches should be
 connected: 4 (rook's case) or 8 (queen's case).}
@@ -38,14 +38,14 @@ issue.
 approaches PAFRAC = 2 for irregular shapes}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_pafrac(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 
 Burrough, P. A. 1986. Principles of Geographical Information Systems for
 Land Resources Assessment. Monographs on Soil and Resources Survey No. 12.

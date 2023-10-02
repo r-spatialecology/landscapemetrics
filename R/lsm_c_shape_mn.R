@@ -2,7 +2,7 @@
 #'
 #' @description Mean shape index (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -11,13 +11,12 @@
 #' where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
 #'
 #' SHAPE_MN is a 'Shape metric'. Each class is summarised as the mean
-#' of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter
-#' of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
-#' equals the perimeter if the patch would be maximally compact.
+#' of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter of
+#' the patch and the square root of patch area.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE_SD >= 1}
-#' \subsection{Behaviour}{Equals SHAPE_MN = 0 if all patches are squares.
+#' \subsection{Behaviour}{Equals SHAPE_MN = 1 if all patches are squares.
 #' Increases, without limit, as the shapes of patches become more complex.}
 #'
 #' @seealso
@@ -32,16 +31,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_shape_mn(landscape)
 #'
 #' @aliases lsm_c_shape_mn
 #' @rdname lsm_c_shape_mn
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 #' Wildl. Soc.Bull. 3:171-173.

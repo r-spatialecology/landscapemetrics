@@ -3,10 +3,10 @@
 #' @description Convert matrix to raster
 #'
 #' @param matrix matrix with values.
-#' @param landscape RasterLayer.
-#' @param landscape_empty If true, RasterLayer is landscape_empty
-#' @param extent Extent of RasterLayer.
-#' @param resolution Resolution of RasterLayer.
+#' @param landscape SpatRaster
+#' @param landscape_empty If true, SpatRaster is landscape_empty
+#' @param extent Extent of SpatRaster
+#' @param resolution Resolution of SpatRaster
 #' @param crs CRS of raster layer.
 #' @param to_disk If TRUE raster will be saved to disk.
 #'
@@ -17,7 +17,9 @@
 #' @return raster
 #'
 #' @examples
-#' test_matrix <- raster::as.matrix(augusta_nlcd)
+#' augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
+#'
+#' test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 #' matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)
 #'
 #' @aliases matrix_to_raster
@@ -38,18 +40,16 @@ matrix_to_raster <- function(matrix,
   if (!is.null(landscape)) {
 
     if (landscape_empty) {
-      landscape_empty <- landscape
+      out <- landscape
 
     } else {
-      landscape_empty <- raster::raster(x = raster::extent(landscape),
-                                        resolution = raster::res(landscape),
-                                        crs = raster::crs(landscape))
+        out <- terra::rast(x = terra::ext(landscape), resolution = terra::res(landscape),
+                           crs = terra::crs(landscape))
     }
 
   } else if (!all(c(is.null(extent), is.null(resolution), is.null(crs)))) {
-    landscape_empty <- raster::raster(x = extent,
-                                      resolution = resolution,
-                                      crs = crs)
+
+      out <- terra::rast(x = extent, resolution = resolution, crs = crs)
   }
 
   else{
@@ -59,43 +59,38 @@ matrix_to_raster <- function(matrix,
   # create raster on disk
   if (to_disk) {
 
-    # get block size
-    block_size <- raster::blockSize(landscape_empty)
-
     # transpose matrix to get correct ordering
     matrix <- t(matrix)
 
     # starting to write values in raster
-    result <- raster::writeStart(x = landscape_empty,
-                                 filename = raster::rasterTmpFile(),
-                                 overwrite = TRUE)
+    blks <- terra::writeStart(x = out, filename = paste0(tempfile(), ".tif"),
+                              overwrite = TRUE)
 
     # loop through all block sizes
-    for (i in 1:block_size$n) {
+    for (i in 1:blks$n) {
 
       # start and end row of current block
-      start_row <- block_size$row[i]
-      end_row <- block_size$row[i] + (block_size$nrows[i] - 1)
+      start_row <- blks$row[i]
+      end_row <- blks$row[i] + (blks$nrows[i] - 1)
 
       # get values from matrix (row and col exchanged due to transposing)
       values_temp <- c(matrix[, start_row:end_row])
 
       # write current block
-      result <- raster::writeValues(x = result,
-                                    v = values_temp,
-                                    start = block_size$row[i])
+      terra::writeValues(out, values_temp, blks$row[i], blks$nrows[i])
+
     }
 
     # close writing connections
-    result <- raster::writeStop(result)
+    terra::writeStop(out)
 
   # create raster in memory
   } else {
 
     # set values of empty raster according to matrix
-    result <- raster::setValues(x = landscape_empty,
-                                values = matrix)
+      out <- terra::setValues(x = out, values = matrix)
+
   }
 
-  return(result)
+  return(out)
 }

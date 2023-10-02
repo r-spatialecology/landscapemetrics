@@ -1,5 +1,3 @@
-context("get_circumscribingcircle")
-
 test_that("get_circumscribingcircle has one radius for each patch", {
 
     circle <- get_circumscribingcircle(landscape)
@@ -11,7 +9,7 @@ test_that("get_circumscribingcircle has one radius for each patch", {
                              all(!is.na(circle$value)),
                              all(!is.infinite(circle$value))))
 
-    expect_is(circle, class = "tbl")
+    expect_s3_class(circle, class = "tbl")
 })
 
 test_that("get_circumscribingcircle has one radius for each class", {
@@ -29,15 +27,12 @@ test_that("get_circumscribingcircle has one radius for each class", {
 test_that("get_circumscribingcircle works for all data type matrix", {
 
    result_stack <- get_circumscribingcircle(landscape_stack, level = "class")
-   result_brick <- get_circumscribingcircle(landscape_brick, level = "class")
    result_list <- get_circumscribingcircle(landscape_list, level = "class")
 
    expect_equal(object = unique(result_stack$layer), expected = c(1, 2))
-   expect_equal(object = unique(result_brick$layer), expected = c(1, 2))
    expect_equal(object = unique(result_list$layer), expected = c(1, 2))
 
    expect_equal(nrow(result_stack), expected = sum(lsm_l_pr(landscape_stack)$value))
-   expect_equal(nrow(result_brick), expected = sum(lsm_l_pr(landscape_brick)$value))
    expect_equal(nrow(result_list), expected = sum(lsm_l_pr(landscape_list)$value))
 })
 
@@ -49,6 +44,6 @@ test_that("get_circumscribingcircle returns errors", {
     expect_error(object = get_circumscribingcircle(landscape_diff_res),
                  regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.")
 
-    expect_error(object = get_circumscribingcircle(list(raster::as.matrix(landscape))),
-                 regexp = "Please provide a 'RasterLayer', 'RasterStack', 'RasterBrick', 'stars'-object or a list with 'RasterLayers'.")
+    expect_error(object = get_circumscribingcircle(list(terra::as.matrix(landscape, wide = TRUE))),
+                 regexp = "Please provide a 'SpatRaster', 'stars'-object, or a list with 'SpatRaster'.")
 })

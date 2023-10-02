@@ -2,7 +2,7 @@
 #'
 #' @description Landscape shape index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{LSI = \frac{e_{i}} {\min e_{i}}}
@@ -26,16 +26,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_lsi(landscape)
 #'
 #' @aliases lsm_c_lsi
 #' @rdname lsm_c_lsi
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 #' Wildl. Soc.Bull. 3:171-173.
@@ -59,9 +59,9 @@ lsm_c_lsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA
@@ -103,25 +103,18 @@ lsm_c_lsi_calc <- function(landscape) {
     class_m <- class_area - class_n ^ 2
 
     # calculate min_edge
-    class_perim_min <- ifelse(test = class_m == 0,
-                              yes = class_n * 4,
-                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n),
-                                          yes = 4 * class_n + 2,
-                                          no = ifelse(test = class_area > class_n * (1 + class_n),
-                                                      yes = 4 * class_n + 4,
+    class_perim_min <- ifelse(test = class_m == 0, yes = class_n * 4,
+                              no = ifelse(test = class_n ^ 2 < class_area & class_area <= class_n * (1 + class_n), yes = 4 * class_n + 2,
+                                          no = ifelse(test = class_area > class_n * (1 + class_n), yes = 4 * class_n + 4,
                                                       no = NA)))
+
+    # test if any NAs introduced
+    if (anyNA(class_perim_min)) {
+        stop("NAs introduced by lsm_c_lsi.", call. = FALSE)
+    }
 
     # calculate LSI
     lsi <- class_perim / class_perim_min
-
-    # test if any NAs introduced
-    if (!all(is.finite(lsi))) {
-
-        warning("NAs introduced by lsm_c_lsi.", call. = FALSE)
-
-        lsi[!is.finite(lsi)] <- NA
-
-    }
 
     return(tibble::tibble(level = "class",
                           class = as.integer(names(lsi)),

@@ -10,9 +10,13 @@
 #' @return raster
 #'
 #' @examples
-#' proj_info(landscape)
+#'
+#' augusta_nlcd <- terra::rast(landscapemetrics::augusta_nlcd)
 #' proj_info(augusta_nlcd)
+#' podlasie_ccilc <- terra::rast(landscapemetrics::podlasie_ccilc)
 #' proj_info(podlasie_ccilc)
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' proj_info(landscape)
 #'
 #' @aliases proj_info
 #' @rdname proj_info
@@ -23,13 +27,13 @@
 proj_info <- function(landscape) {
 
     # get projection of raster
-    landscape_proj <- raster::projection(landscape)
+    landscape_proj <- terra::crs(landscape, proj = TRUE)
 
     # there is a projection
-    if (!is.na(landscape_proj)) {
+    if (landscape_proj != "") {
 
         # long-lat projection
-        if (raster::isLonLat(landscape)) {
+        if (terra::is.lonlat(landscape)) {
 
             tibble::tibble(crs = "geographic", units = "degrees")
 

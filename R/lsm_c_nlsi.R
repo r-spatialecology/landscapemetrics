@@ -2,7 +2,7 @@
 #'
 #' @description Normalized landscape shape index (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{nLSI = \frac{e_{i} - \min e_{i}} {\max e_{i} - \min e_{i}}}
@@ -30,16 +30,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_nlsi(landscape)
 #'
 #' @aliases lsm_c_nlsi
 #' @rdname lsm_c_nlsi
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Patton, D. R. 1975. A diversity index for quantifying habitat "edge".
 #' Wildl. Soc.Bull. 3:171-173.
@@ -63,9 +63,9 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA
@@ -137,6 +137,11 @@ lsm_c_nlsi_calc <- function(landscape) {
                                                                   yes = class_perim + 4 * (total_area - class_area),
                                                                   no = NA))))
 
+    # test if any NAs introduced
+    if (anyNA(class_perim_max)) {
+        stop("NAs introduced by lsm_c_nlsi", call. = FALSE)
+    }
+
     # calculate denominator
     denominator <- class_perim_max - class_perim_min
 
@@ -145,11 +150,8 @@ lsm_c_nlsi_calc <- function(landscape) {
 
     # test if any NAs introduced
     if (!all(is.finite(nlsi))) {
-
         warning("NAs introduced by lsm_c_nlsi.", call. = FALSE)
-
         nlsi[!is.finite(nlsi)] <- NA
-
     }
 
     return(tibble::tibble(level = "class",

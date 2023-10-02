@@ -7,7 +7,7 @@
 get_adjacencies(landscape, neighbourhood = 4, what = "full", upper = FALSE)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
 \item{neighbourhood}{The number of directions in which cell adjacencies are
 considered as neighbours: 4 (rook's case), 8 (queen's case) or a binary matrix
@@ -38,17 +38,19 @@ like adjacencies, a count for how many edges a shared in each class with the sam
 The "unlike" adjacencies are counting the cellwise edges between different classes.
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 # calculate full adjacency matrix
 get_adjacencies(landscape, 4)
+
+# equivalent with the terra package:
+adjacencies <- terra::adjacent(landscape, 1:terra::ncell(landscape), "rook", pairs = TRUE)
+table(terra::values(landscape, mat = FALSE)[adjacencies[,1]],
+terra::values(landscape, mat = FALSE)[adjacencies[,2]])
 
 # count diagonal neighbour adjacencies
 diagonal_matrix <- matrix(c(1,  NA,  1,
                             NA,  0, NA,
                             1,  NA,  1), 3, 3, byrow = TRUE)
 get_adjacencies(landscape, diagonal_matrix)
-
-# equivalent with the raster package:
-adjacencies <- raster::adjacent(landscape, 1:raster::ncell(landscape), 4, pairs=TRUE)
-table(landscape[adjacencies[,1]], landscape[adjacencies[,2]])
 
 }

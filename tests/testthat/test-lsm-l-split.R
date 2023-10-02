@@ -1,12 +1,9 @@
-context("landscape level lsm_l_split metric")
-
 landscapemetrics_landscape_landscape_value <- lsm_l_split(landscape)
 
 test_that("lsm_l_split is typestable", {
-    expect_is(lsm_l_split(landscape), "tbl_df")
-    expect_is(lsm_l_split(landscape_stack), "tbl_df")
-    expect_is(lsm_l_split(landscape_brick), "tbl_df")
-    expect_is(lsm_l_split(landscape_list), "tbl_df")
+    expect_s3_class(lsm_l_split(landscape), "tbl_df")
+    expect_s3_class(lsm_l_split(landscape_stack), "tbl_df")
+    expect_s3_class(lsm_l_split(landscape_list), "tbl_df")
 })
 
 test_that("lsm_l_split returns the desired number of columns", {
@@ -22,3 +19,13 @@ test_that("lsm_l_split returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
 
+test_that("lsm_l_split equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_split(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_split(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "split") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "split") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
+})

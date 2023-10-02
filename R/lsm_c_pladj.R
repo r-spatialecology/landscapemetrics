@@ -2,7 +2,7 @@
 #'
 #' @description Percentage of Like Adjacencies (Aggregation metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #'
 #' @details
 #' \deqn{PLADJ = (\frac{g_{ij}} {\sum \limits_{k = 1}^{m} g_{ik}}) * 100}
@@ -22,16 +22,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_pladj(landscape)
 #'
 #' @aliases lsm_c_pladj
 #' @rdname lsm_c_pladj
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/.
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org.
 #'
 #' @export
 lsm_c_pladj <- function(landscape) {
@@ -52,7 +52,7 @@ lsm_c_pladj_calc <- function(landscape) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA
@@ -65,24 +65,17 @@ lsm_c_pladj_calc <- function(landscape) {
     }
 
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
-                                   pad_raster_cells = 1, global = FALSE)
+                                            pad_raster_cells = 1, global = TRUE)
 
     tb <- rcpp_get_coocurrence_matrix(landscape_padded,
                                       directions = as.matrix(4))
 
-    pladj <- vapply(X = seq_len(nrow(tb)), FUN = function(x) {
-        like_adjacencies <- tb[x, x]
-        total_adjacencies <- sum(tb[x, ])
-
-        like_adjacencies / total_adjacencies * 100
-    }, FUN.VALUE = numeric(1))
-
-    pladj <- pladj[-1]
-    names <- row.names(tb)[-1]
+    pladj <- diag(tb) / colSums(tb) * 100
+    names <- row.names(tb)
 
     return(tibble::tibble(level = "class",
-                          class = as.integer(names),
+                          class = as.integer(names[-1]),
                           id = as.integer(NA),
                           metric = "pladj",
-                          value = as.double(pladj)))
+                          value = as.double(pladj[-1])))
 }

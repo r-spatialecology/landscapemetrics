@@ -2,7 +2,7 @@
 #'
 #' @description Total edge (Area and Edge metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param count_boundary Include landscape boundary in edge length
 #'
 #' @details
@@ -27,16 +27,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_te(landscape)
 #'
 #' @aliases lsm_l_te
 #' @rdname lsm_l_te
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' @export
 lsm_l_te <- function(landscape, count_boundary = FALSE) {
@@ -58,9 +58,9 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
 
     # conver raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- raster::res(landscape)
+        resolution <- terra::res(landscape)
 
-        landscape <- raster::as.matrix(landscape)
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
@@ -115,7 +115,7 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
             sum(left_right_neighbours[lower.tri(left_right_neighbours)]) * resolution_x
 
         top_bottom_neighbours <-
-            rcpp_get_coocurrence_matrix(raster::as.matrix(landscape),
+            rcpp_get_coocurrence_matrix(terra::as.matrix(landscape, wide = TRUE),
                                         directions = as.matrix(top_bottom_matrix))
 
         edge_top_bottom <-

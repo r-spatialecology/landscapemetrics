@@ -2,7 +2,7 @@
 #'
 #' @description Coefficient of variation of related circumscribing circle (Shape metric)
 #'
-#' @param landscape Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.
+#' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
 #'
@@ -35,16 +35,16 @@
 #' @return tibble
 #'
 #' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_circle_cv(landscape)
 #'
 #' @aliases lsm_c_circle_cv
 #' @rdname lsm_c_circle_cv
 #'
 #' @references
-#' McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-#' Program for Categorical and Continuous Maps. Computer software program produced by
-#' the authors at the University of Massachusetts, Amherst. Available at the following
-#' web site: https://www.umass.edu/landeco/
+#' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+#' Program for Categorical Maps. Computer software program produced by the authors;
+#' available at the following web site: https://www.fragstats.org
 #'
 #' Baker, W. L., and Y. Cai. 1992. The r.le programs for multiscale analysis of
 #' landscape structure using the GRASS geographical information system.
@@ -85,7 +85,8 @@ lsm_c_circle_cv_calc <- function(landscape, directions, resolution = NULL) {
     }
 
     # summarise for classes
-    circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = raster::cv)
+    circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2],
+                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
 
     return(tibble::tibble(level = "class",
                           class = as.integer(circle_cv$class),

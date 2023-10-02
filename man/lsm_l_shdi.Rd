@@ -7,7 +7,7 @@
 lsm_l_shdi(landscape)
 }
 \arguments{
-\item{landscape}{Raster* Layer, Stack, Brick, SpatRaster (terra), stars, or a list of rasterLayers.}
+\item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 }
 \value{
 tibble
@@ -29,14 +29,14 @@ without limit, as the number of classes increases while the proportions are
 equally distributed}
 }
 \examples{
+landscape <- terra::rast(landscapemetrics::landscape)
 lsm_l_shdi(landscape)
 
 }
 \references{
-McGarigal, K., SA Cushman, and E Ene. 2012. FRAGSTATS v4: Spatial Pattern Analysis
-Program for Categorical and Continuous Maps. Computer software program produced by
-the authors at the University of Massachusetts, Amherst. Available at the following
-web site: https://www.umass.edu/landeco/
+McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
+Program for Categorical Maps. Computer software program produced by the authors;
+available at the following web site: https://www.fragstats.org
 
 Shannon, C., and W. Weaver. 1949. The mathematical theory of
 communication. Univ. IllinoisPress, Urbana
