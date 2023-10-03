@@ -149,7 +149,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Utility functions</h1>
             
-            <h4 data-toc-skip class="date">2023-10-02</h4>
+            <h4 data-toc-skip class="date">2023-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/utility.Rmd" class="external-link"><code>vignettes/articles/utility.Rmd</code></a></small>
       <div class="d-none name"><code>utility.Rmd</code></div>
@@ -339,8 +339,8 @@ looking at adjacencies).</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbo… 3.17ms  3.3ms      304.    25.1KB     4.94</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_terra(landscape)                5.12ms 5.15ms      189.   874.1KB     3.86</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_adjacencies(landscape, neighbo… 2.83ms 3.67ms      275.    25.1KB     4.47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> adj_terra(landscape)                4.89ms 6.03ms      165.   874.1KB     3.37</span></span>
 <span></span>
 <span><span class="fu">adj_terra</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/get_adjacencies.html">get_adjacencies</a></span><span class="op">(</span><span class="va">landscape</span>, <span class="fl">4</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    </span></span>
@@ -400,10 +400,10 @@ raster (or matrix).</p>
 <span>    iterations <span class="op">=</span> <span class="fl">250</span>, check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
-<span><span class="co">#&gt;   expression                             min median `itr/sec` mem_alloc `gc/sec`</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$layer… 10.2ms 10.6ms      93.8   373.5KB     5.57</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nn_terra(patches$layer_1$class_1)   85.3ms 88.3ms      11.3    2.97MB     6.44</span></span>
+<span><span class="co">#&gt;   expression                            min  median `itr/sec` mem_alloc `gc/sec`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;bch:expr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;bch:&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:t&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;bch:byt&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> get_nearestneighbour(patches$laye… 11.5ms  12.5ms     80.0    373.5KB     4.75</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> nn_terra(patches$layer_1$class_1)  93.2ms 102.8ms      9.75    2.97MB     5.58</span></span>
 <span></span>
 <span><span class="co"># check if results are identical</span></span>
 <span><span class="fu"><a href="../reference/get_nearestneighbour.html">get_nearestneighbour</a></span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">==</span> <span class="fu">nn_terra</span><span class="op">(</span><span class="va">patches</span><span class="op">$</span><span class="va">layer_1</span><span class="op">$</span><span class="va">class_1</span><span class="op">)</span></span>
