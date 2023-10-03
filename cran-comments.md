@@ -1,3 +1,8 @@
+# landscapemetrics 2.0.0 - resubmission
+This is a re-submission. The below error has now been fixed. 
+
+Possibly misspelled words in DESCRIPTION: functionn (44:53)
+
 # landscapemetrics 2.0.0
 Major update removing dependency to raster and sp package
 
