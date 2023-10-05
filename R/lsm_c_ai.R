@@ -78,28 +78,18 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     # get number of cells each class
     cells_class <- extras$composition_vector
 
-    # save to tibble
-    cells_class <- tibble::new_tibble(list(class = names(cells_class),
-                                 value = cells_class))
-
     # calculate maximum adjacencies
-    cells_class$n <- trunc(sqrt(cells_class$value))
-    cells_class$m <- cells_class$value - cells_class$n ^ 2
-    cells_class$max_adj <- ifelse(test = cells_class$m == 0,
-                                  yes = 2 * cells_class$n * (cells_class$n - 1),
-                                  no = ifelse(test = cells_class$m <= cells_class$n,
-                                              yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 1,
-                                              no = ifelse(test = cells_class$m > cells_class$n,
-                                                          yes = 2 * cells_class$n * (cells_class$n - 1) + 2 * cells_class$m - 2,
-                                                          no = NA)))
+    n <- trunc(sqrt(cells_class))
+    m <- cells_class - n ^ 2
+    max_adj <- ifelse(test = m == 0, yes = 2 * n * (n - 1),
+                      no = ifelse(test = m <= n, yes = 2 * n * (n - 1) + 2 * m - 1,
+                                  no = ifelse(test = m > n, yes = 2 * n * (n - 1) + 2 * m - 2,
+                                              no = NA)))
 
     # warning if NAs are introduced by ifelse
-    if (anyNA(cells_class$max_adj)) {
-        warning("NAs introduced by lsm_c_ai", call. = FALSE)
+    if (anyNA(max_adj)) {
+        stop("NAs introduced by lsm_c_ai", call. = FALSE)
     }
-
-    # get only max_adj as vector
-    max_adj <- cells_class$max_adj
 
     # calculate aggregation index
     ai <- (like_adjacencies / max_adj) * 100

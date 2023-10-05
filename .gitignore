@@ -8,3 +8,5 @@ src/*.o
 src/*.so
 src/*.dll
 ^CRAN-SUBMISSION$
+data-raw/FS-metrics.fca
+CRAN-SUBMISSION

@@ -26,3 +26,14 @@ test_that("lsm_c_nlsi returns NA if not defined", {
 
     expect_warning(lsm_c_nlsi(landscape_na), regexp = "NAs introduced by lsm_c_nlsi.")
 })
+
+test_that("lsm_c_nlsi equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_nlsi(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_nlsi(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "nlsi") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "nlsi") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
+})

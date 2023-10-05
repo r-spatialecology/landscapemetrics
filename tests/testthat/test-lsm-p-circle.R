@@ -23,3 +23,32 @@ test_that("lsm_p_circle can also handle irregular sized cells", {
     expect_error(object = lsm_p_circle(landscape_diff_res),
                  regexp = "The area of the circumscribing circle is currently only implemented for equal resolutions.")
 })
+
+# https://fragstats.org/index.php/fragstats-metrics/shape-metrics/p4-related-circumscribing-circle
+# In addition, the index never quite equals 0 because the grid data format doesn't allow patches to be perfectly circular
+
+test_that("lsm_p_circle equals FRAGSTATS", {
+
+    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
+
+    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
+
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric %in% c("area", "circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
+
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric %in% c("area", "circle")) |>
+        tidyr::pivot_wider(names_from = metric, values_from = value) |>
+        dplyr::filter(area != min(area)) |>
+        dplyr::pull(circle)
+
+    expect_true(test_correlation(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_cor))
+    expect_true(test_correlation(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_cor))
+})

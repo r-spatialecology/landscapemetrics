@@ -40,8 +40,8 @@
 #' Program for Categorical Maps. Computer software program produced by the authors;
 #' available at the following web site: https://www.fragstats.org
 #'
-#' Riitters, K.H., O’Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
-#' contagion indices for landscape analysis. Landscape ecology, 11, 197–202.
+#' Riitters, K.H., O'Neill, R.V., Wickham, J.D. & Jones, K.B. (1996). A note on
+#' contagion indices for landscape analysis. Landscape ecology, 11, 197-202.
 #'
 #' @export
 lsm_l_contag <- function(landscape, verbose = TRUE) {

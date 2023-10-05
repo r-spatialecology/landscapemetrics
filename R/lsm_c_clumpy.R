@@ -18,7 +18,7 @@
 #' under a spatially random distribution. The metric is based on he adjacency matrix and the
 #' the double-count method.
 #'
-#' \subsection{Units}{None}, directions = directions
+#' \subsection{Units}{None}
 #' \subsection{Range}{-1 <= CLUMPY <= 1}
 #' \subsection{Behaviour}{Equals -1 for maximally disaggregated, 0 for randomly distributed
 #' and 1 for maximally aggregated classes.}
@@ -58,7 +58,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
     landscape_padded <- pad_raster_internal(landscape,
                                             pad_raster_value = -999,
                                             pad_raster_cells = 1,
-                                            global = FALSE)
+                                            global = TRUE)
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
@@ -70,63 +70,47 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
     }
 
     # get coocurrence
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
+    adj_matrix <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
-    # like adacencies are on the diagonal and remove adjacencies to boundary
-    like_adjacencies <- diag(tb)[2:length(diag(tb))]
+    # like adjacencies are on the diagonal
+    like_adjacencies <- diag(adj_matrix)
 
     # all other adjacencies
-    other_adjacencies <- as.matrix(tb[, 2:ncol(tb)])
+    other_adjacencies <- colSums(adj_matrix)
 
     # number cells in each class without -999 lansdcape boundary
-    cells_class <- rcpp_get_composition_vector(landscape_padded)[-1]
-
-    # convert to tibble
-    cells_class <- tibble::new_tibble(list(class = names(cells_class),
-                                           value = cells_class))
+    cells_class <- rcpp_get_composition_vector(landscape_padded)
 
     # calculate minimum perimeter
-    cells_class$n <- trunc(sqrt(cells_class$value))
-    cells_class$m <- cells_class$value - cells_class$n ^ 2
-    cells_class$min_e <- ifelse(test = cells_class$m == 0,
-                                yes = cells_class$n * 4,
-                                no = ifelse(test = cells_class$n ^ 2 < cells_class$value & cells_class$value <= cells_class$n * (1 + cells_class$n),
-                                            yes = 4 * cells_class$n + 2,
-                                            no = ifelse(test = cells_class$value > cells_class$n * (1 + cells_class$n),
-                                                        yes = 4 * cells_class$n + 4,
-                                                        no = NA)))
+    n <- trunc(sqrt(cells_class))
+    m <- cells_class - n ^ 2
+    min_e <- ifelse(test = m == 0, yes = n * 4,
+                    no = ifelse(test = n ^ 2 < cells_class & cells_class <= n * (1 + n),
+                                yes = 4 * n + 2,
+                                no = ifelse(test = cells_class > n * (1 + n), yes = 4 * n + 4,
+                                            no = NA)))
 
-    # test if any NAs introduced
-    if (anyNA(cells_class$min_e)) {
-        warning("NAs introduced by lsm_c_clumpy", call. = FALSE)
+    # warning if NAs are introduced by ifelse
+    if (anyNA(min_e)) {
+        stop("NAs introduced by lsm_c_clumpy", call. = FALSE)
     }
 
-    # calculate g_i
-    g_i <- like_adjacencies / (colSums(other_adjacencies) - cells_class$min_e)
-
     # proportional class area - direction has no influence on PLAND
-    prop_class <- lsm_c_pland_calc(landscape,
-                                   directions = 8,
-                                   resolution,
-                                   extras = extras)
+    # p_i <- lsm_c_pland_calc(landscape, directions = 8, resolution = resolution)$value / 100
+    p_i <- cells_class[-1] / sum(cells_class[-1])
 
-    prop_class <- prop_class$value / 100
+    g_i <- like_adjacencies[-1] / (other_adjacencies[-1] - min_e[-1])
 
     # calculate clumpy
-    clumpy <- vapply(seq_along(g_i), FUN = function(row_ind) {
+    clumpy <- vapply(seq_along(g_i), FUN = function(i) {
 
         # set to NA if mathematical not possible
-        if (is.nan(g_i[row_ind]) || is.na(g_i[row_ind]) || prop_class[row_ind] == 1) {
-            clumpy <- NA
-        }
+        if (is.nan(g_i[i]) || is.na(g_i[i]) || p_i[i] == 1) numeric(NA)
+        # calc clumpy
+        else if (g_i[i] >= p_i[i]) (g_i[i] - p_i[i]) / (1 - p_i[i])
+        else if (g_i[i] < p_i[i] && p_i[i] >= 0.5) (g_i[i] - p_i[i]) / (1 - p_i[i])
+        else if (g_i[i] < p_i[i] && p_i[i] < 0.5) (g_i[i] - p_i[i]) / -p_i[i]
 
-        else if (g_i[row_ind] < (prop_class[row_ind]) & prop_class[row_ind] < .5) {
-            clumpy <- (g_i[row_ind] - prop_class[row_ind]) / prop_class[row_ind]
-        }
-
-        else {
-            clumpy <- (g_i[row_ind] - prop_class[row_ind]) / (1 - prop_class[row_ind])
-        }
     }, FUN.VALUE = numeric(1))
 
     return(tibble::new_tibble(list(level = rep("class", length(clumpy)),

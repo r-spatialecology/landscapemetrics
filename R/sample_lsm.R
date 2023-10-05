@@ -27,6 +27,10 @@
 #' within the landscape will have a `percentage_inside = 50`. Please be aware that the
 #' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
+#' Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
+#' In the first case, each polygon is used as a singular sample area, while in the second
+#' case all polygons are used as one sample area.
+#'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
 #' and/or `type` (combinations of different arguments are possible (e.g.
 #' `level = "class", type = "aggregation metric"`). If an argument is not provided,
@@ -94,9 +98,9 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
                            all_classes, verbose, progress, ...) {
 
     # check if size argument is only one number
-    if ((length(size) != 1 | any(size <= 0)) & !is.null(size)) {
+    if (!is.null(size) & (length(size) != 1 | any(size < 0))) {
 
-        stop("Please provide only one value as size argument (size > 0).", call. = FALSE)
+        stop("Please provide only one value as size argument.", call. = FALSE)
 
     }
 
@@ -109,7 +113,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
 
         if (terra::geomtype(y) == "points") {
 
-            if (is.null(size)) stop("Please provide size argument.", call. = FALSE)
+            if (is.null(size) | size == 0) stop("Please provide size argument size > 0.", call. = FALSE)
 
             y <- construct_buffer(coords = y, shape = shape, size = size,
                                   return_vec = TRUE, verbose = verbose)

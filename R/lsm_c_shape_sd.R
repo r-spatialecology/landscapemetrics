@@ -11,9 +11,8 @@
 #' where \eqn{SHAPE[patch_{ij}]} is the shape index of each patch.
 #'
 #' SHAPE_SD is a 'Shape metric'. Each class is summarised as the standard deviation
-#' of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter
-#' of the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
-#' equals the perimeter if the patch would be maximally compact.
+#' of each patch belonging to class i. SHAPE describes the ratio between the actual perimeter of
+#' the patch and the square root of patch area.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE_SD >= 0}

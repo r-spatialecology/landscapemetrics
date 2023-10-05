@@ -19,3 +19,13 @@ test_that("lsm_c_division returns in every column the correct type", {
     expect_type(landscapemetrics_class_landscape_value$value, "double")
 })
 
+test_that("lsm_c_division equals FRAGSTATS", {
+    lsm_landscape <- lsm_c_division(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_division(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "division") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "division") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
+})

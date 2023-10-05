@@ -19,13 +19,12 @@ tibble
 Shape index (Shape metric)
 }
 \details{
-\deqn{SHAPE = \frac{p_{ij}} {\min p_{ij}}}
-where \eqn{p_{ij}} is the perimeter in terms of cell surfaces and \eqn{\min p_{ij}}
-is the minimum perimeter of the patch in terms of cell surfaces.
+\deqn{SHAPE = \frac{0.25 * p_{ij}} {\sqrt a_{ij}}}
+where \eqn{p_{ij}} is the perimeter (m) and \eqn{a_{ij}} is the area (m2).
 
 SHAPE is a 'Shape metric'. It describes the ratio between the actual perimeter of
-the patch and the hypothetical minimum perimeter of the patch. The minimum perimeter
-equals the perimeter if the patch would be maximally compact.
+the patch and the square root of patch area and thus adjusting for a square standard.
+Thus, it is a simple measure of shape complexity.
 
 \subsection{Units}{None}
 \subsection{Range}{SHAPE >= 1}

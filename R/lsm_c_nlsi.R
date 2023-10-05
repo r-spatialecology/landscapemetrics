@@ -132,6 +132,11 @@ lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
                                                                   yes = class_perim + 4 * (total_area - class_area),
                                                                   no = NA))))
 
+    # test if any NAs introduced
+    if (anyNA(class_perim_max)) {
+        stop("NAs introduced by lsm_c_nlsi", call. = FALSE)
+    }
+
     # calculate denominator
     denominator <- class_perim_max - class_perim_min
 
@@ -140,11 +145,8 @@ lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
 
     # test if any NAs introduced
     if (!all(is.finite(nlsi))) {
-
         warning("NAs introduced by lsm_c_nlsi.", call. = FALSE)
-
         nlsi[!is.finite(nlsi)] <- NA
-
     }
 
     return(tibble::new_tibble(list(level = rep("class", length(nlsi)),

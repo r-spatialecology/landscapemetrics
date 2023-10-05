@@ -22,3 +22,14 @@ test_that("lsm_p_perim returns in every column the correct type", {
 test_that("lsm_p_perim can also handle irregular sized cells", {
     expect_s3_class(lsm_p_perim(landscape_diff_res), "tbl_df")
 })
+
+test_that("lsm_p_perim equals FRAGSTATS", {
+    lsm_landscape <- lsm_p_perim(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_p_perim(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_patch, LID == "landscape", metric == "perim") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_patch, LID == "augusta_nlcd", metric == "perim") |> dplyr::pull(value)
+
+    expect_true(test_correlation(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_cor))
+    expect_true(test_correlation(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_cor))
+})

@@ -65,23 +65,16 @@ lsm_c_pladj_calc <- function(landscape) {
     }
 
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
-                                   pad_raster_cells = 1, global = FALSE)
+                                            pad_raster_cells = 1, global = TRUE)
 
     tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
-    pladj <- vapply(X = seq_len(nrow(tb)), FUN = function(x) {
-        like_adjacencies <- tb[x, x]
-        total_adjacencies <- sum(tb[x, ])
+    pladj <- diag(tb) / colSums(tb) * 100
+    names <- row.names(tb)
 
-        like_adjacencies / total_adjacencies * 100
-    }, FUN.VALUE = numeric(1))
-
-    pladj <- pladj[-1]
-    names <- row.names(tb)[-1]
-
-    return(tibble::new_tibble(list(level = rep("class", length(names)),
-                              class = as.integer(names),
-                              id = rep(as.integer(NA), length(names)),
-                              metric = rep("pladj", length(names)),
-                              value = as.double(pladj))))
+    return(tibble::new_tibble(list(level = rep("class", length(names[-1])),
+                              class = as.integer(names[-1]),
+                              id = rep(as.integer(NA), length(names[-1])),
+                              metric = rep("pladj", length(names[-1])),
+                              value = as.double(pladj[-1]))))
 }

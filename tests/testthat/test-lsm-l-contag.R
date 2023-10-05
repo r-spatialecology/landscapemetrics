@@ -28,3 +28,15 @@ test_that("lsm_l_contag returns warning for less than 2 classes", {
                    regexp = "Number of classes must be >= 2: CONTAG = NA.",
                    fixed = TRUE)
     })
+
+test_that("lsm_l_contag equals FRAGSTATS", {
+    lsm_landscape <- lsm_l_contag(landscape) |> dplyr::pull(value)
+    lsm_augusta <- lsm_l_contag(augusta_nlcd) |> dplyr::pull(value)
+
+    fs_landscape <- dplyr::filter(fragstats_landscape, LID == "landscape", metric == "contag") |> dplyr::pull(value)
+    fs_augusta <- dplyr::filter(fragstats_landscape, LID == "augusta_nlcd", metric == "contag") |> dplyr::pull(value)
+
+    expect_true(test_relative(obs = lsm_landscape, exp = fs_landscape, tolerance = tol_rel))
+    expect_true(test_relative(obs = lsm_augusta, exp = fs_augusta, tolerance = tol_rel))
+})
+

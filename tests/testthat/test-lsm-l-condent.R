@@ -18,4 +18,3 @@ test_that("lsm_l_condent returns in every column the correct type", {
     expect_type(landscapemetrics_landscape_landscape_value$metric, "character")
     expect_type(landscapemetrics_landscape_landscape_value$value, "double")
 })
-

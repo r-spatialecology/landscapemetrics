@@ -29,7 +29,7 @@ In this case, we will use the Augusta NLCD dataset and an example set of irregul
 ```{r}
 # read example data ----------------------------------------------------
 augusta_nlcd = rast(landscapemetrics::augusta_nlcd)
-irregular_areas <- landscapemetrics:::irregular_areas
+irregular_areas <- landscapemetrics:::internal_data$irregular_areas
 
 plot(augusta_nlcd, type = "classes")
 plot(st_geometry(irregular_areas), add = TRUE)

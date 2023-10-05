@@ -105,15 +105,12 @@ lsm_l_lsi_calc <- function(landscape, extras = NULL) {
                                                       yes = 4 * total_n + 4,
                                                       no = NA)))
 
-    lsi <- total_perim / total_perim_min
-
     # test if any NAs introduced
-    if (!is.finite(lsi)) {
-
-        warning("NAs introduced by lsm_l_lsi.", call. = FALSE)
-
-        lsi <- NA
+    if (is.na(total_perim_min)) {
+        stop("NAs introduced by lsm_l_lsi.", call. = FALSE)
     }
+
+    lsi <- total_perim / total_perim_min
 
     return(tibble::new_tibble(list(level = rep("landscape", length(lsi)),
                  class = rep(as.integer(NA), length(lsi)),

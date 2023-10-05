@@ -6,6 +6,7 @@ library(sf)
 library(supercells)
 library(terra)
 library(usethis)
+
 #### Example landscape background ####
 
 set.seed(2023-05-23)
@@ -30,4 +31,28 @@ irregular_areas = supercells(my_cat_raster2[[-c(1, 2)]], k = 30,
 
 irregular_areas = irregular_areas[1]
 
-usethis::use_data(landscape_background, irregular_areas, overwrite = TRUE, internal = TRUE)
+#### Fragstats data ####
+
+# import and reshape FRAGSTATS v2.0 results
+
+fragstats_patch <- c(landscape = "data-raw/landscape.patch", augusta_nlcd = "data-raw/augusta_nlcd.patch") |>
+    lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
+    dplyr::bind_rows(.id = "LID")
+
+fragstats_class <- c(landscape = "data-raw/landscape.class", augusta_nlcd = "data-raw/augusta_nlcd.class") |>
+    lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
+    dplyr::bind_rows(.id = "LID")
+
+fragstats_landscape <- c(landscape = "data-raw/landscape.land", augusta_nlcd = "data-raw/augusta_nlcd.land") |>
+    lapply(read.table, sep  = ",", header = TRUE,  na.strings = " N/A ") |>
+    dplyr::bind_rows(.id = "LID")
+
+fs_data <- list(patch = fragstats_patch, class = fragstats_class, landscape = fragstats_landscape)
+
+#### Combine data
+
+internal_data <- list(landscape_background = landscape_background,
+                      irregular_areas = irregular_areas,
+                      fs_data = fs_data)
+
+usethis::use_data(internal_data, overwrite = TRUE, internal = TRUE)
