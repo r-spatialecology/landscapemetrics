@@ -69,6 +69,8 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
 
 lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         points <- get_points(landscape, resolution)
