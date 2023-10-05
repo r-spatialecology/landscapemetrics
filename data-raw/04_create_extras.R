@@ -65,4 +65,5 @@ my_new_env$extras_df <- extras_df
 # save the environment as internal package data
 save(list = names(my_new_env),
      file = "R/sysdata.rda",
-     envir = my_new_env)
+     envir = my_new_env,
+     compress = "xz")
