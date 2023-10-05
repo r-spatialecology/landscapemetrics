@@ -66,12 +66,12 @@ lsm_c_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_enn_cv_calc <- function(landscape, directions, verbose, extras = NULL) {
+lsm_c_enn_cv_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
-                          verbose = verbose,
-                          extras = extras)
+                          verbose = verbose
+                          resolution = resolution, extras = extras)
 
     # all cells are NA
     if (all(is.na(enn$value))) {
