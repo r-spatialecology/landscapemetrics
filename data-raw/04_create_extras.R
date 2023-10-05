@@ -19,8 +19,8 @@ all_extras = c("extras\\$points", "extras\\$resolution", "extras\\$classes",
                "extras\\$class_patches", "extras\\$area_patches", "extras\\$neighbor_matrix",
                "extras\\$composition_vector", "extras\\$comp", "extras\\$cplx",
                "extras\\$enn_patch")
-db_extras1 = map_df(all_lsms$function_name, 
-    get_extras_per_file, 
+db_extras1 = map_df(all_lsms$function_name,
+    get_extras_per_file,
     lsm_dir = "~/Software/landscapemetrics/",
     all_extras = all_extras)
 
@@ -32,11 +32,11 @@ get_int_functions = function(function_name1){
     data.frame(mainmetric = function_name1, usedmetric = int_functions2)
 }
 
-sel_intfuns_1degree = map_df(all_lsms$function_name, get_int_functions) |> 
+sel_intfuns_1degree = map_df(all_lsms$function_name, get_int_functions) |>
     filter(str_detect(usedmetric, "^lsm"))
-sel_intfuns_2degree = map_df(unique(sel_intfuns_1degree$usedmetric), get_int_functions) |> 
+sel_intfuns_2degree = map_df(unique(sel_intfuns_1degree$usedmetric), get_int_functions) |>
     filter(str_detect(usedmetric, "^lsm"))
-sel_intfuns_2degree = left_join(sel_intfuns_1degree, sel_intfuns_2degree, by = c("usedmetric" = "mainmetric"), 
+sel_intfuns_2degree = left_join(sel_intfuns_1degree, sel_intfuns_2degree, by = c("usedmetric" = "mainmetric"),
     relationship = "many-to-many") |>
     select(mainmetric, usedmetric = usedmetric.y) |>
     filter(!is.na(usedmetric))
@@ -44,12 +44,25 @@ sel_intfuns_2degree = left_join(sel_intfuns_1degree, sel_intfuns_2degree, by = c
 sel_intfuns = rbind(sel_intfuns_1degree, sel_intfuns_2degree)
 
 # 3. join them
-db_extras2 = left_join(sel_intfuns, db_extras1, by = c("usedmetric" = "metric"), 
+db_extras2 = left_join(sel_intfuns, db_extras1, by = c("usedmetric" = "metric"),
     relationship = "many-to-many") |>
     filter(!is.na(used)) |>
     select(metric = mainmetric, extras, used)
 
 extras_df = rbind(db_extras1, db_extras2) |> select(-used) |>
-    distinct(metric, extras) |> 
+    distinct(metric, extras) |>
     arrange(metric)
-usethis::use_data(extras_df, overwrite = TRUE, internal = TRUE)
+
+# create new environment
+my_new_env <- new.env(hash = FALSE)
+
+# load current internal data into this new environment
+load("R/sysdata.rda", envir = my_new_env)
+
+# add or replace some objects
+my_new_env$extras_df <- extras_df
+
+# save the environment as internal package data
+save(list = names(my_new_env),
+     file = "R/sysdata.rda",
+     envir = my_new_env)
