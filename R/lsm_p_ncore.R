@@ -75,6 +75,8 @@ lsm_p_ncore <- function(landscape,
 
 lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
 
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
         landscape <- terra::as.matrix(landscape, wide = TRUE)
@@ -97,7 +99,7 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
-        points <- get_points(landscape)
+        points <- get_points(landscape, resolution)
     }
 
     core_class <- do.call(rbind,

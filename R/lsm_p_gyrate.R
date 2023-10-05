@@ -94,7 +94,7 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
-        points <- get_points(landscape)
+        points <- get_points(landscape, resolution)
     }
 
     gyrate <- do.call(rbind,
