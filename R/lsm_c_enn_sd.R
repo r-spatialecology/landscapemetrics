@@ -72,7 +72,7 @@ lsm_c_enn_sd_calc <- function(landscape, directions, verbose, resolution, extras
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
-                          verbose = verbose
+                          verbose = verbose,
                           resolution = resolution, extras = extras)
 
     # all cells are NA
