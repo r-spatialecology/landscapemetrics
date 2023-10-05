@@ -73,7 +73,7 @@ lsm_p_ncore <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, extras = NULL){
+lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     if (missing(resolution)) resolution <- terra::res(landscape)
 

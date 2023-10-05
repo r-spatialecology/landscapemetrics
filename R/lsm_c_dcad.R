@@ -89,6 +89,7 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
+                             resolution = resolution,
                              extras = extras)
 
     # summarise for classes
