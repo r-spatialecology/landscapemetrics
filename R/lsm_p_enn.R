@@ -67,11 +67,11 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_enn_calc <- function(landscape, directions, verbose, extras = NULL) {
+lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        points <- get_points(landscape)
+        points <- get_points(landscape, resolution)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
