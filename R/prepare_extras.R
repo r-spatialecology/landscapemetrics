@@ -1,7 +1,7 @@
 #' prepare_extras
 #'
-#' @description Prepare an extras object 
-#' 
+#' @description Prepare an extras object
+#'
 #' @param metrics A vector with metric abbreviations
 #' @param landscape_mat A matrix object
 #' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
@@ -28,8 +28,8 @@
 #'  \item cplx: complexity of the landscape
 #'  \item enn_patch: matrix with the euclidean nearest neighbour distance for each patch
 #' }
-#' 
-#' @seealso 
+#'
+#' @seealso
 #' \code{\link{get_points}},
 #' \code{\link{get_unique_values_int}},
 #' \code{\link{get_class_patches}},
@@ -39,12 +39,12 @@
 #' \code{\link{rcpp_get_entropy}},
 #' \code{\link{get_complexity}},
 #' \code{\link{get_enn_patch}}
-#' 
+#'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 #' prepare_extras("lsm_l_ent", landscape_mat, neighbourhood = 4, base = "log2")
-#' 
+#'
 #' \dontrun{
 #' metrics = list_lsm()$function_name
 #' landscape <- terra::rast(landscapemetrics::landscape)
@@ -111,7 +111,8 @@ prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, or
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-#' class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
+#' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+#' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #'
 #' @aliases get_class_patches
 #' @rdname get_class_patches
@@ -145,8 +146,9 @@ get_class_patches <- function(landscape_mat, classes, directions){
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-#' class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
-#' area_patches <- get_area_patches(class_patches, get_unique_values_int(landscape_mat), resolution = terra::res(landscape))
+#' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+#' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
+#' area_patches <- get_area_patches(class_patches, classes, resolution = terra::res(landscape))
 #'
 #' @aliases get_area_patches
 #' @rdname get_area_patches
@@ -200,7 +202,7 @@ get_complexity <- function(landscape_mat, neighbourhood, ordered, base){
 
 #' get_points
 #'
-#' @description Raster to col, row, value 
+#' @description Raster to col, row, value
 #'
 #' @param landscape_mat A matrix object
 #' @param resolution A vector with two numbers (usually calculated using terra::res)
@@ -248,9 +250,10 @@ get_points <- function(landscape_mat, resolution){
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-#' class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
+#' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+#' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #' points <- get_points(landscape_mat, terra::res(landscape))
-#' enns <- get_enn_patch(get_unique_values_int(landscape_mat), class_patches, points, terra::res(landscape))
+#' enns <- get_enn_patch(classes, class_patches, points, terra::res(landscape))
 #' enns
 #'
 #' @aliases get_enn_patch
