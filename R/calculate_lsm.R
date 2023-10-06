@@ -163,15 +163,14 @@ calculate_lsm_internal <- function(landscape,
     # how many metrics need to be calculated?
     number_metrics <- length(metrics_calc)
 
-    # PREPARE EXTRAS
+    # prepare extras
     resolution <- terra::res(landscape)
     landscape <- terra::as.matrix(landscape, wide = TRUE)
     extras <- prepare_extras_nonspatial(metrics, landscape, directions, neighbourhood,
                                         ordered, base, resolution)
-    # print(names(extras))
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
-        # print progess using the non-internal name
+        # print progress using the non-internal name
         if (progress) {
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }

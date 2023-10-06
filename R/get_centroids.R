@@ -51,7 +51,7 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
     if (return_vec) {
 
-        result <- terra::vect(result, geom=c("x", "y"), crs = crs)
+        result <- terra::vect(result, geom = c("x", "y"), crs = crs)
     }
 
     return(result)
@@ -80,7 +80,7 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
                               y = as.double(NA)))
     }
 
-    # get uniuqe class id
+    # get unique class id
     classes <- get_unique_values_int(landscape, verbose = verbose)
 
     centroid <- do.call(rbind,
@@ -100,11 +100,11 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
                             # set ID from class ID to unique patch ID
                             points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-                            # # conver to tibble
+                            # # convert to tibble
                             points <- stats::setNames(object = data.frame(points),
                                                       nm = c("x", "y", "id"))
 
-                            # calcuale the centroid of each patch (mean of all coords)
+                            # calculate the centroid of each patch (mean of all coords)
                             centroid_temp <- stats::aggregate(points[, c(1, 2)],
                                                               by = list(id = points[, 3]),
                                                               FUN = mean)

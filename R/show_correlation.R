@@ -22,7 +22,7 @@
 #' show_correlation(data = metrics, method = "pearson")
 #'
 #' \dontrun{
-#' metrics <- calculate_lsm(landscape, what = c("patch", "class"))#'
+#' metrics <- calculate_lsm(landscape, what = c("patch", "class"))
 #' correlations <- calculate_correlation(metrics)
 #' show_correlation(data = correlations, method = "pearson")
 #' }

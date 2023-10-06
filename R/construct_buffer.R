@@ -10,7 +10,7 @@
 #' @param verbose Print warning messages.
 #'
 #' @return
-#' matrix or sf objecct
+#' matrix or SpatVector object
 #'
 #' @examples
 #' coords <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)

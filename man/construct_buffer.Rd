@@ -19,7 +19,7 @@ side-length for squares in map units}
 \item{verbose}{Print warning messages.}
 }
 \value{
-matrix or sf objecct
+matrix or SpatVector object
 }
 \description{
 Internal function to construct plot area around coordinates
