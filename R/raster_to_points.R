@@ -27,8 +27,7 @@ raster_to_points <- function(landscape, return_NA = TRUE) {
 
     result <- lapply(X = seq_along(landscape), function(x) {
 
-        xyz <- raster_to_points_internal(landscape[[x]],
-                                         return_NA = return_NA)
+        xyz <- raster_to_points_internal(landscape[[x]], return_NA = return_NA)
 
         xyz <- cbind(layer = x, xyz)
     })
@@ -47,7 +46,6 @@ raster_to_points_internal <- function(landscape, return_NA) {
 
     # get coordinates
     xyz[, c(1, 2)] <- terra::xyFromCell(landscape, cell = 1:terra::ncell(landscape))
-    # xyz[, c(1, 2)] <- terra::crds(landscape)
 
     # add values including NA
     xyz[, 3] <- terra::values(landscape, mat = FALSE)
@@ -57,8 +55,6 @@ raster_to_points_internal <- function(landscape, return_NA) {
     }
 
     colnames(xyz) <- c("x", "y", "z")
-
-    # xyz <- cbind(layer = 1, xyz)
 
     return(xyz)
 }
