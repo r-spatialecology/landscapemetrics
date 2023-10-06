@@ -95,24 +95,11 @@ lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
         # multiply number of cells within each patch with hectar factor
         area_patch_ij <- area_patches[[as.character(patches_class)]]
 
-        # tibble::new_tibble(list(
-        #     class = as.integer(patches_class),
-        #     value = area_patch_ij)
         tibble::new_tibble(list(
             class = rep(as.integer(patches_class), length(area_patch_ij)),
             value = area_patch_ij))
-        # data.frame(
-        #     class = rep(as.integer(patches_class), length(area_patch_ij)),
-        #     value = area_patch_ij)
         })
     )
-    # return(tibble::new_tibble(list(
-    #     level = "patch",
-    #     class = as.integer(area_patch$class),
-    #     id = as.integer(seq_len(nrow(area_patch))),
-    #     metric = "area",
-    #     value = as.double(area_patch$value)
-    # ))
     return(tibble::new_tibble(list(
         level = rep("patch", nrow(area_patch)),
         class = as.integer(area_patch$class),
@@ -120,11 +107,4 @@ lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
         metric = rep("area", nrow(area_patch)),
         value = as.double(area_patch$value)
         )))
-    # return(data.frame(
-    #     level = rep("patch", nrow(area_patch)),
-    #     class = as.integer(area_patch$class),
-    #     id = as.integer(seq_len(nrow(area_patch))),
-    #     metric = rep("area", nrow(area_patch)),
-    #     value = as.double(area_patch$value)
-    # ))
 }
