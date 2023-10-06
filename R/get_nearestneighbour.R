@@ -46,14 +46,16 @@ get_nearestneighbour <- function(landscape, return_id = FALSE) {
 
 }
 
-get_nearestneighbour_calc <- function(landscape, return_id,
+get_nearestneighbour_calc <- function(landscape, return_id, resolution,
                                       points = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
+        points <- get_points(landscape, resolution = resolution)
 
         # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
