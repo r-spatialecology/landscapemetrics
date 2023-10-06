@@ -31,12 +31,12 @@
 #'
 #' @seealso
 #' \code{\link{get_points}},
-#' \code{\link{get_unique_values_int}},
+#' #\code{\link{get_unique_values_int}},
 #' \code{\link{get_class_patches}},
 #' \code{\link{get_area_patches}},
-#' \code{\link{rcpp_get_composition_vector}},
-#' \code{\link{rcpp_get_coocurrence_matrix}},
-#' \code{\link{rcpp_get_entropy}},
+#' #\code{\link{rcpp_get_composition_vector}},
+#' #\code{\link{rcpp_get_coocurrence_matrix}},
+#' #\code{\link{rcpp_get_entropy}},
 #' \code{\link{get_complexity}},
 #' \code{\link{get_enn_patch}}
 #'
