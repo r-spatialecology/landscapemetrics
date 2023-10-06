@@ -15,7 +15,7 @@ get_extras_per_file <- function(input_fun, lsm_dir, all_extras){
 all_lsms <- landscapemetrics::list_lsm()
 
 # 1. check which functions are using extras directly
-all_extras <- c("extras\\$points", "extras\\$resolution", "extras\\$classes",
+all_extras <- c("extras\\$points", "extras\\$classes",
                "extras\\$class_patches", "extras\\$area_patches", "extras\\$neighbor_matrix",
                "extras\\$composition_vector", "extras\\$comp", "extras\\$cplx",
                "extras\\$enn_patch")
