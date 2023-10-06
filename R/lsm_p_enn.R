@@ -73,7 +73,6 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = 
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        points <- get_points(landscape, resolution)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
@@ -88,13 +87,12 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = 
 
     # get unique classes
     if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
         enn_patch <- extras$enn_patch
     } else {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
         class_patches <- get_class_patches(landscape, classes, directions)
-        enn_patch <- get_enn_patch(classes, class_patches, points)
+        points <- get_points(landscape, resolution)
+        enn_patch <- get_enn_patch(classes, class_patches, points, resolution)
     }
 
     tibble::new_tibble(list(level = rep("patch", nrow(enn_patch)),

@@ -63,7 +63,7 @@ get_complexity <- function(landscape, neighbourhood, ordered, base){
     return(cplx)
 }
 
-get_enn_patch <- function(classes, class_patches, points, verbose = FALSE){
+get_enn_patch <- function(classes, class_patches, points, resolution, verbose = FALSE){
     enn_patch <- do.call(rbind,
                          lapply(classes, function(patches_class) {
 
@@ -88,6 +88,7 @@ get_enn_patch <- function(classes, class_patches, points, verbose = FALSE){
 
                                  enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
                                                                   return_id = FALSE,
+                                                                  resolution = resolution,
                                                                   points = points)
                              }
 
