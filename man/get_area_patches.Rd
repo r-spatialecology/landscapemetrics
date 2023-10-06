@@ -25,8 +25,9 @@ Calculate areas of patches for each class
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)
 landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
-area_patches <- get_area_patches(class_patches, get_unique_values_int(landscape_mat), resolution = terra::res(landscape))
+classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
+area_patches <- get_area_patches(class_patches, classes, resolution = terra::res(landscape))
 
 }
 \keyword{internal}

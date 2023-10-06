@@ -29,9 +29,10 @@ Calculate Euclidean Nearest-Neighbor Distance for each patch in each class
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)
 landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
+classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 points <- get_points(landscape_mat, terra::res(landscape))
-enns <- get_enn_patch(get_unique_values_int(landscape_mat), class_patches, points, terra::res(landscape))
+enns <- get_enn_patch(classes, class_patches, points, terra::res(landscape))
 enns
 
 }

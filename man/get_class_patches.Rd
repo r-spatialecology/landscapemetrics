@@ -25,7 +25,8 @@ Calculate patches for each class
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)
 landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-class_patches <- get_class_patches(landscape_mat, get_unique_values_int(landscape_mat), directions = 8)
+classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 
 }
 \keyword{internal}
