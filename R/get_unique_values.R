@@ -56,7 +56,7 @@ get_unique_values <- function(x, simplify = FALSE, verbose = TRUE) {
     return(result)
 }
 
-get_unique_values_int <- function(landscape, verbose) {
+get_unique_values_int <- function(landscape, verbose = FALSE) {
 
     if (inherits(x = landscape, what = "SpatRaster")) {
 
