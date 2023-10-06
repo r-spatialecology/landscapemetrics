@@ -70,7 +70,7 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
     if (is.null(extras)){
         metrics <- "lsm_c_ed"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
                                             directions = directions, resolution = resolution)
     }
 

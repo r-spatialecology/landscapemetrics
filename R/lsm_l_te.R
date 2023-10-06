@@ -61,7 +61,7 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
     if (is.null(extras)){
         metrics <- "lsm_l_te"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
                                             neighbourhood = 4, resolution = resolution)
     }
 

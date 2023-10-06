@@ -63,7 +63,7 @@ lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
     if (is.null(extras)){
         metrics <- "lsm_l_pd"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
                                             directions = directions, resolution = resolution)
     }
 

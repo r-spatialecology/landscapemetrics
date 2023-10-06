@@ -84,7 +84,7 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     if (is.null(extras)){
         metrics <- "lsm_p_cai"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
                                             directions = directions, resolution = resolution)
     }
 
