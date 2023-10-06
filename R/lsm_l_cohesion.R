@@ -62,7 +62,7 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
         metrics <- "lsm_l_cohesion"
         resolution <- terra::res(landscape)
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape = landscape,
                                             directions = directions, resolution = resolution)
     }
 

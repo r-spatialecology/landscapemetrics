@@ -49,7 +49,6 @@ get_area_patches <- function(class_patches, classes, resolution){
     area_patches <- lapply(classes, function(patches_class){
         landscape_labeled <- class_patches[[as.character(patches_class)]]
         area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
-
     })
     names(area_patches) <- classes
     return(area_patches)
@@ -64,8 +63,7 @@ get_complexity <- function(landscape, neighbourhood, ordered, base){
 }
 
 get_enn_patch <- function(classes, class_patches, points, resolution, verbose = FALSE){
-    enn_patch <- do.call(rbind,
-                         lapply(classes, function(patches_class) {
+    enn_patch <- do.call(rbind, lapply(classes, function(patches_class) {
 
                              # get connected patches
                              landscape_labeled <- class_patches[[as.character(patches_class)]]

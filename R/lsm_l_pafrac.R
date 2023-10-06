@@ -71,7 +71,7 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
     if (is.null(extras)){
         metrics <- "lsm_l_pafrac"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape = landscape,
                                             directions = directions, resolution = resolution)
     }
 

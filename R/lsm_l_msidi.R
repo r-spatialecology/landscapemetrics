@@ -64,7 +64,7 @@ lsm_l_msidi_calc <- function(landscape, directions, resolution, extras = NULL) {
     if (is.null(extras)){
         metrics <- "lsm_l_msidi"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras_nonspatial(metrics, landscape = landscape,
+        extras <- prepare_extras(metrics, landscape = landscape,
                                             directions = directions, resolution = resolution)
     }
 

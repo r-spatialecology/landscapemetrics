@@ -166,7 +166,7 @@ calculate_lsm_internal <- function(landscape,
     # prepare extras
     resolution <- terra::res(landscape)
     landscape <- terra::as.matrix(landscape, wide = TRUE)
-    extras <- prepare_extras_nonspatial(metrics, landscape, directions, neighbourhood,
+    extras <- prepare_extras(metrics, landscape, directions, neighbourhood,
                                         ordered, base, resolution)
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
