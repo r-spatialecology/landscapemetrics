@@ -1,23 +1,23 @@
 # landscapemetrics 2.1.0
 * Improvements
     * Many performance improvements. Most visible are in
-    `calculate_lsm` (more than 2 times faster with 40% less memory allocation for `augusta_nlcd`; 
-    larger increases were found for smaller data)
-    and `window_lsm` (more than 6 times faster for `augusta_nlcd`; 
+    `calculate_lsm` (all metrics: more than 5 times faster with 45% less memory 
+    allocation for `augusta_nlcd`; larger increases were found for smaller data)
+    and `window_lsm` (a single metric: more than 6 times faster for `augusta_nlcd`; 
     larger increases were found for smaller data)
     * Some performance improvements are related to the new "extras" mechanism, in which several objects 
     are precalculated in `calculate_lsm`
     * Creates an internal `extras_df` object that lists which extras are needed by
     each metric
     * Replaces the use of `tibble::tibble()` with `tibble::new_tibble(list())` in most functions.
-    This change is partially responsible for improved of the `window_lsm` speed
+    This change is partially responsible for improvements of the `window_lsm` speed
     * Replaces `raster_to_points` with `get_points` in several places. 
     The `get_points` function is based on the column and row numbers multiplied by
     the resolution, not actual coordinates.
 * New functions
     * Adds a few internal helper functions and documents them, including `prepare_extras`,
-    `get_area_patches`, `get_class_patches`, `get_complexity`, `get_enn_patch`, and 
-    `get_points`
+    `get_area_patches`, `get_class_patches`, `get_complexity`, `get_enn_patch`, 
+    `get_points`, and `get_perimeter_patch`
 * Various
     * Fixes several typos and improves documentation in many places
     * Uses object references in most rcpp functions
