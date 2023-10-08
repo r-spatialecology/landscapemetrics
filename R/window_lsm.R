@@ -207,7 +207,7 @@ calculate_lsm_focal <- function(landscape_values,
                                 arguments_values) {
 
     # convert focal window to matrix
-    raster_window[!is.na(raster_window)] <- landscape_values
+    raster_window[!is.na(raster_window)] <- landscape_values[!is.na(raster_window)]
 
     # landscape argument
     arguments_values$landscape <- raster_window

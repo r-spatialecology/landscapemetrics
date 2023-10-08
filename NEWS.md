@@ -18,6 +18,8 @@
     * Adds a few internal helper functions and documents them, including `prepare_extras`,
     `get_area_patches`, `get_class_patches`, `get_complexity`, `get_enn_patch`, 
     `get_points`, and `get_perimeter_patch`
+* Bugfixes
+    * Fixes `window_lsm` behaviour for situations with NAs values and non-square windows
 * Various
     * Fixes several typos and improves documentation in many places
     * Uses object references in most rcpp functions
