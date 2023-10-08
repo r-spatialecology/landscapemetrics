@@ -14,6 +14,7 @@
     * Replaces `raster_to_points` with `get_points` in several places. 
     The `get_points` function is based on the column and row numbers multiplied by
     the resolution, not actual coordinates.
+    * Replaces `table` with (faster) `tabulate` in `lsm_p_core`
 * New functions
     * Adds a few internal helper functions and documents them, including `prepare_extras`,
     `get_area_patches`, `get_class_patches`, `get_complexity`, `get_enn_patch`, 

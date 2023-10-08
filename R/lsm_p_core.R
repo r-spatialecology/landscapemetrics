@@ -77,7 +77,7 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
         metrics <- "lsm_p_core"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
+                                 directions = directions, resolution = resolution)
     }
     # all values NA
     if (all(is.na(landscape))) {
@@ -106,15 +106,15 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                                           patch_id = FALSE)
 
                         # count number of edge cells in each patch (edge == 1)
-                        cells_edge_patch <- table(landscape_labeled[class_edge == 1])
-
-                        # all cells of the patch
-                        cells_patch <- table(landscape_labeled)
+                        cells_edge_patch <- tabulate(landscape_labeled[class_edge == 1])
 
                         # check if no cell is edge, i.e. only one patch is present
-                        if (dim(cells_edge_patch) == 0) {
+                        if (length(cells_edge_patch) == 0) {
                             cells_edge_patch <- 0
                         }
+
+                        # all cells of the patch
+                        cells_patch <- tabulate(landscape_labeled)
 
                         # all cells minus edge cells equal core and convert to ha
                         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
