@@ -64,10 +64,10 @@ prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, or
     if (any(c("enn_patch", "points") %in% extras_list)){
         extras$points <- get_points(landscape_mat, resolution)
     }
-    if (any(c("area_patches", "enn_patch", "class_patches", "classes")  %in% extras_list)){
+    if (any(c("area_patches", "enn_patch", "class_patches", "perimeter_patch", "classes")  %in% extras_list)){
         extras$classes <- get_unique_values_int(landscape_mat, verbose = FALSE)
     }
-    if (any(c("area_patches", "enn_patch", "class_patches") %in% extras_list)){
+    if (any(c("area_patches", "enn_patch", "perimeter_patch", "class_patches") %in% extras_list)){
         extras$class_patches <- get_class_patches(landscape_mat, extras$classes, directions)
     }
     if ("area_patches" %in% extras_list){
