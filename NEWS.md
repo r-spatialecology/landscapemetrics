@@ -1,7 +1,7 @@
 # landscapemetrics 2.1.0
 * Improvements
     * Many performance improvements. Most visible are in
-    `calculate_lsm` (all metrics: more than 5 times faster with 45% less memory 
+    `calculate_lsm` (all metrics: more than 5 times faster with 70% less memory 
     allocation for `augusta_nlcd`; larger increases were found for smaller data)
     and `window_lsm` (a single metric: more than 6 times faster for `augusta_nlcd`; 
     larger increases were found for smaller data)
