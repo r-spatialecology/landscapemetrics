@@ -18,7 +18,7 @@ all_lsms <- landscapemetrics::list_lsm()
 all_extras <- c("extras\\$points", "extras\\$classes",
                "extras\\$class_patches", "extras\\$area_patches", "extras\\$neighbor_matrix",
                "extras\\$composition_vector", "extras\\$comp", "extras\\$cplx",
-               "extras\\$enn_patch")
+               "extras\\$enn_patch", "extras\\$perimeter_patch")
 db_extras1 <- map_df(all_lsms$function_name,
     get_extras_per_file,
     lsm_dir = "~/Software/landscapemetrics/",
