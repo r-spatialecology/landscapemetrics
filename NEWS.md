@@ -8,7 +8,7 @@
 * Bugfixes
     * There was a bug introduced previously in the calculation of SHEI
     * `extract_lsm` returned an no-needed warning message
-    * Minor bug in shape index fixed
+    * The shape index now follows exactly the definition of the FRAGSTATS manual
     * Minor bug in clumpy index fixed
 * Various 
     * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
