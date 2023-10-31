@@ -20,6 +20,8 @@
 #' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 #' To be type stable, the actual result is always a nested list (first level for \code{RasterStack} layers, second level
 #' for selected landscape metrics).
+#' 
+#' Note, that in situations when the moving window does not contain any patches, the result is NA.
 #'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
