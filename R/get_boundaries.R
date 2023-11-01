@@ -17,7 +17,7 @@
 #' cell or a cell with a different value than itself. Non-boundary cells only
 #' neighbour cells with the same value than themself.
 #'
-#' @return List with RasterLayer or matrix
+#' @return List with SpatRaster or matrix
 #'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)

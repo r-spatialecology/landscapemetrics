@@ -3,7 +3,7 @@
 #include "rcpp_get_unique_values.h"
 #include "rcpp_smallest_circle.h"
 
-DataFrame rcpp_get_circle(IntegerMatrix mat,
+DataFrame rcpp_get_circle(const IntegerMatrix &mat,
                           const double resolution_xy) {
 
     // create index-patch_id map

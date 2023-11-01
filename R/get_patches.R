@@ -31,7 +31,7 @@
 #' algorithm based on immersion simulations. IEEE Transactions on Pattern
 #' Analysis and Machine Intelligence. 13 (6), 583-598
 #'
-#' @return List
+#' @return List of SpatRaster
 #'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)

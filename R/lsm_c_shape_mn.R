@@ -61,29 +61,30 @@ lsm_c_shape_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_shape_mn_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # shape index for each patch
     shape <- lsm_p_shape_calc(landscape,
                               directions = directions,
-                              resolution = resolution)
+                              resolution = resolution,
+                              extras = extras)
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate mean
     shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean,
                                  na.rm = TRUE)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(shape_mn$class),
-                          id = as.integer(NA),
-                          metric = "shape_mn",
-                          value = as.double(shape_mn$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(shape_mn)),
+                              class = as.integer(shape_mn$class),
+                              id = rep(as.integer(NA), nrow(shape_mn)),
+                              metric = rep("shape_mn", nrow(shape_mn)),
+                              value = as.double(shape_mn$value))))
 }

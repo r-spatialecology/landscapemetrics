@@ -67,68 +67,37 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_enn_calc <- function(landscape, directions, verbose,
-                           points = NULL) {
+lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
-        # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
-
-        # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        enn_patch <- extras$enn_patch
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+        points <- get_points(landscape, resolution)
+        enn_patch <- get_enn_patch(classes, class_patches, points, resolution)
+    }
 
-    enn_patch <- do.call(rbind,
-                         lapply(classes, function(patches_class) {
-
-                             # get connected patches
-                             landscape_labeled <- get_patches_int(landscape,
-                                                              class = patches_class,
-                                                              directions = directions)[[1]]
-
-                             # get number of patches
-                             np_class <- max(landscape_labeled, na.rm = TRUE)
-
-                             # ENN doesn't make sense if only one patch is present
-                             if (np_class == 1) {
-
-                                 enn <- tibble::tibble(class = patches_class,
-                                                       dist = as.double(NA))
-
-                                 if (verbose) {
-                                     warning(paste0("Class ", patches_class,
-                                                    ": ENN = NA for class with only 1 patch."),
-                                             call. = FALSE)
-                                 }
-                             } else {
-
-                                 enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
-                                                                  return_id = FALSE,
-                                                                  points = points)
-                             }
-
-                             tibble::tibble(class = patches_class,
-                                            value = enn$dist)
-                         })
-    )
-
-    tibble::tibble(level = "patch",
+    tibble::new_tibble(list(level = rep("patch", nrow(enn_patch)),
                    class = as.integer(enn_patch$class),
                    id = as.integer(seq_len(nrow(enn_patch))),
-                   metric = "enn",
-                   value = as.double(enn_patch$value))
+                   metric = rep("enn", nrow(enn_patch)),
+                   value = as.double(enn_patch$value)))
 }

@@ -53,26 +53,27 @@ lsm_l_ta <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ta_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_ta_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     total_area <- sum(patch_area$value)
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ta",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ta",
-                          value = as.double(total_area)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(total_area)),
+                          class = rep(as.integer(NA), length(total_area)),
+                          id = rep(as.integer(NA), length(total_area)),
+                          metric = rep("ta", length(total_area)),
+                          value = as.double(total_area))))
 }

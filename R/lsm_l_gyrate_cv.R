@@ -72,29 +72,29 @@ lsm_l_gyrate_cv <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_gyrate_cv_calc <- function(landscape, directions, cell_center,
-                                 points = NULL) {
+lsm_l_gyrate_cv_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
 
     gyrate_patch <- lsm_p_gyrate_calc(landscape,
                                       directions = directions,
                                       cell_center = cell_center,
-                                      points = points)
+                                      resolution = resolution,
+                                      extras = extras)
 
     # all values NA
     if (all(is.na(gyrate_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "gyrate_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     gyrate_cv <- stats::sd(gyrate_patch$value) / mean(gyrate_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "gyrate_cv",
-                          value = as.double(gyrate_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(gyrate_cv)),
+                 class = rep(as.integer(NA), length(gyrate_cv)),
+                 id = rep(as.integer(NA), length(gyrate_cv)),
+                 metric = rep("gyrate_cv", length(gyrate_cv)),
+                 value = as.double(gyrate_cv))))
 }
 

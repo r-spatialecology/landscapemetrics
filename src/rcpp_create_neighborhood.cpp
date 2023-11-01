@@ -12,7 +12,7 @@ using namespace Rcpp;
 //' If NULL, the coordinates will be calculated for the whole matrix
 //' @keywords internal
 // [[Rcpp::export]]
-IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
+IntegerMatrix rcpp_xy_from_matrix(const arma::imat &x, Rcpp::Nullable<Rcpp::IntegerVector> cell = R_NilValue) {
     // adapted from raster::xyFromCell()
     // get number of rows and columns
     int n_rows = x.n_rows;
@@ -61,7 +61,7 @@ IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVect
 //' @param y A matrix with two columns (row and column numbers)
 //' @keywords internal
 // [[Rcpp::export]]
-IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
+IntegerVector rcpp_cell_from_xy(const arma::imat &x, IntegerMatrix y) {
     // adapted from raster::cellFromXY()
     // get number of rows and columns
     int n_rows = x.n_rows;
@@ -95,7 +95,7 @@ IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y) {
 //' Cells with other values (e.g. NA) are ignored.
 //' @keywords internal
 // [[Rcpp::export]]
-IntegerMatrix rcpp_create_neighborhood(arma::imat directions){
+IntegerMatrix rcpp_create_neighborhood(const arma::imat &directions){
     if (directions.n_elem == 1){
         int x = directions(0);
         IntegerVector x_id(x);

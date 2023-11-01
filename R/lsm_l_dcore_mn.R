@@ -68,29 +68,29 @@ lsm_l_dcore_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                                points = NULL){
+lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     dcore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # all values NA
     if (all(is.na(dcore_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcore_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     dcore_mn <- mean(dcore_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "dcore_mn",
-                          value = as.double(dcore_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(dcore_mn)),
+                 class = rep(as.integer(NA), length(dcore_mn)),
+                 id = rep(as.integer(NA), length(dcore_mn)),
+                 metric = rep("dcore_mn", length(dcore_mn)),
+                 value = as.double(dcore_mn))))
 }

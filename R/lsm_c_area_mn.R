@@ -59,28 +59,29 @@ lsm_c_area_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_area_mn_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_area_mn_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # get area of patches
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all values NA
     if (all(is.na(area$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate mean
     area_mean <- stats::aggregate(area[, 5], by = area[, 2], FUN = mean)
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(area_mean)),
                           class = as.integer(area_mean$class),
-                          id = as.integer(NA),
-                          metric = "area_mn",
-                          value = as.double(area_mean$value)))
+                          id = rep(as.integer(NA), nrow(area_mean)),
+                          metric = rep("area_mn", nrow(area_mean)),
+                          value = as.double(area_mean$value))))
 }

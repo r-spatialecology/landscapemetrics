@@ -2,15 +2,15 @@
 #'
 #' @description Internal function to construct plot area around coordinates
 #'
-#' @param coords SpatialPoints or 2-column matrix with coordinates of sample points
+#' @param coords SpatVector, sf object or 2-column matrix with coordinates of sample points
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Size of sample plot. Equals the radius for circles or the
-#' side-length for squares in mapunits
-#' @param return_vec If true, vector objects are returned.
+#' side-length for squares in map units
+#' @param return_vec If TRUE, vector objects are returned.
 #' @param verbose Print warning messages.
 #'
 #' @return
-#' matrix or sf objecct
+#' matrix or SpatVector object
 #'
 #' @examples
 #' coords <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)

@@ -55,31 +55,32 @@ lsm_l_lpi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_lpi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_lpi_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to total area
     total_area <- sum(patch_area$value)
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "lpi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # maximum value of patch_area / total_area
     lpi <- max(patch_area$value / total_area * 100)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "lpi",
-                          value = as.double(lpi)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(lpi)),
+                 class = rep(as.integer(NA), length(lpi)),
+                 id = rep(as.integer(NA), length(lpi)),
+                 metric = rep("lpi", length(lpi)),
+                 value = as.double(lpi))))
 }

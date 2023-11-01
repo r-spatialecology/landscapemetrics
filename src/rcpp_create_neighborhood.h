@@ -6,6 +6,6 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::plugins(cpp11)]]
 
-IntegerMatrix rcpp_create_neighborhood(arma::imat directions);
+IntegerMatrix rcpp_create_neighborhood(const arma::imat &directions);
 
 #endif // RCPP_CREATE_ANEIGHBORHOOD_H

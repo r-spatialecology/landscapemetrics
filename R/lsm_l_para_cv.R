@@ -60,26 +60,27 @@ lsm_l_para_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_para_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_para_cv_calc <- function(landscape, directions, resolution, extras = NULL){
 
     para_patch <- lsm_p_para_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(para_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "para_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     para_cv <- stats::sd(para_patch$value) / mean(para_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "para_cv",
-                          value = as.double(para_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(para_cv)),
+                          class = rep(as.integer(NA), length(para_cv)),
+                          id = rep(as.integer(NA), length(para_cv)),
+                          metric = rep("para_cv", length(para_cv)),
+                          value = as.double(para_cv))))
 }

@@ -5,7 +5,7 @@ using namespace Rcpp;
 
 //// [[Rcpp::plugins(cpp11)]]
 // [[Rcpp::export]]
-IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx,
+IntegerMatrix rcpp_get_boundaries(const IntegerMatrix &xx,
                                   int directions = 4);
 
 IntegerMatrix add_padding(const IntegerMatrix &xx);

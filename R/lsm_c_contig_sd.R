@@ -71,25 +71,27 @@ lsm_c_contig_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_contig_sd_calc <- function(landscape, directions) {
+lsm_c_contig_sd_calc <- function(landscape, directions, extras = NULL) {
 
-    contig <- lsm_p_contig_calc(landscape, directions = directions)
+    contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
 
     # all values NA
     if (all(is.na(contig$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contig_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     contig_sd <- stats::aggregate(x = contig[, 5], by = contig[, 2],
                                   FUN = stats::sd)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(contig_sd$class),
-                          id = as.integer(NA),
-                          metric = "contig_sd",
-                          value = as.double(contig_sd$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(contig_sd)),
+        class = as.integer(contig_sd$class),
+        id = rep(as.integer(NA), nrow(contig_sd)),
+        metric = rep("contig_sd", nrow(contig_sd)),
+        value = as.double(contig_sd$value)
+    )))
 }

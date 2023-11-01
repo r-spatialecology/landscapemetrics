@@ -60,28 +60,31 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
-    # conver to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_cpland"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cpland",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # total landscape area
     area <- sum(area$value)
@@ -90,8 +93,9 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     core_area <- lsm_p_core_calc(landscape,
                                  directions = directions,
                                  consider_boundary = consider_boundary,
-                                 edge_depth = edge_depth,
-                                 resolution = resolution)
+                                 edge_depth = edge_depth, 
+                                 resolution = resolution,
+                                 extras = extras)
 
     # summarise core area for classes
     core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2], FUN = sum)
@@ -99,9 +103,9 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     # relative core area of each class
     core_area$value <- core_area$value / area * 100
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(core_area)),
                           class = as.integer(core_area$class),
-                          id = as.integer(NA),
-                          metric = "cpland",
-                          value = as.double(core_area$value)))
+                          id = rep(as.integer(NA), nrow(core_area)),
+                          metric = rep("cpland", nrow(core_area)),
+                          value = as.double(core_area$value))))
 }

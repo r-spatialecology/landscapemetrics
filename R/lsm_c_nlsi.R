@@ -59,46 +59,41 @@ lsm_c_nlsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_nlsi_calc <- function(landscape) {
+lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "nlsi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
-    target_na <- which(is.na(landscape))
+    target_na <- which(is.na(landscape_pad))
 
     # set all NA to -999 to get adjacencies between patches and all background
-    landscape[target_na] <- -999
+    landscape_pad[target_na] <- -999
 
     # get class edge in terms of cell surfaces
-    class_perim <- rcpp_get_coocurrence_matrix(landscape,
-                                               as.matrix(4))
+    class_perim <- rcpp_get_coocurrence_matrix(landscape_pad, as.matrix(4))
+    class_area <- rcpp_get_composition_vector(landscape_pad)[-1]
 
     # set diagonal to NA because no edge
     diag(class_perim) <- NA
 
     # calculate total edge
     class_perim <- apply(X = class_perim, MARGIN = 1, FUN = sum, na.rm = TRUE)[-1]
-
-    # number of cells class
-    class_area <- rcpp_get_composition_vector(landscape)[-1]
 
     # n is the side of the largest integer square
     class_n <- trunc(sqrt(class_area))
@@ -119,13 +114,13 @@ lsm_c_nlsi_calc <- function(landscape) {
     numerator <- class_perim - class_perim_min
 
     # calculate total area in terms of cells
-    total_area <- sum(rcpp_get_composition_vector(landscape)[-1])
+    total_area <- sum(class_area)
 
     # get all cells on the boundary; need to remove padded cells
-    cells_boundary <- ((nrow(landscape) - 2) * 2) + ((ncol(landscape) - 2) * 2)
+    cells_boundary <- ((nrow(landscape_pad) - 2) * 2) + ((ncol(landscape_pad) - 2) * 2)
 
     # calculate proportion of classes
-    class_pi <- prop.table(rcpp_get_composition_vector(landscape)[-1])
+    class_pi <- prop.table(class_area)
 
     class_perim_max <- ifelse(test = class_pi <= 0.5,
                               yes = 4 * class_area,
@@ -154,9 +149,9 @@ lsm_c_nlsi_calc <- function(landscape) {
         nlsi[!is.finite(nlsi)] <- NA
     }
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(names(nlsi)),
-                          id = as.integer(NA),
-                          metric = "nlsi",
-                          value = as.double(nlsi)))
+    return(tibble::new_tibble(list(level = rep("class", length(nlsi)),
+                              class = as.integer(names(nlsi)),
+                              id = rep(as.integer(NA), length(nlsi)),
+                              metric = rep("nlsi", length(nlsi)),
+                              value = as.double(nlsi))))
 }

@@ -4,7 +4,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-DataFrame rcpp_get_circle(IntegerMatrix mat,
+DataFrame rcpp_get_circle(const IntegerMatrix &mat,
                           const double resolution_xy = 1.0);
 
 #endif // RCPP_GET_CIRCLE_H

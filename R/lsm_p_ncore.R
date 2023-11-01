@@ -73,38 +73,40 @@ lsm_p_ncore <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                             points = NULL){
+lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
-    # conver to matrix
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
+    # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-
-        # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
-
-        # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ncore",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+        points <- extras$points
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+        points <- get_points(landscape, resolution)
+    }
 
     core_class <- do.call(rbind,
                           lapply(classes, function(patches_class) {
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # get unique patch id (must be 1 to number_patches)
         patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
@@ -144,14 +146,15 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             patch_core <- t(patch_core)
             landscape_labeled <- t(landscape_labeled)
 
+            not_na_patch_core <- !is.na(patch_core)
             # get coordinates of current class
-            points <- data.frame(x = points[which(!is.na(patch_core)), 1],
-                                 y = points[which(!is.na(patch_core)), 2],
-                                 z = points[which(!is.na(patch_core)), 3])
+            points <- data.frame(x = points[which(not_na_patch_core), 1],
+                                 y = points[which(not_na_patch_core), 2],
+                                 z = points[which(not_na_patch_core), 3])
 
-            points$core_id <- patch_core[!is.na(patch_core)]
+            points$core_id <- patch_core[not_na_patch_core]
 
-            points$patch_id <- landscape_labeled[!is.na(patch_core)]
+            points$patch_id <- landscape_labeled[not_na_patch_core]
 
             n_core_area <- table(unique(points[, c(4, 5)])[, 2]) # sth breaking here
 
@@ -163,17 +166,17 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
             result[as.numeric(names(n_core_area))] <- n_core_area
         }
 
-        tibble::tibble(
-            class = patches_class,
-            value = result)
+        tibble::new_tibble(list(
+            class = rep(patches_class, length(result)),
+            value = result))
         })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(core_class)),
         class = as.integer(core_class$class),
         id = as.integer(seq_len(nrow(core_class))),
-        metric = "ncore",
+        metric = rep("ncore", nrow(core_class)),
         value = as.double(core_class$value)
-    )
+    ))
 }

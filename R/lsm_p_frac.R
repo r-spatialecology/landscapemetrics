@@ -64,33 +64,37 @@ lsm_p_frac <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
+lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_p_frac"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch perimeter
     perimeter_patch <- lsm_p_perim_calc(landscape,
                                         directions = directions,
-                                        resolution = resolution)
+                                        resolution = resolution,
+                                        extras = extras)
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # calculate frac
     frac_patch <- 2 * log(0.25 * perimeter_patch$value) / log(area_patch$value * 10000)
@@ -98,11 +102,11 @@ lsm_p_frac_calc <- function(landscape, directions, resolution = NULL){
     # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(perimeter_patch)),
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
-        metric = "frac",
+        metric = rep("frac", nrow(perimeter_patch)),
         value = as.double(frac_patch)
-    )
+    ))
 }

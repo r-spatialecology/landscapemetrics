@@ -55,43 +55,41 @@ lsm_l_lsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_lsi_calc <- function(landscape) {
+lsm_l_lsi_calc <- function(landscape, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
-
         landscape <- terra::as.matrix(landscape, wide = TRUE)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "lsi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
-    target_na <- which(is.na(landscape))
+    target_na <- which(is.na(landscape_pad))
 
     # set all NA to -999 to get adjacencies between patches and all background
-    landscape[target_na] <- -999
+    landscape_pad[target_na] <- -999
 
     # get class edge in terms of cell surfaces
-    class_perim <- rcpp_get_coocurrence_matrix(landscape,
-                                               as.matrix(4))
+    class_perim <- rcpp_get_coocurrence_matrix(landscape_pad, as.matrix(4))
+    class_area <- rcpp_get_composition_vector(landscape_pad)[-1]
 
     # calculate total edge
     total_perim <- sum(class_perim[lower.tri(class_perim)])
 
     # calculate total area
-    total_area <- sum(rcpp_get_composition_vector(landscape)[-1])
+    total_area <- sum(class_area)
 
     # calculate N and M
     total_n <- trunc(sqrt(total_area))
@@ -114,9 +112,9 @@ lsm_l_lsi_calc <- function(landscape) {
 
     lsi <- total_perim / total_perim_min
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "lsi",
-                          value = as.double(lsi)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(lsi)),
+                 class = rep(as.integer(NA), length(lsi)),
+                 id = rep(as.integer(NA), length(lsi)),
+                 metric = rep("lsi", length(lsi)),
+                 value = as.double(lsi))))
 }

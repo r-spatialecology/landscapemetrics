@@ -57,25 +57,24 @@ lsm_c_pladj_calc <- function(landscape) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pladj",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
                                             pad_raster_cells = 1, global = TRUE)
 
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded,
-                                      directions = as.matrix(4))
+    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
     pladj <- diag(tb) / colSums(tb) * 100
     names <- row.names(tb)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(names[-1]),
-                          id = as.integer(NA),
-                          metric = "pladj",
-                          value = as.double(pladj[-1])))
+    return(tibble::new_tibble(list(level = rep("class", length(names[-1])),
+                              class = as.integer(names[-1]),
+                              id = rep(as.integer(NA), length(names[-1])),
+                              metric = rep("pladj", length(names[-1])),
+                              value = as.double(pladj[-1]))))
 }

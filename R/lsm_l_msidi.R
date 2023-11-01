@@ -57,35 +57,38 @@ lsm_l_msidi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_msidi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_msidi_calc <- function(landscape, directions, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_l_msidi"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "msidi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
 
     msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "msidi",
-                          value = as.double(msidi)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(msidi)),
+                          class = rep(as.integer(NA), length(msidi)),
+                          id = rep(as.integer(NA), length(msidi)),
+                          metric = rep("msidi", length(msidi)),
+                          value = as.double(msidi))))
 }

@@ -23,59 +23,59 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_xy_from_matrix
-IntegerMatrix rcpp_xy_from_matrix(arma::imat x, Rcpp::Nullable<Rcpp::IntegerVector> cell);
+IntegerMatrix rcpp_xy_from_matrix(const arma::imat& x, Rcpp::Nullable<Rcpp::IntegerVector> cell);
 RcppExport SEXP _landscapemetrics_rcpp_xy_from_matrix(SEXP xSEXP, SEXP cellSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::IntegerVector> >::type cell(cellSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_xy_from_matrix(x, cell));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_cell_from_xy
-IntegerVector rcpp_cell_from_xy(arma::imat x, IntegerMatrix y);
+IntegerVector rcpp_cell_from_xy(const arma::imat& x, IntegerMatrix y);
 RcppExport SEXP _landscapemetrics_rcpp_cell_from_xy(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type x(xSEXP);
     Rcpp::traits::input_parameter< IntegerMatrix >::type y(ySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_cell_from_xy(x, y));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_create_neighborhood
-IntegerMatrix rcpp_create_neighborhood(arma::imat directions);
+IntegerMatrix rcpp_create_neighborhood(const arma::imat& directions);
 RcppExport SEXP _landscapemetrics_rcpp_create_neighborhood(SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_create_neighborhood(directions));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_get_boundaries
-IntegerMatrix rcpp_get_boundaries(const IntegerMatrix xx, int directions);
+IntegerMatrix rcpp_get_boundaries(const IntegerMatrix& xx, int directions);
 RcppExport SEXP _landscapemetrics_rcpp_get_boundaries(SEXP xxSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerMatrix >::type xx(xxSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type xx(xxSEXP);
     Rcpp::traits::input_parameter< int >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_boundaries(xx, directions));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_get_circle
-DataFrame rcpp_get_circle(IntegerMatrix mat, const double resolution_xy);
+DataFrame rcpp_get_circle(const IntegerMatrix& mat, const double resolution_xy);
 RcppExport SEXP _landscapemetrics_rcpp_get_circle(SEXP matSEXP, SEXP resolution_xySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type mat(matSEXP);
     Rcpp::traits::input_parameter< const double >::type resolution_xy(resolution_xySEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_circle(mat, resolution_xy));
     return rcpp_result_gen;
@@ -93,36 +93,36 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix
-IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix x, const arma::imat directions);
+IntegerMatrix rcpp_get_coocurrence_matrix(const IntegerMatrix& x, const arma::imat directions);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix(SEXP xSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix(x, directions));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix_diag
-IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix x, const arma::imat directions);
+IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix& x, const arma::imat directions);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix_diag(SEXP xSEXP, SEXP directionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix_diag(x, directions));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_get_coocurrence_matrix_single
-IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix x, const arma::imat directions, const int single_class);
+IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix& x, const arma::imat directions, const int single_class);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_matrix_single(SEXP xSEXP, SEXP directionsSEXP, SEXP single_classSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
     Rcpp::traits::input_parameter< const arma::imat >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< const int >::type single_class(single_classSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_matrix_single(x, directions, single_class));
@@ -142,12 +142,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_coocurrence_vector
-NumericVector rcpp_get_coocurrence_vector(IntegerMatrix x, arma::imat directions, bool ordered);
+NumericVector rcpp_get_coocurrence_vector(const IntegerMatrix& x, arma::imat directions, bool ordered);
 RcppExport SEXP _landscapemetrics_rcpp_get_coocurrence_vector(SEXP xSEXP, SEXP directionsSEXP, SEXP orderedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::imat >::type directions(directionsSEXP);
     Rcpp::traits::input_parameter< bool >::type ordered(orderedSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_coocurrence_vector(x, directions, ordered));
@@ -155,12 +155,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_get_entropy
-double rcpp_get_entropy(NumericVector x, std::string base);
+double rcpp_get_entropy(NumericVector& x, std::string base);
 RcppExport SEXP _landscapemetrics_rcpp_get_entropy(SEXP xSEXP, SEXP baseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type x(xSEXP);
     Rcpp::traits::input_parameter< std::string >::type base(baseSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_get_entropy(x, base));
     return rcpp_result_gen;

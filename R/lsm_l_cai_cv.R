@@ -71,28 +71,29 @@ lsm_l_cai_cv <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     cai_patch <- lsm_p_cai_calc(landscape,
                                 directions = directions,
                                 consider_boundary = consider_boundary,
                                 edge_depth = edge_depth,
-                                resolution = resolution)
+                                resolution = resolution,
+                                extras = extras)
 
     # all values NA
     if (all(is.na(cai_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cai_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     cai_cv <- stats::sd(cai_patch$value) / mean(cai_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "cai_cv",
-                          value = as.double(cai_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(cai_cv)),
+                 class = rep(as.integer(NA), length(cai_cv)),
+                 id = rep(as.integer(NA), length(cai_cv)),
+                 metric = rep("cai_cv", length(cai_cv)),
+                 value = as.double(cai_cv))))
 }

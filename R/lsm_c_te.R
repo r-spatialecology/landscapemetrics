@@ -58,39 +58,40 @@ lsm_c_te <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
+lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
 
-    # conver raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_te"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "te",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    # get resolution in x-y directions
+    # get class id
+    classes <- extras$classes
+    class_patches <- extras$class_patches
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
 
-    # get class id
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
-
     if (length(classes) == 1 && !count_boundary) {
 
-        tibble::tibble(
+        tibble::new_tibble(list(
             level = "class",
             class = as.integer(classes),
             id = as.integer(NA),
             metric = "te",
-            value = as.double(0))
+            value = as.double(0)))
 
     } else {
 
@@ -109,9 +110,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
         te_class <- lapply(X = classes, function(patches_class) {
 
             # get connected patches
-            landscape_labeled <- get_patches_int(landscape,
-                                                 class = patches_class,
-                                                 directions = directions)[[1]]
+            landscape_labeled <- class_patches[[as.character(patches_class)]]
 
             # set all non-class patches, but not NAs, to -999
             edge_cells <- which(!is.na(landscape) & landscape != patches_class)
@@ -163,12 +162,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution = NU
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }
 
-            tibble::tibble(
-                level = "class",
-                class = as.integer(patches_class),
-                id = as.integer(NA),
-                metric = "te",
-                value = as.double(edge_ik))
+            tibble::new_tibble(list(
+                level = rep("class", length(edge_ik)),
+                class = rep(as.integer(patches_class), length(edge_ik)),
+                id = rep(as.integer(NA), length(edge_ik)),
+                metric = rep("te", length(edge_ik)),
+                value = as.double(edge_ik)))
         })
 
         do.call("rbind", te_class)

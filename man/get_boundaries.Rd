@@ -29,7 +29,7 @@ edge to be considered as core cell.}
 \item{return_raster}{If false, matrix is returned.}
 }
 \value{
-List with RasterLayer or matrix
+List with SpatRaster or matrix
 }
 \description{
 Get boundary cells of patches

@@ -65,28 +65,30 @@ lsm_c_dcore_mn <- function(landscape, directions = 8, consider_boundary = FALSE,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                                points = NULL){
+lsm_c_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     dcore <- lsm_p_ncore_calc(landscape,
                               directions = directions,
                               consider_boundary = consider_boundary,
                               edge_depth = edge_depth,
-                              points = points)
+                              resolution = resolution,
+                              extras = extras)
 
     if (all(is.na(dcore$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcore_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     dcore_mn <- stats::aggregate(x = dcore[, 5], by = dcore[, 2], FUN = mean)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(dcore_mn$class),
-                          id = as.integer(NA),
-                          metric = "dcore_mn",
-                          value = as.double(dcore_mn$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(dcore_mn)),
+        class = as.integer(dcore_mn$class),
+        id = rep(as.integer(NA), nrow(dcore_mn)),
+        metric = rep("dcore_mn", nrow(dcore_mn)),
+        value = as.double(dcore_mn$value)
+    )))
 }

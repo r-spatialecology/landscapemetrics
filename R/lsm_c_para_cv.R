@@ -60,27 +60,28 @@ lsm_c_para_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_para_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_para_cv_calc <- function(landscape, directions, resolution, extras = NULL){
 
     para <- lsm_p_para_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all cells are NA
     if (all(is.na(para$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "para_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     para_cv <- stats::aggregate(x = para[, 5], by = para[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(para_cv$class),
-                          id = as.integer(NA),
-                          metric = "para_cv",
-                          value = as.double(para_cv$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(para_cv)),
+                              class = as.integer(para_cv$class),
+                              id = rep(as.integer(NA), nrow(para_cv)),
+                              metric = rep("para_cv", nrow(para_cv)),
+                              value = as.double(para_cv$value))))
 }

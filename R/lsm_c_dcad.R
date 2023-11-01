@@ -64,24 +64,24 @@ lsm_c_dcad <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            resolution = NULL, points = NULL){
+lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     # get patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # summarise to total area
     area <- sum(area$value)
 
     # all values NA
     if (is.na(area)) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcad",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of core area
@@ -89,7 +89,8 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                              directions = directions,
                              consider_boundary = consider_boundary,
                              edge_depth = edge_depth,
-                             points = points)
+                             resolution = resolution,
+                             extras = extras)
 
     # summarise for classes
     ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
@@ -97,9 +98,9 @@ lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
     # calculate relative value
     ndca$value <- ndca$value / area * 100
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(ndca)),
                           class = as.integer(ndca$class),
-                          id = as.integer(NA),
-                          metric = "dcad",
-                          value = as.double(ndca$value)))
+                          id = rep(as.integer(NA), nrow(ndca)),
+                          metric = rep("dcad", nrow(ndca)),
+                          value = as.double(ndca$value))))
 }

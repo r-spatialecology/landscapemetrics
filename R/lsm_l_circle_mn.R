@@ -65,26 +65,27 @@ lsm_l_circle_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_mn_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_circle_mn_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     circle_patch <- lsm_p_circle_calc(landscape,
                                       directions = directions,
-                                      resolution = resolution)
+                                      resolution = resolution,
+                                      extras = extras)
 
     # all values NA
     if (all(is.na(circle_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "circle_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     circle_mn <- mean(circle_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "circle_mn",
-                          value = as.double(circle_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(circle_mn)),
+                 class = rep(as.integer(NA), length(circle_mn)),
+                 id = rep(as.integer(NA), length(circle_mn)),
+                 metric = rep("circle_mn", length(circle_mn)),
+                 value = as.double(circle_mn))))
 }

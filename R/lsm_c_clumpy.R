@@ -52,7 +52,7 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
+lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     # pad landscape to also include adjacencies at landscape boundary
     landscape_padded <- pad_raster_internal(landscape,
@@ -62,11 +62,11 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "clumpy",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get coocurrence
@@ -113,9 +113,9 @@ lsm_c_clumpy_calc <- function(landscape, resolution = NULL){
 
     }, FUN.VALUE = numeric(1))
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", length(clumpy)),
                           class = as.integer(names(g_i)),
-                          id = as.integer(NA),
-                          metric = "clumpy",
-                          value = as.double(clumpy)))
+                          id = rep(as.integer(NA), length(clumpy)),
+                          metric = rep("clumpy", length(clumpy)),
+                          value = as.double(clumpy))))
 }

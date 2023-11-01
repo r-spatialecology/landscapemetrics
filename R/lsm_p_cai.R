@@ -73,29 +73,35 @@ lsm_p_cai <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL){
+lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
-
+    if (!inherits(landscape, "matrix")){
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+    }
+
+    if (is.null(extras)){
+        metrics <- "lsm_p_cai"
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape = landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # convert from ha to sqm
     area_patch$value <- area_patch$value
@@ -105,16 +111,17 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
                                   directions = directions,
                                   consider_boundary = consider_boundary,
                                   edge_depth = edge_depth,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # calculate CAI index
     cai_patch <- core_patch$value / area_patch$value * 100
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(area_patch)),
         class = as.integer(area_patch$class),
         id = as.integer(area_patch$id),
-        metric = "cai",
+        metric = rep("cai", nrow(area_patch)),
         value = as.double(cai_patch)
-    )
+    ))
 }

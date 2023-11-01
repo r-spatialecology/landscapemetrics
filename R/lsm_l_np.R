@@ -53,25 +53,26 @@ lsm_l_np <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_np_calc <- function(landscape, directions) {
+lsm_l_np_calc <- function(landscape, directions, extras = NULL) {
 
     n_patches <- lsm_c_np_calc(landscape,
-                               directions = directions)
+                               directions = directions,
+                               extras = extras)
 
     n_patches <- sum(n_patches$value)
 
     # all values NA
     if (is.na(n_patches)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "np",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "np",
-                          value = as.double(n_patches)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(n_patches)),
+                          class = rep(as.integer(NA), length(n_patches)),
+                          id = rep(as.integer(NA), length(n_patches)),
+                          metric = rep("np", length(n_patches)),
+                          value = as.double(n_patches))))
 }

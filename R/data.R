@@ -26,7 +26,6 @@
 #' @source http://maps.elie.ucl.ac.be/CCI/viewer/
 "podlasie_ccilc"
 
-
 #' Tibble of abbreviations coming from FRAGSTATS
 #'
 #' A single tibble for every abbreviation of every metric that is

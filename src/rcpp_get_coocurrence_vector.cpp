@@ -12,7 +12,7 @@ int triangular_index(int r, int c) {
 }
 
 // [[Rcpp::export]]
-NumericVector rcpp_get_coocurrence_vector(IntegerMatrix x, arma::imat directions, bool ordered = true) {
+NumericVector rcpp_get_coocurrence_vector(const IntegerMatrix &x, arma::imat directions, bool ordered = true) {
     NumericVector result;
     // calculate a coocurrence matrix
     IntegerMatrix y = rcpp_get_coocurrence_matrix(x, directions);

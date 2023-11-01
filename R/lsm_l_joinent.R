@@ -55,7 +55,7 @@ lsm_l_joinent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
+lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -64,22 +64,22 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "joinent",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    coh <- rcpp_get_coocurrence_vector(landscape,
-                                       directions = as.matrix(neighbourhood),
-                                       ordered = ordered)
+    if (!is.null(extras)){
+        cplx <- extras$cplx
+    } else {    
+        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    }
 
-    cplx <- rcpp_get_entropy(coh, base)
-
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "joinent",
-                          value = as.double(cplx)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(cplx)),
+                 class = rep(as.integer(NA), length(cplx)),
+                 id = rep(as.integer(NA), length(cplx)),
+                 metric = rep("joinent", length(cplx)),
+                 value = as.double(cplx))))
 }

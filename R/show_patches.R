@@ -60,8 +60,7 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
     if (any(class == "global")) {
 
         patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
-                                                    na.rm = TRUE),
-                                                xy = TRUE)
+                                                    na.rm = TRUE), xy = TRUE)
 
         names(patches_tibble) <- c("x", "y", "value")
 
@@ -108,22 +107,6 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
         ggplot2::geom_raster(ggplot2::aes(fill = factor(value))) +
         ggplot2::geom_text(ggplot2::aes(label = labels),
                            colour = "white", na.rm = TRUE)  +
-        # ggplot2::scale_fill_gradientn(
-        #     colours = c(
-        #         "#5F4690",
-        #         "#1D6996",
-        #         "#38A6A5",
-        #         "#0F8554",
-        #         "#73AF48",
-        #         "#EDAD08",
-        #         "#E17C05",
-        #         "#CC503E",
-        #         "#94346E",
-        #         "#6F4070",
-        #         "#994E95"
-        #     ),
-        #     na.value = "grey85"
-        # ) +
         ggplot2::scale_fill_viridis_d(option = "F", na.value = "grey85") +
         ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +

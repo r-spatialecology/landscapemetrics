@@ -56,34 +56,39 @@ lsm_l_pd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_l_pd"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise for total landscape
     area_total <- sum(area_patch$value)
 
     # number of patches for each class
     number_patches <- lsm_c_np_calc(landscape,
-                                    directions = directions)
+                                    directions = directions,
+                                    extras = extras)
 
     # summarise for total landscape
     number_patches <- sum(number_patches$value)
@@ -91,9 +96,9 @@ lsm_l_pd_calc <- function(landscape, directions, resolution = NULL) {
     # relative patch density
     patch_density <- number_patches / area_total * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "pd",
-                          value = as.double(patch_density)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(patch_density)),
+                          class = rep(as.integer(NA), length(patch_density)),
+                          id = rep(as.integer(NA), length(patch_density)),
+                          metric = rep("pd", length(patch_density)),
+                          value = as.double(patch_density))))
 }

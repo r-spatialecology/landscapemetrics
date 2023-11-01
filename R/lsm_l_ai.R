@@ -3,7 +3,9 @@
 #' @description Aggregation index (Aggregation metric)
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
-#'
+#' @param directions The number of directions in which patches should be
+#' connected: 4 (rook's case) or 8 (queen's case).
+#' 
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
 #'
@@ -41,10 +43,11 @@
 #' to quantify spatial patterns of landscapes. Landscape ecology, 15(7), 591-601.
 #'
 #' @export
-lsm_l_ai <- function(landscape) {
+lsm_l_ai <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
+                     directions = directions,
                      FUN = lsm_l_ai_calc)
 
     layer <- rep(seq_along(result),
@@ -55,39 +58,42 @@ lsm_l_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, resolution = NULL) {
+lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_l_ai"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get aggregation index for each class
-    ai <- lsm_c_ai_calc(landscape)
+    ai <- lsm_c_ai_calc(landscape, extras = extras)
 
     # get proportional class area
     pland <- lsm_c_pland_calc(landscape,
-                              directions = 8,
-                              resolution = resolution)
+                              directions = 8, 
+                              resolution = resolution,
+                              extras = extras)
 
     # final AI index
-    result <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
+    ai <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ai",
-                          value = as.double(result)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(ai)),
+                 class = rep(as.integer(NA), length(ai)),
+                 id = rep(as.integer(NA), length(ai)),
+                 metric = rep("ai", length(ai)),
+                 value = as.double(ai))))
 }
 

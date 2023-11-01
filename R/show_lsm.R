@@ -51,7 +51,6 @@ show_lsm <- function(landscape, what, class = "global", directions = 8,
     names(result) <- paste0("layer_", 1:length(result))
 
     return(result)
-
 }
 
 show_lsm_internal <- function(landscape, what, class,

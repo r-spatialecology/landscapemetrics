@@ -7,19 +7,19 @@
 construct_buffer(coords, shape, size, return_vec = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{coords}{SpatialPoints or 2-column matrix with coordinates of sample points}
+\item{coords}{SpatVector, sf object or 2-column matrix with coordinates of sample points}
 
 \item{shape}{String specifying plot shape. Either "circle" or "square"}
 
 \item{size}{Size of sample plot. Equals the radius for circles or the
-side-length for squares in mapunits}
+side-length for squares in map units}
 
-\item{return_vec}{If true, vector objects are returned.}
+\item{return_vec}{If TRUE, vector objects are returned.}
 
 \item{verbose}{Print warning messages.}
 }
 \value{
-matrix or sf objecct
+matrix or SpatVector object
 }
 \description{
 Internal function to construct plot area around coordinates

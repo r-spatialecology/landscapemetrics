@@ -170,10 +170,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
         }
 
         # crop sample plot
-        landscape_crop <- terra::crop(x = landscape, y = y[current_plot, ])
-
-        # mask sample plot
-        landscape_mask <- terra::mask(x = landscape_crop, mask = y[current_plot, ])
+        landscape_mask <- terra::crop(x = landscape, y = y[current_plot, ], mask = TRUE)
 
         # calculate actual area of sample plot
         area <- lsm_l_ta_calc(landscape_mask, directions = 8)

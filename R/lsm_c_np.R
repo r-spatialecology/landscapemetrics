@@ -51,7 +51,7 @@ lsm_c_np <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_np_calc <- function(landscape, directions){
+lsm_c_np_calc <- function(landscape, directions, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -60,33 +60,37 @@ lsm_c_np_calc <- function(landscape, directions){
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "np",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    if (!is.null(extras)){
+        classes <- extras$classes
+        class_patches <- extras$class_patches
+    } else {
+        classes <- get_unique_values_int(landscape, verbose = FALSE)
+        class_patches <- get_class_patches(landscape, classes, directions)
+    }
 
     # get number of patches
     np_class <- lapply(X = classes, FUN = function(patches_class) {
 
         # connected labeling current class
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # max(patch_id) equals number of patches
         np <- max(landscape_labeled, na.rm = TRUE)
 
-        tibble::tibble(
-            level = "class",
-            class = as.integer(patches_class),
-            id = as.integer(NA),
-            metric = "np",
-            value = as.double(np))
+        tibble::new_tibble(list(
+            level = rep("class", length(np)),
+            class = rep(as.integer(patches_class), length(patches_class)),
+            id = rep(as.integer(NA), length(np)),
+            metric = rep("np", length(np)),
+            value = as.double(np)))
         })
 
     do.call(rbind, np_class)

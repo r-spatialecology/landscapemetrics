@@ -70,29 +70,29 @@ lsm_l_dcore_cv <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                                points = NULL){
+lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     dcore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # all values NA
     if (all(is.na(dcore_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcore_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     dcore_cv <- stats::sd(dcore_patch$value) / mean(dcore_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "dcore_cv",
-                          value = as.double(dcore_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(dcore_cv)),
+                 class = rep(as.integer(NA), length(dcore_cv)),
+                 id = rep(as.integer(NA), length(dcore_cv)),
+                 metric = rep("dcore_cv", length(dcore_cv)),
+                 value = as.double(dcore_cv))))
 }

@@ -67,27 +67,26 @@ lsm_l_enn_mn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_enn_mn_calc <- function(landscape, directions, verbose,
-                              points = NULL) {
+lsm_l_enn_mn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
     enn_patch <- lsm_p_enn_calc(landscape,
                                 directions = directions, verbose = verbose,
-                                points = points)
+                                resolution = resolution, extras = extras)
 
     # all values NA
     if (all(is.na(enn_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     enn_mn <- mean(enn_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "enn_mn",
-                          value = as.double(enn_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(enn_mn)),
+                 class = rep(as.integer(NA), length(enn_mn)),
+                 id = rep(as.integer(NA), length(enn_mn)),
+                 metric = rep("enn_mn", length(enn_mn)),
+                 value = as.double(enn_mn))))
 }

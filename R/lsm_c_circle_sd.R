@@ -66,29 +66,32 @@ lsm_c_circle_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_circle_sd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_circle_sd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # calculate circumscribing circle for each patch
     circle <- lsm_p_circle_calc(landscape,
                                 directions = directions,
-                                resolution = resolution)
+                                resolution = resolution,
+                                extras = extras)
 
     # all values NA
     if (all(is.na(circle$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "circle_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # summarise for classes
     circle_sd <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = stats::sd)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(circle_sd$class),
-                          id = as.integer(NA),
-                          metric = "circle_sd",
-                          value = as.double(circle_sd$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(circle_sd)),
+        class = as.integer(circle_sd$class),
+        id = rep(as.integer(NA), nrow(circle_sd)),
+        metric = rep("circle_sd", nrow(circle_sd)),
+        value = as.double(circle_sd$value)
+    )))
 }
 

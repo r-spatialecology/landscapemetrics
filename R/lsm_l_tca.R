@@ -66,28 +66,29 @@ lsm_l_tca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
+lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
 
     core_area_patch <- lsm_p_core_calc(landscape,
                                        directions = directions,
                                        consider_boundary = consider_boundary,
                                        edge_depth = edge_depth,
-                                       resolution = resolution)
+                                       resolution = resolution,
+                                       extras = extras)
 
     total_core_area <- sum(core_area_patch$value)
 
     # all values NA
     if (is.na(total_core_area)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "tca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "tca",
-                          value = as.double(total_core_area)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(total_core_area)),
+                          class = rep(as.integer(NA), length(total_core_area)),
+                          id = rep(as.integer(NA), length(total_core_area)),
+                          metric = rep("tca", length(total_core_area)),
+                          value = as.double(total_core_area))))
 }

@@ -56,41 +56,44 @@ lsm_c_pd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_pd"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to total area
     area_patch <- sum(area_patch$value)
 
     # get number of patches
-    np_class <- lsm_c_np_calc(landscape, directions = directions)
+    np_class <- lsm_c_np_calc(landscape, directions = directions, extras = extras)
 
     # calculate relative patch density
     np_class$value <- (np_class$value / area_patch) * 100
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(np_class$class),
-                          id = as.integer(NA),
-                          metric = "pd",
-                          value = as.double(np_class$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(np_class)),
+                              class = as.integer(np_class$class),
+                              id = rep(as.integer(NA), nrow(np_class)),
+                              metric = rep("pd", nrow(np_class)),
+                              value = as.double(np_class$value))))
 }

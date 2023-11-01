@@ -61,28 +61,29 @@ lsm_l_shape_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shape_sd_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # shape index for each patch
     shape <- lsm_p_shape_calc(landscape,
                               directions = directions,
-                              resolution = resolution)
+                              resolution = resolution,
+                              extras = extras)
 
     # all values NA
     if (all(is.na(shape$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape_sd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate sd
     shape_sd <- stats::sd(shape$value, na.rm = TRUE)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "shape_sd",
-                          value = as.double(shape_sd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(shape_sd)),
+                          class = rep(as.integer(NA), length(shape_sd)),
+                          id = rep(as.integer(NA), length(shape_sd)),
+                          metric = rep("shape_sd", length(shape_sd)),
+                          value = as.double(shape_sd))))
 }

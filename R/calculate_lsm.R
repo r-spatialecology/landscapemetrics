@@ -151,6 +151,7 @@ calculate_lsm_internal <- function(landscape,
                     call. = FALSE)
         }
     }
+    landscape <- terra::as.int(landscape)
 
     # get name of metrics
     metrics <- list_lsm(level = level, metric = metric, name = name,
@@ -162,18 +163,14 @@ calculate_lsm_internal <- function(landscape,
     # how many metrics need to be calculated?
     number_metrics <- length(metrics_calc)
 
-    # get coordinates of cells
-    points <- raster_to_points(landscape)[, 2:4]
-
-    # resolution of original raster
+    # prepare extras
     resolution <- terra::res(landscape)
-
-    # convert to matrix
     landscape <- terra::as.matrix(landscape, wide = TRUE)
+    extras <- prepare_extras(metrics, landscape, directions, neighbourhood,
+                                        ordered, base, resolution)
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
-
-        # print progess using the non-internal name
+        # print progress using the non-internal name
         if (progress) {
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
         }
@@ -185,25 +182,31 @@ calculate_lsm_internal <- function(landscape,
         arguments <- names(formals(foo))
 
         # run function
-        tryCatch(do.call(what = foo,
+        #start_time = Sys.time()
+        resultint <- tryCatch(do.call(what = foo,
                          args = mget(arguments, envir = parent.env(environment()))),
                  error = function(e){
                      message("")
                      stop(e)})
+
+        #end_time = Sys.time()
+        #resultint$time <- as.numeric(difftime(end_time, start_time, units = "secs"))
+        resultint
         })
     )
 
     if (full_name == TRUE) {
 
         col_ordering <- c("level", "class", "id", "metric", "value",
-                          "name", "type", "function_name")
+                          "name", "type", "function_name"#,"time"
+                          )
 
         result <- merge(x = result,
                         y = lsm_abbreviations_names,
                         by = c("level", "metric"),
                         all.x = TRUE, sort = FALSE, suffixes = c("", ""))
 
-        result <- tibble::as_tibble(result[,col_ordering])
+        result <- tibble::as_tibble(result[, col_ordering])
     }
 
     if (progress) {
