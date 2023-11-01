@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,7 +132,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>coords</dt>
-<dd><p>SpatialPoints or 2-column matrix with coordinates of sample points</p></dd>
+<dd><p>SpatVector, sf object or 2-column matrix with coordinates of sample points</p></dd>
 
 
 <dt>shape</dt>
@@ -141,11 +141,11 @@
 
 <dt>size</dt>
 <dd><p>Size of sample plot. Equals the radius for circles or the
-side-length for squares in mapunits</p></dd>
+side-length for squares in map units</p></dd>
 
 
 <dt>return_vec</dt>
-<dd><p>If true, vector objects are returned.</p></dd>
+<dd><p>If TRUE, vector objects are returned.</p></dd>
 
 
 <dt>verbose</dt>
@@ -156,7 +156,7 @@ side-length for squares in mapunits</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>matrix or sf objecct</p>
+<p>matrix or SpatVector object</p>
     </div>
 
     <div class="section level2">

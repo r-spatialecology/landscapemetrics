@@ -79,6 +79,9 @@
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_adjacencies.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_area_patches.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_boundaries.html</loc>
   </url>
   <url>
@@ -88,10 +91,25 @@
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_circumscribingcircle.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_class_patches.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_complexity.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_enn_patch.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_nearestneighbour.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_patches.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_perimeter_patch.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_points.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_unique_values.html</loc>
@@ -527,6 +545,9 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/points_as_mat.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/prepare_extras.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/landscapemetrics/reference/proj_info.html</loc>

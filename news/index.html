@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,6 +119,30 @@
       <small>Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.1.0" id="landscapemetrics-210">landscapemetrics 2.1.0<a class="anchor" aria-label="anchor" href="#landscapemetrics-210"></a></h2>
+<ul><li>Improvements
+<ul><li>Many performance improvements. Most visible are in <code>calculate_lsm</code> (all metrics: more than 5 times faster with 70% less memory allocation for <code>augusta_nlcd</code>; larger increases were found for smaller data) and <code>window_lsm</code> (a single metric: more than 6 times faster for <code>augusta_nlcd</code>; larger increases were found for smaller data)</li>
+<li>Some performance improvements are related to the new “extras” mechanism, in which several objects are precalculated in <code>calculate_lsm</code>
+</li>
+<li>Creates an internal <code>extras_df</code> object that lists which extras are needed by each metric</li>
+<li>Replaces the use of <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with <code>tibble::new_tibble(list())</code> in most functions. This change is partially responsible for improvements of the <code>window_lsm</code> speed</li>
+<li>Replaces <code>raster_to_points</code> with <code>get_points</code> in several places. The <code>get_points</code> function is based on the column and row numbers multiplied by the resolution, not actual coordinates.</li>
+<li>Replaces <code>table</code> with (faster) <code>tabulate</code> in <code>lsm_p_core</code>
+</li>
+</ul></li>
+<li>New functions
+<ul><li>Adds a few internal helper functions and documents them, including <code>prepare_extras</code>, <code>get_area_patches</code>, <code>get_class_patches</code>, <code>get_complexity</code>, <code>get_enn_patch</code>, <code>get_points</code>, and <code>get_perimeter_patch</code>
+</li>
+</ul></li>
+<li>Bugfixes
+<ul><li>Fixes <code>window_lsm</code> behaviour for situations with NAs values and non-square windows</li>
+</ul></li>
+<li>Various
+<ul><li>Fixes several typos and improves documentation in many places</li>
+<li>Uses object references in most rcpp functions</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.0.0" id="landscapemetrics-200">landscapemetrics 2.0.0<a class="anchor" aria-label="anchor" href="#landscapemetrics-200"></a></h2><p class="text-muted">CRAN release: 2023-10-03</p>
 <ul><li>Improvements
