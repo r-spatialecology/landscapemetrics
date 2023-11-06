@@ -1,3 +1,6 @@
+# landscapemetrics 2.1.0
+Larger internal updates to several algorithms
+
 # landscapemetrics 2.0.0 - resubmission
 This is a re-submission. The below error has now been fixed. 
 
