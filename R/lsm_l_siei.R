@@ -57,28 +57,29 @@ lsm_l_siei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_siei_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_siei_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     sidi <- lsm_l_sidi_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all values NA
     if (all(is.na(sidi$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "siei",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    pr <- lsm_l_pr_calc(landscape)
+    pr <- lsm_l_pr_calc(landscape, extras = extras)
 
     siei <- sidi$value / (1 - (1 / pr$value))
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "siei",
-                          value = as.double(siei)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(siei)),
+                          class = rep(as.integer(NA), length(siei)),
+                          id = rep(as.integer(NA), length(siei)),
+                          metric = rep("siei", length(siei)),
+                          value = as.double(siei))))
 }

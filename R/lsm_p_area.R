@@ -61,54 +61,50 @@ lsm_p_area <- function(landscape, directions = 8) {
 }
 
 
-lsm_p_area_calc <- function(landscape, directions, resolution = NULL){
+lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
-        resolution <- terra::res(landscape)
-
+    if (is.null(extras)){
+        metrics <- "lsm_p_area"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    # factor to convert cell to area
-    factor_ha <- prod(resolution) / 10000
-
     # get unique class id
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    area_patches <- extras$area_patches
 
     area_patch <- do.call(rbind,
                           lapply(classes, function(patches_class){
 
         # get connected patches
-        landscape_labeled <- get_patches_int(landscape,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
         # multiply number of cells within each patch with hectar factor
-        area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
+        area_patch_ij <- area_patches[[as.character(patches_class)]]
 
-        tibble::tibble(
-            class = as.integer(patches_class),
-            value = area_patch_ij)
+        tibble::new_tibble(list(
+            class = rep(as.integer(patches_class), length(area_patch_ij)),
+            value = area_patch_ij))
         })
     )
-
-    return(tibble::tibble(
-        level = "patch",
+    return(tibble::new_tibble(list(
+        level = rep("patch", nrow(area_patch)),
         class = as.integer(area_patch$class),
         id = as.integer(seq_len(nrow(area_patch))),
-        metric = "area",
+        metric = rep("area", nrow(area_patch)),
         value = as.double(area_patch$value)
-        )
-    )
+        )))
 }

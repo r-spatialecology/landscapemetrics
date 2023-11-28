@@ -20,6 +20,8 @@
 #' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 #' To be type stable, the actual result is always a nested list (first level for \code{RasterStack} layers, second level
 #' for selected landscape metrics).
+#' 
+#' Note, that in situations when the moving window does not contain any patches, the result is NA.
 #'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
@@ -88,7 +90,7 @@ window_lsm <- function(landscape,
 
     if (progress) {cat("\n")}
 
-    names(result) <- paste0("layer_", 1:length(result))
+    names(result) <- paste0("layer_", seq_along(result))
 
     return(result)
 }
@@ -127,18 +129,45 @@ window_lsm_int <- function(landscape,
              call. = FALSE)
     }
 
-    # get coordinates of cells
-    points <- raster_to_points(landscape)[, 2:4]
-
-    # resolution of original raster
     resolution <- terra::res(landscape)
+
+    arguments_values <- list(directions = 8,
+                            count_boundary = FALSE,
+                            consider_boundary = FALSE,
+                            edge_depth = 1,
+                            classes_max = NULL,
+                            neighbourhood = 4,
+                            ordered = TRUE,
+                            base = "log2",
+                            resolution = resolution,
+                            verbose = TRUE)
+
+    input_arguments <- list(...)
+    arguments_values[names(input_arguments)] <- input_arguments
 
     # create object for warning messages
     warning_messages <- character(0)
 
     result <- withCallingHandlers(expr = {lapply(seq_along(metrics_list), function(current_metric) {
 
-        # print progess using the non-internal name
+        what <- metrics_list[[current_metric]]
+
+        # get internal calculation function
+        what <- paste0(what, "_calc")
+
+        # match function name
+        foo <- get(what, mode = "function")
+
+        # get argument
+        arguments <- names(formals(foo))[-1]
+
+        # which arguments are needed
+        arguments_values <- arguments_values[names(arguments_values) %in% arguments]
+
+        # sort alphabetically to match later with provided
+        arguments_values <- arguments_values[order(names(arguments_values))]
+
+        # print progress using the non-internal name
         if (progress) {
 
             cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
@@ -146,12 +175,10 @@ window_lsm_int <- function(landscape,
 
         terra::focal(x = landscape, w = dim(window), fun = function(x) {
 
-            calculate_lsm_focal(landscape = x,
+            calculate_lsm_focal(landscape_values = x,
                                 raster_window = window,
-                                resolution = resolution,
-                                points = points,
-                                what = metrics_list[[current_metric]],
-                                ...)}, fillvalue = NA)
+                                foo = foo,
+                                arguments_values = arguments_values)}, fillvalue = NA)
         })},
         warning = function(cond) {
 
@@ -170,67 +197,25 @@ window_lsm_int <- function(landscape,
         warning_messages <- unique(warning_messages)
 
         # print warnings
-        lapply(warning_messages, function(x){ warning(x, call. = FALSE)})
+        lapply(warning_messages, function(x){warning(x, call. = FALSE)})
     }
 
     return(result)
 }
 
-calculate_lsm_focal <- function(landscape,
+calculate_lsm_focal <- function(landscape_values,
                                 raster_window,
-                                resolution,
-                                points,
-                                what,
-                                ...) {
+                                foo,
+                                arguments_values) {
 
     # convert focal window to matrix
-    raster_window[!is.na(raster_window)] <- landscape
-
-    # get internal calculation function
-    what <- paste0(what, "_calc")
-
-    # match function name
-    foo <- get(what, mode = "function")
-
-    # get argument
-    arguments <- names(formals(foo))[-1]
-
-    arguments_values <- list(resolution = resolution,
-                             points = points,
-                             directions = 8,
-                             count_boundary = FALSE,
-                             consider_boundary = FALSE,
-                             edge_depth = 1,
-                             classes_max = NULL,
-                             neighbourhood = 4,
-                             ordered = TRUE,
-                             base = "log2",
-                             verbose = TRUE)
-
-    # which arguments are needed
-    arguments_values <- arguments_values[names(arguments_values) %in% arguments]
-
-    # sort alphabetically to match later with provided
-    arguments_values <- arguments_values[order(names(arguments_values))]
-
-    # get provided arguments
-    arguments_provided <- substitute(...())
-
-    # sort alphabetically to match later with defaults
-    if (!is.null(arguments_provided)) {
-
-        arguments_provided <- arguments_provided[order(names(arguments_provided))]
-
-        # exchange arguments
-        arguments_values[names(arguments_values) %in% names(arguments_provided)] <- arguments_provided
-    }
+    raster_window[!is.na(raster_window)] <- landscape_values[!is.na(raster_window)]
 
     # landscape argument
     arguments_values$landscape <- raster_window
 
     # run function
-    result <- do.call(what = foo,
-                      args = arguments_values)
+    result <- do.call(what = foo, args = arguments_values)
 
     return(result$value)
 }

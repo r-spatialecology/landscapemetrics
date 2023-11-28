@@ -59,7 +59,7 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_iji_calc <- function(landscape, verbose) {
+lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -68,15 +68,18 @@ lsm_l_iji_calc <- function(landscape, verbose) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "iji",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    adjacencies <- rcpp_get_coocurrence_matrix(landscape,
-                                               as.matrix(4))
+    if (!is.null(extras)){
+        adjacencies <- extras$neighbor_matrix
+    } else {
+        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    }
 
     if (ncol(adjacencies) < 3) {
 
@@ -84,11 +87,11 @@ lsm_l_iji_calc <- function(landscape, verbose) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "iji",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     } else {
 
         diag(adjacencies) <- 0
@@ -103,10 +106,10 @@ lsm_l_iji_calc <- function(landscape, verbose) {
 
         iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
 
-        return(tibble::tibble(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(iji)))
+        return(tibble::new_tibble(list(level = rep("landscape", length(iji)),
+                 class = rep(as.integer(NA), length(iji)),
+                 id = rep(as.integer(NA), length(iji)),
+                 metric = rep("iji", length(iji)),
+                 value = as.double(iji))))
     }
 }

@@ -54,20 +54,21 @@ lsm_c_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ai_calc <- function(landscape) {
+lsm_c_ai_calc <- function(landscape, extras = NULL) {
 
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
+    if (is.null(extras)){
+        metrics <- "lsm_c_ai"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ai",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get coocurrence matrix of like_adjacencies
@@ -75,7 +76,7 @@ lsm_c_ai_calc <- function(landscape) {
                                                          directions = as.matrix(4)) / 2
 
     # get number of cells each class
-    cells_class <- rcpp_get_composition_vector(landscape)
+    cells_class <- extras$composition_vector
 
     # calculate maximum adjacencies
     n <- trunc(sqrt(cells_class))
@@ -96,9 +97,9 @@ lsm_c_ai_calc <- function(landscape) {
     # max_adj can be zero if only one cell is present; set to NA
     ai[is.nan(ai)] <- NA
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", length(ai)),
                           class = as.integer(names(like_adjacencies)),
-                          id = as.integer(NA),
-                          metric = "ai",
-                          value = as.double(ai)))
+                          id = rep(as.integer(NA), length(ai)),
+                          metric = rep("ai", length(ai)),
+                          value = as.double(ai))))
 }

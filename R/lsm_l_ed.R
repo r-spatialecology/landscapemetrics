@@ -62,28 +62,31 @@ lsm_l_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
+lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_l_ed"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, neighbourhood = 4, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ed",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to total area
     area_total <- sum(area_patch$value)
@@ -91,14 +94,15 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
     # get total edge
     edge_landscape <- lsm_l_te_calc(landscape,
                                     count_boundary = count_boundary,
-                                    resolution = resolution)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # relative edge density
     ed <- edge_landscape$value / area_total
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ed",
-                          value = as.double(ed)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(ed)),
+                 class = rep(as.integer(NA), length(ed)),
+                 id = rep(as.integer(NA), length(ed)),
+                 metric = rep("ed", length(ed)),
+                 value = as.double(ed))))
 }

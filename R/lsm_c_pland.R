@@ -54,29 +54,39 @@ lsm_c_pland <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pland_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_pland_calc <- function(landscape, directions, resolution, extras = NULL){
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
+    if (is.null(extras)){
+        metrics <- "lsm_c_pland"
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
+    }
 
     pland <- lsm_p_area_calc(landscape,
                              directions = directions,
-                             resolution = resolution)
+                             resolution = resolution,
+                             extras = extras)
 
     # all values NA
     if (all(is.na(pland$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "pland",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     pland <- stats::aggregate(x = pland[, 5], by = pland[, 2], FUN = sum)
 
     pland$value <- pland$value / sum(pland$value) * 100
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(pland$class),
-                          id = as.integer(NA),
-                          metric = "pland",
-                          value = as.double(pland$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(pland)),
+                              class = as.integer(pland$class),
+                              id = rep(as.integer(NA), nrow(pland)),
+                              metric = rep("pland", nrow(pland)),
+                              value = as.double(pland$value))))
 }
 

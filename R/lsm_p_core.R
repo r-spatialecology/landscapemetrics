@@ -69,34 +69,34 @@ lsm_p_core <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
+lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_p_core"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                 directions = directions, resolution = resolution)
     }
-
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    # get unique classes
-    classes <- get_unique_values_int(landscape, verbose = FALSE)
+    # get common variables
+    classes <- extras$classes
+    class_patches <- extras$class_patches
 
     core <- do.call(rbind,
                     lapply(classes, function(patches_class) {
 
                         # get connected patches
-                        landscape_labeled <- get_patches_int(landscape,
-                                                             class = patches_class,
-                                                             directions = directions)[[1]]
+                        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
                         # label all edge cells
                         class_edge <- get_boundaries_calc(landscape_labeled,
@@ -106,30 +106,30 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                                                           patch_id = FALSE)
 
                         # count number of edge cells in each patch (edge == 1)
-                        cells_edge_patch <- table(landscape_labeled[class_edge == 1])
-
-                        # all cells of the patch
-                        cells_patch <- table(landscape_labeled)
+                        cells_edge_patch <- tabulate(landscape_labeled[class_edge == 1])
 
                         # check if no cell is edge, i.e. only one patch is present
-                        if (dim(cells_edge_patch) == 0) {
+                        if (length(cells_edge_patch) == 0) {
                             cells_edge_patch <- 0
                         }
+
+                        # all cells of the patch
+                        cells_patch <- tabulate(landscape_labeled)
 
                         # all cells minus edge cells equal core and convert to ha
                         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
-                        tibble::tibble(class = patches_class,
-                                       value = core_area)
+                        tibble::new_tibble(list(class = rep(patches_class, length(core_area)),
+                                                value = core_area))
                     })
     )
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(core)),
         class = as.integer(core$class),
         id = as.integer(seq_len(nrow(core))),
-        metric = "core",
+        metric = rep("core", nrow(core)),
         value = as.double(core$value)
-    )
+    ))
 }
 

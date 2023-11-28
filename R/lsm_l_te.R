@@ -54,22 +54,24 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
+lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
 
-    # conver raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_l_te"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            neighbourhood = 4, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "te",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get resolution in x-y directions
@@ -88,12 +90,16 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
 
         # set NA to background value
         landscape[is.na(landscape)] <- background_value
+
+        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(4))
+
+    } else {
+
+        neighbor_matrix <- extras$neighbor_matrix
+
     }
 
     if (resolution_x == resolution_y) {
-
-        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape,
-                                                       directions = as.matrix(4))
 
         edge_total <- sum(neighbor_matrix[lower.tri(neighbor_matrix)]) * resolution_x
 
@@ -124,9 +130,9 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution = NULL){
         edge_total <- edge_left_right + edge_top_bottom
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "te",
-                          value = as.double(edge_total)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(edge_total)),
+                          class = rep(as.integer(NA), length(edge_total)),
+                          id = rep(as.integer(NA), length(edge_total)),
+                          metric = rep("te", length(edge_total)),
+                          value = as.double(edge_total))))
 }

@@ -51,7 +51,7 @@ get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
 
     if (return_vec) {
 
-        result <- terra::vect(result, geom=c("x", "y"), crs = crs)
+        result <- terra::vect(result, geom = c("x", "y"), crs = crs)
     }
 
     return(result)
@@ -73,14 +73,14 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
     # all values NA
     if (all(is.na(landscape))) {
 
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch"),
                               class = as.integer(NA),
                               id = as.integer(NA),
                               y = as.double(NA),
                               y = as.double(NA)))
     }
 
-    # get uniuqe class id
+    # get unique class id
     classes <- get_unique_values_int(landscape, verbose = verbose)
 
     centroid <- do.call(rbind,
@@ -100,11 +100,11 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
                             # set ID from class ID to unique patch ID
                             points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-                            # # conver to tibble
+                            # # convert to tibble
                             points <- stats::setNames(object = data.frame(points),
                                                       nm = c("x", "y", "id"))
 
-                            # calcuale the centroid of each patch (mean of all coords)
+                            # calculate the centroid of each patch (mean of all coords)
                             centroid_temp <- stats::aggregate(points[, c(1, 2)],
                                                               by = list(id = points[, 3]),
                                                               FUN = mean)
@@ -159,9 +159,9 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
         }
     }
 
-    tibble::tibble(level = "patch",
+    tibble::new_tibble(list(level = rep("patch", nrow(centroid)),
                    class = as.integer(centroid$class),
-                   id = as.integer(id),
+                   id = as.integer(centroid$id),
                    x = as.double(centroid$x),
-                   y = as.double(centroid$y))
+                   y = as.double(centroid$y)))
 }

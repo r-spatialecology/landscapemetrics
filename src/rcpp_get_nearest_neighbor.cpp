@@ -10,7 +10,7 @@ inline double compute_d2(double x1, double y1, double x2, double y2) {
 }
 
 // [[Rcpp::export]]
-NumericVector find_min(const NumericMatrix& points, int i, int m) {
+NumericVector find_min(const NumericMatrix &points, int i, int m) {
 
     double x_i = points(i, 0), y_i = points(i, 1), id_i = points(i, 2);
 
@@ -77,7 +77,7 @@ NumericVector find_min(const NumericMatrix& points, int i, int m) {
 //' @name rcpp_get_nearest_neighbor
 //' @export
 // [[Rcpp::export]]
-NumericMatrix rcpp_get_nearest_neighbor(const NumericMatrix& points) {
+NumericMatrix rcpp_get_nearest_neighbor(const NumericMatrix &points) {
 
     int nrows = points.nrow();
     NumericMatrix distances(nrows, 2);

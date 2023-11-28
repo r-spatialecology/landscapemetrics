@@ -56,7 +56,7 @@ lsm_l_mutinf <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
+lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -65,29 +65,28 @@ lsm_l_mutinf_calc <- function(landscape, neighbourhood, ordered, base){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "mutinf",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    com <- rcpp_get_coocurrence_matrix(landscape,
-                                       directions = as.matrix(neighbourhood))
-    com_c <- colSums(com)
+    if (!is.null(extras)){
+        comp <- extras$comp
+        cplx <- extras$cplx
+    } else {
+        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
+        comp <- rcpp_get_entropy(colSums(com), base)
+        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    }
 
-    coh <- rcpp_get_coocurrence_vector(landscape,
-                                       directions = as.matrix(neighbourhood),
-                                       ordered = ordered)
-
-    comp <- rcpp_get_entropy(com_c, base)
-    cplx <- rcpp_get_entropy(coh, base)
     conf <- cplx - comp
     aggr <- comp - conf
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "mutinf",
-                          value = as.double(aggr)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(aggr)),
+                          class = rep(as.integer(NA), length(aggr)),
+                          id = rep(as.integer(NA), length(aggr)),
+                          metric = rep("mutinf", length(aggr)),
+                          value = as.double(aggr))))
 }

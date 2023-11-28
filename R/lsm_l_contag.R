@@ -59,7 +59,7 @@ lsm_l_contag <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_contag_calc <- function(landscape, verbose) {
+lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
 
     # convert to raster to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -68,14 +68,18 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contag",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    t <- length(get_unique_values_int(landscape, verbose = FALSE))
+    if (!is.null(extras)){
+        t <- length(extras$classes)
+    } else {
+        t <- length(get_unique_values_int(landscape, verbose = FALSE))
+    }
 
     if (t < 2) {
         if (verbose) {
@@ -83,15 +87,18 @@ lsm_l_contag_calc <- function(landscape, verbose) {
                     call. = FALSE)
         }
 
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "contag",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     } else {
 
-        adjacencies <- rcpp_get_coocurrence_matrix(landscape,
-                                                   as.matrix(4))
+        if (!is.null(extras)){
+            adjacencies <- extras$neighbor_matrix
+        } else {
+            adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+        }
 
         esum <- sum(adjacencies / sum(adjacencies) *
                         log(adjacencies / sum(adjacencies)), na.rm = TRUE)
@@ -100,10 +107,10 @@ lsm_l_contag_calc <- function(landscape, verbose) {
 
         contag <- (1 + esum / emax) * 100
 
-        return(tibble::tibble(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contag",
-                              value = as.double(contag)))
+        return(tibble::new_tibble(list(level = rep("landscape", length(contag)),
+                 class = rep(as.integer(NA), length(contag)),
+                 id = rep(as.integer(NA), length(contag)),
+                 metric = rep("contag", length(contag)),
+                 value = as.double(contag))))
     }
 }

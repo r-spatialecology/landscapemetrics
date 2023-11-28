@@ -21,7 +21,6 @@ landscape_as_list <- function(landscape) UseMethod("landscape_as_list")
 #' @name landscape_as_list
 #' @export
 landscape_as_list.SpatRaster <- function(landscape) {
-
     landscape <- terra::as.list(landscape)
 
     return(landscape)

@@ -28,7 +28,7 @@ Can be set with a global option, e.g. \code{option(to_disk = TRUE)}. See Details
 \item{return_raster}{If false, matrix is returned}
 }
 \value{
-List
+List of SpatRaster
 }
 \description{
 Connected components labeling to derive patches in a landscape.

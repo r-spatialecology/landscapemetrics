@@ -63,31 +63,34 @@ lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, 
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution = NULL) {
+lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
 
     # calculate core for each patch
     core <- lsm_p_core_calc(landscape,
                             directions = directions,
                             consider_boundary = consider_boundary,
                             edge_depth = edge_depth,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # all values NA
     if (all(is.na(core$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "core_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # summarise for class
     core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(core_cv$class),
-                          id = as.integer(NA),
-                          metric = "core_cv",
-                          value = as.double(core_cv$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(core_cv)),
+        class = as.integer(core_cv$class),
+        id = rep(as.integer(NA), nrow(core_cv)),
+        metric = rep("core_cv", nrow(core_cv)),
+        value = as.double(core_cv$value)
+    )))
 }

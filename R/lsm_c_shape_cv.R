@@ -60,20 +60,21 @@ lsm_c_shape_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_c_shape_cv_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # shape index for each patch
     shape <- lsm_p_shape_calc(landscape,
                               directions = directions,
-                              resolution = resolution)
+                              resolution = resolution,
+                              extras = extras)
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate cv
@@ -81,9 +82,9 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution = NULL){
                                  FUN = function(x) stats::sd(x, na.rm = TRUE) /
                                      mean(x, na.rm = TRUE) * 100)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(shape_cv$class),
-                          id = as.integer(NA),
-                          metric = "shape_cv",
-                          value = as.double(shape_cv$value)))
+    return(tibble::new_tibble(list(level = rep("class", nrow(shape_cv)),
+                              class = as.integer(shape_cv$class),
+                              id = rep(as.integer(NA), nrow(shape_cv)),
+                              metric = rep("shape_cv", nrow(shape_cv)),
+                              value = as.double(shape_cv$value))))
 }

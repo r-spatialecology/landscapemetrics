@@ -1,3 +1,30 @@
+# landscapemetrics 2.1.0
+* Improvements
+    * Many performance improvements. Most visible are in
+    `calculate_lsm` (all metrics: more than 5 times faster with 70% less memory 
+    allocation for `augusta_nlcd`; larger increases were found for smaller data)
+    and `window_lsm` (a single metric: more than 6 times faster for `augusta_nlcd`; 
+    larger increases were found for smaller data)
+    * Some performance improvements are related to the new "extras" mechanism, in which several objects 
+    are precalculated in `calculate_lsm`
+    * Creates an internal `extras_df` object that lists which extras are needed by
+    each metric
+    * Replaces the use of `tibble::tibble()` with `tibble::new_tibble(list())` in most functions.
+    This change is partially responsible for improvements of the `window_lsm` speed
+    * Replaces `raster_to_points` with `get_points` in several places. 
+    The `get_points` function is based on the column and row numbers multiplied by
+    the resolution, not actual coordinates.
+    * Replaces `table` with (faster) `tabulate` in `lsm_p_core`
+* New functions
+    * Adds a few internal helper functions and documents them, including `prepare_extras`,
+    `get_area_patches`, `get_class_patches`, `get_complexity`, `get_enn_patch`, 
+    `get_points`, and `get_perimeter_patch`
+* Bugfixes
+    * Fixes `window_lsm` behaviour for situations with NAs values and non-square windows
+* Various
+    * Fixes several typos and improves documentation in many places
+    * Uses object references in most rcpp functions
+
 # landscapemetrics 2.0.0
 * Improvements
     * `terra` and `sf` instead of `raster` and `sp` as underlying frameworks
@@ -8,10 +35,10 @@
 * Bugfixes
     * There was a bug introduced previously in the calculation of SHEI
     * `extract_lsm` returned an no-needed warning message
-    * Minor bug in shape index fixed
+    * The shape index now follows exactly the definition of the FRAGSTATS manual
     * Minor bug in clumpy index fixed
 * Various 
-    * Updated FRAGSTATS reference (thanks to  Oto Kaláb @kalab-oto)
+    * Updated FRAGSTATS reference (thanks to Oto Kaláb @kalab-oto)
     * Update FRAGSTATS tests
 
 # landscapemetrics 1.5.6

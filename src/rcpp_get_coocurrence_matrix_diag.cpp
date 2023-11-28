@@ -5,7 +5,7 @@
 #include "rcpp_get_unique_values.h"
 
 // [[Rcpp::export]]
-IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix x,
+IntegerVector rcpp_get_coocurrence_matrix_diag(const IntegerMatrix &x,
                                                const arma::imat directions) {
     const int na = NA_INTEGER;
     const unsigned ncols = x.ncol();

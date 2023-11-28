@@ -67,29 +67,29 @@ lsm_l_ndca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            points = NULL){
+lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     ncore_patch <- lsm_p_ncore_calc(landscape,
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points)
+                                    resolution = resolution,
+                                    extras = extras)
 
     ndca <- sum(ncore_patch$value)
 
     # all values NA
     if (is.na(ndca)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ndca",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    return(tibble::tibble(level = "landscape",
-                          class =  as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ndca",
-                          value = as.double(ndca)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(ndca)),
+                          class = rep(as.integer(NA), length(ndca)),
+                          id = rep(as.integer(NA), length(ndca)),
+                          metric = rep("ndca", length(ndca)),
+                          value = as.double(ndca))))
 }

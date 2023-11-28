@@ -68,28 +68,29 @@ lsm_c_enn_mn <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 
-lsm_c_enn_mn_calc <- function(landscape, directions, verbose,
-                              points = NULL) {
+lsm_c_enn_mn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
                           verbose = verbose,
-                          points = points)
+                          resolution = resolution, extras = extras)
 
     # all cells are NA
     if (all(is.na(enn$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     enn_mn <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = mean)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(enn_mn$class),
-                          id = as.integer(NA),
-                          metric = "enn_mn",
-                          value = as.double(enn_mn$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(enn_mn)),
+        class = as.integer(enn_mn$class),
+        id = rep(as.integer(NA), nrow(enn_mn)),
+        metric = rep("enn_mn", nrow(enn_mn)),
+        value = as.double(enn_mn$value)
+    )))
 }

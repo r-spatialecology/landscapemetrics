@@ -141,7 +141,7 @@ show_cores_internal <- function(landscape, directions, class, labels, nrow, ncol
 
     plot <- ggplot2::ggplot(boundary_labeled_stack, ggplot2::aes(x, y)) +
         ggplot2::geom_raster(ggplot2::aes(fill = factor(values))) +
-        ggplot2::geom_text(ggplot2::aes_string(x = "x", y = "y", label = "core_label"),
+        ggplot2::geom_text(ggplot2::aes(x = .data[["x"]], y = .data[["y"]], label = .data[["core_label"]]),
                            colour = "white", na.rm = TRUE) +
         ggplot2::facet_wrap(~ class, nrow = nrow, ncol = ncol) +
         ggplot2::scale_fill_manual(values = c("grey60", "#E17C05"), na.value = "grey85") +

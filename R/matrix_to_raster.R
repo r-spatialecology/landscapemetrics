@@ -40,7 +40,7 @@ matrix_to_raster <- function(matrix,
   if (!is.null(landscape)) {
 
     if (landscape_empty) {
-      out <- landscape
+        out <- landscape
 
     } else {
         out <- terra::rast(x = terra::ext(landscape), resolution = terra::res(landscape),

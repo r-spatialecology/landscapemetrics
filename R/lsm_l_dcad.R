@@ -67,24 +67,24 @@ lsm_l_dcad <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth,
-                            resolution = NULL, points = NULL){
+lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
 
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise to total area
     total_area <- sum(patch_area$value)
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "dcad",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get core areas for each patch
@@ -92,14 +92,15 @@ lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    points = points)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # summarise for total landscape
     dcad <- sum(ncore_patch$value) / total_area * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "dcad",
-                          value = as.double(dcad)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(dcad)),
+                 class = rep(as.integer(NA), length(dcad)),
+                 id = rep(as.integer(NA), length(dcad)),
+                 metric = rep("dcad", length(dcad)),
+                 value = as.double(dcad))))
 }

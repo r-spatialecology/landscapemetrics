@@ -50,7 +50,7 @@ lsm_l_ent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ent_calc <- function(landscape, neighbourhood, base){
+lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
@@ -59,22 +59,23 @@ lsm_l_ent_calc <- function(landscape, neighbourhood, base){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ent",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
-    com <- rcpp_get_coocurrence_matrix(landscape,
-                                       directions = as.matrix(neighbourhood))
-    com_c <- colSums(com)
+    if (!is.null(extras)){
+        comp <- extras$comp
+    } else {
+        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
+        comp <- rcpp_get_entropy(colSums(com), base)
+    }
 
-    comp <- rcpp_get_entropy(com_c, base)
-
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "ent",
-                          value = as.double(comp)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(comp)),
+                 class = rep(as.integer(NA), length(comp)),
+                 id = rep(as.integer(NA), length(comp)),
+                 metric = rep("ent", length(comp)),
+                 value = as.double(comp))))
 }

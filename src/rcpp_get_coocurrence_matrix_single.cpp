@@ -4,7 +4,7 @@
 #include "rcpp_get_class_index_map.h"
 
 // [[Rcpp::export]]
-IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix x,
+IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix &x,
                                            const arma::imat directions,
                                            const int single_class) {
     const int na = NA_INTEGER;

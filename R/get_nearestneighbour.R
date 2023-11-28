@@ -46,14 +46,16 @@ get_nearestneighbour <- function(landscape, return_id = FALSE) {
 
 }
 
-get_nearestneighbour_calc <- function(landscape, return_id,
+get_nearestneighbour_calc <- function(landscape, return_id, resolution,
                                       points = NULL) {
+
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
     # convert to matrix
     if (!inherits(x = landscape, what = "matrix")) {
 
         # get coordinates and values of all cells
-        points <- raster_to_points(landscape)[, 2:4]
+        points <- get_points(landscape, resolution = resolution)
 
         # convert to matrix
         landscape <- terra::as.matrix(landscape, wide = TRUE)
@@ -79,12 +81,12 @@ get_nearestneighbour_calc <- function(landscape, return_id,
     num <- seq_along(ord)
     rank <- match(num, ord)
 
-    res <- rcpp_get_nearest_neighbor(terra::as.matrix(points, wide= TRUE)[ord, ])
+    res <- rcpp_get_nearest_neighbor(as.matrix(points)[ord, ])
 
-    min_dist <- tibble::tibble(cell = num,
+    min_dist <- tibble::new_tibble(list(cell = num,
                                dist = res[rank, 1],
                                id_focal = points[, 3],
-                               id_neighbour = res[rank, 2])
+                               id_neighbour = res[rank, 2]))
 
     min_dist_aggr <- stats::setNames(stats::aggregate(x = min_dist$dist,
                                                       by = list(min_dist$id_focal),

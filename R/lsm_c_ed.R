@@ -63,28 +63,31 @@ lsm_c_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NULL) {
+lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_ed"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "ed",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get patch area
     area <- lsm_p_area_calc(landscape,
                             directions = directions,
-                            resolution = resolution)
+                            resolution = resolution,
+                            extras = extras)
 
     # summarise to total area
     area <- sum(area$value)
@@ -93,13 +96,14 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution = NU
     edge_class <- lsm_c_te_calc(landscape,
                                 count_boundary = count_boundary,
                                 directions = directions,
-                                resolution = resolution)
+                                resolution = resolution,
+                                extras = extras)
 
     edge_class$value <- edge_class$value / area
 
-    return(tibble::tibble(level = "class",
+    return(tibble::new_tibble(list(level = rep("class", nrow(edge_class)),
                           class = as.integer(edge_class$class),
-                          id = as.integer(NA),
-                          metric = "ed",
-                          value = as.double(edge_class$value)))
+                          id = rep(as.integer(NA), nrow(edge_class)),
+                          metric = rep("ed", nrow(edge_class)), 
+                          value = as.double(edge_class$value))))
 }

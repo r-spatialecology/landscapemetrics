@@ -51,34 +51,35 @@ lsm_l_prd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_prd_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_prd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise for total landscape
     area_total <- sum(area_patch$value)
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "prd",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of classes
-    pr_landscape <- lsm_l_pr_calc(landscape)
+    pr_landscape <- lsm_l_pr_calc(landscape, extras = extras)
 
     # relative number of classes
     prd <- pr_landscape$value / area_total * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "prd",
-                          value = as.double(prd)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(prd)),
+                          class = rep(as.integer(NA), length(prd)),
+                          id = rep(as.integer(NA), length(prd)),
+                          metric = rep("prd", length(prd)),
+                          value = as.double(prd))))
 }

@@ -30,7 +30,8 @@
 #'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
-#' spatialize_lsm(landscape, what = "lsm_p_area")
+#' p_area_raster <- spatialize_lsm(landscape, what = "lsm_p_area")
+#' terra::plot(p_area_raster[[1]][[1]])
 #'
 #' @aliases spatialize_lsm
 #'

@@ -63,26 +63,27 @@ lsm_l_frac_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_frac_mn_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_frac_mn_calc <- function(landscape, directions, resolution, extras = NULL){
 
     frac_patch <- lsm_p_frac_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(frac_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "frac_mn",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     frac_mn <- mean(frac_patch$value)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "frac_mn",
-                          value = as.double(frac_mn)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(frac_mn)),
+                        class = rep(as.integer(NA), length(frac_mn)),
+                        id = rep(as.integer(NA), length(frac_mn)),
+                        metric = rep("frac_mn", length(frac_mn)),
+                        value = as.double(mean(frac_patch$value)))))
 }

@@ -57,28 +57,29 @@ lsm_l_area_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_area_cv_calc <- function(landscape, directions, resolution = NULL){
+lsm_l_area_cv_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # all values NA
     if (all(is.na(area_patch$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "area_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # calculate cv
     area_cv <- stats::sd(area_patch$value) / mean(area_patch$value) * 100
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "area_cv",
-                          value = as.double(area_cv)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(area_cv)),
+                 class = rep(as.integer(NA), length(area_cv)),
+                 id = rep(as.integer(NA), length(area_cv)),
+                 metric = rep("area_cv", length(area_cv)),
+                 value = as.double(area_cv))))
 }

@@ -4,7 +4,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- Start Badges -->
 
-README last updated: 2023-05-23
+README last updated: 2023-10-04
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                    | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -13,9 +13,8 @@ README last updated: 2023-05-23
 
 <!-- End Badges -->
 
-> Starting from v2.0.0, **landscapemetrics** does not support the
-> `raster` or `sp` packages. They are replaced by `terra` and `sf`,
-> respectively. More information about the `terra` package can be found
+> Starting from v2.0.0, **landscapemetrics** uses `terra` and `sf`
+> internally. More information about the `terra` package can be found
 > here: <https://rspatial.org/index.html>.
 
 ## Overview

@@ -57,26 +57,27 @@ lsm_l_sidi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_sidi_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_sidi_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     sidi <- lsm_c_pland_calc(landscape,
                              directions = directions,
-                             resolution = resolution)
+                             resolution = resolution,
+                             extras = extras)
 
     # all values NA
     if (all(is.na(sidi$value))) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "sidi",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     sidi <- 1 - sum((sidi$value / 100) ^ 2)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "sidi",
-                          value = as.double(sidi)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(sidi)),
+                          class = rep(as.integer(NA), length(sidi)),
+                          id = rep(as.integer(NA), length(sidi)),
+                          metric = rep("sidi", length(sidi)),
+                          value = as.double(sidi))))
 }

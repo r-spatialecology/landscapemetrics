@@ -59,22 +59,24 @@ lsm_c_cohesion <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
+lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL) {
 
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
+    if (missing(resolution)) resolution <- terra::res(landscape)
 
+    if (is.null(extras)){
+        metrics <- "lsm_c_cohesion"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "cohesion",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get number of cells (only not NAs)
@@ -83,15 +85,17 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
     # get patch area
     patch_area <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
-
+                                  resolution = resolution,
+                                  extras = extras)
+    
     # get number of cells for each patch -> area = n_cells * res / 10000
     patch_area$ncells <- patch_area$value * 10000 / prod(resolution)
 
     # get perim of patch
     perim_patch <- lsm_p_perim_calc(landscape,
                                     directions = directions,
-                                    resolution = resolution)
+                                    resolution = resolution,
+                                    extras = extras)
 
     # calculate denominator of cohesion
     perim_patch$denominator <- perim_patch$value * sqrt(patch_area$ncells)
@@ -107,9 +111,11 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution = NULL) {
     cohesion$value <- (1 - (cohesion$value / denominator$denominator)) *
         ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(cohesion$class),
-                          id = as.integer(NA),
-                          metric = "cohesion",
-                          value = as.double(cohesion$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(cohesion)),
+        class = as.integer(cohesion$class),
+        id = rep(as.integer(NA), nrow(cohesion)),
+        metric = rep("cohesion", nrow(cohesion)),
+        value = as.double(cohesion$value)
+    )))
 }

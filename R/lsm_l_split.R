@@ -58,31 +58,32 @@ lsm_l_split <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_split_calc <- function(landscape, directions, resolution = NULL) {
+lsm_l_split_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # get patch area
     area_patch <- lsm_p_area_calc(landscape,
                                   directions = directions,
-                                  resolution = resolution)
+                                  resolution = resolution,
+                                  extras = extras)
 
     # summarise for total landscape
     area_total <- sum(area_patch$value)
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::tibble(level = "landscape",
+        return(tibble::new_tibble(list(level = "landscape",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "split",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # total area squared divided by sum of area squared for each patch
     split <- (area_total ^ 2) / sum(area_patch$value ^ 2)
 
-    return(tibble::tibble(level = "landscape",
-                          class = as.integer(NA),
-                          id = as.integer(NA),
-                          metric = "split",
-                          value = as.double(split)))
+    return(tibble::new_tibble(list(level = rep("landscape", length(split)),
+                          class = rep(as.integer(NA), length(split)),
+                          id = rep(as.integer(NA), length(split)),
+                          metric = rep("split", length(split)),
+                          value = as.double(split))))
 }

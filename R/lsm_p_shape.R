@@ -62,39 +62,46 @@ lsm_p_shape <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_shape_calc <- function(landscape, directions, resolution = NULL){
+lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        resolution <- terra::res(landscape)
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
+    if (missing(resolution)) resolution <- terra::res(landscape)
+
+    if (is.null(extras)){
+        metrics <- "lsm_p_shape"
+        landscape <- terra::as.matrix(landscape, wide = TRUE)
+        extras <- prepare_extras(metrics, landscape_mat = landscape,
+                                            directions = directions, resolution = resolution)
     }
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::tibble(level = "patch",
+        return(tibble::new_tibble(list(level = "patch",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "shape",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     # get perimeter of patches
-    perimeter_patch <- lsm_p_perim_calc(landscape, directions = directions,
-                                        resolution = resolution)
+    perimeter_patch <- lsm_p_perim_calc(landscape,
+                                        directions = directions,
+                                        resolution = resolution,
+                                        extras = extras)
 
     # get area of patches
-    area_patch <- lsm_p_area_calc(landscape, directions = directions,
-                                  resolution = resolution)
+    area_patch <- lsm_p_area_calc(landscape,
+                                  directions = directions,
+                                  resolution = resolution,
+                                  extras = extras)
 
     # calculate shape index
     shape_patch <- (0.25 * perimeter_patch$value) / sqrt(area_patch$value * 10000)
 
-    tibble::tibble(
-        level = "patch",
+    tibble::new_tibble(list(
+        level = rep("patch", nrow(perimeter_patch)),
         class = as.integer(perimeter_patch$class),
         id = as.integer(perimeter_patch$id),
         metric = "shape",
         value = as.double(shape_patch)
-    )
+    ))
 }

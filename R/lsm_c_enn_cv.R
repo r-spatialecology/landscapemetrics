@@ -66,29 +66,30 @@ lsm_c_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_enn_cv_calc <- function(landscape, directions, verbose,
-                              points = NULL) {
+lsm_c_enn_cv_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
 
     enn <- lsm_p_enn_calc(landscape,
                           directions = directions,
                           verbose = verbose,
-                          points = points)
+                          resolution = resolution, extras = extras)
 
     # all cells are NA
     if (all(is.na(enn$value))) {
-        return(tibble::tibble(level = "class",
+        return(tibble::new_tibble(list(level = "class",
                               class = as.integer(NA),
                               id = as.integer(NA),
                               metric = "enn_cv",
-                              value = as.double(NA)))
+                              value = as.double(NA))))
     }
 
     enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2],
                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::tibble(level = "class",
-                          class = as.integer(enn_cv$class),
-                          id = as.integer(NA),
-                          metric = "enn_cv",
-                          value = as.double(enn_cv$value)))
+    return(tibble::new_tibble(list(
+        level = rep("class", nrow(enn_cv)),
+        class = as.integer(enn_cv$class),
+        id = rep(as.integer(NA), nrow(enn_cv)),
+        metric = rep("enn_cv", nrow(enn_cv)),
+        value = as.double(enn_cv$value)
+    )))
 }
