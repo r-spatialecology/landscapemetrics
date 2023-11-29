@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -192,6 +192,7 @@ details, see <code>?terra::focal()</code>. The result will be a <code>RasterLaye
 the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 To be type stable, the actual result is always a nested list (first level for <code>RasterStack</code> layers, second level
 for selected landscape metrics).</p>
+<p>Note, that in situations when the moving window does not contain any patches, the result is NA.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
