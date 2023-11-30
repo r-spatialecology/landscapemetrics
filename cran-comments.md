@@ -1,3 +1,6 @@
+# landscapemetrics 2.1.1
+Minor bugfix
+
 # landscapemetrics 2.1.0
 Larger internal updates to several algorithms
 

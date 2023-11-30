@@ -1,4 +1,8 @@
 # landscapemetrics 2.1.0
+* Bugfixes
+    * Bugfix in calculate of clumpy if NA calc is present
+
+# landscapemetrics 2.1.0
 * Improvements
     * Many performance improvements. Most visible are in
     `calculate_lsm` (all metrics: more than 5 times faster with 70% less memory 
