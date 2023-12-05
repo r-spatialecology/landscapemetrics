@@ -111,12 +111,15 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
         # convert to terra
         y <- methods::as(y, "SpatVector")
 
+        # get crs
+        crs <- terra::crs(y)
+
         if (terra::geomtype(y) == "points") {
 
             if (is.null(size) | size == 0) stop("Please provide size argument size > 0.", call. = FALSE)
 
             y <- construct_buffer(coords = y, shape = shape, size = size,
-                                  return_vec = TRUE, verbose = verbose)
+                                  return_vec = TRUE, crs = crs, verbose = verbose)
 
         }
 

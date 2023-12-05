@@ -4,7 +4,14 @@
 \alias{construct_buffer}
 \title{construct_buffer}
 \usage{
-construct_buffer(coords, shape, size, return_vec = TRUE, verbose = TRUE)
+construct_buffer(
+  coords,
+  shape,
+  size,
+  return_vec = TRUE,
+  crs = "",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{coords}{SpatVector, sf object or 2-column matrix with coordinates of sample points}
@@ -15,6 +22,8 @@ construct_buffer(coords, shape, size, return_vec = TRUE, verbose = TRUE)
 side-length for squares in map units}
 
 \item{return_vec}{If TRUE, vector objects are returned.}
+
+\item{crs}{The coordinate reference system used for vector objects.}
 
 \item{verbose}{Print warning messages.}
 }

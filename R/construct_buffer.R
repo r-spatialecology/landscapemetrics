@@ -7,6 +7,7 @@
 #' @param size Size of sample plot. Equals the radius for circles or the
 #' side-length for squares in map units
 #' @param return_vec If TRUE, vector objects are returned.
+#' @param crs The coordinate reference system used for vector objects.
 #' @param verbose Print warning messages.
 #'
 #' @return
@@ -22,7 +23,7 @@
 #' @keywords internal
 #'
 #' @export
-construct_buffer <- function(coords, shape , size, return_vec = TRUE, verbose = TRUE) {
+construct_buffer <- function(coords, shape , size, return_vec = TRUE, crs="", verbose = TRUE) {
 
     # make sure coords are matrix
     coords <- points_as_mat(pts = coords)
@@ -80,7 +81,7 @@ construct_buffer <- function(coords, shape , size, return_vec = TRUE, verbose = 
 
             mat <- matrix(x, ncol = 2)
 
-            terra::vect(x = mat, type = "polygon")
+            terra::vect(x = mat, type = "polygon", crs = crs)
 
         })
 
