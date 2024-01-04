@@ -1,3 +1,8 @@
+# landscapemetrics 2.1.1
+* Bugfixes
+    * Bugfix in calculate of clumpy if NA values are present
+    * Bugfix in construct_buffer that CRS was lost
+
 # landscapemetrics 2.1.0
 * Improvements
     * Many performance improvements. Most visible are in
