@@ -26,9 +26,6 @@
 #' get_boundaries(class_1)
 #' get_boundaries(class_1, return_raster = FALSE)
 #'
-#' @aliases get_boundaries
-#' @rdname get_boundaries
-#'
 #' @export
 get_boundaries <- function(landscape,
                            consider_boundary = FALSE, edge_depth = 1,

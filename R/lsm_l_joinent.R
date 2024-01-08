@@ -27,9 +27,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_joinent(landscape)
 #'
-#' @aliases lsm_l_joinent
-#' @rdname lsm_l_joinent
-#'
 #' @references
 #' Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework
 #' for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x
@@ -73,7 +70,7 @@ lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     if (!is.null(extras)){
         cplx <- extras$cplx
-    } else {    
+    } else {
         cplx <- get_complexity(landscape, neighbourhood, ordered, base)
     }
 

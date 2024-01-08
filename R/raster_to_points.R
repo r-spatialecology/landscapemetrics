@@ -15,9 +15,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' raster_to_points(landscape)
 #'
-#' @aliases raster_to_points
-#' @rdname raster_to_points
-#'
 #' @keywords internal
 #'
 #' @export

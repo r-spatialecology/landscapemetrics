@@ -41,9 +41,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_dcore_sd(landscape)
 #'
-#' @aliases lsm_l_dcore_sd
-#' @rdname lsm_l_dcore_sd
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -76,7 +73,7 @@ lsm_l_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_d
                                     directions = directions,
                                     consider_boundary = consider_boundary,
                                     edge_depth = edge_depth,
-                                    resolution = resolution,    
+                                    resolution = resolution,
                                     extras = extras)
 
     # all values NA

@@ -28,7 +28,6 @@ landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
 class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 pp <- get_perimeter_patch(classes, class_patches, terra::res(landscape))
-pp
 
 }
 \keyword{internal}

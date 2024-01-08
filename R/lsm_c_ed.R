@@ -36,9 +36,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_ed(landscape)
 #'
-#' @aliases lsm_c_ed
-#' @rdname lsm_c_ed
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -104,6 +101,6 @@ lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
     return(tibble::new_tibble(list(level = rep("class", nrow(edge_class)),
                           class = as.integer(edge_class$class),
                           id = rep(as.integer(NA), nrow(edge_class)),
-                          metric = rep("ed", nrow(edge_class)), 
+                          metric = rep("ed", nrow(edge_class)),
                           value = as.double(edge_class$value))))
 }

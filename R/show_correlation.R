@@ -27,9 +27,6 @@
 #' show_correlation(data = correlations, method = "pearson")
 #' }
 #'
-#' @aliases show_correlation
-#' @rdname show_correlation
-#'
 #' @export
 show_correlation <- function(data, method = "pearson",
                              diag = TRUE, labels = FALSE,

@@ -32,9 +32,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_mesh(landscape)
 #'
-#' @aliases lsm_c_mesh
-#' @rdname lsm_c_mesh
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;

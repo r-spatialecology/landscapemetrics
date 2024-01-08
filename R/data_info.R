@@ -17,9 +17,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' data_info(landscape)
 #'
-#' @aliases data_info
-#' @rdname data_info
-#'
 #' @keywords internal
 #'
 #' @export

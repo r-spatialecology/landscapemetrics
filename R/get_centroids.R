@@ -21,9 +21,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' get_centroids(landscape)
 #'
-#' @aliases get_centroids
-#' @rdname get_centroids
-#'
 #' @export
 get_centroids <- function(landscape, directions = 8, cell_center = FALSE,
                           return_vec = FALSE, verbose = TRUE) {

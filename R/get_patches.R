@@ -45,9 +45,6 @@
 #' # check for patches of every class
 #' patched_raster <-  get_patches(landscape)
 #'
-#' @aliases get_patches
-#' @rdname get_patches
-#'
 #' @export
 get_patches <- function(landscape, class = "all", directions = 8,
                         to_disk = getOption("to_disk", default = FALSE),

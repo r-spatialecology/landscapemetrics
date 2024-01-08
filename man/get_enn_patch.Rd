@@ -33,7 +33,6 @@ classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
 class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 points <- get_points(landscape_mat, terra::res(landscape))
 enns <- get_enn_patch(classes, class_patches, points, terra::res(landscape))
-enns
 
 }
 \keyword{internal}

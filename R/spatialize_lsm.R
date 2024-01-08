@@ -33,10 +33,6 @@
 #' p_area_raster <- spatialize_lsm(landscape, what = "lsm_p_area")
 #' terra::plot(p_area_raster[[1]][[1]])
 #'
-#' @aliases spatialize_lsm
-#'
-#' @rdname spatialize_lsm
-#'
 #' @export
 spatialize_lsm <- function(landscape, level = "patch", metric = NULL, name = NULL,
                            type = NULL, what = NULL, directions = 8, progress = FALSE,

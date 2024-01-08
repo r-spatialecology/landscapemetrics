@@ -12,9 +12,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' landscape_as_list(c(landscape, landscape))
 #'
-#' @aliases landscape_as_list
-#' @rdname landscape_as_list
-#'
 #' @export
 landscape_as_list <- function(landscape) UseMethod("landscape_as_list")
 

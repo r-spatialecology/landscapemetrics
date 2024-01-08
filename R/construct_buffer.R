@@ -17,9 +17,6 @@
 #' coords <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 #' construct_buffer(coords = coords, shape = "square", size = 5)
 #'
-#' @aliases construct_buffer
-#' @rdname construct_buffer
-#'
 #' @keywords internal
 #'
 #' @export

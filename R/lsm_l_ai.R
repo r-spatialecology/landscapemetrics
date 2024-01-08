@@ -5,7 +5,7 @@
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters
 #' @param directions The number of directions in which patches should be
 #' connected: 4 (rook's case) or 8 (queen's case).
-#' 
+#'
 #' @details
 #' \deqn{AI = \Bigg[\sum\limits_{i=1}^m \Big( \frac{g_{ii}}{max-g_{ii}} \Big) P_{i} \Bigg](100) }
 #'
@@ -30,9 +30,6 @@
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_ai(landscape)
-#'
-#' @aliases lsm_l_ai
-#' @rdname lsm_l_ai
 #'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
@@ -83,7 +80,7 @@ lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # get proportional class area
     pland <- lsm_c_pland_calc(landscape,
-                              directions = 8, 
+                              directions = 8,
                               resolution = resolution,
                               extras = extras)
 

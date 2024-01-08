@@ -49,9 +49,6 @@
 #'                ordered = FALSE, base = "log2", resolution = terra::res(landscape))
 #' }
 #'
-#' @aliases prepare_extras
-#' @rdname prepare_extras
-#'
 #' @keywords internal
 #'
 #' @export
@@ -113,9 +110,6 @@ prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, or
 #' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
 #' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #'
-#' @aliases get_class_patches
-#' @rdname get_class_patches
-#'
 #' @keywords internal
 #'
 #' @export
@@ -149,9 +143,6 @@ get_class_patches <- function(landscape_mat, classes, directions){
 #' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #' area_patches <- get_area_patches(class_patches, classes, resolution = terra::res(landscape))
 #'
-#' @aliases get_area_patches
-#' @rdname get_area_patches
-#'
 #' @keywords internal
 #'
 #' @export
@@ -184,9 +175,6 @@ get_area_patches <- function(class_patches, classes, resolution){
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 #' get_complexity(landscape_mat, neighbourhood = 4, ordered = TRUE, base = "log2")
 #'
-#' @aliases get_complexity
-#' @rdname get_complexity
-#'
 #' @keywords internal
 #'
 #' @export
@@ -197,7 +185,6 @@ get_complexity <- function(landscape_mat, neighbourhood, ordered, base){
     cplx <- rcpp_get_entropy(coh, base)
     return(cplx)
 }
-
 
 #' get_points
 #'
@@ -216,9 +203,6 @@ get_complexity <- function(landscape_mat, neighbourhood, ordered, base){
 #' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 #' resolution <- terra::res(landscape)
 #' get_points(landscape_mat, resolution)
-#'
-#' @aliases get_points
-#' @rdname get_points
 #'
 #' @keywords internal
 #'
@@ -253,10 +237,6 @@ get_points <- function(landscape_mat, resolution){
 #' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #' points <- get_points(landscape_mat, terra::res(landscape))
 #' enns <- get_enn_patch(classes, class_patches, points, terra::res(landscape))
-#' enns
-#'
-#' @aliases get_enn_patch
-#' @rdname get_enn_patch
 #'
 #' @keywords internal
 #'
@@ -314,10 +294,6 @@ get_enn_patch <- function(classes, class_patches, points, resolution, verbose = 
 #' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
 #' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
 #' pp <- get_perimeter_patch(classes, class_patches, terra::res(landscape))
-#' pp
-#'
-#' @aliases get_perimeter_patch
-#' @rdname get_perimeter_patch
 #'
 #' @keywords internal
 #'

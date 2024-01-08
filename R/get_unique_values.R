@@ -27,9 +27,6 @@
 #' landscape_list <- list(landscape, landscape_matrix, x_vec)
 #' get_unique_values(landscape_list)
 #'
-#' @aliases get_unique_values
-#' @rdname get_unique_values
-#'
 #' @export
 get_unique_values <- function(x, simplify = FALSE, verbose = TRUE) {
 

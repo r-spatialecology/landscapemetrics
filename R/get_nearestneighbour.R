@@ -25,9 +25,6 @@
 #' get_nearestneighbour(class_1)
 #' get_nearestneighbour(class_1, return_id = TRUE)
 #'
-#' @aliases get_nearestneighbour
-#' @rdname get_nearestneighbour
-#'
 #' @export
 get_nearestneighbour <- function(landscape, return_id = FALSE) {
 
