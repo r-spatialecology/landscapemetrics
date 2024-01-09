@@ -21,9 +21,6 @@
 #' show_patches(landscape, class = c(1, 2))
 #' show_patches(landscape, class = 3, labels = FALSE)
 #'
-#' @aliases show_patches
-#' @rdname show_patches
-#'
 #' @export
 show_patches <- function(landscape, class = "global", directions = 8,
                          labels = FALSE, nrow = NULL, ncol = NULL) {

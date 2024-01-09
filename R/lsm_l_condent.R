@@ -29,9 +29,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_l_condent(landscape)
 #'
-#' @aliases lsm_l_condent
-#' @rdname lsm_l_condent
-#'
 #' @references
 #' Nowosad J., TF Stepinski. 2019. Information theory as a consistent framework
 #' for quantification and classification of landscape patterns. https://doi.org/10.1007/s10980-019-00830-x

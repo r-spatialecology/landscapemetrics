@@ -41,9 +41,6 @@
 #'
 #' }
 #'
-#' @aliases extract_lsm
-#' @rdname extract_lsm
-#'
 #' @export
 extract_lsm <- function(landscape, y,
                         extract_id = NULL, metric = NULL,

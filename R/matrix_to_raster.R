@@ -22,9 +22,6 @@
 #' test_matrix <- terra::as.matrix(augusta_nlcd, wide = TRUE)
 #' matrix_to_raster(matrix = test_matrix, landscape = augusta_nlcd)
 #'
-#' @aliases matrix_to_raster
-#' @rdname matrix_to_raster
-#'
 #' @keywords internal
 #'
 #' @export

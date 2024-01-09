@@ -18,9 +18,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' proj_info(landscape)
 #'
-#' @aliases proj_info
-#' @rdname proj_info
-#'
 #' @keywords internal
 #'
 #' @export

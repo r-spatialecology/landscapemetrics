@@ -24,9 +24,6 @@
 #' # get circle around whole class
 #' get_circumscribingcircle(landscape, level = "class")
 #'
-#' @aliases get_circumscribingcircle
-#' @rdname get_circumscribingcircle
-#'
 #' @export
 get_circumscribingcircle <- function(landscape, directions = 8, level = "patch") {
 
@@ -115,7 +112,7 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
         circle_class <- rcpp_get_circle(landscape, resolution_xy = resolution[1])
 
         # resulting tibble
-        circle <- tibble::new_tibble(list(level = rep("class", nrow(circle_class)), 
+        circle <- tibble::new_tibble(list(level = rep("class", nrow(circle_class)),
                                  class = as.integer(circle_class$patch_id),
                                  id = rep(as.integer(NA), nrow(circle_class)),
                                  value = circle_class$circle_diameter,

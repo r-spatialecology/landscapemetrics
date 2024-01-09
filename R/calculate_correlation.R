@@ -18,9 +18,6 @@
 #' metrics <- calculate_lsm(landscape, what = c("patch", "class"))
 #' calculate_correlation(metrics, method = "pearson")
 #'
-#' @aliases calculate_correlation
-#' @rdname calculate_correlation
-#'
 #' @export
 calculate_correlation <- function(metrics, method = "pearson",
                                   diag = TRUE, simplify = FALSE) {

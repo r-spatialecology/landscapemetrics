@@ -34,9 +34,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_cpland(landscape)
 #'
-#' @aliases lsm_c_cpland
-#' @rdname lsm_c_cpland
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -93,7 +90,7 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     core_area <- lsm_p_core_calc(landscape,
                                  directions = directions,
                                  consider_boundary = consider_boundary,
-                                 edge_depth = edge_depth, 
+                                 edge_depth = edge_depth,
                                  resolution = resolution,
                                  extras = extras)
 

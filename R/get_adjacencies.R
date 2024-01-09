@@ -41,9 +41,6 @@
 #'                             1,  NA,  1), 3, 3, byrow = TRUE)
 #' get_adjacencies(landscape, diagonal_matrix)
 #'
-#' @aliases get_adjacencies
-#' @rdname get_adjacencies
-#'
 #' @export
 get_adjacencies <- function(landscape, neighbourhood = 4, what = "full", upper = FALSE) {
 

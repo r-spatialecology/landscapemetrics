@@ -30,9 +30,6 @@
 #' list_lsm(metric = "area", what = c("patch", "lsm_l_ta"))
 #' list_lsm(what = c("lsm_c_tca", "lsm_l_ta"))
 #'
-#' @aliases list_lsm
-#' @rdname list_lsm
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;

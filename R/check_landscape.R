@@ -22,9 +22,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' check_landscape(c(landscape, landscape))
 #'
-#' @aliases check_landscape
-#' @rdname check_landscape
-#'
 #' @export
 check_landscape <- function(landscape, verbose = TRUE) {
 

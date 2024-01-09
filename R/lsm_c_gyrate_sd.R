@@ -42,9 +42,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_gyrate_sd(landscape)
 #'
-#' @aliases lsm_c_gyrate_sd
-#' @rdname lsm_c_gyrate_sd
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -76,7 +73,7 @@ lsm_c_gyrate_sd_calc <- function(landscape, directions, cell_center, resolution,
     gyrate <- lsm_p_gyrate_calc(landscape,
                                 directions = directions,
                                 cell_center = cell_center,
-                                resolution = resolution, 
+                                resolution = resolution,
                                 extras = extras)
 
     # all cells are NA

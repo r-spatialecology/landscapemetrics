@@ -32,9 +32,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_cohesion(landscape)
 #'
-#' @aliases lsm_c_cohesion
-#' @rdname lsm_c_cohesion
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -87,7 +84,7 @@ lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
-    
+
     # get number of cells for each patch -> area = n_cells * res / 10000
     patch_area$ncells <- patch_area$value * 10000 / prod(resolution)
 

@@ -25,9 +25,6 @@
 #' show_lsm(landscape, what = "lsm_p_shape", class = c(1, 2), label_lsm = TRUE)
 #' show_lsm(landscape, what = "lsm_p_circle", class = 3, labels = TRUE)
 #'
-#' @aliases show_lsm
-#' @rdname show_lsm
-#'
 #' @export
 show_lsm <- function(landscape, what, class = "global", directions = 8,
                      consider_boundary = FALSE, edge_depth = 1,

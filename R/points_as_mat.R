@@ -9,9 +9,6 @@
 #'
 #' @return matrix
 #'
-#' @aliases points_as_mat
-#' @rdname points_as_mat
-#'
 #' @keywords internal
 #'
 #' @export

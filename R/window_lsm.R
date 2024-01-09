@@ -20,7 +20,7 @@
 #' the value of its neighbourhood and thereby allows to show gradients and variability in the landscape (Hagen-Zanker 2016).
 #' To be type stable, the actual result is always a nested list (first level for \code{RasterStack} layers, second level
 #' for selected landscape metrics).
-#' 
+#'
 #' Note, that in situations when the moving window does not contain any patches, the result is NA.
 #'
 #' @seealso
@@ -41,9 +41,6 @@
 #' window_circular <- matrix(c(NA, 1, NA, 1, 1, 1, NA, 1, NA), nrow = 3, ncol = 3)
 #' window_lsm(landscape, window = window_circular, what = c("lsm_l_pr", "lsm_l_joinent"))
 #' }
-#'
-#' @aliases window_lsm
-#' @rdname window_lsm
 #'
 #' @references
 #' Fletcher, R., Fortin, M.-J. 2018. Spatial Ecology and Conservation Modeling: Applications

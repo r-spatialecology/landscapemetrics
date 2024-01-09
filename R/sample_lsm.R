@@ -50,9 +50,6 @@
 #' sample_points <- matrix(c(10, 5, 25, 15, 5, 25), ncol = 2, byrow = TRUE)
 #' sample_lsm(landscape, y = sample_points, size = 15, what = "lsm_l_np")
 #'
-#' @aliases sample_lsm
-#' @rdname sample_lsm
-#'
 #' @export
 sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NULL,
                        all_classes = FALSE, return_raster = FALSE,

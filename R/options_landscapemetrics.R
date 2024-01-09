@@ -18,9 +18,6 @@
 #'
 #' @return Global option to be used internally in the package
 #'
-#' @aliases options_landscapemetrics
-#' @rdname options_landscapemetrics
-#'
 #' @export
 
 options_landscapemetrics <- function(to_disk = NULL) {

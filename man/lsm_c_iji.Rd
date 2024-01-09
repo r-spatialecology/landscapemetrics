@@ -35,6 +35,7 @@ and equals 100 when a class is equally adjacent to all other classes.}
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)
 lsm_c_iji(landscape)
+
 }
 \references{
 McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis

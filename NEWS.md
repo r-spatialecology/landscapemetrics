@@ -1,4 +1,6 @@
 # landscapemetrics 2.1.1
+* Improvements
+    * Simplify roxygen2 docs
 * Bugfixes
     * Bugfix in calculate of clumpy if NA values are present
     * Bugfix in construct_buffer that CRS was lost

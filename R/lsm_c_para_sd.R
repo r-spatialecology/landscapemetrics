@@ -37,9 +37,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' lsm_c_para_sd(landscape)
 #'
-#' @aliases lsm_c_para_sd
-#' @rdname lsm_c_para_sd
-#'
 #' @references
 #' McGarigal K., SA Cushman, and E Ene. 2023. FRAGSTATS v4: Spatial Pattern Analysis
 #' Program for Categorical Maps. Computer software program produced by the authors;
@@ -79,7 +76,7 @@ lsm_c_para_sd_calc <- function(landscape, directions, resolution, extras = NULL)
 
     para_sd <- stats::aggregate(x = para[, 5], by = para[, 2],
                                 FUN = stats::sd)
-                                
+
     return(tibble::new_tibble(list(level = rep("class", nrow(para_sd)),
                               class = as.integer(para_sd$class),
                               id = rep(as.integer(NA), nrow(para_sd)),

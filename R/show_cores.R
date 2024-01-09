@@ -31,9 +31,6 @@
 #' # show only the core area of class 1 and 3
 #' show_cores(landscape, class = c(1, 3), labels = TRUE)
 #'
-#' @aliases show_cores
-#' @rdname show_cores
-#'
 #' @export
 show_cores <- function(landscape,
                        directions = 8,

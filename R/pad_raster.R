@@ -21,9 +21,6 @@
 #' landscape <- terra::rast(landscapemetrics::landscape)
 #' pad_raster(landscape, pad_raster_value = -1, pad_raster_cells = 2)
 #'
-#' @aliases pad_raster
-#' @rdname pad_raster
-#'
 #' @keywords internal
 #'
 #' @export
