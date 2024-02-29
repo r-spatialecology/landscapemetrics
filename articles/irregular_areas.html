@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,7 +149,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Calculating landscape metrics for irregular areas</h1>
             
-            <h4 data-toc-skip class="date">2024-01-09</h4>
+            <h4 data-toc-skip class="date">2024-02-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/HEAD/vignettes/articles/irregular_areas.Rmd" class="external-link"><code>vignettes/articles/irregular_areas.Rmd</code></a></small>
       <div class="d-none name"><code>irregular_areas.Rmd</code></div>
@@ -175,11 +175,11 @@ the Augusta NLCD dataset and an example set of irregular polygons
 provided by the <strong>landscapemetrics</strong> package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read example data ----------------------------------------------------</span></span>
-<span><span class="va">augusta_nlcd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span></span>
+<span><span class="va">augusta_nlcd</span> <span class="op">=</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="../reference/augusta_nlcd.html">augusta_nlcd</a></span><span class="op">)</span></span>
 <span><span class="va">irregular_areas</span> <span class="op">&lt;-</span> <span class="fu">landscapemetrics</span><span class="fu">:::</span><span class="va">internal_data</span><span class="op">$</span><span class="va">irregular_areas</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">augusta_nlcd</span>, type <span class="op">=</span> <span class="st">"classes"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">augusta_nlcd</span>, type <span class="op">=</span> <span class="st">"classes"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
 <p>In the code above, we read in the Augusta NLCD dataset as a raster
 object and the example irregular polygons as an <code>sf</code> object.
@@ -251,22 +251,22 @@ metric values to our original polygons. We then add the calculated
 landscape metrics as columns to our original
 <code>irregular_areas</code> object using <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code>.</p>
 <p>Finally, we can visualize the calculated landscape metrics using the
-<code><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot()</a></code> function:</p>
+<code><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot()</a></code> function:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># viz results -------------------------------------------------------------</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"ent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"ent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"condent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"condent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"mutinf"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"mutinf"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"joinent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"joinent"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-5-4.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"relmutinf"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">irregular_areas</span><span class="op">[</span><span class="st">"relmutinf"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="irregular_areas_files/figure-html/unnamed-chunk-5-5.png" width="700"></p>
   </main>
 </div>

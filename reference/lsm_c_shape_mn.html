@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -179,7 +179,7 @@ Wildl. Soc.Bull. 3:171-173.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="lsm_p_shape.html">lsm_p_shape</a></code>,
-<code><a href="https://rdrr.io/pkg/terra/man/summarize-generics.html" class="external-link">mean</a></code>, <br><code><a href="lsm_c_shape_sd.html">lsm_c_shape_sd</a></code>,
+<code><a href="https://rspatial.github.io/terra/reference/summarize-generics.html" class="external-link">mean</a></code>, <br><code><a href="lsm_c_shape_sd.html">lsm_c_shape_sd</a></code>,
 <code><a href="lsm_c_shape_cv.html">lsm_c_shape_cv</a></code>, <br><code><a href="lsm_l_shape_mn.html">lsm_l_shape_mn</a></code>,
 <code><a href="lsm_l_shape_sd.html">lsm_l_shape_sd</a></code>,
 <code><a href="lsm_l_shape_cv.html">lsm_l_shape_cv</a></code></p></div>
@@ -187,7 +187,7 @@ Wildl. Soc.Bull. 3:171-173.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu">landscapemetrics</span><span class="fu">::</span><span class="va"><a href="landscape.html">landscape</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">lsm_c_shape_mn</span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   layer level class    id metric   value</span>

@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -12,7 +12,7 @@ articles:
   publication_record: publication_record.html
   utility: utility.html
   get_started: get_started.html
-last_built: 2024-01-09T12:32Z
+last_built: 2024-02-29T14:53Z
 urls:
   reference: https://r-spatialecology.github.io/landscapemetrics/reference
   article: https://r-spatialecology.github.io/landscapemetrics/articles
