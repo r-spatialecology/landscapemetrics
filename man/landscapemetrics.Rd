@@ -2,8 +2,8 @@
 % Please edit documentation in R/landscapemetrics-package.R
 \docType{package}
 \name{landscapemetrics}
-\alias{landscapemetrics}
 \alias{landscapemetrics-package}
+\alias{landscapemetrics}
 \title{landscapemetrics}
 \description{
 Calculates landscape metrics for categorical landscape patterns in a tidy workflow.

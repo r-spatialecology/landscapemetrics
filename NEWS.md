@@ -1,3 +1,7 @@
+calculate_lsm
+* Bugfixes
+    * Bug in `spatialze_lsm()` with `directions` argument
+
 # landscapemetrics 2.1.1
 * Improvements
     * Simplify roxygen2 docs
