@@ -105,7 +105,9 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
 
         # get (relative) coordinates of current class
         points <- which(!is.na(landscape_labeled), arr.ind = TRUE)
-        points <- mapply(FUN = `*`, as.data.frame(points), resolution)
+        dim_points <- dim(points)
+        points <- mapply(FUN = `*`, data.frame(points), resolution)
+        dim(points) <- dim_points
 
         # set ID from class ID to unique patch ID
         points <- cbind(points, landscape_labeled[!is.na(landscape_labeled)])
