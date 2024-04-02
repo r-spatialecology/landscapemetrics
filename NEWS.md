@@ -1,4 +1,4 @@
-calculate_lsm
+# landscapemetrics 2.1.2
 * Bugfixes
     * Bug in `spatialze_lsm()` with `directions` argument
 
