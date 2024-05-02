@@ -127,6 +127,7 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
         # get metric value
         fill_value <- calculate_lsm(landscape,
                                     what = metrics[[x]],
+                                    directions = directions,
                                     progress = FALSE,
                                     ...)
 
