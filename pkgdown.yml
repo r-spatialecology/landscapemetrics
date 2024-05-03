@@ -1,9 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   comparing_tools: comparing_tools.html
   general_background: general_background.html
+  get_started: get_started.html
   guide_moving_window: guide_moving_window.html
   guide_sample_lsm: guide_sample_lsm.html
   irregular_areas: irregular_areas.html
@@ -11,8 +12,7 @@ articles:
   new_metrics: new_metrics.html
   publication_record: publication_record.html
   utility: utility.html
-  get_started: get_started.html
-last_built: 2024-04-02T11:57Z
+last_built: 2024-05-03T08:55Z
 urls:
   reference: https://r-spatialecology.github.io/landscapemetrics/reference
   article: https://r-spatialecology.github.io/landscapemetrics/articles
