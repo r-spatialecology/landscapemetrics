@@ -12,6 +12,9 @@
 #' is based on the maximum distance between the corners of each cell. This ensures that all
 #' cells of the patch are included in the patch.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' @references
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'

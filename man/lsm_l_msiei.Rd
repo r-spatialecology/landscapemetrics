@@ -20,11 +20,13 @@ Modified Simpson's evenness index (Diversity metric)
 }
 \details{
 \deqn{MSIEi = \frac{- \ln \sum \limits_{i = 1}^{m} P_{i}^{2}} {\ln m}}
-where \eqn{P_{i}} is the landscape area proportion of class i and \eqn(m) is
+where \eqn{P_{i}} is the landscape area proportion of class i and \eqn{m} is
 the number of classes.
 
-MSIEI is a 'Diversity metric'. Because the metric is based on distances or
-areas please make sure your data is valid using \code{\link{check_landscape}}.
+MSIEI is a 'Diversity metric'.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{0 <= MSIEI < 1}

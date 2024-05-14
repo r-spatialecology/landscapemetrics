@@ -26,9 +26,10 @@ total landscape area in square meters.
 The effective mesh size is an 'Aggregation metric'. Because each patch is squared
 before the sum is calculated and the sum is standardized by the
 total landscape area, MESH is a relative measure of patch structure. MESH is
-perfectly, negatively correlated to \code{\link{lsm_l_division}}. Because the
-metric is based on distances or areas please make sure your data is valid using
-\code{\link{check_landscape}}.
+perfectly, negatively correlated to \code{\link{lsm_l_division}}.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{cell size / total area <= MESH <= total area}

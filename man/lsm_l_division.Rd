@@ -25,6 +25,7 @@ landscape area in square meters.
 DIVISION is an 'Aggregation metric. It can be in as the probability that two
 randomly selected cells are not located in the same patch. The landscape
 division index is negatively correlated with the  effective mesh size (\code{\link{lsm_l_mesh}}).
+
 Because the metric is based on distances or areas please make sure your data
 is valid using \code{\link{check_landscape}}.
 

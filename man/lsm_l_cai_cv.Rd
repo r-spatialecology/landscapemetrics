@@ -39,8 +39,10 @@ in the landscape. The core area index is the percentage of core area
 in relation to patch area. A cell is defined as core area if the cell has
 no neighbour with a different value than itself (rook's case). The metric
 describes the differences among all patches in the landscape. Because it is
-scaled to the mean, it is easily comparable. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+scaled to the mean, it is easily comparable.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percent}
 \subsection{Range}{CAI_CV >= 0}

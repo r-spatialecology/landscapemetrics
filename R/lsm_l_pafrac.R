@@ -17,8 +17,10 @@
 #' patch form will not change the metric. However, it is only meaningful if the relationship
 #' between the area and perimeter is linear on a logarithmic scale. Furthermore, if there
 #' are less than 10 patches in the landscape, the metric returns NA because of the small-sample
-#' issue. Because the metric is based on distances or areas please make sure your
-#' data is valid using \code{\link{check_landscape}}.
+#' issue.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= PAFRAC <= 2}

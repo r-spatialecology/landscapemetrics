@@ -25,8 +25,10 @@ CIRCLE_SD is a 'Shape metric' and summarises each class as the standard deviatio
 the related circumscribing circle of all patches belonging to class i. CIRCLE describes
 the ratio between the patch area and the smallest circumscribing circle of the patch
 and characterises the compactness of the patch. The metric describes the differences
-among patches of the same class i in the landscape. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+among patches of the same class i in the landscape.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{CIRCLE_SD >= 0}

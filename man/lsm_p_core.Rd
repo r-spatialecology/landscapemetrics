@@ -37,8 +37,10 @@ CORE is a 'Core area metric' and equals the area within a patch that is not
 on the edge of it. A cell is defined as core area if the cell has no
 neighbour with a different value than itself (rook's case). It describes patch area
 and shape simultaneously (more core area when the patch is large and the shape is
-rather compact, i.e. a square). Because the metric is based on distances or
-areas please make sure your data is valid using \code{\link{check_landscape}}.
+rather compact, i.e. a square).
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{CORE >= 0}

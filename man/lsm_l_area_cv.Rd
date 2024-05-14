@@ -24,8 +24,10 @@ where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 AREA_CV is an 'Area and Edge metric'. The metric summarises the landscape
 as the Coefficient of variation of all patches in the landscape.
 The metric describes the differences among patches in the landscape and is
-easily comparable because it is scaled to the mean. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+easily comparable because it is scaled to the mean.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{AREA_CV >= 0}

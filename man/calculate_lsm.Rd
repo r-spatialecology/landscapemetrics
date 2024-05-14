@@ -84,6 +84,9 @@ of different arguments are possible (e.g. \verb{level = "class", type = "aggrega
 If an argument is not provided, automatically all possibilities are
 selected. Therefore, to get \strong{all} available metrics, don't specify any of the
 above arguments.
+
+For all metrics based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
 }
 \examples{
 \dontrun{

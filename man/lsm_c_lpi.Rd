@@ -25,8 +25,10 @@ is the total landscape area in square meters.
 
 The largest patch index is an 'Area and edge metric'. It is the percentage of the
 landscape covered by the corresponding largest patch of each class i. It is a simple
-measure of dominance. Because the metric is based on distances or areas please
-make sure your data is valid using \code{\link{check_landscape}}.
+measure of dominance.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percentage}
 \subsection{Range}{0 < LPI <= 100}

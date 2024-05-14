@@ -22,8 +22,10 @@ Modified Simpson's diversity index (Diversity metric)
 \deqn{MSIDI = -\ln \sum \limits_{i = 1}^{m} P_{i}^{2}}
 where \eqn{P_{i}} is the landscape area proportion of class i.
 
-MSIDI is a 'Diversity metric'. Because the metric is based on distances or areas
-please make sure your data is valid using \code{\link{check_landscape}}.
+MSIDI is a 'Diversity metric'.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{MSIDI >= 0}

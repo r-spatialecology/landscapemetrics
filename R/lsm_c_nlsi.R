@@ -15,9 +15,10 @@
 #'
 #' Currently, nLSI ignores all background cells when calculating the minimum and maximum
 #' total edge length. Also, a correct calculation of the minimum and maximum
-#' total edge length is currently only possible for rectangular landscapes. Because
-#' the metric is based on distances or areas please make sure your data is valid
-#' using \code{\link{check_landscape}}.
+#' total edge length is currently only possible for rectangular landscapes.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{0 <= nlsi <= 1}

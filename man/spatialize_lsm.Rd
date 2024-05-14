@@ -52,6 +52,9 @@ contains each input layer (only one element if \code{RasterLayer} was provided).
 The second level contains a \code{RasterLayer} for each selected metric
 (see \code{list_lsm} for details) where each cell has the landscape metric
 value of the patch it belongs to. Only patch level metrics are allowed.
+
+For all metrics based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

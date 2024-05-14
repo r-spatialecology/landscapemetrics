@@ -45,7 +45,11 @@ ggplot
 Show landscape metrics on patch level printed in their corresponding patch.
 }
 \details{
-The function plots all patches with a fill corresponding to the value of the chosen landscape metric on patch level.
+The function plots all patches with a fill corresponding to the value
+of the chosen landscape metric on patch level.
+
+For all metrics based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

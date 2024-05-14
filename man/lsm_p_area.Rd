@@ -26,8 +26,10 @@ AREA is an 'Area and edge metric' and equals the area of each patch in hectares.
 The lower limit of AREA is limited by the resolution of the input raster,
 i.e. AREA can't be smaller than the resolution squared (in hectares). It is one of
 the most basic, but also most important metrics, to characterise a landscape. The
-metric is the simplest measure of composition. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+metric is the simplest measure of composition.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{AREA > 0}

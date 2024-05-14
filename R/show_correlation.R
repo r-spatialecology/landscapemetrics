@@ -9,9 +9,13 @@
 #' @param vjust Will be passed on to ggplot2 as vertical justification of x-axis text.
 #' @param text_size Text size of the plot.
 #'
-#' @details The functions calculates the correlation between all metrics. In order to calculate correlations,
-#' for the landscape level more than one landscape needs to be present. All input
-#' must be structured as returned by the **landscapemetrics** package.
+#' @details The functions calculates the correlation between all metrics. In order
+#' to calculate  correlations, for the landscape level more than one landscape needs
+#' to be present. All input must be structured as returned by the **landscapemetrics**
+#' package.
+#'
+#' For all metrics based on distances or areas please make sure your data is valid
+#' using \code{\link{check_landscape}}.
 #'
 #' @return ggplot
 #'

@@ -24,8 +24,10 @@ where \eqn{p_{ij}} is the perimeter (m) and \eqn{a_{ij}} is the area (m2).
 
 SHAPE is a 'Shape metric'. It describes the ratio between the actual perimeter of
 the patch and the square root of patch area and thus adjusting for a square standard.
-Thus, it is a simple measure of shape complexity. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+Thus, it is a simple measure of shape complexity.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{SHAPE >= 1}

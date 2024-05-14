@@ -12,8 +12,10 @@
 #' total landscape area.
 #'
 #' SPLIT is an 'Aggregation metric'. It describes the number of patches if all patches the
-#' landscape would be divided into equally sized patches.  Because the metric is based on
-#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+#' landscape would be divided into equally sized patches.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= SPLIT <= Number of cells squared}

@@ -11,8 +11,10 @@
 #'
 #' AREA_SD is an 'Area and Edge metric'. The metric summarises the landscape
 #' as the standard deviation of all patch in the landscape. The metric describes
-#' the differences among all patches in the landscape. Because the metric is based on
-#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+#' the differences among all patches in the landscape.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_SD >= 0}

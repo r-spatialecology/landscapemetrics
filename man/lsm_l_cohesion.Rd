@@ -22,8 +22,10 @@ Patch Cohesion Index (Aggregation metric)
 where \eqn{p_{ij}} is the perimeter in meters, \eqn{a_{ij}} is the area in square
 meters and \eqn{Z} is the number of cells.
 
-COHESION is an 'Aggregation metric'. Because the metric is based on distances
-or areas please make sure your data is valid using \code{\link{check_landscape}}.
+COHESION is an 'Aggregation metric'.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percent}
 \subsection{Ranges}{Unknown}

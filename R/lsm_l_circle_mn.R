@@ -12,8 +12,10 @@
 #' CIRCLE_MN is a 'Shape metric' and summarises the landscape as the mean of the related
 #' circumscribing circle of all patches in the landscape. CIRCLE describes
 #' the ratio between the patch area and the smallest circumscribing circle of the patch
-#' and characterises the compactness of the patch. Because the metric is based on
-#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+#' and characterises the compactness of the patch.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{CIRCLE_MN > 0}

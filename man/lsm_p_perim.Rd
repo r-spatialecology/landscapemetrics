@@ -25,8 +25,10 @@ where \eqn{p_{ij}} is the perimeter in meters.
 PERIM is an 'Area and edge metric'. It equals the perimeter of the patch
 including also the edge to the landscape boundary. The metric describes
 patch area (larger perimeter for larger patches), but also patch shape
-(large perimeter for irregular shapes). Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+(large perimeter for irregular shapes).
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Meters}
 \subsection{Range}{PERIM > 0}

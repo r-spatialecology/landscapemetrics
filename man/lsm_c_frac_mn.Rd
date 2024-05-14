@@ -23,8 +23,10 @@ FRAC_MN is a 'Shape metric'. The metric summarises each class
 as the mean of the fractal dimension index of all patches belonging to class i.
 The fractal dimension index is based on the patch perimeter and
 the patch area and describes the patch complexity. The Coefficient of variation is
-scaled to the mean and comparable among different landscapes. Because the metric
-is based on distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+scaled to the mean and comparable among different landscapes.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{FRAC_MN > 0 }

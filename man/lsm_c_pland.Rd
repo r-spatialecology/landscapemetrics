@@ -25,9 +25,10 @@ landscape area.
 
 PLAND is an 'Area and edge metric'. It is the percentage of the landscape
 belonging to class i. It is a measure of composition and because of the relative
-character directly comparable among landscapes with different total areas. Because
-the metric is based on distances or areas please make sure your data is valid
-using \code{\link{check_landscape}}.
+character directly comparable among landscapes with different total areas.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percentage}
 \subsection{Range}{0 < PLAND <= 100}

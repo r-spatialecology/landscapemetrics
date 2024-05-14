@@ -30,8 +30,11 @@ corresponding total class edge length if \code{count_boundary = TRUE}.
 The metric describes the configuration of the landscape, e.g. because  an  aggregation
 of the same class will result in a low edge density. The metric is standardized to the
 total landscape area, and therefore comparisons among landscapes with different total
-areas are possible. Because the metric is based on distances or areas please
-make sure your data is valid using \code{\link{check_landscape}}.
+areas are possible.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Meters per hectare}
 \subsection{Range}{ED >= 0}
 \subsection{Behaviour}{Equals ED = 0 if only one patch is present (and the landscape

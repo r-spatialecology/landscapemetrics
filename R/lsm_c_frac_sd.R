@@ -13,8 +13,10 @@
 #' FRAC_SD is a 'Shape metric'. The metric summarises each class
 #' as the standard deviation of the fractal dimension index of all patches
 #' belonging to class i. The fractal dimension index is based on the patch perimeter and
-#' the patch area and describes the patch complexity. Because the metric is based on
-#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+#' the patch area and describes the patch complexity.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{FRAC_SD>= 0 }

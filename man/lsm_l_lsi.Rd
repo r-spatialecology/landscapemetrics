@@ -22,8 +22,10 @@ is the minimum total edge length in cell surfaces.
 
 LSI is an 'Aggregation metric'. It is the ratio between the actual landscape edge length
 and the hypothetical minimum edge length. The minimum edge length equals
-the edge length if only one patch would be present. Because the metric is based on
-distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
+the edge length if only one patch would be present.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Ranges}{LSI >= 1}
