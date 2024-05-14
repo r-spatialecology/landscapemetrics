@@ -1,3 +1,7 @@
+# landscapemetrics 2.1.3
+* Various
+    * Improve documentation
+
 # landscapemetrics 2.1.2
 * Bugfixes
     * Bug in `spatialze_lsm()` with `directions` argument
