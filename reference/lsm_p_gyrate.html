@@ -158,11 +158,12 @@ where \(h_{ijr}\) is the distance from each cell to the centroid of the
 patch and \(z\) is the number of cells.</p>
 <p>GYRATE is an 'Area and edge metric'. The distance from each cell to the
 patch centroid is based on cell center to centroid distances. The metric
-characterises both the patch area and compactness. Because the metric is based on
-distances or areas please make sure your data is valid using <code><a href="check_landscape.html">check_landscape</a></code>.</p>
+characterises both the patch area and compactness.</p>
 <p>If <code>cell_center = TRUE</code> some patches might have several possible cell-center
 centroids. In this case, the gyrate index is based on the mean distance of all
 cells to all possible cell-center centroids.</p>
+<p>Because the metric is based on distances or areas please make sure your data
+is valid using <code><a href="check_landscape.html">check_landscape</a></code>.</p>
 <div class="section">
 <h3 id="units">Units<a class="anchor" aria-label="anchor" href="#units"></a></h3>
 <p>Meters</p>
