@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,8 @@ where \(GYRATE[patch_{ij}]\) equals the radius of gyration of each patch.</p>
 as the mean of the radius of gyration of all patches in the landscape.
 GYRATE measures the distance from each cell to the patch centroid and is based on
 cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness.</p>
+both the patch area and compactness. Because the metric is based on
+distances or areas please make sure your data is valid using <code><a href="check_landscape.html">check_landscape</a></code>.</p>
 <p>If <code>cell_center = TRUE</code> some patches might have several possible cell-center
 centroids. In this case, the gyrate index is based on the mean distance of all
 cells to all possible cell-center centroids.</p>

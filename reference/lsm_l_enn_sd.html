@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,9 @@ deviation of all patches in the landscape. ENN measures the distance to the  nea
 neighbouring patch of the same class i. The distance is measured from edge-to-edge.
 The range is limited by the cell resolution on the lower limit and the landscape extent
 on the upper limit. The metric is a simple way to describe patch isolation. Because it is
-scaled to the mean, it is easily comparable among different landscapes.</p>
+scaled to the mean, it is easily comparable among different landscapes. Because the
+metric is based on distances or areas please make sure your data is valid
+using <code><a href="check_landscape.html">check_landscape</a></code>.</p>
 <div class="section">
 <h3 id="units">Units<a class="anchor" aria-label="anchor" href="#units"></a></h3>
 <p>Meters</p>
