@@ -30,7 +30,9 @@ as the Coefficient of variation of the radius of gyration of all patches
 belonging to class i. GYRATE measures the distance from each cell to the patch
 centroid and is based on cell center-to-cell center distances. The metrics characterises
 both the patch area and compactness. The Coefficient of variation is
-scaled to the mean and comparable among different landscapes.
+scaled to the mean and comparable among different landscapes. Because the metric
+is based on distances or areas please make sure your data is valid using
+\code{\link{check_landscape}}.
 
 If \code{cell_center = TRUE} some patches might have several possible cell-center
 centroids. In this case, the gyrate index is based on the mean distance of all

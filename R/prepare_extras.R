@@ -244,35 +244,30 @@ get_points <- function(landscape_mat, resolution){
 get_enn_patch <- function(classes, class_patches, points, resolution, verbose = FALSE){
     enn_patch <- do.call(rbind, lapply(classes, function(patches_class) {
 
-                             # get connected patches
-                             landscape_labeled <- class_patches[[as.character(patches_class)]]
+        # get connected patches
+        landscape_labeled <- class_patches[[as.character(patches_class)]]
 
-                             # get number of patches
-                             np_class <- max(landscape_labeled, na.rm = TRUE)
+        # get number of patches
+        np_class <- max(landscape_labeled, na.rm = TRUE)
 
-                             # ENN doesn't make sense if only one patch is present
-                             if (np_class == 1) {
+        # ENN doesn't make sense if only one patch is present
+        if (np_class == 1) {
 
-                                 enn <- tibble::new_tibble(list(class = patches_class,
-                                                       dist = as.double(NA)))
+            enn <- tibble::new_tibble(list(class = patches_class, dist = as.double(NA)))
 
-                                 if (verbose) {
-                                     warning(paste0("Class ", patches_class,
-                                                    ": ENN = NA for class with only 1 patch."),
-                                             call. = FALSE)
-                                 }
-                             } else {
+            if (verbose) {
+                warning(paste0("Class ", patches_class, ": ENN = NA for class with only 1 patch."),
+                        call. = FALSE)
+            }
+        } else {
 
-                                 enn <- get_nearestneighbour_calc(landscape = landscape_labeled,
-                                                                  return_id = FALSE,
-                                                                  resolution = resolution,
-                                                                  points = points)
-                             }
+            enn <- get_nearestneighbour_calc(landscape = landscape_labeled, return_id = FALSE,
+                                             resolution = resolution,
+                                             points = points)
+        }
 
-                             tibble::new_tibble(list(class = rep(patches_class, nrow(enn)),
-                                            value = enn$dist))
-                         })
-    )
+        tibble::new_tibble(list(class = rep(patches_class, nrow(enn)), value = enn$dist))
+    }))
 }
 
 #' get_perimeter_patch

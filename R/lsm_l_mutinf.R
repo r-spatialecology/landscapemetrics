@@ -13,8 +13,8 @@
 #' "log" and "log10" can be also used.
 #'
 #' @details
-#' It disambiguates landscape pattern types characterize
-#' by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
+#' It disambiguates landscape pattern types characterize by the same value of an
+#' overall complexity (\code{\link{lsm_l_joinent}}).
 #'
 #' @seealso
 #' \code{\link{lsm_l_ent}},

@@ -13,7 +13,8 @@
 #' as the mean of all patch in the landscape. The metric is a simple way
 #' to describe the composition of the landscape. Especially together with the total
 #' landscape area (\code{\link{lsm_l_ta}}), it can also give an an idea of patch structure
-#' (e.g. many small patches vs. few larges patches).
+#' (e.g. many small patches vs. few larges patches). Because the metric is based on
+#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_MN > 0}

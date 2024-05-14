@@ -26,7 +26,8 @@ PARA_CV is a 'Shape metric'. It summarises the landscape as the Coefficient of v
 each patch belonging in the landscape The perimeter-area ratio describes the patch complexity
 in a straightforward way. However, because it is not standarised to a certain shape
 (e.g. a square), it is not scale independent, meaning that increasing the patch size
-while not changing the patch form will change the ratio.
+while not changing the patch form will change the ratio. Because the metric is based on
+distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{None}
 \subsection{Range}{PARA_CV >= 0}

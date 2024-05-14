@@ -29,7 +29,8 @@ GYRATE_SD is an 'Area and edge metric'. The metric summarises each class
 as the standard deviation of the radius of gyration of all patches
 belonging to class i. GYRATE measures the distance from each cell to the patch
 centroid and is based on cell center-to-cell center distances. The metrics characterises
-both the patch area and compactness.
+both the patch area and compactness. Because the metric is based on distances or
+areas please make sure your data is valid using \code{\link{check_landscape}}.
 
 If \code{cell_center = TRUE} some patches might have several possible cell-center
 centroids. In this case, the gyrate index is based on the mean distance of all

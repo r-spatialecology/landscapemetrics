@@ -27,9 +27,8 @@ tibble
 Conditional entropy \[H(y|x)\]
 }
 \details{
-Complexity of a landscape pattern configuration.
-It measures a only a geometric intricacy (configurational complexity)
-of a landscape pattern.
+Complexity of a landscape pattern configuration. It measures a only a geometric
+intricacy (configurational complexity) of a landscape pattern.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

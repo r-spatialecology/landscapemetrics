@@ -14,7 +14,8 @@
 #' as the Coefficient of variation of the fractal dimension index of all patches
 #' in the landscape. The fractal dimension index is based on the patch perimeter and
 #' the patch area and describes the patch complexity. The Coefficient of variation is
-#' scaled to the mean and comparable among different landscapes.
+#' scaled to the mean and comparable among different landscapes. Because the metric is based on
+#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{FRAC_CV >= 0 }

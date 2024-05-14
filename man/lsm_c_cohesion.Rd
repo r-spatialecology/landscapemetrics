@@ -26,7 +26,8 @@ meters and \eqn{Z} is the number of cells.
 COHESION is an 'Aggregation metric'. It characterises the connectedness of patches
 belonging to class i. It can be used to asses if patches of the same class are located
 aggregated or rather isolated and thereby COHESION gives information about the
-configuration of the landscape.
+configuration of the landscape. Because the metric is based on distances or areas
+please make sure your data is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percent}
 \subsection{Ranges}{0 < COHESION < 100}

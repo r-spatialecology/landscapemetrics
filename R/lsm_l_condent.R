@@ -13,9 +13,8 @@
 #' "log" and "log10" can be also used.
 #'
 #' @details
-#' Complexity of a landscape pattern configuration.
-#' It measures a only a geometric intricacy (configurational complexity)
-#' of a landscape pattern.
+#' Complexity of a landscape pattern configuration. It measures a only a geometric
+#' intricacy (configurational complexity) of a landscape pattern.
 #'
 #' @seealso
 #' \code{\link{lsm_l_ent}},

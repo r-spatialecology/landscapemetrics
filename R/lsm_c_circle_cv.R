@@ -15,7 +15,8 @@
 #' the ratio between the patch area and the smallest circumscribing circle of the patch
 #' and characterises the compactness of the patch. CIRCLE_CV describes the differences among
 #' patches of the same class i in the landscape. Because it is scaled to the mean,
-#' it is easily comparable.
+#' it is easily comparable. Because the metric is based on distances or areas please
+#' make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{CIRCLE_CV >= 0}

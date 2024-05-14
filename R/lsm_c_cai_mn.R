@@ -18,7 +18,8 @@
 #' as the mean of the core area index of all patches belonging to class i.
 #' The core area index is the percentage of core area in relation to patch area.
 #' A cell is defined as core area if the cell has no neighbour with a different
-#' value than itself (rook's case).
+#' value than itself (rook's case). Because the metric is based on distances or
+#' areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{0 <= CAI_MN <= 100}

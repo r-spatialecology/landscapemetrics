@@ -36,7 +36,8 @@ where \eqn{CORE[patch_{ij}]} is the core area in square meters of each patch.
 CORE_SD is a 'Core area metric'. It equals the standard deviation of the core area
 of all patches in the landscape. The core area is defined as all cells that have no
 neighbour with a different value than themselves (rook's case). The metric describes the
-differences among all patches in the landscape.
+differences among all patches in the landscape. Because the metric is based on
+distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{CORE_SD >= 0}

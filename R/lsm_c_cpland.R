@@ -19,6 +19,8 @@
 #' the total landscape area. A cell is defined as core area if the cell has
 #' no neighbour with a different value than itself (rook's case). Because CPLAND is
 #' a relative measure, it is comparable among landscapes with different total areas.
+#' Because the metric is based on distances or areas please make sure your data is
+#' valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 <= CPLAND < 100}

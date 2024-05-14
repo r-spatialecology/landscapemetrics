@@ -14,7 +14,8 @@
 #' The lower limit of AREA is limited by the resolution of the input raster,
 #' i.e. AREA can't be smaller than the resolution squared (in hectares). It is one of
 #' the most basic, but also most important metrics, to characterise a landscape. The
-#' metric is the simplest measure of composition.
+#' metric is the simplest measure of composition. Because the metric is based on
+#' distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA > 0}
@@ -66,7 +67,7 @@ lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
         metrics <- "lsm_p_area"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
+                                 directions = directions, resolution = resolution)
     }
 
     # all values NA

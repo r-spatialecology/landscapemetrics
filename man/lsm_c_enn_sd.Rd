@@ -29,7 +29,9 @@ deviation of each patch belonging to class i. ENN measures the distance to the  
 neighbouring patch of the same class i. The distance is measured from edge-to-edge.
 The range is limited by the cell resolution on the lower limit and the landscape extent
 on the upper limit. The metric is a simple way to describe patch isolation. Because it is
-scaled to the mean, it is easily comparable among different landscapes.
+scaled to the mean, it is easily comparable among different landscapes. Because
+the metric is based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
 
 \subsection{Units}{Meters}
 \subsection{Range}{ENN_SD >= 0}

@@ -19,7 +19,8 @@
 #' 100 ha relative to the total area. A disjunct core area is a 'patch within
 #' the patch' containing only core cells. A cell is defined as core area if the cell has no
 #' neighbour with a different value than itself (rook's case). The metric is relative and
-#' therefore comparable among landscapes with different total areas.
+#' therefore comparable among landscapes with different total areas. Because the metric
+#' is based on distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Range}{DCAD >= 0}

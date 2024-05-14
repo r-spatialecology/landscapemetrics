@@ -18,8 +18,7 @@
 #' of all patch areas belonging to class i. A cell is defined as core if the cell
 #' has no neighbour with a different value than itself (rook's case). NCORE counts the disjunct
 #' core areas, whereby a core area is a 'patch within the patch' containing only core cells.
-#' The metric describes the differences among patches of the same class i in
-#' the landscape.
+#' The metric describes the differences among patches of the same class i in the landscape.
 #'
 #' \subsection{Units}{None}
 #' \subsection{Range}{DCORE_SD >= 0}

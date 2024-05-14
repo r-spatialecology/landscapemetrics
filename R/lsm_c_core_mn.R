@@ -14,7 +14,8 @@
 #'
 #' CORE_MN is a 'Core area metric' and equals the mean of core areas of all patches
 #' belonging to class i. The core area is defined as all cells that have no
-#' neighbour with a different value than themselves (rook's case).
+#' neighbour with a different value than themselves (rook's case). Because the metric
+#' is based on distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CORE_MN >= 0}

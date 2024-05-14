@@ -34,7 +34,9 @@ value than itself (rook's case). In other words, the core area of a patch is all
 is not an edge. It characterises patch areas and shapes of patches belonging to class i
 simultaneously (more core area when the patch is large and the shape is rather compact,
 i.e. a square). Additionally, TCA is a measure for the configuration of the landscape,
-because the sum of edges increase as patches are less aggregated.
+because the sum of edges increase as patches are less aggregated. Because the metric is
+based on distances or areas please make sure your data is valid using
+\code{\link{check_landscape}}.
 
 \subsection{Units}{Hectares}
 \subsection{Range}{TCA >= 0}

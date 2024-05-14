@@ -33,7 +33,8 @@ CAI is a 'Core area metric'. It equals the percentage of a patch that is core ar
 A cell is defined as core area if the cell has no neighbour with a different value
 than itself (rook's case). It describes patch area and shape simultaneously (more core area
 when the patch is large and the shape is rather compact, i.e. a square). Because the index is
-relative, it is comparable among patches with different area.
+relative, it is comparable among patches with different area. Because the metric is based on
+distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Percent}
 \subsection{Range}{0 <= CAI <= 100}

@@ -25,7 +25,8 @@ square meters.
 
 PRD is a 'Diversity metric'. It is one of the simplest diversity and composition measures.
 In contrast to \code{\link{lsm_l_pr}}, it is a relative measure and following, comparable
-among landscapes with different total landscape areas.
+among landscapes with different total landscape areas. Because the metric is based on
+distances or areas please make sure your data is valid using \code{\link{check_landscape}}.
 
 \subsection{Units}{Number per 100 hectares}
 \subsection{Range}{PR > 0}
