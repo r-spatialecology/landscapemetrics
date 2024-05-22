@@ -55,7 +55,9 @@ Firstly, because clipping raster cells using a circle or a sample plot not direc
 at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
 landscape boundary. Therefore, we report the actual clipped sample plot area relative
 in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
-within the landscape will have a \code{percentage_inside = 50}. Please be aware that the
+within the landscape will have a \code{percentage_inside = 50}. Additionally, if the polygon
+representing the sample plot is smaller than the cell size of the raster,
+the \code{percentage_inside} may exceed 100\%.Please be aware that the
 output is slightly different to all other \code{lsm}-function of \code{landscapemetrics}.
 
 Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
