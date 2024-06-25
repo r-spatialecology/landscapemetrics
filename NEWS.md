@@ -1,6 +1,9 @@
 # landscapemetrics 2.1.3
+* Bugfixes
+    * Fixed bug in `get_centroids()` related to the patch id
 * Various
     * Improve documentation
+    * Improve labels of `show_patches()`
 
 # landscapemetrics 2.1.2
 * Bugfixes
