@@ -17,6 +17,9 @@
 #' total edge length. Also, a correct calculation of the minimum and maximum
 #' total edge length is currently only possible for rectangular landscapes.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{0 <= nlsi <= 1}
 #' \subsection{Behaviour}{Equals nLSI = 0 when only one squared patch is present. nLSI

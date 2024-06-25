@@ -30,6 +30,9 @@ the same class i. The distance is measured from edge-to-edge. The range is limit
 cell resolution on the lower limit and the landscape extent on the upper limit. The metric
 is a simple way to describe patch isolation.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Meters}
 \subsection{Range}{ENN > 0}
 \subsection{Behaviour}{Approaches ENN = 0 as the distance to the nearest neighbour

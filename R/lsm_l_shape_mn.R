@@ -14,6 +14,9 @@
 #' of all patches in the landscape. SHAPE describes the ratio between the actual perimeter of
 #' the patch and the square root of patch area.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE_SD >= 1}
 #' \subsection{Behaviour}{Equals SHAPE_MN = 1 if all patches are squares.

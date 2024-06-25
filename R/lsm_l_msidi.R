@@ -12,6 +12,9 @@
 #'
 #' MSIDI is a 'Diversity metric'.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{MSIDI >= 0}
 #' \subsection{Behaviour}{MSIDI = 0 if only one patch is present and increases, without

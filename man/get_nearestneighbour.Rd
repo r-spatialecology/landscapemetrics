@@ -21,6 +21,9 @@ All patches need an unique ID (see \code{\link{get_patches}}). Please be aware
 that the patch ID is not identical to the patch ID of all metric functions (lsm_).
 If \code{return_ID = TRUE}, for some focal patches several nearest neighbour patches
 might be returned.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 }
 \examples{
 # get patches for class 1

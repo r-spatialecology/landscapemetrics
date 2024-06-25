@@ -33,9 +33,13 @@ ggplot
 Show correlation
 }
 \details{
-The functions calculates the correlation between all metrics. In order to calculate correlations,
-for the landscape level more than one landscape needs to be present. All input
-must be structured as returned by the \strong{landscapemetrics} package.
+The functions calculates the correlation between all metrics. In order
+to calculate  correlations, for the landscape level more than one landscape needs
+to be present. All input must be structured as returned by the \strong{landscapemetrics}
+package.
+
+For all metrics based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

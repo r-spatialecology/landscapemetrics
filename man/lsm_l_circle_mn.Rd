@@ -26,6 +26,9 @@ circumscribing circle of all patches in the landscape. CIRCLE describes
 the ratio between the patch area and the smallest circumscribing circle of the patch
 and characterises the compactness of the patch.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{CIRCLE_MN > 0}
 \subsection{Behaviour}{Approaches CIRCLE_MN = 0 if the related circumscribing circle

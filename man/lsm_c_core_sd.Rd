@@ -37,6 +37,9 @@ of each patch belonging to class i. The core area is defined as all cells that h
 neighbour with a different value than themselves (rook's case). The metric describes the
 differences among patches of the same class i in the landscape.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Hectares}
 \subsection{Range}{CORE_SD >= 0}
 \subsection{Behaviour}{Equals CORE_SD = 0 if all patches have the same core area.

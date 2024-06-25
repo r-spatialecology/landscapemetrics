@@ -35,6 +35,9 @@ than itself (rook's case). It describes patch area and shape simultaneously (mor
 when the patch is large and the shape is rather compact, i.e. a square). Because the index is
 relative, it is comparable among patches with different area.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Percent}
 \subsection{Range}{0 <= CAI <= 100}
 \subsection{Behaviour}{CAI = 0 when the patch has no core area and

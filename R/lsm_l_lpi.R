@@ -15,6 +15,9 @@
 #' landscape covered by the largest patch in the landscape. It is a simple
 #' measure of dominance.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 < LPI <= 100}
 #' \subsection{Behaviour}{Approaches LPI = 0 when the largest patch is becoming small

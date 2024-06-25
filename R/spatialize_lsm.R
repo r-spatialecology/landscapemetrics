@@ -22,6 +22,9 @@
 #' (see \code{list_lsm} for details) where each cell has the landscape metric
 #' value of the patch it belongs to. Only patch level metrics are allowed.
 #'
+#' For all metrics based on distances or areas please make sure your data is valid
+#' using \code{\link{check_landscape}}.
+#'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
 #' \code{\link{show_lsm}}

@@ -12,6 +12,9 @@
 #' is based on the maximum distance between the corners of each cell. This ensures that all
 #' cells of the patch are included in the patch.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' @references
 #' Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclosing-circle).
 #'
@@ -82,19 +85,16 @@ get_circumscribingcircle_calc <- function(landscape, level, directions) {
         classes <- get_unique_values_int(landscape, verbose = FALSE)
 
         # loop all classes
-        circle <- do.call(rbind,
-                          lapply(classes, function(patches_class) {
-                              # get patches
-                              landscape_labeled <- get_patches_int(landscape,
-                                                                   class = patches_class,
-                                                                   directions = directions)[[1]]
+        circle <- do.call(rbind, lapply(classes, function(patches_class) {
 
-                              # get circle
-                              cbind(class = as.integer(patches_class),
-                                    rcpp_get_circle(landscape_labeled,
-                                                    resolution_xy = resolution[1]))
-                              })
-                          )
+            # get patches
+            landscape_labeled <- get_patches_int(landscape, class = patches_class,
+                                                 directions = directions)[[1]]
+
+            # get circle
+            cbind(class = as.integer(patches_class), rcpp_get_circle(landscape_labeled,
+                                                                     resolution_xy = resolution[1]))
+            }))
 
         # resulting tibble
         circle <- tibble::new_tibble(list(level = rep("patch", nrow(circle)),

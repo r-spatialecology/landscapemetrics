@@ -39,6 +39,9 @@ neighbour with a different value than itself (rook's case). It describes patch a
 and shape simultaneously (more core area when the patch is large and the shape is
 rather compact, i.e. a square).
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Hectares}
 \subsection{Range}{CORE >= 0}
 \subsection{Behaviour}{Increases, without limit, as the patch area increases

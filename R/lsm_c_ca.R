@@ -14,8 +14,10 @@
 #' The total (class) area sums the area of all patches belonging to class i.
 #' It shows if the landscape is e.g. dominated by one class or if all classes
 #' are equally present. CA is an absolute measure, making comparisons among
-#' landscapes with different
-#' total areas difficult.
+#' landscapes with different total areas difficult.
+#'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
 #'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{CA > 0}

@@ -28,6 +28,9 @@ belonging to class i. The fractal dimension index is based on the patch perimete
 the patch area and describes the patch complexity. The Coefficient of variation is
 scaled to the mean and comparable among different landscapes.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{FRAC_CV >= 0 }
 \subsection{Behaviour}{Equals FRAC_CV = 0 if the fractal dimension index is identical

@@ -21,6 +21,9 @@
 #' neighbour with a different value than itself (rook's case). The metric is relative and
 #' therefore comparable among landscapes with different total areas.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Range}{DCAD >= 0}
 #' \subsection{Behaviour}{Equals DCAD = 0 when DCORE = 0, i.e. no patch contains

@@ -14,6 +14,9 @@
 #' randomly selected cells are not located in the same patch of class i. The landscape
 #' division index is negatively correlated with the  effective mesh size  (\code{\link{lsm_c_mesh}}).
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Proportion }
 #' \subsection{Ranges}{0 <= Division < 1}
 #' \subsection{Behaviour}{Equals DIVISION = 0 if only one patch is present. Approaches

@@ -16,6 +16,9 @@
 #' it is scale independent, meaning that increasing the patch size while not changing the
 #' patch form will not change the ratio.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{1 <= FRAC <= 2 }
 #' \subsection{Behaviour}{Approaches FRAC = 1 for a squared patch shape form and FRAC = 2
@@ -65,11 +68,11 @@ lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
 
     if (missing(resolution)) resolution <- terra::res(landscape)
 
-    if (is.null(extras)){
+    if (is.null(extras)) {
         metrics <- "lsm_p_frac"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
+                                 directions = directions, resolution = resolution)
     }
 
     # all values NA

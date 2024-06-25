@@ -13,6 +13,9 @@
 #' and the hypothetical minimum edge length. The minimum edge length equals
 #' the edge length if only one patch would be present.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Ranges}{LSI >= 1}
 #' \subsection{Behaviour}{Equals LSI = 1 when only one squared patch is present.

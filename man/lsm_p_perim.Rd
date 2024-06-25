@@ -27,6 +27,9 @@ including also the edge to the landscape boundary. The metric describes
 patch area (larger perimeter for larger patches), but also patch shape
 (large perimeter for irregular shapes).
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Meters}
 \subsection{Range}{PERIM > 0}
 \subsection{Behaviour}{Increases, without limit, as patch size and

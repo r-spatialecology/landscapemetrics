@@ -14,6 +14,9 @@
 #' The metric describes the differences among patches of the same class i in
 #' the landscape and is easily comparable because it is scaled to the mean.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{AREA_CV >= 0}
 #' \subsection{Behaviour}{Equals AREA_CV = 0 if all patches are identical in size.

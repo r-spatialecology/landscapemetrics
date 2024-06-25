@@ -29,6 +29,9 @@ belonging to class i. ENN measures the distance to the  nearest neighbouring pat
 of the same class i. The distance is measured from edge-to-edge. The range is limited
 by the cell resolution on the lower limit and the landscape extent on the upper limit.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Meters}
 \subsection{Range}{ENN_MN > 0}
 \subsection{Behaviour}{Approaches ENN_MN = 0 as the distance to the nearest neighbour

@@ -16,6 +16,9 @@
 #' aggregated or rather isolated and thereby COHESION gives information about the
 #' configuration of the landscape.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Percent}
 #' \subsection{Ranges}{0 < COHESION < 100}
 #' \subsection{Behaviour}{Approaches COHESION = 0 if patches of class i become more isolated.

@@ -12,6 +12,9 @@
 #'
 #' COHESION is an 'Aggregation metric'.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Percent}
 #' \subsection{Ranges}{Unknown}
 #' \subsection{Behaviour}{Unknown}

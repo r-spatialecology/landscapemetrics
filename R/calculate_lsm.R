@@ -38,6 +38,9 @@
 #' selected. Therefore, to get **all** available metrics, don't specify any of the
 #' above arguments.
 #'
+#' For all metrics based on distances or areas please make sure your data is valid
+#' using \code{\link{check_landscape}}.
+#'
 #' @seealso
 #' \code{\link{list_lsm}}
 #'

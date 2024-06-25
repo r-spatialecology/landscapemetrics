@@ -19,6 +19,9 @@
 #' patches are maximally aggregated. Increases, without limit, as the length of the
 #' actual edges increases, i.e. the patches become less compact.}
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' @seealso
 #' \code{\link{lsm_p_shape}}, \cr
 #' \code{\link{lsm_l_lsi}}

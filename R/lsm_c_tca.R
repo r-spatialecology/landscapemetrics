@@ -22,6 +22,9 @@
 #' i.e. a square). Additionally, TCA is a measure for the configuration of the landscape,
 #' because the sum of edges increase as patches are less aggregated.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Hectares}
 #' \subsection{Range}{TCA >= 0}
 #' \subsection{Behaviour}{Increases, without limit, as patch areas increase

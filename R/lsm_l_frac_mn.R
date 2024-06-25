@@ -16,6 +16,9 @@
 #' the patch area and describes the patch complexity. The Coefficient of variation is
 #' scaled to the mean and comparable among different landscapes.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{FRAC_MN > 0 }
 #' \subsection{Behaviour}{Approaches FRAC_MN = 1 if all patches are squared and FRAC_MN = 2

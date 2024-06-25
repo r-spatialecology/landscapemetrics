@@ -25,6 +25,9 @@ where \eqn{AREA[patch_{ij}]} is the area of each patch in hectares.
 TA is an 'Area and edge metric'. The total (class) area sums the area of all patches
 in the landscape. It is the area of the observation area.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Hectares}
 \subsection{Range}{TA > 0}
 \subsection{Behaviour}{Approaches TA > 0 if the landscape is small and increases,

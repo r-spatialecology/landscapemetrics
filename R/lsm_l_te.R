@@ -15,6 +15,9 @@
 #' with different total areas difficult. If \code{count_boundary = TRUE} also edges to the
 #' landscape boundary are included.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{TE >= 0}
 #' \subsection{Behaviour}{Equals TE = 0 if all cells are edge cells. Increases, without limit,

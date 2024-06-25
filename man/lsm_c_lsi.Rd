@@ -29,6 +29,9 @@ the edge length if class i would be maximally aggregated.
 \subsection{Behaviour}{Equals LSI = 1 when only one squared patch is present or all
 patches are maximally aggregated. Increases, without limit, as the length of the
 actual edges increases, i.e. the patches become less compact.}
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

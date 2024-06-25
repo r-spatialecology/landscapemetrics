@@ -26,6 +26,9 @@ SHAPE is a 'Shape metric'. It describes the ratio between the actual perimeter o
 the patch and the square root of patch area and thus adjusting for a square standard.
 Thus, it is a simple measure of shape complexity.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{SHAPE >= 1}
 \subsection{Behaviour}{Equals SHAPE = 1 for a squared patch and

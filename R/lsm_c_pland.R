@@ -15,6 +15,9 @@
 #' belonging to class i. It is a measure of composition and because of the relative
 #' character directly comparable among landscapes with different total areas.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 < PLAND <= 100}
 #' \subsection{Behaviour}{Approaches PLAND = 0 when the proportional class area is decreasing.

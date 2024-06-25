@@ -23,6 +23,9 @@
 #' centroids. In this case, the gyrate index is based on the mean distance of all
 #' cells to all possible cell-center centroids.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Meters}
 #' \subsection{Range}{GYRATE_CV >= 0 }
 #' \subsection{Behaviour}{Equals GYRATE_CV = 0 if the radius of gyration is identical

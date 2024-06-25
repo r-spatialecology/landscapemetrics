@@ -26,6 +26,9 @@ SHAPE_SD is a 'Shape metric'. The landscape summarised as the standard deviation
 of all patches in the landscape. SHAPE describes the ratio between the actual perimeter of
 the patch and the square root of patch area.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{SHAPE_SD >= 0}
 \subsection{Behaviour}{Equals SHAPE_SD = 0 if all patches have an identical shape index.

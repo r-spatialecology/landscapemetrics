@@ -27,6 +27,9 @@ as the standard deviation of the fractal dimension index of all patches
 in the landscape. The fractal dimension index is based on the patch perimeter and
 the patch area and describes the patch complexity.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{FRAC_SD>= 0 }
 \subsection{Behaviour}{Equals FRAC_SD = 0 if the fractal dimension index is identical

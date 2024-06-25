@@ -14,9 +14,9 @@
 #' the proportion of landscape compromised of class i.
 #'
 #' AI is an 'Aggregation metric'. It equals the number of like adjacencies divided
-#' by the theoretical maximum possible number of like adjacencies for that class summed over each
-#' class for the entire landscape.
-#' The metric is based on he adjacency matrix and the single-count method.
+#' by the theoretical maximum possible number of like adjacencies for that class
+#' summed over each class for the entire landscape. The metric is based on the
+#' adjacency matrix and the single-count method.
 #'
 #' \subsection{Units}{Percent}
 #' \subsection{Range}{0 <= AI <= 100}

@@ -28,6 +28,9 @@ before the sums for each group i are calculated and the sum is standardized by t
 total landscape area, MESH is a relative measure of patch structure. MESH is
 perfectly, negatively correlated to \code{\link{lsm_c_division}}.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Hectares}
 \subsection{Range}{cell size / total area <= MESH <= total area}
 \subsection{Behaviour}{Equals cellsize/total area if class covers only

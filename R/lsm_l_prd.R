@@ -15,6 +15,9 @@
 #' In contrast to \code{\link{lsm_l_pr}}, it is a relative measure and following, comparable
 #' among landscapes with different total landscape areas.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Range}{PR > 0}
 #' \subsection{Behaviour}{Approaches PRD > 1 when only one patch is present and the landscape

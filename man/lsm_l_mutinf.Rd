@@ -27,8 +27,8 @@ tibble
 Mutual information \[I(y,x)\]
 }
 \details{
-It disambiguates landscape pattern types characterize
-by the same value of an overall complexity (\code{\link{lsm_l_joinent}}).
+It disambiguates landscape pattern types characterize by the same value of an
+overall complexity (\code{\link{lsm_l_joinent}}).
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

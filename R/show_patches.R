@@ -99,11 +99,21 @@ show_patches_internal <- function(landscape, class, directions, labels, nrow, nc
         }
     }
 
+    # harmonize column order
+    patches_tibble <- patches_tibble[, c("x", "y", "class", "value", "labels")]
+
+    # sample to only show one value here
+    id_temp <- sapply(split(patches_tibble, patches_tibble$labels), function(x) {
+        as.numeric(rownames(x[sample(nrow(x), 1), ]))
+    })
+
+    # replace all not sampled to NA
+    patches_tibble[!as.numeric(rownames(patches_tibble)) %in% id_temp, 5] <- NA
+
     plot <- ggplot2::ggplot(patches_tibble, ggplot2::aes(x, y)) +
         ggplot2::coord_fixed() +
         ggplot2::geom_raster(ggplot2::aes(fill = factor(value))) +
-        ggplot2::geom_text(ggplot2::aes(label = labels),
-                           colour = "white", na.rm = TRUE)  +
+        ggplot2::geom_text(ggplot2::aes(label = labels), color = "white", na.rm = TRUE)  +
         ggplot2::scale_fill_viridis_d(option = "F", na.value = "grey85") +
         ggplot2::facet_wrap(~class, nrow = nrow, ncol = ncol) +
         ggplot2::scale_x_continuous(expand = c(0, 0)) +

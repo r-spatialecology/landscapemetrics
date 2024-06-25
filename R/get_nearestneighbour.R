@@ -13,6 +13,9 @@
 #' If `return_ID = TRUE`, for some focal patches several nearest neighbour patches
 #' might be returned.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' @references
 #' Based on RCpp code of Florian Privé \email{florian.prive.21@gmail.com}
 #'

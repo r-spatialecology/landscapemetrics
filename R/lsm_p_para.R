@@ -16,6 +16,9 @@
 #' shape (e.g. a square), it is not scale independent, meaning that increasing
 #' the patch size while not changing the patch form will change the ratio.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{PARA > 0}
 #' \subsection{Behaviour}{Increases, without limit, as the shape complexity

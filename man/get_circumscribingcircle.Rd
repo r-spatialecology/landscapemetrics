@@ -21,6 +21,9 @@ Diameter of the circumscribing circle around patches
 The diameter of the smallest circumscribing circle around a patch in the landscape
 is based on the maximum distance between the corners of each cell. This ensures that all
 cells of the patch are included in the patch.
+
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)

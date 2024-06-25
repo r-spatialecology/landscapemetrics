@@ -14,6 +14,9 @@
 #' the patch and the square root of patch area and thus adjusting for a square standard.
 #' Thus, it is a simple measure of shape complexity.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{None}
 #' \subsection{Range}{SHAPE >= 1}
 #' \subsection{Behaviour}{Equals SHAPE = 1 for a squared patch and
@@ -63,11 +66,11 @@ lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
 
     if (missing(resolution)) resolution <- terra::res(landscape)
 
-    if (is.null(extras)){
+    if (is.null(extras)) {
         metrics <- "lsm_p_shape"
         landscape <- terra::as.matrix(landscape, wide = TRUE)
         extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
+                                 directions = directions, resolution = resolution)
     }
 
     # all values NA

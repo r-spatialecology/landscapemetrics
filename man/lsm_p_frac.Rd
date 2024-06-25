@@ -28,6 +28,9 @@ the patch area and describes the patch complexity. Because it is standardized,
 it is scale independent, meaning that increasing the patch size while not changing the
 patch form will not change the ratio.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{1 <= FRAC <= 2 }
 \subsection{Behaviour}{Approaches FRAC = 1 for a squared patch shape form and FRAC = 2

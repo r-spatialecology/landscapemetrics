@@ -70,69 +70,58 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
     # all values NA
     if (all(is.na(landscape))) {
 
-        return(tibble::new_tibble(list(level = "patch"),
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              y = as.double(NA),
-                              y = as.double(NA)))
+        return(tibble::new_tibble(list(level = "patch"), class = as.integer(NA),
+                                  id = as.integer(NA), x = as.double(NA), y = as.double(NA)))
     }
 
     # get unique class id
     classes <- get_unique_values_int(landscape, verbose = verbose)
 
-    centroid <- do.call(rbind,
-                        lapply(classes, function(patches_class) {
-                            # get connected patches
-                            landscape_labeled <- get_patches_int(landscape,
-                                                                 class = patches_class,
-                                                                 directions = directions)[[1]]
+    centroid <- do.call(rbind, lapply(classes, function(patches_class) {
 
-                            # transpose to get same direction of ID
-                            landscape_labeled <- t(landscape_labeled)
+        # get connected patches
+        landscape_labeled <- get_patches_int(landscape, class = patches_class,
+                                             directions = directions)[[1]]
 
-                            # get coordinates of current class
-                            points <- matrix(points[which(!is.na(landscape_labeled)), ],
-                                             ncol = 3)
+        # transpose to get same direction of ID
+        landscape_labeled <- t(landscape_labeled)
 
-                            # set ID from class ID to unique patch ID
-                            points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
+        # get coordinates of current class
+        points <- matrix(points[which(!is.na(landscape_labeled)), ],
+                         ncol = 3)
 
-                            # # convert to tibble
-                            points <- stats::setNames(object = data.frame(points),
-                                                      nm = c("x", "y", "id"))
+        # set ID from class ID to unique patch ID
+        points[, 3] <- landscape_labeled[!is.na(landscape_labeled)]
 
-                            # calculate the centroid of each patch (mean of all coords)
-                            centroid_temp <- stats::aggregate(points[, c(1, 2)],
-                                                              by = list(id = points[, 3]),
-                                                              FUN = mean)
+        # convert to tibble
+        points <- stats::setNames(object = data.frame(points),
+                                  nm = c("x", "y", "id"))
 
-                            # force centroid to be within patch
-                            if (cell_center) {
+        # calculate the centroid of each patch (mean of all coords)
+        centroid_temp <- stats::aggregate(points[, c(1, 2)], by = list(id = points[, 3]),
+                                          FUN = mean)
 
-                                # create full data set with raster-points and patch centroids
-                                full_data <- merge(x = points, y = centroid_temp, by = "id",
-                                                   suffixes = c("","_centroid"))
+        # force centroid to be within patch
+        if (cell_center) {
 
-                                # calculate distance from each cell center to centroid
-                                full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
-                                                           (full_data$y - full_data$y_centroid) ^ 2)
+            # create full data set with raster-points and patch centroids
+            full_data <- merge(x = points, y = centroid_temp, by = "id",
+                               suffixes = c("","_centroid"))
 
-                                # which cell has the shortest distance to centroid
-                                centroid_temp <-
-                                    do.call(rbind,
-                                            by(data = full_data,
+            # calculate distance from each cell center to centroid
+            full_data$dist <- sqrt((full_data$x - full_data$x_centroid) ^ 2 +
+                                       (full_data$y - full_data$y_centroid) ^ 2)
+
+            # which cell has the shortest distance to centroid
+            centroid_temp <- do.call(rbind, by(data = full_data,
                                                INDICES = full_data[, 1],
-                                               FUN = function(x) {
-                                                   x[x$dist == min(x$dist), ][, c(1, 2, 3)]}))
-                            }
-
-                            # return current class id and coords
-                            data.frame(class = patches_class,
-                                       id = centroid_temp$id,
-                                       x = centroid_temp$x,
-                                       y = centroid_temp$y)
-                        })
-    )
+                                               FUN = function(x) {x[x$dist == min(x$dist), ][, c(1, 2, 3)]}))}
+        # return current class id and coords
+        data.frame(class = patches_class,
+                   id = centroid_temp$id,
+                   x = centroid_temp$x,
+                   y = centroid_temp$y)
+        }))
 
     # get number of total patches to construct id seq
     np <- lsm_l_np_calc(landscape, directions = directions)[[1, 5]]
@@ -148,17 +137,11 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
     id <- rep(seq_len(np), times = times[times != 0])
 
     # return warning if any patch has several centroids
-    if (verbose) {
-
-        if (any(times != 1)) {
-           warning("For some patches several cell centers are returned as centroid.",
-                   call. = FALSE)
-        }
+    if (verbose & any(times != 1)) {
+        warning("For some patches several cell centers are returned as centroid.",
+                call. = FALSE)
     }
 
-    tibble::new_tibble(list(level = rep("patch", nrow(centroid)),
-                   class = as.integer(centroid$class),
-                   id = as.integer(centroid$id),
-                   x = as.double(centroid$x),
-                   y = as.double(centroid$y)))
+    tibble::new_tibble(list(level = rep("patch", nrow(centroid)), class = as.integer(centroid$class),
+                            id = id, x = as.double(centroid$x), y = as.double(centroid$y)))
 }

@@ -24,7 +24,9 @@
 #' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
 #' landscape boundary. Therefore, we report the actual clipped sample plot area relative
 #' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
-#' within the landscape will have a `percentage_inside = 50`. Please be aware that the
+#' within the landscape will have a `percentage_inside = 50`. Additionally, if the polygon
+#' representing the sample plot is smaller than the cell size of the raster, 
+#' the `percentage_inside` may exceed 100%.Please be aware that the
 #' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
 #' Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
@@ -36,6 +38,9 @@
 #' `level = "class", type = "aggregation metric"`). If an argument is not provided,
 #' automatically all possibilities are selected. Therefore, to get **all**
 #' available metrics, don't specify any of the above arguments.
+#'
+#' For all metrics based on distances or areas please make sure your data is valid
+#' using \code{\link{check_landscape}}.
 #'
 #' @seealso
 #' \code{\link{list_lsm}} \cr

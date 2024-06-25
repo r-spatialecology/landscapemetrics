@@ -13,8 +13,13 @@
 #' "log" and "log10" can be also used.
 #'
 #' @details
-#' Due to the spatial autocorrelation, the value of mutual information tends to grow with a diversity of the landscape (marginal entropy). To adjust this tendency, it is possible to calculate relative mutual information by dividing the mutual information by the marginal entropy. Relative mutual information always has a range between 0 and 1 and can be used to compare spatial data with different number and distribution of categories.
-#' When the value of mutual information equals to 0, then relative mutual information is 1.
+#' Due to the spatial autocorrelation, the value of mutual information tends to grow
+#' with a diversity of the landscape (marginal entropy). To adjust this tendency,
+#' it is possible to calculate relative mutual information by dividing the mutual
+#' information by the marginal entropy. Relative mutual information always has a
+#' range between 0 and 1 and can be used to compare spatial data with different
+#' number and distribution of categories. When the value of mutual information equals
+#' to 0, then relative mutual information is 1.
 #'
 #' @seealso
 #' \code{\link{lsm_l_ent}},

@@ -16,6 +16,9 @@
 #' landscape. In contrast to \code{\link{lsm_l_np}} it is standardized to the area and
 #' comparisons among landscapes with different total area are possible.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Number per 100 hectares}
 #' \subsection{Ranges}{0 < PD <= 1e+06}
 #' \subsection{Behaviour}{Increases as the landscape gets more patchy. Reaches its maximum

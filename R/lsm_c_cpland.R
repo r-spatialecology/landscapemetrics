@@ -20,6 +20,9 @@
 #' no neighbour with a different value than itself (rook's case). Because CPLAND is
 #' a relative measure, it is comparable among landscapes with different total areas.
 #'
+#' Because the metric is based on distances or areas please make sure your data
+#' is valid using \code{\link{check_landscape}}.
+#'
 #' \subsection{Units}{Percentage}
 #' \subsection{Range}{0 <= CPLAND < 100}
 #' \subsection{Behaviour}{Approaches CPLAND = 0 if CORE = 0 for all patches. Increases as

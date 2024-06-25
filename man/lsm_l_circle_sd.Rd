@@ -28,6 +28,9 @@ the ratio between the patch area and the smallest circumscribing circle of the p
 and characterises the compactness of the patch. The metric describes the differences
 among all patches of the landscape.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{CIRCLE_SD >= 0}
 \subsection{Behaviour}{Equals CIRCLE_SD if the related circumscribing circle is identical

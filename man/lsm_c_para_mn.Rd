@@ -28,6 +28,9 @@ in a straightforward way. However, because it is not standarised to a certain sh
 (e.g. a square), it is not scale independent, meaning that increasing the patch size
 while not changing the patch form will change the ratio.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{None}
 \subsection{Range}{PARA_MN > 0}
 \subsection{Behaviour}{Approaches PARA_MN > 0 if PARA for each patch approaches PARA > 0,

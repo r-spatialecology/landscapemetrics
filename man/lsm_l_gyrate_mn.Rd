@@ -35,6 +35,9 @@ If \code{cell_center = TRUE} some patches might have several possible cell-cente
 centroids. In this case, the gyrate index is based on the mean distance of all
 cells to all possible cell-center centroids.
 
+Because the metric is based on distances or areas please make sure your data
+is valid using \code{\link{check_landscape}}.
+
 \subsection{Units}{Meters}
 \subsection{Range}{GYRATE_MN >= 0 }
 \subsection{Behaviour}{Approaches GYRATE_MN = 0 if every patch is a single cell. Increases,
