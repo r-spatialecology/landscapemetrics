@@ -47,7 +47,7 @@ available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{lsm_p_area}},
-\code{\link{sd}}, \cr
+\code{\link[stats]{sd}} \cr
 \code{\link{lsm_c_area_mn}},
 \code{\link{lsm_c_area_cv}}, \cr
 \code{\link{lsm_l_area_mn}},

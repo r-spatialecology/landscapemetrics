@@ -28,7 +28,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_enn}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_enn_mn}},
 #' \code{\link{lsm_c_enn_sd}},
 #' \code{\link{lsm_c_enn_cv}}, \cr

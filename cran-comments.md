@@ -1,5 +1,7 @@
 # landscapemetrics 2.1.3
-Improve documentation and minor bugfixes
+* Improve documentation and minor bugfixes
+* This is a re-submission. The below error has now been fixed
+`Please provide package anchors for all Rd \link{} targets`
 
 # landscapemetrics 2.1.2
 Minor bugfixes
@@ -19,13 +21,13 @@ Possibly misspelled words in DESCRIPTION: functionn (44:53)
 Major update removing dependency to raster and sp package
 
 # landscapemetrics 1.5.6
-This is a re-submission. The below error has now been fixed
+* This is a re-submission. The below error has now been fixed
 `Specified C++11: please drop specification unless essential`
-Remove dependencies
+* Remove dependencies
 
 # landscapemetrics 1.5.5
-- Improved user experience
-- Fix typo in Maintainer name
+* Improved user experience
+* Fix typo in Maintainer name
 
 # landscapemetrics 1.5.4
 Computational improvements

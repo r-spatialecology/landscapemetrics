@@ -28,7 +28,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_ncore}},
-#' \code{\link{sd}}, \cr
+#' \code{\link[stats]{sd}} \cr
 #' \code{\link{lsm_c_dcore_mn}},
 #' \code{\link{lsm_c_dcore_cv}}, \cr
 #' \code{\link{lsm_l_dcore_mn}},

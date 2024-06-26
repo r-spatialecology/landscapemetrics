@@ -30,7 +30,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_cai}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_cai_sd}},
 #' \code{\link{lsm_c_cai_cv}}, \cr
 #' \code{\link{lsm_l_cai_mn}},

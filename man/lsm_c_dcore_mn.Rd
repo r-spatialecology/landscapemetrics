@@ -55,7 +55,7 @@ available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{lsm_p_ncore}},
-\code{\link{mean}}, \cr
+\code{\link[base]{mean}}, \cr
 \code{\link{lsm_c_dcore_sd}},
 \code{\link{lsm_c_dcore_cv}}, \cr
 \code{\link{lsm_l_dcore_mn}},
