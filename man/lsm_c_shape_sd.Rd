@@ -49,7 +49,7 @@ Wildl. Soc.Bull. 3:171-173.
 }
 \seealso{
 \code{\link{lsm_p_shape}},
-\code{\link{sd}}, \cr
+\code{\link[stats]{sd}} \cr
 \code{\link{lsm_c_shape_mn}},
 \code{\link{lsm_c_shape_cv}}, \cr
 \code{\link{lsm_l_shape_mn}},

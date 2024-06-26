@@ -24,7 +24,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_shape}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_shape_mn}},
 #' \code{\link{lsm_c_shape_sd}},
 #' \code{\link{lsm_c_shape_cv}}, \cr

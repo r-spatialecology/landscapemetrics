@@ -26,7 +26,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_frac}},
-#' \code{\link{sd}}, \cr
+#' \code{\link[stats]{sd}} \cr
 #' \code{\link{lsm_c_frac_mn}},
 #' \code{\link{lsm_c_frac_sd}},
 #' \code{\link{lsm_c_frac_cv}}, \cr

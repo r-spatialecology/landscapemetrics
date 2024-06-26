@@ -58,7 +58,7 @@ in fragmented landscapes. Conservation ecology, 1(1).
 }
 \seealso{
 \code{\link{lsm_p_gyrate}},
-\code{\link{mean}}, \cr
+\code{\link[base]{mean}}, \cr
 \code{\link{lsm_c_gyrate_mn}},
 \code{\link{lsm_c_gyrate_sd}},
 \code{\link{lsm_c_gyrate_cv}}, \cr

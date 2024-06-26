@@ -26,7 +26,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_circle}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_circle_sd}},
 #' \code{\link{lsm_c_circle_cv}}, \cr
 #' \code{\link{lsm_l_circle_mn}},

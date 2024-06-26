@@ -54,7 +54,7 @@ Based on C++ code from Project Nayuki (https://www.nayuki.io/page/smallest-enclo
 }
 \seealso{
 \code{\link{lsm_p_circle}},
-\code{\link{mean}}, \cr
+\code{\link[base]{mean}}, \cr
 \code{\link{lsm_c_circle_mn}},
 \code{\link{lsm_c_circle_cv}}, \cr
 \code{\link{lsm_l_circle_mn}},

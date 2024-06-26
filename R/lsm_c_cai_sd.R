@@ -32,7 +32,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_cai}},
-#' \code{\link{sd}}, \cr
+#' \code{\link[stats]{sd}} \cr
 #' \code{\link{lsm_c_cai_mn}},
 #' \code{\link{lsm_c_cai_cv}}, \cr
 #' \code{\link{lsm_l_cai_mn}},

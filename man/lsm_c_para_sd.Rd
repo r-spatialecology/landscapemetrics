@@ -49,7 +49,7 @@ available at the following web site: https://www.fragstats.org
 }
 \seealso{
 \code{\link{lsm_p_para}},
-\code{\link{sd}}, \cr
+\code{\link[stats]{sd}} \cr
 \code{\link{lsm_c_para_mn}},
 \code{\link{lsm_c_para_cv}}, \cr
 \code{\link{lsm_l_para_mn}},

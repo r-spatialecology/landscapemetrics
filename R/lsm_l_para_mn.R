@@ -27,7 +27,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_para}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_para_mn}},
 #' \code{\link{lsm_c_para_sd}},
 #' \code{\link{lsm_c_para_cv}}, \cr

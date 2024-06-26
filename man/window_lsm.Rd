@@ -80,5 +80,5 @@ available at the following web site: https://www.fragstats.org
 \seealso{
 \code{\link{list_lsm}} \cr
 \code{\link{calculate_lsm}} \cr
-\code{\link{focal}}
+\code{\link[terra]{focal}}
 }

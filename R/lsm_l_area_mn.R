@@ -25,7 +25,7 @@
 #'
 #' @seealso
 #' \code{\link{lsm_p_area}},
-#' \code{\link{mean}}, \cr
+#' \code{\link[base]{mean}}, \cr
 #' \code{\link{lsm_c_area_mn}},
 #' \code{\link{lsm_c_area_sd}},
 #' \code{\link{lsm_c_area_cv}} \cr
