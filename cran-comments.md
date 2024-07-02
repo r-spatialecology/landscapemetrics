@@ -1,7 +1,10 @@
+# landscapemetrics 2.1.4
+Minor feature improvments
+
 # landscapemetrics 2.1.3
-* Improve documentation and minor bugfixes
 * This is a re-submission. The below error has now been fixed
 `Please provide package anchors for all Rd \link{} targets`
+* Improve documentation and minor bugfixes
 
 # landscapemetrics 2.1.2
 Minor bugfixes

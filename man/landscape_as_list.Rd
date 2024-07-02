@@ -10,6 +10,7 @@
 \alias{landscape_as_list.list}
 \alias{landscape_as_list.matrix}
 \alias{landscape_as_list.numeric}
+\alias{landscape_as_list.PackedSpatRaster}
 \title{Landscape as list}
 \usage{
 landscape_as_list(landscape)
@@ -29,6 +30,8 @@ landscape_as_list(landscape)
 \method{landscape_as_list}{matrix}(landscape)
 
 \method{landscape_as_list}{numeric}(landscape)
+
+\method{landscape_as_list}{PackedSpatRaster}(landscape)
 }
 \arguments{
 \item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters}

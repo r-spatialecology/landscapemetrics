@@ -18,6 +18,7 @@ landscape_as_list <- function(landscape) UseMethod("landscape_as_list")
 #' @name landscape_as_list
 #' @export
 landscape_as_list.SpatRaster <- function(landscape) {
+
     landscape <- terra::as.list(landscape)
 
     return(landscape)
@@ -86,4 +87,17 @@ landscape_as_list.numeric <- function(landscape) {
     landscape <- list(landscape)
 
     return(landscape)
+}
+
+#' @name landscape_as_list
+#' @export
+landscape_as_list.PackedSpatRaster <- function(landscape) {
+
+    landscape <- terra::unwrap(landscape)
+    landscape <- terra::as.list(landscape)
+
+    warning("Unwrapped Packed* input object.", call. = FALSE)
+
+    return(landscape)
+
 }
