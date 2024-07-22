@@ -1,3 +1,7 @@
+# landscapemetrics 2.1.4
+* Various
+    * Adding `landscape_as_list()` method for `PackedSpatRaster`
+
 # landscapemetrics 2.1.3
 * Bugfixes
     * Fixed bug in `get_centroids()` related to the patch id
