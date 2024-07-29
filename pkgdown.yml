@@ -1,19 +1,18 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  comparing_tools: comparing_tools.html
-  general_background: general_background.html
+  articles/comparing_tools: comparing_tools.html
+  articles/general_background: general_background.html
   get_started: get_started.html
-  guide_moving_window: guide_moving_window.html
-  guide_sample_lsm: guide_sample_lsm.html
-  irregular_areas: irregular_areas.html
-  landscape_distribution_statistics: landscape_distribution_statistics.html
-  new_metrics: new_metrics.html
-  publication_record: publication_record.html
-  utility: utility.html
-last_built: 2024-07-02T06:01Z
+  articles/guide_moving_window: guide_moving_window.html
+  articles/guide_sample_lsm: guide_sample_lsm.html
+  articles/irregular_areas: irregular_areas.html
+  articles/landscape_distribution_statistics: landscape_distribution_statistics.html
+  articles/new_metrics: new_metrics.html
+  articles/publication_record: publication_record.html
+  articles/utility: utility.html
+last_built: 2024-07-29T09:41Z
 urls:
   reference: https://r-spatialecology.github.io/landscapemetrics/reference
   article: https://r-spatialecology.github.io/landscapemetrics/articles
-

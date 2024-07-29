@@ -1,594 +1,200 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/404.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/comparing_tools.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/general_background.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/get_started.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/guide_moving_window.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/guide_sample_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/irregular_areas.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/landscape_distribution_statistics.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/new_metrics.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/publication_record.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/articles/utility.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/augusta_nlcd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/calculate_correlation.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/calculate_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/check_landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/construct_buffer.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/data_info.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/extract_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_adjacencies.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_area_patches.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_boundaries.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_centroids.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_circumscribingcircle.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_class_patches.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_complexity.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_enn_patch.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_nearestneighbour.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_patches.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_perimeter_patch.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_points.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_unique_values.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape_as_list.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscapemetrics.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/list_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_abbreviations_names.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ai.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ca.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_clumpy.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cohesion.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cpland.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcad.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_division.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ed.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_iji.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_lpi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_lsi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_mesh.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ndca.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_nlsi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_np.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pafrac.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pladj.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pland.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_split.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_tca.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_te.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ai.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cohesion.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_condent.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contag.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcad.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_division.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ed.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_iji.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_joinent.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_lpi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_lsi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mesh.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_msidi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_msiei.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ndca.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_np.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pafrac.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pladj.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pr.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_prd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_relmutinf.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_rpr.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_mn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_sd.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shdi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shei.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_sidi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_siei.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_split.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ta.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_tca.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_te.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_area.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_cai.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_circle.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_contig.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_core.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_enn.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_frac.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_gyrate.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_ncore.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_para.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_perim.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_shape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/matrix_to_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/options_landscapemetrics.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/pad_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/podlasie_ccilc.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/points_as_mat.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/prepare_extras.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/proj_info.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/raster_to_points.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_cell_from_xy.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_create_neighborhood.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_get_nearest_neighbor.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_xy_from_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/sample_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_cores.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_correlation.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_patches.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/spatialize_lsm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/unpad_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/landscapemetrics/reference/window_lsm.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/404.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/CONTRIBUTING.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/LICENSE.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/comparing_tools.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/general_background.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/get_started.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/guide_moving_window.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/guide_sample_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/irregular_areas.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/landscape_distribution_statistics.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/new_metrics.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/publication_record.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/articles/utility.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/authors.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/news/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/augusta_nlcd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/calculate_correlation.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/calculate_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/check_landscape.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/construct_buffer.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/data_info.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/extract_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_adjacencies.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_area_patches.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_boundaries.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_centroids.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_circumscribingcircle.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_class_patches.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_complexity.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_enn_patch.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_nearestneighbour.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_patches.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_perimeter_patch.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_points.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/get_unique_values.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscape_as_list.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/landscapemetrics.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/list_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_abbreviations_names.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ai.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_area_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ca.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cai_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_circle_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_clumpy.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cohesion.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_contig_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_core_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_cpland.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcad.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_dcore_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_division.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ed.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_enn_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_frac_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_gyrate_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_iji.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_lpi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_lsi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_mesh.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_ndca.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_nlsi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_np.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pafrac.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_para_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pladj.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_pland.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_shape_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_split.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_tca.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_c_te.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ai.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_area_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cai_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_circle_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_cohesion.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_condent.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contag.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_contig_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_core_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcad.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_dcore_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_division.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ed.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_enn_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ent.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_frac_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_gyrate_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_iji.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_joinent.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_lpi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_lsi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mesh.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_msidi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_msiei.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_mutinf.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ndca.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_np.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pafrac.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_para_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pladj.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_pr.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_prd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_relmutinf.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_rpr.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_cv.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_mn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shape_sd.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shdi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_shei.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_sidi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_siei.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_split.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_ta.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_tca.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_l_te.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_area.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_cai.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_circle.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_contig.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_core.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_enn.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_frac.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_gyrate.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_ncore.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_para.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_perim.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/lsm_p_shape.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/matrix_to_raster.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/options_landscapemetrics.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/pad_raster.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/podlasie_ccilc.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/points_as_mat.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/prepare_extras.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/proj_info.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/raster_to_points.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_cell_from_xy.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_create_neighborhood.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_get_nearest_neighbor.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/rcpp_xy_from_matrix.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/sample_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_cores.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_correlation.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/show_patches.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/spatialize_lsm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/unpad_raster.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/landscapemetrics/reference/window_lsm.html</loc></url>
 </urlset>
+
