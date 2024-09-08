@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates or sf point geometries.
+#' @param y 2-column matrix with coordinates, sf point geometries, or sf polygon geometries.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
@@ -25,7 +25,7 @@
 #' landscape boundary. Therefore, we report the actual clipped sample plot area relative
 #' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
 #' within the landscape will have a `percentage_inside = 50`. Additionally, if the polygon
-#' representing the sample plot is smaller than the cell size of the raster, 
+#' representing the sample plot is smaller than the cell size of the raster,
 #' the `percentage_inside` may exceed 100%.Please be aware that the
 #' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
