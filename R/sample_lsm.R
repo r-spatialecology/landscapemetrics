@@ -25,7 +25,7 @@
 #' landscape boundary. Therefore, we report the actual clipped sample plot area relative
 #' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
 #' within the landscape will have a `percentage_inside = 50`. Additionally, if the polygon
-#' representing the sample plot is smaller than the cell size of the raster, 
+#' representing the sample plot is smaller than the cell size of the raster,
 #' the `percentage_inside` may exceed 100%.Please be aware that the
 #' output is slightly different to all other `lsm`-function of `landscapemetrics`.
 #'
@@ -165,57 +165,61 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
     warning_messages <- character(0)
 
     # loop through each sample point and calculate metrics
-    result <- withCallingHandlers(expr = {do.call(rbind, lapply(X = 1:number_plots,
-                                                                FUN = function(current_plot) {
+    result <- withCallingHandlers(expr = {
+        do.call(rbind, lapply(X = 1:number_plots, FUN = function(current_plot) {
 
-        # print progess using the non-internal name
-        if (progress) {
+            # print progess using the non-internal name
+            if (progress) {
 
-            cat("\r> Progress sample plots: ", current_plot, "/", number_plots)
-        }
+                cat("\r> Progress sample plots: ", current_plot, "/", number_plots)
 
-        # crop sample plot
-        landscape_mask <- terra::crop(x = landscape, y = y[current_plot, ], mask = TRUE)
+            }
 
-        # calculate actual area of sample plot
-        area <- lsm_l_ta_calc(landscape_mask, directions = 8)
+        # browser()
 
-        # calculate lsm
-        result_current_plot <- calculate_lsm(landscape = landscape_mask,
-                                             verbose = verbose,
-                                             progress = FALSE,
-                                             ...)
+            # crop sample plot
+            landscape_mask <- terra::crop(x = landscape, y = y[current_plot, ], mask = TRUE)
 
-        # add plot id 1...n
-        if (is.null(plot_id)) {
+            # calculate actual area of sample plot
+            area <- lsm_l_ta_calc(landscape_mask, directions = 8)
 
-            result_current_plot$plot_id <- current_plot
+            # calculate lsm
+            result_current_plot <- calculate_lsm(landscape = landscape_mask,
+                                                 verbose = verbose,
+                                                 progress = FALSE,
+                                                 ...)
 
-        # add plot_id
-        } else {
-            result_current_plot$plot_id <- plot_id[current_plot]
-        }
+            # add plot id 1...n
+            if (is.null(plot_id)) {
 
-        # all cells are NA
-        if (all(is.na(terra::values(landscape_mask, mat = FALSE)))) {
+                result_current_plot$plot_id <- current_plot
 
-            # calculate ratio between actual area and theoretical area
-            result_current_plot$percentage_inside <- 0
-        } else {
+            # add plot_id
+            } else {
+                result_current_plot$plot_id <- plot_id[current_plot]
+            }
 
-            # calculate ratio between actual area and theoretical area
-            result_current_plot$percentage_inside <- area$value /
-                maximum_area[[current_plot]] * 100
-        }
+            # all cells are NA
+            if (all(is.na(terra::values(landscape_mask, mat = FALSE)))) {
 
-        # add sample plot raster
-        result_current_plot$raster_sample_plots <- terra::as.list(landscape_mask)
+                # calculate ratio between actual area and theoretical area
+                result_current_plot$percentage_inside <- 0
+            } else {
 
-        return(result_current_plot)}))}, warning = function(cond) {
+                # calculate ratio between actual area and theoretical area
+                result_current_plot$percentage_inside <- area$value /
+                    maximum_area[[current_plot]] * 100
+            }
 
-            warning_messages <<- c(warning_messages, conditionMessage(cond))
+            # add sample plot raster
+            result_current_plot$raster_sample_plots <- terra::as.list(landscape_mask)
 
-            invokeRestart("muffleWarning")}
+            return(result_current_plot)
+            })
+        )}, warning = function(cond) {
+                warning_messages <<- c(warning_messages, conditionMessage(cond))
+
+                invokeRestart("muffleWarning")}
     )
 
     if (progress) {
