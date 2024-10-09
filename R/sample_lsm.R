@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates or sf point geometries.
+#' @param y 2-column matrix with coordinates, sf point geometries, or sf polygon geometries.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
