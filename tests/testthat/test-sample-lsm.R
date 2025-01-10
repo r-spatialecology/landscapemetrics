@@ -113,7 +113,7 @@ test_that("sample_lsm works for all data type", {
 test_that("sample_lsm returns errors", {
 
     expect_error(sample_lsm(landscape, y = 1:3, size = 5),
-                 regexp = "Please provide a matrix with coords, points or polygons object.",
+                 regexp = "Please provide a matrix with coords or spatial object.",
                  fixed = TRUE)
 
     expect_error(sample_lsm(landscape, y = sample_points, size = c(5, 15),

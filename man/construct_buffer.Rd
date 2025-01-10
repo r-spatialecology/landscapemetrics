@@ -14,12 +14,12 @@ construct_buffer(
 )
 }
 \arguments{
-\item{coords}{SpatVector, sf object or 2-column matrix with coordinates of sample points}
+\item{coords}{Point geometry as SpatVector or sf object or 2-column matrix with coordinates.}
 
-\item{shape}{String specifying plot shape. Either "circle" or "square"}
+\item{shape}{String specifying plot shape. Either "circle" or "square".}
 
 \item{size}{Size of sample plot. Equals the radius for circles or the
-side-length for squares in map units}
+side-length for squares in map units.}
 
 \item{return_vec}{If TRUE, vector objects are returned.}
 

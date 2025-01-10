@@ -7,7 +7,7 @@
 points_as_mat(pts)
 }
 \arguments{
-\item{pts}{SpatVector points or sf object}
+\item{pts}{Point geometry as SpatVector or sf object.}
 }
 \value{
 matrix

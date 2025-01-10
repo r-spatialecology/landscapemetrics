@@ -2,10 +2,10 @@
 #'
 #' @description Internal function to construct plot area around coordinates
 #'
-#' @param coords SpatVector, sf object or 2-column matrix with coordinates of sample points
-#' @param shape String specifying plot shape. Either "circle" or "square"
+#' @param coords Point geometry as SpatVector or sf object or 2-column matrix with coordinates.
+#' @param shape String specifying plot shape. Either "circle" or "square".
 #' @param size Size of sample plot. Equals the radius for circles or the
-#' side-length for squares in map units
+#' side-length for squares in map units.
 #' @param return_vec If TRUE, vector objects are returned.
 #' @param crs The coordinate reference system used for vector objects.
 #' @param verbose Print warning messages.
@@ -28,7 +28,6 @@ construct_buffer <- function(coords, shape , size, return_vec = TRUE, crs="", ve
     if (verbose) {
 
         if (ncol(coords) != 2) {
-
             warning("'coords' should be a two column matrix including x- and y-coordinates.",
                     call. = FALSE)
         }

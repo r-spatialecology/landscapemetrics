@@ -21,7 +21,7 @@ extract_lsm(
 \arguments{
 \item{landscape}{A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.}
 
-\item{y}{2-column matrix with coordinates or sf point geometries.}
+\item{y}{Point geometry as SpatVector or sf object or 2-column matrix with coordinates.}
 
 \item{extract_id}{Vector with id of sample points. If not provided, sample
 points will be labelled 1...n.}
