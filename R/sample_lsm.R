@@ -3,7 +3,7 @@
 #' @description Sample metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates, sf point geometries, or sf polygon geometries.
+#' @param y 2-column matrix with coordinates or spatial object.
 #' @param plot_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param shape String specifying plot shape. Either "circle" or "square"
@@ -106,9 +106,8 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
 
     }
 
-    # check if y is sf object
-    if (inherits(x = y, what = "sf") | inherits(x = y, what = "sfc") | inherits(x = y, what = "sfg") |
-        inherits(x = y, what = "SpatialPolygons") | inherits(x = y, what = "SpatVector")) {
+    # check if y is spatial object
+    if (inherits(x = y, what = c("sf", "sfc", "sfg", "SpatialPoints", "SpatialPolygons", "SpatVector"))) {
 
         # convert to terra
         y <- methods::as(y, "SpatVector")
@@ -116,6 +115,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
         # get crs
         crs <- terra::crs(y)
 
+        # points provided
         if (terra::geomtype(y) == "points") {
 
             if (is.null(size) | size == 0) stop("Please provide size argument size > 0.", call. = FALSE)
@@ -125,7 +125,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
 
         }
 
-    # y should be matrix or points
+    # y should be matrix
     } else if (inherits(x = y, what = "matrix")) {
 
         if (is.null(size)) stop("Please provide size argument.", call. = FALSE)
@@ -135,12 +135,12 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
 
     } else {
 
-        stop("Please provide a matrix with coords, points or polygons object.", call. = FALSE)
+        stop("Please provide a matrix with coords or spatial object.", call. = FALSE)
 
     }
 
     # check if y is a polygon
-    if (terra::geomtype(y) != "polygons") stop("Please provide polygon object.", call. = FALSE)
+    if (terra::geomtype(y) != "polygons") stop("Please provide a matrix with coords or spatial object.", call. = FALSE)
 
     # check if length is identical if ids are provided
     if (!is.null(plot_id)) {
@@ -174,8 +174,6 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
                 cat("\r> Progress sample plots: ", current_plot, "/", number_plots)
 
             }
-
-        # browser()
 
             # crop sample plot
             landscape_mask <- terra::crop(x = landscape, y = y[current_plot, ], mask = TRUE)

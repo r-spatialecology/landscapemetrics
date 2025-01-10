@@ -2,7 +2,7 @@
 #'
 #' @description Points as matrix
 #'
-#' @param pts SpatVector points or sf object
+#' @param pts Point geometry as SpatVector or sf object.
 #'
 #' @details
 #' Converts sf points to coordinates matrix
@@ -15,14 +15,13 @@
 points_as_mat = function(pts) {
 
     # convert to coords if sf object is provided
-    if (inherits(x = pts, what = "sf") | inherits(x = pts, what = "sfc") | inherits(x = pts, what = "sfg") |
-        inherits(x = pts, what = "SpatialPoints") | inherits(x = pts, what = "SpatVector")) {
+    if (inherits(x = pts, what = c("sf", "sfc", "sfg", "SpatialPoints", "SpatVector"))) {
 
         # convert to terra
         pts <- methods::as(pts, "SpatVector")
 
         # check of points
-        if (terra::geomtype(pts) != "points") stop("landscapemetrics currently only supports point or polygon features.",
+        if (terra::geomtype(pts) != "points") stop("landscapemetrics currently only supports point features.",
                                                    call. = FALSE)
 
         # get coords
@@ -34,7 +33,7 @@ points_as_mat = function(pts) {
     } else if (inherits(x = pts, what = "matrix")) {
 
         # return error if not just two cols
-        if (ncol(pts) != 2) stop("Please provide a matrix with coords, point or polygon  object.", call. = FALSE)
+        if (ncol(pts) != 2) stop("Please provide a matrix with coords or point object.", call. = FALSE)
 
         return(pts)
 

@@ -1,3 +1,9 @@
+# landscapemetrics 2.2
+* New functions
+    * Adding `scale_sample` again
+* Improvements
+    * Better handling of point features
+
 # landscapemetrics 2.1.4
 * Various
     * Adding `landscape_as_list()` method for `PackedSpatRaster`

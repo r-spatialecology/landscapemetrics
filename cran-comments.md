@@ -1,5 +1,8 @@
+# landscapemetrics 2.2
+Adding new functions and improvements
+
 # landscapemetrics 2.1.4
-Minor feature improvments
+Minor feature improvements
 
 # landscapemetrics 2.1.3
 * This is a re-submission. The below error has now been fixed

@@ -3,7 +3,7 @@
 #' @description Extract metrics
 #'
 #' @param landscape A categorical raster object: SpatRaster; Raster* Layer, Stack, Brick; stars or a list of SpatRasters.
-#' @param y 2-column matrix with coordinates or sf point geometries.
+#' @param y Point geometry as SpatVector or sf object or 2-column matrix with coordinates.
 #' @param extract_id Vector with id of sample points. If not provided, sample
 #' points will be labelled 1...n.
 #' @param metric Abbreviation of metrics (e.g. 'area').
@@ -138,13 +138,14 @@ extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, w
 
     # calculate metrics
     # can we somehow calculate only the patches we actually want?
+    # MH: Extract id and set all others to NA?
     metrics <- calculate_lsm(landscape,
                              what = metrics_list,
                              directions = directions,
                              verbose = verbose,
                              progress = progress, ...)
 
-    # only patchs that contain a sample point
+    # only patches that contain a sample point
     extract_metrics <- merge(x = metrics, y = point_id,
                              by = "id", all.x = FALSE, all.y = FALSE, sort = FALSE)
 
