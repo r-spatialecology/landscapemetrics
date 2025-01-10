@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">landscapemetrics</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Calculating landscape metrics for irregular areas</h1>
             
-            <h4 data-toc-skip class="date">2024-12-17</h4>
+            <h4 data-toc-skip class="date">2025-01-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/main/vignettes/articles/irregular_areas.Rmd" class="external-link"><code>vignettes/articles/irregular_areas.Rmd</code></a></small>
       <div class="d-none name"><code>irregular_areas.Rmd</code></div>
@@ -137,16 +137,16 @@ irregular polygons using the <code><a href="../reference/sample_lsm.html">sample
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 135 × 8</span></span></span>
 <span><span class="co">##    layer level     class    id metric    value plot_id percentage_inside</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> condent   1.17        1              102.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ent       1.93        1              102.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> joinent   3.10        1              102.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mutinf    0.757       1              102.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> relmutinf 0.393       1              102.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> condent   1.19        2              105.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ent       2.18        2              105.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> joinent   3.37        2              105.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mutinf    0.984       2              105.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> relmutinf 0.452       2              105.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> condent   1.16        1              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ent       1.92        1              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> joinent   3.08        1              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mutinf    0.762       1              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> relmutinf 0.396       1              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> condent   1.17        2              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> ent       2.15        2              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> joinent   3.32        2              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> mutinf    0.987       2              100.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>     1 landscape    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> relmutinf 0.458       2              100.</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 125 more rows</span></span></span></code></pre>
 <p>Here, we use the <code><a href="../reference/sample_lsm.html">sample_lsm()</a></code> function to calculate the
 same set of landscape metrics for our example set of irregular polygons.
