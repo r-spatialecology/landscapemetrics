@@ -42,7 +42,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>scale_sample</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/v2.2/R/scale_sample.R" class="external-link"><code>R/scale_sample.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/landscapemetrics/blob/main/R/scale_sample.R" class="external-link"><code>R/scale_sample.R</code></a></small>
       <div class="d-none name"><code>scale_sample.Rd</code></div>
     </div>
 
@@ -57,6 +57,7 @@
 <span>  <span class="va">y</span>,</span>
 <span>  shape <span class="op">=</span> <span class="st">"square"</span>,</span>
 <span>  <span class="va">size</span>,</span>
+<span>  transform <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -82,6 +83,10 @@
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
 <dd><p>Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in mapunits. For lines size equals the width of the buffer.</p></dd>
+
+
+<dt id="arg-transform">transform<a class="anchor" aria-label="anchor" href="#arg-transform"></a></dt>
+<dd><p>If TRUE, planar CRS are transformed to lon/lat for accuracy.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
