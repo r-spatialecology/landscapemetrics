@@ -9,6 +9,7 @@
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in map units. For lines size equals the width of the buffer.
+#' @param transform If TRUE, planar CRS are transformed to lon/lat for accuracy.
 #' @param all_classes Logical if NA should be returned for classes not present in some sample plots.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
@@ -57,7 +58,7 @@
 #'
 #' @export
 sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NULL,
-                       all_classes = FALSE, return_raster = FALSE,
+                       transform = TRUE, all_classes = FALSE, return_raster = FALSE,
                        verbose = TRUE, progress = FALSE, ...) {
 
     landscape <- landscape_as_list(landscape)
@@ -74,6 +75,7 @@ sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NU
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       transform = transform,
                        all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
@@ -97,7 +99,7 @@ sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NU
 }
 
 sample_lsm_int <- function(landscape, y, plot_id, shape, size,
-                           all_classes, verbose, progress, ...) {
+                           transform, all_classes, verbose, progress, ...) {
 
     # check if size argument is only one number
     if (!is.null(size) & (length(size) != 1 | any(size < 0))) {
@@ -157,7 +159,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
     }
 
     # get area of all polygons
-    maximum_area <- suppressWarnings(terra::expanse(y)) / 10000
+    maximum_area <- suppressWarnings(terra::expanse(y, transform = transform)) / 10000
 
     number_plots <- nrow(y)
 

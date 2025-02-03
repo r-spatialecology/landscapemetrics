@@ -7,6 +7,7 @@
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in mapunits. For lines size equals the width of the buffer.
+#' @param transform If TRUE, planar CRS are transformed to lon/lat for accuracy.
 #' @param verbose Print warning messages.
 #' @param progress Print progress report.
 #' @param ... Arguments passed on to \code{calculate_lsm()}.
@@ -49,7 +50,7 @@
 #' @rdname scale_sample
 #'
 #' @export
-scale_sample <- function(landscape, y, shape = "square", size,
+scale_sample <- function(landscape, y, shape = "square", size, transform = TRUE,
                          verbose = TRUE, progress = FALSE, ...) {
 
     landscape <- landscape_as_list(landscape)
@@ -57,7 +58,7 @@ scale_sample <- function(landscape, y, shape = "square", size,
     result <- lapply(X = seq_along(landscape), FUN = function(x) {
         if (progress) {cat("\r> Progress nlayers: ", x , "/", length(landscape))}
         scale_sample_int_multibuffer(landscape = landscape[[x]], y = y,
-                                     shape = shape, size = size,
+                                     shape = shape, size = size, transform = transform,
                                      verbose = verbose, progress = FALSE,
                                      ...)
     })
@@ -81,7 +82,7 @@ scale_sample <- function(landscape, y, shape = "square", size,
     result[with(result, order(layer, plot_id, level, metric, class, id, size)), ]
 }
 
-scale_sample_int_multibuffer <- function(landscape, y, shape, size, verbose, progress, ...) {
+scale_sample_int_multibuffer <- function(landscape, y, shape, size, transform, verbose, progress, ...) {
 
     # loop through buffers
     result <- do.call(rbind, lapply(X = seq_along(size), FUN = function(x) {
@@ -89,9 +90,8 @@ scale_sample_int_multibuffer <- function(landscape, y, shape, size, verbose, pro
         # print progess using the non-internal name
         if (progress) {cat("\r> Progress scales: ", x, "/", length(size))}
 
-        scale_sample_int(landscape = landscape, y = y,
-                         shape = shape, size = size[[x]],
-                         verbose = verbose, ...)
+        scale_sample_int(landscape = landscape, y = y, shape = shape, size = size[[x]],
+                         transform = transform, verbose = verbose, ...)
     }))
 
     if (progress) {cat("\n")}
@@ -99,8 +99,7 @@ scale_sample_int_multibuffer <- function(landscape, y, shape, size, verbose, pro
     return(result)
 }
 
-scale_sample_int <- function(landscape, y, shape, size,
-                             verbose, progress, ...) {
+scale_sample_int <- function(landscape, y, shape, size, transform, verbose, progress, ...) {
 
     # check if y is spatial object
     if (inherits(x = y, what = c("sf", "sfc", "sfg", "SpatialPoints", "SpatialPolygons", "SpatVector"))) {
@@ -125,7 +124,7 @@ scale_sample_int <- function(landscape, y, shape, size,
     y <- construct_buffer(coords = y, shape = shape, size = size, crs = crs, verbose = verbose)
 
     # get area of all polygons
-    maximum_area <- suppressWarnings(terra::expanse(y)) / 10000
+    maximum_area <- suppressWarnings(terra::expanse(y, transform = transform)) / 10000
 
     # loop through each sample point and calculate metrics
     result <- do.call(rbind, lapply(X = seq_along(y), FUN = function(current_plot) {

@@ -10,6 +10,7 @@ sample_lsm(
   plot_id = NULL,
   shape = "square",
   size = NULL,
+  transform = TRUE,
   all_classes = FALSE,
   return_raster = FALSE,
   verbose = TRUE,
@@ -29,6 +30,8 @@ points will be labelled 1...n.}
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in map units. For lines size equals the width of the buffer.}
+
+\item{transform}{If TRUE, planar CRS are transformed to lon/lat for accuracy.}
 
 \item{all_classes}{Logical if NA should be returned for classes not present in some sample plots.}
 

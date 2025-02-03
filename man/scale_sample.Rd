@@ -9,6 +9,7 @@ scale_sample(
   y,
   shape = "square",
   size,
+  transform = TRUE,
   verbose = TRUE,
   progress = FALSE,
   ...
@@ -23,6 +24,8 @@ scale_sample(
 
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in mapunits. For lines size equals the width of the buffer.}
+
+\item{transform}{If TRUE, planar CRS are transformed to lon/lat for accuracy.}
 
 \item{verbose}{Print warning messages.}
 
