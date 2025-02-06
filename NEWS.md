@@ -1,3 +1,7 @@
+# landscapemetrics 2.2.1
+* Bugfixes
+    * Adding `transform` argument to `sample_lsm()` and `scale_sample` for better area calculations
+
 # landscapemetrics 2.2
 * New functions
     * Adding `scale_sample` again
