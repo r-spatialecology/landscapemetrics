@@ -25,7 +25,8 @@ scale_sample(
 \item{size}{Approximated size of sample plot. Equals the radius for circles or half of
 the side-length for squares in mapunits. For lines size equals the width of the buffer.}
 
-\item{transform}{If TRUE, planar CRS are transformed to lon/lat for accuracy.}
+\item{transform}{Logical if planar CRS are transformed to lon/lat for accuracy during area
+calculations of buffer areas.}
 
 \item{verbose}{Print warning messages.}
 
@@ -40,23 +41,32 @@ tibble
 Metrics on changing sample scale
 }
 \details{
-This function calculates the selected metrics in subsequential buffers around
-a/multiple point(s) of interest.
-
-The size of the actual sampled landscape can be different to the provided size
-due to two reasons. Firstly, because clipping raster cells using a circle or a
-sample plot not directly at a cell center lead to inaccuracies. Secondly,
-sample plots can exceed the landscape boundary. Therefore, we report the actual
-clipped sample plot area relative in relation to the theoretical, maximum sample
-plot area e.g. a sample plot only half within the landscape will have a
-\code{percentage_inside = 50}. Please be aware that the output is sligthly different
-to all other \code{lsm}-function of \code{landscapemetrics}.
+This function calculates the selected metrics in sub-sequential buffers around
+point(s) of interest. To see more details about arguments passed on to the metrics,
+please see \code{calculate_lsm()}.
 
 The metrics can be specified by the arguments \code{what}, \code{level}, \code{metric}, \code{name}
 and/or \code{type} (combinations of different arguments are possible (e.g.
 \verb{level = "class", type = "aggregation metric"}). If an argument is not provided,
 automatically all possibilities are selected. Therefore, to get \strong{all}
 available metrics, don't specify any of the above arguments.
+
+For all metrics based on distances or areas please make sure your data is valid
+using \code{\link{check_landscape}}.
+
+Please be aware that the output is slightly different to all other \code{lsm}-function
+of \code{landscapemetrics}.
+
+The size of the actual sampled landscape can be different to the provided size
+due to two reasons. Firstly, because clipping raster cells using a circle or a
+sample plot not directly at a cell center lead to inaccuracies. Secondly, sample
+plots can exceed the landscape boundary. Therefore, we report the actual clipped
+sample plot area relative in relation to the theoretical, maximum sample plot
+area e.g. a sample plot only half within the landscape will have a \code{percentage_inside = 50}.
+Additionally, if the polygon representing the sample plot is smaller than the cell
+size of the raster, the \code{percentage_inside} may exceed 100\%. To calculate the area of
+the buffer zones, the function \code{terra::expanse()} is used. The area results may
+be influenced by the CRS and the \code{transform} argument.
 }
 \examples{
 my_points <- matrix(c(1265000, 1250000, 1255000, 1257000), ncol = 2, byrow = TRUE)
