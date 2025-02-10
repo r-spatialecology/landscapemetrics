@@ -9,6 +9,8 @@
 #' @param shape String specifying plot shape. Either "circle" or "square"
 #' @param size Approximated size of sample plot. Equals the radius for circles or half of
 #' the side-length for squares in map units. For lines size equals the width of the buffer.
+#' @param transform Logical if planar CRS are transformed to lon/lat for accuracy during area
+#' calculations of buffer areas.
 #' @param all_classes Logical if NA should be returned for classes not present in some sample plots.
 #' @param return_raster Logical if the clipped raster of the sample plot should
 #' be returned
@@ -18,20 +20,8 @@
 #'
 #' @details
 #' This function samples the selected metrics in a buffer area (sample plot)
-#' around sample points, sample lines or within provided polygons. The size of the actual
-#' sampled landscape can be different to the provided size due to two reasons.
-#' Firstly, because clipping raster cells using a circle or a sample plot not directly
-#' at a cell center lead to inaccuracies. Secondly, sample plots can exceed the
-#' landscape boundary. Therefore, we report the actual clipped sample plot area relative
-#' in relation to the theoretical, maximum sample plot area e.g. a sample plot only half
-#' within the landscape will have a `percentage_inside = 50`. Additionally, if the polygon
-#' representing the sample plot is smaller than the cell size of the raster,
-#' the `percentage_inside` may exceed 100%.Please be aware that the
-#' output is slightly different to all other `lsm`-function of `landscapemetrics`.
-#'
-#' Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
-#' In the first case, each polygon is used as a singular sample area, while in the second
-#' case all polygons are used as one sample area.
+#' around sample points, sample lines or within provided polygons. To see more details
+#' about arguments passed on to the metrics, please see `calculate_lsm()`.
 #'
 #' The metrics can be specified by the arguments `what`, `level`, `metric`, `name`
 #' and/or `type` (combinations of different arguments are possible (e.g.
@@ -41,6 +31,24 @@
 #'
 #' For all metrics based on distances or areas please make sure your data is valid
 #' using \code{\link{check_landscape}}.
+#'
+#' Please be aware that the output is slightly different to all other `lsm`-function
+#' of `landscapemetrics`.
+#'
+#' The size of the actual sampled landscape can be different to the provided size
+#' due to two reasons. Firstly, because clipping raster cells using a circle or a
+#' sample plot not directly at a cell center lead to inaccuracies. Secondly, sample
+#' plots can exceed the landscape boundary. Therefore, we report the actual clipped
+#' sample plot area relative in relation to the theoretical, maximum sample plot
+#' area e.g. a sample plot only half within the landscape will have a `percentage_inside = 50`.
+#' Additionally, if the polygon representing the sample plot is smaller than the cell
+#' size of the raster, the `percentage_inside` may exceed 100%. To calculate the area of
+#' the buffer zones, the function `terra::expanse()` is used. The area results may
+#' be influenced by the CRS and the `transform` argument.
+#'
+#' Please be aware that the function behaves differently for POLYGONS and MULTIPOLYGONS.
+#' In the first case, each polygon is used as a singular sample area, while in the second
+#' case all polygons are used as one sample area.
 #'
 #' @seealso
 #' \code{\link{list_lsm}} \cr
@@ -57,7 +65,7 @@
 #'
 #' @export
 sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NULL,
-                       all_classes = FALSE, return_raster = FALSE,
+                       transform = TRUE, all_classes = FALSE, return_raster = FALSE,
                        verbose = TRUE, progress = FALSE, ...) {
 
     landscape <- landscape_as_list(landscape)
@@ -74,6 +82,7 @@ sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NU
                        plot_id = plot_id,
                        shape = shape,
                        size = size,
+                       transform = transform,
                        all_classes = all_classes,
                        verbose = verbose,
                        progress = FALSE,
@@ -97,7 +106,7 @@ sample_lsm <- function(landscape, y, plot_id = NULL, shape = "square", size = NU
 }
 
 sample_lsm_int <- function(landscape, y, plot_id, shape, size,
-                           all_classes, verbose, progress, ...) {
+                           transform, all_classes, verbose, progress, ...) {
 
     # check if size argument is only one number
     if (!is.null(size) & (length(size) != 1 | any(size < 0))) {
@@ -157,7 +166,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
     }
 
     # get area of all polygons
-    maximum_area <- suppressWarnings(terra::expanse(y)) / 10000
+    maximum_area <- suppressWarnings(terra::expanse(y, transform = transform)) / 10000
 
     number_plots <- nrow(y)
 

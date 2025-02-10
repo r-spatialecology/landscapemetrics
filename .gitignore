@@ -10,3 +10,4 @@ src/*.dll
 ^CRAN-SUBMISSION$
 data-raw/FS-metrics.fca
 CRAN-SUBMISSION
+.DS_Store
