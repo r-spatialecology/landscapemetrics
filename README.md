@@ -2,14 +2,15 @@
 # landscapemetrics <img src="man/figures/logo.png" align="right" alt="" width="150" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<!-- Start Badges -->
 
-README last updated: 2024-12-17
+README last updated: 2025-02-11
+
+<!-- Start Badges -->
 
 | CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                     | License                                                                                                         |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)             | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/branch/main/graph/badge.svg?token=xjYJMNMGBU)](https://codecov.io/gh/r-spatialecology/landscapemetrics)                                  | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)                            | [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-yellow.svg)](https://doi.org/10.1111/ecog.04617)    |
+| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![Lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)             | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![Codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/graph/badge.svg)](https://app.codecov.io/gh/r-spatialecology/landscapemetrics)                                                           | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)                            | [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-yellow.svg)](https://doi.org/10.1111/ecog.04617)    |
 
 <!-- End Badges -->
 
