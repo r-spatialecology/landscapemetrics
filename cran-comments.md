@@ -1,3 +1,6 @@
+# landscapemetrics 2.2.2
+Minor bug fix
+
 # landscapemetrics 2.2.1
 Minor bug fix
 
