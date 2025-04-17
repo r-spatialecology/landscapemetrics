@@ -6,8 +6,8 @@ get_extras_per_file <- function(input_fun, lsm_dir, all_extras){
     t1 = readLines(my_files)
     new_df = data.frame(metric = input_fun,
                extras = stringr::str_replace_all(all_extras, "extras\\\\\\$", ""))
-    new_df$used = unlist(lapply(paste0(all_extras, "$"),
-                                \(x) any(stringr::str_detect(t1, x))))
+    new_df$used = unlist(lapply(paste0("\\b", all_extras, "\\b\\)?"),  # Add word boundaries
+                                 \(x) any(stringr::str_detect(t1, x))))
     new_df = subset(new_df, used)
     return(new_df)
 }
