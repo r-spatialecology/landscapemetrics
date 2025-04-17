@@ -1,3 +1,7 @@
+# landscapemetrics 2.2.2
+* Bugfixes
+    * Bug fix in `extra` object used internally
+
 # landscapemetrics 2.2.1
 * Improvements
     * Improved documentation
