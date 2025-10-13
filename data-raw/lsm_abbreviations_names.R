@@ -231,7 +231,7 @@ lsm_abbreviations_names <- tibble::tibble(
         "related circumscribing circle",
         "patch cohesion index",
         "conditional entropy",
-        "connectance",
+        "contagion index",
         "contiguity index",
         "contiguity index",
         "contiguity index",

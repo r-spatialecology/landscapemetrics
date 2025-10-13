@@ -1,6 +1,8 @@
 # landscapemetrics 2.2.2
 * Bugfixes
     * Bug fix in `extra` object used internally
+    * Bug fix in `lsm_l_cohesion` (when used in a moving window) (#346)
+    * Fixes the name of `contagion index` in `list_lsm()` (#345)
 
 # landscapemetrics 2.2.1
 * Improvements
