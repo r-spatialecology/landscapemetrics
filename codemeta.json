@@ -7,13 +7,13 @@
   "codeRepository": "https://r-spatialecology.github.io/landscapemetrics/",
   "issueTracker": "https://github.com/r-spatialecology/landscapemetrics/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
+  "runtimePlatform": "R version 4.5.1 (2025-06-13)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -303,7 +303,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1756.875KB",
+  "fileSize": "1761.287KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
