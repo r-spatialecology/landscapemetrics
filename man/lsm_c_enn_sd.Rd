@@ -37,7 +37,8 @@ is valid using \code{\link{check_landscape}}.
 \subsection{Units}{Meters}
 \subsection{Range}{ENN_SD >= 0}
 \subsection{Behaviour}{Equals ENN_SD = 0 if the euclidean nearest-neighbor distance is
-identical for all patches. Increases, without limit, as the variation of ENN increases.}
+identical for all patches. Increases, without limit, as the variation of ENN increases.
+Also, this metric returns NA when the focal class contains only one patch}
 }
 \examples{
 landscape <- terra::rast(landscapemetrics::landscape)
