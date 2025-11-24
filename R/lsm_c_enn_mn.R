@@ -24,7 +24,8 @@
 #' \subsection{Behaviour}{Approaches ENN_MN = 0 as the distance to the nearest neighbour
 #' decreases, i.e. patches of the same class i are more aggregated. Increases, without limit,
 #' as the distance between neighbouring patches of the same class i increases, i.e. patches are
-#' more isolated.}
+#' more isolated.
+#' Also, this metric returns NA when the focal class contains only one patch}
 #'
 #' @seealso
 #' \code{\link{lsm_p_enn}},
