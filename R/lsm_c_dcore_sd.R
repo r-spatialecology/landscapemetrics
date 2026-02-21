@@ -51,10 +51,15 @@ lsm_c_dcore_sd <- function(landscape, directions = 8, consider_boundary = FALSE,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_dcore_sd_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         dcore_sd <- lsm_c_dcore_sd_calc(x,
+                                                         directions = directions,
+                                                         consider_boundary = consider_boundary,
+                                                         edge_depth = edge_depth)
+                         lsm_class_output(metric = "dcore_sd",
+                                          class = dcore_sd$class,
+                                          value = dcore_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,22 +77,17 @@ lsm_c_dcore_sd_calc <- function(landscape, directions, consider_boundary, edge_d
                               edge_depth = edge_depth,
                               resolution = resolution,
                               extras = extras)
+    dcore <- lsm_patch_output(metric = "ncore",
+                              class = dcore$class,
+                              value = dcore$value,
+                              id = dcore$id)
 
     if (all(is.na(dcore$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "dcore_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     dcore_sd <- stats::aggregate(x = dcore[, 5], by = dcore[, 2], FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(dcore_sd)),
-        class = as.integer(dcore_sd$class),
-        id = rep(as.integer(NA), nrow(dcore_sd)),
-        metric = rep("dcore_sd", nrow(dcore_sd)),
-        value = as.double(dcore_sd$value)
-    )))
+    return(list(class = as.integer(dcore_sd$class),
+                value = as.double(dcore_sd$value)))
 }

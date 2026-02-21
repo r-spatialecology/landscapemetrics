@@ -57,8 +57,10 @@ lsm_l_contig_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_contig_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         value <- lsm_l_contig_sd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "contig_sd", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -76,18 +78,10 @@ lsm_l_contig_sd_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(contig_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     contig_sd <- stats::sd(contig_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(contig_sd)),
-                 class = rep(as.integer(NA), length(contig_sd)),
-                 id = rep(as.integer(NA), length(contig_sd)),
-                 metric = rep("contig_sd", length(contig_sd)),
-                 value = as.double(contig_sd))))
+    return(as.double(contig_sd))
 }

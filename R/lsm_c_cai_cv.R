@@ -55,10 +55,15 @@ lsm_c_cai_cv <- function(landscape, directions = 8, consider_boundary = FALSE, e
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_cai_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         cai_cv <- lsm_c_cai_cv_calc(x,
+                                                     directions = directions,
+                                                     consider_boundary = consider_boundary,
+                                                     edge_depth = edge_depth)
+                         lsm_class_output(metric = "cai_cv",
+                                          class = cai_cv$class,
+                                          value = cai_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -77,22 +82,19 @@ lsm_c_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
                           edge_depth = edge_depth,
                           resolution = resolution,
                           extras = extras)
+    cai <- lsm_patch_output(metric = "cai",
+                            class = cai$class,
+                            value = cai$value,
+                            id = cai$id)
 
     # all values NA
     if (all(is.na(cai$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for classes
     cai_cv <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(cai_cv)),
-                          class = as.integer(cai_cv$class),
-                          id = rep(as.integer(NA), nrow(cai_cv)),
-                          metric = rep("cai_cv", nrow(cai_cv)),
-                          value = as.double(cai_cv$value))))
+    return(list(class = as.integer(cai_cv$class),
+                value = as.double(cai_cv$value)))
 }

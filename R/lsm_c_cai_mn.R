@@ -53,10 +53,15 @@ lsm_c_cai_mn <- function(landscape, directions = 8, consider_boundary = FALSE, e
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_cai_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         cai_mn <- lsm_c_cai_mn_calc(x,
+                                                     directions = directions,
+                                                     consider_boundary = consider_boundary,
+                                                     edge_depth = edge_depth)
+                         lsm_class_output(metric = "cai_mn",
+                                          class = cai_mn$class,
+                                          value = cai_mn$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,22 +80,19 @@ lsm_c_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_dep
                           edge_depth = edge_depth,
                           resolution = resolution,
                           extras = extras)
+    cai <- lsm_patch_output(metric = "cai",
+                            class = cai$class,
+                            value = cai$value,
+                            id = cai$id)
 
     # all values NA
     if (all(is.na(cai$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_mn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for each class
     cai_mean <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = mean)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(cai_mean)),
-                          class = as.integer(cai_mean$class),
-                          id = rep(as.integer(NA), nrow(cai_mean)),
-                          metric = rep("cai_mn", nrow(cai_mean)),
-                          value = as.double(cai_mean$value))))
+    return(list(class = as.integer(cai_mean$class),
+                value = as.double(cai_mean$value)))
 }

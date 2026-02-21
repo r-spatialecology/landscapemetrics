@@ -214,6 +214,5 @@ calculate_lsm_focal <- function(landscape_values,
     # run function
     result <- do.call(what = foo, args = arguments_values)
 
-    return(result$value)
+    return(as.double(result))
 }
-

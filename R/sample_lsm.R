@@ -214,7 +214,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
             } else {
 
                 # calculate ratio between actual area and theoretical area
-                result_current_plot$percentage_inside <- area$value /
+                result_current_plot$percentage_inside <- area /
                     maximum_area[[current_plot]] * 100
             }
 

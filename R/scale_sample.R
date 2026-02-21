@@ -159,7 +159,7 @@ scale_sample_int <- function(landscape, y, shape, size, transform, verbose, prog
         result_current_plot$plot_id <- current_plot
 
         # calculate ratio between actual area and theoretical area
-        result_current_plot$percentage_inside <- area$value / maximum_area[[current_plot]] * 100
+        result_current_plot$percentage_inside <- area / maximum_area[[current_plot]] * 100
 
         return(result_current_plot)
 

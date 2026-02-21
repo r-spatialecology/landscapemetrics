@@ -49,8 +49,10 @@ lsm_l_mesh <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_mesh_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         mesh <- lsm_l_mesh_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "mesh", value = mesh)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -73,19 +75,11 @@ lsm_l_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "mesh",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # calculate mesh first take area ^ 2, than sum for whole landscape divided by landscape area total
     mesh <- sum(area_patch$value ^ 2) / area_total
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(mesh)),
-                class = rep(as.integer(NA), length(mesh)),
-                id = rep(as.integer(NA), length(mesh)),
-                metric = rep("mesh", length(mesh)),
-                value = as.double(mesh))))
+    return(as.double(mesh))
 }

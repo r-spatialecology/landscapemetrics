@@ -47,8 +47,12 @@ lsm_c_split <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_split_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         split <- lsm_c_split_calc(x, directions = directions)
+                         lsm_class_output(metric = "split",
+                                          class = split$class,
+                                          value = split$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,17 +69,17 @@ lsm_c_split_calc <- function(landscape, directions, resolution, extras = NULL) {
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    area_patch <- lsm_patch_output(metric = "area",
+                                   class = area_patch$class,
+                                   value = area_patch$value,
+                                   id = area_patch$id)
 
     # summarise to total area
     area_total <- sum(area_patch$value)
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "split",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate split for each patch
@@ -87,11 +91,6 @@ lsm_c_split_calc <- function(landscape, directions, resolution, extras = NULL) {
     # calculate split
     split$value <- (area_total ^ 2) / split$value
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(split)),
-        class = as.integer(split$class),
-        id = rep(as.integer(NA), nrow(split)),
-        metric = rep("split", nrow(split)),
-        value = as.double(split$value)
-    )))
+    return(list(class = as.integer(split$class),
+                value = as.double(split$value)))
 }

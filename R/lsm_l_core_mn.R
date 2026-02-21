@@ -54,10 +54,13 @@ lsm_l_core_mn <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_core_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core_mn <- lsm_l_core_mn_calc(x,
+                                                       directions = directions,
+                                                       consider_boundary = consider_boundary,
+                                                       edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "core_mn", value = core_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -78,18 +81,10 @@ lsm_l_core_mn_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     core_mn <- mean(core_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(core_mn)),
-                 class = rep(as.integer(NA), length(core_mn)),
-                 id = rep(as.integer(NA), length(core_mn)),
-                 metric = rep("core_mn", length(core_mn)),
-                 value = as.double(core_mn))))
+    return(as.double(core_mn))
 }

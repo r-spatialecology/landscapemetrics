@@ -56,9 +56,15 @@ lsm_p_gyrate <- function(landscape, directions = 8,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_gyrate_calc,
-                     directions = directions,
-                     cell_center = cell_center)
+                     FUN = function(x) {
+                         gyrate <- lsm_p_gyrate_calc(x,
+                                                     directions = directions,
+                                                     cell_center = cell_center)
+                         lsm_patch_output(metric = "gyrate",
+                                          class = gyrate$class,
+                                          value = gyrate$value,
+                                          id = gyrate$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -79,11 +85,9 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "gyrate",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get unique class id
@@ -161,10 +165,8 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
         })
     )
 
-    tibble::new_tibble(list(level = rep("patch", nrow(gyrate)),
-                   class = as.integer(gyrate$class),
-                   id = as.integer(seq_len(nrow(gyrate))),
-                   metric = rep("gyrate", nrow(gyrate)),
-                   value = as.double(gyrate$value)))
+    list(class = as.integer(gyrate$class),
+         id = as.integer(seq_len(nrow(gyrate))),
+         value = as.double(gyrate$value))
 
 }

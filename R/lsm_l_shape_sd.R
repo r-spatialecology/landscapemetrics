@@ -50,8 +50,10 @@ lsm_l_shape_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shape_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape_sd <- lsm_l_shape_sd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "shape_sd", value = shape_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,19 +73,11 @@ lsm_l_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # calculate sd
     shape_sd <- stats::sd(shape$value, na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shape_sd)),
-                          class = rep(as.integer(NA), length(shape_sd)),
-                          id = rep(as.integer(NA), length(shape_sd)),
-                          metric = rep("shape_sd", length(shape_sd)),
-                          value = as.double(shape_sd))))
+    return(as.double(shape_sd))
 }

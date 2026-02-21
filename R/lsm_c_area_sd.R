@@ -48,8 +48,12 @@ lsm_c_area_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_area_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         area_sd <- lsm_c_area_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "area_sd",
+                                          class = area_sd$class,
+                                          value = area_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -66,22 +70,19 @@ lsm_c_area_sd_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    area <- lsm_patch_output(metric = "area",
+                             class = area$class,
+                             value = area$value,
+                             id = area$id)
 
     # all values NA
     if (all(is.na(area$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "area_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate sd
     area_sd <- stats::aggregate(area[, 5], by = area[, 2], FUN = stats::sd)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(area_sd)),
-                          class = as.integer(area_sd$class),
-                          id = rep(as.integer(NA), nrow(area_sd)),
-                          metric = rep("area_sd", nrow(area_sd)),
-                          value = as.double(area_sd$value))))
+    return(list(class = as.integer(area_sd$class),
+                value = as.double(area_sd$value)))
 }

@@ -46,9 +46,14 @@ lsm_c_te <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_te_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
+                     FUN = function(x) {
+                         te <- lsm_c_te_calc(x,
+                                             count_boundary = count_boundary,
+                                             directions = directions)
+                         lsm_class_output(metric = "te",
+                                          class = te$class,
+                                          value = te$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,11 +76,7 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "te",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # get class id
@@ -86,12 +87,8 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     if (length(classes) == 1 && !count_boundary) {
 
-        tibble::new_tibble(list(
-            level = "class",
-            class = as.integer(classes),
-            id = as.integer(NA),
-            metric = "te",
-            value = as.double(0)))
+        list(class = as.integer(classes),
+             value = as.double(0))
 
     } else {
 
@@ -162,14 +159,12 @@ lsm_c_te_calc <- function(landscape, count_boundary, directions, resolution, ext
                 edge_ik <- edge_ik_left_right + edge_ik_top_bottom
             }
 
-            tibble::new_tibble(list(
-                level = rep("class", length(edge_ik)),
-                class = rep(as.integer(patches_class), length(edge_ik)),
-                id = rep(as.integer(NA), length(edge_ik)),
-                metric = rep("te", length(edge_ik)),
-                value = as.double(edge_ik)))
+            list(class = rep(as.integer(patches_class), length(edge_ik)),
+                 value = as.double(edge_ik))
         })
 
-        do.call("rbind", te_class)
+        te_class <- do.call("rbind", lapply(te_class, as.data.frame))
+        list(class = as.integer(te_class$class),
+             value = as.double(te_class$value))
     }
 }

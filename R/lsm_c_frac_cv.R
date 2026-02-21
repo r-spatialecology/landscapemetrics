@@ -52,8 +52,12 @@ lsm_c_frac_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_frac_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         frac_cv <- lsm_c_frac_cv_calc(x, directions = directions)
+                         lsm_class_output(metric = "frac_cv",
+                                          class = frac_cv$class,
+                                          value = frac_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,24 +73,19 @@ lsm_c_frac_cv_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    frac <- lsm_patch_output(metric = "frac",
+                             class = frac$class,
+                             value = frac$value,
+                             id = frac$id)
 
     # all cells are NA
     if (all(is.na(frac$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     frac_cv <- stats::aggregate(x = frac[, 5], by = frac[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(frac_cv)),
-        class = as.integer(frac_cv$class),
-        id = rep(as.integer(NA), nrow(frac_cv)),
-        metric = rep("frac_cv", nrow(frac_cv)),
-        value = as.double(frac_cv$value)
-    )))
+    return(list(class = as.integer(frac_cv$class),
+                value = as.double(frac_cv$value)))
 }

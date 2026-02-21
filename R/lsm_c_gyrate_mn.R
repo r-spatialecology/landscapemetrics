@@ -59,9 +59,14 @@ lsm_c_gyrate_mn <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_gyrate_mn_calc,
-                     directions = directions,
-                     cell_center = cell_center)
+                     FUN = function(x) {
+                         gyrate_mn <- lsm_c_gyrate_mn_calc(x,
+                                                           directions = directions,
+                                                           cell_center = cell_center)
+                         lsm_class_output(metric = "gyrate_mn",
+                                          class = gyrate_mn$class,
+                                          value = gyrate_mn$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -78,24 +83,19 @@ lsm_c_gyrate_mn_calc <- function(landscape, directions, cell_center, resolution,
                                 cell_center = cell_center,
                                 resolution = resolution,
                                 extras = extras)
+    gyrate <- lsm_patch_output(metric = "gyrate",
+                               class = gyrate$class,
+                               value = gyrate$value,
+                               id = gyrate$id)
 
     # all cells are NA
     if (all(is.na(gyrate$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "gyrate_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     gyrate_mn <-  stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
                                    FUN = mean)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(gyrate_mn)),
-        class = as.integer(gyrate_mn$class),
-        id = rep(as.integer(NA), nrow(gyrate_mn)),
-        metric = rep("gyrate_mn", nrow(gyrate_mn)),
-        value = as.double(gyrate_mn$value)
-    )))
+    return(list(class = as.integer(gyrate_mn$class),
+                value = as.double(gyrate_mn$value)))
 }

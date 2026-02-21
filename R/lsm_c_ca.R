@@ -46,8 +46,12 @@ lsm_c_ca <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_ca_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         ca <- lsm_c_ca_calc(x, directions = directions)
+                         lsm_class_output(metric = "ca",
+                                          class = ca$class,
+                                          value = ca$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,22 +68,19 @@ lsm_c_ca_calc <- function(landscape, directions, resolution, extras = NULL) {
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    core_patch <- lsm_patch_output(metric = "area",
+                                   class = core_patch$class,
+                                   value = core_patch$value,
+                                   id = core_patch$id)
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ca",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for each class
     ca <- stats::aggregate(x = core_patch[, 5], by = core_patch[, 2], FUN = sum)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(ca)),
-                          class = as.integer(ca$class),
-                          id = rep(as.integer(NA), nrow(ca)),
-                          metric = rep("ca", nrow(ca)),
-                          value = as.double(ca$value))))
+    return(list(class = as.integer(ca$class),
+                value = as.double(ca$value)))
 }

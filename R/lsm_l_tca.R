@@ -53,10 +53,13 @@ lsm_l_tca <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_tca_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         tca <- lsm_l_tca_calc(x,
+                                               directions = directions,
+                                               consider_boundary = consider_boundary,
+                                               edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "tca", value = tca)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -79,16 +82,8 @@ lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     # all values NA
     if (is.na(total_core_area)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "tca",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(total_core_area)),
-                          class = rep(as.integer(NA), length(total_core_area)),
-                          id = rep(as.integer(NA), length(total_core_area)),
-                          metric = rep("tca", length(total_core_area)),
-                          value = as.double(total_core_area))))
+    return(as.double(total_core_area))
 }

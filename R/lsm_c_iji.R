@@ -44,8 +44,12 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_iji_calc,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         iji <- lsm_c_iji_calc(x, verbose = verbose)
+                         lsm_class_output(metric = "iji",
+                                          class = iji$class,
+                                          value = iji$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,11 +68,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     if (!is.null(extras)){
@@ -85,11 +85,8 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::new_tibble(list(level = rep("class", length(classes)),
-                              class = as.integer(classes),
-                              id = rep(as.integer(NA), length(classes)),
-                              metric = rep("iji", length(classes)),
-                              value = rep(as.double(NA), length(classes)))))
+        return(list(class = as.integer(classes),
+                    value = rep(as.double(NA), length(classes))))
     }
 
     else {
@@ -103,12 +100,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-        return(tibble::new_tibble(list(
-            level = rep("class", length(iji)),
-            class = as.integer(classes),
-            id = rep(as.integer(NA), length(iji)),
-            metric = rep("iji", length(iji)),
-            value = as.double(iji)
-        )))
+        return(list(class = as.integer(classes),
+                    value = as.double(iji)))
     }
 }

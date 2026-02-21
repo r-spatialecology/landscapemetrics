@@ -55,8 +55,12 @@ lsm_c_circle_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_circle_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         circle_mn <- lsm_c_circle_mn_calc(x, directions = directions)
+                         lsm_class_output(metric = "circle_mn",
+                                          class = circle_mn$class,
+                                          value = circle_mn$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -73,24 +77,19 @@ lsm_c_circle_mn_calc <- function(landscape, directions, resolution, extras = NUL
                                 directions = directions,
                                 resolution = resolution,
                                 extras = extras)
+    circle <- lsm_patch_output(metric = "circle",
+                               class = circle$class,
+                               value = circle$value,
+                               id = circle$id)
 
     # all values NA
     if (all(is.na(circle$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_mn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for classes
     circle_mn <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = mean)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(circle_mn)),
-        class = as.integer(circle_mn$class),
-        id = rep(as.integer(NA), nrow(circle_mn)),
-        metric = rep("circle_mn", nrow(circle_mn)),
-        value = as.double(circle_mn$value))))
+    return(list(class = as.integer(circle_mn$class),
+                value = as.double(circle_mn$value)))
 }
-

@@ -49,8 +49,12 @@ lsm_c_mesh <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_mesh_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         mesh <- lsm_c_mesh_calc(x, directions = directions)
+                         lsm_class_output(metric = "mesh",
+                                          class = mesh$class,
+                                          value = mesh$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,17 +71,17 @@ lsm_c_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    patch_area <- lsm_patch_output(metric = "area",
+                                   class = patch_area$class,
+                                   value = patch_area$value,
+                                   id = patch_area$id)
 
     # summarise to landscape area in sqm
     total_area <- sum(patch_area$value) * 10000
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "mesh",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate mesh for each patch
@@ -89,9 +93,6 @@ lsm_c_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
     # relative to total landscape area
     mesh$value <- (mesh$value / total_area) * (1 / 10000)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(mesh)),
-                              class = as.integer(mesh$class),
-                              id = rep(as.integer(NA), nrow(mesh)),
-                              metric = rep("mesh", nrow(mesh)),
-                              value = as.double(mesh$value))))
+    return(list(class = as.integer(mesh$class),
+                value = as.double(mesh$value)))
 }

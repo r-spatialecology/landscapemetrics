@@ -39,7 +39,12 @@ lsm_c_clumpy <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_clumpy_calc)
+                     FUN = function(x) {
+                         clumpy <- lsm_c_clumpy_calc(x)
+                         lsm_class_output(metric = "clumpy",
+                                          class = clumpy$class,
+                                          value = clumpy$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -59,11 +64,7 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "clumpy",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # get coocurrence
@@ -110,9 +111,6 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     }, FUN.VALUE = numeric(1))
 
-    return(tibble::new_tibble(list(level = rep("class", length(clumpy)),
-                          class = as.integer(names(g_i)),
-                          id = rep(as.integer(NA), length(clumpy)),
-                          metric = rep("clumpy", length(clumpy)),
-                          value = as.double(clumpy))))
+    return(list(class = as.integer(names(g_i)),
+                value = as.double(clumpy)))
 }

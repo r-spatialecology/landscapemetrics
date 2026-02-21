@@ -40,9 +40,12 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         rpr <- lsm_l_rpr_calc(x,
+                                               classes_max = classes_max,
+                                               verbose = verbose)
+                         lsm_landscape_output(metric = "rpr", value = rpr)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -66,20 +69,12 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
         pr <- lsm_l_pr_calc(landscape, extras = extras)
 
         # all values NA
-        if (all(is.na(pr$value))) {
-            return(tibble::new_tibble(list(level = "landscape",
-                                  class = as.integer(NA),
-                                  id = as.integer(NA),
-                                  metric = "rpr",
-                                  value = as.double(NA))))
+        if (is.na(pr)) {
+            return(as.double(NA))
         }
 
-        rpr <- pr$value / classes_max * 100
+        rpr <- pr / classes_max * 100
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(rpr)),
-                          class = rep(as.integer(NA), length(rpr)),
-                          id = rep(as.integer(NA), length(rpr)),
-                          metric = rep("rpr", length(rpr)),
-                          value = as.double(rpr))))
+    return(as.double(rpr))
 }

@@ -52,8 +52,10 @@ lsm_l_frac_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_frac_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         frac_sd <- lsm_l_frac_sd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "frac_sd", value = frac_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,18 +74,10 @@ lsm_l_frac_sd_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(frac_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     frac_sd <- stats::sd(frac_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(frac_sd)),
-                 class = rep(as.integer(NA), length(frac_sd)),
-                 id = rep(as.integer(NA), length(frac_sd)),
-                 metric = rep("frac_sd", length(frac_sd)),
-                 value = as.double(frac_sd))))
+    return(as.double(frac_sd))
 }

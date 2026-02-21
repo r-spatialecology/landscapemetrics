@@ -55,9 +55,14 @@ lsm_c_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_enn_cv_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         enn_cv <- lsm_c_enn_cv_calc(x,
+                                                     directions = directions,
+                                                     verbose = verbose)
+                         lsm_class_output(metric = "enn_cv",
+                                          class = enn_cv$class,
+                                          value = enn_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -73,24 +78,19 @@ lsm_c_enn_cv_calc <- function(landscape, directions, verbose, resolution, extras
                           directions = directions,
                           verbose = verbose,
                           resolution = resolution, extras = extras)
+    enn <- lsm_patch_output(metric = "enn",
+                            class = enn$class,
+                            value = enn$value,
+                            id = enn$id)
 
     # all cells are NA
     if (all(is.na(enn$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2],
                                FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(enn_cv)),
-        class = as.integer(enn_cv$class),
-        id = rep(as.integer(NA), nrow(enn_cv)),
-        metric = rep("enn_cv", nrow(enn_cv)),
-        value = as.double(enn_cv$value)
-    )))
+    return(list(class = as.integer(enn_cv$class),
+                value = as.double(enn_cv$value)))
 }

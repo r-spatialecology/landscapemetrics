@@ -52,8 +52,12 @@ lsm_c_frac_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_frac_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         frac_sd <- lsm_c_frac_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "frac_sd",
+                                          class = frac_sd$class,
+                                          value = frac_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,24 +73,19 @@ lsm_c_frac_sd_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    frac <- lsm_patch_output(metric = "frac",
+                             class = frac$class,
+                             value = frac$value,
+                             id = frac$id)
 
     # all cells are NA
     if (all(is.na(frac$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     frac_sd <- stats::aggregate(x = frac[, 5], by = frac[, 2],
                                 FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(frac_sd)),
-        class = as.integer(frac_sd$class),
-        id = rep(as.integer(NA), nrow(frac_sd)),
-        metric = rep("frac_sd", nrow(frac_sd)),
-        value = as.double(frac_sd$value)
-    )))
+    return(list(class = as.integer(frac_sd$class),
+                value = as.double(frac_sd$value)))
 }

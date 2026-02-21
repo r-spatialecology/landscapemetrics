@@ -45,7 +45,10 @@ lsm_l_ai <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      directions = directions,
-                     FUN = lsm_l_ai_calc)
+                     FUN = function(x, directions) {
+                         ai <- lsm_l_ai_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "ai", value = ai)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -68,11 +71,7 @@ lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ai",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get aggregation index for each class
@@ -87,10 +86,5 @@ lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
     # final AI index
     ai <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(ai)),
-                 class = rep(as.integer(NA), length(ai)),
-                 id = rep(as.integer(NA), length(ai)),
-                 metric = rep("ai", length(ai)),
-                 value = as.double(ai))))
+    return(as.double(ai))
 }
-

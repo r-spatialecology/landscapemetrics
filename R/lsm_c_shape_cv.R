@@ -49,8 +49,12 @@ lsm_c_shape_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_shape_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape_cv <- lsm_c_shape_cv_calc(x, directions = directions)
+                         lsm_class_output(metric = "shape_cv",
+                                          class = shape_cv$class,
+                                          value = shape_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,14 +71,14 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution, extras = NULL
                               directions = directions,
                               resolution = resolution,
                               extras = extras)
+    shape <- lsm_patch_output(metric = "shape",
+                              class = shape$class,
+                              value = shape$value,
+                              id = shape$id)
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate cv
@@ -82,9 +86,6 @@ lsm_c_shape_cv_calc <- function(landscape, directions, resolution, extras = NULL
                                  FUN = function(x) stats::sd(x, na.rm = TRUE) /
                                      mean(x, na.rm = TRUE) * 100)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(shape_cv)),
-                              class = as.integer(shape_cv$class),
-                              id = rep(as.integer(NA), nrow(shape_cv)),
-                              metric = rep("shape_cv", nrow(shape_cv)),
-                              value = as.double(shape_cv$value))))
+    return(list(class = as.integer(shape_cv$class),
+                value = as.double(shape_cv$value)))
 }

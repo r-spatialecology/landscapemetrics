@@ -41,7 +41,10 @@ lsm_l_shei <- function(landscape){
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shei_calc)
+                     FUN = function(x) {
+                         shei <- lsm_l_shei_calc(x)
+                         lsm_landscape_output(metric = "shei", value = shei)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -61,11 +64,7 @@ lsm_l_shei_calc <- function(landscape, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(prop$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shei",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     prop <- prop$value / 100
@@ -76,9 +75,5 @@ lsm_l_shei_calc <- function(landscape, resolution, extras = NULL){
         shei <- -sum(prop * log(prop)) / log(length(prop))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shei)),
-                          class = rep(as.integer(NA), length(shei)),
-                          id = rep(as.integer(NA), length(shei)),
-                          metric = rep("shei", length(shei)),
-                          value = as.double(shei))))
+    return(as.double(shei))
 }

@@ -55,9 +55,12 @@ lsm_l_enn_mn <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_enn_mn_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         enn_mn <- lsm_l_enn_mn_calc(x,
+                                                     directions = directions,
+                                                     verbose = verbose)
+                         lsm_landscape_output(metric = "enn_mn", value = enn_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,18 +78,10 @@ lsm_l_enn_mn_calc <- function(landscape, directions, verbose, resolution, extras
 
     # all values NA
     if (all(is.na(enn_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     enn_mn <- mean(enn_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(enn_mn)),
-                 class = rep(as.integer(NA), length(enn_mn)),
-                 id = rep(as.integer(NA), length(enn_mn)),
-                 metric = rep("enn_mn", length(enn_mn)),
-                 value = as.double(enn_mn))))
+    return(as.double(enn_mn))
 }

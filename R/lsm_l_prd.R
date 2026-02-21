@@ -40,8 +40,10 @@ lsm_l_prd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_prd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         prd <- lsm_l_prd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "prd", value = prd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,22 +66,14 @@ lsm_l_prd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "prd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get number of classes
     pr_landscape <- lsm_l_pr_calc(landscape, extras = extras)
 
     # relative number of classes
-    prd <- pr_landscape$value / area_total * 100
+    prd <- pr_landscape / area_total * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(prd)),
-                          class = rep(as.integer(NA), length(prd)),
-                          id = rep(as.integer(NA), length(prd)),
-                          metric = rep("prd", length(prd)),
-                          value = as.double(prd))))
+    return(as.double(prd))
 }

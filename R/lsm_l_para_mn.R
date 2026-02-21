@@ -49,9 +49,11 @@
 lsm_l_para_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
-    result <- lapply(X = terra::as.list(landscape),
-                     FUN = lsm_l_para_mn_calc,
-                     directions = directions)
+    result <- lapply(X = landscape,
+                     FUN = function(x) {
+                         para_mn <- lsm_l_para_mn_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "para_mn", value = para_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -70,18 +72,10 @@ lsm_l_para_mn_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(para_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "para_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     para_mn <- mean(para_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(para_mn)),
-                          class = rep(as.integer(NA), length(para_mn)),
-                          id = rep(as.integer(NA), length(para_mn)),
-                          metric = rep("para_mn", length(para_mn)),
-                          value = as.double(para_mn))))
+    return(as.double(para_mn))
 }

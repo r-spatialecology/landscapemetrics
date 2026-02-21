@@ -39,8 +39,14 @@ lsm_p_perim <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_perim_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         perim <- lsm_p_perim_calc(x,
+                                                   directions = directions)
+                         lsm_patch_output(metric = "perim",
+                                          class = perim$class,
+                                          value = perim$value,
+                                          id = perim$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -63,20 +69,15 @@ lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "perim",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     perimeter_patch <- extras$perimeter_patch
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(seq_len(nrow(perimeter_patch))),
-        metric = rep("perim", nrow(perimeter_patch)),
-        value = as.double(perimeter_patch$value)
-    ))
+    result <- list(class = as.integer(perimeter_patch$class),
+                   id = as.integer(seq_len(nrow(perimeter_patch))),
+                   value = as.double(perimeter_patch$value))
+    return(result)
 }

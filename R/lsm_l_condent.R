@@ -40,10 +40,13 @@ lsm_l_condent <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
+                     FUN = function(x) {
+                         value <- lsm_l_condent_calc(x,
+                                                     neighbourhood = neighbourhood,
+                                                     ordered = ordered,
+                                                     base = base)
+                         lsm_landscape_output(metric = "condent", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -62,11 +65,7 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "condent",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     if (!is.null(extras)){
@@ -80,9 +79,5 @@ lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras =
 
     conf <- cplx - comp
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(conf)),
-                 class = rep(as.integer(NA), length(conf)),
-                 id = rep(as.integer(NA), length(conf)),
-                 metric = rep("condent", length(conf)),
-                 value = as.double(conf))))
+    return(as.double(conf))
 }

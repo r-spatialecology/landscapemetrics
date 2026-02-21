@@ -58,8 +58,13 @@ lsm_p_contig <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_contig_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         contig <- lsm_p_contig_calc(x, directions = directions)
+                         lsm_patch_output(metric = "contig",
+                                          class = contig$class,
+                                          value = contig$value,
+                                          id = contig$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -78,11 +83,9 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get unique values
@@ -139,11 +142,9 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
         })
     )
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(contig_patch)),
+    list(
         class = as.integer(contig_patch$class),
         id = as.integer(seq_len(nrow(contig_patch))),
-        metric = rep("contig", nrow(contig_patch)),
         value = as.double(contig_patch$value)
-    ))
+    )
 }

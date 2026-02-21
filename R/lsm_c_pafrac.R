@@ -52,9 +52,14 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         pafrac <- lsm_c_pafrac_calc(x,
+                                                     directions = directions,
+                                                     verbose = verbose)
+                         lsm_class_output(metric = "pafrac",
+                                          class = pafrac$class,
+                                          value = pafrac$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -77,11 +82,7 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pafrac",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # get patch area in sqm
@@ -89,6 +90,10 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    area_patch <- lsm_patch_output(metric = "area",
+                                   class = area_patch$class,
+                                   value = area_patch$value,
+                                   id = area_patch$id)
 
     area_patch$value <- area_patch$value * 10000
 
@@ -97,11 +102,18 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
                                         directions = directions,
                                         resolution = resolution,
                                         extras = extras)
+    perimeter_patch <- lsm_patch_output(metric = "perim",
+                                        class = perimeter_patch$class,
+                                        value = perimeter_patch$value,
+                                        id = perimeter_patch$id)
 
     # get number of patches
     np_class <- lsm_c_np_calc(landscape,
                               directions = directions,
                               extras = extras)
+    np_class <- lsm_class_output(metric = "np",
+                                 class = np_class$class,
+                                 value = np_class$value)
 
     pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
 
@@ -127,13 +139,11 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
             pafrac <- 2 / regression_model_class$coefficients[[2]]
         }
 
-        tibble::new_tibble(list(
-            level = rep("class", length(pafrac)),
-            class = rep(as.integer(class_name), length(pafrac)),
-            id = rep(as.integer(NA), length(pafrac)),
-            metric = rep("pafrac", length(pafrac)),
-            value = as.double(pafrac)))
+        data.frame(class = rep(as.integer(class_name), length(pafrac)),
+                   value = as.double(pafrac))
         })
 
-    do.call("rbind", pafrac_class)
+    pafrac_class <- do.call(rbind, pafrac_class)
+    list(class = as.integer(pafrac_class$class),
+         value = as.double(pafrac_class$value))
 }

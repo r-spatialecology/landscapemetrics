@@ -46,8 +46,10 @@ lsm_l_area_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_area_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         value <- lsm_l_area_sd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "area_sd", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,24 +67,18 @@ lsm_l_area_sd_calc <- function(landscape, directions, resolution, extras = NULL)
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    area_patch <- lsm_patch_output(metric = "area",
+                                   class = area_patch$class,
+                                   value = area_patch$value,
+                                   id = area_patch$id)
 
     # all values NA
     if (all(is.na(area_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "area_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # calculate sd
     area_sd <- stats::sd(area_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(area_sd)),
-                 class = rep(as.integer(NA), length(area_sd)),
-                 id = rep(as.integer(NA), length(area_sd)),
-                 metric = rep("area_sd", length(area_sd)),
-                 value = as.double(area_sd))))
+    return(as.double(area_sd))
 }
-
-

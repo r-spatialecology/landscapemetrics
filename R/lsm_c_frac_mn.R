@@ -50,8 +50,12 @@ lsm_c_frac_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_frac_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         frac_mn <- lsm_c_frac_mn_calc(x, directions = directions)
+                         lsm_class_output(metric = "frac_mn",
+                                          class = frac_mn$class,
+                                          value = frac_mn$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,23 +71,18 @@ lsm_c_frac_mn_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    frac <- lsm_patch_output(metric = "frac",
+                             class = frac$class,
+                             value = frac$value,
+                             id = frac$id)
 
     # all cells are NA
     if (all(is.na(frac$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_mn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     frac_mean <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = mean)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(frac_mean)),
-        class = as.integer(frac_mean$class),
-        id = rep(as.integer(NA), nrow(frac_mean)),
-        metric = rep("frac_mn", nrow(frac_mean)),
-        value = as.double(frac_mean$value)
-    )))
+    return(list(class = as.integer(frac_mean$class),
+                value = as.double(frac_mean$value)))
 }

@@ -56,10 +56,13 @@ lsm_l_cai_mn <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_cai_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         value <- lsm_l_cai_mn_calc(x,
+                                                    directions = directions,
+                                                    consider_boundary = consider_boundary,
+                                                    edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "cai_mn", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -77,21 +80,17 @@ lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_dep
                                 edge_depth = edge_depth,
                                 resolution = resolution,
                                 extras = extras)
+    cai_patch <- lsm_patch_output(metric = "cai",
+                                  class = cai_patch$class,
+                                  value = cai_patch$value,
+                                  id = cai_patch$id)
 
     # all values NA
     if (all(is.na(cai_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     cai_mn <- mean(cai_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(cai_mn)),
-                 class = rep(as.integer(NA), length(cai_mn)),
-                 id = rep(as.integer(NA), length(cai_mn)),
-                 metric = rep("cai_mn", length(cai_mn)),
-                 value = as.double(cai_mn))))
+    return(as.double(cai_mn))
 }

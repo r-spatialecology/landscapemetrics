@@ -37,8 +37,12 @@ lsm_c_np <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_np_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         np <- lsm_c_np_calc(x, directions = directions)
+                         lsm_class_output(metric = "np",
+                                          class = np$class,
+                                          value = np$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -57,11 +61,7 @@ lsm_c_np_calc <- function(landscape, directions, extras = NULL){
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "np",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # get unique classes
@@ -82,13 +82,11 @@ lsm_c_np_calc <- function(landscape, directions, extras = NULL){
         # max(patch_id) equals number of patches
         np <- max(landscape_labeled, na.rm = TRUE)
 
-        tibble::new_tibble(list(
-            level = rep("class", length(np)),
-            class = rep(as.integer(patches_class), length(patches_class)),
-            id = rep(as.integer(NA), length(np)),
-            metric = rep("np", length(np)),
-            value = as.double(np)))
+        data.frame(class = rep(as.integer(patches_class), length(np)),
+                   value = as.double(np))
         })
 
-    do.call(rbind, np_class)
+    np_class <- do.call(rbind, np_class)
+    list(class = as.integer(np_class$class),
+         value = as.double(np_class$value))
 }

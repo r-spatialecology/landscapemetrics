@@ -55,10 +55,13 @@ lsm_l_core_cv <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core_cv <- lsm_l_core_cv_calc(x,
+                                                       directions = directions,
+                                                       consider_boundary = consider_boundary,
+                                                       edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "core_cv", value = core_cv)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -79,18 +82,10 @@ lsm_l_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     core_cv <- stats::sd(core_patch$value) / mean(core_patch$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(core_cv)),
-                 class = rep(as.integer(NA), length(core_cv)),
-                 id = rep(as.integer(NA), length(core_cv)),
-                 metric = rep("core_cv", length(core_cv)),
-                 value = as.double(core_cv))))
+    return(as.double(core_cv))
 }

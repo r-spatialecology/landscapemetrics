@@ -54,10 +54,13 @@ lsm_l_dcore_cv <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_dcore_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         dcore_cv <- lsm_l_dcore_cv_calc(x,
+                                                         directions = directions,
+                                                         consider_boundary = consider_boundary,
+                                                         edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "dcore_cv", value = dcore_cv)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -78,18 +81,10 @@ lsm_l_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_d
 
     # all values NA
     if (all(is.na(dcore_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "dcore_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     dcore_cv <- stats::sd(dcore_patch$value) / mean(dcore_patch$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(dcore_cv)),
-                 class = rep(as.integer(NA), length(dcore_cv)),
-                 id = rep(as.integer(NA), length(dcore_cv)),
-                 metric = rep("dcore_cv", length(dcore_cv)),
-                 value = as.double(dcore_cv))))
+    return(as.double(dcore_cv))
 }

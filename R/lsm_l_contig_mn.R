@@ -56,8 +56,10 @@ lsm_l_contig_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_contig_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         value <- lsm_l_contig_mn_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "contig_mn", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,18 +77,10 @@ lsm_l_contig_mn_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (all(is.na(contig_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     contig_mn <- mean(contig_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(contig_mn)),
-                 class = rep(as.integer(NA), length(contig_mn)),
-                 id = rep(as.integer(NA), length(contig_mn)),
-                 metric = rep("contig_mn", length(contig_mn)),
-                 value = as.double(contig_mn))))
+    return(as.double(contig_mn))
 }

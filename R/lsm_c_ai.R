@@ -41,7 +41,12 @@ lsm_c_ai <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_ai_calc)
+                     FUN = function(x) {
+                         ai <- lsm_c_ai_calc(x)
+                         lsm_class_output(metric = "ai",
+                                          class = ai$class,
+                                          value = ai$value)
+                     })
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -61,11 +66,7 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ai",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # get coocurrence matrix of like_adjacencies
@@ -94,9 +95,6 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     # max_adj can be zero if only one cell is present; set to NA
     ai[is.nan(ai)] <- NA
 
-    return(tibble::new_tibble(list(level = rep("class", length(ai)),
-                          class = as.integer(names(like_adjacencies)),
-                          id = rep(as.integer(NA), length(ai)),
-                          metric = rep("ai", length(ai)),
-                          value = as.double(ai))))
+    return(list(class = as.integer(names(like_adjacencies)),
+                value = as.double(ai)))
 }

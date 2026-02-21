@@ -50,8 +50,12 @@ lsm_c_shape_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_shape_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape_mn <- lsm_c_shape_mn_calc(x, directions = directions)
+                         lsm_class_output(metric = "shape_mn",
+                                          class = shape_mn$class,
+                                          value = shape_mn$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -68,23 +72,20 @@ lsm_c_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL
                               directions = directions,
                               resolution = resolution,
                               extras = extras)
+    shape <- lsm_patch_output(metric = "shape",
+                              class = shape$class,
+                              value = shape$value,
+                              id = shape$id)
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_mn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate mean
     shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean,
                                  na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(shape_mn)),
-                              class = as.integer(shape_mn$class),
-                              id = rep(as.integer(NA), nrow(shape_mn)),
-                              metric = rep("shape_mn", nrow(shape_mn)),
-                              value = as.double(shape_mn$value))))
+    return(list(class = as.integer(shape_mn$class),
+                value = as.double(shape_mn$value)))
 }

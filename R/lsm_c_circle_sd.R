@@ -55,8 +55,12 @@ lsm_c_circle_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_circle_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         circle_sd <- lsm_c_circle_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "circle_sd",
+                                          class = circle_sd$class,
+                                          value = circle_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -73,25 +77,19 @@ lsm_c_circle_sd_calc <- function(landscape, directions, resolution, extras = NUL
                                 directions = directions,
                                 resolution = resolution,
                                 extras = extras)
+    circle <- lsm_patch_output(metric = "circle",
+                               class = circle$class,
+                               value = circle$value,
+                               id = circle$id)
 
     # all values NA
     if (all(is.na(circle$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for classes
     circle_sd <- stats::aggregate(x = circle[, 5], by = circle[, 2], FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(circle_sd)),
-        class = as.integer(circle_sd$class),
-        id = rep(as.integer(NA), nrow(circle_sd)),
-        metric = rep("circle_sd", nrow(circle_sd)),
-        value = as.double(circle_sd$value)
-    )))
+    return(list(class = as.integer(circle_sd$class),
+                value = as.double(circle_sd$value)))
 }
-

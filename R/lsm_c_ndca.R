@@ -49,10 +49,15 @@ lsm_c_ndca <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_ndca_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         ndca <- lsm_c_ndca_calc(x,
+                                                 directions = directions,
+                                                 consider_boundary = consider_boundary,
+                                                 edge_depth = edge_depth)
+                         lsm_class_output(metric = "ndca",
+                                          class = ndca$class,
+                                          value = ndca$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,22 +76,19 @@ lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth
                              edge_depth = edge_depth,
                              resolution = resolution,
                              extras = extras)
+    ndca <- lsm_patch_output(metric = "ncore",
+                             class = ndca$class,
+                             value = ndca$value,
+                             id = ndca$id)
 
     # all cells are NA
     if (all(is.na(ndca$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ndca",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for each class
     ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(ndca)),
-                              class = as.integer(ndca$class),
-                              id = rep(as.integer(NA), nrow(ndca)),
-                              metric = rep("ndca", nrow(ndca)),
-                              value = as.double(ndca$value))))
+    return(list(class = as.integer(ndca$class),
+                value = as.double(ndca$value)))
 }

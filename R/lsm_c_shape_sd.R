@@ -50,8 +50,12 @@ lsm_c_shape_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_shape_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape_sd <- lsm_c_shape_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "shape_sd",
+                                          class = shape_sd$class,
+                                          value = shape_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -68,14 +72,14 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
                               directions = directions,
                               resolution = resolution,
                               extras = extras)
+    shape <- lsm_patch_output(metric = "shape",
+                              class = shape$class,
+                              value = shape$value,
+                              id = shape$id)
 
     # all cells are NA
     if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate sd
@@ -83,9 +87,6 @@ lsm_c_shape_sd_calc <- function(landscape, directions, resolution, extras = NULL
                                  FUN = stats::sd,
                                  na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(shape_sd)),
-                              class = as.integer(shape_sd$class),
-                              id = rep(as.integer(NA), nrow(shape_sd)),
-                              metric = rep("shape_sd", nrow(shape_sd)),
-                              value = as.double(shape_sd$value))))
+    return(list(class = as.integer(shape_sd$class),
+                value = as.double(shape_sd$value)))
 }

@@ -46,8 +46,12 @@ lsm_c_area_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_area_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         area_cv <- lsm_c_area_cv_calc(x, directions = directions)
+                         lsm_class_output(metric = "area_cv",
+                                          class = area_cv$class,
+                                          value = area_cv$value)
+                     })
 
     layer <- rep(seq_len(length(result)),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,23 +69,20 @@ lsm_c_area_cv_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    area <- lsm_patch_output(metric = "area",
+                             class = area$class,
+                             value = area$value,
+                             id = area$id)
 
     # all values NA
     if (all(is.na(area$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "area_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate cv
     area_cv <- stats::aggregate(area[, 5], by = area[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(area_cv)),
-                          class = as.integer(area_cv$class),
-                          id = rep(as.integer(NA), nrow(area_cv)),
-                          metric = rep("area_cv", nrow(area_cv)),
-                          value = as.double(area_cv$value))))
+    return(list(class = as.integer(area_cv$class),
+                value = as.double(area_cv$value)))
 }

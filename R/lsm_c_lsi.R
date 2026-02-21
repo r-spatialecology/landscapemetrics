@@ -45,7 +45,12 @@ lsm_c_lsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_lsi_calc)
+                     FUN = function(x) {
+                         lsi <- lsm_c_lsi_calc(x)
+                         lsm_class_output(metric = "lsi",
+                                          class = lsi$class,
+                                          value = lsi$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,11 +69,7 @@ lsm_c_lsi_calc <- function(landscape, extras = NULL) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "nlsi",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
@@ -111,9 +112,6 @@ lsm_c_lsi_calc <- function(landscape, extras = NULL) {
     # calculate LSI
     lsi <- class_perim / class_perim_min
 
-    return(tibble::new_tibble(list(level = rep("class", length(lsi)),
-                              class = as.integer(names(lsi)),
-                              id = rep(as.integer(NA), length(lsi)),
-                              metric = rep("lsi", length(lsi)),
-                              value = as.double(lsi))))
+    return(list(class = as.integer(names(lsi)),
+                value = as.double(lsi)))
 }

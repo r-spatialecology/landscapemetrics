@@ -59,9 +59,12 @@ lsm_l_gyrate_mn <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_gyrate_mn_calc,
-                     directions = directions,
-                     cell_center = cell_center)
+                     FUN = function(x) {
+                         gyrate_mn <- lsm_l_gyrate_mn_calc(x,
+                                                           directions = directions,
+                                                           cell_center = cell_center)
+                         lsm_landscape_output(metric = "gyrate_mn", value = gyrate_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -81,18 +84,10 @@ lsm_l_gyrate_mn_calc <- function(landscape, directions, cell_center, resolution,
 
     # all values NA
     if (all(is.na(gyrate_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "gyrate_mn",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     gyrate_mn <- mean(gyrate_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(gyrate_mn)),
-                 class = rep(as.integer(NA), length(gyrate_mn)),
-                 id = rep(as.integer(NA), length(gyrate_mn)),
-                 metric = rep("gyrate_mn", length(gyrate_mn)),
-                 value = as.double(gyrate_mn))))
+    return(as.double(gyrate_mn))
 }

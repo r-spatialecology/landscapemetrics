@@ -59,10 +59,16 @@ lsm_p_cai <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_cai_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         cai <- lsm_p_cai_calc(x,
+                                               directions = directions,
+                                               consider_boundary = consider_boundary,
+                                               edge_depth = edge_depth)
+                         lsm_patch_output(metric = "cai",
+                                          class = cai$class,
+                                          value = cai$value,
+                                          id = cai$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -89,11 +95,9 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get patch area
@@ -116,11 +120,9 @@ lsm_p_cai_calc <- function(landscape, directions, consider_boundary, edge_depth,
     # calculate CAI index
     cai_patch <- core_patch$value / area_patch$value * 100
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(area_patch)),
+    list(
         class = as.integer(area_patch$class),
         id = as.integer(area_patch$id),
-        metric = rep("cai", nrow(area_patch)),
         value = as.double(cai_patch)
-    ))
+    )
 }

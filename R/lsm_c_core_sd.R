@@ -51,10 +51,15 @@ lsm_c_core_sd <- function(landscape, directions = 8, consider_boundary = FALSE, 
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_core_sd_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core_sd <- lsm_c_core_sd_calc(x,
+                                                       directions = directions,
+                                                       consider_boundary = consider_boundary,
+                                                       edge_depth = edge_depth)
+                         lsm_class_output(metric = "core_sd",
+                                          class = core_sd$class,
+                                          value = core_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,25 +77,20 @@ lsm_c_core_sd_calc <- function(landscape, directions, consider_boundary, edge_de
                             edge_depth = edge_depth,
                             resolution = resolution,
                             extras = extras)
+    core <- lsm_patch_output(metric = "core",
+                             class = core$class,
+                             value = core$value,
+                             id = core$id)
 
     # all values NA
     if (all(is.na(core$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core_mn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for class
     core_sd <- stats::aggregate(x = core[, 5], by = core[, 2],
                                 FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(core_sd)),
-        class = as.integer(core_sd$class),
-        id = rep(as.integer(NA), nrow(core_sd)),
-        metric = rep("core_sd", nrow(core_sd)),
-        value = as.double(core_sd$value)
-    )))
+    return(list(class = as.integer(core_sd$class),
+                value = as.double(core_sd$value)))
 }

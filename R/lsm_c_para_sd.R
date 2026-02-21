@@ -50,8 +50,12 @@ lsm_c_para_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_para_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         para_sd <- lsm_c_para_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "para_sd",
+                                          class = para_sd$class,
+                                          value = para_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,22 +71,19 @@ lsm_c_para_sd_calc <- function(landscape, directions, resolution, extras = NULL)
                             directions = directions,
                             resolution = resolution,
                             extras = extras)
+    para <- lsm_patch_output(metric = "para",
+                             class = para$class,
+                             value = para$value,
+                             id = para$id)
 
     # all cells are NA
     if (all(is.na(para$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "para_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     para_sd <- stats::aggregate(x = para[, 5], by = para[, 2],
                                 FUN = stats::sd)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(para_sd)),
-                              class = as.integer(para_sd$class),
-                              id = rep(as.integer(NA), nrow(para_sd)),
-                              metric = rep("para_sd", nrow(para_sd)),
-                              value = as.double(para_sd$value))))
+    return(list(class = as.integer(para_sd$class),
+                value = as.double(para_sd$value)))
 }

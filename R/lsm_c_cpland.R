@@ -47,10 +47,15 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_cpland_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         cpland <- lsm_c_cpland_calc(x,
+                                                     directions = directions,
+                                                     consider_boundary = consider_boundary,
+                                                     edge_depth = edge_depth)
+                         lsm_class_output(metric = "cpland",
+                                          class = cpland$class,
+                                          value = cpland$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -73,11 +78,7 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cpland",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate patch area
@@ -96,6 +97,10 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
                                  edge_depth = edge_depth,
                                  resolution = resolution,
                                  extras = extras)
+    core_area <- lsm_patch_output(metric = "core",
+                                  class = core_area$class,
+                                  value = core_area$value,
+                                  id = core_area$id)
 
     # summarise core area for classes
     core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2], FUN = sum)
@@ -103,9 +108,6 @@ lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_dep
     # relative core area of each class
     core_area$value <- core_area$value / area * 100
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(core_area)),
-                          class = as.integer(core_area$class),
-                          id = rep(as.integer(NA), nrow(core_area)),
-                          metric = rep("cpland", nrow(core_area)),
-                          value = as.double(core_area$value))))
+    return(list(class = as.integer(core_area$class),
+                value = as.double(core_area$value)))
 }

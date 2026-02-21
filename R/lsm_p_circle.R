@@ -56,8 +56,13 @@ lsm_p_circle <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         circle <- lsm_p_circle_calc(x, directions = directions)
+                         lsm_patch_output(metric = "circle",
+                                          class = circle$class,
+                                          value = circle$value,
+                                          id = circle$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -87,11 +92,9 @@ lsm_p_circle_calc <- function(landscape, directions, resolution, extras = NULL) 
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get patch area
@@ -124,11 +127,9 @@ lsm_p_circle_calc <- function(landscape, directions, resolution, extras = NULL) 
     # calculate circle metric
     circle_patch$value <- 1 - (area_patch / circle_patch$value)
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(circle_patch)),
+    list(
         class = as.integer(circle_patch$class),
         id = as.integer(seq_len(nrow(circle_patch))),
-        metric = rep("circle", nrow(circle_patch)),
         value = as.double(circle_patch$value)
-    ))
+    )
 }

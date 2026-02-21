@@ -57,8 +57,12 @@ lsm_c_circle_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_circle_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         circle_cv <- lsm_c_circle_cv_calc(x, directions = directions)
+                         lsm_class_output(metric = "circle_cv",
+                                          class = circle_cv$class,
+                                          value = circle_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,25 +79,20 @@ lsm_c_circle_cv_calc <- function(landscape, directions, resolution, extras = NUL
                                 directions = directions,
                                 resolution = resolution,
                                 extras = extras)
+    circle <- lsm_patch_output(metric = "circle",
+                               class = circle$class,
+                               value = circle$value,
+                               id = circle$id)
 
     # all values NA
     if (all(is.na(circle$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for classes
     circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2],
                                   FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(circle_cv)),
-        class = as.integer(circle_cv$class),
-        id = rep(as.integer(NA), nrow(circle_cv)),
-        metric = rep("circle_cv", nrow(circle_cv)),
-        value = as.double(circle_cv$value))))
+    return(list(class = as.integer(circle_cv$class),
+                value = as.double(circle_cv$value)))
 }
-

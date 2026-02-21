@@ -49,8 +49,10 @@ lsm_l_para_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_para_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         para_cv <- lsm_l_para_cv_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "para_cv", value = para_cv)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,18 +71,10 @@ lsm_l_para_cv_calc <- function(landscape, directions, resolution, extras = NULL)
 
     # all values NA
     if (all(is.na(para_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "para_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     para_cv <- stats::sd(para_patch$value) / mean(para_patch$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(para_cv)),
-                          class = rep(as.integer(NA), length(para_cv)),
-                          id = rep(as.integer(NA), length(para_cv)),
-                          metric = rep("para_cv", length(para_cv)),
-                          value = as.double(para_cv))))
+    return(as.double(para_cv))
 }

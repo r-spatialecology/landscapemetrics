@@ -53,8 +53,13 @@ lsm_p_frac <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_frac_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         frac <- lsm_p_frac_calc(x, directions = directions)
+                         lsm_patch_output(metric = "frac",
+                                          class = frac$class,
+                                          value = frac$value,
+                                          id = frac$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -77,11 +82,9 @@ lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get patch perimeter
@@ -102,11 +105,7 @@ lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
     # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(perimeter_patch$id),
-        metric = rep("frac", nrow(perimeter_patch)),
-        value = as.double(frac_patch)
-    ))
+    list(class = as.integer(perimeter_patch$class),
+         id = as.integer(perimeter_patch$id),
+         value = as.double(frac_patch))
 }

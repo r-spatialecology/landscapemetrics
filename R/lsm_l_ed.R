@@ -50,9 +50,12 @@ lsm_l_ed <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
+                     FUN = function(x) {
+                         ed <- lsm_l_ed_calc(x,
+                                             count_boundary = count_boundary,
+                                             directions = directions)
+                         lsm_landscape_output(metric = "ed", value = ed)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,11 +78,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ed",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get patch area
@@ -98,11 +97,7 @@ lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution, ext
                                     extras = extras)
 
     # relative edge density
-    ed <- edge_landscape$value / area_total
+    ed <- edge_landscape / area_total
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(ed)),
-                 class = rep(as.integer(NA), length(ed)),
-                 id = rep(as.integer(NA), length(ed)),
-                 metric = rep("ed", length(ed)),
-                 value = as.double(ed))))
+    return(as.double(ed))
 }

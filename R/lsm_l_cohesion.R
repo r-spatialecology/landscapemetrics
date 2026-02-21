@@ -43,8 +43,10 @@ lsm_l_cohesion <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_cohesion_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         cohesion <- lsm_l_cohesion_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "cohesion", value = cohesion)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,11 +69,7 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cohesion",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get number of cells
@@ -98,9 +96,5 @@ lsm_l_cohesion_calc <- function(landscape, directions, resolution, extras = NULL
     cohesion <- (1 - (sum(perim_patch$value) / denominator)) *
         ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(cohesion)),
-                 class = rep(as.integer(NA), length(cohesion)),
-                 id = rep(as.integer(NA), length(cohesion)),
-                 metric = rep("cohesion", length(cohesion)),
-                 value = as.double(cohesion))))
+    return(as.double(cohesion))
 }

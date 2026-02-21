@@ -58,10 +58,13 @@ lsm_l_cai_cv <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_cai_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         value <- lsm_l_cai_cv_calc(x,
+                                                    directions = directions,
+                                                    consider_boundary = consider_boundary,
+                                                    edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "cai_cv", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -79,21 +82,17 @@ lsm_l_cai_cv_calc <- function(landscape, directions, consider_boundary, edge_dep
                                 edge_depth = edge_depth,
                                 resolution = resolution,
                                 extras = extras)
+    cai_patch <- lsm_patch_output(metric = "cai",
+                                  class = cai_patch$class,
+                                  value = cai_patch$value,
+                                  id = cai_patch$id)
 
     # all values NA
     if (all(is.na(cai_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     cai_cv <- stats::sd(cai_patch$value) / mean(cai_patch$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(cai_cv)),
-                 class = rep(as.integer(NA), length(cai_cv)),
-                 id = rep(as.integer(NA), length(cai_cv)),
-                 metric = rep("cai_cv", length(cai_cv)),
-                 value = as.double(cai_cv))))
+    return(as.double(cai_cv))
 }

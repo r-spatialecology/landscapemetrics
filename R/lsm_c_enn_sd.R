@@ -56,9 +56,14 @@ lsm_c_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_enn_sd_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         enn_sd <- lsm_c_enn_sd_calc(x,
+                                                     directions = directions,
+                                                     verbose = verbose)
+                         lsm_class_output(metric = "enn_sd",
+                                          class = enn_sd$class,
+                                          value = enn_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,23 +80,18 @@ lsm_c_enn_sd_calc <- function(landscape, directions, verbose, resolution, extras
                           directions = directions,
                           verbose = verbose,
                           resolution = resolution, extras = extras)
+    enn <- lsm_patch_output(metric = "enn",
+                            class = enn$class,
+                            value = enn$value,
+                            id = enn$id)
 
     # all cells are NA
     if (all(is.na(enn$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     enn_sd <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(enn_sd)),
-        class = as.integer(enn_sd$class),
-        id = rep(as.integer(NA), nrow(enn_sd)),
-        metric = rep("enn_sd", nrow(enn_sd)),
-        value = as.double(enn_sd$value)
-    )))
+    return(list(class = as.integer(enn_sd$class),
+                value = as.double(enn_sd$value)))
 }

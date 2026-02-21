@@ -44,8 +44,12 @@ lsm_c_lpi <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_lpi_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         lpi <- lsm_c_lpi_calc(x, directions = directions)
+                         lsm_class_output(metric = "lpi",
+                                          class = lpi$class,
+                                          value = lpi$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -62,14 +66,14 @@ lsm_c_lpi_calc <- function(landscape, directions, resolution, extras = NULL) {
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    patch_area <- lsm_patch_output(metric = "area",
+                                   class = patch_area$class,
+                                   value = patch_area$value,
+                                   id = patch_area$id)
 
     # all cells are NA
     if (all(is.na(patch_area$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "lpi",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise to total area
@@ -81,9 +85,6 @@ lsm_c_lpi_calc <- function(landscape, directions, resolution, extras = NULL) {
     # summarise for each class
     lpi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = max)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(lpi)),
-                              class = as.integer(lpi$class),
-                              id = rep(as.integer(NA), nrow(lpi)),
-                              metric = rep("lpi", nrow(lpi)),
-                              value = as.double(lpi$value))))
+    return(list(class = as.integer(lpi$class),
+                value = as.double(lpi$value)))
 }

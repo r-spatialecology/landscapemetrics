@@ -57,8 +57,12 @@ lsm_c_contig_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_contig_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         contig_sd <- lsm_c_contig_sd_calc(x, directions = directions)
+                         lsm_class_output(metric = "contig_sd",
+                                          class = contig_sd$class,
+                                          value = contig_sd$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,24 +75,19 @@ lsm_c_contig_sd <- function(landscape, directions = 8) {
 lsm_c_contig_sd_calc <- function(landscape, directions, extras = NULL) {
 
     contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
+    contig <- lsm_patch_output(metric = "contig",
+                               class = contig$class,
+                               value = contig$value,
+                               id = contig$id)
 
     # all values NA
     if (all(is.na(contig$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig_sd",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     contig_sd <- stats::aggregate(x = contig[, 5], by = contig[, 2],
                                   FUN = stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(contig_sd)),
-        class = as.integer(contig_sd$class),
-        id = rep(as.integer(NA), nrow(contig_sd)),
-        metric = rep("contig_sd", nrow(contig_sd)),
-        value = as.double(contig_sd$value)
-    )))
+    return(list(class = as.integer(contig_sd$class),
+                value = as.double(contig_sd$value)))
 }

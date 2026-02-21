@@ -47,8 +47,12 @@ lsm_c_division <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_division_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         division <- lsm_c_division_calc(x, directions = directions)
+                         lsm_class_output(metric = "division",
+                                          class = division$class,
+                                          value = division$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,17 +69,17 @@ lsm_c_division_calc <- function(landscape, directions, resolution, extras = NULL
                                   directions = directions,
                                   resolution = resolution,
                                   extras = extras)
+    patch_area <- lsm_patch_output(metric = "area",
+                                   class = patch_area$class,
+                                   value = patch_area$value,
+                                   id = patch_area$id)
 
     # get total area
     total_area <- sum(patch_area$value)
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "division",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # calculate division for each patch
@@ -87,11 +91,6 @@ lsm_c_division_calc <- function(landscape, directions, resolution, extras = NULL
 
     division$value <- 1 - division$value
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(division)),
-        class = as.integer(division$class),
-        id = rep(as.integer(NA), nrow(division)),
-        metric = rep("division", nrow(division)),
-        value = as.double(division$value)
-    )))
+    return(list(class = as.integer(division$class),
+                value = as.double(division$value)))
 }

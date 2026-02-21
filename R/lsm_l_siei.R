@@ -43,8 +43,10 @@ lsm_l_siei <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_siei_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         value <- lsm_l_siei_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "siei", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -62,21 +64,13 @@ lsm_l_siei_calc <- function(landscape, directions, resolution, extras = NULL) {
                             extras = extras)
 
     # all values NA
-    if (all(is.na(sidi$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "siei",
-                              value = as.double(NA))))
+    if (is.na(sidi)) {
+        return(as.double(NA))
     }
 
     pr <- lsm_l_pr_calc(landscape, extras = extras)
 
-    siei <- sidi$value / (1 - (1 / pr$value))
+    siei <- sidi / (1 - (1 / pr))
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(siei)),
-                          class = rep(as.integer(NA), length(siei)),
-                          id = rep(as.integer(NA), length(siei)),
-                          metric = rep("siei", length(siei)),
-                          value = as.double(siei))))
+    return(as.double(siei))
 }

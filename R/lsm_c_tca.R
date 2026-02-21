@@ -51,10 +51,15 @@ lsm_c_tca <- function(landscape, directions = 8, consider_boundary = FALSE, edge
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_tca_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         tca <- lsm_c_tca_calc(x,
+                                               directions = directions,
+                                               consider_boundary = consider_boundary,
+                                               edge_depth = edge_depth)
+                         lsm_class_output(metric = "tca",
+                                          class = tca$class,
+                                          value = tca$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,25 +77,19 @@ lsm_c_tca_calc <- function(landscape, directions, consider_boundary, edge_depth,
                                  edge_depth = edge_depth,
                                  resolution = resolution,
                                  extras = extras)
+    core_area <- lsm_patch_output(metric = "core",
+                                  class = core_area$class,
+                                  value = core_area$value,
+                                  id = core_area$id)
 
     # all cells are NA
     if (all(is.na(core_area$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "tca",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2],
                                   FUN = sum)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", length(core_area$value)),
-        class = as.integer(core_area$class),
-        id = rep(as.integer(NA), length(core_area$value)),
-        metric = rep("tca", length(core_area$value)),
-        value = as.double(core_area$value)
-    ))
-    )
+    return(list(class = as.integer(core_area$class),
+                value = as.double(core_area$value)))
 }

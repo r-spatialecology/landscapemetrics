@@ -39,7 +39,10 @@ lsm_l_shdi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shdi_calc)
+                     FUN = function(x) {
+                         shdi <- lsm_l_shdi_calc(x)
+                         lsm_landscape_output(metric = "shdi", value = shdi)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -59,20 +62,12 @@ lsm_l_shdi_calc <- function(landscape, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(prop$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shdi",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     prop <- prop$value / 100
 
     shdi <- sum(-prop * log(prop, exp(1)))
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shdi)),
-                          class = rep(as.integer(NA), length(shdi)),
-                          id = rep(as.integer(NA), length(shdi)),
-                          metric = rep("shdi", length(shdi)),
-                          value = as.double(shdi))))
+    return(as.double(shdi))
 }

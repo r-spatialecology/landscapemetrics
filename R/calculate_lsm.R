@@ -180,14 +180,39 @@ calculate_lsm_internal <- function(landscape,
 
         # get argument
         arguments <- names(formals(foo))
+        parent_env <- parent.env(environment())
+        arguments <- arguments[arguments %in% ls(envir = parent_env, all.names = TRUE)]
 
         # run function
         #start_time = Sys.time()
         resultint <- tryCatch(do.call(what = foo,
-                         args = mget(arguments, envir = parent.env(environment()))),
+                         args = mget(arguments, envir = parent_env)),
                  error = function(e){
                      message("")
                      stop(e)})
+
+        if (!is.data.frame(resultint)) {
+            level_short <- sub("^lsm_([pcl])_.*$", "\\1", metrics[[current_metric]])
+            metric_name <- sub("^lsm_[pcl]_", "", metrics[[current_metric]])
+
+            if (identical(level_short, "l") && is.atomic(resultint)) {
+                resultint <- lsm_landscape_output(metric = metric_name, value = resultint)
+            } else if (identical(level_short, "c") && is.list(resultint) &&
+                       all(c("class", "value") %in% names(resultint))) {
+                resultint <- lsm_class_output(metric = metric_name,
+                                              class = resultint$class,
+                                              value = resultint$value)
+            } else if (identical(level_short, "p") && is.list(resultint) &&
+                       all(c("class", "value") %in% names(resultint))) {
+                resultint <- lsm_patch_output(metric = metric_name,
+                                              class = resultint$class,
+                                              value = resultint$value,
+                                              id = resultint$id)
+            } else {
+                stop("Internal metric calculation must return a data.frame or supported atomic output.",
+                     call. = FALSE)
+            }
+        }
 
         #end_time = Sys.time()
         #resultint$time <- as.numeric(difftime(end_time, start_time, units = "secs"))

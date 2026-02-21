@@ -42,8 +42,10 @@ lsm_l_ta <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_ta_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         ta <- lsm_l_ta_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "ta", value = ta)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,16 +66,8 @@ lsm_l_ta_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ta",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(total_area)),
-                          class = rep(as.integer(NA), length(total_area)),
-                          id = rep(as.integer(NA), length(total_area)),
-                          metric = rep("ta", length(total_area)),
-                          value = as.double(total_area))))
+    return(as.double(total_area))
 }

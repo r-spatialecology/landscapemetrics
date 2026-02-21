@@ -45,8 +45,10 @@ lsm_l_pd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_pd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         pd <- lsm_l_pd_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "pd", value = pd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,11 +71,7 @@ lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get patch area
@@ -96,9 +94,5 @@ lsm_l_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
     # relative patch density
     patch_density <- number_patches / area_total * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(patch_density)),
-                          class = rep(as.integer(NA), length(patch_density)),
-                          id = rep(as.integer(NA), length(patch_density)),
-                          metric = rep("pd", length(patch_density)),
-                          value = as.double(patch_density))))
+    return(as.double(patch_density))
 }

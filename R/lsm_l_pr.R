@@ -33,7 +33,10 @@ lsm_l_pr <- function(landscape){
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_pr_calc)
+                     FUN = function(x) {
+                         pr <- lsm_l_pr_calc(x)
+                         lsm_landscape_output(metric = "pr", value = pr)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -54,16 +57,8 @@ lsm_l_pr_calc <- function(landscape, extras = NULL){
 
     # all values NA
     if (richness == 0) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pr",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(richness)),
-                          class = rep(as.integer(NA), length(richness)),
-                          id = rep(as.integer(NA), length(richness)),
-                          metric = rep("pr", length(richness)),
-                          value = as.double(richness))))
+    return(as.double(richness))
 }

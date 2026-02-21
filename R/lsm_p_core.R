@@ -56,10 +56,16 @@ lsm_p_core <- function(landscape, directions = 8,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_core_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core <- lsm_p_core_calc(x,
+                                                 directions = directions,
+                                                 consider_boundary = consider_boundary,
+                                                 edge_depth = edge_depth)
+                         lsm_patch_output(metric = "core",
+                                          class = core$class,
+                                          value = core$value,
+                                          id = core$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -81,11 +87,9 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
     }
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get common variables
@@ -124,12 +128,8 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                     })
     )
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(core)),
-        class = as.integer(core$class),
-        id = as.integer(seq_len(nrow(core))),
-        metric = rep("core", nrow(core)),
-        value = as.double(core$value)
-    ))
+    result <- list(class = as.integer(core$class),
+                   id = as.integer(seq_len(nrow(core))),
+                   value = as.double(core$value))
+    return(result)
 }
-

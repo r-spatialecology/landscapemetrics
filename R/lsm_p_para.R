@@ -50,8 +50,13 @@ lsm_p_para <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_para_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         para <- lsm_p_para_calc(x, directions = directions)
+                         lsm_patch_output(metric = "para",
+                                          class = para$class,
+                                          value = para$value,
+                                          id = para$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -74,11 +79,9 @@ lsm_p_para_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "para",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get perim
@@ -96,11 +99,7 @@ lsm_p_para_calc <- function(landscape, directions, resolution, extras = NULL){
     # calculate ratio between area and perim
     para_patch <- perimeter_patch$value / (area_patch$value * 10000)
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(perimeter_patch$id),
-        metric = rep("para", nrow(perimeter_patch)),
-        value = as.double(para_patch)
-    ))
+    list(class = as.integer(perimeter_patch$class),
+         id = as.integer(perimeter_patch$id),
+         value = as.double(para_patch))
 }

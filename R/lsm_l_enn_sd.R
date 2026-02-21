@@ -55,9 +55,12 @@ lsm_l_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_enn_sd_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         enn_sd <- lsm_l_enn_sd_calc(x,
+                                                     directions = directions,
+                                                     verbose = verbose)
+                         lsm_landscape_output(metric = "enn_sd", value = enn_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,18 +78,10 @@ lsm_l_enn_sd_calc <- function(landscape, directions, verbose, resolution, extras
 
     # all values NA
     if (all(is.na(enn_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     enn_sd <- stats::sd(enn_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(enn_sd)),
-                 class = rep(as.integer(NA), length(enn_sd)),
-                 id = rep(as.integer(NA), length(enn_sd)),
-                 metric = rep("enn_sd", length(enn_sd)),
-                 value = as.double(enn_sd))))
+    return(as.double(enn_sd))
 }

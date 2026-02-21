@@ -55,8 +55,10 @@ lsm_l_circle_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_circle_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         value <- lsm_l_circle_cv_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "circle_cv", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,22 +74,17 @@ lsm_l_circle_cv_calc <- function(landscape, directions, resolution, extras = NUL
                                       directions = directions,
                                       resolution = resolution,
                                       extras = extras)
+    circle_patch <- lsm_patch_output(metric = "circle",
+                                     class = circle_patch$class,
+                                     value = circle_patch$value,
+                                     id = circle_patch$id)
 
     # all values NA
     if (all(is.na(circle_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     circle_cv <- stats::sd(circle_patch$value) / mean(circle_patch$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(circle_cv)),
-                 class = rep(as.integer(NA), length(circle_cv)),
-                 id = rep(as.integer(NA), length(circle_cv)),
-                 metric = rep("circle_cv", length(circle_cv)),
-                 value = as.double(circle_cv))))
+    return(as.double(circle_cv))
 }
-

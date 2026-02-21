@@ -43,8 +43,12 @@ lsm_c_pland <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_pland_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         pland <- lsm_c_pland_calc(x, directions = directions)
+                         lsm_class_output(metric = "pland",
+                                          class = pland$class,
+                                          value = pland$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,24 +73,20 @@ lsm_c_pland_calc <- function(landscape, directions, resolution, extras = NULL){
                              directions = directions,
                              resolution = resolution,
                              extras = extras)
+    pland <- lsm_patch_output(metric = "area",
+                              class = pland$class,
+                              value = pland$value,
+                              id = pland$id)
 
     # all values NA
     if (all(is.na(pland$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pland",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     pland <- stats::aggregate(x = pland[, 5], by = pland[, 2], FUN = sum)
 
     pland$value <- pland$value / sum(pland$value) * 100
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(pland)),
-                              class = as.integer(pland$class),
-                              id = rep(as.integer(NA), nrow(pland)),
-                              metric = rep("pland", nrow(pland)),
-                              value = as.double(pland$value))))
+    return(list(class = as.integer(pland$class),
+                value = as.double(pland$value)))
 }
-

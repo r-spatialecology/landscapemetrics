@@ -51,8 +51,13 @@ lsm_p_shape <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_shape_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape <- lsm_p_shape_calc(x, directions = directions)
+                         lsm_patch_output(metric = "shape",
+                                          class = shape$class,
+                                          value = shape$value,
+                                          id = shape$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -75,11 +80,9 @@ lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get perimeter of patches
@@ -97,11 +100,7 @@ lsm_p_shape_calc <- function(landscape, directions, resolution, extras = NULL){
     # calculate shape index
     shape_patch <- (0.25 * perimeter_patch$value) / sqrt(area_patch$value * 10000)
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(perimeter_patch$id),
-        metric = "shape",
-        value = as.double(shape_patch)
-    ))
+    list(class = as.integer(perimeter_patch$class),
+         id = as.integer(perimeter_patch$id),
+         value = as.double(shape_patch))
 }

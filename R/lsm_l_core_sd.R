@@ -55,10 +55,13 @@ lsm_l_core_sd <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_core_sd_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core_sd <- lsm_l_core_sd_calc(x,
+                                                       directions = directions,
+                                                       consider_boundary = consider_boundary,
+                                                       edge_depth = edge_depth)
+                         lsm_landscape_output(metric = "core_sd", value = core_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -79,18 +82,10 @@ lsm_l_core_sd_calc <- function(landscape, directions, consider_boundary, edge_de
 
     # all values NA
     if (all(is.na(core_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core_sd",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     core_sd <- stats::sd(core_patch$value)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(core_sd)),
-                 class = rep(as.integer(NA), length(core_sd)),
-                 id = rep(as.integer(NA), length(core_sd)),
-                 metric = rep("core_sd", length(core_sd)),
-                 value = as.double(core_sd))))
+    return(as.double(core_sd))
 }

@@ -39,8 +39,10 @@ lsm_l_np <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_np_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         np <- lsm_l_np_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "np", value = np)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -60,16 +62,8 @@ lsm_l_np_calc <- function(landscape, directions, extras = NULL) {
 
     # all values NA
     if (is.na(n_patches)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "np",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(n_patches)),
-                          class = rep(as.integer(NA), length(n_patches)),
-                          id = rep(as.integer(NA), length(n_patches)),
-                          metric = rep("np", length(n_patches)),
-                          value = as.double(n_patches))))
+    return(as.double(n_patches))
 }

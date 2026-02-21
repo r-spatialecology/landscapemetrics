@@ -45,8 +45,10 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_iji_calc,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         iji <- lsm_l_iji_calc(x, verbose = verbose)
+                         lsm_landscape_output(metric = "iji", value = iji)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,11 +67,7 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     if (!is.null(extras)){
@@ -84,11 +82,7 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+        return(as.double(NA))
     } else {
 
         diag(adjacencies) <- 0
@@ -103,10 +97,6 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
 
-        return(tibble::new_tibble(list(level = rep("landscape", length(iji)),
-                 class = rep(as.integer(NA), length(iji)),
-                 id = rep(as.integer(NA), length(iji)),
-                 metric = rep("iji", length(iji)),
-                 value = as.double(iji))))
+        return(as.double(iji))
     }
 }

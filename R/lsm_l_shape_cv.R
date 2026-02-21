@@ -49,8 +49,10 @@ lsm_l_shape_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shape_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         shape_cv <- lsm_l_shape_cv_calc(x, directions = directions)
+                         lsm_landscape_output(metric = "shape_cv", value = shape_cv)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -70,19 +72,11 @@ lsm_l_shape_cv_calc <- function(landscape, directions, resolution, extras = NULL
 
     # all values NA
     if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_cv",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # calculate cv
     shape_cv <- stats::sd(shape$value, na.rm = TRUE) / mean(shape$value, na.rm = TRUE) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shape_cv)),
-                          class = rep(as.integer(NA), length(shape_cv)),
-                          id = rep(as.integer(NA), length(shape_cv)),
-                          metric = rep("shape_cv", length(shape_cv)),
-                          value = as.double(shape_cv))))
+    return(as.double(shape_cv))
 }

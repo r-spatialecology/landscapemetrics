@@ -35,7 +35,12 @@ lsm_c_pladj <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_pladj_calc)
+                     FUN = function(x) {
+                         pladj <- lsm_c_pladj_calc(x)
+                         lsm_class_output(metric = "pladj",
+                                          class = pladj$class,
+                                          value = pladj$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -54,11 +59,7 @@ lsm_c_pladj_calc <- function(landscape) {
 
     # all cells are NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pladj",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
@@ -69,9 +70,6 @@ lsm_c_pladj_calc <- function(landscape) {
     pladj <- diag(tb) / colSums(tb) * 100
     names <- row.names(tb)
 
-    return(tibble::new_tibble(list(level = rep("class", length(names[-1])),
-                              class = as.integer(names[-1]),
-                              id = rep(as.integer(NA), length(names[-1])),
-                              metric = rep("pladj", length(names[-1])),
-                              value = as.double(pladj[-1]))))
+    return(list(class = as.integer(names[-1]),
+                value = as.double(pladj[-1])))
 }

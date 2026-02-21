@@ -50,10 +50,15 @@ lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, 
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_core_cv_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         core_cv <- lsm_c_core_cv_calc(x,
+                                                       directions = directions,
+                                                       consider_boundary = consider_boundary,
+                                                       edge_depth = edge_depth)
+                         lsm_class_output(metric = "core_cv",
+                                          class = core_cv$class,
+                                          value = core_cv$value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -72,25 +77,20 @@ lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_de
                             edge_depth = edge_depth,
                             resolution = resolution,
                             extras = extras)
+    core <- lsm_patch_output(metric = "core",
+                             class = core$class,
+                             value = core$value,
+                             id = core$id)
 
     # all values NA
     if (all(is.na(core$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "core_cv",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA), value = as.double(NA)))
     }
 
     # summarise for class
     core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(core_cv)),
-        class = as.integer(core_cv$class),
-        id = rep(as.integer(NA), nrow(core_cv)),
-        metric = rep("core_cv", nrow(core_cv)),
-        value = as.double(core_cv$value)
-    )))
+    return(list(class = as.integer(core_cv$class),
+                value = as.double(core_cv$value)))
 }

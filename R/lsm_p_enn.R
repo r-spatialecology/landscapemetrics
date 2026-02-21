@@ -55,9 +55,15 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_enn_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         enn <- lsm_p_enn_calc(x,
+                                               directions = directions,
+                                               verbose = verbose)
+                         lsm_patch_output(metric = "enn",
+                                          class = enn$class,
+                                          value = enn$value,
+                                          id = enn$id)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -78,11 +84,9 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = 
 
     # all values NA
     if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn",
-                              value = as.double(NA))))
+        return(list(class = as.integer(NA),
+                    id = as.integer(NA),
+                    value = as.double(NA)))
     }
 
     # get unique classes
@@ -95,9 +99,7 @@ lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = 
         enn_patch <- get_enn_patch(classes, class_patches, points, resolution)
     }
 
-    tibble::new_tibble(list(level = rep("patch", nrow(enn_patch)),
-                   class = as.integer(enn_patch$class),
-                   id = as.integer(seq_len(nrow(enn_patch))),
-                   metric = rep("enn", nrow(enn_patch)),
-                   value = as.double(enn_patch$value)))
+    list(class = as.integer(enn_patch$class),
+         id = as.integer(seq_len(nrow(enn_patch))),
+         value = as.double(enn_patch$value))
 }
