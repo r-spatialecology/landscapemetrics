@@ -51,13 +51,20 @@ lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, 
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         core_cv <- lsm_c_core_cv_calc(x,
-                                                       directions = directions,
-                                                       consider_boundary = consider_boundary,
-                                                       edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         core_cv <- lsm_c_core_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "core_cv",
-                                          class = core_cv$class,
-                                          value = core_cv$value)
+                                          class = as.integer(names(core_cv)),
+                                          value = unname(core_cv))
                      })
 
     layer <- rep(seq_along(result),
@@ -68,29 +75,43 @@ lsm_c_core_cv <- function(landscape, directions = 8, consider_boundary = FALSE, 
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_core_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
-
-    # calculate core for each patch
-    core <- lsm_p_core_calc(landscape,
-                            directions = directions,
-                            consider_boundary = consider_boundary,
-                            edge_depth = edge_depth,
-                            resolution = resolution,
-                            extras = extras)
-    core <- lsm_patch_output(metric = "core",
-                             class = core$class,
-                             value = core$value,
-                             id = core$id)
+lsm_c_core_cv_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                               classes = NULL, class_patches = NULL) {
 
     # all values NA
-    if (all(is.na(core$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # summarise for class
-    core_cv <- stats::aggregate(x = core[, 5], by = core[, 2],
-                                FUN = function(x) stats::sd(x) / mean(x) * 100)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
 
-    return(list(class = as.integer(core_cv$class),
-                value = as.double(core_cv$value)))
+    core_patch <- lsm_p_core_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches
+    )
+
+    # all values NA
+    if (all(is.na(unname(core_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # summarise for class using tapply on named vector
+    core_cv <- tapply(core_patch, names(core_patch), function(x) stats::sd(x) / mean(x) * 100)
+
+    # return named vector
+    stats::setNames(as.double(core_cv), names(core_cv))
 }

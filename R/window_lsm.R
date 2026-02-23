@@ -103,10 +103,13 @@ window_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
+    # check if window has uneven sides
     if (any(dim(window) %% 2 == 0)) {
+
         stop("The window must have uneven sides.", call. = FALSE)
     }
 
+    # get list of metrics to calculate
     metrics_list <- list_lsm(level = level,
                              metric = metric,
                              name = name,

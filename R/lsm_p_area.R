@@ -95,20 +95,6 @@ lsm_p_area_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
         area_patches <- deps$area_patches
     }
 
-    # Build named vector: values are patch areas, names are class IDs
-    area_patch <- do.call(c,
-                          lapply(classes, function(patches_class){
-
-        # get connected patches
-        landscape_labeled <- class_patches[[as.character(patches_class)]]
-
-        # multiply number of cells within each patch with hectar factor
-        area_patch_ij <- area_patches[[as.character(patches_class)]]
-
-        # return named vector: names are class IDs, values are areas
-        stats::setNames(area_patch_ij, rep(as.character(patches_class), length(area_patch_ij)))
-        })
-    )
     # return named vector (preserve names)
-    structure(as.double(area_patch), names = names(area_patch))
+    structure(as.double(area_patches), names = names(area_patches))
 }

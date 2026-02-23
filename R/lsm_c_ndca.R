@@ -50,13 +50,20 @@ lsm_c_ndca <- function(landscape, directions = 8, consider_boundary = FALSE, edg
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         ndca <- lsm_c_ndca_calc(x,
-                                                 directions = directions,
-                                                 consider_boundary = consider_boundary,
-                                                 edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ndca <- lsm_c_ndca_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "ndca",
-                                          class = ndca$class,
-                                          value = ndca$value)
+                                          class = as.integer(names(ndca)),
+                                          value = unname(ndca))
                      })
 
     layer <- rep(seq_along(result),
@@ -67,28 +74,42 @@ lsm_c_ndca <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_c_ndca_calc <- function(landscape_mat, directions, consider_boundary, edge_depth,
+                            classes = NULL, class_patches = NULL, points = NULL, resolution = NULL) {
 
-    # get number of core areas for each patch
-    ndca <- lsm_p_ncore_calc(landscape,
-                             directions = directions,
-                             consider_boundary = consider_boundary,
-                             edge_depth = edge_depth,
-                             resolution = resolution,
-                             extras = extras)
-    ndca <- lsm_patch_output(metric = "ncore",
-                             class = ndca$class,
-                             value = ndca$value,
-                             id = ndca$id)
-
-    # all cells are NA
-    if (all(is.na(ndca$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    # summarise for each class
-    ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
+    # get number of core areas for each patch (handles lazy deps)
+    ndca <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = NULL,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
-    return(list(class = as.integer(ndca$class),
-                value = as.double(ndca$value)))
+    # all cells are NA
+    if (all(is.na(unname(ndca)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # summarise for each class using tapply on named vector
+    ndca_sum <- tapply(ndca, names(ndca), sum)
+
+    # return named vector
+    stats::setNames(as.double(ndca_sum), names(ndca_sum))
 }

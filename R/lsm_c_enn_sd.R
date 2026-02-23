@@ -81,18 +81,15 @@ lsm_c_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 
-lsm_c_enn_sd_calc <- function(landscape_mat, directions, verbose, resolution, enn_patch = NULL) {
+lsm_c_enn_sd_calc <- function(landscape_mat, directions, verbose, resolution) {
 
-    # lazy dependency resolution
-    if (is.null(enn_patch)) {
-        deps <- resolve_extras(
-            landscape_mat = landscape_mat,
-            directions = directions,
-            required = c("enn_patch"),
-            resolution = resolution
-        )
-        enn_patch <- deps$enn_patch
-    }
+    deps <- resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = c("enn_patch"),
+        resolution = resolution
+    )
+    enn_patch <- deps$enn_patch
 
     enn <- lsm_p_enn_calc(
         landscape_mat = landscape_mat,

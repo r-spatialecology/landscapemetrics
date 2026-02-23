@@ -76,18 +76,15 @@ lsm_l_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_enn_cv_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, resolution = NULL, enn_patch = NULL) {
+lsm_l_enn_cv_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, resolution = NULL) {
 
-    # lazy dependency resolution
-    if (is.null(enn_patch)) {
-        deps <- resolve_extras(
-            landscape_mat = landscape_mat,
-            directions = directions,
-            required = c("enn_patch"),
-            resolution = resolution
-        )
-        enn_patch <- deps$enn_patch
-    }
+    deps <- resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = c("enn_patch"),
+        resolution = resolution
+    )
+    enn_patch <- deps$enn_patch
 
     enn_patch <- lsm_p_enn_calc(
         landscape_mat = landscape_mat,

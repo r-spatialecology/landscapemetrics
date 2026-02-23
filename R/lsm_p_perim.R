@@ -86,8 +86,6 @@ lsm_p_perim_calc <- function(landscape_mat, directions = NULL, resolution = NULL
 
     # perimeter_patch is a named vector
     # names are class IDs, values are perimeters
-    perimeter_vec <- perimeter_patch
-
     # return named vector (preserve names)
-    structure(as.double(perimeter_vec), names = names(perimeter_vec))
+    structure(as.double(perimeter_patch), names = names(perimeter_patch))
 }

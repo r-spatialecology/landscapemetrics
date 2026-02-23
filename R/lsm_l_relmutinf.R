@@ -46,10 +46,16 @@ lsm_l_relmutinf <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_relmutinf_calc(x,
-                                                       neighbourhood = neighbourhood,
-                                                       ordered = ordered,
-                                                       base = base)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_relmutinf_calc(
+                             landscape_mat = landscape_mat,
+                             neighbourhood = neighbourhood,
+                             ordered = ordered,
+                             base = base
+                         )
+
                          lsm_landscape_output(metric = "relmutinf", value = value)
                      })
 
@@ -61,30 +67,31 @@ lsm_l_relmutinf <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_relmutinf_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_relmutinf_calc <- function(landscape_mat, neighbourhood = 4, ordered = TRUE, base = "log2", comp = NULL, cplx = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        comp <- extras$comp
-        cplx <- extras$cplx
-    } else {
-        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
-        comp <- rcpp_get_entropy(colSums(com), base)
-        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    # lazy dependency resolution
+    if (is.null(comp) || is.null(cplx)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("comp", "cplx"),
+            neighbourhood = neighbourhood,
+            ordered = ordered,
+            base = base
+        )
+        comp <- deps$comp
+        cplx <- deps$cplx
     }
 
     conf <- cplx - comp
-    aggr <- comp - conf
-    rel  <- ifelse(aggr == 0, 1, aggr / comp)
 
-    return(as.double(rel))
+    mutinf <- comp - conf
+
+    relmutinf <- ifelse(mutinf == 0, 1, mutinf / comp)
+
+    return(as.double(relmutinf))
 }

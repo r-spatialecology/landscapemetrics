@@ -51,9 +51,16 @@ lsm_l_ed <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         ed <- lsm_l_ed_calc(x,
-                                             count_boundary = count_boundary,
-                                             directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ed <- lsm_l_ed_calc(
+                             landscape_mat = landscape_mat,
+                             count_boundary = count_boundary,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "ed", value = ed)
                      })
 
@@ -65,36 +72,48 @@ lsm_l_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_l_ed"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, neighbourhood = 4, resolution = resolution)
-    }
+lsm_l_ed_calc <- function(landscape_mat, count_boundary = FALSE, directions = 8, resolution = NULL,
+                          classes = NULL, class_patches = NULL, area_patches = NULL, neighbor_matrix = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "neighbor_matrix"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        neighbor_matrix <- deps$neighbor_matrix
+    }
+
+    # get patch area (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to total area
-    area_total <- sum(area_patch$value)
+    area_total <- sum(area_patch)
 
     # get total edge
-    edge_landscape <- lsm_l_te_calc(landscape,
-                                    count_boundary = count_boundary,
-                                    resolution = resolution,
-                                    extras = extras)
+    edge_landscape <- lsm_l_te_calc(
+        landscape_mat = landscape_mat,
+        count_boundary = count_boundary,
+        resolution = resolution,
+        neighbor_matrix = neighbor_matrix
+    )
 
     # relative edge density
     ed <- edge_landscape / area_total

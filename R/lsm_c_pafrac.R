@@ -53,12 +53,19 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         pafrac <- lsm_c_pafrac_calc(x,
-                                                     directions = directions,
-                                                     verbose = verbose)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pafrac <- lsm_c_pafrac_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "pafrac",
-                                          class = pafrac$class,
-                                          value = pafrac$value)
+                                          class = as.integer(names(pafrac)),
+                                          value = unname(pafrac))
                      })
 
     layer <- rep(seq_along(result),
@@ -69,57 +76,46 @@ lsm_c_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_pafrac"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_c_pafrac_calc <- function(landscape_mat, directions, verbose, resolution,
+                               classes = NULL, class_patches = NULL, area_patches = NULL, perimeter_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get patch area in sqm
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
-    area_patch <- lsm_patch_output(metric = "area",
-                                   class = area_patch$class,
-                                   value = area_patch$value,
-                                   id = area_patch$id)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(perimeter_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "perimeter_patch"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        perimeter_patch <- deps$perimeter_patch
+    }
 
-    area_patch$value <- area_patch$value * 10000
+    # No classes present
+    if (length(classes) == 0) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
 
-    # get patch perimeter
-    perimeter_patch <- lsm_p_perim_calc(landscape,
-                                        directions = directions,
-                                        resolution = resolution,
-                                        extras = extras)
-    perimeter_patch <- lsm_patch_output(metric = "perim",
-                                        class = perimeter_patch$class,
-                                        value = perimeter_patch$value,
-                                        id = perimeter_patch$id)
+    # get number of patches per class using lsm_c_np_calc
+    np_class <- lsm_c_np_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
-    # get number of patches
-    np_class <- lsm_c_np_calc(landscape,
-                              directions = directions,
-                              extras = extras)
-    np_class <- lsm_class_output(metric = "np",
-                                 class = np_class$class,
-                                 value = np_class$value)
+    pafrac_class <- lapply(X = seq_along(np_class), FUN = function(class_idx) {
 
-    pafrac_class <- lapply(X = seq_len(nrow(np_class)), FUN = function(class_current) {
+        class_name <- as.integer(names(np_class)[class_idx])
 
-        class_name <- as.integer(np_class[class_current, "class"])
-
-        if (np_class$value[np_class$class == class_name] < 10) {
+        if (np_class[class_idx] < 10) {
 
             pafrac <- NA
 
@@ -130,20 +126,19 @@ lsm_c_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
 
         } else {
 
-            area_patch <- area_patch[area_patch$class == class_name, ]
+            # subset by class using names
+            area_class <- area_patches[names(area_patches) == as.character(class_name)] * 10000
+            perim_class <- perimeter_patch[names(perimeter_patch) == as.character(class_name)]
 
-            perimeter_patch <- perimeter_patch[perimeter_patch$class == class_name, ]
-
-            regression_model_class <- stats::lm(log(area_patch$value) ~ log(perimeter_patch$value))
+            regression_model_class <- stats::lm(log(area_class) ~ log(perim_class))
 
             pafrac <- 2 / regression_model_class$coefficients[[2]]
         }
 
-        data.frame(class = rep(as.integer(class_name), length(pafrac)),
-                   value = as.double(pafrac))
-        })
+        stats::setNames(as.double(pafrac), as.character(class_name))
+    })
 
-    pafrac_class <- do.call(rbind, pafrac_class)
-    list(class = as.integer(pafrac_class$class),
-         value = as.double(pafrac_class$value))
+    # combine all class results into named vector
+    # each element is already named, unlist preserves names
+    unlist(pafrac_class, use.names = TRUE)
 }

@@ -80,23 +80,20 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_enn_calc <- function(landscape_mat, directions, verbose, resolution, enn_patch = NULL) {
+lsm_p_enn_calc <- function(landscape_mat, directions, verbose, resolution) {
 
     # all values NA
     if (all(is.na(landscape_mat))) {
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # lazy dependency resolution
-    if (is.null(enn_patch)) {
-        deps <- resolve_extras(
-            landscape_mat = landscape_mat,
-            directions = directions,
-            required = c("enn_patch"),
-            resolution = resolution
-        )
-        enn_patch <- deps$enn_patch
-    }
+    deps <- resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = c("enn_patch"),
+        resolution = resolution
+    )
+    enn_patch <- deps$enn_patch
 
     # enn_patch is a named vector
     # names are class IDs, values are ENN distances
