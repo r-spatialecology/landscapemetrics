@@ -82,91 +82,63 @@ get_patches <- function(landscape, class = "all", directions = 8,
 get_patches_int <- function(landscape, class, directions,
                             return_raster = FALSE, to_disk = FALSE) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-
+    if (!inherits(landscape, "matrix")) {
         landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-
-    # already a matrix
     } else {
-
         landscape_mat <- landscape
-
         if (return_raster || to_disk) {
-
             return_raster <- FALSE
-
-            warning("'return_raster' or 'to_disk' not possible for matrix input.", call. = FALSE)
-
+            warning("'return_raster' or 'to_disk' not possible for matrix input.",
+                    call. = FALSE)
         }
     }
 
-    # check if directions argument is valid
-    if (directions != 4 && directions != 8) {
-
+    if (!directions %in% c(4, 8)) {
         warning("You must specify a directions parameter. Defaulted to 8.",
                 call. = FALSE)
-
         directions <- 8
     }
 
+    # Run CCL once
+    labeled <- rcpp_ccl_multiclass(landscape_mat, directions)
+
     if (class == "all") {
-
-        # get unique class id
         unique_classes <- get_unique_values_int(landscape_mat, verbose = FALSE)
-
     } else {
-
         unique_classes <- class
-
     }
 
-    # init highest patch id
-    counter_id <- 0
+    patch_landscape <- vector("list", length(unique_classes))
 
-    # init list with classes
-    patch_landscape <- vector(mode = "list", length = length(unique_classes))
+    for (i in seq_along(unique_classes)) {
 
-    # CCL all classes
-    for (i in 1:length(unique_classes)) {
+        class_value <- unique_classes[i]
 
-        # set-up filter matrix
-        landscape_temp <- matrix(NA, nrow = nrow(landscape_mat),
-                                 ncol = ncol(landscape_mat))
+        mat_class <- matrix(NA_integer_,
+                            nrow = nrow(labeled),
+                            ncol = ncol(labeled))
 
-        # set all values in filter_matrix to 1 that belong to class (at same spot as in original landscape)
-        landscape_temp[landscape_mat == unique_classes[i]] <- 1L
+        idx <- which(!is.na(landscape_mat) &
+                         landscape_mat == class_value)
 
-        # connected labeling with 4 neighbours
-        if (directions == 4) {
-
-            rcpp_ccl(landscape_temp, 4)
-
-        # connected labeling with 8 neighbours
-        } else if (directions == 8) {
-
-            rcpp_ccl(landscape_temp, 8)
-
+        if (length(idx) == 0) {
+            stop("Selected class not present in landscape.",
+                 call. = FALSE)
         }
 
-        # increase patch id by highest value so far
-        landscape_temp <- landscape_temp + counter_id
+        mat_class[idx] <- labeled[idx]
 
-        # update highest patch id
-        counter_id <- max(landscape_temp, na.rm = TRUE)
-
-        # return matrix to
         if (return_raster) {
-
-            landscape_temp <- matrix_to_raster(matrix = landscape_temp,
-                                                landscape = landscape, to_disk = to_disk)
+            mat_class <- matrix_to_raster(
+                matrix = mat_class,
+                landscape = landscape,
+                to_disk = to_disk
+            )
         }
 
-        patch_landscape[[i]] <- landscape_temp
-
+        patch_landscape[[i]] <- mat_class
     }
 
-    # set class names
     names(patch_landscape) <- paste0("class_", unique_classes)
 
     return(patch_landscape)

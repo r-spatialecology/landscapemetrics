@@ -93,7 +93,7 @@ lsm_c_contig_cv_calc <- function(landscape_mat, directions = NULL, classes = NUL
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_cv <- tapply(contig, names(contig), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    contig_cv <- tapply(contig, names(contig), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(contig_cv), names(contig_cv))

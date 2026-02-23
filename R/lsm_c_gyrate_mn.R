@@ -114,7 +114,7 @@ lsm_c_gyrate_mn_calc <- function(landscape_mat, directions = NULL, cell_center =
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    gyrate_mn <- tapply(gyrate, names(gyrate), mean, na.rm = TRUE)
+    gyrate_mn <- tapply(gyrate, names(gyrate), mean)
 
     # return named vector
     stats::setNames(as.double(gyrate_mn), names(gyrate_mn))

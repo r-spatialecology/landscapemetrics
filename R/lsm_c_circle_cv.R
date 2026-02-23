@@ -99,7 +99,7 @@ lsm_c_circle_cv_calc <- function(landscape_mat, directions = NULL, resolution = 
     }
 
     # summarise for classes using tapply on named vector
-    circle_cv <- tapply(circle, names(circle), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    circle_cv <- tapply(circle, names(circle), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(circle_cv), names(circle_cv))

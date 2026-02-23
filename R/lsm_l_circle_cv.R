@@ -56,7 +56,15 @@ lsm_l_circle_cv <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_circle_cv_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_circle_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "circle_cv", value = value)
                      })
 
@@ -68,23 +76,42 @@ lsm_l_circle_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_cv_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    circle_patch <- lsm_p_circle_calc(landscape,
-                                      directions = directions,
-                                      resolution = resolution,
-                                      extras = extras)
-    circle_patch <- lsm_patch_output(metric = "circle",
-                                     class = circle_patch$class,
-                                     value = circle_patch$value,
-                                     id = circle_patch$id)
+lsm_l_circle_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(circle_patch$value))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    circle_cv <- stats::sd(circle_patch$value) / mean(circle_patch$value) * 100
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    circle_patch <- lsm_p_circle_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
+
+    # all values NA
+    if (all(is.na(circle_patch))) {
+        return(as.double(NA))
+    }
+
+    circle_cv <- stats::sd(circle_patch) / mean(circle_patch) * 100
 
     return(as.double(circle_cv))
 }

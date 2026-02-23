@@ -89,7 +89,7 @@ lsm_c_area_cv_calc <- function(landscape_mat, directions = NULL, resolution = NU
     }
 
     # calculate cv by class using tapply on named vector
-    area_cv <- tapply(area_patch, names(area_patch), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    area_cv <- tapply(area_patch, names(area_patch), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(area_cv), names(area_cv))

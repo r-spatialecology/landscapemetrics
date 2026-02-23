@@ -40,12 +40,19 @@ lsm_p_perim <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         perim <- lsm_p_perim_calc(x,
-                                                   directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         perim <- lsm_p_perim_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_patch_output(metric = "perim",
-                                          class = perim$class,
-                                          value = perim$value,
-                                          id = perim$id)
+                                          class = as.integer(names(perim)),
+                                          value = unname(perim),
+                                          id = seq_along(perim))
                      })
 
     layer <- rep(seq_along(result),
@@ -56,28 +63,31 @@ lsm_p_perim <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_p_perim"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_p_perim_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                              classes = NULL, class_patches = NULL, perimeter_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA),
-                    id = as.integer(NA),
-                    value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    perimeter_patch <- extras$perimeter_patch
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+    }
 
-    result <- list(class = as.integer(perimeter_patch$class),
-                   id = as.integer(seq_len(nrow(perimeter_patch))),
-                   value = as.double(perimeter_patch$value))
-    return(result)
+    # perimeter_patch is a named vector
+    # names are class IDs, values are perimeters
+    perimeter_vec <- perimeter_patch
+
+    # return named vector (preserve names)
+    structure(as.double(perimeter_vec), names = names(perimeter_vec))
 }

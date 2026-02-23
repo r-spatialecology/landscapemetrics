@@ -57,14 +57,18 @@ lsm_p_core <- function(landscape, directions = 8,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         core <- lsm_p_core_calc(x,
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         core <- lsm_p_core_calc(landscape_mat = landscape_mat,
                                                  directions = directions,
                                                  consider_boundary = consider_boundary,
-                                                 edge_depth = edge_depth)
+                                                 edge_depth = edge_depth,
+                                                 resolution = resolution)
                          lsm_patch_output(metric = "core",
-                                          class = core$class,
-                                          value = core$value,
-                                          id = core$id)
+                                          class = as.integer(names(core)),
+                                          value = unname(core),
+                                          id = seq_along(core))
                      })
 
     layer <- rep(seq_along(result),
@@ -75,28 +79,28 @@ lsm_p_core <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
+lsm_p_core_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
+                            classes = NULL, class_patches = NULL) {
 
-    if (missing(resolution)) resolution <- terra::res(landscape)
 
-    if (is.null(extras)){
-        metrics <- "lsm_p_core"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                 directions = directions, resolution = resolution)
-    }
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA),
-                    id = as.integer(NA),
-                    value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+
     }
 
-    # get common variables
-    classes <- extras$classes
-    class_patches <- extras$class_patches
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
 
-    core <- do.call(rbind,
+    core <- do.call(c,
                     lapply(classes, function(patches_class) {
 
                         # get connected patches
@@ -123,13 +127,11 @@ lsm_p_core_calc <- function(landscape, directions, consider_boundary, edge_depth
                         # all cells minus edge cells equal core and convert to ha
                         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
 
-                        tibble::new_tibble(list(class = rep(patches_class, length(core_area)),
-                                                value = core_area))
+                        # return named vector: names are class IDs, values are core areas
+                        stats::setNames(core_area, rep(as.character(patches_class), length(core_area)))
                     })
     )
 
-    result <- list(class = as.integer(core$class),
-                   id = as.integer(seq_len(nrow(core))),
-                   value = as.double(core$value))
-    return(result)
+    # return named vector (preserve names)
+    structure(as.double(core), names = names(core))
 }

@@ -114,7 +114,7 @@ lsm_c_cai_sd_calc <- function(landscape_mat, directions, consider_boundary, edge
     }
 
     # summarise for classes using tapply on named vector
-    cai_sd <- tapply(cai, names(cai), stats::sd, na.rm = TRUE)
+    cai_sd <- tapply(cai, names(cai), stats::sd)
 
     # return named vector
     stats::setNames(as.double(cai_sd), names(cai_sd))

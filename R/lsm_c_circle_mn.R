@@ -97,7 +97,7 @@ lsm_c_circle_mn_calc <- function(landscape_mat, directions = NULL, resolution = 
     }
 
     # summarise for classes using tapply on named vector
-    circle_mn <- tapply(circle, names(circle), mean, na.rm = TRUE)
+    circle_mn <- tapply(circle, names(circle), mean)
 
     # return named vector
     stats::setNames(as.double(circle_mn), names(circle_mn))

@@ -92,7 +92,7 @@ lsm_c_frac_mn_calc <- function(landscape_mat, directions = NULL, resolution = NU
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    frac_mean <- tapply(frac_patch, names(frac_patch), mean, na.rm = TRUE)
+    frac_mean <- tapply(frac_patch, names(frac_patch), mean)
 
     # return named vector
     stats::setNames(as.double(frac_mean), names(frac_mean))

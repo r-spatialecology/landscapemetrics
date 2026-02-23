@@ -60,9 +60,16 @@ lsm_l_gyrate_mn <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         gyrate_mn <- lsm_l_gyrate_mn_calc(x,
-                                                           directions = directions,
-                                                           cell_center = cell_center)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         gyrate_mn <- lsm_l_gyrate_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             cell_center = cell_center,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "gyrate_mn", value = gyrate_mn)
                      })
 
@@ -74,20 +81,38 @@ lsm_l_gyrate_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_gyrate_mn_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
+lsm_l_gyrate_mn_calc <- function(landscape_mat, directions = NULL, cell_center = FALSE, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, points = NULL) {
 
-    gyrate_patch <- lsm_p_gyrate_calc(landscape,
-                                      directions = directions,
-                                      cell_center = cell_center,
-                                      resolution = resolution,
-                                      extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
+    }
+
+    gyrate_patch <- lsm_p_gyrate_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        cell_center = cell_center,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
     # all values NA
-    if (all(is.na(gyrate_patch$value))) {
+    if (all(is.na(gyrate_patch))) {
         return(as.double(NA))
     }
 
-    gyrate_mn <- mean(gyrate_patch$value)
+    gyrate_mn <- mean(gyrate_patch)
 
     return(as.double(gyrate_mn))
 }

@@ -57,7 +57,14 @@ lsm_l_contig_mn <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_contig_mn_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_contig_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
                          lsm_landscape_output(metric = "contig_mn", value = value)
                      })
 
@@ -69,18 +76,32 @@ lsm_l_contig_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_contig_mn_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_contig_mn_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
-    contig_patch <- lsm_p_contig_calc(landscape,
-                                      directions = directions,
-                                      extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
+
+    contig_patch <- lsm_p_contig_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
     # all values NA
-    if (all(is.na(contig_patch$value))) {
+    if (all(is.na(contig_patch))) {
         return(as.double(NA))
     }
 
-    contig_mn <- mean(contig_patch$value)
+    contig_mn <- mean(contig_patch)
 
     return(as.double(contig_mn))
 }

@@ -92,7 +92,7 @@ lsm_c_contig_mn_calc <- function(landscape_mat, directions = NULL, classes = NUL
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_mn <- tapply(contig, names(contig), mean, na.rm = TRUE)
+    contig_mn <- tapply(contig, names(contig), mean)
 
     # return named vector
     stats::setNames(as.double(contig_mn), names(contig_mn))

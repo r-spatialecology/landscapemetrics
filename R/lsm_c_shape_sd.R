@@ -93,7 +93,7 @@ lsm_c_shape_sd_calc <- function(landscape_mat, directions = NULL, resolution = N
     }
 
     # calculate sd by class using tapply on named vector
-    shape_sd <- tapply(shape_patch, names(shape_patch), stats::sd, na.rm = TRUE)
+    shape_sd <- tapply(shape_patch, names(shape_patch), stats::sd)
 
     # return named vector
     stats::setNames(as.double(shape_sd), names(shape_sd))

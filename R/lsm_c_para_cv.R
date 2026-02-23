@@ -91,7 +91,7 @@ lsm_c_para_cv_calc <- function(landscape_mat, directions = NULL, resolution = NU
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    para_cv <- tapply(para_patch, names(para_patch), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    para_cv <- tapply(para_patch, names(para_patch), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(para_cv), names(para_cv))

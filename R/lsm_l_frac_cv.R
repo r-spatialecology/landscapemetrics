@@ -53,7 +53,15 @@ lsm_l_frac_cv <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         frac_cv <- lsm_l_frac_cv_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         frac_cv <- lsm_l_frac_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "frac_cv", value = frac_cv)
                      })
 
@@ -65,19 +73,40 @@ lsm_l_frac_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_frac_cv_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_l_frac_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    frac_patch <- lsm_p_frac_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+        area_patches <- deps$area_patches
+    }
+
+    # reuse lsm_p_frac_calc to get frac values (handles lazy deps)
+    frac_patch <- lsm_p_frac_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all values NA
-    if (all(is.na(frac_patch$value))) {
+    if (all(is.na(frac_patch))) {
         return(as.double(NA))
     }
 
-    frac_cv <- stats::sd(frac_patch$value) / mean(frac_patch$value) * 100
+    frac_cv <- stats::sd(frac_patch) / mean(frac_patch) * 100
 
     return(as.double(frac_cv))
 }

@@ -90,7 +90,7 @@ lsm_c_area_mn_calc <- function(landscape_mat, directions = NULL, resolution = NU
     }
 
     # calculate mean by class using tapply on named vector
-    area_mean <- tapply(area_patch, names(area_patch), mean, na.rm = TRUE)
+    area_mean <- tapply(area_patch, names(area_patch), mean)
 
     # return named vector
     stats::setNames(as.double(area_mean), names(area_mean))

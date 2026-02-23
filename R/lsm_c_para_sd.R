@@ -92,7 +92,7 @@ lsm_c_para_sd_calc <- function(landscape_mat, directions = NULL, resolution = NU
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    para_sd <- tapply(para_patch, names(para_patch), stats::sd, na.rm = TRUE)
+    para_sd <- tapply(para_patch, names(para_patch), stats::sd)
 
     # return named vector
     stats::setNames(as.double(para_sd), names(para_sd))

@@ -107,7 +107,7 @@ lsm_c_enn_sd_calc <- function(landscape_mat, directions, verbose, resolution, en
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    enn_sd <- tapply(enn, names(enn), stats::sd, na.rm = TRUE)
+    enn_sd <- tapply(enn, names(enn), stats::sd)
 
     # return named vector
     stats::setNames(as.double(enn_sd), names(enn_sd))

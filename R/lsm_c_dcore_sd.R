@@ -107,7 +107,7 @@ lsm_c_dcore_sd_calc <- function(landscape_mat, directions, consider_boundary, ed
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    dcore_sd <- tapply(dcore, names(dcore), stats::sd, na.rm = TRUE)
+    dcore_sd <- tapply(dcore, names(dcore), stats::sd)
 
     # return named vector
     stats::setNames(as.double(dcore_sd), names(dcore_sd))

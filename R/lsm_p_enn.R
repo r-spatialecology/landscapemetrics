@@ -56,13 +56,20 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         enn <- lsm_p_enn_calc(x,
-                                               directions = directions,
-                                               verbose = verbose)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         enn <- lsm_p_enn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
                          lsm_patch_output(metric = "enn",
-                                          class = enn$class,
-                                          value = enn$value,
-                                          id = enn$id)
+                                          class = as.integer(names(enn)),
+                                          value = unname(enn),
+                                          id = seq_along(enn))
                      })
 
     layer <- rep(seq_along(result),
@@ -73,33 +80,28 @@ lsm_p_enn <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_enn_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_p_enn_calc <- function(landscape_mat, directions, verbose, resolution, enn_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA),
-                    id = as.integer(NA),
-                    value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique classes
-    if (!is.null(extras)){
-        enn_patch <- extras$enn_patch
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        points <- get_points(landscape, resolution)
-        enn_patch <- get_enn_patch(classes, class_patches, points, resolution)
+    # lazy dependency resolution
+    if (is.null(enn_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("enn_patch"),
+            resolution = resolution
+        )
+        enn_patch <- deps$enn_patch
     }
 
-    list(class = as.integer(enn_patch$class),
-         id = as.integer(seq_len(nrow(enn_patch))),
-         value = as.double(enn_patch$value))
+    # enn_patch is a named vector
+    # names are class IDs, values are ENN distances
+    enn_vec <- enn_patch
+
+    # return named vector (preserve names)
+    structure(as.double(enn_vec), names = names(enn_vec))
 }

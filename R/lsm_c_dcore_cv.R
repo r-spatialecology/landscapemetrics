@@ -108,7 +108,7 @@ lsm_c_dcore_cv_calc <- function(landscape_mat, directions, consider_boundary, ed
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    dcore_cv <- tapply(dcore, names(dcore), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    dcore_cv <- tapply(dcore, names(dcore), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(dcore_cv), names(dcore_cv))

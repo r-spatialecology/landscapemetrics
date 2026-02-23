@@ -112,7 +112,7 @@ lsm_c_cai_mn_calc <- function(landscape_mat, directions, consider_boundary, edge
     }
 
     # summarise for each class using tapply on named vector
-    cai_mean <- tapply(cai, names(cai), mean, na.rm = TRUE)
+    cai_mean <- tapply(cai, names(cai), mean)
 
     # return named vector
     stats::setNames(as.double(cai_mean), names(cai_mean))

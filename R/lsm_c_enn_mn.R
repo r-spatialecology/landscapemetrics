@@ -107,7 +107,7 @@ lsm_c_enn_mn_calc <- function(landscape_mat, directions, verbose, resolution, en
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    enn_mn <- tapply(enn, names(enn), mean, na.rm = TRUE)
+    enn_mn <- tapply(enn, names(enn), mean)
 
     # return named vector
     stats::setNames(as.double(enn_mn), names(enn_mn))

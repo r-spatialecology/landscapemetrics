@@ -105,7 +105,7 @@ lsm_c_dcore_mn_calc <- function(landscape_mat, directions, consider_boundary, ed
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    dcore_mn <- tapply(dcore, names(dcore), mean, na.rm = TRUE)
+    dcore_mn <- tapply(dcore, names(dcore), mean)
 
     # return named vector
     stats::setNames(as.double(dcore_mn), names(dcore_mn))

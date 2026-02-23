@@ -93,7 +93,7 @@ lsm_c_shape_mn_calc <- function(landscape_mat, directions = NULL, resolution = N
     }
 
     # calculate mean by class using tapply on named vector
-    shape_mn <- tapply(shape_patch, names(shape_patch), mean, na.rm = TRUE)
+    shape_mn <- tapply(shape_patch, names(shape_patch), mean)
 
     # return named vector
     stats::setNames(as.double(shape_mn), names(shape_mn))

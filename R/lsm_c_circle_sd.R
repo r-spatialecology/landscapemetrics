@@ -97,7 +97,7 @@ lsm_c_circle_sd_calc <- function(landscape_mat, directions = NULL, resolution = 
     }
 
     # summarise for classes using tapply on named vector
-    circle_sd <- tapply(circle, names(circle), stats::sd, na.rm = TRUE)
+    circle_sd <- tapply(circle, names(circle), stats::sd)
 
     # return named vector
     stats::setNames(as.double(circle_sd), names(circle_sd))

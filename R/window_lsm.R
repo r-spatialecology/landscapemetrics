@@ -92,6 +92,7 @@ window_lsm <- function(landscape,
     return(result)
 }
 
+
 window_lsm_int <- function(landscape,
                            window,
                            level,
@@ -102,13 +103,10 @@ window_lsm_int <- function(landscape,
                            progress,
                            ...) {
 
-    # check if window has uneven sides
     if (any(dim(window) %% 2 == 0)) {
-
         stop("The window must have uneven sides.", call. = FALSE)
     }
 
-    # get list of metrics to calculate
     metrics_list <- list_lsm(level = level,
                              metric = metric,
                              name = name,
@@ -120,8 +118,9 @@ window_lsm_int <- function(landscape,
     number_metrics <- length(metrics_list)
 
     # check if non-landscape-level metrics are selected
-    if (!all(metrics_list %in% list_lsm(level = "landscape", simplify = TRUE))) {
+    landscape_metrics <- list_lsm(level = "landscape", simplify = TRUE)
 
+    if (!all(metrics_list %in% landscape_metrics)) {
         stop("'window_lsm()' is only able to calculate landscape level metrics.",
              call. = FALSE)
     }
@@ -129,21 +128,21 @@ window_lsm_int <- function(landscape,
     resolution <- terra::res(landscape)
 
     arguments_values <- list(directions = 8,
-                            count_boundary = FALSE,
-                            consider_boundary = FALSE,
-                            edge_depth = 1,
-                            classes_max = NULL,
-                            neighbourhood = 4,
-                            ordered = TRUE,
-                            base = "log2",
-                            resolution = resolution,
-                            verbose = TRUE)
+                             count_boundary = FALSE,
+                             consider_boundary = FALSE,
+                             edge_depth = 1,
+                             classes_max = NULL,
+                             neighbourhood = 4,
+                             ordered = TRUE,
+                             base = "log2",
+                             resolution = resolution,
+                             verbose = TRUE)
 
     input_arguments <- list(...)
     arguments_values[names(input_arguments)] <- input_arguments
 
-    # create object for warning messages
-    warning_messages <- character(0)
+    # use environment for warning collection (no vector growth)
+    warning_env <- new.env(parent = emptyenv())
 
     result <- withCallingHandlers(expr = {lapply(seq_along(metrics_list), function(current_metric) {
 
@@ -159,10 +158,10 @@ window_lsm_int <- function(landscape,
         arguments <- names(formals(foo))[-1]
 
         # which arguments are needed
-        arguments_values <- arguments_values[names(arguments_values) %in% arguments]
+        metric_arguments_values <- arguments_values[names(arguments_values) %in% arguments]
 
         # sort alphabetically to match later with provided
-        arguments_values <- arguments_values[order(names(arguments_values))]
+        metric_arguments_values <- metric_arguments_values[order(names(metric_arguments_values))]
 
         # print progress using the non-internal name
         if (progress) {
@@ -173,26 +172,28 @@ window_lsm_int <- function(landscape,
         terra::focal(x = landscape, w = dim(window), fun = function(x) {
 
             calculate_lsm_focal(landscape_values = x,
-                                raster_window = window,
-                                foo = foo,
-                                arguments_values = arguments_values)}, fillvalue = NA)
+                    raster_window = window,
+                    foo = foo,
+                    arguments_values = metric_arguments_values)}, fillvalue = NA)
         })},
         warning = function(cond) {
 
-            warning_messages <<- c(warning_messages, conditionMessage(cond))
-
-            invokeRestart("muffleWarning")})
+            # store unique warnings via environment
+            msg <- conditionMessage(cond)
+            warning_env[[msg]] <- TRUE
+            invokeRestart("muffleWarning")
+        }
+    )
 
     names(result) <- metrics_list
 
     if (progress) {cat("\n")}
 
+    # emit unique warnings (same behavior)
+    warning_messages <- ls(warning_env)
+
     # warnings present
     if (length(warning_messages) > 0) {
-
-        # only unique warnings
-        warning_messages <- unique(warning_messages)
-
         # print warnings
         lapply(warning_messages, function(x){warning(x, call. = FALSE)})
     }
@@ -206,7 +207,8 @@ calculate_lsm_focal <- function(landscape_values,
                                 arguments_values) {
 
     # convert focal window to matrix
-    raster_window[!is.na(raster_window)] <- landscape_values[!is.na(raster_window)]
+    mask <- !is.na(raster_window)
+    raster_window[mask] <- landscape_values[mask]
 
     # landscape argument
     arguments_values$landscape <- raster_window
@@ -214,5 +216,5 @@ calculate_lsm_focal <- function(landscape_values,
     # run function
     result <- do.call(what = foo, args = arguments_values)
 
-    return(as.double(result))
+    return(result)
 }

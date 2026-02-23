@@ -114,7 +114,7 @@ lsm_c_cai_cv_calc <- function(landscape_mat, directions, consider_boundary, edge
     }
 
     # summarise for classes using tapply on named vector
-    cai_cv <- tapply(cai, names(cai), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    cai_cv <- tapply(cai, names(cai), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(cai_cv), names(cai_cv))

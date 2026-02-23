@@ -92,7 +92,7 @@ lsm_c_shape_cv_calc <- function(landscape_mat, directions = NULL, resolution = N
     }
 
     # calculate cv by class using tapply on named vector
-    shape_cv <- tapply(shape_patch, names(shape_patch), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    shape_cv <- tapply(shape_patch, names(shape_patch), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(shape_cv), names(shape_cv))

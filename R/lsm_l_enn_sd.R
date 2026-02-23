@@ -56,9 +56,16 @@ lsm_l_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         enn_sd <- lsm_l_enn_sd_calc(x,
-                                                     directions = directions,
-                                                     verbose = verbose)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         enn_sd <- lsm_l_enn_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "enn_sd", value = enn_sd)
                      })
 
@@ -70,18 +77,33 @@ lsm_l_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_enn_sd_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
+lsm_l_enn_sd_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, resolution = NULL, enn_patch = NULL) {
 
-    enn_patch <- lsm_p_enn_calc(landscape,
-                                directions = directions, verbose = verbose,
-                                resolution = resolution, extras = extras)
+    # lazy dependency resolution
+    if (is.null(enn_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("enn_patch"),
+            resolution = resolution
+        )
+        enn_patch <- deps$enn_patch
+    }
+
+    enn_patch <- lsm_p_enn_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        verbose = verbose,
+        resolution = resolution,
+        enn_patch = enn_patch
+    )
 
     # all values NA
-    if (all(is.na(enn_patch$value))) {
+    if (all(is.na(enn_patch))) {
         return(as.double(NA))
     }
 
-    enn_sd <- stats::sd(enn_patch$value)
+    enn_sd <- stats::sd(enn_patch)
 
     return(as.double(enn_sd))
 }

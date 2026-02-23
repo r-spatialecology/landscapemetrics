@@ -105,7 +105,7 @@ lsm_c_enn_cv_calc <- function(landscape_mat, directions, verbose, resolution, en
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    enn_cv <- tapply(enn, names(enn), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+    enn_cv <- tapply(enn, names(enn), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(enn_cv), names(enn_cv))

@@ -90,9 +90,7 @@ lsm_l_iji_calc <- function(landscape_mat, verbose = TRUE, neighbor_matrix = NULL
         }
 
         return(as.double(NA))
-    }
-
-    else {
+    } else {
 
         diag(adjacencies) <- 0
 

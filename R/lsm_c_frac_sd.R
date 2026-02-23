@@ -94,7 +94,7 @@ lsm_c_frac_sd_calc <- function(landscape_mat, directions = NULL, resolution = NU
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    frac_sd <- tapply(frac_patch, names(frac_patch), stats::sd, na.rm = TRUE)
+    frac_sd <- tapply(frac_patch, names(frac_patch), stats::sd)
 
     # return named vector
     stats::setNames(as.double(frac_sd), names(frac_sd))

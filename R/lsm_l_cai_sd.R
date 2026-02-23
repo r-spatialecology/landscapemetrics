@@ -59,10 +59,17 @@ lsm_l_cai_sd <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_cai_sd_calc(x,
-                                                    directions = directions,
-                                                    consider_boundary = consider_boundary,
-                                                    edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_cai_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "cai_sd", value = value)
                      })
 
@@ -74,25 +81,44 @@ lsm_l_cai_sd <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
-
-    cai_patch <- lsm_p_cai_calc(landscape,
-                                directions = directions,
-                                consider_boundary = consider_boundary,
-                                edge_depth = edge_depth,
-                                resolution = resolution,
-                                extras = extras)
-    cai_patch <- lsm_patch_output(metric = "cai",
-                                  class = cai_patch$class,
-                                  value = cai_patch$value,
-                                  id = cai_patch$id)
+lsm_l_cai_sd_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                              classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(cai_patch$value))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    cai_sd <- stats::sd(cai_patch$value)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    cai_patch <- lsm_p_cai_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
+
+    # all values NA
+    if (all(is.na(cai_patch))) {
+        return(as.double(NA))
+    }
+
+    cai_sd <- stats::sd(cai_patch)
 
     return(as.double(cai_sd))
 }

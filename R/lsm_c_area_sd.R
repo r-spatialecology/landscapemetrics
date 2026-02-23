@@ -90,7 +90,7 @@ lsm_c_area_sd_calc <- function(landscape_mat, directions = NULL, resolution = NU
     }
 
     # calculate sd by class using tapply on named vector
-    area_sd <- tapply(area_patch, names(area_patch), stats::sd, na.rm = TRUE)
+    area_sd <- tapply(area_patch, names(area_patch), stats::sd)
 
     # return named vector
     stats::setNames(as.double(area_sd), names(area_sd))

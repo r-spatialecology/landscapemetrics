@@ -43,7 +43,15 @@ lsm_l_ta <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         ta <- lsm_l_ta_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ta <- lsm_l_ta_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "ta", value = ta)
                      })
 
@@ -55,14 +63,29 @@ lsm_l_ta <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ta_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_l_ta_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                           classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    total_area <- sum(patch_area$value)
+    # all values NA - no classes present
+    if (is.null(classes) || length(classes) == 0) {
+        return(as.double(NA))
+    }
+
+    # calculate total area directly from area_patches
+    total_area <- sum(unlist(area_patches))
 
     # all values NA
     if (is.na(total_area)) {

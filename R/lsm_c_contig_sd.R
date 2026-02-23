@@ -93,7 +93,7 @@ lsm_c_contig_sd_calc <- function(landscape_mat, directions = NULL, classes = NUL
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_sd <- tapply(contig, names(contig), stats::sd, na.rm = TRUE)
+    contig_sd <- tapply(contig, names(contig), stats::sd)
 
     # return named vector
     stats::setNames(as.double(contig_sd), names(contig_sd))
