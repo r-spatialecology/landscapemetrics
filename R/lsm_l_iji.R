@@ -46,7 +46,13 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         iji <- lsm_l_iji_calc(x, verbose = verbose)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         iji <- lsm_l_iji_calc(
+                             landscape_mat = landscape_mat,
+                             verbose = verbose
+                         )
+
                          lsm_landscape_output(metric = "iji", value = iji)
                      })
 
@@ -58,23 +64,24 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_iji_calc <- function(landscape_mat, verbose = TRUE, neighbor_matrix = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        adjacencies <- extras$neighbor_matrix
-    } else {
-        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    # lazy dependency resolution
+    if (is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("neighbor_matrix"),
+            neighbourhood = 4
+        )
+        neighbor_matrix <- deps$neighbor_matrix
     }
+
+    adjacencies <- neighbor_matrix
 
     if (ncol(adjacencies) < 3) {
 
@@ -83,19 +90,23 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
         }
 
         return(as.double(NA))
-    } else {
+    }
+
+    else {
 
         diag(adjacencies) <- 0
 
-        e_total <- sum(adjacencies[lower.tri(adjacencies)])
+        # get upper triangle only (unique adjacencies between different classes)
+        upper_tri <- adjacencies[upper.tri(adjacencies)]
 
-        edge_ratio <- (adjacencies / e_total) * log(adjacencies / e_total)
+        # total edge (sum of unique adjacencies)
+        total_edge <- sum(upper_tri, na.rm = TRUE)
 
-        edge_ratio <- edge_ratio[lower.tri(edge_ratio)]
+        # calculate IJI using only upper triangle
+        edge_ratio <- (upper_tri / total_edge) * log(upper_tri / total_edge)
 
-        landscape_sum <- -sum(edge_ratio, na.rm = TRUE)
-
-        iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
+        iji <- (-sum(edge_ratio, na.rm = TRUE) /
+                    log(0.5 * (ncol(adjacencies) * (ncol(adjacencies) - 1)))) * 100
 
         return(as.double(iji))
     }

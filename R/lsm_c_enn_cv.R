@@ -56,12 +56,19 @@ lsm_c_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         enn_cv <- lsm_c_enn_cv_calc(x,
-                                                     directions = directions,
-                                                     verbose = verbose)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         enn_cv <- lsm_c_enn_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "enn_cv",
-                                          class = enn_cv$class,
-                                          value = enn_cv$value)
+                                          class = as.integer(names(enn_cv)),
+                                          value = unname(enn_cv))
                      })
 
     layer <- rep(seq_along(result),
@@ -72,25 +79,34 @@ lsm_c_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_enn_cv_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
+lsm_c_enn_cv_calc <- function(landscape_mat, directions, verbose, resolution, enn_patch = NULL) {
 
-    enn <- lsm_p_enn_calc(landscape,
-                          directions = directions,
-                          verbose = verbose,
-                          resolution = resolution, extras = extras)
-    enn <- lsm_patch_output(metric = "enn",
-                            class = enn$class,
-                            value = enn$value,
-                            id = enn$id)
-
-    # all cells are NA
-    if (all(is.na(enn$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    # lazy dependency resolution
+    if (is.null(enn_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("enn_patch"),
+            resolution = resolution
+        )
+        enn_patch <- deps$enn_patch
     }
 
-    enn_cv <- stats::aggregate(x = enn[, 5], by = enn[, 2],
-                               FUN = function(x) stats::sd(x) / mean(x) * 100)
+    enn <- lsm_p_enn_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        verbose = verbose,
+        resolution = resolution,
+        enn_patch = enn_patch
+    )
 
-    return(list(class = as.integer(enn_cv$class),
-                value = as.double(enn_cv$value)))
+    # all cells are NA
+    if (all(is.na(unname(enn)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    enn_cv <- tapply(enn, names(enn), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+
+    # return named vector
+    stats::setNames(as.double(enn_cv), names(enn_cv))
 }

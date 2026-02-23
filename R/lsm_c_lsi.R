@@ -46,10 +46,15 @@ lsm_c_lsi <- function(landscape) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         lsi <- lsm_c_lsi_calc(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         lsi <- lsm_c_lsi_calc(
+                             landscape_mat = landscape_mat
+                         )
+
                          lsm_class_output(metric = "lsi",
-                                          class = lsi$class,
-                                          value = lsi$value)
+                                          class = as.integer(names(lsi)),
+                                          value = unname(lsi))
                      })
 
     layer <- rep(seq_along(result),
@@ -60,20 +65,15 @@ lsm_c_lsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_lsi_calc <- function(landscape, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_c_lsi_calc <- function(landscape_mat) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape_mat, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
@@ -112,6 +112,6 @@ lsm_c_lsi_calc <- function(landscape, extras = NULL) {
     # calculate LSI
     lsi <- class_perim / class_perim_min
 
-    return(list(class = as.integer(names(lsi)),
-                value = as.double(lsi)))
+    # return named vector
+    stats::setNames(as.double(lsi), names(lsi))
 }

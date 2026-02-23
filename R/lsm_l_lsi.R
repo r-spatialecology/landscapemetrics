@@ -46,7 +46,12 @@ lsm_l_lsi <- function(landscape) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         lsi <- lsm_l_lsi_calc(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         lsi <- lsm_l_lsi_calc(
+                             landscape_mat = landscape_mat
+                         )
+
                          lsm_landscape_output(metric = "lsi", value = lsi)
                      })
 
@@ -58,20 +63,15 @@ lsm_l_lsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_lsi_calc <- function(landscape, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_lsi_calc <- function(landscape_mat) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape_mat, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)

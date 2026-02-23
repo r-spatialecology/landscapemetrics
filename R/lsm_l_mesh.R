@@ -50,7 +50,15 @@ lsm_l_mesh <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         mesh <- lsm_l_mesh_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         mesh <- lsm_l_mesh_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "mesh", value = mesh)
                      })
 
@@ -62,16 +70,34 @@ lsm_l_mesh <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_l_mesh_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                            classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    # get patch area (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to total area
-    area_total <- sum(area_patch$value)
+    area_total <- sum(area_patch)
 
     # all values NA
     if (is.na(area_total)) {
@@ -79,7 +105,7 @@ lsm_l_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
     }
 
     # calculate mesh first take area ^ 2, than sum for whole landscape divided by landscape area total
-    mesh <- sum(area_patch$value ^ 2) / area_total
+    mesh <- sum(area_patch ^ 2) / area_total
 
     return(as.double(mesh))
 }

@@ -46,7 +46,13 @@ lsm_l_contag <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         contag <- lsm_l_contag_calc(x, verbose = verbose)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         contag <- lsm_l_contag_calc(
+                             landscape_mat = landscape_mat,
+                             verbose = verbose
+                         )
+
                          lsm_landscape_output(metric = "contag", value = contag)
                      })
 
@@ -58,23 +64,25 @@ lsm_l_contag <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
-
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <-terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_contag_calc <- function(landscape_mat, verbose = TRUE, classes = NULL, neighbor_matrix = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        t <- length(extras$classes)
-    } else {
-        t <- length(get_unique_values_int(landscape, verbose = FALSE))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("classes", "neighbor_matrix"),
+            neighbourhood = 4
+        )
+        classes <- deps$classes
+        neighbor_matrix <- deps$neighbor_matrix
     }
+
+    t <- length(classes)
 
     if (t < 2) {
         if (verbose) {
@@ -85,11 +93,7 @@ lsm_l_contag_calc <- function(landscape, verbose, extras = NULL) {
         return(as.double(NA))
     } else {
 
-        if (!is.null(extras)){
-            adjacencies <- extras$neighbor_matrix
-        } else {
-            adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
-        }
+        adjacencies <- neighbor_matrix
 
         esum <- sum(adjacencies / sum(adjacencies) *
                         log(adjacencies / sum(adjacencies)), na.rm = TRUE)

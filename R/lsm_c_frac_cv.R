@@ -53,10 +53,18 @@ lsm_c_frac_cv <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         frac_cv <- lsm_c_frac_cv_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         frac_cv <- lsm_c_frac_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "frac_cv",
-                                          class = frac_cv$class,
-                                          value = frac_cv$value)
+                                          class = as.integer(names(frac_cv)),
+                                          value = unname(frac_cv))
                      })
 
     layer <- rep(seq_along(result),
@@ -67,25 +75,27 @@ lsm_c_frac_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_frac_cv_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_frac_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    frac <- lsm_p_frac_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
-    frac <- lsm_patch_output(metric = "frac",
-                             class = frac$class,
-                             value = frac$value,
-                             id = frac$id)
+    # reuse lsm_p_frac_calc to get frac values (handles lazy deps)
+    frac_patch <- lsm_p_frac_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all cells are NA
-    if (all(is.na(frac$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(frac_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    frac_cv <- stats::aggregate(x = frac[, 5], by = frac[, 2],
-                                FUN = function(x) stats::sd(x) / mean(x) * 100)
+    frac_cv <- tapply(frac_patch, names(frac_patch), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
 
-    return(list(class = as.integer(frac_cv$class),
-                value = as.double(frac_cv$value)))
+    # return named vector
+    stats::setNames(as.double(frac_cv), names(frac_cv))
 }

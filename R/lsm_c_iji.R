@@ -45,10 +45,16 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         iji <- lsm_c_iji_calc(x, verbose = verbose)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         iji <- lsm_c_iji_calc(
+                             landscape_mat = landscape_mat,
+                             verbose = verbose
+                         )
+
                          lsm_class_output(metric = "iji",
-                                          class = iji$class,
-                                          value = iji$value)
+                                          class = as.integer(names(iji)),
+                                          value = unname(iji))
                      })
 
     layer <- rep(seq_along(result),
@@ -59,23 +65,24 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
-
-    # conver to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_c_iji_calc <- function(landscape_mat, verbose = TRUE, neighbor_matrix = NULL) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    if (!is.null(extras)){
-        adjacencies <- extras$neighbor_matrix
-    } else {
-        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    # lazy dependency resolution
+    if (is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("neighbor_matrix"),
+            neighbourhood = 4
+        )
+        neighbor_matrix <- deps$neighbor_matrix
     }
+
+    adjacencies <- neighbor_matrix
 
     classes <- rownames(adjacencies)
 
@@ -85,8 +92,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(list(class = as.integer(classes),
-                    value = rep(as.double(NA), length(classes))))
+        return(stats::setNames(rep(as.double(NA), length(classes)), classes))
     }
 
     else {
@@ -100,7 +106,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-        return(list(class = as.integer(classes),
-                    value = as.double(iji)))
+        # return named vector
+        stats::setNames(as.double(iji), classes)
     }
 }

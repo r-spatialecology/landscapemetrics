@@ -50,10 +50,18 @@ lsm_c_mesh <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         mesh <- lsm_c_mesh_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         mesh <- lsm_c_mesh_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "mesh",
-                                          class = mesh$class,
-                                          value = mesh$value)
+                                          class = as.integer(names(mesh)),
+                                          value = unname(mesh))
                      })
 
     layer <- rep(seq_along(result),
@@ -64,35 +72,50 @@ lsm_c_mesh <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_mesh_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_c_mesh_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                            classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get patch area
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
-    patch_area <- lsm_patch_output(metric = "area",
-                                   class = patch_area$class,
-                                   value = patch_area$value,
-                                   id = patch_area$id)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    # get patch area (handles lazy deps)
+    patch_area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to landscape area in sqm
-    total_area <- sum(patch_area$value) * 10000
+    total_area <- sum(patch_area) * 10000
 
     # all values NA
     if (is.na(total_area)) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate mesh for each patch
-    patch_area$value <- (patch_area$value * 10000) ^ 2
+    # calculate mesh for each patch (preserve names)
+    patch_area_sqm <- patch_area * 10000
+    patch_area_squared <- patch_area_sqm ^ 2
 
-    # summarise for each class
-    mesh <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
+    # summarise for each class using tapply on named vector
+    mesh <- tapply(patch_area_squared, names(patch_area_squared), sum, na.rm = TRUE)
 
     # relative to total landscape area
-    mesh$value <- (mesh$value / total_area) * (1 / 10000)
+    mesh <- (mesh / total_area) * (1 / 10000)
 
-    return(list(class = as.integer(mesh$class),
-                value = as.double(mesh$value)))
+    # return named vector
+    stats::setNames(as.double(mesh), names(mesh))
 }

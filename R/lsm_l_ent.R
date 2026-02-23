@@ -36,9 +36,15 @@ lsm_l_ent <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_ent_calc(x,
-                                                 neighbourhood = neighbourhood,
-                                                 base = base)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_ent_calc(
+                             landscape_mat = landscape_mat,
+                             neighbourhood = neighbourhood,
+                             base = base
+                         )
+
                          lsm_landscape_output(metric = "ent", value = value)
                      })
 
@@ -50,23 +56,22 @@ lsm_l_ent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ent_calc <- function(landscape, neighbourhood, base, extras = NULL){
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_ent_calc <- function(landscape_mat, neighbourhood = 4, base = "log2", comp = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
+    if (all(is.na(landscape_mat))) {
         return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        comp <- extras$comp
-    } else {
-        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
-        comp <- rcpp_get_entropy(colSums(com), base)
+    # lazy dependency resolution
+    if (is.null(comp)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("comp"),
+            neighbourhood = neighbourhood,
+            base = base
+        )
+        comp <- deps$comp
     }
 
     return(as.double(comp))

@@ -57,10 +57,17 @@ lsm_c_contig_mn <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         contig_mn <- lsm_c_contig_mn_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         contig_mn <- lsm_c_contig_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
                          lsm_class_output(metric = "contig_mn",
-                                          class = contig_mn$class,
-                                          value = contig_mn$value)
+                                          class = as.integer(names(contig_mn)),
+                                          value = unname(contig_mn))
                      })
 
     layer <- rep(seq_along(result),
@@ -71,22 +78,22 @@ lsm_c_contig_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_contig_mn_calc <- function(landscape, directions, extras = NULL) {
+lsm_c_contig_mn_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
-    contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
-    contig <- lsm_patch_output(metric = "contig",
-                               class = contig$class,
-                               value = contig$value,
-                               id = contig$id)
+    contig <- lsm_p_contig_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
     # all values NA
-    if (all(is.na(contig$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(contig)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_mn <- stats::aggregate(x = contig[, 5], by = contig[, 2],
-                                  FUN = mean)
+    contig_mn <- tapply(contig, names(contig), mean, na.rm = TRUE)
 
-    return(list(class = as.integer(contig_mn$class),
-                value = as.double(contig_mn$value)))
+    # return named vector
+    stats::setNames(as.double(contig_mn), names(contig_mn))
 }

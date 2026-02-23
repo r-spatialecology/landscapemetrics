@@ -50,11 +50,19 @@ lsm_p_area <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         area <- lsm_p_area_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         area <- lsm_p_area_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_patch_output(metric = "area",
-                                          class = area$class,
-                                          value = area$value,
-                                          id = area$id)
+                                          class = as.integer(names(area)),
+                                          value = unname(area),
+                                          id = seq_along(area))
                      })
 
     layer <- rep(seq_along(result),
@@ -66,30 +74,29 @@ lsm_p_area <- function(landscape, directions = 8) {
 }
 
 
-lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_p_area"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                 directions = directions, resolution = resolution)
-    }
+lsm_p_area_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                             classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA),
-                    id = as.integer(NA),
-                    value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique class id
-    classes <- extras$classes
-    class_patches <- extras$class_patches
-    area_patches <- extras$area_patches
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    area_patch <- do.call(rbind,
+    # Build named vector: values are patch areas, names are class IDs
+    area_patch <- do.call(c,
                           lapply(classes, function(patches_class){
 
         # get connected patches
@@ -98,14 +105,10 @@ lsm_p_area_calc <- function(landscape, directions, resolution, extras = NULL){
         # multiply number of cells within each patch with hectar factor
         area_patch_ij <- area_patches[[as.character(patches_class)]]
 
-        tibble::new_tibble(list(
-            class = rep(as.integer(patches_class), length(area_patch_ij)),
-            value = area_patch_ij))
+        # return named vector: names are class IDs, values are areas
+        stats::setNames(area_patch_ij, rep(as.character(patches_class), length(area_patch_ij)))
         })
     )
-    return(list(
-        class = as.integer(area_patch$class),
-        id = as.integer(seq_len(nrow(area_patch))),
-        value = as.double(area_patch$value)
-    ))
+    # return named vector (preserve names)
+    structure(as.double(area_patch), names = names(area_patch))
 }

@@ -41,9 +41,14 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         rpr <- lsm_l_rpr_calc(x,
-                                               classes_max = classes_max,
-                                               verbose = verbose)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         rpr <- lsm_l_rpr_calc(
+                             landscape_mat = landscape_mat,
+                             classes_max = classes_max,
+                             verbose = verbose
+                         )
+
                          lsm_landscape_output(metric = "rpr", value = rpr)
                      })
 
@@ -55,7 +60,7 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
+lsm_l_rpr_calc <- function(landscape_mat, classes_max, verbose = TRUE, classes = NULL) {
 
     if (is.null(classes_max)) {
 
@@ -66,7 +71,19 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
         rpr <- NA
     } else {
 
-        pr <- lsm_l_pr_calc(landscape, extras = extras)
+        # lazy dependency resolution
+        if (is.null(classes)) {
+            deps <- resolve_extras(
+                landscape_mat = landscape_mat,
+                required = c("classes")
+            )
+            classes <- deps$classes
+        }
+
+        pr <- lsm_l_pr_calc(
+            landscape_mat = landscape_mat,
+            classes = classes
+        )
 
         # all values NA
         if (is.na(pr)) {

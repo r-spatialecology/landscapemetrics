@@ -60,12 +60,19 @@ lsm_c_gyrate_mn <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         gyrate_mn <- lsm_c_gyrate_mn_calc(x,
-                                                           directions = directions,
-                                                           cell_center = cell_center)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         gyrate_mn <- lsm_c_gyrate_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             cell_center = cell_center,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "gyrate_mn",
-                                          class = gyrate_mn$class,
-                                          value = gyrate_mn$value)
+                                          class = as.integer(names(gyrate_mn)),
+                                          value = unname(gyrate_mn))
                      })
 
     layer <- rep(seq_along(result),
@@ -76,26 +83,39 @@ lsm_c_gyrate_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_gyrate_mn_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
+lsm_c_gyrate_mn_calc <- function(landscape_mat, directions = NULL, cell_center = FALSE, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, points = NULL) {
 
-    gyrate <- lsm_p_gyrate_calc(landscape,
-                                directions = directions,
-                                cell_center = cell_center,
-                                resolution = resolution,
-                                extras = extras)
-    gyrate <- lsm_patch_output(metric = "gyrate",
-                               class = gyrate$class,
-                               value = gyrate$value,
-                               id = gyrate$id)
-
-    # all cells are NA
-    if (all(is.na(gyrate$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    gyrate_mn <-  stats::aggregate(x = gyrate[, 5], by = gyrate[, 2],
-                                   FUN = mean)
+    gyrate <- lsm_p_gyrate_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        cell_center = cell_center,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
-    return(list(class = as.integer(gyrate_mn$class),
-                value = as.double(gyrate_mn$value)))
+    # all cells are NA
+    if (all(is.na(unname(gyrate)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    gyrate_mn <- tapply(gyrate, names(gyrate), mean, na.rm = TRUE)
+
+    # return named vector
+    stats::setNames(as.double(gyrate_mn), names(gyrate_mn))
 }

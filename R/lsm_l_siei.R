@@ -44,7 +44,15 @@ lsm_l_siei <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_siei_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_siei_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "siei", value = value)
                      })
 
@@ -56,19 +64,40 @@ lsm_l_siei <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_siei_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_l_siei_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                            classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    sidi <- lsm_l_sidi_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    sidi <- lsm_l_sidi_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # all values NA
     if (is.na(sidi)) {
         return(as.double(NA))
     }
 
-    pr <- lsm_l_pr_calc(landscape, extras = extras)
+    pr <- lsm_l_pr_calc(
+        landscape_mat = landscape_mat,
+        classes = classes
+    )
 
     siei <- sidi / (1 - (1 / pr))
 

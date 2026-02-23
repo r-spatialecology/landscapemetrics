@@ -54,10 +54,17 @@ lsm_l_tca <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         tca <- lsm_l_tca_calc(x,
-                                               directions = directions,
-                                               consider_boundary = consider_boundary,
-                                               edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         tca <- lsm_l_tca_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "tca", value = tca)
                      })
 
@@ -69,16 +76,32 @@ lsm_l_tca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
+lsm_l_tca_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                           classes = NULL, class_patches = NULL) {
 
-    core_area_patch <- lsm_p_core_calc(landscape,
-                                       directions = directions,
-                                       consider_boundary = consider_boundary,
-                                       edge_depth = edge_depth,
-                                       resolution = resolution,
-                                       extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
 
-    total_core_area <- sum(core_area_patch$value)
+    core_area_patch <- lsm_p_core_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches
+    )
+
+    total_core_area <- sum(core_area_patch)
 
     # all values NA
     if (is.na(total_core_area)) {

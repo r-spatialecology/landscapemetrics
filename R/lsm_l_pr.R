@@ -34,7 +34,12 @@ lsm_l_pr <- function(landscape){
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         pr <- lsm_l_pr_calc(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pr <- lsm_l_pr_calc(
+                             landscape_mat = landscape_mat
+                         )
+
                          lsm_landscape_output(metric = "pr", value = pr)
                      })
 
@@ -46,13 +51,17 @@ lsm_l_pr <- function(landscape){
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pr_calc <- function(landscape, extras = NULL){
+lsm_l_pr_calc <- function(landscape_mat, classes = NULL) {
 
-    if (!is.null(extras)){
-        classes <- extras$classes
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
+    # lazy dependency resolution
+    if (is.null(classes)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("classes")
+        )
+        classes <- deps$classes
     }
+
     richness <- length(classes)
 
     # all values NA

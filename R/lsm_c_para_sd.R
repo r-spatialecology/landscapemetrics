@@ -51,10 +51,18 @@ lsm_c_para_sd <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         para_sd <- lsm_c_para_sd_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         para_sd <- lsm_c_para_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "para_sd",
-                                          class = para_sd$class,
-                                          value = para_sd$value)
+                                          class = as.integer(names(para_sd)),
+                                          value = unname(para_sd))
                      })
 
     layer <- rep(seq_along(result),
@@ -65,25 +73,27 @@ lsm_c_para_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_para_sd_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_para_sd_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    para <- lsm_p_para_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
-    para <- lsm_patch_output(metric = "para",
-                             class = para$class,
-                             value = para$value,
-                             id = para$id)
+    # reuse lsm_p_para_calc to get para values (handles lazy deps)
+    para_patch <- lsm_p_para_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all cells are NA
-    if (all(is.na(para$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(para_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    para_sd <- stats::aggregate(x = para[, 5], by = para[, 2],
-                                FUN = stats::sd)
+    para_sd <- tapply(para_patch, names(para_patch), stats::sd, na.rm = TRUE)
 
-    return(list(class = as.integer(para_sd$class),
-                value = as.double(para_sd$value)))
+    # return named vector
+    stats::setNames(as.double(para_sd), names(para_sd))
 }

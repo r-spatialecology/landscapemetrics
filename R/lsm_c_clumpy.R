@@ -40,10 +40,15 @@ lsm_c_clumpy <- function(landscape) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         clumpy <- lsm_c_clumpy_calc(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         clumpy <- lsm_c_clumpy_calc(
+                             landscape_mat = landscape_mat
+                         )
+
                          lsm_class_output(metric = "clumpy",
-                                          class = clumpy$class,
-                                          value = clumpy$value)
+                                          class = as.integer(names(clumpy)),
+                                          value = unname(clumpy))
                      })
 
     layer <- rep(seq_along(result),
@@ -54,17 +59,17 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
+lsm_c_clumpy_calc <- function(landscape_mat) {
 
     # pad landscape to also include adjacencies at landscape boundary
-    landscape_padded <- pad_raster_internal(landscape,
+    landscape_padded <- pad_raster_internal(landscape_mat,
                                             pad_raster_value = -999,
                                             pad_raster_cells = 1,
                                             global = TRUE)
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
     # get coocurrence
@@ -111,6 +116,6 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     }, FUN.VALUE = numeric(1))
 
-    return(list(class = as.integer(names(g_i)),
-                value = as.double(clumpy)))
+    # return named vector
+    stats::setNames(as.double(clumpy), names(g_i))
 }

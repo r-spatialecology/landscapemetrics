@@ -48,13 +48,20 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         cpland <- lsm_c_cpland_calc(x,
-                                                     directions = directions,
-                                                     consider_boundary = consider_boundary,
-                                                     edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         cpland <- lsm_c_cpland_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "cpland",
-                                          class = cpland$class,
-                                          value = cpland$value)
+                                          class = as.integer(names(cpland)),
+                                          value = unname(cpland))
                      })
 
     layer <- rep(seq_along(result),
@@ -65,49 +72,57 @@ lsm_c_cpland <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cpland_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_cpland"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_c_cpland_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
+                              classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate patch area
-    area <- lsm_p_area_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    # total landscape area
-    area <- sum(area$value)
+    # calculate patch area (in ha) (handles lazy deps)
+    area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
-    # get core area for each patch
-    core_area <- lsm_p_core_calc(landscape,
-                                 directions = directions,
-                                 consider_boundary = consider_boundary,
-                                 edge_depth = edge_depth,
-                                 resolution = resolution,
-                                 extras = extras)
-    core_area <- lsm_patch_output(metric = "core",
-                                  class = core_area$class,
-                                  value = core_area$value,
-                                  id = core_area$id)
+    # total landscape area (in ha)
+    total_area_ha <- sum(unname(area))
 
-    # summarise core area for classes
-    core_area <- stats::aggregate(x = core_area[, 5], by = core_area[, 2], FUN = sum)
+    # get core area for each patch (in ha) (returns named vector)
+    core_area <- lsm_p_core_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches
+    )
 
-    # relative core area of each class
-    core_area$value <- core_area$value / area * 100
+    # summarise core area for classes using tapply on named vector
+    core_area_by_class <- tapply(core_area, names(core_area), sum, na.rm = TRUE)
 
-    return(list(class = as.integer(core_area$class),
-                value = as.double(core_area$value)))
+    # relative core area of each class (both in ha, so no conversion needed)
+    cpland <- core_area_by_class / total_area_ha * 100
+
+    # return named vector
+    stats::setNames(as.double(cpland), names(cpland))
 }

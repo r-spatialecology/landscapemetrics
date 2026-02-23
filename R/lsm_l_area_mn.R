@@ -49,7 +49,15 @@ lsm_l_area_mn <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         value <- lsm_l_area_mn_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_area_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "area_mn", value = value)
                      })
 
@@ -61,25 +69,26 @@ lsm_l_area_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_area_mn_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_l_area_mn_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
-    area_patch <- lsm_patch_output(metric = "area",
-                                   class = area_patch$class,
-                                   value = area_patch$value,
-                                   id = area_patch$id)
+    # reuse lsm_p_area_calc to get patch areas (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # all values NA
-    if (all(is.na(area_patch$value))) {
+    if (all(is.na(unname(area_patch)))) {
         return(as.double(NA))
     }
 
     # calculate mean
-    area_mn <- mean(area_patch$value)
+    area_mn <- mean(unname(area_patch))
 
     return(as.double(area_mn))
 }

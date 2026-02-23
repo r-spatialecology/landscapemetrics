@@ -51,10 +51,18 @@ lsm_c_shape_mn <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         shape_mn <- lsm_c_shape_mn_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         shape_mn <- lsm_c_shape_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "shape_mn",
-                                          class = shape_mn$class,
-                                          value = shape_mn$value)
+                                          class = as.integer(names(shape_mn)),
+                                          value = unname(shape_mn))
                      })
 
     layer <- rep(seq_along(result),
@@ -65,27 +73,28 @@ lsm_c_shape_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_shape_mn_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    # shape index for each patch
-    shape <- lsm_p_shape_calc(landscape,
-                              directions = directions,
-                              resolution = resolution,
-                              extras = extras)
-    shape <- lsm_patch_output(metric = "shape",
-                              class = shape$class,
-                              value = shape$value,
-                              id = shape$id)
+    # reuse lsm_p_shape_calc to get shape values (handles lazy deps)
+    shape_patch <- lsm_p_shape_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all cells are NA
-    if (all(is.na(shape$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(shape_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate mean
-    shape_mn <- stats::aggregate(x = shape[, 5], by = shape[, 2], FUN = mean,
-                                 na.rm = TRUE)
+    # calculate mean by class using tapply on named vector
+    shape_mn <- tapply(shape_patch, names(shape_patch), mean, na.rm = TRUE)
 
-    return(list(class = as.integer(shape_mn$class),
-                value = as.double(shape_mn$value)))
+    # return named vector
+    stats::setNames(as.double(shape_mn), names(shape_mn))
 }

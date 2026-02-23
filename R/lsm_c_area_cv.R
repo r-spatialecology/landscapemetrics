@@ -47,13 +47,21 @@ lsm_c_area_cv <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         area_cv <- lsm_c_area_cv_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         area_cv <- lsm_c_area_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "area_cv",
-                                          class = area_cv$class,
-                                          value = area_cv$value)
+                                          class = as.integer(names(area_cv)),
+                                          value = unname(area_cv))
                      })
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -62,27 +70,27 @@ lsm_c_area_cv <- function(landscape, directions = 8) {
 
 }
 
-lsm_c_area_cv_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_area_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get area of patches
-    area <- lsm_p_area_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
-    area <- lsm_patch_output(metric = "area",
-                             class = area$class,
-                             value = area$value,
-                             id = area$id)
+    # reuse lsm_p_area_calc to get patch areas (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # all values NA
-    if (all(is.na(area$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(area_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate cv
-    area_cv <- stats::aggregate(area[, 5], by = area[, 2],
-                                FUN = function(x) stats::sd(x) / mean(x) * 100)
+    # calculate cv by class using tapply on named vector
+    area_cv <- tapply(area_patch, names(area_patch), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
 
-    return(list(class = as.integer(area_cv$class),
-                value = as.double(area_cv$value)))
+    # return named vector
+    stats::setNames(as.double(area_cv), names(area_cv))
 }

@@ -58,10 +58,17 @@ lsm_c_contig_cv <- function(landscape, directions = 8) {
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         contig_cv <- lsm_c_contig_cv_calc(x, directions = directions)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         contig_cv <- lsm_c_contig_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
                          lsm_class_output(metric = "contig_cv",
-                                          class = contig_cv$class,
-                                          value = contig_cv$value)
+                                          class = as.integer(names(contig_cv)),
+                                          value = unname(contig_cv))
                      })
 
     layer <- rep(seq_along(result),
@@ -72,22 +79,22 @@ lsm_c_contig_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_contig_cv_calc <- function(landscape, directions, extras = NULL) {
+lsm_c_contig_cv_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
-    contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
-    contig <- lsm_patch_output(metric = "contig",
-                               class = contig$class,
-                               value = contig$value,
-                               id = contig$id)
+    contig <- lsm_p_contig_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
     # all values NA
-    if (all(is.na(contig$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    if (all(is.na(unname(contig)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_cv <- stats::aggregate(x = contig[, 5], by = contig[, 2],
-                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
+    contig_cv <- tapply(contig, names(contig), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
 
-    return(list(class = as.integer(contig_cv$class),
-                value = as.double(contig_cv$value)))
+    # return named vector
+    stats::setNames(as.double(contig_cv), names(contig_cv))
 }

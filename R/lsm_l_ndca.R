@@ -52,10 +52,17 @@ lsm_l_ndca <- function(landscape,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         ndca <- lsm_l_ndca_calc(x,
-                                                 directions = directions,
-                                                 consider_boundary = consider_boundary,
-                                                 edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ndca <- lsm_l_ndca_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_landscape_output(metric = "ndca", value = ndca)
                      })
 
@@ -67,16 +74,34 @@ lsm_l_ndca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ndca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_l_ndca_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                            classes = NULL, class_patches = NULL, points = NULL) {
 
-    ncore_patch <- lsm_p_ncore_calc(landscape,
-                                    directions = directions,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    resolution = resolution,
-                                    extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
+    }
 
-    ndca <- sum(ncore_patch$value)
+    ncore_patch <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = NULL,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
+
+    ndca <- sum(ncore_patch)
 
     # all values NA
     if (is.na(ndca)) {

@@ -52,18 +52,25 @@
 #'
 #' @export
 lsm_p_gyrate <- function(landscape, directions = 8,
-                                     cell_center = FALSE) {
+                         cell_center = FALSE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         gyrate <- lsm_p_gyrate_calc(x,
-                                                     directions = directions,
-                                                     cell_center = cell_center)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         gyrate <- lsm_p_gyrate_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             cell_center = cell_center,
+                             resolution = resolution
+                         )
+
                          lsm_patch_output(metric = "gyrate",
-                                          class = gyrate$class,
-                                          value = gyrate$value,
-                                          id = gyrate$id)
+                                          class = as.integer(names(gyrate)),
+                                          value = unname(gyrate),
+                                          id = seq_along(gyrate))
                      })
 
     layer <- rep(seq_along(result),
@@ -74,34 +81,28 @@ lsm_p_gyrate <- function(landscape, directions = 8,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_p_gyrate_calc <- function(landscape_mat, directions, cell_center, resolution,
+                              classes = NULL, class_patches = NULL, points = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(list(class = as.integer(NA),
-                    id = as.integer(NA),
-                    value = as.double(NA)))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique class id
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-        points <- extras$points
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        points <- get_points(landscape, resolution)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    gyrate <- do.call(rbind,
+    gyrate <- do.call(c,
                       lapply(classes, function(patches_class) {
 
         # get connected patches
@@ -111,25 +112,25 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
         landscape_labeled <- t(landscape_labeled)
 
         # get (relative) coordinates of current class
-        points <- which(!is.na(landscape_labeled), arr.ind = TRUE)
-        dim_points <- dim(points)
-        points <- mapply(FUN = `*`, data.frame(points), resolution)
-        dim(points) <- dim_points
+        points_current <- which(!is.na(landscape_labeled), arr.ind = TRUE)
+        dim_points <- dim(points_current)
+        points_current <- mapply(FUN = `*`, data.frame(points_current), resolution)
+        dim(points_current) <- dim_points
 
         # set ID from class ID to unique patch ID
-        points <- cbind(points, landscape_labeled[!is.na(landscape_labeled)])
+        points_current <- cbind(points_current, landscape_labeled[!is.na(landscape_labeled)])
 
-        # # convert to tibble
-        points <- stats::setNames(object = data.frame(points),
+        # convert to tibble
+        points_current <- stats::setNames(object = data.frame(points_current),
                                   nm = c("x", "y", "id"))
 
         # calculate the centroid of each patch (mean of all coords)
-        centroid <- stats::aggregate(points[, c(1, 2)],
-                                     by = list(id = points[, 3]),
+        centroid <- stats::aggregate(points_current[, c(1, 2)],
+                                     by = list(id = points_current[, 3]),
                                      FUN = mean)
 
         # create full data set with raster-points and patch centroids
-        full_data <- merge(x = points, y = centroid, by = "id",
+        full_data <- merge(x = points_current, y = centroid, by = "id",
                            suffixes = c("", "_centroid"))
 
         # calculate distance from each cell center to centroid
@@ -143,10 +144,10 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
             centroid <- do.call(rbind, by(data = full_data,
                                           INDICES = full_data[, 1],
                                           FUN = function(x)
-                                          x[which(signif(x$dist) == min(signif(x$dist))), ]))[, c(1, 2, 3)]
+                                          x[which(signif(x$dist) == min(signif(x$dist))), ]))[ , c(1, 2, 3)]
 
             # create full data set with raster-points and patch centroids
-            full_data <- merge(x = points, y = centroid, by = "id",
+            full_data <- merge(x = points_current, y = centroid, by = "id",
                                suffixes = c("","_centroid"))
 
             # calculate distance from each cell center to centroid
@@ -160,13 +161,10 @@ lsm_p_gyrate_calc <- function(landscape, directions, cell_center, resolution, ex
                                                          FUN = mean),
                                         nm = c("id", "dist"))
 
-        data.frame(class = as.integer(patches_class),
-                   value = as.double(gyrate_class$dist))
+        stats::setNames(as.double(gyrate_class$dist), rep(as.character(patches_class), nrow(gyrate_class)))
         })
     )
 
-    list(class = as.integer(gyrate$class),
-         id = as.integer(seq_len(nrow(gyrate))),
-         value = as.double(gyrate$value))
-
+    # return named vector (preserve names)
+    structure(as.double(gyrate), names = names(gyrate))
 }

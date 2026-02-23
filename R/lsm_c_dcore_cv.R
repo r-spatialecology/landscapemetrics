@@ -52,13 +52,20 @@ lsm_c_dcore_cv <- function(landscape, directions = 8, consider_boundary = FALSE,
 
     result <- lapply(X = landscape,
                      FUN = function(x) {
-                         dcore_cv <- lsm_c_dcore_cv_calc(x,
-                                                         directions = directions,
-                                                         consider_boundary = consider_boundary,
-                                                         edge_depth = edge_depth)
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         dcore_cv <- lsm_c_dcore_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
                          lsm_class_output(metric = "dcore_cv",
-                                          class = dcore_cv$class,
-                                          value = dcore_cv$value)
+                                          class = as.integer(names(dcore_cv)),
+                                          value = unname(dcore_cv))
                      })
 
     layer <- rep(seq_along(result),
@@ -69,27 +76,40 @@ lsm_c_dcore_cv <- function(landscape, directions = 8, consider_boundary = FALSE,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_dcore_cv_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_c_dcore_cv_calc <- function(landscape_mat, directions, consider_boundary, edge_depth,
+                                classes = NULL, class_patches = NULL, points = NULL, resolution = NULL) {
 
-    dcore <- lsm_p_ncore_calc(landscape,
-                              directions = directions,
-                              consider_boundary = consider_boundary,
-                              edge_depth = edge_depth,
-                              resolution = resolution,
-                              extras = extras)
-    dcore <- lsm_patch_output(metric = "ncore",
-                              class = dcore$class,
-                              value = dcore$value,
-                              id = dcore$id)
-
-    # all values NA
-    if (all(is.na(dcore$value))) {
-        return(list(class = as.integer(NA), value = as.double(NA)))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    dcore_cv <- stats::aggregate(x = dcore[, 5], by = dcore[, 2],
-                                 FUN = function(x) stats::sd(x) / mean(x) * 100)
+    dcore <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = NULL,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
-    return(list(class = as.integer(dcore_cv$class),
-                value = as.double(dcore_cv$value)))
+    # all values NA
+    if (all(is.na(unname(dcore)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    dcore_cv <- tapply(dcore, names(dcore), function(x) stats::sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE) * 100)
+
+    # return named vector
+    stats::setNames(as.double(dcore_cv), names(dcore_cv))
 }
