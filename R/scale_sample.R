@@ -146,7 +146,13 @@ scale_sample_int <- function(landscape, y, shape, size, transform, verbose, prog
         landscape_mask <- raster::mask(x = landscape_crop, mask = y[current_plot])
 
         # calculate actual area of sample plot
-        area <- lsm_l_ta_calc(landscape_mask, directions = 8)
+        resolution <- terra::res(landscape_mask)
+        landscape_mask_mat <- terra::as.matrix(landscape_mask, wide = TRUE)
+        area <- lsm_l_ta_calc(
+            landscape_mat = landscape_mask_mat,
+            directions = 8,
+            resolution = resolution
+        )
 
         # calculate lsm
         result_current_plot <- calculate_lsm(landscape = landscape_mask,

@@ -165,9 +165,22 @@ calculate_lsm_internal <- function(landscape,
 
     # prepare extras
     resolution <- terra::res(landscape)
-    landscape <- terra::as.matrix(landscape, wide = TRUE)
-    extras <- prepare_extras(metrics, landscape, directions, neighbourhood,
-                                        ordered, base, resolution)
+    landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
+    extras <- prepare_extras(metrics, landscape_mat, directions, neighbourhood,
+                             ordered, base, resolution, consider_boundary, edge_depth)
+
+    # unpack extras into individual variables for mget()
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    area_patches <- extras$area_patches
+    perimeter_patch <- extras$perimeter_patch
+    points <- extras$points
+    enn_patch <- extras$enn_patch
+    composition_vector <- extras$composition_vector
+    comp <- extras$comp
+    cplx <- extras$cplx
+    neighbor_matrix <- extras$neighbor_matrix
+    core_patch <- extras$core_patch
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
         # print progress using the non-internal name
@@ -197,11 +210,24 @@ calculate_lsm_internal <- function(landscape,
 
             if (identical(level_short, "l") && is.atomic(resultint)) {
                 resultint <- lsm_landscape_output(metric = metric_name, value = resultint)
+            } else if (identical(level_short, "c") && is.atomic(resultint) && !is.null(names(resultint))) {
+                # class level: named vector with class IDs as names
+                resultint <- lsm_class_output(metric = metric_name,
+                                              class = as.integer(names(resultint)),
+                                              value = unname(resultint))
             } else if (identical(level_short, "c") && is.list(resultint) &&
                        all(c("class", "value") %in% names(resultint))) {
                 resultint <- lsm_class_output(metric = metric_name,
                                               class = resultint$class,
                                               value = resultint$value)
+            } else if (identical(level_short, "p") && is.atomic(resultint) && !is.null(names(resultint))) {
+                # patch level: named vector with class IDs as names
+                # generate sequential patch IDs within each class
+                patch_ids <- ave(seq_along(resultint), names(resultint), FUN = seq_along)
+                resultint <- lsm_patch_output(metric = metric_name,
+                                              class = as.integer(names(resultint)),
+                                              value = unname(resultint),
+                                              id = as.integer(patch_ids))
             } else if (identical(level_short, "p") && is.list(resultint) &&
                        all(c("class", "value") %in% names(resultint))) {
                 resultint <- lsm_patch_output(metric = metric_name,
