@@ -78,9 +78,10 @@ lsm_c_np_calc <- function(landscape_mat, directions = NULL, classes = NULL, clas
     }
 
     # get number of patches for each class
+    # count unique patch IDs (not max, as IDs are globally unique across classes)
     np_class <- vapply(classes, function(patches_class) {
         landscape_labeled <- class_patches[[as.character(patches_class)]]
-        as.integer(max(landscape_labeled, na.rm = TRUE))
+        as.integer(length(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)]))))
     }, integer(1))
 
     # return named vector

@@ -87,14 +87,6 @@ lsm_l_enn_sd_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, 
     )
     enn_patch <- deps$enn_patch
 
-    enn_patch <- lsm_p_enn_calc(
-        landscape_mat = landscape_mat,
-        directions = directions,
-        verbose = verbose,
-        resolution = resolution,
-        enn_patch = enn_patch
-    )
-
     # all values NA
     if (all(is.na(enn_patch))) {
         return(as.double(NA))

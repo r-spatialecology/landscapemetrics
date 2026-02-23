@@ -75,7 +75,7 @@ lsm_c_core_mn <- function(landscape, directions = 8, consider_boundary = FALSE, 
 }
 
 lsm_c_core_mn_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
-                               classes = NULL, class_patches = NULL) {
+                               classes = NULL, class_patches = NULL, core_patch = NULL) {
 
     # all values NA
     if (all(is.na(landscape_mat))) {
@@ -83,25 +83,19 @@ lsm_c_core_mn_calc <- function(landscape_mat, directions = NULL, consider_bounda
     }
 
     # lazy dependency resolution
-    if (is.null(classes) || is.null(class_patches)) {
+    if (is.null(classes) || is.null(class_patches) || is.null(core_patch)) {
         deps <- resolve_extras(
             landscape_mat = landscape_mat,
             directions = directions,
-            required = c("classes", "class_patches")
+            required = c("classes", "class_patches", "core_patch"),
+            consider_boundary = consider_boundary,
+            edge_depth = edge_depth,
+            resolution = resolution
         )
         classes <- deps$classes
         class_patches <- deps$class_patches
+        core_patch <- deps$core_patch
     }
-
-    core_patch <- lsm_p_core_calc(
-        landscape_mat = landscape_mat,
-        directions = directions,
-        consider_boundary = consider_boundary,
-        edge_depth = edge_depth,
-        resolution = resolution,
-        classes = classes,
-        class_patches = class_patches
-    )
 
     # all values NA
     if (all(is.na(unname(core_patch)))) {

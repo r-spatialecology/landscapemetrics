@@ -29,12 +29,12 @@ test_that("lsm_p_circle can also handle irregular sized cells", {
 
 test_that("lsm_p_circle equals FRAGSTATS", {
 
-    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle")) |>
+    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_circle"), verbose = FALSE) |>
         tidyr::pivot_wider(names_from = metric, values_from = value) |>
         dplyr::filter(area != min(area)) |>
         dplyr::pull(circle)
 
-    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_circle")) |>
+    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_circle"), verbose = FALSE) |>
         tidyr::pivot_wider(names_from = metric, values_from = value) |>
         dplyr::filter(area != min(area)) |>
         dplyr::pull(circle)

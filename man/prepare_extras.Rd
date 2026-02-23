@@ -11,7 +11,9 @@ prepare_extras(
   neighbourhood,
   ordered,
   base,
-  resolution
+  resolution,
+  consider_boundary = FALSE,
+  edge_depth = 1
 )
 }
 \arguments{
@@ -30,6 +32,10 @@ The default is TRUE.}
 which compute entropy in "bits". "log" and "log10" can be also used.}
 
 \item{resolution}{A vector with two numbers (usually calculated using terra::res)}
+
+\item{consider_boundary}{Logical if cells that only neighbour the landscape boundary should be considered as core}
+
+\item{edge_depth}{Distance (in cells) a cell has to be away from the patch edge to be considered as core cell}
 }
 \value{
 A list with zero or more of the following components:
@@ -43,6 +49,7 @@ A list with zero or more of the following components:
 \item comp: entropy of the neighbor_matrix
 \item cplx: complexity of the landscape
 \item enn_patch: matrix with the euclidean nearest neighbour distance for each patch
+\item core_patch: vector with core area for each patch
 }
 }
 \description{

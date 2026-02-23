@@ -106,6 +106,9 @@ lsm_p_core_calc <- function(landscape_mat, directions, consider_boundary, edge_d
                         # get connected patches
                         landscape_labeled <- class_patches[[as.character(patches_class)]]
 
+                        # get existing patch IDs (non-NA values)
+                        patch_ids <- sort(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)])))
+
                         # label all edge cells
                         class_edge <- get_boundaries_calc(landscape_labeled,
                                                           edge_depth = edge_depth,
@@ -116,13 +119,17 @@ lsm_p_core_calc <- function(landscape_mat, directions, consider_boundary, edge_d
                         # count number of edge cells in each patch (edge == 1)
                         cells_edge_patch <- tabulate(landscape_labeled[class_edge == 1])
 
+                        # all cells of the patch
+                        cells_patch <- tabulate(landscape_labeled)
+
+                        # only keep values for existing patches
+                        cells_edge_patch <- cells_edge_patch[patch_ids]
+                        cells_patch <- cells_patch[patch_ids]
+
                         # check if no cell is edge, i.e. only one patch is present
                         if (length(cells_edge_patch) == 0) {
                             cells_edge_patch <- 0
                         }
-
-                        # all cells of the patch
-                        cells_patch <- tabulate(landscape_labeled)
 
                         # all cells minus edge cells equal core and convert to ha
                         core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000

@@ -86,7 +86,7 @@ lsm_p_cai <- function(landscape,
 }
 
 lsm_p_cai_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
-                           classes = NULL, class_patches = NULL, area_patches = NULL) {
+                           classes = NULL, class_patches = NULL, area_patches = NULL, core_patch = NULL) {
 
     # all values NA
     if (all(is.na(landscape_mat))) {
@@ -94,16 +94,19 @@ lsm_p_cai_calc <- function(landscape_mat, directions, consider_boundary, edge_de
     }
 
     # lazy dependency resolution
-    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(core_patch)) {
         deps <- resolve_extras(
             landscape_mat = landscape_mat,
             directions = directions,
-            required = c("classes", "class_patches", "area_patches"),
+            required = c("classes", "class_patches", "area_patches", "core_patch"),
+            consider_boundary = consider_boundary,
+            edge_depth = edge_depth,
             resolution = resolution
         )
         classes <- deps$classes
         class_patches <- deps$class_patches
         area_patches <- deps$area_patches
+        core_patch <- deps$core_patch
     }
 
     # get patch area
@@ -118,17 +121,6 @@ lsm_p_cai_calc <- function(landscape_mat, directions, consider_boundary, edge_de
 
     # convert from ha to sqm
     area_patch <- area_patch * 10000
-
-    # get core area
-    core_patch <- lsm_p_core_calc(
-        landscape_mat = landscape_mat,
-        directions = directions,
-        consider_boundary = consider_boundary,
-        edge_depth = edge_depth,
-        resolution = resolution,
-        classes = classes,
-        class_patches = class_patches
-    )
 
     # calculate CAI index
     cai_patch <- core_patch / area_patch * 100

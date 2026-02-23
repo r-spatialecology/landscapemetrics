@@ -89,20 +89,13 @@ lsm_c_enn_cv_calc <- function(landscape_mat, directions, verbose, resolution) {
     )
     enn_patch <- deps$enn_patch
 
-    enn <- lsm_p_enn_calc(
-        landscape_mat = landscape_mat,
-        directions = directions,
-        verbose = verbose,
-        resolution = resolution,
-        enn_patch = enn_patch
-    )
 
     # all cells are NA
-    if (all(is.na(unname(enn)))) {
+    if (all(is.na(unname(enn_patch)))) {
         return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    enn_cv <- tapply(enn, names(enn), function(x) stats::sd(x) / mean(x) * 100)
+    enn_cv <- tapply(enn_patch, names(enn_patch), function(x) stats::sd(x) / mean(x) * 100)
 
     # return named vector
     stats::setNames(as.double(enn_cv), names(enn_cv))

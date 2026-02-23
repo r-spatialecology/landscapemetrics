@@ -110,8 +110,8 @@ lsm_p_ncore_calc <- function(landscape_mat, directions, consider_boundary, edge_
         # get connected patches
         landscape_labeled <- class_patches[[as.character(patches_class)]]
 
-        # get unique patch id (must be 1 to number_patches)
-        patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
+        # get existing patch IDs (non-NA values)
+        patches_id <- sort(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)])))
 
         # label all edge cells
         class_edge <- get_boundaries_calc(landscape_labeled,
@@ -165,7 +165,8 @@ lsm_p_ncore_calc <- function(landscape_mat, directions, consider_boundary, edge_
             names(result)  <- patches_id
 
             # add number of core patches if present for corresponding patch
-            result[as.numeric(names(n_core_area))] <- n_core_area
+            # match patch IDs to their positions in the result vector
+            result[match(as.numeric(names(n_core_area)), patches_id)] <- n_core_area
         }
 
         stats::setNames(result, rep(as.character(patches_class), length(result)))

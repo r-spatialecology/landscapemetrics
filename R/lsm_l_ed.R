@@ -86,6 +86,7 @@ lsm_l_ed_calc <- function(landscape_mat, count_boundary = FALSE, directions = 8,
             landscape_mat = landscape_mat,
             directions = directions,
             required = c("classes", "class_patches", "area_patches", "neighbor_matrix"),
+            neighbourhood = 4,
             resolution = resolution
         )
         classes <- deps$classes
