@@ -119,9 +119,6 @@ lsm_p_cai_calc <- function(landscape_mat, directions, consider_boundary, edge_de
         area_patches = area_patches
     )
 
-    # convert from ha to sqm
-    area_patch <- area_patch * 10000
-
     # calculate CAI index
     cai_patch <- core_patch / area_patch * 100
 
