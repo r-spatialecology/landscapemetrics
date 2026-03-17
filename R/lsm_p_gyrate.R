@@ -166,5 +166,5 @@ lsm_p_gyrate_calc <- function(landscape_mat, directions, cell_center, resolution
     )
 
     # return named vector (preserve names)
-    structure(as.double(gyrate), names = names(gyrate))
+    stats::setNames(as.double(gyrate), names(gyrate))
 }

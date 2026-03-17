@@ -96,5 +96,5 @@ lsm_p_area_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
     }
 
     # return named vector (preserve names)
-    structure(as.double(area_patches), names = names(area_patches))
+    stats::setNames(as.double(area_patches), names(area_patches))
 }

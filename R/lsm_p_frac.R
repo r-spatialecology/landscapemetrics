@@ -106,5 +106,5 @@ lsm_p_frac_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
     frac_patch[is.na(frac_patch)] <- 1
 
     # return named vector (preserve names)
-    structure(as.double(frac_patch), names = names(frac_patch))
+    stats::setNames(as.double(frac_patch), names(frac_patch))
 }

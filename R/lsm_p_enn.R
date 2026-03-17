@@ -100,5 +100,5 @@ lsm_p_enn_calc <- function(landscape_mat, directions, verbose, resolution) {
     enn_vec <- enn_patch
 
     # return named vector (preserve names)
-    structure(as.double(enn_vec), names = names(enn_vec))
+    stats::setNames(as.double(enn_vec), names(enn_vec))
 }

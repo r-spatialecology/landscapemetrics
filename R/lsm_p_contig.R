@@ -140,5 +140,5 @@ lsm_p_contig_calc <- function(landscape_mat, directions = NULL, classes = NULL, 
     )
 
     # return named vector (preserve names)
-    structure(as.double(contig_patch), names = names(contig_patch))
+    stats::setNames(as.double(contig_patch), names(contig_patch))
 }

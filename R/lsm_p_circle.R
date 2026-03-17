@@ -138,5 +138,5 @@ lsm_p_circle_calc <- function(landscape_mat, directions = NULL, resolution = NUL
     circle_patch <- 1 - (area_patch_m2 / circle_patch)
 
     # return named vector (preserve names)
-    structure(as.double(circle_patch), names = names(circle_patch))
+    stats::setNames(as.double(circle_patch), names(circle_patch))
 }

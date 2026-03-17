@@ -140,5 +140,5 @@ lsm_p_core_calc <- function(landscape_mat, directions, consider_boundary, edge_d
     )
 
     # return named vector (preserve names)
-    structure(as.double(core), names = names(core))
+    stats::setNames(as.double(core), names(core))
 }

@@ -123,5 +123,5 @@ lsm_p_cai_calc <- function(landscape_mat, directions, consider_boundary, edge_de
     cai_patch <- core_patch / area_patch * 100
 
     # return named vector (preserve names)
-    structure(as.double(cai_patch), names = names(cai_patch))
+    stats::setNames(as.double(cai_patch), names(cai_patch))
 }

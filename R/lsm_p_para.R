@@ -100,5 +100,5 @@ lsm_p_para_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
     para_patch <- perimeter_patch / (area_patches * 10000)
 
     # return named vector (preserve names)
-    structure(as.double(para_patch), names = names(para_patch))
+    stats::setNames(as.double(para_patch), names(para_patch))
 }

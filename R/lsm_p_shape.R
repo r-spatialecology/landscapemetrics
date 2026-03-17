@@ -101,5 +101,5 @@ lsm_p_shape_calc <- function(landscape_mat, directions = NULL, resolution = NULL
     shape_patch <- (0.25 * perimeter_patch) / sqrt(area_patches * 10000)
 
     # return named vector (preserve names)
-    structure(as.double(shape_patch), names = names(shape_patch))
+    stats::setNames(as.double(shape_patch), names(shape_patch))
 }
