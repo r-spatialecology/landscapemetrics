@@ -53,8 +53,21 @@ lsm_p_frac <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_frac_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         frac <- lsm_p_frac_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_patch_output(metric = "frac",
+                                          class = as.integer(names(frac)),
+                                          value = unname(frac),
+                                          id = seq_along(frac))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,49 +77,34 @@ lsm_p_frac <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_frac_calc <- function(landscape, directions, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)) {
-        metrics <- "lsm_p_frac"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                 directions = directions, resolution = resolution)
-    }
+lsm_p_frac_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                             classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get patch perimeter
-    perimeter_patch <- lsm_p_perim_calc(landscape,
-                                        directions = directions,
-                                        resolution = resolution,
-                                        extras = extras)
-
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+        area_patches <- deps$area_patches
+    }
 
     # calculate frac
-    frac_patch <- 2 * log(0.25 * perimeter_patch$value) / log(area_patch$value * 10000)
+    frac_patch <- 2 * log(0.25 * perimeter_patch) / log(area_patches * 10000)
 
     # NaN for patches with only one cell (mathematical reasons) -> should be 1
     frac_patch[is.na(frac_patch)] <- 1
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(perimeter_patch$id),
-        metric = rep("frac", nrow(perimeter_patch)),
-        value = as.double(frac_patch)
-    ))
+    # return named vector (preserve names)
+    stats::setNames(as.double(frac_patch), names(frac_patch))
 }

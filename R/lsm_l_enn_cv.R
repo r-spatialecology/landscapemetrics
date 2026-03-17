@@ -54,9 +54,19 @@ lsm_l_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_enn_cv_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         enn_cv <- lsm_l_enn_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "enn_cv", value = enn_cv)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -66,26 +76,22 @@ lsm_l_enn_cv <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_enn_cv_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
+lsm_l_enn_cv_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, resolution = NULL) {
 
-    enn_patch <- lsm_p_enn_calc(landscape,
-                                directions = directions, verbose = verbose,
-                                resolution = resolution, extras = extras)
+    deps <- resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = c("enn_patch"),
+        resolution = resolution
+    )
+    enn_patch <- deps$enn_patch
 
     # all values NA
-    if (all(is.na(enn_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_cv",
-                              value = as.double(NA))))
+    if (all(is.na(enn_patch))) {
+        return(as.double(NA))
     }
 
-    enn_cv <- stats::sd(enn_patch$value) / mean(enn_patch$value) * 100
+    enn_cv <- stats::sd(enn_patch) / mean(enn_patch) * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(enn_cv)),
-                 class = rep(as.integer(NA), length(enn_cv)),
-                 id = rep(as.integer(NA), length(enn_cv)),
-                 metric = rep("enn_cv", length(enn_cv)),
-                 value = as.double(enn_cv))))
+    return(as.double(enn_cv))
 }

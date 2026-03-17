@@ -52,8 +52,18 @@ lsm_l_frac_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_frac_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         frac_mn <- lsm_l_frac_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "frac_mn", value = frac_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -63,27 +73,40 @@ lsm_l_frac_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_frac_mn_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_l_frac_mn_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    frac_patch <- lsm_p_frac_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
-
-    # all values NA
-    if (all(is.na(frac_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_mn",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+        area_patches <- deps$area_patches
     }
 
-    frac_mn <- mean(frac_patch$value)
+    # reuse lsm_p_frac_calc to get frac values (handles lazy deps)
+    frac_patch <- lsm_p_frac_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(frac_mn)),
-                        class = rep(as.integer(NA), length(frac_mn)),
-                        id = rep(as.integer(NA), length(frac_mn)),
-                        metric = rep("frac_mn", length(frac_mn)),
-                        value = as.double(mean(frac_patch$value)))))
+    # all values NA
+    if (all(is.na(frac_patch))) {
+        return(as.double(NA))
+    }
+
+    frac_mn <- mean(frac_patch)
+
+    return(as.double(frac_mn))
 }

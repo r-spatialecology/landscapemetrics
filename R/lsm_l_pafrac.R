@@ -52,9 +52,19 @@ lsm_l_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_pafrac_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pafrac <- lsm_l_pafrac_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "pafrac", value = pafrac)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,33 +74,36 @@ lsm_l_pafrac <- function(landscape, directions = 8, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_l_pafrac"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_l_pafrac_calc <- function(landscape_mat, directions = NULL, verbose = TRUE, resolution = NULL,
+                               classes = NULL, class_patches = NULL, area_patches = NULL, perimeter_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pafrac",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    # get number of patches for each class
-    number_patches <- lsm_c_np_calc(landscape,
-                                    directions = directions,
-                                    extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(perimeter_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "perimeter_patch"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        perimeter_patch <- deps$perimeter_patch
+    }
 
-    # summarise for total landscape
-    number_patches <- sum(number_patches$value)
+    # get total number of patches using lsm_c_np_calc
+    np_class <- lsm_c_np_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
+    number_patches <- sum(np_class)
 
     # PAFRAC NA for less than 10 patches
     if (number_patches < 10) {
@@ -104,27 +117,13 @@ lsm_l_pafrac_calc <- function(landscape, directions, verbose, resolution, extras
     # calculate pafrac as regression between area and perimeter (beta)
     } else {
 
-        # get patch area
-        area_patch <- lsm_p_area_calc(landscape,
-                                      directions = directions,
-                                      resolution = resolution,
-                                      extras = extras)
+        # area_patches is a named vector - convert to sqm
+        area_sqm <- area_patches * 10000
 
-        # get patch perimeter
-        perimeter_patch <- lsm_p_perim_calc(landscape,
-                                            directions = directions,
-                                            resolution = resolution,
-                                            extras = extras)
-
-        regression_model <- stats::lm(log(area_patch$value) ~
-                                          log(perimeter_patch$value))
+        regression_model <- stats::lm(log(area_sqm) ~ log(perimeter_patch))
 
         pafrac <- 2 / regression_model$coefficients[[2]]
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(pafrac)),
-                          class = rep(as.integer(NA), length(pafrac)),
-                          id = rep(as.integer(NA), length(pafrac)),
-                          metric = rep("pafrac", length(pafrac)),
-                          value = as.double(pafrac))))
+    return(as.double(pafrac))
 }

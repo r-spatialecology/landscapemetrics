@@ -56,8 +56,19 @@ lsm_c_contig_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_contig_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         contig_mn <- lsm_c_contig_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
+                         lsm_class_output(metric = "contig_mn",
+                                          class = as.integer(names(contig_mn)),
+                                          value = unname(contig_mn))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,27 +78,22 @@ lsm_c_contig_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_contig_mn_calc <- function(landscape, directions, extras = NULL) {
+lsm_c_contig_mn_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
-    contig <- lsm_p_contig_calc(landscape, directions = directions, extras = extras)
+    contig <- lsm_p_contig_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
     # all values NA
-    if (all(is.na(contig$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig_mn",
-                              value = as.double(NA))))
+    if (all(is.na(unname(contig)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    contig_mn <- stats::aggregate(x = contig[, 5], by = contig[, 2],
-                                  FUN = mean)
+    contig_mn <- tapply(contig, names(contig), mean)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(contig_mn)),
-        class = as.integer(contig_mn$class),
-        id = rep(as.integer(NA), nrow(contig_mn)),
-        metric = rep("contig_mn", nrow(contig_mn)),
-        value = as.double(contig_mn$value)
-    )))
+    # return named vector
+    stats::setNames(as.double(contig_mn), names(contig_mn))
 }

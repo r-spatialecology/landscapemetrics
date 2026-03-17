@@ -24,7 +24,7 @@ metrics_land <- calculate_lsm(landscape_stack,
                               type = "area and edge metric",
                               verbose = FALSE)
 
-metrics_plot_land <- show_correlation(metrics_land)
+suppressWarnings(metrics_plot_land <- show_correlation(metrics_land))
 
 # correlation tibble
 correlations <- calculate_correlation(metrics_mult)

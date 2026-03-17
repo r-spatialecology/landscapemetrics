@@ -45,8 +45,20 @@ lsm_c_pd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_pd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pd <- lsm_c_pd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "pd",
+                                          class = as.integer(names(pd)),
+                                          value = unname(pd))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -56,44 +68,51 @@ lsm_c_pd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pd_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_pd"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_c_pd_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                          classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pd",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
     }
 
     # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to total area
-    area_patch <- sum(area_patch$value)
+    area_total <- sum(unname(area_patch))
 
-    # get number of patches
-    np_class <- lsm_c_np_calc(landscape, directions = directions, extras = extras)
+    # get number of patches (returns named vector)
+    np_class <- lsm_c_np_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
 
     # calculate relative patch density
-    np_class$value <- (np_class$value / area_patch) * 100
+    pd <- (np_class / area_total) * 100
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(np_class)),
-                              class = as.integer(np_class$class),
-                              id = rep(as.integer(NA), nrow(np_class)),
-                              metric = rep("pd", nrow(np_class)),
-                              value = as.double(np_class$value))))
+    # return named vector
+    stats::setNames(as.double(pd), names(pd))
 }

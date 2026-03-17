@@ -46,8 +46,18 @@ lsm_l_msidi <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_msidi_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         msidi <- lsm_l_msidi_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "msidi", value = msidi)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -57,38 +67,40 @@ lsm_l_msidi <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_msidi_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_l_msidi"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_l_msidi_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                             classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "msidi",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    msidi <- stats::aggregate(x = patch_area[, 5], by = patch_area[, 2], FUN = sum)
+    patch_area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
-    msidi <- -log(sum((msidi$value / sum(msidi$value)) ^ 2))
+    # aggregate by class using tapply on named vector
+    class_area <- tapply(patch_area, names(patch_area), sum)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(msidi)),
-                          class = rep(as.integer(NA), length(msidi)),
-                          id = rep(as.integer(NA), length(msidi)),
-                          metric = rep("msidi", length(msidi)),
-                          value = as.double(msidi))))
+    msidi <- -log(sum((class_area / sum(class_area)) ^ 2))
+
+    return(as.double(msidi))
 }

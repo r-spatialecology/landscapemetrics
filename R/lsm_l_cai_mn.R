@@ -50,16 +50,26 @@
 #'
 #' @export
 lsm_l_cai_mn <- function(landscape,
-                              directions = 8,
-                              consider_boundary = FALSE,
-                              edge_depth = 1) {
+                         directions = 8,
+                         consider_boundary = FALSE,
+                         edge_depth = 1) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_cai_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_cai_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "cai_mn", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,29 +79,39 @@ lsm_l_cai_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_cai_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_l_cai_mn_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                              classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    cai_patch <- lsm_p_cai_calc(landscape,
-                                directions = directions,
-                                consider_boundary = consider_boundary,
-                                edge_depth = edge_depth,
-                                resolution = resolution,
-                                extras = extras)
-
-    # all values NA
-    if (all(is.na(cai_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_mn",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
     }
 
-    cai_mn <- mean(cai_patch$value)
+    cai_patch <- lsm_p_cai_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(cai_mn)),
-                 class = rep(as.integer(NA), length(cai_mn)),
-                 id = rep(as.integer(NA), length(cai_mn)),
-                 metric = rep("cai_mn", length(cai_mn)),
-                 value = as.double(cai_mn))))
+    # all values NA
+    if (all(is.na(cai_patch))) {
+        return(as.double(NA))
+    }
+
+    cai_mn <- mean(cai_patch)
+
+    return(as.double(cai_mn))
 }

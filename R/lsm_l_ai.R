@@ -44,8 +44,18 @@ lsm_l_ai <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     directions = directions,
-                     FUN = lsm_l_ai_calc)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ai <- lsm_l_ai_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "ai", value = ai)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -55,42 +65,46 @@ lsm_l_ai <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_ai_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_l_ai"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_l_ai_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                          classes = NULL, class_patches = NULL, area_patches = NULL, composition_vector = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ai",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
+    }
+
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(composition_vector)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "composition_vector"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        composition_vector <- deps$composition_vector
     }
 
     # get aggregation index for each class
-    ai <- lsm_c_ai_calc(landscape, extras = extras)
+    ai <- lsm_c_ai_calc(
+        landscape_mat = landscape_mat,
+        composition_vector = composition_vector
+    )
 
     # get proportional class area
-    pland <- lsm_c_pland_calc(landscape,
-                              directions = 8,
-                              resolution = resolution,
-                              extras = extras)
+    pland <- lsm_c_pland_calc(
+        landscape_mat = landscape_mat,
+        directions = 8,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # final AI index
-    ai <- sum(ai$value * (pland$value / 100), na.rm = TRUE)
+    ai <- sum(ai * (pland / 100), na.rm = TRUE)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(ai)),
-                 class = rep(as.integer(NA), length(ai)),
-                 id = rep(as.integer(NA), length(ai)),
-                 metric = rep("ai", length(ai)),
-                 value = as.double(ai))))
+    return(as.double(ai))
 }
-

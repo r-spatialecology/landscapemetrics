@@ -57,8 +57,20 @@ lsm_c_circle_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_circle_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         circle_cv <- lsm_c_circle_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "circle_cv",
+                                          class = as.integer(names(circle_cv)),
+                                          value = unname(circle_cv))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -68,32 +80,27 @@ lsm_c_circle_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_circle_cv_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_c_circle_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # calculate circumscribing circle for each patch
-    circle <- lsm_p_circle_calc(landscape,
-                                directions = directions,
-                                resolution = resolution,
-                                extras = extras)
+    # calculate circumscribing circle for each patch (handles lazy deps)
+    circle <- lsm_p_circle_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # all values NA
-    if (all(is.na(circle$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_cv",
-                              value = as.double(NA))))
+    if (all(is.na(unname(circle)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # summarise for classes
-    circle_cv <- stats::aggregate(x = circle[, 5], by = circle[, 2],
-                                  FUN = function(x) stats::sd(x) / mean(x) * 100)
+    # summarise for classes using tapply on named vector
+    circle_cv <- tapply(circle, names(circle), function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(circle_cv)),
-        class = as.integer(circle_cv$class),
-        id = rep(as.integer(NA), nrow(circle_cv)),
-        metric = rep("circle_cv", nrow(circle_cv)),
-        value = as.double(circle_cv$value))))
+    # return named vector
+    stats::setNames(as.double(circle_cv), names(circle_cv))
 }
-

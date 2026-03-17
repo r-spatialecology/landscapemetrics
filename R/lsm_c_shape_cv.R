@@ -49,8 +49,20 @@ lsm_c_shape_cv <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_shape_cv_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         shape_cv <- lsm_c_shape_cv_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "shape_cv",
+                                          class = as.integer(names(shape_cv)),
+                                          value = unname(shape_cv))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -60,31 +72,28 @@ lsm_c_shape_cv <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_shape_cv_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_shape_cv_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    # shape index for each patch
-    shape <- lsm_p_shape_calc(landscape,
-                              directions = directions,
-                              resolution = resolution,
-                              extras = extras)
+    # reuse lsm_p_shape_calc to get shape values (handles lazy deps)
+    shape_patch <- lsm_p_shape_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all cells are NA
-    if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_cv",
-                              value = as.double(NA))))
+    if (all(is.na(unname(shape_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate cv
-    shape_cv <- stats::aggregate(x = shape[, 5], by = shape[, 2],
-                                 FUN = function(x) stats::sd(x, na.rm = TRUE) /
-                                     mean(x, na.rm = TRUE) * 100)
+    # calculate cv by class using tapply on named vector
+    shape_cv <- tapply(shape_patch, names(shape_patch), function(x) stats::sd(x) / mean(x) * 100)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(shape_cv)),
-                              class = as.integer(shape_cv$class),
-                              id = rep(as.integer(NA), nrow(shape_cv)),
-                              metric = rep("shape_cv", nrow(shape_cv)),
-                              value = as.double(shape_cv$value))))
+    # return named vector
+    stats::setNames(as.double(shape_cv), names(shape_cv))
 }

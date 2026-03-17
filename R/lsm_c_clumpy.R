@@ -39,7 +39,17 @@ lsm_c_clumpy <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_clumpy_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         clumpy <- lsm_c_clumpy_calc(
+                             landscape_mat = landscape_mat
+                         )
+
+                         lsm_class_output(metric = "clumpy",
+                                          class = as.integer(names(clumpy)),
+                                          value = unname(clumpy))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -49,21 +59,17 @@ lsm_c_clumpy <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
+lsm_c_clumpy_calc <- function(landscape_mat) {
 
     # pad landscape to also include adjacencies at landscape boundary
-    landscape_padded <- pad_raster_internal(landscape,
+    landscape_padded <- pad_raster_internal(landscape_mat,
                                             pad_raster_value = -999,
                                             pad_raster_cells = 1,
                                             global = TRUE)
 
     # all values NA
     if (all(landscape_padded %in% c(NA, -999))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "clumpy",
-                              value = as.double(NA))))
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
     # get coocurrence
@@ -110,9 +116,6 @@ lsm_c_clumpy_calc <- function(landscape, resolution, extras = NULL){
 
     }, FUN.VALUE = numeric(1))
 
-    return(tibble::new_tibble(list(level = rep("class", length(clumpy)),
-                          class = as.integer(names(g_i)),
-                          id = rep(as.integer(NA), length(clumpy)),
-                          metric = rep("clumpy", length(clumpy)),
-                          value = as.double(clumpy))))
+    # return named vector
+    stats::setNames(as.double(clumpy), names(g_i))
 }

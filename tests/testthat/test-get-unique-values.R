@@ -21,20 +21,20 @@ test_that("get_unique_values works for vector", {
 
 test_that("get_unique_values works for matrix", {
 
-    expect_type(get_unique_values(landscape_matrix), type = "list")
+    expect_type(get_unique_values(landscape_matrix, verbose = FALSE), type = "list")
 
-    expect_length(get_unique_values(landscape_matrix), n = 1)
+    expect_length(get_unique_values(landscape_matrix, verbose = FALSE), n = 1)
 
-    expect_type(get_unique_values(landscape_matrix, simplify = TRUE), type = "integer")
+    expect_type(get_unique_values(landscape_matrix, simplify = TRUE, verbose = FALSE), type = "integer")
 
-    expect_equal(get_unique_values(landscape_matrix, simplify = TRUE),
+    expect_equal(get_unique_values(landscape_matrix, simplify = TRUE, verbose = FALSE),
                  expected = c(1, 2, 3))
 })
 
 test_that("get_unique_values works for list", {
 
-    expect_type(get_unique_values(list_x), type = "list")
-    expect_length(get_unique_values(list_x), n = 3)
+    expect_type(get_unique_values(list_x, verbose = FALSE), type = "list")
+    expect_length(get_unique_values(list_x, verbose = FALSE), n = 3)
 
     expect_warning(get_unique_values(list_x, simplify = TRUE),
                    regexp = "Not able to simplify input with more than one layer.",
@@ -43,18 +43,18 @@ test_that("get_unique_values works for list", {
 
 test_that("get_unique_values works for RasterLayers", {
 
-    expect_type(get_unique_values(landscape), type = "list")
-    expect_length(get_unique_values(landscape), n = 1)
+    expect_type(get_unique_values(landscape, verbose = FALSE), type = "list")
+    expect_length(get_unique_values(landscape, verbose = FALSE), n = 1)
 
-    expect_type(get_unique_values(landscape, simplify = TRUE), type = "integer")
-    expect_equal(get_unique_values(landscape, simplify = TRUE),
+    expect_type(get_unique_values(landscape, simplify = TRUE, verbose = FALSE), type = "integer")
+    expect_equal(get_unique_values(landscape, simplify = TRUE, verbose = FALSE),
                  expected = c(1, 2, 3))
 })
 
 test_that("get_unique_values works for RasterStack", {
 
-    expect_type(get_unique_values(landscape_stack), type = "list")
-    expect_length(get_unique_values(landscape_stack), n = 2)
+    expect_type(get_unique_values(landscape_stack, verbose = FALSE), type = "list")
+    expect_length(get_unique_values(landscape_stack, verbose = FALSE), n = 2)
 
     expect_warning(get_unique_values(landscape_stack, simplify = TRUE),
                    regexp = "Not able to simplify input with more than one layer.",

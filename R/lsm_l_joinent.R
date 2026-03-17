@@ -39,10 +39,18 @@ lsm_l_joinent <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_joinent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_joinent_calc(
+                             landscape_mat = landscape_mat,
+                             neighbourhood = neighbourhood,
+                             ordered = ordered,
+                             base = base
+                         )
+
+                         lsm_landscape_output(metric = "joinent", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -52,31 +60,24 @@ lsm_l_joinent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_joinent_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_joinent_calc <- function(landscape_mat, neighbourhood = 4, ordered = TRUE, base = "log2", cplx = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "joinent",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        cplx <- extras$cplx
-    } else {
-        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    # lazy dependency resolution
+    if (is.null(cplx)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("cplx"),
+            neighbourhood = neighbourhood,
+            ordered = ordered,
+            base = base
+        )
+        cplx <- deps$cplx
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(cplx)),
-                 class = rep(as.integer(NA), length(cplx)),
-                 id = rep(as.integer(NA), length(cplx)),
-                 metric = rep("joinent", length(cplx)),
-                 value = as.double(cplx))))
+    return(as.double(cplx))
 }

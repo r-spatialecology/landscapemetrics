@@ -59,9 +59,19 @@ lsm_l_gyrate_sd <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_gyrate_sd_calc,
-                     directions = directions,
-                     cell_center = cell_center)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         gyrate_sd <- lsm_l_gyrate_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             cell_center = cell_center,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "gyrate_sd", value = gyrate_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -71,29 +81,38 @@ lsm_l_gyrate_sd <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_gyrate_sd_calc <- function(landscape, directions, cell_center, resolution, extras = NULL) {
+lsm_l_gyrate_sd_calc <- function(landscape_mat, directions = NULL, cell_center = FALSE, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, points = NULL) {
 
-    gyrate_patch <- lsm_p_gyrate_calc(landscape,
-                                      directions = directions,
-                                      cell_center = cell_center,
-                                      resolution = resolution,
-                                      extras = extras)
-
-    # all values NA
-    if (all(is.na(gyrate_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "gyrate_sd",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    gyrate_sd <- stats::sd(gyrate_patch$value)
+    gyrate_patch <- lsm_p_gyrate_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        cell_center = cell_center,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(gyrate_sd)),
-                 class = rep(as.integer(NA), length(gyrate_sd)),
-                 id = rep(as.integer(NA), length(gyrate_sd)),
-                 metric = rep("gyrate_sd", length(gyrate_sd)),
-                 value = as.double(gyrate_sd))))
+    # all values NA
+    if (all(is.na(gyrate_patch))) {
+        return(as.double(NA))
+    }
+
+    gyrate_sd <- stats::sd(gyrate_patch)
+
+    return(as.double(gyrate_sd))
 }
-

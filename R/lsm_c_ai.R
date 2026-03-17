@@ -41,9 +41,19 @@ lsm_c_ai <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_ai_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
 
-    layer <- rep(seq_len(length(result)),
+                         ai <- lsm_c_ai_calc(
+                             landscape_mat = landscape_mat
+                         )
+
+                         lsm_class_output(metric = "ai",
+                                          class = as.integer(names(ai)),
+                                          value = unname(ai))
+                     })
+
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
@@ -51,29 +61,28 @@ lsm_c_ai <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ai_calc <- function(landscape, extras = NULL) {
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_ai"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape)
-    }
+lsm_c_ai_calc <- function(landscape_mat, composition_vector = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ai",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # lazy dependency resolution
+    if (is.null(composition_vector)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("composition_vector")
+        )
+        composition_vector <- deps$composition_vector
     }
 
     # get coocurrence matrix of like_adjacencies
-    like_adjacencies <- rcpp_get_coocurrence_matrix_diag(landscape,
+    like_adjacencies <- rcpp_get_coocurrence_matrix_diag(landscape_mat,
                                                          directions = as.matrix(4)) / 2
 
     # get number of cells each class
-    cells_class <- extras$composition_vector
+    cells_class <- composition_vector
 
     # calculate maximum adjacencies
     n <- trunc(sqrt(cells_class))
@@ -94,9 +103,6 @@ lsm_c_ai_calc <- function(landscape, extras = NULL) {
     # max_adj can be zero if only one cell is present; set to NA
     ai[is.nan(ai)] <- NA
 
-    return(tibble::new_tibble(list(level = rep("class", length(ai)),
-                          class = as.integer(names(like_adjacencies)),
-                          id = rep(as.integer(NA), length(ai)),
-                          metric = rep("ai", length(ai)),
-                          value = as.double(ai))))
+    # return named vector
+    stats::setNames(as.double(ai), names(like_adjacencies))
 }

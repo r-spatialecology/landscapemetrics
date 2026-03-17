@@ -40,10 +40,19 @@ lsm_l_condent <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_condent_calc,
-                     neighbourhood = neighbourhood,
-                     ordered = ordered,
-                     base = base)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_condent_calc(
+                             landscape_mat = landscape_mat,
+                             neighbourhood = neighbourhood,
+                             ordered = ordered,
+                             base = base
+                         )
+
+                         lsm_landscape_output(metric = "condent", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -53,36 +62,27 @@ lsm_l_condent <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_condent_calc <- function(landscape, neighbourhood, ordered, base, extras = NULL){
-
-    # convert to raster to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_condent_calc <- function(landscape_mat, neighbourhood = 4, ordered = TRUE, base = "log2", comp = NULL, cplx = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "condent",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        comp <- extras$comp
-        cplx <- extras$cplx
-    } else {
-        com <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(neighbourhood))
-        comp <- rcpp_get_entropy(colSums(com), base)
-        cplx <- get_complexity(landscape, neighbourhood, ordered, base)
+    # lazy dependency resolution
+    if (is.null(comp) || is.null(cplx)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("comp", "cplx"),
+            neighbourhood = neighbourhood,
+            ordered = ordered,
+            base = base
+        )
+        comp <- deps$comp
+        cplx <- deps$cplx
     }
 
     conf <- cplx - comp
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(conf)),
-                 class = rep(as.integer(NA), length(conf)),
-                 id = rep(as.integer(NA), length(conf)),
-                 metric = rep("condent", length(conf)),
-                 value = as.double(conf))))
+    return(as.double(conf))
 }

@@ -50,8 +50,18 @@ lsm_l_para_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_para_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         para_sd <- lsm_l_para_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "para_sd", value = para_sd)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -61,27 +71,40 @@ lsm_l_para_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_para_sd_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_l_para_sd_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    para_patch <- lsm_p_para_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
-
-    # all values NA
-    if (all(is.na(para_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "para_sd",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+        area_patches <- deps$area_patches
     }
 
-    para_sd <- stats::sd(para_patch$value)
+    # reuse lsm_p_para_calc to get para values (handles lazy deps)
+    para_patch <- lsm_p_para_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(para_sd)),
-                          class = rep(as.integer(NA), length(para_sd)),
-                          id = rep(as.integer(NA), length(para_sd)),
-                          metric = rep("para_sd", length(para_sd)),
-                          value = as.double(para_sd))))
+    # all values NA
+    if (all(is.na(para_patch))) {
+        return(as.double(NA))
+    }
+
+    para_sd <- stats::sd(para_patch)
+
+    return(as.double(para_sd))
 }

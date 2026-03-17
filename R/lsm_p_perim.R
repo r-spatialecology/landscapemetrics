@@ -39,8 +39,21 @@ lsm_p_perim <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_perim_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         perim <- lsm_p_perim_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_patch_output(metric = "perim",
+                                          class = as.integer(names(perim)),
+                                          value = unname(perim),
+                                          id = seq_along(perim))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -50,33 +63,29 @@ lsm_p_perim <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_perim_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_p_perim"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_p_perim_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                              classes = NULL, class_patches = NULL, perimeter_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "perim",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    perimeter_patch <- extras$perimeter_patch
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+    }
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(perimeter_patch)),
-        class = as.integer(perimeter_patch$class),
-        id = as.integer(seq_len(nrow(perimeter_patch))),
-        metric = rep("perim", nrow(perimeter_patch)),
-        value = as.double(perimeter_patch$value)
-    ))
+    # perimeter_patch is a named vector
+    # names are class IDs, values are perimeters
+    # return named vector (preserve names)
+    stats::setNames(as.double(perimeter_patch), names(perimeter_patch))
 }
