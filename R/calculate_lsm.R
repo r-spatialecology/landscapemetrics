@@ -222,7 +222,32 @@ calculate_lsm_internal <- function(landscape,
                 )
 
             } else if (identical(level_short, "p")) {
-                patch_ids <- ave(seq_along(resultint), names(resultint), FUN = seq_along)
+                                # build global patch IDs by offsetting per-class local IDs
+                class_counts <- vapply(classes, function(class_val) {
+                    class_mat <- class_patches[[as.character(class_val)]]
+                    if (is.null(class_mat) || all(is.na(class_mat))) {
+                        return(0L)
+                    }
+                    max(class_mat, na.rm = TRUE)
+                }, integer(1))
+
+                offsets <- cumsum(c(0L, head(class_counts, -1)))
+                names(offsets) <- as.character(classes)
+
+                class_groups <- split(seq_along(resultint), names(resultint))
+
+                calc_patch_ids <- function(class_val, group_idx) {
+                    offset <- offsets[[as.character(class_val)]]
+                    base_ids <- seq_along(group_idx)
+                    if (is.null(offset)) {
+                        return(base_ids)
+                    }
+                    base_ids + offset
+                }
+
+                patch_ids <- unlist(lapply(names(class_groups), function(class_val) {
+                    calc_patch_ids(class_val, class_groups[[class_val]])
+                }))
 
                 resultint <- lsm_patch_output(
                     metric = metric_name,

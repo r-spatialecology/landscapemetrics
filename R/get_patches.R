@@ -99,55 +99,43 @@ get_patches_int <- function(landscape, class, directions,
         directions <- 8
     }
 
-    # Run CCL once
-    labeled <- rcpp_ccl_multiclass(landscape_mat, directions)
-
     if (class == "all") {
         unique_classes <- get_unique_values_int(landscape_mat, verbose = FALSE)
     } else {
         unique_classes <- class
     }
 
-    patch_landscape <- vector("list", length(unique_classes))
     counter_id <- 0L
+    patch_landscape <- vector("list", length(unique_classes))
+    n_rows <- nrow(landscape_mat)
+    n_cols <- ncol(landscape_mat)
+    landscape_temp <- matrix(NA_integer_, nrow = n_rows, ncol = n_cols)
 
     for (i in seq_along(unique_classes)) {
+        landscape_temp[] <- NA_integer_
 
-        class_value <- unique_classes[i]
+        landscape_temp[landscape_mat == unique_classes[i]] <- 1L
 
-        mat_class <- matrix(NA_integer_,
-                            nrow = nrow(labeled),
-                            ncol = ncol(labeled))
-
-        idx <- which(!is.na(landscape_mat) &
-                         landscape_mat == class_value)
-
-        if (length(idx) == 0) {
-            stop("Selected class not present in landscape.",
-                 call. = FALSE)
+        if (directions == 4) {
+            rcpp_ccl(landscape_temp, 4)
+        } else if (directions == 8) {
+            rcpp_ccl(landscape_temp, 8)
         }
 
-        vals <- labeled[idx]
-        vals <- vals[!is.na(vals)]
+        landscape_temp <- landscape_temp + counter_id
+        counter_id <- max(landscape_temp, na.rm = TRUE)
 
-        if (length(vals) > 0) {
-            local_ids <- sort(unique(vals))
-            global_ids <- seq.int(from = counter_id + 1L,
-                                  length.out = length(local_ids))
-            map <- stats::setNames(global_ids, local_ids)
-            mat_class[idx] <- unname(map[as.character(labeled[idx])])
-            counter_id <- max(global_ids)
-        }
+        class_result <- landscape_temp
 
         if (return_raster) {
-            mat_class <- matrix_to_raster(
-                matrix = mat_class,
+            class_result <- matrix_to_raster(
+                matrix = landscape_temp,
                 landscape = landscape,
                 to_disk = to_disk
             )
         }
 
-        patch_landscape[[i]] <- mat_class
+        patch_landscape[[i]] <- class_result
     }
 
     names(patch_landscape) <- paste0("class_", unique_classes)
