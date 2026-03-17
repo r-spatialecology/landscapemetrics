@@ -109,6 +109,7 @@ get_patches_int <- function(landscape, class, directions,
     }
 
     patch_landscape <- vector("list", length(unique_classes))
+    counter_id <- 0L
 
     for (i in seq_along(unique_classes)) {
 
@@ -126,7 +127,17 @@ get_patches_int <- function(landscape, class, directions,
                  call. = FALSE)
         }
 
-        mat_class[idx] <- labeled[idx]
+        vals <- labeled[idx]
+        vals <- vals[!is.na(vals)]
+
+        if (length(vals) > 0) {
+            local_ids <- sort(unique(vals))
+            global_ids <- seq.int(from = counter_id + 1L,
+                                  length.out = length(local_ids))
+            map <- stats::setNames(global_ids, local_ids)
+            mat_class[idx] <- unname(map[as.character(labeled[idx])])
+            counter_id <- max(global_ids)
+        }
 
         if (return_raster) {
             mat_class <- matrix_to_raster(

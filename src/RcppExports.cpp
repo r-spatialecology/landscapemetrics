@@ -11,6 +11,18 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// rcpp_ccl_multiclass
+IntegerMatrix rcpp_ccl_multiclass(IntegerMatrix mat, int directions);
+RcppExport SEXP _landscapemetrics_rcpp_ccl_multiclass(SEXP matSEXP, SEXP directionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< int >::type directions(directionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ccl_multiclass(mat, directions));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_ccl
 void rcpp_ccl(IntegerMatrix mat, int directions);
 RcppExport SEXP _landscapemetrics_rcpp_ccl(SEXP matSEXP, SEXP directionsSEXP) {
@@ -204,6 +216,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_landscapemetrics_rcpp_ccl_multiclass", (DL_FUNC) &_landscapemetrics_rcpp_ccl_multiclass, 2},
     {"_landscapemetrics_rcpp_ccl", (DL_FUNC) &_landscapemetrics_rcpp_ccl, 2},
     {"_landscapemetrics_rcpp_xy_from_matrix", (DL_FUNC) &_landscapemetrics_rcpp_xy_from_matrix, 2},
     {"_landscapemetrics_rcpp_cell_from_xy", (DL_FUNC) &_landscapemetrics_rcpp_cell_from_xy, 2},
