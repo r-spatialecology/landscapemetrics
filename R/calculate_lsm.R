@@ -208,35 +208,28 @@ calculate_lsm_internal <- function(landscape,
             level_short <- sub("^lsm_([pcl])_.*$", "\\1", metrics[[current_metric]])
             metric_name <- sub("^lsm_[pcl]_", "", metrics[[current_metric]])
 
-            if (identical(level_short, "l") && is.atomic(resultint)) {
-                resultint <- lsm_landscape_output(metric = metric_name, value = resultint)
-            } else if (identical(level_short, "c") && is.atomic(resultint) && !is.null(names(resultint))) {
-                # class level: named vector with class IDs as names
-                resultint <- lsm_class_output(metric = metric_name,
-                                              class = as.integer(names(resultint)),
-                                              value = unname(resultint))
-            } else if (identical(level_short, "c") && is.list(resultint) &&
-                       all(c("class", "value") %in% names(resultint))) {
-                resultint <- lsm_class_output(metric = metric_name,
-                                              class = resultint$class,
-                                              value = resultint$value)
-            } else if (identical(level_short, "p") && is.atomic(resultint) && !is.null(names(resultint))) {
-                # patch level: named vector with class IDs as names
-                # generate sequential patch IDs within each class
+            if (identical(level_short, "l")) {
+                resultint <- lsm_landscape_output(
+                    metric = metric_name,
+                    value = resultint
+                )
+
+            } else if (identical(level_short, "c")) {
+                resultint <- lsm_class_output(
+                    metric = metric_name,
+                    class = as.integer(names(resultint)),
+                    value = unname(resultint)
+                )
+
+            } else if (identical(level_short, "p")) {
                 patch_ids <- ave(seq_along(resultint), names(resultint), FUN = seq_along)
-                resultint <- lsm_patch_output(metric = metric_name,
-                                              class = as.integer(names(resultint)),
-                                              value = unname(resultint),
-                                              id = as.integer(patch_ids))
-            } else if (identical(level_short, "p") && is.list(resultint) &&
-                       all(c("class", "value") %in% names(resultint))) {
-                resultint <- lsm_patch_output(metric = metric_name,
-                                              class = resultint$class,
-                                              value = resultint$value,
-                                              id = resultint$id)
-            } else {
-                stop("Internal metric calculation must return a data.frame or supported atomic output.",
-                     call. = FALSE)
+
+                resultint <- lsm_patch_output(
+                    metric = metric_name,
+                    class = as.integer(names(resultint)),
+                    value = unname(resultint),
+                    id = as.integer(patch_ids)
+                )
             }
         }
 
