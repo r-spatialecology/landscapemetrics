@@ -7,11 +7,11 @@
 prepare_extras(
   metrics,
   landscape_mat,
-  directions,
-  neighbourhood,
-  ordered,
-  base,
-  resolution,
+  directions = NULL,
+  neighbourhood = NULL,
+  ordered = NULL,
+  base = NULL,
+  resolution = NULL,
   consider_boundary = FALSE,
   edge_depth = 1
 )
@@ -48,7 +48,7 @@ A list with zero or more of the following components:
 \item neighbor_matrix: matrix with the number of cell pairs for each class
 \item comp: entropy of the neighbor_matrix
 \item cplx: complexity of the landscape
-\item enn_patch: matrix with the euclidean nearest neighbour distance for each patch
+\item enn_patch: named numeric vector with euclidean nearest neighbour distances
 \item core_patch: vector with core area for each patch
 }
 }

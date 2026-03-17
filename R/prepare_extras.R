@@ -425,8 +425,8 @@ get_core_patch <- function(landscape_mat, classes, class_patches, directions,
 #' @keywords internal
 #'
 #' @export
-prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, ordered, base, resolution,
-                           consider_boundary = FALSE, edge_depth = 1){
+prepare_extras <- function(metrics, landscape_mat, directions = NULL, neighbourhood = NULL, ordered = NULL,
+                           base = NULL, resolution = NULL, consider_boundary = FALSE, edge_depth = 1) {
     required <- unique(extras_df$extras[extras_df$metric %in% metrics])
 
     resolve_extras(
@@ -496,8 +496,10 @@ resolve_extras <- function(landscape_mat, directions = NULL, extras = NULL, requ
 
     required_args <- list(
         points = "resolution",
+        classes = character(),
         class_patches = "directions",
         area_patches = "resolution",
+        composition_vector = character(),
         neighbor_matrix = "neighbourhood",
         comp = "base",
         cplx = c("neighbourhood", "ordered", "base"),
