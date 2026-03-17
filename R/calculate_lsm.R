@@ -231,7 +231,7 @@ calculate_lsm_internal <- function(landscape,
                     max(class_mat, na.rm = TRUE)
                 }, integer(1))
 
-                offsets <- cumsum(c(0L, head(class_counts, -1)))
+                offsets <- cumsum(c(0L, utils::head(class_counts, -1)))
                 names(offsets) <- as.character(classes)
 
                 class_groups <- split(seq_along(resultint), names(resultint))
