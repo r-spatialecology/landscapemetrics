@@ -102,15 +102,13 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
                                      return_raster = TRUE)[[1]]
 
     # get dataframe with patch ID and coordinates to merge with result of metric
-    # MH: Do we really want to remove NA?
+    # assumes get_patches() returns globally unique patch ids across classes
     patches_tibble <- terra::as.data.frame(sum(terra::rast(landscape_labeled),
                                                 na.rm = TRUE),
                                             xy = TRUE)
 
-    # modify names
     names(patches_tibble) <- c("x", "y", "id")
 
-    # replace all 0 values for NA
     patches_tibble$id <- replace(patches_tibble$id,
                                  patches_tibble$id == 0,
                                  NA)
@@ -173,12 +171,11 @@ spatialize_lsm_internal <- function(landscape, level, metric, name, type, what,
 
             return(out)
         } else {
-
-            # convert to raster (wrap)
             out <- terra::rast(fill_value[, c(2, 3, 8)], crs = crs_input)
-
             return(out)
-        }})}, warning = function(cond) {
+        }
+
+    })}, warning = function(cond) {
 
             warning_messages <<- c(warning_messages, conditionMessage(cond))
 
