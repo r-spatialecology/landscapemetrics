@@ -253,7 +253,7 @@
 
 # landscapemetrics 0.3.1
 * Bugfixes
-    * fixing bug in `sample_lsm()` that occured when metrics where selected using `what` argument
+    * fixing bug in `sample_lsm()` that occurred when metrics where selected using `what` argument
     * Bugfix in `lsm_p_core()` if only one patch is present
     * Bugfix in `lsm_p_circle()` if only one cell is present in class
     * Bugfix in `lsm_p_hyrate()` if only one cell is present in class
@@ -305,7 +305,7 @@
 * The `edge_depth` can be specified for all core metrics
 
 # landscapemetrics 0.1.1
-* Replaced isFALSE() with !isTRUE() to be compatibile to R (> 3.1)
+* Replaced isFALSE() with !isTRUE() to be compatible to R (> 3.1)
 * Bugfix: lsm_p_core() and lsm_p_ncore() now takes landscape boundary into account
 * Added namespace prefix std::fmod() in get_adjacency.cpp
 
