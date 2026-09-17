@@ -3,14 +3,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-README last updated: 2025-02-11
+README last updated: 2026-09-17
 
 <!-- Start Badges -->
 
-| CI                                                                                                                                                                                                           | Development                                                                                                                     | CRAN                                                                                                                                     | License                                                                                                         |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![Lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics)             | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![Codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/graph/badge.svg)](https://app.codecov.io/gh/r-spatialecology/landscapemetrics)                                                           | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)                            | [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-yellow.svg)](https://doi.org/10.1111/ecog.04617)    |
+| CI | Development | CRAN | License |
+|----|----|----|----|
+| [![R-CMD-check](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/landscapemetrics/actions/workflows/R-CMD-check.yaml) | [![Lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) | [![CRAN status](https://www.r-pkg.org/badges/version/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![Codecov](https://codecov.io/gh/r-spatialecology/landscapemetrics/graph/badge.svg)](https://app.codecov.io/gh/r-spatialecology/landscapemetrics) | [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/) | [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/landscapemetrics)](https://cran.r-project.org/package=landscapemetrics) | [![DOI](https://img.shields.io/badge/DOI-10.1111/ecog.04617-yellow.svg)](https://doi.org/10.1111/ecog.04617) |
 
 <!-- End Badges -->
 
@@ -41,6 +41,7 @@ following Software note, substituting the version of the application
 that you used for ‘v0.0’:
 
 <p>
+
 <i> Hesselbarth, M.H.K., Sciaini, M., With, K.A., Wiegand, K., Nowosad,
 J. 2019. landscapemetrics: an open‐source R tool to calculate landscape
 metrics. Ecography, 42: 1648-1657 (v0.0). </i>
@@ -124,7 +125,7 @@ landscape <- terra::rast(landscapemetrics::landscape)
 plot(landscape)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="75%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" alt="" width="75%" style="display: block; margin: auto;" />
 
 ``` r
 
