@@ -12,7 +12,7 @@ Please note that the **landscapemetrics** project is released with a [Contributo
 
 ### Ask a question :interrobang:
 
-Browse the [documentation](https://r-spatialecology.github.io/landscapemetrics/) to see if you can find a solution. Still stuck? Open an [issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues) on GitHub. We'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
+Browse the [documentation](https://r-spatialecology.github.io/landscapemetrics/) to see if you can find a solution. Still stuck? Open an [issue on GitHub](https://github.com/r-spatialecology/landscapemetrics/issues). We'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
 
 If you want to ask a question in private get in contact by [mhk.hesselbarth\<at\>gmail.com](mailto:mhk.hesselbarth@gmail.com) or [sciaini.marco<at>gmail.com](mailto:sciaini.marco@gmail.com).
 
