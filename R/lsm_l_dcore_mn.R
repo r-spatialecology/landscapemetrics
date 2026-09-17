@@ -52,10 +52,20 @@ lsm_l_dcore_mn <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_dcore_mn_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         dcore_mn <- lsm_l_dcore_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "dcore_mn", value = dcore_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -65,29 +75,39 @@ lsm_l_dcore_mn <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcore_mn_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_l_dcore_mn_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                                classes = NULL, class_patches = NULL, points = NULL) {
 
-    dcore_patch <- lsm_p_ncore_calc(landscape,
-                                    directions = directions,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    resolution = resolution,
-                                    extras = extras)
-
-    # all values NA
-    if (all(is.na(dcore_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "dcore_mn",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    dcore_mn <- mean(dcore_patch$value)
+    dcore_patch <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = NULL,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(dcore_mn)),
-                 class = rep(as.integer(NA), length(dcore_mn)),
-                 id = rep(as.integer(NA), length(dcore_mn)),
-                 metric = rep("dcore_mn", length(dcore_mn)),
-                 value = as.double(dcore_mn))))
+    # all values NA
+    if (all(is.na(dcore_patch))) {
+        return(as.double(NA))
+    }
+
+    dcore_mn <- mean(dcore_patch)
+
+    return(as.double(dcore_mn))
 }

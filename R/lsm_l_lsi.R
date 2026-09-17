@@ -45,7 +45,15 @@ lsm_l_lsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_lsi_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         lsi <- lsm_l_lsi_calc(
+                             landscape_mat = landscape_mat
+                         )
+
+                         lsm_landscape_output(metric = "lsi", value = lsi)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -55,24 +63,15 @@ lsm_l_lsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_lsi_calc <- function(landscape, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_lsi_calc <- function(landscape_mat) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "lsi",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape_mat, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
@@ -112,9 +111,5 @@ lsm_l_lsi_calc <- function(landscape, extras = NULL) {
 
     lsi <- total_perim / total_perim_min
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(lsi)),
-                 class = rep(as.integer(NA), length(lsi)),
-                 id = rep(as.integer(NA), length(lsi)),
-                 metric = rep("lsi", length(lsi)),
-                 value = as.double(lsi))))
+    return(as.double(lsi))
 }

@@ -44,8 +44,18 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_iji_calc,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         iji <- lsm_c_iji_calc(
+                             landscape_mat = landscape_mat,
+                             verbose = verbose
+                         )
+
+                         lsm_class_output(metric = "iji",
+                                          class = as.integer(names(iji)),
+                                          value = unname(iji))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -55,27 +65,24 @@ lsm_c_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
-
-    # conver to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_c_iji_calc <- function(landscape_mat, verbose = TRUE, neighbor_matrix = NULL) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    if (!is.null(extras)){
-        adjacencies <- extras$neighbor_matrix
-    } else {
-        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    # lazy dependency resolution
+    if (is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("neighbor_matrix"),
+            neighbourhood = 4
+        )
+        neighbor_matrix <- deps$neighbor_matrix
     }
+
+    adjacencies <- neighbor_matrix
 
     classes <- rownames(adjacencies)
 
@@ -85,11 +92,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::new_tibble(list(level = rep("class", length(classes)),
-                              class = as.integer(classes),
-                              id = rep(as.integer(NA), length(classes)),
-                              metric = rep("iji", length(classes)),
-                              value = rep(as.double(NA), length(classes)))))
+        return(stats::setNames(rep(as.double(NA), length(classes)), classes))
     }
 
     else {
@@ -103,12 +106,7 @@ lsm_c_iji_calc <- function(landscape, verbose, extras = NULL) {
 
         iji <- (class_sums / log(ncol(adjacencies) - 1)) * 100
 
-        return(tibble::new_tibble(list(
-            level = rep("class", length(iji)),
-            class = as.integer(classes),
-            id = rep(as.integer(NA), length(iji)),
-            metric = rep("iji", length(iji)),
-            value = as.double(iji)
-        )))
+        # return named vector
+        stats::setNames(as.double(iji), classes)
     }
 }

@@ -54,10 +54,20 @@ lsm_l_dcad <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_dcad_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         dcad <- lsm_l_dcad_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "dcad", value = dcad)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,40 +77,55 @@ lsm_l_dcad <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_l_dcad_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                            classes = NULL, class_patches = NULL, area_patches = NULL, points = NULL) {
+
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        points <- deps$points
+    }
 
     # get patch area
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    patch_area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to total area
-    total_area <- sum(patch_area$value)
+    total_area <- sum(patch_area)
 
     # all values NA
     if (is.na(total_area)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "dcad",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # get core areas for each patch
-    ncore_patch <- lsm_p_ncore_calc(landscape,
-                                    directions = directions,
-                                    consider_boundary = consider_boundary,
-                                    edge_depth = edge_depth,
-                                    resolution = resolution,
-                                    extras = extras)
+    ncore_patch <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
 
     # summarise for total landscape
-    dcad <- sum(ncore_patch$value) / total_area * 100
+    dcad <- sum(ncore_patch) / total_area * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(dcad)),
-                 class = rep(as.integer(NA), length(dcad)),
-                 id = rep(as.integer(NA), length(dcad)),
-                 metric = rep("dcad", length(dcad)),
-                 value = as.double(dcad))))
+    return(as.double(dcad))
 }

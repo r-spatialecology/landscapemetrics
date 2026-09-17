@@ -56,9 +56,21 @@ lsm_c_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_enn_sd_calc,
-                     directions = directions,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         enn_sd <- lsm_c_enn_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             verbose = verbose,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "enn_sd",
+                                          class = as.integer(names(enn_sd)),
+                                          value = unname(enn_sd))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,29 +81,24 @@ lsm_c_enn_sd <- function(landscape, directions = 8, verbose = TRUE) {
 }
 
 
-lsm_c_enn_sd_calc <- function(landscape, directions, verbose, resolution, extras = NULL) {
+lsm_c_enn_sd_calc <- function(landscape_mat, directions, verbose, resolution) {
 
-    enn <- lsm_p_enn_calc(landscape,
-                          directions = directions,
-                          verbose = verbose,
-                          resolution = resolution, extras = extras)
+    deps <- resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = c("enn_patch"),
+        resolution = resolution
+    )
+    enn_patch <- deps$enn_patch
+
 
     # all cells are NA
-    if (all(is.na(enn$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "enn_sd",
-                              value = as.double(NA))))
+    if (all(is.na(unname(enn_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    enn_sd <- stats::aggregate(x = enn[, 5], by = enn[, 2], FUN = stats::sd)
+    enn_sd <- tapply(enn_patch, names(enn_patch), stats::sd)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(enn_sd)),
-        class = as.integer(enn_sd$class),
-        id = rep(as.integer(NA), nrow(enn_sd)),
-        metric = rep("enn_sd", nrow(enn_sd)),
-        value = as.double(enn_sd$value)
-    )))
+    # return named vector
+    stats::setNames(as.double(enn_sd), names(enn_sd))
 }

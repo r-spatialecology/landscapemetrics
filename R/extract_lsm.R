@@ -101,17 +101,25 @@ extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, w
     # convert to coordinates
     y <- points_as_mat(pts = y)
 
-    # get patches of landscape
-    landscape_labeled <- get_patches(landscape, directions = directions,)[[1]]
+    # get landscape as matrix to extract class values
+    landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
 
-    # combine to one raster layer
-    landscape_id <- sum(terra::rast(landscape_labeled), na.rm = TRUE)
+    # get patches of landscape and collapse to one global-id raster
+    patches_list <- get_patches(landscape, directions = directions)[[1]]
+    landscape_id <- sum(terra::rast(patches_list), na.rm = TRUE)
 
-    # get patch id of sample points
-    point_id <- cbind(ID = 1:nrow(y), terra::extract(x = landscape_id, y = y))
+    # extract id from landscape_id directly
+    point_id <- cbind(
+      extract_id = seq_len(nrow(y)),
+      terra::extract(x = landscape_id, y = y)
+    )
 
-    # rename df
-    names(point_id) <- c("extract_id", "id")
+    # normalize names from terra::extract output
+    names(point_id)[names(point_id) == "ID"] <- "row_id"
+    names(point_id)[names(point_id) == names(landscape_id)] <- "id"
+
+    # keep only needed columns
+    point_id <- point_id[, c("extract_id", "id")]
 
     # check if length is identical if ids are provided
     if (!is.null(extract_id)) {
@@ -124,21 +132,17 @@ extract_lsm_internal <- function(landscape, y, extract_id, metric, name, type, w
                   call. = FALSE)
         }
 
-        extract_id <- seq_len(nrow(point_id))
+        point_id$extract_id <- seq_len(nrow(point_id))
 
+      } else {
+
+        point_id$extract_id <- extract_id
       }
-    }
-
-
-    if (!is.null(extract_id)) {
-      point_id[, 1] <- extract_id
     }
 
     point_id <- point_id[!duplicated(point_id), ]
 
     # calculate metrics
-    # can we somehow calculate only the patches we actually want?
-    # MH: Extract id and set all others to NA?
     metrics <- calculate_lsm(landscape,
                              what = metrics_list,
                              directions = directions,

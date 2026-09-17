@@ -55,10 +55,22 @@ lsm_c_cai_sd <- function(landscape, directions = 8, consider_boundary = FALSE, e
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_cai_sd_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         cai_sd <- lsm_c_cai_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "cai_sd",
+                                          class = as.integer(names(cai_sd)),
+                                          value = unname(cai_sd))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -68,31 +80,42 @@ lsm_c_cai_sd <- function(landscape, directions = 8, consider_boundary = FALSE, e
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cai_sd_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_c_cai_sd_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
+                              classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # calculate core area index for each patch
-    cai <- lsm_p_cai_calc(landscape,
-                          directions = directions,
-                          consider_boundary = consider_boundary,
-                          edge_depth = edge_depth,
-                          resolution = resolution,
-                          extras = extras)
-
-    # all values NA
-    if (all(is.na(cai$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cai_sd",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
     }
 
-    # summarise for classes
-    cai_sd <- stats::aggregate(x = cai[, 5], by = cai[, 2], FUN = stats::sd)
+    # calculate core area index for each patch (handles lazy deps)
+    cai <- lsm_p_cai_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(cai_sd)),
-                          class = as.integer(cai_sd$class),
-                          id = rep(as.integer(NA), nrow(cai_sd)),
-                          metric = rep("cai_sd", nrow(cai_sd)),
-                          value = as.double(cai_sd$value))))
+    # all values NA
+    if (all(is.na(unname(cai)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # summarise for classes using tapply on named vector
+    cai_sd <- tapply(cai, names(cai), stats::sd)
+
+    # return named vector
+    stats::setNames(as.double(cai_sd), names(cai_sd))
 }

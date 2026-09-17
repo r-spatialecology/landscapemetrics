@@ -33,7 +33,15 @@ lsm_l_pr <- function(landscape){
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_pr_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pr <- lsm_l_pr_calc(
+                             landscape_mat = landscape_mat
+                         )
+
+                         lsm_landscape_output(metric = "pr", value = pr)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -43,27 +51,23 @@ lsm_l_pr <- function(landscape){
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pr_calc <- function(landscape, extras = NULL){
+lsm_l_pr_calc <- function(landscape_mat, classes = NULL) {
 
-    if (!is.null(extras)){
-        classes <- extras$classes
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
+    # lazy dependency resolution
+    if (is.null(classes)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("classes")
+        )
+        classes <- deps$classes
     }
+
     richness <- length(classes)
 
     # all values NA
     if (richness == 0) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pr",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(richness)),
-                          class = rep(as.integer(NA), length(richness)),
-                          id = rep(as.integer(NA), length(richness)),
-                          metric = rep("pr", length(richness)),
-                          value = as.double(richness))))
+    return(as.double(richness))
 }

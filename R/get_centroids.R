@@ -124,7 +124,7 @@ get_centroids_calc <- function(landscape, directions, cell_center, verbose) {
         }))
 
     # get number of total patches to construct id seq
-    np <- lsm_l_np_calc(landscape, directions = directions)[[1, 5]]
+    np <- as.integer(lsm_l_np_calc(landscape, directions = directions))
 
     # check how often different combinations of class-id are present
     times <- as.numeric(t(table(centroid[, c(1, 2)])))

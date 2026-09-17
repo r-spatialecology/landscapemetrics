@@ -37,8 +37,19 @@ lsm_c_np <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_np_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         np <- lsm_c_np_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
+                         lsm_class_output(metric = "np",
+                                          class = as.integer(names(np)),
+                                          value = unname(np))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -48,47 +59,31 @@ lsm_c_np <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_np_calc <- function(landscape, directions, extras = NULL){
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_c_np_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "np",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique classes
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
     }
 
-    # get number of patches
-    np_class <- lapply(X = classes, FUN = function(patches_class) {
-
-        # connected labeling current class
+    # get number of patches for each class
+    # count unique patch IDs (not max, as IDs are globally unique across classes)
+    np_class <- vapply(classes, function(patches_class) {
         landscape_labeled <- class_patches[[as.character(patches_class)]]
+        as.integer(length(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)]))))
+    }, integer(1))
 
-        # max(patch_id) equals number of patches
-        np <- max(landscape_labeled, na.rm = TRUE)
-
-        tibble::new_tibble(list(
-            level = rep("class", length(np)),
-            class = rep(as.integer(patches_class), length(patches_class)),
-            id = rep(as.integer(NA), length(np)),
-            metric = rep("np", length(np)),
-            value = as.double(np)))
-        })
-
-    do.call(rbind, np_class)
+    # return named vector
+    stats::setNames(as.double(np_class), as.character(classes))
 }

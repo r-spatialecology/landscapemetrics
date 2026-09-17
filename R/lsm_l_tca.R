@@ -53,10 +53,20 @@ lsm_l_tca <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_tca_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         tca <- lsm_l_tca_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "tca", value = tca)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -66,29 +76,37 @@ lsm_l_tca <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_tca_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL) {
+lsm_l_tca_calc <- function(landscape_mat, directions = NULL, consider_boundary = FALSE, edge_depth = 1, resolution = NULL,
+                           classes = NULL, class_patches = NULL) {
 
-    core_area_patch <- lsm_p_core_calc(landscape,
-                                       directions = directions,
-                                       consider_boundary = consider_boundary,
-                                       edge_depth = edge_depth,
-                                       resolution = resolution,
-                                       extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
 
-    total_core_area <- sum(core_area_patch$value)
+    core_area_patch <- lsm_p_core_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches
+    )
+
+    total_core_area <- sum(core_area_patch)
 
     # all values NA
     if (is.na(total_core_area)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "tca",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(total_core_area)),
-                          class = rep(as.integer(NA), length(total_core_area)),
-                          id = rep(as.integer(NA), length(total_core_area)),
-                          metric = rep("tca", length(total_core_area)),
-                          value = as.double(total_core_area))))
+    return(as.double(total_core_area))
 }

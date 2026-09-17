@@ -48,8 +48,20 @@ lsm_c_cohesion <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_cohesion_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         cohesion <- lsm_c_cohesion_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "cohesion",
+                                          class = as.integer(names(cohesion)),
+                                          value = unname(cohesion))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -59,63 +71,65 @@ lsm_c_cohesion <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_cohesion_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_cohesion"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_c_cohesion_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, area_patches = NULL, perimeter_patch = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "cohesion",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(perimeter_patch)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "perimeter_patch"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        perimeter_patch <- deps$perimeter_patch
     }
 
     # get number of cells (only not NAs)
-    ncells_landscape <- length(landscape[!is.na(landscape)])
+    ncells_landscape <- sum(!is.na(landscape_mat))
 
-    # get patch area
-    patch_area <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # get patch area (handles lazy deps)
+    patch_area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # get number of cells for each patch -> area = n_cells * res / 10000
-    patch_area$ncells <- patch_area$value * 10000 / prod(resolution)
+    ncells_patch <- patch_area * 10000 / prod(resolution)
 
     # get perim of patch
-    perim_patch <- lsm_p_perim_calc(landscape,
-                                    directions = directions,
-                                    resolution = resolution,
-                                    extras = extras)
+    perim_patch <- lsm_p_perim_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch
+    )
 
     # calculate denominator of cohesion
-    perim_patch$denominator <- perim_patch$value * sqrt(patch_area$ncells)
+    perim_x_sqrt_ncells <- perim_patch * sqrt(ncells_patch)
 
-    # group by class and sum
-    denominator <- stats::aggregate(x = perim_patch[, 6], by = perim_patch[, 2],
-                                    FUN = sum)
-
-    cohesion <- stats::aggregate(x = perim_patch[, 5], by = perim_patch[, 2],
-                                 FUN = sum)
+    # group by class and sum using tapply on named vectors
+    denominator <- tapply(perim_x_sqrt_ncells, names(perim_x_sqrt_ncells), sum, na.rm = TRUE)
+    cohesion_sum <- tapply(perim_patch, names(perim_patch), sum, na.rm = TRUE)
 
     # calculate cohesion
-    cohesion$value <- (1 - (cohesion$value / denominator$denominator)) *
+    cohesion <- (1 - (cohesion_sum / denominator)) *
         ((1 - (1 / sqrt(ncells_landscape))) ^ -1) * 100
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(cohesion)),
-        class = as.integer(cohesion$class),
-        id = rep(as.integer(NA), nrow(cohesion)),
-        metric = rep("cohesion", nrow(cohesion)),
-        value = as.double(cohesion$value)
-    )))
+    # return named vector
+    stats::setNames(as.double(cohesion), names(cohesion))
 }

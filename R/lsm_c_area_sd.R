@@ -48,8 +48,20 @@ lsm_c_area_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_area_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         area_sd <- lsm_c_area_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "area_sd",
+                                          class = as.integer(names(area_sd)),
+                                          value = unname(area_sd))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -59,29 +71,27 @@ lsm_c_area_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_area_sd_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_area_sd_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get area of patches
-    area <- lsm_p_area_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
+    # reuse lsm_p_area_calc to get patch areas (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # all values NA
-    if (all(is.na(area$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "area_sd",
-                              value = as.double(NA))))
+    if (all(is.na(unname(area_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # calculate sd
-    area_sd <- stats::aggregate(area[, 5], by = area[, 2], FUN = stats::sd)
+    # calculate sd by class using tapply on named vector
+    area_sd <- tapply(area_patch, names(area_patch), stats::sd)
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(area_sd)),
-                          class = as.integer(area_sd$class),
-                          id = rep(as.integer(NA), nrow(area_sd)),
-                          metric = rep("area_sd", nrow(area_sd)),
-                          value = as.double(area_sd$value))))
+    # return named vector
+    stats::setNames(as.double(area_sd), names(area_sd))
 }

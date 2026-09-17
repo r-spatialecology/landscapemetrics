@@ -50,8 +50,18 @@ lsm_l_shape_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shape_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         shape_mn <- lsm_l_shape_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "shape_mn", value = shape_mn)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -61,29 +71,41 @@ lsm_l_shape_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shape_mn_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_l_shape_mn_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    # shape index for each patch
-    shape <- lsm_p_shape_calc(landscape,
-                              directions = directions,
-                              resolution = resolution,
-                              extras = extras)
-
-    # all values NA
-    if (all(is.na(shape$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shape_mn",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(perimeter_patch) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "perimeter_patch", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        perimeter_patch <- deps$perimeter_patch
+        area_patches <- deps$area_patches
     }
 
-    # calculate mean
-    shape_mn <- mean(shape$value, na.rm = TRUE)
+    # reuse lsm_p_shape_calc to get shape values (handles lazy deps)
+    shape_patch <- lsm_p_shape_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shape_mn)),
-                          class = rep(as.integer(NA), length(shape_mn)),
-                          id = rep(as.integer(NA), length(shape_mn)),
-                          metric = rep("shape_mn", length(shape_mn)),
-                          value = as.double(shape_mn))))
+    # all values NA
+    if (all(is.na(unname(shape_patch)))) {
+        return(as.double(NA))
+    }
+
+    # calculate mean of all patches
+    shape_mn <- mean(unname(shape_patch))
+
+    return(as.double(shape_mn))
 }

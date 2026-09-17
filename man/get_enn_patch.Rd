@@ -18,7 +18,8 @@ get_enn_patch(classes, class_patches, points, resolution, verbose = FALSE)
 \item{verbose}{A logical indicating whether to print warnings}
 }
 \value{
-tibble with two columns: class, value
+A named numeric vector of ENN values. Names correspond to class IDs
+(repeated for each patch within a class).
 }
 \description{
 Euclidean Nearest-Neighbor Distance

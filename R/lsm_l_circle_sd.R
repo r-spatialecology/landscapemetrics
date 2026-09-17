@@ -56,8 +56,18 @@ lsm_l_circle_sd <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_circle_sd_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         value <- lsm_l_circle_sd_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "circle_sd", value = value)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,28 +77,42 @@ lsm_l_circle_sd <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_circle_sd_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    circle_patch <- lsm_p_circle_calc(landscape,
-                                      directions = directions,
-                                      resolution = resolution,
-                                      extras = extras)
+lsm_l_circle_sd_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                 classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all values NA
-    if (all(is.na(circle_patch$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle_cv",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    circle_sd <- stats::sd(circle_patch$value)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(circle_sd)),
-                 class = rep(as.integer(NA), length(circle_sd)),
-                 id = rep(as.integer(NA), length(circle_sd)),
-                 metric = rep("circle_sd", length(circle_sd)),
-                 value = as.double(circle_sd))))
+    circle_patch <- lsm_p_circle_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
+
+    # all values NA
+    if (all(is.na(circle_patch))) {
+        return(as.double(NA))
+    }
+
+    circle_sd <- stats::sd(circle_patch)
+
+    return(as.double(circle_sd))
 }
-

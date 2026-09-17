@@ -43,8 +43,18 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_te_calc,
-                     count_boundary = count_boundary)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         te <- lsm_l_te_calc(
+                             landscape_mat = landscape_mat,
+                             count_boundary = count_boundary,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "te", value = te)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -54,50 +64,28 @@ lsm_l_te <- function(landscape, count_boundary = FALSE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_l_te"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            neighbourhood = 4, resolution = resolution)
-    }
+lsm_l_te_calc <- function(landscape_mat, count_boundary = FALSE, resolution = NULL, neighbor_matrix = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "te",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
+    }
+
+    # lazy dependency resolution
+    if (is.null(neighbor_matrix)) {
+        if (count_boundary) {
+            background_value <- max(landscape_mat, na.rm = TRUE) + 1
+            landscape_mat <- pad_raster_internal(landscape = landscape_mat,
+                                             pad_raster_value = background_value,
+                                             pad_raster_cells = 1, global = FALSE)
+            landscape_mat[is.na(landscape_mat)] <- background_value
+        }
+        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_mat, directions = as.matrix(4))
     }
 
     # get resolution in x-y directions
     resolution_x <- resolution[[1]]
     resolution_y <- resolution[[2]]
-
-    if (count_boundary) {
-
-        # get background value not present as class
-        background_value <- max(landscape, na.rm = TRUE) + 1
-
-        # add row/col around raster
-        landscape <- pad_raster_internal(landscape = landscape,
-                                         pad_raster_value = background_value,
-                                         pad_raster_cells = 1, global = FALSE)
-
-        # set NA to background value
-        landscape[is.na(landscape)] <- background_value
-
-        neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape, directions = as.matrix(4))
-
-    } else {
-
-        neighbor_matrix <- extras$neighbor_matrix
-
-    }
 
     if (resolution_x == resolution_y) {
 
@@ -114,14 +102,14 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
                                       NA, 1, NA), 3, 3, byrow = TRUE)
 
         left_right_neighbours <-
-            rcpp_get_coocurrence_matrix(landscape,
+            rcpp_get_coocurrence_matrix(landscape_mat,
                                         directions = as.matrix(left_right_matrix))
 
         edge_left_right <-
             sum(left_right_neighbours[lower.tri(left_right_neighbours)]) * resolution_x
 
         top_bottom_neighbours <-
-            rcpp_get_coocurrence_matrix(terra::as.matrix(landscape, wide = TRUE),
+            rcpp_get_coocurrence_matrix(landscape_mat,
                                         directions = as.matrix(top_bottom_matrix))
 
         edge_top_bottom <-
@@ -130,9 +118,5 @@ lsm_l_te_calc <- function(landscape, count_boundary, resolution, extras = NULL){
         edge_total <- edge_left_right + edge_top_bottom
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(edge_total)),
-                          class = rep(as.integer(NA), length(edge_total)),
-                          id = rep(as.integer(NA), length(edge_total)),
-                          metric = rep("te", length(edge_total)),
-                          value = as.double(edge_total))))
+    return(as.double(edge_total))
 }

@@ -49,7 +49,17 @@ lsm_c_nlsi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_nlsi_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         nlsi <- lsm_c_nlsi_calc(
+                             landscape_mat = landscape_mat
+                         )
+
+                         lsm_class_output(metric = "nlsi",
+                                          class = as.integer(names(nlsi)),
+                                          value = unname(nlsi))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -59,24 +69,15 @@ lsm_c_nlsi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_c_nlsi_calc <- function(landscape_mat) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "nlsi",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
     # cells at the boundary of the landscape need neighbours to calculate perim
-    landscape_pad <- pad_raster_internal(landscape, pad_raster_value = NA,
+    landscape_pad <- pad_raster_internal(landscape_mat, pad_raster_value = NA,
                                      pad_raster_cells = 1, global = FALSE)
 
     # which cells are NA (i.e. background)
@@ -149,9 +150,6 @@ lsm_c_nlsi_calc <- function(landscape, extras = NULL) {
         nlsi[!is.finite(nlsi)] <- NA
     }
 
-    return(tibble::new_tibble(list(level = rep("class", length(nlsi)),
-                              class = as.integer(names(nlsi)),
-                              id = rep(as.integer(NA), length(nlsi)),
-                              metric = rep("nlsi", length(nlsi)),
-                              value = as.double(nlsi))))
+    # return named vector
+    stats::setNames(as.double(nlsi), names(nlsi))
 }

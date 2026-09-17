@@ -33,8 +33,8 @@ test_that("lsm_c_pafrac throws warning for less than 10 patches",  {
 })
 
 test_that("lsm_c_pafrac equals FRAGSTATS", {
-    lsm_landscape <- lsm_c_pafrac(landscape) |> dplyr::pull(value)
-    lsm_augusta <- lsm_c_pafrac(augusta_nlcd) |> dplyr::pull(value)
+    lsm_landscape <- lsm_c_pafrac(landscape, verbose = FALSE) |> dplyr::pull(value)
+    lsm_augusta <- lsm_c_pafrac(augusta_nlcd, verbose = FALSE) |> dplyr::pull(value)
 
     fs_landscape <- dplyr::filter(fragstats_class, LID == "landscape", metric == "pafrac") |> dplyr::pull(value)
     fs_augusta <- dplyr::filter(fragstats_class, LID == "augusta_nlcd", metric == "pafrac") |> dplyr::pull(value)

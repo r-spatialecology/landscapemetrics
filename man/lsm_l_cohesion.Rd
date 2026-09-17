@@ -47,5 +47,5 @@ connectivity. Ecology, 77(4), 1210-1225.
 \seealso{
 \code{\link{lsm_p_perim}},
 \code{\link{lsm_p_area}}, \cr
-\code{\link{lsm_l_cohesion}}
+\code{\link{lsm_c_cohesion}}
 }

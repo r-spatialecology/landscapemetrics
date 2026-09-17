@@ -39,8 +39,17 @@ lsm_l_np <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_np_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         np <- lsm_l_np_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
+                         lsm_landscape_output(metric = "np", value = np)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -50,26 +59,32 @@ lsm_l_np <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_np_calc <- function(landscape, directions, extras = NULL) {
+lsm_l_np_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
-    n_patches <- lsm_c_np_calc(landscape,
-                               directions = directions,
-                               extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+    }
 
-    n_patches <- sum(n_patches$value)
+    n_patches <- lsm_c_np_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        classes = classes,
+        class_patches = class_patches
+    )
+
+    n_patches <- sum(n_patches)
 
     # all values NA
     if (is.na(n_patches)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "np",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(n_patches)),
-                          class = rep(as.integer(NA), length(n_patches)),
-                          id = rep(as.integer(NA), length(n_patches)),
-                          metric = rep("np", length(n_patches)),
-                          value = as.double(n_patches))))
+    return(as.double(n_patches))
 }

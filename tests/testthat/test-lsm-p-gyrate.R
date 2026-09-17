@@ -31,12 +31,12 @@ test_that("lsm_p_gyrate returns in every column the correct type", {
 # GYRATE = 0 when the patch consists of a single cell and increases without limit as the patch increases in extent
 
 test_that("lsm_p_frac equals FRAGSTATS", {
-    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_gyrate")) |>
+    lsm_landscape <- calculate_lsm(landscape, what = c("lsm_p_area", "lsm_p_gyrate"), verbose = FALSE) |>
         tidyr::pivot_wider(names_from = metric, values_from = value) |>
         dplyr::filter(area != min(area)) |>
         dplyr::pull(gyrate)
 
-    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_gyrate")) |>
+    lsm_augusta <- calculate_lsm(augusta_nlcd, what = c("lsm_p_area", "lsm_p_gyrate"), verbose = FALSE) |>
         tidyr::pivot_wider(names_from = metric, values_from = value) |>
         dplyr::filter(area != min(area)) |>
         dplyr::pull(gyrate)

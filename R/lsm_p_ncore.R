@@ -51,16 +51,29 @@
 #'
 #' @export
 lsm_p_ncore <- function(landscape,
-                                    directions = 8,
-                                    consider_boundary = FALSE,
-                                    edge_depth = 1) {
+                        directions = 8,
+                        consider_boundary = FALSE,
+                        edge_depth = 1) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_ncore_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ncore <- lsm_p_ncore_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_patch_output(metric = "ncore",
+                                          class = as.integer(names(ncore)),
+                                          value = unname(ncore),
+                                          id = seq_along(ncore))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -70,43 +83,35 @@ lsm_p_ncore <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_p_ncore_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
+                             classes = NULL, class_patches = NULL, points = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ncore",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique classes
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-        points <- extras$points
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
-        points <- get_points(landscape, resolution)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        points <- deps$points
     }
 
-    core_class <- do.call(rbind,
+    core_class <- do.call(c,
                           lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- class_patches[[as.character(patches_class)]]
 
-        # get unique patch id (must be 1 to number_patches)
-        patches_id <- 1:max(landscape_labeled, na.rm = TRUE)
+        # get existing patch IDs (non-NA values)
+        patches_id <- sort(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)])))
 
         # label all edge cells
         class_edge <- get_boundaries_calc(landscape_labeled,
@@ -145,35 +150,29 @@ lsm_p_ncore_calc <- function(landscape, directions, consider_boundary, edge_dept
 
             not_na_patch_core <- !is.na(patch_core)
             # get coordinates of current class
-            points <- data.frame(x = points[which(not_na_patch_core), 1],
+            points_current <- data.frame(x = points[which(not_na_patch_core), 1],
                                  y = points[which(not_na_patch_core), 2],
                                  z = points[which(not_na_patch_core), 3])
 
-            points$core_id <- patch_core[not_na_patch_core]
+            points_current$core_id <- patch_core[not_na_patch_core]
 
-            points$patch_id <- landscape_labeled[not_na_patch_core]
+            points_current$patch_id <- landscape_labeled[not_na_patch_core]
 
-            n_core_area <- table(unique(points[, c(4, 5)])[, 2]) # sth breaking here
+            n_core_area <- table(unique(points_current[, c(4, 5)])[, 2])
 
             # set up results same length as number of patches (in case patch has no core)
             result <- c(rep(0, length(patches_id)))
             names(result)  <- patches_id
 
             # add number of core patches if present for corresponding patch
-            result[as.numeric(names(n_core_area))] <- n_core_area
+            # match patch IDs to their positions in the result vector
+            result[match(as.numeric(names(n_core_area)), patches_id)] <- n_core_area
         }
 
-        tibble::new_tibble(list(
-            class = rep(patches_class, length(result)),
-            value = result))
+        stats::setNames(result, rep(as.character(patches_class), length(result)))
         })
     )
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(core_class)),
-        class = as.integer(core_class$class),
-        id = as.integer(seq_len(nrow(core_class))),
-        metric = rep("ncore", nrow(core_class)),
-        value = as.double(core_class$value)
-    ))
+    # return named vector (preserve names)
+    stats::setNames(as.double(core_class), names(core_class))
 }

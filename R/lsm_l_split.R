@@ -47,8 +47,18 @@ lsm_l_split <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_split_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         split <- lsm_l_split_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "split", value = split)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -58,32 +68,42 @@ lsm_l_split <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_split_calc <- function(landscape, directions, resolution, extras = NULL) {
+lsm_l_split_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                             classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
+
+    # get patch area (handles lazy deps)
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise for total landscape
-    area_total <- sum(area_patch$value)
+    area_total <- sum(area_patch)
 
     # all values NA
     if (is.na(area_total)) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "split",
-                              value = as.double(NA))))
+        return(as.double(NA))
     }
 
     # total area squared divided by sum of area squared for each patch
-    split <- (area_total ^ 2) / sum(area_patch$value ^ 2)
+    split <- (area_total ^ 2) / sum(area_patch ^ 2)
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(split)),
-                          class = rep(as.integer(NA), length(split)),
-                          id = rep(as.integer(NA), length(split)),
-                          metric = rep("split", length(split)),
-                          value = as.double(split))))
+    return(as.double(split))
 }

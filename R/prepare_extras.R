@@ -1,96 +1,3 @@
-#' prepare_extras
-#'
-#' @description Prepare an extras object
-#'
-#' @param metrics A vector with metric abbreviations
-#' @param landscape_mat A matrix object
-#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
-#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours: 4 (rook's case) or 8 (queen's case). The default is 4.
-#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
-#' The default is TRUE.
-#' @param base The unit in which entropy is measured. The default is "log2",
-#' which compute entropy in "bits". "log" and "log10" can be also used.
-#' @param resolution A vector with two numbers (usually calculated using terra::res)
-#'
-#' @details
-#' Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
-#' function including NA values
-#'
-#' @return A list with zero or more of the following components:
-#' \itemize{
-#'  \item points: matrix with three columns: col, row, value
-#'  \item classes: vector with unique values
-#'  \item class_patches: list with matrices of patches for each class
-#'  \item area_patches: list with vectors of areas of patches for each class
-#'  \item composition_vector: vector with the number of cells for each class
-#'  \item neighbor_matrix: matrix with the number of cell pairs for each class
-#'  \item comp: entropy of the neighbor_matrix
-#'  \item cplx: complexity of the landscape
-#'  \item enn_patch: matrix with the euclidean nearest neighbour distance for each patch
-#' }
-#'
-#' @seealso
-#' \code{\link{get_points}},
-#' \code{\link{get_class_patches}},
-#' \code{\link{get_area_patches}},
-#' \code{\link{get_complexity}},
-#' \code{\link{get_enn_patch}}
-#'
-#' @examples
-#' landscape <- terra::rast(landscapemetrics::landscape)
-#' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-#' prepare_extras("lsm_l_ent", landscape_mat, neighbourhood = 4, base = "log2")
-#'
-#' \dontrun{
-#' metrics = list_lsm()$function_name
-#' landscape <- terra::rast(landscapemetrics::landscape)
-#' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
-#' prepare_extras(metrics, landscape_mat, directions = 8, neighbourhood = 4,
-#'                ordered = FALSE, base = "log2", resolution = terra::res(landscape))
-#' }
-#'
-#' @keywords internal
-#'
-#' @export
-prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, ordered, base, resolution){
-    extras_df_sub <- extras_df[extras_df$metric %in% metrics, ]
-    extras_list <- unique(extras_df_sub$extras)
-
-    extras <- list()
-
-    if (any(c("enn_patch", "points") %in% extras_list)){
-        extras$points <- get_points(landscape_mat, resolution)
-    }
-    if (any(c("area_patches", "enn_patch", "class_patches", "perimeter_patch", "classes")  %in% extras_list)){
-        extras$classes <- get_unique_values_int(landscape_mat, verbose = FALSE)
-    }
-    if (any(c("area_patches", "enn_patch", "perimeter_patch", "class_patches") %in% extras_list)){
-        extras$class_patches <- get_class_patches(landscape_mat, extras$classes, directions)
-    }
-    if ("area_patches" %in% extras_list){
-        extras$area_patches <- get_area_patches(extras$class_patches, extras$classes, resolution)
-    }
-    if ("composition_vector" %in% extras_list){
-        extras$composition_vector <- rcpp_get_composition_vector(landscape_mat)
-    }
-    if (any(c("comp", "neighbor_matrix") %in% extras_list)){
-        extras$neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_mat, directions = as.matrix(neighbourhood))
-    }
-    if ("comp" %in% extras_list){
-        extras$comp <- rcpp_get_entropy(colSums(extras$neighbor_matrix), base)
-    }
-    if ("cplx" %in% extras_list){
-        extras$cplx <- get_complexity(landscape_mat, neighbourhood, ordered, base)
-    }
-    if ("enn_patch" %in% extras_list){
-        extras$enn_patch <- get_enn_patch(extras$classes, extras$class_patches, extras$points)
-    }
-    if ("perimeter_patch" %in% extras_list){
-        extras$perimeter_patch <- get_perimeter_patch(extras$classes, extras$class_patches, resolution)
-    }
-    return(extras)
-}
-
 #' get_class_patches
 #'
 #' @description Get patches for each class
@@ -115,9 +22,13 @@ prepare_extras <- function(metrics, landscape_mat, directions, neighbourhood, or
 #' @export
 get_class_patches <- function(landscape_mat, classes, directions){
     class_patches <- lapply(classes, function(patches_class){
-                landscape_labeled <- get_patches_int(landscape_mat,
-                                             class = patches_class,
-                                             directions = directions)[[1]]
+        class_name <- paste0("class_", patches_class)
+        landscape_labeled <- get_patches_int(
+            landscape_mat,
+            class = patches_class,
+            directions = directions
+        )[[class_name]]
+        landscape_labeled
     })
     names(class_patches) <- classes
     return(class_patches)
@@ -148,11 +59,13 @@ get_class_patches <- function(landscape_mat, classes, directions){
 #' @export
 get_area_patches <- function(class_patches, classes, resolution){
     factor_ha <- prod(resolution) / 10000
-    area_patches <- lapply(classes, function(patches_class){
+    # flatten list of named vectors to single named vector
+    area_patches <- do.call(c,
+                            lapply(classes, function(patches_class) {
         landscape_labeled <- class_patches[[as.character(patches_class)]]
         area_patch_ij <- rcpp_get_composition_vector(x = landscape_labeled) * factor_ha
-    })
-    names(area_patches) <- classes
+        stats::setNames(area_patch_ij, rep(as.character(patches_class), length(area_patch_ij)))
+    }))
     return(area_patches)
 }
 
@@ -208,9 +121,12 @@ get_complexity <- function(landscape_mat, neighbourhood, ordered, base){
 #'
 #' @export
 get_points <- function(landscape_mat, resolution){
-    points <- expand.grid(col = seq_len(ncol(landscape_mat)),
-                          row = seq_len(nrow(landscape_mat)))
-    points <- mapply(FUN = `*`, points, resolution)
+    points <- expand.grid(
+        col = seq_len(ncol(landscape_mat)),
+        row = seq_len(nrow(landscape_mat))
+    )
+    points$col <- points$col * resolution[[1]]
+    points$row <- points$row * resolution[[2]]
     points <- cbind(points, value = as.vector(landscape_mat))
     points
 }
@@ -228,7 +144,8 @@ get_points <- function(landscape_mat, resolution){
 #' @details
 #' Calculate Euclidean Nearest-Neighbor Distance for each patch in each class
 #'
-#' @return tibble with two columns: class, value
+#' @return A named numeric vector of ENN values. Names correspond to class IDs
+#' (repeated for each patch within a class).
 #'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
@@ -242,7 +159,7 @@ get_points <- function(landscape_mat, resolution){
 #'
 #' @export
 get_enn_patch <- function(classes, class_patches, points, resolution, verbose = FALSE){
-    enn_patch <- do.call(rbind, lapply(classes, function(patches_class) {
+    enn_patch <- do.call(c, lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- class_patches[[as.character(patches_class)]]
@@ -253,7 +170,7 @@ get_enn_patch <- function(classes, class_patches, points, resolution, verbose = 
         # ENN doesn't make sense if only one patch is present
         if (np_class == 1) {
 
-            enn <- tibble::new_tibble(list(class = patches_class, dist = as.double(NA)))
+            enn_dist <- as.double(NA)
 
             if (verbose) {
                 warning(paste0("Class ", patches_class, ": ENN = NA for class with only 1 patch."),
@@ -264,10 +181,13 @@ get_enn_patch <- function(classes, class_patches, points, resolution, verbose = 
             enn <- get_nearestneighbour_calc(landscape = landscape_labeled, return_id = FALSE,
                                              resolution = resolution,
                                              points = points)
+            enn_dist <- enn$dist
         }
 
-        tibble::new_tibble(list(class = rep(patches_class, nrow(enn)), value = enn$dist))
+        stats::setNames(enn_dist, rep(as.character(patches_class), length(enn_dist)))
     }))
+
+    enn_patch
 }
 
 #' get_perimeter_patch
@@ -281,7 +201,7 @@ get_enn_patch <- function(classes, class_patches, points, resolution, verbose = 
 #' @details
 #' Calculate perimeter of each patch in each class
 #'
-#' @return A tibble with two columns: class, value
+#' @return A named vector with perimeter values for each patch (names are class IDs)
 #'
 #' @examples
 #' landscape <- terra::rast(landscapemetrics::landscape)
@@ -309,7 +229,7 @@ get_perimeter_patch <- function(classes, class_patches, resolution) {
                                       NA, 1, NA), 3, 3, byrow = TRUE)
     }
 
-    perimeter_patch <- do.call(rbind,
+    perimeter_patch <- do.call(c,
                                lapply(classes, function(patches_class) {
 
         # get connected patches
@@ -361,8 +281,291 @@ get_perimeter_patch <- function(classes, class_patches, resolution) {
             perimeter_patch_ij <- perimeter_patch_ij_top_bottom + perimeter_patch_ij_left_right
         }
 
-        tibble::new_tibble(list(class = rep(patches_class, length(perimeter_patch_ij)),
-                       value = perimeter_patch_ij))
+        stats::setNames(perimeter_patch_ij, rep(as.character(patches_class), length(perimeter_patch_ij)))
         })
     )
+
+    perimeter_patch
+}
+
+#' get_core_patch
+#'
+#' @description Core area of each patch in each class
+#'
+#' @param landscape_mat A matrix object
+#' @param classes A vector with unique values (output of get_unique_values_int)
+#' @param class_patches A list with matrices of patches for each class (output of get_class_patches)
+#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param consider_boundary Logical if cells that only neighbour the landscape boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has to be away from the patch edge to be considered as core cell
+#' @param resolution A vector with two numbers (usually calculated using terra::res)
+#'
+#' @details
+#' Calculate core area of each patch in each class. Core area is the area within a patch
+#' that is not on the edge. A cell is defined as core area if the cell has no neighbour
+#' with a different value than itself (rook's case).
+#'
+#' @return A named vector with core area values for each patch (names are class IDs)
+#'
+#' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
+#' classes <- landscapemetrics:::get_unique_values_int(landscape_mat)
+#' class_patches <- get_class_patches(landscape_mat, classes, directions = 8)
+#' core <- get_core_patch(landscape_mat, classes, class_patches, 8, FALSE, 1, terra::res(landscape))
+#'
+#' @keywords internal
+#'
+#' @export
+get_core_patch <- function(landscape_mat, classes, class_patches, directions,
+                           consider_boundary, edge_depth, resolution) {
+
+    # all values NA
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    core <- do.call(c,
+                    lapply(classes, function(patches_class) {
+
+                        # get connected patches
+                        landscape_labeled <- class_patches[[as.character(patches_class)]]
+
+                        # get existing patch IDs (non-NA values)
+                        patch_ids <- sort(unique(as.vector(landscape_labeled[!is.na(landscape_labeled)])))
+
+                        # label all edge cells
+                        class_edge <- get_boundaries_calc(landscape_labeled,
+                                                          edge_depth = edge_depth,
+                                                          consider_boundary = consider_boundary,
+                                                          as_NA = FALSE,
+                                                          patch_id = FALSE)
+
+                        # count number of edge cells in each patch (edge == 1)
+                        cells_edge_patch <- tabulate(landscape_labeled[class_edge == 1])
+
+                        # all cells of the patch
+                        cells_patch <- tabulate(landscape_labeled)
+
+                        # only keep values for existing patches
+                        cells_edge_patch <- cells_edge_patch[patch_ids]
+                        cells_patch <- cells_patch[patch_ids]
+
+                        # check if no cell is edge, i.e. only one patch is present
+                        if (length(cells_edge_patch) == 0) {
+                            cells_edge_patch <- 0
+                        }
+
+                        # all cells minus edge cells equal core and convert to ha
+                        core_area <- (cells_patch - cells_edge_patch) * prod(resolution) / 10000
+
+                        # return named vector: names are class IDs, values are core areas
+                        stats::setNames(core_area, rep(as.character(patches_class), length(core_area)))
+                    })
+    )
+
+    # return named vector (preserve names)
+    structure(as.double(core), names = names(core))
+}
+
+#' prepare_extras
+#'
+#' @description Prepare an extras object
+#'
+#' @param metrics A vector with metric abbreviations
+#' @param landscape_mat A matrix object
+#' @param directions The number of directions in which patches should be connected: 4 (rook's case) or 8 (queen's case).
+#' @param neighbourhood The number of directions in which cell adjacencies are considered as neighbours: 4 (rook's case) or 8 (queen's case). The default is 4.
+#' @param ordered The type of pairs considered. Either ordered (TRUE) or unordered (FALSE).
+#' The default is TRUE.
+#' @param base The unit in which entropy is measured. The default is "log2",
+#' which compute entropy in "bits". "log" and "log10" can be also used.
+#' @param resolution A vector with two numbers (usually calculated using terra::res)
+#' @param consider_boundary Logical if cells that only neighbour the landscape boundary should be considered as core
+#' @param edge_depth Distance (in cells) a cell has to be away from the patch edge to be considered as core cell
+#'
+#' @details
+#' Wrapper around terra::xyFromCell and terra::getValues to get raster_to_points
+#' function including NA values
+#'
+#' @return A list with zero or more of the following components:
+#' \itemize{
+#'  \item points: matrix with three columns: col, row, value
+#'  \item classes: vector with unique values
+#'  \item class_patches: list with matrices of patches for each class
+#'  \item area_patches: list with vectors of areas of patches for each class
+#'  \item composition_vector: vector with the number of cells for each class
+#'  \item neighbor_matrix: matrix with the number of cell pairs for each class
+#'  \item comp: entropy of the neighbor_matrix
+#'  \item cplx: complexity of the landscape
+#'  \item enn_patch: named numeric vector with euclidean nearest neighbour distances
+#'  \item core_patch: vector with core area for each patch
+#' }
+#'
+#' @seealso
+#' \code{\link{get_points}},
+#' \code{\link{get_class_patches}},
+#' \code{\link{get_area_patches}},
+#' \code{\link{get_complexity}},
+#' \code{\link{get_enn_patch}}
+#'
+#' @examples
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
+#' prepare_extras("lsm_l_ent", landscape_mat, neighbourhood = 4, base = "log2")
+#'
+#' \dontrun{
+#' metrics = list_lsm()$function_name
+#' landscape <- terra::rast(landscapemetrics::landscape)
+#' landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
+#' prepare_extras(metrics, landscape_mat, directions = 8, neighbourhood = 4,
+#'                ordered = FALSE, base = "log2", resolution = terra::res(landscape))
+#' }
+#'
+#' @keywords internal
+#'
+#' @export
+prepare_extras <- function(metrics, landscape_mat, directions = NULL, neighbourhood = NULL, ordered = NULL,
+                           base = NULL, resolution = NULL, consider_boundary = FALSE, edge_depth = 1) {
+    required <- unique(extras_df$extras[extras_df$metric %in% metrics])
+
+    resolve_extras(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        required = required,
+        neighbourhood = neighbourhood,
+        ordered = ordered,
+        base = base,
+        resolution = resolution,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth
+    )
+}
+
+resolve_extras <- function(landscape_mat, directions = NULL, extras = NULL, required = character(),
+                           neighbourhood = NULL, ordered = NULL, base = NULL, resolution = NULL,
+                           consider_boundary = NULL, edge_depth = NULL) {
+    if (!inherits(x = landscape_mat, what = "matrix")) {
+        stop("'landscape_mat' must be a matrix.", call. = FALSE)
+    }
+
+    required <- unique(required)
+    valid_required <- unique(extras_df$extras)
+
+    unknown_required <- setdiff(required, valid_required)
+    if (length(unknown_required) > 0) {
+        stop("Unknown dependency requested: ", paste(unknown_required, collapse = ", "),
+             call. = FALSE)
+    }
+
+    if (is.null(extras)) {
+        extras <- list()
+    }
+
+    params <- list(
+        directions = directions,
+        neighbourhood = neighbourhood,
+        ordered = ordered,
+        base = base,
+        resolution = resolution,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth
+    )
+
+    require_arg <- function(arg_name, extra_name) {
+        if (is.null(params[[arg_name]])) {
+            stop("'", arg_name, "' is required to resolve '", extra_name, "'.",
+                 call. = FALSE)
+        }
+        invisible(NULL)
+    }
+
+    deps <- list(
+        points = character(),
+        classes = character(),
+        class_patches = "classes",
+        area_patches = c("classes", "class_patches"),
+        composition_vector = character(),
+        neighbor_matrix = character(),
+        comp = "neighbor_matrix",
+        cplx = character(),
+        enn_patch = c("classes", "class_patches", "points"),
+        perimeter_patch = c("classes", "class_patches"),
+        core_patch = c("classes", "class_patches")
+    )
+
+    required_args <- list(
+        points = "resolution",
+        classes = character(),
+        class_patches = "directions",
+        area_patches = "resolution",
+        composition_vector = character(),
+        neighbor_matrix = "neighbourhood",
+        comp = "base",
+        cplx = c("neighbourhood", "ordered", "base"),
+        enn_patch = "resolution",
+        perimeter_patch = "resolution",
+        core_patch = c("directions", "consider_boundary", "edge_depth", "resolution")
+    )
+
+    compute <- list(
+        points = function(ex) get_points(landscape_mat, params$resolution),
+        classes = function(ex) get_unique_values_int(landscape_mat, verbose = FALSE),
+        class_patches = function(ex) get_class_patches(landscape_mat, ex$classes, params$directions),
+        area_patches = function(ex) get_area_patches(ex$class_patches, ex$classes, params$resolution),
+        composition_vector = function(ex) rcpp_get_composition_vector(landscape_mat),
+        neighbor_matrix = function(ex) {
+            rcpp_get_coocurrence_matrix(landscape_mat, directions = as.matrix(params$neighbourhood))
+        },
+        comp = function(ex) rcpp_get_entropy(colSums(ex$neighbor_matrix), params$base),
+        cplx = function(ex) get_complexity(
+            landscape_mat,
+            params$neighbourhood,
+            params$ordered,
+            params$base
+        ),
+        enn_patch = function(ex) get_enn_patch(
+            ex$classes, ex$class_patches, ex$points, params$resolution
+        ),
+        perimeter_patch = function(ex) get_perimeter_patch(
+            ex$classes, ex$class_patches, params$resolution
+        ),
+        core_patch = function(ex) get_core_patch(
+            landscape_mat,
+            ex$classes,
+            ex$class_patches,
+            params$directions,
+            params$consider_boundary,
+            params$edge_depth,
+            params$resolution
+        )
+    )
+
+    map_keys <- names(deps)
+    if (!setequal(map_keys, names(compute)) || !setequal(map_keys, names(required_args))) {
+        stop("Internal resolver maps are inconsistent.", call. = FALSE)
+    }
+
+    resolve_one <- function(name, ex) {
+        if (!is.null(ex[[name]])) {
+            return(ex)
+        }
+
+        for (arg_name in required_args[[name]]) {
+            require_arg(arg_name, name)
+        }
+
+        for (dep_name in deps[[name]]) {
+            ex <- resolve_one(dep_name, ex)
+        }
+
+        ex[[name]] <- compute[[name]](ex)
+        ex
+    }
+
+    for (extra_name in required) {
+        extras <- resolve_one(extra_name, extras)
+    }
+
+    extras
 }

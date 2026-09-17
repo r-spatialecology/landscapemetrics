@@ -45,8 +45,16 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_iji_calc,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         iji <- lsm_l_iji_calc(
+                             landscape_mat = landscape_mat,
+                             verbose = verbose
+                         )
+
+                         lsm_landscape_output(metric = "iji", value = iji)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -56,27 +64,24 @@ lsm_l_iji <- function(landscape, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_l_iji_calc <- function(landscape_mat, verbose = TRUE, neighbor_matrix = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    if (!is.null(extras)){
-        adjacencies <- extras$neighbor_matrix
-    } else {
-        adjacencies <- rcpp_get_coocurrence_matrix(landscape, as.matrix(4))
+    # lazy dependency resolution
+    if (is.null(neighbor_matrix)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            required = c("neighbor_matrix"),
+            neighbourhood = 4
+        )
+        neighbor_matrix <- deps$neighbor_matrix
     }
+
+    adjacencies <- neighbor_matrix
 
     if (ncol(adjacencies) < 3) {
 
@@ -84,29 +89,23 @@ lsm_l_iji_calc <- function(landscape, verbose, extras = NULL) {
             warning("Number of classes must be >= 3, IJI = NA.", call. = FALSE)
         }
 
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "iji",
-                              value = as.double(NA))))
+        return(as.double(NA))
     } else {
 
         diag(adjacencies) <- 0
 
-        e_total <- sum(adjacencies[lower.tri(adjacencies)])
+        # get upper triangle only (unique adjacencies between different classes)
+        upper_tri <- adjacencies[upper.tri(adjacencies)]
 
-        edge_ratio <- (adjacencies / e_total) * log(adjacencies / e_total)
+        # total edge (sum of unique adjacencies)
+        total_edge <- sum(upper_tri, na.rm = TRUE)
 
-        edge_ratio <- edge_ratio[lower.tri(edge_ratio)]
+        # calculate IJI using only upper triangle
+        edge_ratio <- (upper_tri / total_edge) * log(upper_tri / total_edge)
 
-        landscape_sum <- -sum(edge_ratio, na.rm = TRUE)
+        iji <- (-sum(edge_ratio, na.rm = TRUE) /
+                    log(0.5 * (ncol(adjacencies) * (ncol(adjacencies) - 1)))) * 100
 
-        iji <- (landscape_sum / log(0.5  * (ncol(adjacencies) * (ncol(adjacencies)  - 1)))) * 100
-
-        return(tibble::new_tibble(list(level = rep("landscape", length(iji)),
-                 class = rep(as.integer(NA), length(iji)),
-                 id = rep(as.integer(NA), length(iji)),
-                 metric = rep("iji", length(iji)),
-                 value = as.double(iji))))
+        return(as.double(iji))
     }
 }

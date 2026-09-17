@@ -35,7 +35,13 @@ lsm_l_pladj <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_pladj_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pladj <- lsm_l_pladj_calc(landscape_mat = landscape_mat)
+
+                         lsm_landscape_output(metric = "pladj", value = pladj)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -45,36 +51,26 @@ lsm_l_pladj <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_pladj_calc <- function(landscape) {
+lsm_l_pladj_calc <- function(landscape_mat) {
 
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pladj",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(as.double(NA))
     }
 
-    landscape_padded <- pad_raster_internal(landscape,
+    # pad with global = FALSE for landscape-level PLADJ
+    landscape_padded <- pad_raster_internal(landscape_mat,
                                             pad_raster_value = -999,
                                             pad_raster_cells = 1,
                                             global = FALSE)
 
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
+    neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
-    like_adjacencies <- sum(diag(tb)[-1])
-    total_adjacencies <- sum(tb[,-1])
+    like_adjacencies <- sum(diag(neighbor_matrix)[-1])
+    total_adjacencies <- sum(neighbor_matrix[,-1])
 
     pladj <- like_adjacencies / total_adjacencies * 100
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(pladj)),
-                          class = rep(as.integer(NA), length(pladj)),
-                          id = rep(as.integer(NA), length(pladj)),
-                          metric = rep("pladj", length(pladj)),
-                          value = as.double(pladj))))
+    return(as.double(pladj))
 }

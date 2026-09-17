@@ -58,8 +58,20 @@ lsm_p_contig <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_contig_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         contig <- lsm_p_contig_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions
+                         )
+
+                         lsm_patch_output(metric = "contig",
+                                          class = as.integer(names(contig)),
+                                          value = unname(contig),
+                                          id = seq_along(contig))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -69,29 +81,22 @@ lsm_p_contig <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
-
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
+lsm_p_contig_calc <- function(landscape_mat, directions = NULL, classes = NULL, class_patches = NULL) {
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "contig",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get unique values
-    if (!is.null(extras)){
-        classes <- extras$classes
-        class_patches <- extras$class_patches
-    } else {
-        classes <- get_unique_values_int(landscape, verbose = FALSE)
-        class_patches <- get_class_patches(landscape, classes, directions)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches")
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
     }
 
     # diagonal neighbours
@@ -104,7 +109,7 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
                                 1, 0, 1,
                                 NA, 1, NA), 3, 3, byrow = TRUE)
 
-    contig_patch <- do.call(rbind,
+    contig_patch <- do.call(c,
                             lapply(classes, function(patches_class) {
 
         # get connected patches
@@ -128,22 +133,12 @@ lsm_p_contig_calc <- function(landscape, directions, extras = NULL) {
         contiguity <- (((diagonal_neighbours + straigth_neighbours + n_cells) /
                             n_cells) - 1) / 12
 
-        class <- patches_class
-
-        #rm(patch_mat)
-        #gc(verbose = FALSE)
-
-        tibble::new_tibble(list(class = rep(class, length(contiguity)),
-                                value = contiguity))
+        # return named vector: names are class IDs, values are contiguity
+        stats::setNames(contiguity, rep(as.character(patches_class), length(contiguity)))
 
         })
     )
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(contig_patch)),
-        class = as.integer(contig_patch$class),
-        id = as.integer(seq_len(nrow(contig_patch))),
-        metric = rep("contig", nrow(contig_patch)),
-        value = as.double(contig_patch$value)
-    ))
+    # return named vector (preserve names)
+    stats::setNames(as.double(contig_patch), names(contig_patch))
 }
