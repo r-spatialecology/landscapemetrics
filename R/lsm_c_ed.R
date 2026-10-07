@@ -51,9 +51,21 @@ lsm_c_ed <- function(landscape,
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_ed_calc,
-                     count_boundary = count_boundary,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         ed <- lsm_c_ed_calc(
+                             landscape_mat = landscape_mat,
+                             count_boundary = count_boundary,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "ed",
+                                          class = as.integer(names(ed)),
+                                          value = unname(ed))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -63,47 +75,53 @@ lsm_c_ed <- function(landscape,
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_ed_calc <- function(landscape, count_boundary, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_c_ed"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_c_ed_calc <- function(landscape_mat, count_boundary = FALSE, directions = NULL, resolution = NULL,
+                          classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "ed",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
+
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
     }
 
     # get patch area
-    area <- lsm_p_area_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
+    area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
     # summarise to total area
-    area <- sum(area$value)
+    area_total <- sum(unname(area))
 
-    # get total edge length
-    edge_class <- lsm_c_te_calc(landscape,
-                                count_boundary = count_boundary,
-                                directions = directions,
-                                resolution = resolution,
-                                extras = extras)
+    # get total edge length (returns named vector)
+    edge_class <- lsm_c_te_calc(
+        landscape_mat = landscape_mat,
+        count_boundary = count_boundary,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches
+    )
 
-    edge_class$value <- edge_class$value / area
+    # calculate edge density
+    ed <- edge_class / area_total
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(edge_class)),
-                          class = as.integer(edge_class$class),
-                          id = rep(as.integer(NA), nrow(edge_class)),
-                          metric = rep("ed", nrow(edge_class)),
-                          value = as.double(edge_class$value))))
+    # return named vector
+    stats::setNames(as.double(ed), names(ed))
 }

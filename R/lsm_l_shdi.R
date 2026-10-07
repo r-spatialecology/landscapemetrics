@@ -39,7 +39,17 @@ lsm_l_shdi <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_shdi_calc)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         shdi <- lsm_l_shdi_calc(
+                             landscape_mat = landscape_mat,
+                             resolution = resolution
+                         )
+
+                         lsm_landscape_output(metric = "shdi", value = shdi)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -49,30 +59,40 @@ lsm_l_shdi <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_shdi_calc <- function(landscape, resolution, extras = NULL) {
+lsm_l_shdi_calc <- function(landscape_mat, resolution = NULL,
+                            classes = NULL, class_patches = NULL, area_patches = NULL) {
 
-    # get class proportions (direction doesn't matter)
-    prop <- lsm_c_pland_calc(landscape,
-                             directions = 8,
-                             resolution = resolution,
-                             extras = extras)
-
-    # all values NA
-    if (all(is.na(prop$value))) {
-        return(tibble::new_tibble(list(level = "landscape",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "shdi",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = 8,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
     }
 
-    prop <- prop$value / 100
+    # get class proportions (direction doesn't matter)
+    prop <- lsm_c_pland_calc(
+        landscape_mat = landscape_mat,
+        directions = 8,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
+
+    # all values NA
+    if (all(is.na(prop))) {
+        return(as.double(NA))
+    }
+
+    prop <- prop / 100
 
     shdi <- sum(-prop * log(prop, exp(1)))
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(shdi)),
-                          class = rep(as.integer(NA), length(shdi)),
-                          id = rep(as.integer(NA), length(shdi)),
-                          metric = rep("shdi", length(shdi)),
-                          value = as.double(shdi))))
+    return(as.double(shdi))
 }

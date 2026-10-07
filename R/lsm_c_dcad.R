@@ -51,10 +51,22 @@ lsm_c_dcad <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_dcad_calc,
-                     directions = directions,
-                     consider_boundary = consider_boundary,
-                     edge_depth = edge_depth)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         dcad <- lsm_c_dcad_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             consider_boundary = consider_boundary,
+                             edge_depth = edge_depth,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "dcad",
+                                          class = as.integer(names(dcad)),
+                                          value = unname(dcad))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -64,43 +76,59 @@ lsm_c_dcad <- function(landscape, directions = 8, consider_boundary = FALSE, edg
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_dcad_calc <- function(landscape, directions, consider_boundary, edge_depth, resolution, extras = NULL){
+lsm_c_dcad_calc <- function(landscape_mat, directions, consider_boundary, edge_depth, resolution,
+                            classes = NULL, class_patches = NULL, area_patches = NULL, points = NULL) {
 
-    # get patch area
-    area <- lsm_p_area_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
-
-    # summarise to total area
-    area <- sum(area$value)
-
-    # all values NA
-    if (is.na(area)) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "dcad",
-                              value = as.double(NA))))
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches) || is.null(points)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches", "points"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+        points <- deps$points
     }
 
-    # get number of core area
-    ndca <- lsm_p_ncore_calc(landscape,
-                             directions = directions,
-                             consider_boundary = consider_boundary,
-                             edge_depth = edge_depth,
-                             resolution = resolution,
-                             extras = extras)
+    # get patch area (handles lazy deps)
+    area <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
 
-    # summarise for classes
-    ndca <- stats::aggregate(x = ndca[, 5], by = ndca[, 2], FUN = sum)
+    # summarise to total area
+    area_total <- sum(unname(area))
 
-    # calculate relative value
-    ndca$value <- ndca$value / area * 100
+    # all values NA
+    if (is.na(area_total)) {
+        return(stats::setNames(as.double(NA), NA_character_))
+    }
 
-    return(tibble::new_tibble(list(level = rep("class", nrow(ndca)),
-                          class = as.integer(ndca$class),
-                          id = rep(as.integer(NA), nrow(ndca)),
-                          metric = rep("dcad", nrow(ndca)),
-                          value = as.double(ndca$value))))
+    # get number of core area (returns named vector)
+    ndca <- lsm_p_ncore_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        consider_boundary = consider_boundary,
+        edge_depth = edge_depth,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        points = points
+    )
+
+    # summarise for classes using tapply on named vector
+    ndca_sum <- tapply(ndca, names(ndca), sum, na.rm = TRUE)
+
+    # calculate density
+    dcad <- ndca_sum / area_total * 100
+
+    # return named vector
+    stats::setNames(as.double(dcad), names(dcad))
 }

@@ -50,8 +50,20 @@ lsm_c_frac_mn <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_frac_mn_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         frac_mn <- lsm_c_frac_mn_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_class_output(metric = "frac_mn",
+                                          class = as.integer(names(frac_mn)),
+                                          value = unname(frac_mn))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -61,29 +73,27 @@ lsm_c_frac_mn <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_frac_mn_calc <- function(landscape, directions, resolution, extras = NULL){
+lsm_c_frac_mn_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                                classes = NULL, class_patches = NULL, perimeter_patch = NULL, area_patches = NULL) {
 
-    frac <- lsm_p_frac_calc(landscape,
-                            directions = directions,
-                            resolution = resolution,
-                            extras = extras)
+    # reuse lsm_p_frac_calc to get frac values (handles lazy deps)
+    frac_patch <- lsm_p_frac_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        perimeter_patch = perimeter_patch,
+        area_patches = area_patches
+    )
 
     # all cells are NA
-    if (all(is.na(frac$value))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "frac_mn",
-                              value = as.double(NA))))
+    if (all(is.na(unname(frac_patch)))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    frac_mean <- stats::aggregate(x = frac[, 5], by = frac[, 2], FUN = mean)
+    frac_mean <- tapply(frac_patch, names(frac_patch), mean)
 
-    return(tibble::new_tibble(list(
-        level = rep("class", nrow(frac_mean)),
-        class = as.integer(frac_mean$class),
-        id = rep(as.integer(NA), nrow(frac_mean)),
-        metric = rep("frac_mn", nrow(frac_mean)),
-        value = as.double(frac_mean$value)
-    )))
+    # return named vector
+    stats::setNames(as.double(frac_mean), names(frac_mean))
 }

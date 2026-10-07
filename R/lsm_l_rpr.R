@@ -40,9 +40,17 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_l_rpr_calc,
-                     classes_max = classes_max,
-                     verbose = verbose)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         rpr <- lsm_l_rpr_calc(
+                             landscape_mat = landscape_mat,
+                             classes_max = classes_max,
+                             verbose = verbose
+                         )
+
+                         lsm_landscape_output(metric = "rpr", value = rpr)
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -52,7 +60,7 @@ lsm_l_rpr <- function(landscape, classes_max = NULL, verbose = TRUE) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
+lsm_l_rpr_calc <- function(landscape_mat, classes_max, verbose = TRUE, classes = NULL) {
 
     if (is.null(classes_max)) {
 
@@ -63,23 +71,27 @@ lsm_l_rpr_calc <- function(landscape, classes_max, verbose, extras = NULL) {
         rpr <- NA
     } else {
 
-        pr <- lsm_l_pr_calc(landscape, extras = extras)
-
-        # all values NA
-        if (all(is.na(pr$value))) {
-            return(tibble::new_tibble(list(level = "landscape",
-                                  class = as.integer(NA),
-                                  id = as.integer(NA),
-                                  metric = "rpr",
-                                  value = as.double(NA))))
+        # lazy dependency resolution
+        if (is.null(classes)) {
+            deps <- resolve_extras(
+                landscape_mat = landscape_mat,
+                required = c("classes")
+            )
+            classes <- deps$classes
         }
 
-        rpr <- pr$value / classes_max * 100
+        pr <- lsm_l_pr_calc(
+            landscape_mat = landscape_mat,
+            classes = classes
+        )
+
+        # all values NA
+        if (is.na(pr)) {
+            return(as.double(NA))
+        }
+
+        rpr <- pr / classes_max * 100
     }
 
-    return(tibble::new_tibble(list(level = rep("landscape", length(rpr)),
-                          class = rep(as.integer(NA), length(rpr)),
-                          id = rep(as.integer(NA), length(rpr)),
-                          metric = rep("rpr", length(rpr)),
-                          value = as.double(rpr))))
+    return(as.double(rpr))
 }

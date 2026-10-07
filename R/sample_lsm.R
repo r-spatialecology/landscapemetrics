@@ -188,7 +188,13 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
             landscape_mask <- terra::crop(x = landscape, y = y[current_plot, ], mask = TRUE)
 
             # calculate actual area of sample plot
-            area <- lsm_l_ta_calc(landscape_mask, directions = 8)
+            resolution <- terra::res(landscape_mask)
+            landscape_mask_mat <- terra::as.matrix(landscape_mask, wide = TRUE)
+            area <- lsm_l_ta_calc(
+                landscape_mat = landscape_mask_mat,
+                directions = 8,
+                resolution = resolution
+            )
 
             # calculate lsm
             result_current_plot <- calculate_lsm(landscape = landscape_mask,
@@ -214,7 +220,7 @@ sample_lsm_int <- function(landscape, y, plot_id, shape, size,
             } else {
 
                 # calculate ratio between actual area and theoretical area
-                result_current_plot$percentage_inside <- area$value /
+                result_current_plot$percentage_inside <- area /
                     maximum_area[[current_plot]] * 100
             }
 

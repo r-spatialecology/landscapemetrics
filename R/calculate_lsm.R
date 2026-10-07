@@ -165,9 +165,22 @@ calculate_lsm_internal <- function(landscape,
 
     # prepare extras
     resolution <- terra::res(landscape)
-    landscape <- terra::as.matrix(landscape, wide = TRUE)
-    extras <- prepare_extras(metrics, landscape, directions, neighbourhood,
-                                        ordered, base, resolution)
+    landscape_mat <- terra::as.matrix(landscape, wide = TRUE)
+    extras <- prepare_extras(metrics, landscape_mat, directions, neighbourhood,
+                             ordered, base, resolution, consider_boundary, edge_depth)
+
+    # unpack extras into individual variables for mget()
+    classes <- extras$classes
+    class_patches <- extras$class_patches
+    area_patches <- extras$area_patches
+    perimeter_patch <- extras$perimeter_patch
+    points <- extras$points
+    enn_patch <- extras$enn_patch
+    composition_vector <- extras$composition_vector
+    comp <- extras$comp
+    cplx <- extras$cplx
+    neighbor_matrix <- extras$neighbor_matrix
+    core_patch <- extras$core_patch
 
     result <- do.call(rbind, lapply(seq_along(metrics_calc), FUN = function(current_metric) {
         # print progress using the non-internal name
@@ -180,14 +193,70 @@ calculate_lsm_internal <- function(landscape,
 
         # get argument
         arguments <- names(formals(foo))
+        parent_env <- parent.env(environment())
+        arguments <- arguments[arguments %in% ls(envir = parent_env, all.names = TRUE)]
 
         # run function
         #start_time = Sys.time()
         resultint <- tryCatch(do.call(what = foo,
-                         args = mget(arguments, envir = parent.env(environment()))),
+                         args = mget(arguments, envir = parent_env)),
                  error = function(e){
                      message("")
                      stop(e)})
+
+        if (!is.data.frame(resultint)) {
+            level_short <- sub("^lsm_([pcl])_.*$", "\\1", metrics[[current_metric]])
+            metric_name <- sub("^lsm_[pcl]_", "", metrics[[current_metric]])
+
+            if (identical(level_short, "l")) {
+                resultint <- lsm_landscape_output(
+                    metric = metric_name,
+                    value = resultint
+                )
+
+            } else if (identical(level_short, "c")) {
+                resultint <- lsm_class_output(
+                    metric = metric_name,
+                    class = as.integer(names(resultint)),
+                    value = unname(resultint)
+                )
+
+            } else if (identical(level_short, "p")) {
+                                # build global patch IDs by offsetting per-class local IDs
+                class_counts <- vapply(classes, function(class_val) {
+                    class_mat <- class_patches[[as.character(class_val)]]
+                    if (is.null(class_mat) || all(is.na(class_mat))) {
+                        return(0L)
+                    }
+                    max(class_mat, na.rm = TRUE)
+                }, integer(1))
+
+                offsets <- cumsum(c(0L, utils::head(class_counts, -1)))
+                names(offsets) <- as.character(classes)
+
+                class_groups <- split(seq_along(resultint), names(resultint))
+
+                calc_patch_ids <- function(class_val, group_idx) {
+                    offset <- offsets[[as.character(class_val)]]
+                    base_ids <- seq_along(group_idx)
+                    if (is.null(offset)) {
+                        return(base_ids)
+                    }
+                    base_ids + offset
+                }
+
+                patch_ids <- unlist(lapply(names(class_groups), function(class_val) {
+                    calc_patch_ids(class_val, class_groups[[class_val]])
+                }))
+
+                resultint <- lsm_patch_output(
+                    metric = metric_name,
+                    class = as.integer(names(resultint)),
+                    value = unname(resultint),
+                    id = as.integer(patch_ids)
+                )
+            }
+        }
 
         #end_time = Sys.time()
         #resultint$time <- as.numeric(difftime(end_time, start_time, units = "secs"))

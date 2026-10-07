@@ -35,7 +35,15 @@ lsm_c_pladj <- function(landscape) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_c_pladj_calc)
+                     FUN = function(x) {
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         pladj <- lsm_c_pladj_calc(landscape_mat = landscape_mat)
+
+                         lsm_class_output(metric = "pladj",
+                                          class = as.integer(names(pladj)),
+                                          value = unname(pladj))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -45,33 +53,23 @@ lsm_c_pladj <- function(landscape) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_c_pladj_calc <- function(landscape) {
+lsm_c_pladj_calc <- function(landscape_mat) {
 
-    # convert to matrix
-    if (!inherits(x = landscape, what = "matrix")) {
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-    }
 
     # all cells are NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "class",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "pladj",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    landscape_padded <- pad_raster_internal(landscape, pad_raster_value = -999,
+    # pad with global = TRUE for class-level PLADJ
+    landscape_padded <- pad_raster_internal(landscape_mat, pad_raster_value = -999,
                                             pad_raster_cells = 1, global = TRUE)
 
-    tb <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
+    neighbor_matrix <- rcpp_get_coocurrence_matrix(landscape_padded, directions = as.matrix(4))
 
-    pladj <- diag(tb) / colSums(tb) * 100
-    names <- row.names(tb)
+    pladj <- diag(neighbor_matrix) / colSums(neighbor_matrix) * 100
+    names <- row.names(neighbor_matrix)
 
-    return(tibble::new_tibble(list(level = rep("class", length(names[-1])),
-                              class = as.integer(names[-1]),
-                              id = rep(as.integer(NA), length(names[-1])),
-                              metric = rep("pladj", length(names[-1])),
-                              value = as.double(pladj[-1]))))
+    # return named vector (skip first row which is background -999)
+    stats::setNames(as.double(pladj[-1]), names[-1])
 }

@@ -14,7 +14,7 @@ get_perimeter_patch(classes, class_patches, resolution)
 \item{resolution}{A vector with two numbers (usually calculated using terra::res)}
 }
 \value{
-A tibble with two columns: class, value
+A named vector with perimeter values for each patch (names are class IDs)
 }
 \description{
 Perimeter of each patch in each class

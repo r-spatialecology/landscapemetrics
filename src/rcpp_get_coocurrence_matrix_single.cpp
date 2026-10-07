@@ -18,14 +18,8 @@ IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix &x,
     IntegerMatrix cooc_mat(n_classes, 1);
 
     // create neighbors coordinates
-    IntegerMatrix tmp = rcpp_create_neighborhood(directions);
-    int neigh_len = tmp.nrow();
-    std::vector<std::vector<int> > neig_coords;
-    for (int row = 0; row < neigh_len; row++) {
-        IntegerVector a = tmp.row(row);
-        std::vector<int> b(a.begin(), a.end());
-        neig_coords.push_back(b);
-    }
+    IntegerMatrix neigh_coords = rcpp_create_neighborhood(directions);
+    int neigh_len = neigh_coords.nrow();
 
     // NAs need an index, otherwise they are counted as neighbors of class[0]
     class_index.insert(std::make_pair(na, n_classes));
@@ -41,8 +35,8 @@ IntegerMatrix rcpp_get_coocurrence_matrix_single(const IntegerMatrix &x,
             if (focal_class != single_class_index)
               continue;
             for (int h = 0; h < neigh_len; h++) {
-                int neig_col = neig_coords[h][0] + col;
-                int neig_row = neig_coords[h][1] + row;
+                                int neig_col = neigh_coords(h, 0) + col;
+                                int neig_row = neigh_coords(h, 1) + row;
                 if (neig_col >= 0 &&
                         neig_row >= 0 &&
                         neig_col < ncols &&

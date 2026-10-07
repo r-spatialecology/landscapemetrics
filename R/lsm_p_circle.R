@@ -56,8 +56,21 @@ lsm_p_circle <- function(landscape, directions = 8) {
     landscape <- landscape_as_list(landscape)
 
     result <- lapply(X = landscape,
-                     FUN = lsm_p_circle_calc,
-                     directions = directions)
+                     FUN = function(x) {
+                         resolution <- terra::res(x)
+                         landscape_mat <- terra::as.matrix(x, wide = TRUE)
+
+                         circle <- lsm_p_circle_calc(
+                             landscape_mat = landscape_mat,
+                             directions = directions,
+                             resolution = resolution
+                         )
+
+                         lsm_patch_output(metric = "circle",
+                                          class = as.integer(names(circle)),
+                                          value = unname(circle),
+                                          id = seq_along(circle))
+                     })
 
     layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
@@ -67,16 +80,8 @@ lsm_p_circle <- function(landscape, directions = 8) {
     tibble::add_column(result, layer, .before = TRUE)
 }
 
-lsm_p_circle_calc <- function(landscape, directions, resolution, extras = NULL) {
-
-    if (missing(resolution)) resolution <- terra::res(landscape)
-
-    if (is.null(extras)){
-        metrics <- "lsm_p_circle"
-        landscape <- terra::as.matrix(landscape, wide = TRUE)
-        extras <- prepare_extras(metrics, landscape_mat = landscape,
-                                            directions = directions, resolution = resolution)
-    }
+lsm_p_circle_calc <- function(landscape_mat, directions = NULL, resolution = NULL,
+                              classes = NULL, class_patches = NULL, area_patches = NULL) {
 
     # check if resolution is identical
     if (!isTRUE(all.equal(resolution[1], resolution[2]))) {
@@ -86,28 +91,36 @@ lsm_p_circle_calc <- function(landscape, directions, resolution, extras = NULL) 
     }
 
     # all values NA
-    if (all(is.na(landscape))) {
-        return(tibble::new_tibble(list(level = "patch",
-                              class = as.integer(NA),
-                              id = as.integer(NA),
-                              metric = "circle",
-                              value = as.double(NA))))
+    if (all(is.na(landscape_mat))) {
+        return(stats::setNames(as.double(NA), NA_character_))
     }
 
-    # get patch area
-    area_patch <- lsm_p_area_calc(landscape,
-                                  directions = directions,
-                                  resolution = resolution,
-                                  extras = extras)
+    # lazy dependency resolution
+    if (is.null(classes) || is.null(class_patches) || is.null(area_patches)) {
+        deps <- resolve_extras(
+            landscape_mat = landscape_mat,
+            directions = directions,
+            required = c("classes", "class_patches", "area_patches"),
+            resolution = resolution
+        )
+        classes <- deps$classes
+        class_patches <- deps$class_patches
+        area_patches <- deps$area_patches
+    }
 
-    # convert area to m2
-    area_patch <- area_patch$value * 10000
+    # get patch area in m2
+    area_patch <- lsm_p_area_calc(
+        landscape_mat = landscape_mat,
+        directions = directions,
+        resolution = resolution,
+        classes = classes,
+        class_patches = class_patches,
+        area_patches = area_patches
+    )
+    area_patch_m2 <- area_patch * 10000
 
-    # get unique classes
-    classes <- extras$classes
-    class_patches <- extras$class_patches
-
-    circle_patch <- do.call(rbind, lapply(classes, function(patches_class) {
+    # Build named vector for circle areas
+    circle_patch <- do.call(c, lapply(classes, function(patches_class) {
 
         # get connected patches
         landscape_labeled <- class_patches[[as.character(patches_class)]]
@@ -116,19 +129,14 @@ lsm_p_circle_calc <- function(landscape, directions, resolution, extras = NULL) 
         circle <- rcpp_get_circle(landscape_labeled,
                                   resolution_xy = resolution[[1]])
 
-        tibble::new_tibble(list(class = rep(patches_class, nrow(circle)),
-                       value = circle$circle_area))
+        # return named vector: names are class IDs, values are circle areas
+        stats::setNames(circle$circle_area, rep(as.character(patches_class), nrow(circle)))
         })
     )
 
     # calculate circle metric
-    circle_patch$value <- 1 - (area_patch / circle_patch$value)
+    circle_patch <- 1 - (area_patch_m2 / circle_patch)
 
-    tibble::new_tibble(list(
-        level = rep("patch", nrow(circle_patch)),
-        class = as.integer(circle_patch$class),
-        id = as.integer(seq_len(nrow(circle_patch))),
-        metric = rep("circle", nrow(circle_patch)),
-        value = as.double(circle_patch$value)
-    ))
+    # return named vector (preserve names)
+    stats::setNames(as.double(circle_patch), names(circle_patch))
 }

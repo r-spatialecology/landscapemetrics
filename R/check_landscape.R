@@ -31,7 +31,7 @@ check_landscape <- function(landscape, verbose = TRUE) {
                      FUN = check_landscape_calc,
                      verbose = verbose)
 
-    layer <- rep(seq_len(length(result)),
+    layer <- rep(seq_along(result),
                  vapply(result, nrow, FUN.VALUE = integer(1)))
 
     result <- do.call(rbind, result)
