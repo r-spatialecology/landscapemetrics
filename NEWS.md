@@ -1,4 +1,6 @@
 # landscapemetrics 2.2.2
+* Improvements
+    * Improve `window_lsm()` performance for multiple metrics by calculating them in a single focal pass and reusing shared intermediate objects
 * Bugfixes
     * Bug fix in `extra` object used internally
     * Bug fix in `lsm_l_cohesion` (when used in a moving window) (#346)
