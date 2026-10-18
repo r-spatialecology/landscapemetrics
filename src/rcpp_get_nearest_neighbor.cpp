@@ -23,35 +23,34 @@ NumericVector find_min(const NumericMatrix &points, int i, int m) {
     // Search before i
     x_min = R_NegInf;
     for (k = i - 1; k >= 0; k--) {
-        if (points(k, 2) == id_i) continue;
         x_k = points(k, 0);
-        if (x_k > x_min) {
-            d = compute_d2(x_i, y_i, x_k, points(k, 1));
-            if (d < d0) {
-                d0 = d;
-                id0 = points(k, 2);
-                x_min = x_i - ::sqrt(d0);
-            }
-        } else {
+        if (x_k <= x_min) {
             // No need to search further
             break;
         }
+        if (points(k, 2) == id_i) continue;
+        d = compute_d2(x_i, y_i, x_k, points(k, 1));
+        if (d < d0) {
+            d0 = d;
+            id0 = points(k, 2);
+            x_min = x_i - ::sqrt(d0);
+        }
     }
     // Search after i
-    x_max = R_PosInf;
+    // Reuse the best distance found on the left to limit the right-hand search.
+    x_max = x_i + ::sqrt(d0);
     for (k = i + 1; k < m; k++) {
-        if (points(k, 2) == id_i) continue;
         x_k = points(k, 0);
-        if (x_k < x_max) {
-            d = compute_d2(x_i, y_i, x_k, points(k, 1));
-            if (d < d0) {
-                d0 = d;
-                id0 = points(k, 2);
-                x_max = x_i + ::sqrt(d0);
-            }
-        } else {
+        if (x_k >= x_max) {
             // No need to search further
             break;
+        }
+        if (points(k, 2) == id_i) continue;
+        d = compute_d2(x_i, y_i, x_k, points(k, 1));
+        if (d < d0) {
+            d0 = d;
+            id0 = points(k, 2);
+            x_max = x_i + ::sqrt(d0);
         }
     }
 
