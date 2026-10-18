@@ -11,6 +11,22 @@ test_that("window_lsm returns a list with selected metrics", {
     expect_length(result[[1]], n = 2)
 })
 
+test_that("combined metrics equal separate calculations", {
+
+    metrics <- c("lsm_l_pr", "lsm_l_joinent")
+    combined <- window_lsm(landscape, window = window, what = metrics)[[1]]
+    separate <- lapply(metrics, function(metric) {
+        window_lsm(landscape, window = window, what = metric)[[1]][[1]]
+    })
+    names(separate) <- metrics
+    separate <- separate[names(combined)]
+
+    expect_equal(
+        lapply(combined, terra::values),
+        lapply(separate, terra::values)
+    )
+})
+
 test_that("window_lsm takes argument", {
 
     result <- window_lsm(landscape, window = window, what = "lsm_l_core_mn", edge_depth = 10)
@@ -40,4 +56,3 @@ test_that("window_lsm returns all errors", {
                  regexp = "The window must have uneven sides.",
                  fixed = TRUE)
 })
-

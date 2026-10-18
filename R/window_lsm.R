@@ -145,38 +145,65 @@ window_lsm_int <- function(landscape,
     # create object for warning messages
     warning_messages <- character(0)
 
-    result <- withCallingHandlers(expr = {lapply(seq_along(metrics_list), function(current_metric) {
+    # get internal calculation functions and their arguments
+    metric_functions <- lapply(paste0(metrics_list, "_calc"), function(what) {
 
-        what <- metrics_list[[current_metric]]
+        get(what, mode = "function")
+    })
 
-        # get internal calculation function
-        what <- paste0(what, "_calc")
+    metric_arguments <- lapply(metric_functions, function(foo) {
 
-        # match function name
-        foo <- get(what, mode = "function")
+        arguments <- setdiff(names(formals(foo)), c("landscape", "extras"))
+        arguments_values[names(arguments_values) %in% arguments]
+    })
 
-        # get argument
-        arguments <- names(formals(foo))[-1]
+    metric_uses_extras <- vapply(metric_functions, function(foo) {
 
-        # which arguments are needed
-        arguments_values <- arguments_values[names(arguments_values) %in% arguments]
+        "extras" %in% names(formals(foo))
+    }, FUN.VALUE = logical(1))
 
-        # sort alphabetically to match later with provided
-        arguments_values <- arguments_values[order(names(arguments_values))]
+    window_cells <- !is.na(window)
 
-        # print progress using the non-internal name
-        if (progress) {
+    focal_fun <- function(values) {
 
-            cat("\r> Progress metrics: ", current_metric, "/", number_metrics)
-        }
+        raster_window <- window
+        raster_window[window_cells] <- values[window_cells]
 
-        terra::focal(x = landscape, w = dim(window), fun = function(x) {
+        extras <- prepare_extras(
+            metrics = metrics_list,
+            landscape_mat = raster_window,
+            directions = arguments_values$directions,
+            neighbourhood = arguments_values$neighbourhood,
+            ordered = arguments_values$ordered,
+            base = arguments_values$base,
+            resolution = arguments_values$resolution
+        )
 
-            calculate_lsm_focal(landscape_values = x,
-                                raster_window = window,
-                                foo = foo,
-                                arguments_values = arguments_values)}, fillvalue = NA)
-        })},
+        vapply(seq_along(metric_functions), function(i) {
+
+            arguments <- c(list(landscape = raster_window),
+                           metric_arguments[[i]])
+
+            if (metric_uses_extras[[i]]) {
+
+                arguments$extras <- extras
+            }
+
+            do.call(what = metric_functions[[i]], args = arguments)$value
+        }, FUN.VALUE = numeric(1))
+    }
+
+    result <- withCallingHandlers(expr = {
+        result_raster <- terra::focal(
+            x = landscape,
+            w = dim(window),
+            fun = focal_fun,
+            fillvalue = NA
+        )
+        names(result_raster) <- rep(names(landscape), number_metrics)
+
+        lapply(seq_len(number_metrics), function(x) result_raster[[x]])
+    },
         warning = function(cond) {
 
             warning_messages <<- c(warning_messages, conditionMessage(cond))
@@ -199,21 +226,3 @@ window_lsm_int <- function(landscape,
 
     return(result)
 }
-
-calculate_lsm_focal <- function(landscape_values,
-                                raster_window,
-                                foo,
-                                arguments_values) {
-
-    # convert focal window to matrix
-    raster_window[!is.na(raster_window)] <- landscape_values[!is.na(raster_window)]
-
-    # landscape argument
-    arguments_values$landscape <- raster_window
-
-    # run function
-    result <- do.call(what = foo, args = arguments_values)
-
-    return(result$value)
-}
-
